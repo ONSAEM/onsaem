@@ -1,24 +1,30 @@
 package com.onsaem.web.chal.mapper;
 
+import java.util.List;
+
+import com.onsaem.web.chal.service.ChalVO;
+
 public interface ChalMapper {
+	
 	//챌리저스 전체조회
+	List<ChalVO> getChalAll();
 	
-	//조건 조회- 기부처
+	//조건 전체조회- 기부처
+	List<ChalVO> getChalNgoAll(String ngoName);
 	
-	//조건 조회 - 팀전/개인전
+	//조건 전체조회 - 팀전/개인전
+	List<ChalVO> getChalTeamAll(String value);
 	
-	//챌린저스 등록 - 팀전
+	//챌린저스 등록- 팀전/개인전 차이 두어야 한다 : 뷰페이지 2개 만들어야댐 
+	Integer inputChal(ChalVO vo);
 	
-	//챌린저스 등록 - 개인전
-	
-	
-	//챌린저스 수정-관리자?
+	//챌린저스 수정-개최자?
+	Integer modifyChal(ChalVO vo);
 	
 	//챌린저스 기부금 update - 챌린저스 참가자 생길 때 마다
+	Integer updateDonate(Integer money);
 	
-	//챌린저스 참가
-	
-	//챌린저스 취소-개최자
-	
+	//챌린저스 취소-개최자만 가능함, 관리자랑 ㅋㅋ
+	Integer delChal(String chalId);
 	
 }
