@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PaymentVO {
-	String payment_id;
+	String paymentId;
 	Integer price;
-	String payer_id;
-	String payment_method;
-	Date pay_date;
-	String group_id;
+	String payerId;
+	String paymentMethod;
+	Date payDate;
+	String groupId;
 	String groups;
 }
