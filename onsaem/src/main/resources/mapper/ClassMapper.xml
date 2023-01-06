@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onsaem.web.course.mapper.ClassMapper">
+	
+	<select id="getClass" resultType="ClassVO" parameterType="ClassVO">
+		select *
+		from class_info
+	</select>
+	
+	<select id="getClassList" resultType="ClassVO" parameterType="ClassVO">
+		select *
+		from class_info
+	</select>
+	
+	<insert id="classInfoInsert">
+	
+	</insert>
+	
+	<update id="classInfoUpdate">
+	
+	</update>
+	
+	<insert id="classInsert">
+	
+	</insert>
+	
+	<update id="classUpdate">
+	
+	</update>
+	
+</mapper>
