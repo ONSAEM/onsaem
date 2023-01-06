@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onsaem.web.chal.mapper.ProofMapper">
+	<!-- 인증샷 등록 과정 존나,,존나짜증난다,, -->
+	<!-- 미디어도 등록해줘야됨 진짜 개극혐임 -->
+	<insert id="inputProof" parameterType="ProofVO">
+		<selectKey keyProperty="proofId" resultType="string">
+			SELECT 'PF'||to_char(proof_seq.NEXTVAL) FROM DUAL	
+		</selectKey> 
+		INSERT INTO PROOFS
+		VALUES(#{proofId}, #{chalId}, #{proofWriter}, #{content}, CURRENT_DATE, #{condition})
+	</insert>
+	
+	<!--인증샷 안보이게 하는거-->
+	<update id="hideProof" parameterType="ProofVO">
+		UPDATE PROOF
+		SET CONDITION = #{CONDITION}
+		WHERE PROOF_ID = #{proofId}
+	</update>
+	
+	<!-- 댓글 달기 ! -->
+	<insert id = "inputReply" parameterType = "RepliesVO">
+		<selectKey keyProperty="replyId" resultType="string">
+			SELECT 'CRP'||to_char(c_reply_seq.NEXTVAL) FROM DUAL	
+		</selectKey>
+		Insert into Replies(REPLY_ID,CONTENT,GROUP_ID,GROUPS,WRITER_ID,REPLY_DATE)
+		values(#{replyId}, #{content}, #{groupId}, #{groups}, #{writerId}, CURRENT_DATE);
+	</insert>
+	
+	<!-- 댓삭 -->
+	
+</mapper>

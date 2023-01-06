@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class NgoVO {
 	String ngoId;
 	String writerId;
-	Integer ngoNo;
+	Integer ngoNo; //사업자등록번호
 	String postalCode;
 	String addr;
 	String detailAddr;
@@ -20,5 +20,5 @@ public class NgoVO {
 	String bankAccount;
 	String condition;
 	String ngoName;
-	String classes;
+	String classes; //분류 - 항시 일시 
 }
