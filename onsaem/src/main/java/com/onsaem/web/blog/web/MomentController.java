@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import com.onsaem.web.blog.service.BlogService;
+import com.onsaem.web.blog.service.MomentService;
 
 @Controller
 @CrossOrigin(origins = "*")
-public class BlogController {
+public class MomentController {
 	@Autowired
-	BlogService blogService;
+	MomentService momentService;
 }
