@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor 
-public class BlogWritesVO {
+public class BlogWriteVO {
 	String writeId;
 	String blogId;
 	String writeTitle;
