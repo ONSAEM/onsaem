@@ -9,8 +9,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @CrossOrigin(origins="*")
 public class ProductController {
+	
 	@RequestMapping(value="/shop",method=RequestMethod.GET)
-	public String empList(Model model) {
-		return "content/shop/wFile";
+	public String shopList(Model model) {
+		return "content/shop/ShopMain";
+	}
+	
+	@RequestMapping(value="/shopDetail",method=RequestMethod.GET)
+	public String shopSelect(Model model) {
+		return "content/shop/ShopDetail";
+	}
+	@RequestMapping(value="/shopCart",method=RequestMethod.GET)
+	public String shopCart(Model model) {
+		return "content/shop/ShopCart";
+	}
+	@RequestMapping(value="/check",method=RequestMethod.GET)
+	public String shopCheck(Model model) {
+		return "content/shop/ShopCheck";
 	}
 }
