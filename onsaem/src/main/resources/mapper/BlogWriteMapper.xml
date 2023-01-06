@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.onsaem.web.blog.mapper.BlogWriteMapper">
+ 	<!-- 전체 조회 -->
+ 	<select id="getBlogList" resultType="BlogWriteVO" parameterType="BlogWriteVO">
+ 		SELECT *
+ 		FROM BLOG_WRITES
+ 	</select>
+ 	<!-- 단건 조회 -->
+ 	
+ 	<!-- 글 등록 -->
+ 	<insert id="blogInsert" parameterType="blogWriteVO">
+ 		<selectKey keyProperty="writeId" resultType="String" order="BEFORE">
+ 			select max(NVL(write_id,0))+1 from blog_writes
+ 		</selectKey>
+ 		INSERT INTO BLOG_WRITES
+		VALUES (#{writeId},#{blogId}, '출력테스트', '잘될까요?', 'CT001', 'private', '배고프네요.. 오늘 점심은 신전 떡볶이입니다', '쉬는시간다이소',0, 0, current_date);
+ 	</insert>
+ 	<!-- 글 수정 -->
+ 	
+ 	<!-- 글 삭제 -->
+ 	
+ </mapper>
