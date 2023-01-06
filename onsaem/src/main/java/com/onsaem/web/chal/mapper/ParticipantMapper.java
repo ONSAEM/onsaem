@@ -7,6 +7,15 @@ import com.onsaem.web.chal.service.PaymentVO;
 
 public interface ParticipantMapper {
 	
+	//참가자 조회 - 챌린저스 한개에 대한 
+	List<ParticipantVO> listParticipantAll(String chalId);
+	
+	//한 참가자가 참여하는 챌린저스 목록,
+	List<ParticipantVO> listChalForOne(ParticipantVO vo);
+	
+	//참가자 상세 조회
+	ParticipantVO getParticipant(ParticipantVO vo);
+	
 	//챌린저스 참가
 	Integer inputParticipant(ParticipantVO vo);
 	
@@ -19,9 +28,5 @@ public interface ParticipantMapper {
 	//참가 취소 시 결제테이블에서 삭제
 	Integer delPayment();
 	
-	//참가자 조회
-	List<ParticipantVO> listParticipantAll(String chalId);
 	
-	//참가자 상세 조회
-	ParticipantVO getParticipant(ParticipantVO vo);
 }

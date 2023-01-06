@@ -12,6 +12,7 @@ public class ChalVO {
 	String classes; //챌린저스 분류 - 시작 전, 진행 중 , 완료
 	String subClass; //분류 2 - 개인/단체
 	String frequency; //인증 빈도
+	String chalName;
 	String ngoName; //기부처 코드?이름?
 	Date startDate; //시작일
 	Date endDate; //종료일
@@ -20,5 +21,6 @@ public class ChalVO {
 	Integer donationFee; //기부금 - 총액
 	String memberId; //글쓴이ID
 	Integer teamFee; //팀전고정기부금 - 개인할당
+
 	
 }
