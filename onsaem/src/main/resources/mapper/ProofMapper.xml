@@ -24,22 +24,10 @@
 		<selectKey keyProperty="replyId" resultType="string">
 			SELECT 'CRP'||to_char(c_reply_seq.NEXTVAL) FROM DUAL	
 		</selectKey>
-		INSERT INTO REPLIES(REPLY_ID,CONTENT,GROUP_ID,GROUPS,WRITER_ID,REPLY_DATE)
-		VALUES(#{replyId}, #{content}, #{groupId}, #{groups}, #{writerId}, CURRENT_DATE);
-	</insert>
-	
-	<!-- 댓삭 -->
-	
-	<!--좋아요-->
-	<insert id="inputLike" parameterType="LikeVO">
-		<selectKey keyProperty="likeId" resultType="string">
-			SELECT 'CLIKE'||to_char(c_like_seq.NEXTVAL) FROM DUAL	
-		</selectKey>
-		Insert into likes(like_id,member_id,GROUP_ID,GROUPS,WRITER_ID,REPLY_DATE)
+		Insert into Replies(REPLY_ID,CONTENT,GROUP_ID,GROUPS,WRITER_ID,REPLY_DATE)
 		values(#{replyId}, #{content}, #{groupId}, #{groups}, #{writerId}, CURRENT_DATE);
 	</insert>
 	
-	<!--좋아요 취소-->
-	
+	<!-- 댓삭 -->
 	
 </mapper>

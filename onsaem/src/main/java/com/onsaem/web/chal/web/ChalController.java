@@ -10,22 +10,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ChalController {
 	
 	//챌린지 전체 리스트 확인
-	@RequestMapping(value="/chalList",method=RequestMethod.GET)
-	public String chalList(Model model) {
-		
-		return "content/challengers/chalMain";
-	}
 	
 	//챌린지 조건 리스트 보기 - 마이페이지, 전체리스트에서 조건활용 등등
 
+		@RequestMapping(value="/chal",method=RequestMethod.GET)
+		public String empList(Model model) {
 			
-	//챌린지 한건 상세보기
+			return "content/challengers/challengersMain";
+		}
+
 	
-	@RequestMapping(value="/detailChal",method=RequestMethod.GET)
-	public String chalDetail(Model model) {
-		
-		return "content/challengers/chalDetail";
-	}
+	//챌린지 한건 상세보기
 	
 	//챌린지 등록 - 개인전
 	
