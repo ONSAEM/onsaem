@@ -3,6 +3,7 @@ package com.onsaem.web.chal.mapper;
 import java.util.List;
 
 import com.onsaem.web.chal.service.LikeVO;
+import com.onsaem.web.chal.service.MediaVO;
 import com.onsaem.web.chal.service.ProofVO;
 import com.onsaem.web.chal.service.RepliesVO;
 
@@ -34,4 +35,20 @@ public interface ProofMapper {
 	
 	//좋아요 취소
 	Integer delLike(String likeId);
+	
+	//좋아요 리스트 뽑기
+	List<LikeVO> listLike(LikeVO vo);
+	
+	//사진등록
+	Integer inputMedia(MediaVO vo);
+	
+	//사진 안보이게 하는거도 포함
+	Integer updateMedia(MediaVO vo);
+	
+	//사진 리스트 쫙 뽑기
+	List<MediaVO> listMedia(MediaVO vo);
+	
+	//사진 한개 보기
+	MediaVO getMedia(String mediaId);
+
 }

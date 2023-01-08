@@ -29,6 +29,10 @@
 	</insert>
 	
 	<!-- 댓삭 -->
+	<delete id="delReply" parameterType="string">
+		DELETE REPLIES 
+		WHERE REPLY_ID = #{replyId}
+	</delete>
 	
 	<!--좋아요-->
 	<insert id="inputLike" parameterType="LikeVO">
@@ -40,6 +44,49 @@
 	</insert>
 	
 	<!--좋아요 취소-->
+	<delete id="delLike" parameterType="string">
+		DELETE FROM LIKES
+		WHERE LIKE_ID = #{likeId}
+	</delete>
+	
+	<!-- 좋아요 리스트 뽑기 -->
+	<select  id="listLike" parameterType="LikeVO" resultType="LikeVO">
+		SELECT FROM LIKES
+		WHERE GROUPS = #{groups}
+		AND GROUP_ID = #{groupId} 
+	</select>
+	
+	<!-- 사진등록 -->
+	<insert id="inputMedia" parameterType="MediaVO">
+		<selectKey keyProperty="mediaId" resultType="string">
+			SELECT 'CMD'||to_char(C_MEDIA_CEQ.NEXTVAL) FROM DUAL	
+		</selectKey>
+		INSERT INTO MEDIA
+		VALUES( #{mediaId}, #{groupId}, "챌린저스", #{subGroup}, #{fileName}, #{fileRoute}, #{mediaName})
+	</insert>
+	
+	<!-- 사진 안보이게 하기 //등등 수정 -->
+	<update id="updateMedia" parameterType="MediaVO">
+		UPDATE MEDIA
+		SET SUB_GROUP = #{subGroup}
+		WHERE MEDIA_ID = #{mediaId}
+	</update>
+	
+	<!-- 사진 리스트 뽑기 -->
+	<select id="listMedia" parameterType="MediaVO" resultType="MediaVO">
+		SELECT * 
+		FROM MEDIA
+		WHERE GROUP_ID = #{groupId}
+		AND GROUPS = #{groups}
+		AND SUB_GROUP = #{subGroup}
+	</select>
+	
+	<!-- 사진 한건 보기 -->
+	<select id="listMedia" parameterType="MediaVO" resultType="MediaVO">
+		SELECT * 
+		FROM MEDIA
+		WHERE MEDIA_ID = #{mediaId}
+	</select>
 	
 	
 </mapper>

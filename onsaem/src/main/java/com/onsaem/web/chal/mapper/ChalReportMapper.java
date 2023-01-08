@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.onsaem.web.chal.service.ReportVO;
 
-public interface ReportMapper {
+public interface ChalReportMapper {
 	
 	//신고등록
 	Integer inputReport(ReportVO vo);
