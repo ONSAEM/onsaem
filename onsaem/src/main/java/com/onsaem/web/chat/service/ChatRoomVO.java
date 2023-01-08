@@ -14,4 +14,5 @@ public class ChatRoomVO {
 	String roomName;
 	String classId;
 	String classes;
+	
 }

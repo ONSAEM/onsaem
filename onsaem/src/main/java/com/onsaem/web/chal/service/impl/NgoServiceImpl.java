@@ -16,37 +16,37 @@ public class NgoServiceImpl implements NgoService {
 	@Override
 	public Integer inputNgo(NgoVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		return ngoMapper.inputNgo(vo);
 	}
 
 	@Override
 	public Integer updateNgo(NgoVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		return ngoMapper.updateNgo(vo);
 	}
 
 	@Override
 	public List<NgoVO> listNgo(String condition) {
 		// TODO Auto-generated method stub
-		return null;
+		return ngoMapper.listNgo(condition);
 	}
 
 	@Override
 	public List<NgoVO> listNgoClass(String classes) {
 		// TODO Auto-generated method stub
-		return null;
+		return ngoMapper.listNgoClass(classes);
 	}
 
 	@Override
 	public NgoVO getNgo(String ngoId) {
 		// TODO Auto-generated method stub
-		return null;
+		return ngoMapper.getNgo(ngoId);
 	}
 
 	@Override
 	public Integer delNgo(String ngoId) {
 		// TODO Auto-generated method stub
-		return null;
+		return ngoMapper.delNgo(ngoId);
 	}
 	
 	

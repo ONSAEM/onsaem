@@ -16,43 +16,43 @@ public class CharServiceImpl implements ChalService {
 	@Override
 	public List<ChalVO> getChalAll() {
 		// TODO Auto-generated method stub
-		return null;
+		return chalMapper.getChalAll();
 	}
 
 	@Override
 	public List<ChalVO> getChalNgoAll(String ngoName) {
 		// TODO Auto-generated method stub
-		return null;
+		return chalMapper.getChalNgoAll(ngoName);
 	}
 
 	@Override
 	public List<ChalVO> getChalTeamAll(String value) {
 		// TODO Auto-generated method stub
-		return null;
+		return chalMapper.getChalTeamAll(value);
 	}
 
 	@Override
 	public Integer inputChal(ChalVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		return chalMapper.inputChal(vo);
 	}
 
 	@Override
 	public Integer modifyChal(ChalVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		return chalMapper.modifyChal(vo);
 	}
 
 	@Override
 	public Integer updateDonate(Integer money) {
 		// TODO Auto-generated method stub
-		return null;
+		return chalMapper.updateDonate(money);
 	}
 
 	@Override
 	public Integer delChal(String chalId) {
 		// TODO Auto-generated method stub
-		return null;
+		return chalMapper.delChal(chalId);
 	}
 
 }
