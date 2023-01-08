@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.onsaem.web.shop.mapper.ProductMapper;
 import com.onsaem.web.shop.service.ProductVO;
@@ -15,10 +17,8 @@ import com.onsaem.web.shop.service.ProductVO;
 public class ProductController {	
 	@Autowired ProductMapper proMapper;	
 	//쇼핑몰페이지이동
-	@RequestMapping(value="/shop",method=RequestMethod.GET)
-	public String shopList(Model model) {
-		ProductVO proVo;
-		System.out.println(proMapper.proList());
+	@RequestMapping(value="/shop",method=RequestMethod.GET)	
+	public String shopMain(Model model) {
 		return "content/shop/shopMain";
 	}
 	//상세설명페이지이동
@@ -36,10 +36,11 @@ public class ProductController {
 	public String shopCheck(Model model) {
 		return "content/shop/shopCheck";
 	}
+	//상품리스트전달
+	@RequestMapping(value="/shop",method=RequestMethod.POST)	
+	@ResponseBody
+	public java.util.List<ProductVO> shopList(Model model) {		
+		return proMapper.proList();
+	}
 	
-//	@RequestMapping(value="/shop",method=RequestMethod.GET)
-//	public String proList(Model model){
-//		
-//		return "content/shop/shopMain"
-//	}
 }
