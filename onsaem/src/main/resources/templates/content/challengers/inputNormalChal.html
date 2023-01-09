@@ -31,19 +31,19 @@
         <select th:field="*{ngoes}" name="ngoName">
         	<option value="">==기부처 선택==</option>
         	<option th:each="ngo : ${ngoes}" th:value="${ngo.ngoId}"
-                th:text="${ngo.ngoName}"></option>        	
+                th:text="${ngo.ngoName}" name="ngoName"></option>        	
         </select>
         <br>
         
         <label for="startDate">시작일</label>
         <input name="startDate" type="date">
 		<label for "endDate">종료일</label>
-        <input name="endDateDate" type="date">
+        <input name="endDate" type="date">
         
         <br>
         
         <label for="proofContents">인증 방법</label>
-        <textarea rows="5" cols="20" placeholder="예? 오늘 날짜와 걸음수가 적힌 만보기 캡쳐 화면 업로드"></textarea>
+        <textarea rows="5" cols="20" placeholder="예? 오늘 날짜와 걸음수가 적힌 만보기 캡쳐 화면 업로드" name="proofContents"></textarea>
         <ul>
         	<li>챌린지가 시작되면 인증 방법을 수정할 수 없습니다. 신중히 작성해주세요</li>
         	<li>참가자들이 혼란을 겪지 않도록 정확한 기준과 구체적인 인증방법을 적어주세요</li>

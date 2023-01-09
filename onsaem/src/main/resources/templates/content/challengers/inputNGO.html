@@ -5,6 +5,47 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<form action="${pageContext.request.contextPath}/inputNgo" method="post">
+		<p>기부처 신청</p>
+		<label for="ngoName" id="ngoName">기부처 명</label><br>
+		<input type="text"  id="ngoName" name="ngoName">
+		
+        <label for="ngoName">기부처</label>
+        <select th:field="*{ngoes}" name="ngoName">
+        	<option value="">==기부처 선택==</option>
+        	<option th:each="ngo : ${ngoes}" th:value="${ngo.ngoId}"
+                th:text="${ngo.ngoName}"></option>        	
+        </select>
+        <br>
+        
+        <label for="startDate">시작일</label>
+        <input name="startDate" type="date">
+		<label for "endDate">종료일</label>
+        <input name="endDateDate" type="date">
+        
+        <br>
+        
+        <label for="proofContents">인증 방법</label>
+        <textarea rows="5" cols="20" placeholder="예? 오늘 날짜와 걸음수가 적힌 만보기 캡쳐 화면 업로드"></textarea>
+        <ul>
+        	<li>챌린지가 시작되면 인증 방법을 수정할 수 없습니다. 신중히 작성해주세요</li>
+        	<li>참가자들이 혼란을 겪지 않도록 정확한 기준과 구체적인 인증방법을 적어주세요</li>
+        	<li>유저 챌린지에서 발생한 분쟁에는 챌린저스가 관여하지 않습니다.</li>
+        </ul>
+        
+        <label for="proofEx">인증샷 예시</label>
+        <input type="file" id ="proofEx" name="fileName" >
+        <br>
+        
+        <label for="contents">챌린지 소개</label>
+        <textarea rows="5" cols="20" placeholder="예) 매일 1만보 걷고 건강해지기! 오늘부터 같이 해봐요 :)" id="contents" value="contents"></textarea>	
+		<br>
+		<label for="proofEx">썸네일 첨부</label>
+        <input type="file" id ="thumbnail" name="fileName" >
+        <br>
+        	
+		<input type="submit" value="챌린저스 등록" class="btn">&nbsp;&nbsp;
+		<input type="reset" value="취소" class="btn" onClick="history.go(-1)">
+	</form>
 </body>
 </html>

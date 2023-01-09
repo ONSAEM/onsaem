@@ -99,8 +99,8 @@ public class ChalController {
 	
 	//챌린지 등록 - 팀전
 	@RequestMapping(value="/inputTeamChal", method=RequestMethod.POST)
-	public ChalVO insertTeamChal(@RequestParam MultipartFile[] uploadfile,ChalVO vo, MediaVO mvo, ParticipantVO pvo) {
-		System.out.println(uploadfile);
+	public ChalVO insertTeamChal(@RequestParam String data,ChalVO vo, MediaVO mvo, ParticipantVO pvo) {
+		System.out.println("============="+data);
 		chalService.inputChal(vo, pvo);
 		proofService.inputMedia(mvo);
 		return vo;
