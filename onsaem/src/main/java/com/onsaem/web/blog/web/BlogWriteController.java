@@ -52,14 +52,27 @@ public class BlogWriteController {
 	@RequestMapping(value = "/myblog/blogWrite/blogInsert", method = RequestMethod.POST)
 	@ResponseBody  //ajax 응답은 responseBody
 	public BlogWriteVO blogInsert(Model model, BlogWriteVO vo) {
-		vo.setBlogId("test000");
+		vo.setBlogId("test01");
 		model.addAttribute("blogInsert", blogWriteService.blogInsert(vo));
 		return vo;
 	}
 	// 블로그 글 수정 페이지로 이동
-	
-	// 블로그 글 수정 처리(수정)
-	
-	// 블로그 글 삭제 처리(삭제)
-	
+//	@RequestMapping(value = "/myblog/blogWrite/blogUpdate/{userId}/{bno}", method = RequestMethod.GET)
+//	public String blogUpdatePage(Model model, @PathVariable String userId, @PathVariable String bno) {
+//		model.addAttribute("blogUpdate", blogWriteService.getBlog(userId, bno));
+//		return "content/blog/blogUpdate";
+//	}
+//	// 블로그 글 수정 처리(수정)
+//	@RequestMapping(value = "/myblog/blogWrite/blogUpdate", method = RequestMethod.POST)
+//	@ResponseBody  //ajax 응답은 responseBody
+//	public BlogWriteVO blogUpdate(Model model, BlogWriteVO vo) {
+//		model.addAttribute("blogUpdate", blogWriteService.blogUpdate(vo));
+//		return vo;
+//	}
+//	// 블로그 글 삭제 처리(삭제)
+//	@RequestMapping(value = "/myblog/blogWrite/blogDelete/{userId}/{bno}", method = RequestMethod.GET)
+//	public String blogDelete(Model model, BlogWriteVO vo) {
+//		model.addAttribute("blogDelete", blogWriteService.blogDelete(vo));
+//		return "content/blog/myblog";
+//	}
 }
