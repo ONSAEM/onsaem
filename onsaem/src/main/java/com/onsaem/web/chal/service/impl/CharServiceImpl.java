@@ -6,12 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.onsaem.web.chal.mapper.ChalMapper;
+import com.onsaem.web.chal.mapper.ParticipantMapper;
+import com.onsaem.web.chal.mapper.ProofMapper;
 import com.onsaem.web.chal.service.ChalService;
 import com.onsaem.web.chal.service.ChalVO;
+import com.onsaem.web.chal.service.MediaVO;
+import com.onsaem.web.chal.service.ParticipantVO;
 
 @Component
 public class CharServiceImpl implements ChalService {
 	@Autowired ChalMapper chalMapper;
+	@Autowired ProofMapper proofMapper;
+	@Autowired ParticipantMapper partMapper;
 
 	@Override
 	public List<ChalVO> getChalAll() {
@@ -32,9 +38,13 @@ public class CharServiceImpl implements ChalService {
 	}
 
 	@Override
-	public Integer inputChal(ChalVO vo) {
+	public Integer inputChal(ChalVO vo, ParticipantVO pvo) {
 		// TODO Auto-generated method stub
-		return chalMapper.inputChal(vo);
+		chalMapper.inputChal(vo);
+		pvo.setChalId(vo.getChalId());
+		partMapper.inputParticipant(pvo);
+		
+		return  0;
 	}
 
 	@Override
@@ -53,6 +63,12 @@ public class CharServiceImpl implements ChalService {
 	public Integer delChal(String chalId) {
 		// TODO Auto-generated method stub
 		return chalMapper.delChal(chalId);
+	}
+
+	@Override
+	public ChalVO getChal(String chalId) {
+		// TODO Auto-generated method stub
+		return chalMapper.getChal(chalId);
 	}
 
 }

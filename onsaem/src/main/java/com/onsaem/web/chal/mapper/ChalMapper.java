@@ -3,6 +3,8 @@ package com.onsaem.web.chal.mapper;
 import java.util.List;
 
 import com.onsaem.web.chal.service.ChalVO;
+import com.onsaem.web.chal.service.MediaVO;
+import com.onsaem.web.chal.service.ParticipantVO;
 
 public interface ChalMapper {
 	
@@ -14,6 +16,9 @@ public interface ChalMapper {
 	
 	//조건 전체조회 - 팀전/개인전
 	List<ChalVO> getChalTeamAll(String value);
+	
+	//상세조회
+	ChalVO getChal(String chalId);
 	
 	//챌린저스 등록- 팀전/개인전 차이 두어야 한다 : 뷰페이지 2개 만들어야댐 
 	Integer inputChal(ChalVO vo);
