@@ -10,8 +10,10 @@ import com.onsaem.web.blog.service.BlogWriteVO;
 public interface BlogWriteMapper {
 	// 블로그 글 전체 조회
 	public List<BlogWriteVO> getBlogList(BlogWriteVO blogWriteVO);
+	// 블로그 단건 조회
+	public BlogWriteVO myBlog(String blogId);
 	// 블로그 글 단건 조회
-	public BlogWriteVO getBlog(BlogWriteVO blogWriteVO);
+	public BlogWriteVO getBlog(String blogId, String writeId);
 	// 블로그 글 작성
 	int blogInsert(BlogWriteVO blogWriteVO);
 	// 블로그 미디어 첨부

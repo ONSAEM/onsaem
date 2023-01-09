@@ -9,14 +9,45 @@
  		FROM BLOG_WRITES
  	</select>
  	<!-- 단건 조회 -->
- 	
+ 	<select id="getBlog" resultType="BlogWriteVO" parameterType="String">
+		SELECT *
+		FROM BLOG_WRITES
+		WHERE WRITE_ID = #{writeId}
+		AND BLOG_ID = #{blogId}
+ 	</select>
+ 	<!-- 블로그 단건 조회 -->
+ 	<select id="myBlog" resultType="BlogWriteVO" parameterType="String">
+		SELECT *
+		FROM BLOG_WRITES
+		WHERE BLOG_ID = #{blogId}
+ 	</select>
  	<!-- 글 등록 -->
  	<insert id="blogInsert" parameterType="blogWriteVO">
  		<selectKey keyProperty="writeId" resultType="String" order="BEFORE">
- 			select max(NVL(write_id,0))+1 from blog_writes
+ 			select 'BW'||lpad(blog_seq.nextval,3,0) from dual
  		</selectKey>
- 		INSERT INTO BLOG_WRITES
-		VALUES (#{writeId},#{blogId}, '출력테스트', '잘될까요?', 'CT001', 'private', '배고프네요.. 오늘 점심은 신전 떡볶이입니다', '쉬는시간다이소',0, 0, current_date);
+ 		INSERT INTO BLOG_WRITES( WRITE_ID,
+								BLOG_ID,
+								WRITE_TITLE,
+								SUBTITLE,
+								CATEGORY_ID,
+								PUBLIC_SCOPE,
+								BLOG_WRITE,
+								WRITER_NICKNAME,
+								CNT,
+								LIKE_NUMBER,
+								WRITE_DATE )
+		VALUES (#{writeId},
+				#{blogId},	
+				#{writeTitle},
+				#{subTitle},
+				#{categoryId},
+				#{publicScope},
+				#{blogWrite},
+				#{writerNickname},
+				0,
+				0,
+				current_date)
  	</insert>
  	<!-- 글 수정 -->
  	
