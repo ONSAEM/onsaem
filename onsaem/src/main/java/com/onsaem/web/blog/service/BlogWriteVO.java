@@ -11,7 +11,7 @@ public class BlogWriteVO {
 	String writeId;
 	String blogId;
 	String writeTitle;
-	String subtitle;
+	String subTitle;
 	String categoryId;
 	String publicScope;
 	String blogWrite;

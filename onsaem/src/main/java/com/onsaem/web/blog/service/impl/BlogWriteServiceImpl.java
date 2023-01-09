@@ -21,11 +21,17 @@ public class BlogWriteServiceImpl implements BlogWriteService {
 		// 전체 조회
 		return blogWriteMapper.getBlogList(blogWriteVO);
 	}
+	
+	@Override
+	public BlogWriteVO myBlog(String blogId) {
+		// 블로그 단건조회
+		return blogWriteMapper.myBlog(blogId);
+	}
 
 	@Override
-	public BlogWriteVO getBlog(BlogWriteVO blogWriteVO) {
-		// 단건 조회
-		return blogWriteMapper.getBlog(blogWriteVO);
+	public BlogWriteVO getBlog(String blogId, String writeId) {
+		// 블로그 글 단건 조회
+		return blogWriteMapper.getBlog(blogId, writeId);
 	}
 
 	@Override
@@ -69,5 +75,7 @@ public class BlogWriteServiceImpl implements BlogWriteService {
 		// 신고
 		return 0;
 	}
+
+	
 
 }
