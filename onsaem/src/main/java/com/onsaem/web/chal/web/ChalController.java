@@ -1,5 +1,10 @@
 package com.onsaem.web.chal.web;
 
+import java.io.File;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,7 +12,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.onsaem.web.chal.service.BankService;
 import com.onsaem.web.chal.service.ChalService;
@@ -31,15 +38,19 @@ public class ChalController {
 	//챌린지 전체 리스트 확인
 	@RequestMapping(value="/chalList",method=RequestMethod.GET)
 	public String chalList(Model model) {
+		String classes = "항시";
+		model.addAttribute("ngoes", ngoService.listNgoClass(classes));
 		model.addAttribute("chals", chalService.getChalAll());
 		return "content/challengers/chalMain";
 	}
 	
 	//챌린지 조건 리스트 보기 - ngo별 
 	@RequestMapping(value="/chalListOption",method=RequestMethod.GET)
-	public String chalListNgo(Model model,String ngoName){
+	public String chalListNgo(Model model,@RequestParam(value="ngoName", required=false)String ngoName){
+		String classes = "항시";
+		model.addAttribute("ngoes", ngoService.listNgoClass(classes));
 		model.addAttribute("chals", chalService.getChalNgoAll(ngoName));
-		return "content/challengers/chalMainNgo";
+		return "content/challengers/chalMain";
 	}
 	
 	@RequestMapping(value="/chalListTeam",method=RequestMethod.GET)
@@ -50,8 +61,8 @@ public class ChalController {
 			
 	//챌린지 한건 상세보기
 	@RequestMapping(value="/detailChal",method=RequestMethod.GET)
-	public String chalDetail(Model model, String chalId, MediaVO vo) {
-		model.addAttribute("chal", chalService.getChal(chalId));
+	public String chalDetail(Model model, MediaVO vo, @RequestParam(value="chalId", required= true)String chalId) {
+		model.addAttribute("chals", chalService.getChal(chalId));
 		vo.setGroupId(chalId);
 		model.addAttribute("photoes", proofService.listMedia(vo));
 		return "content/challengers/chalDetail";
@@ -68,7 +79,7 @@ public class ChalController {
 	public String inputChalNormal(Model model) {
 		String classes = "항시";
 		model.addAttribute("ngoes", ngoService.listNgoClass(classes));
-		model.addAttribute("banks", bankService.listBank());
+		
 		return "content/challengers/inputNormalChal";
 	}
 	
@@ -82,18 +93,43 @@ public class ChalController {
 	
 	//챌린지 등록 - 개인전
 	@RequestMapping(value="/inputNormalChal", method=RequestMethod.POST)
-	public String insertNormalChal(@RequestParam MultipartFile[] uploadfile,ChalVO vo, MediaVO mvo, ParticipantVO pvo) {
-		System.out.println(uploadfile);
-		chalService.inputChal(vo, pvo);
-		mvo.setGroupId(vo.getChalId());
-		//업로드먼저
-		proofService.inputMedia(mvo);
-		/*
-		 * List for(int i=0; i<)
-		 */
+	public String insertNormalChal(HttpServletRequest req,ChalVO vo, MediaVO mvo, ParticipantVO pvo, MultipartHttpServletRequest mhsq) {
+		
+		//Challengers테이블에 삽입
+		vo.setMemberId("podo");
+		chalService.inputChal(vo);
+		
+		//Participant에 챌린저스 개최자 등록
+		pvo.setChalId(vo.getChalId());
+		pvo.setParticipantId("podo");
+		pvo.setPrivateDonate(vo.getDonationFee());
+		partService.inputParticipant(pvo);
 		
 		
+		//사진 등록
+		//session = req.getSession();
+		String realFolder = "d:/challengers/";
+        File dir = new File(realFolder);
+        if (!dir.isDirectory()) {
+            dir.mkdirs();
+        }
 		
+		
+		//넘어온 파일 리스트로 저장
+		List<MultipartFile> files = mhsq.getFiles("uploadFile");
+			for(int i=0; i<files.size(); i++) {
+				//원래 파일 이름 
+				String originName = files.get(i).getOriginalFilename();
+				//groupId 지정  - chal 글번호루,,
+				mvo.setGroupId(vo.getChalId());
+				mvo.setFileName(originName);
+				//경로?주소?지정
+				mvo.setFileRoute(realFolder+originName);
+				
+				System.out.println(mvo);
+				proofService.inputMedia(mvo);
+				
+			}
 		return "redirect:/chalList";
 	}
 	
@@ -101,29 +137,61 @@ public class ChalController {
 	@RequestMapping(value="/inputTeamChal", method=RequestMethod.POST)
 	public ChalVO insertTeamChal(@RequestParam String data,ChalVO vo, MediaVO mvo, ParticipantVO pvo) {
 		System.out.println("============="+data);
-		chalService.inputChal(vo, pvo);
+		chalService.inputChal(vo);
 		proofService.inputMedia(mvo);
 		return vo;
 	}
-	//챌린지 등록 - 개인전
+	
 	
 	
 	//챌린지 참가 - 개인전 페이지 이동
+	@RequestMapping(value="/applyChalFrm", method=RequestMethod.GET)
+	public String applyChalFrm(@RequestParam(value="chalId", required= true)String chalId, Model model) {
+		
+		model.addAttribute("chals", chalService.getChal(chalId));
+		return "content/challengers/applyChalFrm";
+	}
 	
-	//챌린지 참가 - 팀전 페이지 이동 
+	//챌린지 참가 - 개인전 데이터 등록,,ㅎ
+	@RequestMapping(value="/applyChalFrm", method=RequestMethod.POST)
+	public String applyChal(ChalVO vo, ParticipantVO pvo, @RequestParam(value="chalId", required= true)String chalId) {
+		return "content/challengers/applyChalFrm";
+	}
 	
+	//챌린지 참가 - 팀전 페이지 이동
+	@RequestMapping(value="/applyChalTeamFrm", method=RequestMethod.GET)
+	public String applyChalTeamFrm(@RequestParam(value="chalId", required= true)String chalId, Model model) {
+		model.addAttribute("chals", chalService.getChal(chalId));
+		return "content/challengers/applyChalFrm";
+	}
+	
+	//챌린지 참가 - 팀 등록
+	@RequestMapping(value="/applyChalTeamFrm", method=RequestMethod.POST)
+	public String applyChalTeam(ChalVO vo, ParticipantVO pvo, @RequestParam(value="chalId", required= true)String chalId) {
+		//참가자 테이블
+		
+		//챌린저스 테이블 수정
+		
+		//결제 테이블
+		
+		return "content/challengers/applyChalFrm";
+	}
 	//챌린지 취소 
 	
 	//기부처 등록페이지 이동
 	@RequestMapping(value="/inputNgo", method=RequestMethod.GET)
-	public String inputNgo() {
+	public String inputNgo(Model model) {
+		model.addAttribute("banks", bankService.listBank());
 		return "content/challengers/inputNGO";
 	}
+	
 	//기부처 등록
 	@RequestMapping(value="/inputNgo", method=RequestMethod.POST)
+	@ResponseBody //ajax
 	public String inputNgoPg(NgoVO vo) {
 		vo.setClasses("항시");
 		vo.setCondition("신청");
+		vo.setWriterId("jjinbbang");
 		ngoService.inputNgo(vo);
 		return "content/challengers/inputNGO";
 	}

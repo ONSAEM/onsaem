@@ -36,7 +36,7 @@
 		ON C.CHAL_ID = M.GROUP_ID
 		WHERE C.SUB_CLASS= #{val}
 	</select>
-	
+	<!-- 단건조회 -->
 	<select id="getChal" resultType="CHALVO" parameterType="string">
 		SELECT *
 		FROM CHALLENGES
@@ -47,7 +47,7 @@
 	<insert id="inputChal" parameterType="ChalVO">
 		<selectKey keyProperty="chalId" resultType="string">
 			SELECT
-			'CH'||to_char(CHAL_SEQ.NEXTVAL) FROM DUAL
+			'CH'||LPAD(CHAL_SEQ.NEXTVAL,3,0) FROM DUAL
 		</selectKey>
 		INSERT into CHALLENGES
 		VALUES(#{chalId}, #{classes}, #{subClass}, #{frequency}, #{ngoName}, #{startDate},

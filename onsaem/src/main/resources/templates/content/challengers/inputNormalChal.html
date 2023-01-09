@@ -11,7 +11,7 @@
 		<p>챌린지를 만들어 주세요!</p>
 		<label for="chalName" id="chalName">챌린지 제목</label><br>
 		<input type="text"  id="chalName" name="chalName">
-		
+		<input type="hidden" name="classes" value="시작전">
 		<div>
 			<label for="frequency" id="frequency">인증 빈도</label><br>
             	<input name="frequency" type="radio" value="월화수목금토일">매일
@@ -28,9 +28,9 @@
 				</select>
         </div>
         <label for="ngoName">기부처</label>
-        <select th:field="*{ngoes}" name="ngoName">
+        <select th:field="*{ngoes}">
         	<option value="">==기부처 선택==</option>
-        	<option th:each="ngo : ${ngoes}" th:value="${ngo.ngoId}"
+        	<option th:each="ngo : ${ngoes}" th:value="${ngo.ngoName}"
                 th:text="${ngo.ngoName}" name="ngoName"></option>        	
         </select>
         <br>
@@ -50,15 +50,23 @@
         	<li>유저 챌린지에서 발생한 분쟁에는 챌린저스가 관여하지 않습니다.</li>
         </ul>
         
-        <label for="proofEx">인증샷 예시</label>
-        <input type="file" id ="proofEx" name="fileName" >
+        <form action="${pageContext.request.contextPath}/inputNormalChal" method="post" enctype="multipart/form-data">
+        	<label for="proofEx">인증샷 예시</label>
+	        <input type="file">
+	        <input type="hidden" value="proofEx" name="subGroup">
+        </form> 
         <br>
         
         <label for="contents">챌린지 소개</label>
         <textarea rows="5" cols="20" placeholder="예) 매일 1만보 걷고 건강해지기! 오늘부터 같이 해봐요 :)" id="contents" value="contents"></textarea>	
 		<br>
-		<label for="proofEx">썸네일 첨부</label>
-        <input type="file" id ="thumbnail" name="fileName" >
+		
+		<form action="${pageContext.request.contextPath}/inputNormalChal" method="post" enctype="multipart/form-data">
+			<label for="proofEx">썸네일 첨부</label>
+	        <input type="file">
+	        <input type="hidden" value="thumbNail" name="subGroup">
+		</form>
+		
         <br>
         	
 		<input type="submit" value="챌린저스 등록" class="btn">&nbsp;&nbsp;

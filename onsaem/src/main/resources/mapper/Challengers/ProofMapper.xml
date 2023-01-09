@@ -62,7 +62,7 @@
 			'M'||LPAD(media_seq.nextval,3,0)	
 		</selectKey>
 		INSERT INTO MEDIA
-		VALUES( #{mediaId}, #{groupId}, '챌린저스', #{subGroup}, #{fileName}, #{fileRoute}, #{mediaName})
+		VALUES( #{mediaId}, #{groupId}, '챌린저스', #{subGroup}, #{fileName}, #{fileRoute}, #{mediaId})
 	</insert>
 	
 	<!-- 사진 안보이게 하기 //등등 수정 -->

@@ -77,17 +77,16 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
-                    <div class="product__details__text">
-                        <h3>Vetgetable’s Package</h3>
+                    <div class="product__details__text" th:each="chal : ${chals}">
+                        <h3 th:text="${chal.chalName}">Vetgetable’s Package</h3>
                         <div class="product__details__rating">
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star-half-o"></i>
-                            <span>(18 reviews)</span>
                         </div>
-                        <div class="product__details__price">$50.00</div>
+                        <div class="product__details__price"><span th:text=${chal.startDate}>$50.00</span></div>
                         <p>Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet quam
                             vehicula elementum sed sit amet dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet
                             quam vehicula elementum sed sit amet dui. Proin eget tortor risus.</p>
@@ -98,7 +97,12 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="#" class="primary-btn">ADD TO CARD</a>
+                        <th:block th:if="${chal.subClass == '개인'}">
+							 <a th:href="@{/applyChalFrm(chalId = ${chal.chalId})}" class="primary-btn">11참가하기</a>                      
+                        </th:block>
+						<th:block th:if="${chal.subClass == '팀'}">
+							 <a th:href="@{/applyChalTeamFrm(chalId = ${chal.chalId})}" class="primary-btn">참가하기</a>                      
+                        </th:block>
                         <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
                         <ul>
                             <li><b>Availability</b> <span>In Stock</span></li>

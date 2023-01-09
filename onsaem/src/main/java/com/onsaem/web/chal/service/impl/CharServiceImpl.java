@@ -38,12 +38,10 @@ public class CharServiceImpl implements ChalService {
 	}
 
 	@Override
-	public Integer inputChal(ChalVO vo, ParticipantVO pvo) {
+	public Integer inputChal(ChalVO vo) {
 		// TODO Auto-generated method stub
 		chalMapper.inputChal(vo);
-		pvo.setChalId(vo.getChalId());
-		partMapper.inputParticipant(pvo);
-		
+	
 		return  0;
 	}
 
