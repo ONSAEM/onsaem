@@ -57,22 +57,31 @@
 					<div class="col-lg-3 col-md-5">
 						<div class="sidebar">
 							<div class="sidebar__item">
-								<h4>Department</h4>
-								<ul>
-									<li><a href="#">Fresh Meat</a></li>
-									<li><a href="#">Vegetables</a></li>
-									<li><a href="#">Fruit & Nut Gifts</a></li>
-									<li><a href="#">Fresh Berries</a></li>
-									<li><a href="#">Ocean Foods</a></li>
-									<li><a href="#">Butter & Eggs</a></li>
-									<li><a href="#">Fastfood</a></li>
-									<li><a href="#">Fresh Onion</a></li>
-									<li><a href="#">Papayaya & Crisps</a></li>
-									<li><a href="#">Oatmeal</a></li>
-								</ul>
+								<h4>지역</h4>
+								<select>
+									<option>::지역선택::</option>
+									<option>서울</option>
+									<option>부산</option>
+									<option>대구</option>
+									<option>인천</option>
+									<option>광주</option>
+									<option>대전</option>
+									<option>울산</option>
+									<option>세종</option>
+									<option>경기</option>
+									<option>강원</option>
+									<option>충북</option>
+									<option>충남</option>
+									<option>전북</option>
+									<option>전남</option>
+									<option>경북</option>
+									<option>경남</option>
+									<option>제주</option>
+								</select>
+								<br>
 							</div>
 							<div class="sidebar__item">
-								<h4>Price</h4>
+								<h4>가격</h4>
 								<div class="price-range-wrap">
 									<div
 										class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
@@ -92,37 +101,14 @@
 								</div>
 							</div>
 							<div class="sidebar__item sidebar__item__color--option">
-								<h4>Colors</h4>
-								<div class="sidebar__item__color sidebar__item__color--white">
-									<label for="white"> White <input type="radio"
-										id="white">
-									</label>
-								</div>
-								<div class="sidebar__item__color sidebar__item__color--gray">
-									<label for="gray"> Gray <input type="radio" id="gray">
-									</label>
-								</div>
-								<div class="sidebar__item__color sidebar__item__color--red">
-									<label for="red"> Red <input type="radio" id="red">
-									</label>
-								</div>
-								<div class="sidebar__item__color sidebar__item__color--black">
-									<label for="black"> Black <input type="radio"
-										id="black">
-									</label>
-								</div>
-								<div class="sidebar__item__color sidebar__item__color--blue">
-									<label for="blue"> Blue <input type="radio" id="blue">
-									</label>
-								</div>
-								<div class="sidebar__item__color sidebar__item__color--green">
-									<label for="green"> Green <input type="radio"
-										id="green">
-									</label>
-								</div>
+								<h4>날짜</h4>
+								<label for="white"> 시작 <input type="date">
+								</label>
+								<label for="gray"> 종료 <input type="date">
+								</label>
 							</div>
 							<div class="sidebar__item">
-								<h4>Popular Size</h4>
+								<h4>검색</h4>
 								<div class="sidebar__item__size">
 									<label for="large"> Large <input type="radio"
 										id="large">
@@ -143,6 +129,7 @@
 									</label>
 								</div>
 							</div>
+							<button type="submit" class="site-btn" >SEARCH</button>
 						</div>
 					</div>
 					<div class="col-lg-9 col-md-7">
@@ -301,8 +288,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="row">
 						
+						<div class="row">
 							<div class="col-lg-4 col-md-6 col-sm-6" th:each="class : ${classList}">
 								<div class="product__item">
 									<div class="product__item__pic set-bg"
@@ -313,7 +300,7 @@
 									</div>
 									<div class="product__item__text">
 										<h6>
-											<a href="#" th:text="${class.name}"></a>
+											<a th:href="@{/class/classDetail(classId=${class.classId})}" th:text="${class.name}"></a>
 										</h6>
 										<h5 th:text="${class.price}+'원'"></h5>
 										<i class="fa-solid fa-star" th:each="num:${#numbers.sequence(1,class.star)}"></i><i class="fa-solid fa-star-half"th:if="${class.star%1 >= 0.5}"></i>
