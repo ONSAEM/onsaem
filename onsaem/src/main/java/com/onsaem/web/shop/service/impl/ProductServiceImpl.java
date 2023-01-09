@@ -15,9 +15,21 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public List<ProductVO> proList() {
-		// 상품전체조회
-		proMapper.proList();
-		return null;
+		// 상품전체조회(최신순)		
+		return proMapper.proList();
+	}
+
+	@Override
+	public List<ProductVO> popList() {
+		// 상품전체조회(인기순)
+		
+		return proMapper.popList();
+	}
+
+	@Override
+	public List<ProductVO> proCategory(String data) {
+		// 카테고리별상품조회		
+		return proMapper.proCategory(data);
 	}
 	
 }

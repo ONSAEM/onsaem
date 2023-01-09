@@ -12,7 +12,7 @@ public class ProductVO {
 	String productName;	//상품명
 	String productDetail;	//상세설명
 	int price;	//판매가
-	int star;	//별점
+	double star;	//별점
 	int amount;	//재고량
 	int deliveryFee;	//배송비	
 	String options;	//옵션
@@ -21,4 +21,9 @@ public class ProductVO {
 	String productStatus;	//상품상태
 	Date registerDate;	//등록일자
 	String memberId;	//판매자ID
+	
+	//조인해서 가져올 변수
+	String fileName;
+	String fileRoute;
+	String mediaName;
 }
