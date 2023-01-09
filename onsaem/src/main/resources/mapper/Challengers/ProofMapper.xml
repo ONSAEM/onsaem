@@ -82,11 +82,11 @@
 	</select>
 	
 	<!-- 사진 한건 보기 -->
-	<select id="listMedia" parameterType="MediaVO" resultType="MediaVO">
+	<!--<select id="listMedia" parameterType="MediaVO" resultType="MediaVO">
 		SELECT * 
 		FROM MEDIA
 		WHERE MEDIA_ID = #{mediaId}
-	</select>
+	</select>-->
 	
 	
 </mapper>
