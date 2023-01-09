@@ -2,61 +2,84 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onsaem.web.chal.mapper.ChalMapper">
-	
+
 	<!-- 챌리저스 전체조회 -->
 	<select id="getChalAll" resultType="ChalVO">
-		SELECT *
-		FROM CHALLENGES
+		SELECT C.CHAL_ID AS CHAL_ID ,
+		C.CLASSES AS CLASSES, C.SUB_CLASS AS SUB_CLASS, C.CHAL_NAME AS
+		CHAL_NAME, C.START_DATE AS START_DATE, C.END_DATE AS END_DATE,
+		M.FILE_ROUTE AS FILE_ROUTE, M.MEDIA_NAME AS MEDIA_NAME
+		FROM CHALLENGES C JOIN MEDIA M
+		ON C.CHAL_ID = M.GROUP_ID
 	</select>
-	
-	<!-- 챌리저스  기부처 별전체조회 -->
-	<select id="getChalNgoAll" resultType="ChalVO" parameterType="String">
-		SELECT *
-		FROM CHALLENGES
-		WHERE NGO_NAME=#{ngoName}  
+
+	<!-- 챌리저스 기부처 별전체조회 -->
+	<select id="getChalNgoAll" resultType="ChalVO"
+		parameterType="String">
+		SELECT C.CHAL_ID AS CHAL_ID ,
+		C.CLASSES AS CLASSES, C.SUB_CLASS AS SUB_CLASS, C.CHAL_NAME AS
+		CHAL_NAME, C.START_DATE AS START_DATE, C.END_DATE AS END_DATE,
+		M.FILE_ROUTE AS FILE_ROUTE, M.MEDIA_NAME AS MEDIA_NAME
+		FROM CHALLENGES C JOIN MEDIA M
+		ON C.CHAL_ID = M.GROUP_ID
+		WHERE C.NGO_NAME=#{ngoName}
 	</select>
-	
+
 	<!-- 챌리저스 팀전 별전체조회 -->
-	<select id="getChalTeamAll" resultType="ChalVO" parameterType="String">
-		SELECT *
-		FROM CHALLENGES
-		WHERE SUB_CLASS= #{val}  
+	<select id="getChalTeamAll" resultType="ChalVO"
+		parameterType="String">
+		SELECT C.CHAL_ID AS CHAL_ID ,
+		C.CLASSES AS CLASSES, C.SUB_CLASS AS SUB_CLASS, C.CHAL_NAME AS
+		CHAL_NAME, C.START_DATE AS START_DATE, C.END_DATE AS END_DATE,
+		M.FILE_ROUTE AS FILE_ROUTE, M.MEDIA_NAME AS MEDIA_NAME
+		FROM CHALLENGES C JOIN MEDIA M
+		ON C.CHAL_ID = M.GROUP_ID
+		WHERE C.SUB_CLASS= #{val}
 	</select>
 	
-	<!-- 챌리저스 팀전 별전체조회 수정 필요 필요 필요 필요 필요 필ㄷ요 --> 
+	<select id="getChal" resultType="CHALVO" parameterType="string">
+		SELECT *
+		FROM CHALLENGES
+		WHERE CHAL_ID = #{chalId}
+	</select>
+
+	<!-- 챌리저스 팀전 별전체조회 수정 필요 필요 필요 필요 필요 필ㄷ요 -->
 	<insert id="inputChal" parameterType="ChalVO">
 		<selectKey keyProperty="chalId" resultType="string">
-			SELECT 'CH'||to_char(CHAL_SEQ.NEXTVAL) FROM DUAL	
+			SELECT
+			'CH'||to_char(CHAL_SEQ.NEXTVAL) FROM DUAL
 		</selectKey>
-		INSERT into CHALLENGES 
-		VALUES(#{chalId}, #{classes}, #{subClass}, #{frequency}, #{ngoName}, #{startDate}, #{endDate}, #{contents}, #{proofContent}, 
+		INSERT into CHALLENGES
+		VALUES(#{chalId}, #{classes}, #{subClass}, #{frequency}, #{ngoName}, #{startDate},
+		#{endDate}, #{contents}, #{proofContent},
 		#{donationFee}, #{memberId}, #{teamFee}, #{chalName})
 	</insert>
-	
+
 	<!-- 수정 -->
 	<update id="modifyChal" parameterType="ChalVO">
-		UPDATE CHALLENGES 
+		UPDATE CHALLENGES
 		SET CLASSES = #{classes},
 		NGO_NAME = #{ngoName},
 		START_DATE = #{startDate},
 		END_DATE = #{endDate},
 		CONTENTS = #{contents},
-		PROOF_CONTENT = #{proofContent}
+		PROOF_CONTENT =
+		#{proofContent}
 		WHERE CHAL_ID=#{chalId}
 	</update>
-	
+
 	<!-- 기부금 업데이트 -->
 	<update id="updateDonate" parameterType="Integer">
-		UPDATE CHALLENGES 
+		UPDATE CHALLENGES
 		SET DONATION_FEE = #{donationFee}
 		WHERE CHAL_ID=#{chalId}
 	</update>
-	
+
 	<!-- 챌린저스 취소-개최자만 가능함, 관리자랑 ㅋㅋ -->
 	<delete id="delChal" parameterType="String">
-		DELETE CHALLENGES 
+		DELETE CHALLENGES
 		WHERE CHAL_ID=#{chalId}
 	</delete>
-	
-		
+
+
 </mapper>

@@ -48,6 +48,7 @@ public interface ProofMapper {
 	//사진 리스트 쫙 뽑기
 	List<MediaVO> listMedia(MediaVO vo);
 	
+	
 	//사진 한개 보기
 	MediaVO getMedia(String mediaId);
 

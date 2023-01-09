@@ -23,4 +23,8 @@ public class ChalVO {
 	Integer teamFee; //팀전고정기부금 - 개인할당
 
 	
+	
+	String fileRoute;
+	String mediaName;
+	
 }

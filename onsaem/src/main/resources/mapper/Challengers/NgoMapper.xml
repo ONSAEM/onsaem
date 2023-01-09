@@ -6,7 +6,7 @@
 	<!-- ngo 등록신청 -->
 	<insert id="inputNgo" parameterType="NgoVO">
 		<selectKey keyProperty="ngoId" resultType="string">
-			SELECT 'NGO'||to_char(NGO_SEQ.NEXTVAL) FROM DUAL	
+			SELECT 'NGO'||LPAD(NGO_SEQ.NEXTVAL,3,0) FROM DUAL	
 		</selectKey>
 		INSERT into NGOES 
 		VALUES(#{ngoId}, #{writerId}, #{ngoNO}, #{postalCode}, #{addr}, #{detailAddr}, #{email}, 

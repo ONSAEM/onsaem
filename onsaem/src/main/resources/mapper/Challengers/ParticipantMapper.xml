@@ -16,7 +16,7 @@
 		FROM PARTICIPANTS P JOIN CHALLENGES C
 		ON P.CHAL_ID = C.CHAL_ID
 		WHERE PARTICIPANT_ID = #{participantId}
-		AND CLASSES = #{classes};
+		AND CLASSES = #{classes}
 	</select>
 	
 	<!--  참가자가 참가 -->

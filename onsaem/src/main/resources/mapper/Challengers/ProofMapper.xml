@@ -59,10 +59,10 @@
 	<!-- 사진등록 -->
 	<insert id="inputMedia" parameterType="MediaVO">
 		<selectKey keyProperty="mediaId" resultType="string">
-			SELECT 'CMD'||to_char(C_MEDIA_CEQ.NEXTVAL) FROM DUAL	
+			'M'||LPAD(media_seq.nextval,3,0)	
 		</selectKey>
 		INSERT INTO MEDIA
-		VALUES( #{mediaId}, #{groupId}, "챌린저스", #{subGroup}, #{fileName}, #{fileRoute}, #{mediaName})
+		VALUES( #{mediaId}, #{groupId}, '챌린저스', #{subGroup}, #{fileName}, #{fileRoute}, #{mediaName})
 	</insert>
 	
 	<!-- 사진 안보이게 하기 //등등 수정 -->
@@ -82,11 +82,11 @@
 	</select>
 	
 	<!-- 사진 한건 보기 -->
-	<!--<select id="listMedia" parameterType="MediaVO" resultType="MediaVO">
+	<select id="getMedia" parameterType="MediaVO" resultType="MediaVO">
 		SELECT * 
 		FROM MEDIA
 		WHERE MEDIA_ID = #{mediaId}
-	</select>-->
+	</select>
 	
 	
 </mapper>
