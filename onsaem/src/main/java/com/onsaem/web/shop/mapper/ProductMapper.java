@@ -14,4 +14,7 @@ public interface ProductMapper {
 	//카테고리별 상품목록
 	List<ProductVO> proCategory(String data);
 	
+	//검색별 상품목록
+	List<ProductVO> searchProduct(String data);
+	
 }

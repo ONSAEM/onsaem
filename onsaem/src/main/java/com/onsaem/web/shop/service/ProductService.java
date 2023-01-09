@@ -11,4 +11,7 @@ public interface ProductService {
 	
 	//카테고리별상품목록
 	List<ProductVO> proCategory(String data);
+	
+	//검색별상품목록
+	List<ProductVO> searchProduct(String data);
 }

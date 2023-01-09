@@ -55,7 +55,7 @@ public class ProductController {
 	@RequestMapping(value="/searchProduct",method=RequestMethod.POST)	
 	public String searchProduct(Model model, @RequestParam(value="data",required = false) String data ) {
 		System.out.println("===================="+data);		
-		model.addAttribute("productList",proService.popList());
+		model.addAttribute("productList",proService.searchProduct(data));
 		return "content/shop/shopMain";		
 	}	
 	
