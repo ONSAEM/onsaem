@@ -22,8 +22,14 @@ public class ProductVO {
 	Date registerDate;	//등록일자
 	String memberId;	//판매자ID
 	
-	//조인해서 가져올 변수
+	//이미지
 	String fileName;
 	String fileRoute;
 	String mediaName;
+	
+	//찜
+	String groupId;
+	String groups;
+	Date insertDate;
+	String likeId;
 }

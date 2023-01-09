@@ -85,17 +85,15 @@
 									All Categories <span class="arrow_carrot-down"></span>
 								</div>
 								<input type="text" placeholder="What do yo u need?" name="data">
-								<button type="submit" class="site-btn" >SEARCH</button>
+								<button type="submit" class="site-btn">SEARCH</button>
 							</form>
 						</div>
-						<div class="hero__search__phone">
-							<div class="hero__search__phone__icon">
-								<i class="fa fa-phone"></i>
-							</div>
-							<div class="hero__search__phone__text">
-								<h5>+65 11.188.888</h5>
-								<span>support 24/7 time</span>
-							</div>
+						<div class="header__cart">
+							<ul>
+								<li><a href="#"><i class="fa fa-heart" ></i> <span th:text="${#lists.size(likeList)}">1</span></a></li>
+								<li><a href="#"><i class="fa fa-shopping-bag"></i> <span
+										th:text="${#lists.size(cartList)}">3</span></a></li>
+							</ul>
 						</div>
 					</div>
 				</div>
@@ -123,7 +121,7 @@
 							<div class="price-range-wrap">
 								<div
 									class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-									data-min="10" data-max="540">
+									data-min="0" data-max="5000">
 									<div class="ui-slider-range ui-corner-all ui-widget-header"></div>
 									<span tabindex="0"
 										class="ui-slider-handle ui-corner-all ui-state-default"></span>
@@ -134,7 +132,7 @@
 									<div class="price-input">
 										<input type="text" id="minamount"> <input type="text"
 											id="maxamount">
-									</div>
+									</div>									
 								</div>
 							</div>
 						</div>
@@ -278,15 +276,18 @@
 								<div class="filter__sort">
 									<span>Sort By</span> <select id="changeList"
 										th:onchange="changeList(this.value)">
-										<option value="new" th:selected="${#strings.equals(param.data, 'new')}">NEW</option>
-										<option value="popularity" th:selected="${#strings.equals(param.data, 'popularity')}">POPULARITY</option>
+										<option value="new"
+											th:selected="${#strings.equals(param.data, 'new')}">NEW</option>
+										<option value="popularity"
+											th:selected="${#strings.equals(param.data, 'popularity')}">POPULARITY</option>
 									</select>
 								</div>
 							</div>
 							<div class="col-lg-4 col-md-4">
 								<div class="filter__found">
 									<h6>
-										<span th:text="${#lists.size(productList)}"></span> Products found
+										<span th:text="${#lists.size(productList)}"></span> Products
+										found
 									</h6>
 								</div>
 							</div>
@@ -305,9 +306,9 @@
 									th:data-setbg="@{{fileRoute}{mediaName}/
 									(fileRoute=${product.fileRoute},mediaName=${product.mediaName})}">
 									<ul class="product__item__pic__hover">
-										<li><a href="#"><i class="fa fa-heart"></i></a></li>
-										<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-										<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+										<li><a th:href="@{/likeAdd(data=${product.productId})}"><i class="fa fa-heart"></i></a></li>
+										<li><a th:href="@{/cartAdd(data=${product.productId})}"><i
+												class="fa fa-shopping-cart"></i></a></li>
 									</ul>
 								</div>
 								<div class="product__item__text">
@@ -344,12 +345,12 @@
 		<script type="text/javascript">
 			function changeList(data) {
 				console.log(data);
-				if(data=='new'){
+				if (data == 'new') {
 					//신상품순으로 목록표시
-					location.href = "http://localhost/shop?data="+data;
-				}else{
+					location.href = "http://localhost/shop?data=" + data;
+				} else {
 					//별점순으로 목록표시
-					location.href = "http://localhost/shop?data="+data;
+					location.href = "http://localhost/shop?data=" + data;
 				}
 			}
 		</script>
