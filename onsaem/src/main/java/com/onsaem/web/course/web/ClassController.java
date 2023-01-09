@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.onsaem.web.course.service.ClassInfoVO;
 import com.onsaem.web.course.service.ClassService;
 
 @Controller
@@ -19,8 +20,8 @@ public class ClassController {
 	
 	// 강의목록 페이지 이동
 	@RequestMapping(value = "/classList", method = RequestMethod.GET)
-	public String classList(Model model) {
-		model.addAttribute("classList", classService.getClassList(null));
+	public String classList(ClassInfoVO vo, Model model) {
+		model.addAttribute("classList", classService.getClassList(vo));
 		return "content/course/classList";
 	}
 }

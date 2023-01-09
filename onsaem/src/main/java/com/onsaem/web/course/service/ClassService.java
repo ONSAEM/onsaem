@@ -5,14 +5,14 @@ import java.util.List;
 public interface ClassService {
 	
 	// 강의 단건조회
-	public ClassVO getClass(ClassVO classVO);
+	public ClassInfoVO getClass(ClassInfoVO classinfoVO);
 	
 	// 강의 전체조회
-	public List<ClassVO> getClassList(ClassVO classVO);
+	public List<ClassInfoVO> getClassList(ClassInfoVO classinfoVO);
 	
 	// 강의 등록
-	public int classInsert(ClassVO classVO);
+	public int classInsert(ClassInfoVO classinfoVO);
 	
 	//강의 수정
-	public int classUpdate(ClassVO classVO);
+	public int classUpdate(ClassInfoVO classinfoVO);
 }

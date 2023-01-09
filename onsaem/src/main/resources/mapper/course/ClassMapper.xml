@@ -1,31 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onsaem.web.course.mapper.ClassMapper">
-	
-	<select id="getClass" resultType="ClassVO" parameterType="ClassVO">
-		select *
-		from class_info
+
+	<select id="getClass" resultType="ClassVO"
+		parameterType="ClassVO">
+
 	</select>
-	
-	<select id="getClassList" resultType="ClassVO" parameterType="ClassVO">
-		select *
-		from class_info
+
+	<select id="getClassList" resultType="ClassInfoVO"
+		parameterType="ClassInfoVO">
+		SELECT * FROM ( SELECT ROWNUM RN, A.* FROM (
+		SELECT  C.CLASS_ID,  C.NAME,  C.PRICE,  C.CLASS_TIME, C.CLASS_GROUP, TRUNC(AVG(R.REVIEW_STAR),1) AS STAR, MIN(M.FILE_NAME) AS FILE_NAME, MIN(M.FILE_ROUTE) AS FILE_ROUTE, MIN(M.MEDIA_NAME) AS MEDIA_NAME
+		FROM CLASS_INFO C, REVIEWS R, MEDIA M
+        WHERE  C.CLASS_ID = R.GROUP_ID
+        AND C.CLASS_ID = M.GROUP_ID
+			<if test="name">
+				AND C.NAME LIKE '%' || #{name} || '%'
+			</if>
+			<if test="minPrice">
+				<![CDATA[
+					AND C.PRICE >= #{minPrice}
+				]]>
+			</if>
+			<if test="maxPrice">
+				<![CDATA[
+					AND C.PRICE <= #{maxPrice}
+				]]>
+			</if>
+		GROUP BY C.CLASS_ID,  C.NAME,  C.PRICE,  C.CLASS_TIME, C.CLASS_GROUP
+		ORDER BY C.CLASS_ID
+			<![CDATA[
+				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
+			]]>
 	</select>
-	
+
 	<insert id="classInfoInsert">
-	
+
 	</insert>
-	
+
 	<update id="classInfoUpdate">
-	
+
 	</update>
-	
+
 	<insert id="classInsert">
-	
+
 	</insert>
-	
+
 	<update id="classUpdate">
-	
+
 	</update>
-	
+
 </mapper>

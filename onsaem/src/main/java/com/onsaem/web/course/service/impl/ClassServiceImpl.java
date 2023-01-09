@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.onsaem.web.course.mapper.ClassMapper;
 import com.onsaem.web.course.service.ClassService;
-import com.onsaem.web.course.service.ClassVO;
+import com.onsaem.web.course.service.ClassInfoVO;
 
 @Service
 public class ClassServiceImpl implements ClassService{
@@ -16,27 +16,27 @@ public class ClassServiceImpl implements ClassService{
 	ClassMapper classMapper;
 
 	@Override
-	public ClassVO getClass(ClassVO classVO) {
+	public ClassInfoVO getClass(ClassInfoVO classinfoVO) {
 
-		return classMapper.getClass(classVO);
+		return classMapper.getClass(classinfoVO);
 	}
 
 	@Override
-	public List<ClassVO> getClassList(ClassVO classVO) {
+	public List<ClassInfoVO> getClassList(ClassInfoVO classinfoVO) {
 
-		return classMapper.getClassList(classVO);
+		return classMapper.getClassList(classinfoVO);
 	}
 
 	@Override
-	public int classInsert(ClassVO classVO) {
+	public int classInsert(ClassInfoVO classinfoVO) {
 
-		return classMapper.classInsert(classVO);
+		return classMapper.classInsert(classinfoVO);
 	}
 
 	@Override
-	public int classUpdate(ClassVO classVO) {
+	public int classUpdate(ClassInfoVO classinfoVO) {
 
-		return classMapper.classUpdate(classVO);
+		return classMapper.classUpdate(classinfoVO);
 	}
 	
 	
