@@ -21,15 +21,14 @@
 		type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
 		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}"
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/jquery-ui.min.css}"
 		type="text/css">
 	<link rel="stylesheet"
 		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
 		type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
-		type="text/css">
+		type="text/css">		
 </th:block>
 
 
@@ -90,7 +89,8 @@
 						</div>
 						<div class="header__cart">
 							<ul>
-								<li><a href="#"><i class="fa fa-heart" ></i> <span th:text="${#lists.size(likeList)}">1</span></a></li>
+								<li><a href="#"><i class="fa fa-heart"></i> <span
+										th:text="${#lists.size(likeList)}">1</span></a></li>
 								<li><a href="#"><i class="fa fa-shopping-bag"></i> <span
 										th:text="${#lists.size(cartList)}">3</span></a></li>
 							</ul>
@@ -117,11 +117,11 @@
 							</ul>
 						</div>
 						<div class="sidebar__item">
-							<h4>Price</h4>
-							<div class="price-range-wrap">
+							<h4>가격</h4>
+							<div class="price-range-wrap" style="text-align: center">
 								<div
 									class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-									data-min="0" data-max="5000">
+									data-min="10" data-max="540">
 									<div class="ui-slider-range ui-corner-all ui-widget-header"></div>
 									<span tabindex="0"
 										class="ui-slider-handle ui-corner-all ui-state-default"></span>
@@ -130,9 +130,11 @@
 								</div>
 								<div class="range-slider">
 									<div class="price-input">
-										<input type="text" id="minamount"> <input type="text"
-											id="maxamount">
-									</div>									
+										<input type="text" id="minamount" style="text-align: right"><i
+											class="fa-solid fa-minus"
+											style="color: #63bf63; margin: 0px 10px"></i><input
+											type="text" id="maxamount" style="text-align: left">
+									</div>
 								</div>
 							</div>
 						</div>
@@ -306,15 +308,16 @@
 									th:data-setbg="@{{fileRoute}{mediaName}/
 									(fileRoute=${product.fileRoute},mediaName=${product.mediaName})}">
 									<ul class="product__item__pic__hover">
-										<li><a th:href="@{/likeAdd(data=${product.productId})}"><i class="fa fa-heart"></i></a></li>
-										<li><a th:href="@{/cartAdd(data=${product.productId})}"><i
-												class="fa fa-shopping-cart"></i></a></li>
+										<li><a th:href="@{/likeAdd(data=${product.productId})}"
+											th:onclick="likeEvent()"><i class="fa fa-heart"></i></a></li>
+										<li><a th:href="@{/cartAdd(data=${product.productId})}"
+											th:onclick="cartEvent()"><i class="fa fa-shopping-cart"></i></a></li>
 									</ul>
 								</div>
 								<div class="product__item__text">
 									<h6>
-										<a href="#" th:text=${product.productName}>Crab Pool
-											Security</a>
+										<a th:href="@{/shopDetail(data=${product.productId})}"
+											th:text=${product.productName}>Crab Pool Security</a>
 									</h6>
 									<h5 th:text=${product.price}>$30.00</h5>
 								</div>
@@ -341,7 +344,7 @@
 		<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
 		<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
 		<script th:src="@{/shoptemplate/js/main.js}"></script>
-
+		
 		<script type="text/javascript">
 			function changeList(data) {
 				console.log(data);
@@ -352,6 +355,14 @@
 					//별점순으로 목록표시
 					location.href = "http://localhost/shop?data=" + data;
 				}
+			}
+
+			function likeEvent() {
+				alert("찜목록에 추가되었습니다.")
+			}
+
+			function cartEvent() {
+				alert("장바구니에 담겼습니다.")
 			}
 		</script>
 	</th:block>

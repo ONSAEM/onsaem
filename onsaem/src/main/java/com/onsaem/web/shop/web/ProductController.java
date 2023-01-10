@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.onsaem.web.shop.service.CartService;
 import com.onsaem.web.shop.service.ProductService;
+import com.onsaem.web.shop.service.ProductVO;
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -18,6 +19,7 @@ public class ProductController {
 	ProductService proService;
 	@Autowired
 	CartService cartService;
+	ProductVO vo;
 
 	// 쇼핑몰페이지이동,최신순,인기순 목록나열
 	@RequestMapping(value = "/shop", method = RequestMethod.GET)
@@ -25,6 +27,8 @@ public class ProductController {
 		System.out.println("====================" + data);
 		if (data != null && data.equals("popularity")) {
 			System.out.println("===========" + proService.popList());
+			model.addAttribute("cartList", cartService.cartList()); // 장바구니 수량가져오기 위한 리스트
+			model.addAttribute("likeList", proService.likeList()); // 찜 수량가져오기 위한 리스트
 			model.addAttribute("productList", proService.popList());
 			return "content/shop/shopMain";
 		} else {
@@ -38,7 +42,10 @@ public class ProductController {
 
 	// 상세설명페이지이동
 	@RequestMapping(value = "/shopDetail", method = RequestMethod.GET)
-	public String shopSelect(Model model) {
+	public String shopSelect(Model model,@RequestParam(value = "data", required = false) String data) {		
+		model.addAttribute("productList", proService.selectPro(data));//상품데이터가져오기
+		System.out.println("*****************"+proService.addImg(data));
+		model.addAttribute("imgList",proService.addImg(data)); 
 		return "content/shop/shopDetail";
 	}
 
@@ -59,6 +66,8 @@ public class ProductController {
 	public String shopCategory(Model model, @RequestParam(value = "data", required = false) String data) {
 		System.out.println(data);
 		model.addAttribute("productList", proService.proCategory(data));
+		model.addAttribute("cartList", cartService.cartList()); // 장바구니 수량가져오기 위한 리스트
+		model.addAttribute("likeList", proService.likeList()); // 찜 수량가져오기 위한 리스트
 		return "content/shop/shopMain";
 	}
 
@@ -66,7 +75,9 @@ public class ProductController {
 	@RequestMapping(value = "/searchProduct", method = RequestMethod.POST)
 	public String searchProduct(Model model, @RequestParam(value = "data", required = false) String data) {
 		System.out.println("====================" + data);
-		model.addAttribute("productList", proService.popList());
+		model.addAttribute("productList", proService.searchProduct(data));
+		model.addAttribute("cartList", cartService.cartList()); // 장바구니 수량가져오기 위한 리스트
+		model.addAttribute("likeList", proService.likeList()); // 찜 수량가져오기 위한 리스트
 		return "content/shop/shopMain";
 	}
 
@@ -77,5 +88,13 @@ public class ProductController {
 		proService.likeAdd(data);
 		return "redirect:/shop";
 	}
+	
+	// 찜클릭 삭제
+		@RequestMapping(value = "/likeDel", method = RequestMethod.GET)
+		public String cartDel(Model model, @RequestParam(value = "data", required = false) String data ) {
+			System.out.println("====================" + data);
+			proService.likeDel(data);
+			return "redirect:/shop";
+		}
 
 }
