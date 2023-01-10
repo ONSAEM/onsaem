@@ -37,11 +37,37 @@ public class ProductServiceImpl implements ProductService{
 		// 찜담기
 		return proMapper.likeAdd(data);
 	}
+	
+	@Override
+	public int likeDel(String data) {
+		// 찜 삭제
+		return proMapper.likeDel(data);
+	}
 
 	@Override
 	public List<ProductVO> likeList() {
 		// 찜정보가져오기
 		return proMapper.likeList();
 	}
+
+	@Override
+	public List<ProductVO> selectPro(String data) {
+		// 상품 상세보기
+		return proMapper.selectPro(data);
+	}
+
+	@Override
+	public List<ProductVO> addImg(String data) {
+		// 추가이미지
+		return proMapper.addImg(data);
+	}
+
+	@Override
+	public List<ProductVO> searchProduct(String data) {
+		// 검색목록
+		return proMapper.searchProduct(data);
+	}
+
+	
 	
 }
