@@ -7,7 +7,7 @@
 		INSERT INTO CARTS
 			(CART_ID,PRODUCT_ID,CART_AMOUNT,CART_OPTION,CART_PRICE,MEMBER_ID)
 		VALUES
-			('CT'||TO_CHAR(CT_SEQ.NEXTVAL),#{data},1,NULL,(SELECT PRICE FROM PRODUCTS WHERE PRODUCT_ID=#{data}) ,'ljwon')
+			('CT'||TO_CHAR(CT_SEQ.NEXTVAL),#{data},#{cartAmount},NULL,(SELECT PRICE FROM PRODUCTS WHERE PRODUCT_ID=#{data}) ,'ljwon')
 	</insert>
 	<!-- 장바구니 리스트 -->
 	<select id="cartList" resultType="CartVO">

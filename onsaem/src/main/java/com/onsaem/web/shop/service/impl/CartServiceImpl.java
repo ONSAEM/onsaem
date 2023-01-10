@@ -15,9 +15,9 @@ public class CartServiceImpl implements CartService{
 	@Autowired CartMapper cartMapper;
 	
 	@Override
-	public int cartAdd(String data) {
+	public int cartAdd(CartVO vo) {
 		// 장바구니 답기
-		return cartMapper.cartAdd(data);
+		return cartMapper.cartAdd(vo);
 	}
 
 	@Override

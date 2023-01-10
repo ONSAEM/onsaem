@@ -44,7 +44,6 @@ public class ProductController {
 	@RequestMapping(value = "/shopDetail", method = RequestMethod.GET)
 	public String shopSelect(Model model,@RequestParam(value = "data", required = false) String data) {		
 		model.addAttribute("productList", proService.selectPro(data));//상품데이터가져오기
-		System.out.println("*****************"+proService.addImg(data));
 		model.addAttribute("imgList",proService.addImg(data)); 
 		return "content/shop/shopDetail";
 	}
