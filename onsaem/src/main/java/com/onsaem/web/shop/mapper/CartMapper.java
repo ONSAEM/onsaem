@@ -1,5 +1,13 @@
 package com.onsaem.web.shop.mapper;
 
-public interface CartMapper {
+import java.util.List;
 
+import com.onsaem.web.shop.service.CartVO;
+
+public interface CartMapper {
+	// 장바구니 담기
+	int cartAdd(String data);
+
+	// 장바구니 리스트
+	List<CartVO> cartList();
 }

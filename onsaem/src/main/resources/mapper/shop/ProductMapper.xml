@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onsaem.web.shop.mapper.ProductMapper">
+
 	<!-- 상품전체조회 -->
 	<select id="proList"
 		resultType="com.onsaem.web.shop.service.ProductVO">
 		SELECT
 		P.PRODUCT_ID AS PRODUCT_ID,
-		P.PRODUCT_NAME AS PRODUCT_NAME,
+		P.PRODUCT_NAME AS
+		PRODUCT_NAME,
 		P.PRODUCT_DETAIL AS PRODUCT_DETAIL,
 		P.PRICE AS PRICE,
 		P.STAR AS STAR,
@@ -19,19 +21,23 @@
 		P.REGISTER_DATE AS REGISTER_DATE,
 		P.MEMBER_ID AS MEMBER_ID,
 		M.FILE_NAME AS FILE_NAME,
-		M.FILE_ROUTE AS FILE_ROUTE,
+		M.FILE_ROUTE AS
+		FILE_ROUTE,
 		M.MEDIA_NAME AS MEDIA_NAME
 		FROM PRODUCTS P
 		JOIN MEDIA M
-		ON P.PRODUCT_ID=M.GROUP_ID
+		ON
+		P.PRODUCT_ID=M.GROUP_ID
 		ORDER BY P.REGISTER_DATE DESC
 	</select>
+
 	<!-- 상품전체조회(인기순) -->
 	<select id="popList"
 		resultType="com.onsaem.web.shop.service.ProductVO">
 		SELECT
 		P.PRODUCT_ID AS PRODUCT_ID,
-		P.PRODUCT_NAME AS PRODUCT_NAME,
+		P.PRODUCT_NAME AS
+		PRODUCT_NAME,
 		P.PRODUCT_DETAIL AS PRODUCT_DETAIL,
 		P.PRICE AS PRICE,
 		P.STAR AS STAR,
@@ -44,19 +50,23 @@
 		P.REGISTER_DATE AS REGISTER_DATE,
 		P.MEMBER_ID AS MEMBER_ID,
 		M.FILE_NAME AS FILE_NAME,
-		M.FILE_ROUTE AS FILE_ROUTE,
+		M.FILE_ROUTE AS
+		FILE_ROUTE,
 		M.MEDIA_NAME AS MEDIA_NAME
 		FROM PRODUCTS P
 		JOIN MEDIA M
-		ON P.PRODUCT_ID=M.GROUP_ID
+		ON
+		P.PRODUCT_ID=M.GROUP_ID
 		ORDER BY P.STAR DESC
 	</select>
+
 	<!-- 카테고리별 상품목록 -->
 	<select id="proCategory"
 		resultType="com.onsaem.web.shop.service.ProductVO">
 		SELECT
 		P.PRODUCT_ID AS PRODUCT_ID,
-		P.PRODUCT_NAME AS PRODUCT_NAME,
+		P.PRODUCT_NAME AS
+		PRODUCT_NAME,
 		P.PRODUCT_DETAIL AS PRODUCT_DETAIL,
 		P.PRICE AS PRICE,
 		P.STAR AS STAR,
@@ -69,12 +79,34 @@
 		P.REGISTER_DATE AS REGISTER_DATE,
 		P.MEMBER_ID AS MEMBER_ID,
 		M.FILE_NAME AS FILE_NAME,
-		M.FILE_ROUTE AS FILE_ROUTE,
+		M.FILE_ROUTE AS
+		FILE_ROUTE,
 		M.MEDIA_NAME AS MEDIA_NAME
 		FROM PRODUCTS P
 		JOIN MEDIA M
-		ON P.PRODUCT_ID=M.GROUP_ID
+		ON
+		P.PRODUCT_ID=M.GROUP_ID
 		WHERE CATEGORY=#{data}
 		ORDER BY P.STAR DESC
+	</select>
+
+	<!-- 찜담기 -->
+	<insert id="likeAdd" parameterType="String">
+		insert into likes(MEMBER_ID,
+		GROUP_ID,
+		GROUPS,
+		INSERT_DATE,
+		LIKE_ID)
+		values
+		('LK'||lpad(LK_seq.nextval,3,0),#{data},'쇼핑몰',current_date ,'ljwon')
+	</insert>
+
+	<!-- 찜리스트 -->
+	<select id="likeList" resultType="ProductVO">
+		SELECT GROUP_ID,
+		GROUPS,
+		INSERT_DATE,
+		LIKE_ID
+		FROM LIKES
 	</select>
 </mapper>

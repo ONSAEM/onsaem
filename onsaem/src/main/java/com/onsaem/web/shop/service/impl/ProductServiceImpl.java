@@ -31,5 +31,17 @@ public class ProductServiceImpl implements ProductService{
 		// 카테고리별상품조회		
 		return proMapper.proCategory(data);
 	}
+
+	@Override
+	public int likeAdd(String data) {
+		// 찜담기
+		return proMapper.likeAdd(data);
+	}
+
+	@Override
+	public List<ProductVO> likeList() {
+		// 찜정보가져오기
+		return proMapper.likeList();
+	}
 	
 }

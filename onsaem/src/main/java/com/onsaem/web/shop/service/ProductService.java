@@ -11,4 +11,11 @@ public interface ProductService {
 	
 	//카테고리별상품목록
 	List<ProductVO> proCategory(String data);
+	
+	//찜 담기
+	int likeAdd(String data);
+	
+	//찜 리스트
+	List<ProductVO> likeList();
+		
 }
