@@ -38,7 +38,7 @@
 
 <!-- Content -->
 
-<div layout:fragment="content">
+<div layout:fragment="content" th:each="blog : ${blogWrite}">
 
 <!-- Blog Details Hero Begin -->
     <section class="blog-details-hero set-bg" th:data-setbg="@{/shoptemplate/img/blog/details/details-hero.jpg}">
@@ -46,7 +46,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="blog__details__hero__text">
-                        <h2>The Moment You Need To Remove Garlic From The Menu</h2>
+                        <h2>[[${blog.writeTitle}]]</h2>
                         <ul>
                             <li>By Michael Scofield</li>
                             <li>January 14, 2019</li>
