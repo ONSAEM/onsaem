@@ -24,4 +24,10 @@ public class ClassController {
 		model.addAttribute("classList", classService.getClassList(vo));
 		return "content/course/classList";
 	}
+	
+	@RequestMapping(value = "/classDetail", method = RequestMethod.GET)
+	public String classDetail(ClassInfoVO vo, Model model) {
+		model.addAttribute("classInfo", classService.getClassList(vo));
+		return "content/course/classDetail";
+	}
 }
