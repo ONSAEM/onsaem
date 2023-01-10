@@ -6,87 +6,111 @@
 	<!-- 미디어도 등록해줘야됨 진짜 개극혐임 -->
 	<insert id="inputProof" parameterType="ProofVO">
 		<selectKey keyProperty="proofId" resultType="string">
-			SELECT 'PF'||to_char(proof_seq.NEXTVAL) FROM DUAL	
-		</selectKey> 
+			SELECT
+			'PF'||to_char(proof_seq.NEXTVAL) FROM DUAL
+		</selectKey>
 		INSERT INTO PROOFS
-		VALUES(#{proofId}, #{chalId}, #{proofWriter}, #{content}, CURRENT_DATE, #{condition})
+		VALUES(#{proofId}, #{chalId}, #{proofWriter},
+		#{content}, CURRENT_DATE, #{condition})
 	</insert>
-	
-	<!--인증샷 안보이게 하는거-->
+
+	<!--인증샷 안보이게 하는거 -->
 	<update id="hideProof" parameterType="ProofVO">
 		UPDATE PROOF
-		SET CONDITION = #{CONDITION}
+		SET CONDITION =
+		#{CONDITION}
 		WHERE PROOF_ID = #{proofId}
 	</update>
-	
+
 	<!-- 댓글 달기 ! -->
-	<insert id = "inputReply" parameterType = "RepliesVO">
+	<insert id="inputReply" parameterType="RepliesVO">
 		<selectKey keyProperty="replyId" resultType="string">
-			SELECT 'CRP'||to_char(c_reply_seq.NEXTVAL) FROM DUAL	
+			SELECT
+			'CRP'||to_char(c_reply_seq.NEXTVAL) FROM DUAL
 		</selectKey>
-		INSERT INTO REPLIES(REPLY_ID,CONTENT,GROUP_ID,GROUPS,WRITER_ID,REPLY_DATE)
-		VALUES(#{replyId}, #{content}, #{groupId}, #{groups}, #{writerId}, CURRENT_DATE);
+		INSERT INTO
+		REPLIES(REPLY_ID,CONTENT,GROUP_ID,GROUPS,WRITER_ID,REPLY_DATE)
+		VALUES(#{replyId}, #{content}, #{groupId}, #{groups}, #{writerId},
+		CURRENT_DATE);
 	</insert>
-	
+
 	<!-- 댓삭 -->
 	<delete id="delReply" parameterType="string">
-		DELETE REPLIES 
+		DELETE REPLIES
 		WHERE REPLY_ID = #{replyId}
 	</delete>
-	
-	<!--좋아요-->
+
+	<!--좋아요 -->
 	<insert id="inputLike" parameterType="LikeVO">
 		<selectKey keyProperty="likeId" resultType="string">
-			SELECT 'CLIKE'||to_char(c_like_seq.NEXTVAL) FROM DUAL	
+			SELECT
+			'CLIKE'||to_char(c_like_seq.NEXTVAL) FROM DUAL
 		</selectKey>
-		Insert into likes(like_id,member_id,GROUP_ID,GROUPS,WRITER_ID,REPLY_DATE)
-		values(#{replyId}, #{content}, #{groupId}, #{groups}, #{writerId}, CURRENT_DATE);
+		Insert into
+		likes(like_id,member_id,GROUP_ID,GROUPS,WRITER_ID,REPLY_DATE)
+		values(#{replyId}, #{content}, #{groupId}, #{groups}, #{writerId},
+		CURRENT_DATE);
 	</insert>
-	
-	<!--좋아요 취소-->
+
+	<!--좋아요 취소 -->
 	<delete id="delLike" parameterType="string">
 		DELETE FROM LIKES
-		WHERE LIKE_ID = #{likeId}
+		WHERE
+		LIKE_ID = #{likeId}
 	</delete>
-	
+
 	<!-- 좋아요 리스트 뽑기 -->
-	<select  id="listLike" parameterType="LikeVO" resultType="LikeVO">
-		SELECT FROM LIKES
+	<select id="listLike" parameterType="LikeVO" resultType="LikeVO">
+		SELECT
+		FROM LIKES
 		WHERE GROUPS = #{groups}
-		AND GROUP_ID = #{groupId} 
+		AND GROUP_ID = #{groupId}
 	</select>
-	
+
 	<!-- 사진등록 -->
 	<insert id="inputMedia" parameterType="MediaVO">
 		<selectKey keyProperty="mediaId" resultType="string">
-			'M'||LPAD(media_seq.nextval,3,0)	
+			'M'||LPAD(media_seq.nextval,3,0)
 		</selectKey>
 		INSERT INTO MEDIA
-		VALUES( #{mediaId}, #{groupId}, '챌린저스', #{subGroup}, #{fileName}, #{fileRoute}, #{mediaId})
+		VALUES( #{mediaId}, #{groupId}, '챌린저스', #{subGroup},
+		#{fileName}, #{fileRoute}, #{mediaId})
 	</insert>
-	
+
 	<!-- 사진 안보이게 하기 //등등 수정 -->
 	<update id="updateMedia" parameterType="MediaVO">
 		UPDATE MEDIA
-		SET SUB_GROUP = #{subGroup}
+		SET SUB_GROUP
+		= #{subGroup}
 		WHERE MEDIA_ID = #{mediaId}
 	</update>
-	
+
 	<!-- 사진 리스트 뽑기 -->
-	<select id="listMedia" parameterType="MediaVO" resultType="MediaVO">
-		SELECT * 
+	<select id="listMedia" parameterType="MediaVO"
+		resultType="MediaVO">
+		SELECT *
 		FROM MEDIA
 		WHERE GROUP_ID = #{groupId}
 		AND GROUPS = #{groups}
-		AND SUB_GROUP = #{subGroup}
+		AND SUB_GROUP =
+		#{subGroup}
 	</select>
-	
+
 	<!-- 사진 한건 보기 -->
-	<select id="getMedia" parameterType="MediaVO" resultType="MediaVO">
-		SELECT * 
+	<select id="getMedia" parameterType="MediaVO"
+		resultType="MediaVO">
+		SELECT *
 		FROM MEDIA
 		WHERE MEDIA_ID = #{mediaId}
 	</select>
-	
-	
+
+	<!-- 사진 한건 보기 -->
+	<select id="getMediaOption" parameterType="MediaVO"
+		resultType="MediaVO">
+		SELECT M.FILE_ROUTE AS FILEROUTE, M.MEDIA_NAME AS MEDIANAME
+		FROM MEDIA M JOIN CHALLENGES C
+		ON M.GROUP_ID = C.CHAL_ID
+		WHERE M.SUB_GROUP = #{subGroup}';
+	</select>
+
 </mapper>

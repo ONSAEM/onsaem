@@ -41,7 +41,7 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>Vegetable’s Package</h2>
+                        <h2>Challengers</h2>
                         <div class="breadcrumb__option">
                             <a href="./index.html">Home</a>
                             <a href="./index.html">Vegetables</a>
@@ -98,7 +98,7 @@
                             </div>
                         </div>
                         <th:block th:if="${chal.subClass == '개인'}">
-							 <a th:href="@{/applyChalFrm(chalId = ${chal.chalId})}" class="primary-btn">11참가하기</a>                      
+							 <a th:href="@{/applyChalFrm(chalId = ${chal.chalId})}" class="primary-btn">참가하기</a>                      
                         </th:block>
 						<th:block th:if="${chal.subClass == '팀'}">
 							 <a th:href="@{/applyChalTeamFrm(chalId = ${chal.chalId})}" class="primary-btn">참가하기</a>                      
@@ -292,3 +292,4 @@
     </section>
     <!-- Related Product Section End -->
 </div>
+</html>

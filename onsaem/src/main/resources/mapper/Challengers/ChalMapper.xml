@@ -45,7 +45,7 @@
 
 	<!-- 챌리저스 팀전 별전체조회 수정 필요 필요 필요 필요 필요 필ㄷ요 -->
 	<insert id="inputChal" parameterType="ChalVO">
-		<selectKey keyProperty="chalId" resultType="string">
+		<selectKey keyProperty="chalId" resultType="string" order="BEFORE">
 			SELECT
 			'CH'||LPAD(CHAL_SEQ.NEXTVAL,3,0) FROM DUAL
 		</selectKey>

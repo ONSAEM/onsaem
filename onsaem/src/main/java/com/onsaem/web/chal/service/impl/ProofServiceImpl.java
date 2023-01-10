@@ -94,13 +94,19 @@ public class ProofServiceImpl implements ProofService {
 	@Override
 	public List<MediaVO> listMedia(MediaVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		return proofMapper.listMedia(vo);
 	}
 
 	@Override
 	public MediaVO getMedia(String mediaId) {
 		// TODO Auto-generated method stub
-		return null;
+		return proofMapper.getMedia(mediaId);
+	}
+
+	@Override
+	public MediaVO getMediaOption(MediaVO vo) {
+		// TODO Auto-generated method stub
+		return proofMapper.getMediaOption(vo);
 	}
 
 

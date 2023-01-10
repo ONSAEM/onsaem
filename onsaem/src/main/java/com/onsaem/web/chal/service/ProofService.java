@@ -45,5 +45,8 @@ public interface ProofService {
 		
 		//사진 한개 보기
 		MediaVO getMedia(String mediaId);
+		
+		//사진 한개보기 조건
+		MediaVO getMediaOption(MediaVO vo);
 
 }
