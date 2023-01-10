@@ -53,9 +53,9 @@
 			</li>
 			
 			<li>공개범위<select name="publicScope"> <!-- 공개범위 부분 나중에 value 수정 필요 -->
-			    <option value="private">전체공개</option>
-			    <option value="public" selected>일부공개</option>
-			    <option value="partial">비공개</option>
+			    <option value="public">전체공개</option>
+			    <option value="partial" selected>일부공개</option>
+			    <option value="private">비공개</option>
 				</select>
 			</li>	
 		
@@ -92,7 +92,7 @@
 			      success: function (result) {
 			         console.log(result);
 			         alert('등록 완료');
-			         location.href='/blog/myblog/{userId}';
+			         location.href='/blog/myblog/{userId}'; // 수정필요
 			      },
 			      error: function (error) {
 			         console.log(error);

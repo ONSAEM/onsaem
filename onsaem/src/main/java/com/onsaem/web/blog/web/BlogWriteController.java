@@ -52,7 +52,7 @@ public class BlogWriteController {
 	@RequestMapping(value = "/myblog/blogWrite/blogInsert", method = RequestMethod.POST)
 	@ResponseBody  //ajax 응답은 responseBody
 	public BlogWriteVO blogInsert(Model model, BlogWriteVO vo) {
-		vo.setBlogId("test01");
+		vo.setBlogId("[[${session.member.memberId}]]");
 		model.addAttribute("blogInsert", blogWriteService.blogInsert(vo));
 		return vo;
 	}
