@@ -16,7 +16,7 @@ public interface ChalService {
 	ChalVO getChal(String chalId);
 	
 	//챌린저스 등록- 팀전/개인전 차이 두어야 한다 : 뷰페이지 2개 만들어야댐 
-	Integer inputChal(ChalVO vo, ParticipantVO pvo);
+	Integer inputChal(ChalVO vo);
 	
 	//챌린저스 수정-개최자?
 	Integer modifyChal(ChalVO vo);

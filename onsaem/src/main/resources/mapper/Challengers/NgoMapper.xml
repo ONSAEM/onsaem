@@ -9,7 +9,7 @@
 			SELECT 'NGO'||LPAD(NGO_SEQ.NEXTVAL,3,0) FROM DUAL	
 		</selectKey>
 		INSERT into NGOES 
-		VALUES(#{ngoId}, #{writerId}, #{ngoNO}, #{postalCode}, #{addr}, #{detailAddr}, #{email}, 
+		VALUES(#{ngoId}, #{writerId}, #{ngoNo}, #{postalCode}, #{addr}, #{detailAddr}, #{email}, 
 				#{phone}, #{bank}, #{bankAccount}, #{condition}, #{ngoName}, #{classes})		
 	</insert>
 	
