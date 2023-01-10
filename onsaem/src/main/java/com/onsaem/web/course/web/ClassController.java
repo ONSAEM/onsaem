@@ -25,9 +25,12 @@ public class ClassController {
 		return "content/course/classList";
 	}
 	
+	// 강의상세 페이지 이동
 	@RequestMapping(value = "/classDetail", method = RequestMethod.GET)
 	public String classDetail(ClassInfoVO vo, Model model) {
-		model.addAttribute("classInfo", classService.getClassList(vo));
+		model.addAttribute("class", classService.getClass(vo));
+//		model.addAttribute("mediaList");
+//		model.addAttribute("reviewList");
 		return "content/course/classDetail";
 	}
 }

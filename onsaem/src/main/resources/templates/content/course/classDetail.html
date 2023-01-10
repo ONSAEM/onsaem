@@ -79,16 +79,12 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="product__details__text">
-                        <h3>Vetgetable’s Package</h3>
+                        <h3 th:text="${class.className}"></h3>
                         <div class="product__details__rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-half-o"></i>
-                            <span>(18 reviews)</span>
+                            <i class="fa-solid fa-star" th:if="${class.star} != 0" th:each="num:${#numbers.sequence(1,class.star)}" style="color: #ffe949"></i><i class="fa-solid fa-star-half"th:if="${class.star%1 >= 0.5}" style="color: #ffe949"></i>
+                            <span>([[${class.reviewCount}]] reviews)</span>
                         </div>
-                        <div class="product__details__price">$50.00</div>
+                        <div class="product__details__price">[[${class.price}]]원</div>
                         <p>Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet quam
                             vehicula elementum sed sit amet dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet
                             quam vehicula elementum sed sit amet dui. Proin eget tortor risus.</p>

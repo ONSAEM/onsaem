@@ -2,6 +2,8 @@ package com.onsaem.web.chal.service;
 
 import java.util.List;
 
+import com.onsaem.web.common.service.ReportVO;
+
 public interface ReportService {
 
 	//신고등록

@@ -280,7 +280,7 @@
 									</div>
 									<div class="product__item__text">
 										<h6>
-											<a th:href="@{/class/classDetail(classId=${class.classId})}" th:text="${class.name}"></a>
+											<a th:href="@{/class/classDetail(classId=${class.classId})}" th:text="${class.className}"></a>
 										</h6>
 										<h5 th:text="${class.price}+'원'"></h5>
 										<i class="fa-solid fa-star" th:if="${class.star} != 0" th:each="num:${#numbers.sequence(1,class.star)}" style="color: #ffe949"></i><i class="fa-solid fa-star-half"th:if="${class.star%1 >= 0.5}" style="color: #ffe949"></i>

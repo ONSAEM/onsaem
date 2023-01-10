@@ -11,7 +11,7 @@ public class ClassInfoVO {
 	
 	// 강의 정보
 	String classId;
-	String name;
+	String className;
 	int price;
 	int classTime;
 	String explanation;
@@ -21,6 +21,7 @@ public class ClassInfoVO {
 	Date classDate;
 	String returnReason;
 	double star;
+	int  reviewCount;
 	
 	// 강의 이미지
 	String fileName;

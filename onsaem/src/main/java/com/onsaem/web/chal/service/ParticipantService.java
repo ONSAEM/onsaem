@@ -2,6 +2,8 @@ package com.onsaem.web.chal.service;
 
 import java.util.List;
 
+import com.onsaem.web.common.service.PaymentVO;
+
 public interface ParticipantService {
 	//참가자 조회 - 챌린저스 한개에 대한 
 		List<ParticipantVO> listParticipantAll(String chalId);

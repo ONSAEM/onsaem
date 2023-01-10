@@ -2,6 +2,10 @@ package com.onsaem.web.chal.service;
 
 import java.util.List;
 
+import com.onsaem.web.common.service.LikeVO;
+import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.RepliesVO;
+
 public interface ProofService {
 		//인증샷 등록
 		Integer inputProof(ProofVO vo);

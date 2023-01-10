@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.onsaem.web.chal.mapper.ParticipantMapper;
 import com.onsaem.web.chal.service.ParticipantService;
 import com.onsaem.web.chal.service.ParticipantVO;
-import com.onsaem.web.chal.service.PaymentVO;
+import com.onsaem.web.common.service.PaymentVO;
 
 @Component
 public class ParticipantServiceImpl implements ParticipantService {
