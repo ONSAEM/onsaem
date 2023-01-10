@@ -90,6 +90,7 @@
 		ON
 		P.PRODUCT_ID=M.GROUP_ID
 		WHERE CATEGORY=#{data}
+		AND M.SUB_GROUP = '대표이미지'
 		ORDER BY P.STAR DESC
 	</select>
 

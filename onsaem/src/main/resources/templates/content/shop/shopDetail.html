@@ -331,8 +331,7 @@
 					let urlParams = new URL(location.href).searchParams;
 					let name = urlParams.get('data');
 					fetch('http://localhost/cartAdd?data='+name+'&amount='+amount)
-					  .then((response) => console.log('success'))
-					  .then((data) => console.log(data));				
+					  .then((response) => alert('장바구니에 담겼습니다.'))			
 				}
 			</script>
 		</th:block>

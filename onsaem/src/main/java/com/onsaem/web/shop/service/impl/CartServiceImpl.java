@@ -21,9 +21,9 @@ public class CartServiceImpl implements CartService{
 	}
 
 	@Override
-	public List<CartVO> cartList() {
+	public List<CartVO> cartList(CartVO vo) {
 		// 장바구니 리스트
-		return cartMapper.cartList();
+		return cartMapper.cartList(vo);
 	}
 
 }
