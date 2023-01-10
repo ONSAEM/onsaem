@@ -5,12 +5,12 @@
 	
 	<!-- ngo 등록신청 -->
 	<insert id="inputNgo" parameterType="NgoVO">
-		<selectKey keyProperty="ngoId" resultType="string">
+		<selectKey keyProperty="ngoId" resultType="string" order="BEFORE">
 			SELECT 'NGO'||LPAD(NGO_SEQ.NEXTVAL,3,0) FROM DUAL	
 		</selectKey>
 		INSERT into NGOES 
-		VALUES(#{ngoId}, #{writerId}, #{ngoNo}, #{postalCode}, #{addr}, #{detailAddr}, #{email}, 
-				#{phone}, #{bank}, #{bankAccount}, #{condition}, #{ngoName}, #{classes})		
+		VALUES(#{ngoId}, #{writerId},#{ngoNo}, #{postalCode}, #{addr}, #{detailAddr}, #{email}, 
+				#{phone}, #{bank}, #{bankAccount}, #{condition},#{ngoName}, #{classes})		
 	</insert>
 	
 	<!-- ngo수정,  - 반려, 승인, 반려후 재신청 등등 -->

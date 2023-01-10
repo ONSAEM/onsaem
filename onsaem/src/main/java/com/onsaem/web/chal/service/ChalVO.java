@@ -2,6 +2,8 @@ package com.onsaem.web.chal.service;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +16,9 @@ public class ChalVO {
 	String frequency; //인증 빈도
 	String chalName;
 	String ngoName; //기부처 코드?이름?
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date startDate; //시작일
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date endDate; //종료일
 	String contents; //상세설명
 	String proofContent; //유의사항설명

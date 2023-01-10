@@ -2,6 +2,8 @@ package com.onsaem.web.chal.service;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,7 +23,9 @@ public class ParticipantVO {
 	String chalName;
 	String classes; //시작전, 진행중, 완료 
 	String subClass; //팀전,개인전 여부
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date startDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date endDate;
 	String frequency;
 }
