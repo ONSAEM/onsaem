@@ -15,7 +15,7 @@
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
 		type="text/css">
 	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}"
+		th:href="@{/shoptemplate/css/jquery-ui.min.css}"
 		type="text/css">
 	<link rel="stylesheet"
 		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
@@ -23,7 +23,6 @@
 		type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
 		type="text/css">
-	<script th:src="@{https://kit.fontawesome.com/6094ba072a.js}" crossorigin="anonymous"></script>
 </th:block>
 
 
@@ -82,10 +81,10 @@
 							</div>
 							<div class="sidebar__item">
 								<h4>가격</h4>
-								<div class="price-range-wrap">
+								<div class="price-range-wrap" style="text-align: center">
 									<div
 										class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-										data-min="10" data-max="540">
+										data-min="1000" data-max="50000">
 										<div class="ui-slider-range ui-corner-all ui-widget-header"></div>
 										<span tabindex="0"
 											class="ui-slider-handle ui-corner-all ui-state-default"></span>
@@ -94,8 +93,7 @@
 									</div>
 									<div class="range-slider">
 										<div class="price-input">
-											<input type="text" id="minamount"> <input type="text"
-												id="maxamount">
+											<input type="text" id="minamount" style="text-align:right"><i class="fa-solid fa-minus" style="color:#63bf63; margin: 0px 10px"></i><input type="text" id="maxamount" style="text-align:left">
 										</div>
 									</div>
 								</div>
@@ -109,25 +107,7 @@
 							</div>
 							<div class="sidebar__item">
 								<h4>검색</h4>
-								<div class="sidebar__item__size">
-									<label for="large"> Large <input type="radio"
-										id="large">
-									</label>
-								</div>
-								<div class="sidebar__item__size">
-									<label for="medium"> Medium <input type="radio"
-										id="medium">
-									</label>
-								</div>
-								<div class="sidebar__item__size">
-									<label for="small"> Small <input type="radio"
-										id="small">
-									</label>
-								</div>
-								<div class="sidebar__item__size">
-									<label for="tiny"> Tiny <input type="radio" id="tiny">
-									</label>
-								</div>
+								<input type="text" placeholder="검색">
 							</div>
 							<button type="submit" class="site-btn" >SEARCH</button>
 						</div>
@@ -280,9 +260,9 @@
 									<div class="filter__sort">
 										<span>Sort By</span> <select>
 											<option value="0">최신순</option>
-											<option value="0">후기많은순</option>
-											<option value="0">가격높은순</option>
-											<option value="0">가격낮은순</option>
+											<option value="2">후기많은순</option>
+											<option value="3">가격높은순</option>
+											<option value="4">가격낮은순</option>
 										</select>
 									</div>
 								</div>
@@ -303,7 +283,7 @@
 											<a th:href="@{/class/classDetail(classId=${class.classId})}" th:text="${class.name}"></a>
 										</h6>
 										<h5 th:text="${class.price}+'원'"></h5>
-										<i class="fa-solid fa-star" th:each="num:${#numbers.sequence(1,class.star)}"></i><i class="fa-solid fa-star-half"th:if="${class.star%1 >= 0.5}"></i>
+										<i class="fa-solid fa-star" th:if="${class.star} != 0" th:each="num:${#numbers.sequence(1,class.star)}" style="color: #ffe949"></i><i class="fa-solid fa-star-half"th:if="${class.star%1 >= 0.5}" style="color: #ffe949"></i>
 									</div>
 								</div>
 							</div>

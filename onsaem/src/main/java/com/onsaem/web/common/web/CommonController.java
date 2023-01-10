@@ -1,16 +1,18 @@
-package com.onsaem.web.test.web;
+/**
+ * 
+ */
+package com.onsaem.web.common.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-
 @Controller
 @CrossOrigin(origins = "*")
-public class testController {
+public class CommonController {
 
-	@RequestMapping(value = "/main", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String empList() {
 		return "content/main";
 	}

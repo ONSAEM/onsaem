@@ -33,7 +33,7 @@ public class ClassInfoVO {
 	
 	//페이징
 	Integer first = 1;
-	Integer last = 10;
+	Integer last = 9;
 
 	
 }
