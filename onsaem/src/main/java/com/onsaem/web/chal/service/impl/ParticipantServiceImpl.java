@@ -17,43 +17,43 @@ public class ParticipantServiceImpl implements ParticipantService {
 	@Override
 	public Integer inputParticipant(ParticipantVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		return mapper.inputParticipant(vo);
 	}
 
 	@Override
 	public Integer delParticipant(String ParticipantId) {
 		// TODO Auto-generated method stub
-		return null;
+		return mapper.delParticipant(ParticipantId);
 	}
 
 	@Override
 	public Integer inputPayment(PaymentVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		return mapper.inputPayment(vo);
 	}
 
 	@Override
 	public Integer delPayment() {
 		// TODO Auto-generated method stub
-		return null;
+		return mapper.delPayment();
 	}
 
 	@Override
 	public List<ParticipantVO> listParticipantAll(String chalId) {
 		// TODO Auto-generated method stub
-		return null;
+		return mapper.listParticipantAll(chalId);
 	}
 
 	@Override
 	public ParticipantVO getParticipant(ParticipantVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		return mapper.getParticipant(vo);
 	}
 
 	@Override
 	public List<ParticipantVO> listChalForOne(ParticipantVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		return mapper.listChalForOne(vo);
 	}
 
 }

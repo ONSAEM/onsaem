@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onsaem.web.chal.mapper.ProofMapper">
-	<!-- 인증샷 등록 과정 존나,,존나짜증난다,, -->
-	<!-- 미디어도 등록해줘야됨 진짜 개극혐임 -->
+	<!-- 인증샷 등록 과정-->
+	<!-- 미디어도 등록해줘야-->
 	<insert id="inputProof" parameterType="ProofVO">
 		<selectKey keyProperty="proofId" resultType="string">
 			SELECT
@@ -69,12 +69,12 @@
 
 	<!-- 사진등록 -->
 	<insert id="inputMedia" parameterType="MediaVO">
-		<selectKey keyProperty="mediaId" resultType="string">
-			'M'||LPAD(media_seq.nextval,3,0)
+		<selectKey keyProperty="mediaId" resultType="string" order="BEFORE">
+			SELECT 'M'||LPAD(media_seq.nextval,3,0) FROM DUAL
 		</selectKey>
 		INSERT INTO MEDIA
 		VALUES( #{mediaId}, #{groupId}, '챌린저스', #{subGroup},
-		#{fileName}, #{fileRoute}, #{mediaId})
+		#{fileName}, #{fileRoute}, #{mediaId}||'.jpg')
 	</insert>
 
 	<!-- 사진 안보이게 하기 //등등 수정 -->

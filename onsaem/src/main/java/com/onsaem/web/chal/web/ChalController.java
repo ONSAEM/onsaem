@@ -61,15 +61,10 @@ public class ChalController {
 			
 	//챌린지 한건 상세보기
 	@RequestMapping(value="/detailChal",method=RequestMethod.GET)
-	public String chalDetail(Model model, MediaVO vo,MediaVO mvo, @RequestParam(value="chalId", required= true)String chalId) {
+	public String chalDetail(Model model, MediaVO vo, @RequestParam(value="chalId", required= true)String chalId) {
 		model.addAttribute("chals", chalService.getChal(chalId));
 		vo.setGroupId(chalId);
-		vo.setSubGroup("인증샷예시");
-		model.addAttribute("proof", proofService.getMediaOption(vo));
-		
-		mvo.setGroupId(chalId);
-		mvo.setSubGroup("대표이미지");
-		model.addAttribute("thumbnail", proofService.getMediaOption(mvo));
+		model.addAttribute("photoes", proofService.listMedia(vo));
 		return "content/challengers/chalDetail";
 	}
 	
@@ -111,17 +106,15 @@ public class ChalController {
 		System.out.println("기부금" + vo.getDonationFee());
 		
 		pvo.setChalId(vo.getChalId());
-		pvo.setParticipantId("podo");
+		pvo.setParticipantId(vo.getMemberId());
 		pvo.setPrivateDonate(vo.getDonationFee());
 		pvo.setBetPoint(0);
-		pvo.setResult("");
-		pvo.setResultPoint(0);
 		partService.inputParticipant(pvo);
 		
 		
 		//사진 등록
 		//session = req.getSession();
-		String realFolder = "d:/challengers/";
+		String realFolder = "/challengers/img/";
         File dir = new File(realFolder);
         if (!dir.isDirectory()) {
             dir.mkdirs();
@@ -137,7 +130,7 @@ public class ChalController {
 				mvo.setGroupId(vo.getChalId());
 				mvo.setFileName(originName);
 				//경로?주소?지정
-				mvo.setFileRoute(realFolder+originName);
+				mvo.setFileRoute(realFolder);
 				
 				mvo.setSubGroup("챌린저스");
 				System.out.println(mvo);
