@@ -162,16 +162,12 @@
                             <div class="col-lg-6">
                                 <div class="blog__details__widget">
                                     <ul>
+                                    	<li><button th:onclick="changeHeart(this)" style="border: solid 1px;"
+											class="change-heart">♡</button></li>
                                         <li><span>Categories:</span> Food</li>
                                         <li><span>Tags:</span> All, Trending, Cooking, Healthy Food, Life Style</li>
                                     </ul>
-                                    <div class="blog__details__social">
-                                        <a href="#"><i class="fa fa-facebook"></i></a>
-                                        <a href="#"><i class="fa fa-twitter"></i></a>
-                                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                                        <a href="#"><i class="fa fa-linkedin"></i></a>
-                                        <a href="#"><i class="fa fa-envelope"></i></a>
-                                    </div>
+                                   	
                                 </div>
                             </div>
                         </div>
@@ -253,6 +249,29 @@
 			<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/main.js}"></script>
 		</th:block>
+		
+		<!-- 좋아요버튼 / 디비 저장해야함 -->
+		<script type="text/javascript">
+			function changeHeart(data){
+				if(data.innerText=="♡"){
+					const urlParams = new URL(location.href).searchParams;
+					const name = urlParams.get('data');	
+					console.log(name);
+					fetch('http://localhost/likeAdd?data='+name)
+					  .then((response) => console.log('success'))
+					  .then((data) => console.log(data));		
+					data.innerText="♥";				
+				}else{
+					const urlParams = new URL(location.href).searchParams;
+					const name = urlParams.get('data');	
+					console.log(name);
+					fetch('http://localhost/likeDel?data='+name)
+					  .then((response) => console.log('success'))
+					  .then((data) => console.log(data));
+					data.innerText="♡";
+				};
+			}
+		</script>
 </div>
 
 </html>
