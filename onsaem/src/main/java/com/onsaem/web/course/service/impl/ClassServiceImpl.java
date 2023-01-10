@@ -30,6 +30,12 @@ public class ClassServiceImpl implements ClassService{
 	//[위는 완성 아래는 미완성]
 	
 	@Override
+	public List<ClassInfoVO> popularClassList() {
+
+		return null;
+	}	
+	
+	@Override
 	public int classInsert(ClassInfoVO classinfoVO) {
 
 		return classMapper.classInsert(classinfoVO);
@@ -40,6 +46,8 @@ public class ClassServiceImpl implements ClassService{
 
 		return classMapper.classUpdate(classinfoVO);
 	}
+
+	
 	
 	
 }

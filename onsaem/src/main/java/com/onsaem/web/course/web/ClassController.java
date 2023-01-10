@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.onsaem.web.course.service.ClassInfoVO;
 import com.onsaem.web.course.service.ClassService;
 
+import lombok.extern.log4j.Log4j;
+
 @Controller
 @CrossOrigin(origins = "*")
 @RequestMapping("/class")
