@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+
+<!-- Google Font -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
+	rel="stylesheet">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
+		type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
+		type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}"
+		type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
+		type="text/css">
+</th:block>
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+</head>
+<body>
+	<div layout:fragment="content">
+		<form method="post" action="/loginPage" name="myfrm">
+		  <!-- Email input -->
+		  <div class="form-outline mb-4">
+		    <input type="text" id="memberId" class="form-control" name="memberId" />
+		    <label class="form-label" for="form2Example1">ID</label>
+		  </div>
+		
+		  <!-- Password input -->
+		  <div class="form-outline mb-4">
+		    <input type="password" id="password" class="form-control" name="password"/>
+		    <label class="form-label" for="form2Example2">Password</label>
+		  </div>
+		
+<!-- 		  2 column grid layout for inline styling -->
+<!-- 		  <div class="row mb-4"> -->
+<!-- 		    <div class="col d-flex justify-content-center"> -->
+<!-- 		      Checkbox -->
+<!-- 		      <div class="form-check"> -->
+<!-- 		        <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked /> -->
+<!-- 		        <label class="form-check-label" for="form2Example31"> Remember me </label> -->
+<!-- 		      </div> -->
+<!-- 		    </div> -->
+		
+<!-- 		    <div class="col"> -->
+<!-- 		      Simple link -->
+<!-- 		      <a href="#!">Forgot password?</a> -->
+<!-- 		    </div> -->
+<!-- 		  </div> -->
+		
+		  <!-- Submit button -->
+		  <button type="button" class="btn btn-primary btn-block mb-4">Sign in</button>
+		
+		  <!-- Register buttons -->
+		  <div class="text-center">
+		    <p>Not a member? <a href="#!">Register</a></p>
+		  </div>
+		</form>
+	
+	
+	<script>
+		$(".btn").on("click", function(){
+			console.log('button');
+			let id = $('#memberId').val();
+			let pw = $('#password').val();
+			$.ajax({
+				url: '/loginPage',
+			    method: 'post',
+			    data: JSON.stringify({memberId:id, password:pw}),
+			    contentType: "application/json"
+			}).then(res =>{
+				if(res == "O"){
+					location.href="/main";
+				}else{
+					alert("로그인 실패");
+				}
+			})
+		})
+	</script>
+	
+	<!-- JS -->
+		<th:block layout:fragment="script">
+			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery-ui.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.slicknav.js}"></script>
+			<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/main.js}"></script>
+		</th:block>
+	</div>
+</body>
+</html>

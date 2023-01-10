@@ -138,9 +138,9 @@
                                         <li><i class="fa fa-calendar-o" th:text="${blog.writeDate}"></i></li>
                                         <li><i class="fa fa-comment-o"></i> 5</li>
                                     </ul>
-                                    <h5><a th:href="@{/blog/myblog/blogWrite/test01/BW001}" th:text="${blog.writeTitle}"></a></h5>
+                                    <h5><a th:href="@{/blog/myblog/blogWrite(userId=${session.member.memberId},bno=${blog.writeId})}" th:text="${blog.writeTitle}"></a></h5>
                                 	<p th:text="${blog.subTitle}"/>
-                                    <a th:href="@{/blog/myblog/blogWrite/test01/BW001}" class="blog__btn">READ MORE <span class="arrow_right"></span></a>
+                                    <a th:href="@{/blog/myblog/blogWrite(userId=${session.member.memberId},bno=${blog.writeId})}" class="blog__btn">READ MORE <span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>

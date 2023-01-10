@@ -50,7 +50,7 @@
                             <span>All departments</span>
                         </div>
                         <ul>
-                            <li><a th:href="@{/blog/myblog/test01}">내 블로그</a></li>
+                            <li th:if="${session.member}!=null"><a th:href="@{/blog/myblog(userId=${session.member.memberId})}">내 블로그</a></li>
                             <li><a href="#">Vegetables</a></li>
                             <li><a href="#">Fruit & Nut Gifts</a></li>
                             <li><a href="#">Fresh Berries</a></li>

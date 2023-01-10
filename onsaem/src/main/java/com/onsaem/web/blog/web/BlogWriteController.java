@@ -28,15 +28,15 @@ public class BlogWriteController {
 	}
 	
 	// 내 블로그로 이동
-	@RequestMapping(value = "/myblog/{userId}", method = RequestMethod.GET)
-	public String myblog(Model model, @PathVariable String userId) {
+	@RequestMapping(value = "/myblog", method = RequestMethod.GET)
+	public String myblog(Model model, String userId) {
 		model.addAttribute("myblog", blogWriteService.myBlog(userId));
 		return "content/blog/myblog";
 	}
 	
 	// 블로그 글 상세 페이지로 이동(단건조회)
-	@RequestMapping(value = "/myblog/blogWrite/{userId}/{bno}", method = RequestMethod.GET)
-	public String blogWrite(Model model, @PathVariable String userId, @PathVariable String bno) {
+	@RequestMapping(value = "/myblog/blogWrite", method = RequestMethod.GET)
+	public String blogWrite(Model model, String userId, String bno) {
 		model.addAttribute("blogWrite", blogWriteService.getBlog(userId, bno));
 		return "content/blog/blogWrite";
 	}
