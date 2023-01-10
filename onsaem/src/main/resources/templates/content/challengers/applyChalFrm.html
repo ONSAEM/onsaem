@@ -113,12 +113,15 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <div class="product__details__tab__desc">
-                                    <form>
+                                    <form action="/applyChalFrm" method="post">
 										<h2>기부금</h2>
 										<p>작성하신 기부</p>
-										<input id="value" value=5000 ></input>
+										<input id="value" value=5000 name="privateDonate"></input>
         								<p>1000</p>
-        								<input name="privateDonate" type="range" min=1000 max=50000 value=5000 th:id="privateDonate">
+        								<input type="range" min=1000 max=50000 value=5000 th:id="privateDonate">
+        								<input type="hidden" th:value=${chal.donationFee} id="currentFee">
+        								<input type="hidden" value=donationFee id="donationFee" name="donationFee">
+        								<input type="hidden" th:vlaue=${chal.chalId} name="chalId">
         								<p>50000</p>                              
                                     	<p>결제 조건 및 약관에 동의합니다.</p>
                                    		<input type="button" value="결제하기">
@@ -155,6 +158,10 @@
 			output.oninput = function() {
 			    slider.value = this.value;
 			}
+			
+			var currentFee = document.getElementById("currentFee").value;
+			var donationFee = currentFee+output.value;
+			console.log(donationFee);
 		</script> 
 		</th:block>
     </section>

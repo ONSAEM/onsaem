@@ -36,5 +36,13 @@
 		VALUES(#{participateId}, #{chalId}, #{privateDonate}, #{betPoint}, #{participantId})		
 	</insert>
 	
+	<insert id="inputPayment" parameterType="PaymentVO">
+		<selectKey keyProperty="paymentId" resultType="string" order="BEFORE">
+			SELECT 'PAY'||LPAD(pay_seq.NEXTVAL,3,0) FROM DUAL	
+		</selectKey>
+		INSERT INTO PAYMENTS
+		VALUES(#{paymentId}, #{price}, #{payerId}, #{paymentMethod}, current_date, #{groupId}, '챌린저스') 
+	</insert>
+	
 	
 </mapper>
