@@ -50,7 +50,21 @@
 				current_date)
  	</insert>
  	<!-- 글 수정 -->
- 	
+ 	<update id="blogUpdate" parameterType="blogWriteVO">
+ 		UPDATE BLOG_WRITES
+ 			SET WRITE_TITLE = #{writeTitle},
+ 			SET SUBTITLE = #{subTitle},
+ 			SET CATEGORY_ID = #{categoryId},
+ 			SET PUBLIC_SCOPE = #{publicScope},
+ 			SET BLOG_WRITE = #{blogWrite},
+ 			SET WRITE_DATE = CURRENT_DATE
+ 		where BLOG_ID = #{blogId}
+ 		and WRITE_ID = #{writeId}
+ 	</update>
  	<!-- 글 삭제 -->
- 	
+ 	<delete id="blogDelete" parameterType="String">
+ 		delete from blog_writes
+ 		where blog_id = #{blogId}
+ 		and write_id = #{wirteId}
+ 	</delete>
  </mapper>

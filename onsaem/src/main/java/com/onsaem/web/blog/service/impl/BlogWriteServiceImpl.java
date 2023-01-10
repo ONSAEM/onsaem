@@ -23,7 +23,7 @@ public class BlogWriteServiceImpl implements BlogWriteService {
 	}
 	
 	@Override
-	public BlogWriteVO myBlog(String blogId) {
+	public List<BlogWriteVO> myBlog(String blogId) {
 		// 블로그 단건조회
 		return blogWriteMapper.myBlog(blogId);
 	}
