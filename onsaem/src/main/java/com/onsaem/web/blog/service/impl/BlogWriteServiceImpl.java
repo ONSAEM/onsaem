@@ -29,9 +29,9 @@ public class BlogWriteServiceImpl implements BlogWriteService {
 	}
 
 	@Override
-	public BlogWriteVO getBlog(String blogId, String writeId) {
+	public BlogWriteVO getBlog(String writeId) {
 		// 블로그 글 단건 조회
-		return blogWriteMapper.getBlog(blogId, writeId);
+		return blogWriteMapper.getBlog(writeId);
 	}
 
 	@Override
