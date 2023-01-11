@@ -39,6 +39,15 @@
 
 	</select>
 	
+	<select id="classMediaList" resultType="MediaVO" parameterType="ClassInfoVO">
+		SELECT *
+		from MEDIA
+		where GROUP_ID = #{classId}
+		ORDER BY SUB_GROUP
+	</select>
+	
+	
+	
 	<!-- [위는 완성 아래는 미완성] -->
 	<select id="popularClassList">
 	

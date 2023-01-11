@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.course.mapper.ClassMapper;
 import com.onsaem.web.course.service.ClassService;
 import com.onsaem.web.course.service.ClassInfoVO;
@@ -16,15 +17,22 @@ public class ClassServiceImpl implements ClassService{
 	ClassMapper classMapper;
 
 	@Override
-	public List<ClassInfoVO> getClassList(ClassInfoVO classinfoVO) {
+	public List<ClassInfoVO> getClassList(ClassInfoVO vo) {
 
-		return classMapper.getClassList(classinfoVO);
+		return classMapper.getClassList(vo);
 	}
 	
 	@Override
-	public ClassInfoVO getClass(ClassInfoVO classinfoVO) {
+	public ClassInfoVO getClass(ClassInfoVO vo) {
 
-		return classMapper.getClass(classinfoVO);
+		return classMapper.getClass(vo);
+	}
+	
+
+	@Override
+	public List<MediaVO> classMediaList(ClassInfoVO vo) {
+
+		return classMapper.classMediaList(vo);
 	}
 	
 	//[위는 완성 아래는 미완성]
@@ -36,16 +44,17 @@ public class ClassServiceImpl implements ClassService{
 	}	
 	
 	@Override
-	public int classInsert(ClassInfoVO classinfoVO) {
+	public int classInsert(ClassInfoVO vo) {
 
-		return classMapper.classInsert(classinfoVO);
+		return classMapper.classInsert(vo);
 	}
 
 	@Override
-	public int classUpdate(ClassInfoVO classinfoVO) {
+	public int classUpdate(ClassInfoVO vo) {
 
-		return classMapper.classUpdate(classinfoVO);
+		return classMapper.classUpdate(vo);
 	}
+
 
 	
 	
