@@ -53,15 +53,16 @@
 			</li>
 			
 			<li>공개범위<select name="publicScope"> <!-- 공개범위 부분 나중에 value 수정 필요 -->
-			    <option value="private">전체공개</option>
-			    <option value="public" selected>일부공개</option>
-			    <option value="partial">비공개</option>
+			    <option value="public">전체공개</option>
+			    <option value="partial" selected>일부공개</option>
+			    <option value="private">비공개</option>
 				</select>
 			</li>	
 		
 		<li><textarea name="blogWrite" id="ir1" rows="10" cols="100"></textarea></li>
 		<li><button type="button" class="btn">등록</button></li>
 		</ul>
+		
 	</form>
 	
 	
@@ -83,21 +84,21 @@
 			oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
 			var value = document.getElementById("ir1").value;
 			
-			
-			$.ajax({
-			      url: '/blog/myblog/blogWrite/blogInsert',
-			      method: 'post',
-			      contentType: 'application/x-www-form-urlencoded',
-			      data: $('form[name="myfrm"]').serialize(),
-			      success: function (result) {
-			         console.log(result);
-			         alert('등록 완료');
-			         location.href='/blog/myblog/{userId}';
-			      },
-			      error: function (error) {
-			         console.log(error);
-			      }
-			   })
+			// location.href 세션 아이디 값이 안 땡겨와져요...
+// 			$.ajax({
+// 			      url: '/blog/myblog/blogWrite/blogInsert',
+// 			      method: 'post',
+// 			      contentType: 'application/x-www-form-urlencoded',
+// 			      data: $('form[name="myfrm"]').serialize(),
+// 			      success: function (result) {
+// 			         console.log(result);
+// 			         alert('등록 완료');
+// 			         //location.href='/blog/myblog?userId='+{result.blogId}; // 수정필요
+// 			      },
+// 			      error: function (error) {
+// 			         console.log(error);
+// 			      }
+// 			   })
 		});
 		
 	</script>

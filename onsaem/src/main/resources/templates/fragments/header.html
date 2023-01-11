@@ -62,6 +62,7 @@
            			 	<ul class="dropdown-menu dropdown-menu-light"
 							aria-labelledby="navbarLightDropdownMenuLink">
 							<li><a class="dropdown-item" href="#">MY PAGE</a></li>
+							<li><a class="dropdown-item" th:href="@{/blog/myblog(userId=${session.member.memberId})}">MY BLOG</a></li>
 							<li><a class="dropdown-item" th:href="@{/logoutPage}">LOGOUT</a></li>
 						</ul></li>
 					<li class="nav-item" th:if="${session.member}==null">

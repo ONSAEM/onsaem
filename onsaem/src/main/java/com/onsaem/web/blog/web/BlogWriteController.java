@@ -1,5 +1,8 @@
 package com.onsaem.web.blog.web;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,11 +51,10 @@ public class BlogWriteController {
 		return "content/blog/blogInsert";
 	}
 	
-	// 블로그 글 등록 처리(등록)
+	// 블로그 글 등록 처리(등록) 세션 아이디 값 vo에 다시 담는 방법 몰름... 
 	@RequestMapping(value = "/myblog/blogWrite/blogInsert", method = RequestMethod.POST)
 	@ResponseBody  //ajax 응답은 responseBody
 	public BlogWriteVO blogInsert(Model model, BlogWriteVO vo) {
-		vo.setBlogId("test01");
 		model.addAttribute("blogInsert", blogWriteService.blogInsert(vo));
 		return vo;
 	}
