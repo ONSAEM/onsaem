@@ -130,8 +130,11 @@
                                     <form th:each="chal : ${chals}"  >
 										<h2>기부금</h2>
 										<p>챌린지 리더가 설정한 금액이 기부됩니다.</p>
-										<input id="value" th:value="${chal.teamFee}" th:name="privateDonate" readonly></input>
-        								                     
+										<input th:value="${chal.teamFee}" name="privateDonate" id="privateDonate" readonly></input>
+										<p>포인트</p>
+        								<input id="betPoint" name="betPoint"  type="number" read only>
+        								<input type="number" id="donation" value=donationFee name="donationFee" style="display:none;">
+        								<input type="hidden" id="currentFee" th:value="${chal.donationFee}">                    
                                     	<p>결제 조건 및 약관에 동의합니다.</p>
                                    		<input type="button" value="결제하기">
                                    	</form>
@@ -160,17 +163,17 @@
 			<script th:src="@{/shoptemplate/js/main.js}"></script>
 			
 		<script>
-			var slider = document.getElementById("privateDonate");
-			var output = document.getElementById("value");
-			output.innerHTML = slider.value;
+			var privateDonation = Number(document.getElementById("privateDonate")).value;
+			var donation = document.getElementById("donation");
 			
-			slider.oninput = function() {
-			    output.value = this.value;
-			}
 			
-			output.oninput = function() {
-			    slider.value = this.value;
-			}
+			var currentFee = Number(document.getElementById("currentFee").value);
+			donationFee.value = currentFee+privateDonation;
+			console.log(donationFee);
+			let betPoint = document.getElementById("betPoint");
+			betPoint.value = privateDonation*0.01;
+			
+			
 		</script> 
 		</th:block>
 		
