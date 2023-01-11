@@ -1,13 +1,13 @@
 package com.onsaem.web.common.service;
 
-import lombok.ToString;
+import lombok.Data;
 
-@ToString
+@Data
 public class Paging {
 	int pageUnit=10 ; 		//한페이지 출력할 레코드 건수
 	int pageSize=10 ; 		//페이지번호 수 (5) 1~ 5까지
 	int lastPage;     		//마지막 페이지번호
-	int totalRecord = 126;	//전체 레코드건수
+	int totalRecord;	//전체 레코드건수
 	Integer page = 1;			//현재 페이지
 	int startPage;
 	int endPage;

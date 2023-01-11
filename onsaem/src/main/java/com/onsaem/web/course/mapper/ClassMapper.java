@@ -3,6 +3,7 @@ package com.onsaem.web.course.mapper;
 import java.util.List;
 
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.course.service.ClassInfoVO;
 
 public interface ClassMapper {
@@ -15,6 +16,15 @@ public interface ClassMapper {
 
 	// 강의 사진목록
 	public List<MediaVO> classMediaList(ClassInfoVO vo);
+	
+	// 강의 갯수 조회
+	public Paging classCount(ClassInfoVO vo);
+	
+	// 강의 최대금액
+	public int classMaxPrice(ClassInfoVO vo);
+	
+	// 강의 최소금액
+	public int classMinPrice(ClassInfoVO vo);
 	
 	//[위는 완성 아래는 미완성]
 

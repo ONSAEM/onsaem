@@ -1,16 +1,17 @@
 package com.onsaem.web.course.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.course.service.ClassInfoVO;
 import com.onsaem.web.course.service.ClassService;
 
-import lombok.extern.log4j.Log4j;
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -22,8 +23,12 @@ public class ClassController {
 	
 	// 강의목록 페이지 이동 (강의목록, 인기강의목록)
 	@RequestMapping(value = "/classList", method = RequestMethod.GET)
-	public String classList(ClassInfoVO vo, Model model) {
-		model.addAttribute("classList", classService.getClassList(vo));
+	public String classList(ClassInfoVO vo, Model model, Paging paging) {
+		paging.setPageUnit(9);
+		model.addAttribute("classList", classService.getClassList(vo,paging));
+		model.addAttribute("maxPrice", classService.classMaxPrice(vo));
+		model.addAttribute("minPrice", classService.classMinPrice(vo));
+		model.addAttribute("Page", classService.classCount(vo));
 		return "content/course/classList";
 	}
 	
