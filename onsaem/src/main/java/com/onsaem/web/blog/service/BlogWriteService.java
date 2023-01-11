@@ -8,7 +8,7 @@ public interface BlogWriteService {
 		// 블로그 단건 조회
 		public List<BlogWriteVO> myBlog(String blogId);
 		// 블로그 글 단건 조회
-		public BlogWriteVO getBlog(String blogId, String writeId);
+		public BlogWriteVO getBlog(String writeId);
 		// 블로그 글 작성
 		int blogInsert(BlogWriteVO blogWriteVO);
 		// 블로그 미디어 첨부

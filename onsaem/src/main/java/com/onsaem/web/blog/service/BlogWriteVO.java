@@ -18,6 +18,7 @@ public class BlogWriteVO {
 	String publicScope;
 	String blogWrite;
 	String writerNickname;
+	String categoryName;
 	int cnt;
 	int likeNumber;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

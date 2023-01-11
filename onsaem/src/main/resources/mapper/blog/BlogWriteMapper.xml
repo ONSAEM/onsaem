@@ -11,9 +11,9 @@
  	<!-- 단건 조회 -->
  	<select id="getBlog" resultType="BlogWriteVO" parameterType="String">
 		SELECT *
-		FROM BLOG_WRITES
-		WHERE WRITE_ID = #{writeId}
-		AND BLOG_ID = #{blogId}
+		FROM BLOG_WRITES B, CATEGORIES C
+		WHERE B.CATEGORY_ID = C.CATEGORY_ID
+		AND WRITE_ID = #{writeId}
  	</select>
  	<!-- 블로그 단건 조회 -->
  	<select id="myBlog" resultType="BlogWriteVO" parameterType="String">
