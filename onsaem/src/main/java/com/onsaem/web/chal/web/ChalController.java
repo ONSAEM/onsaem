@@ -20,13 +20,13 @@ import com.onsaem.web.chal.service.BankService;
 import com.onsaem.web.chal.service.ChalService;
 import com.onsaem.web.chal.service.ChalVO;
 import com.onsaem.web.chal.service.MediaService;
-import com.onsaem.web.chal.service.MediaVO;
 import com.onsaem.web.chal.service.NgoService;
 import com.onsaem.web.chal.service.NgoVO;
 import com.onsaem.web.chal.service.ParticipantService;
 import com.onsaem.web.chal.service.ParticipantVO;
 import com.onsaem.web.chal.service.PaymentVO;
 import com.onsaem.web.chal.service.ProofService;
+import com.onsaem.web.common.service.MediaVO;
 @Controller
 @CrossOrigin(origins="*")
 public class ChalController {

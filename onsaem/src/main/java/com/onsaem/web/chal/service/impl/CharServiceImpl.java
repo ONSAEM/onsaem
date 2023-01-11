@@ -10,8 +10,8 @@ import com.onsaem.web.chal.mapper.ParticipantMapper;
 import com.onsaem.web.chal.mapper.ProofMapper;
 import com.onsaem.web.chal.service.ChalService;
 import com.onsaem.web.chal.service.ChalVO;
-import com.onsaem.web.chal.service.MediaVO;
 import com.onsaem.web.chal.service.ParticipantVO;
+import com.onsaem.web.common.service.MediaVO;
 
 @Component
 public class CharServiceImpl implements ChalService {

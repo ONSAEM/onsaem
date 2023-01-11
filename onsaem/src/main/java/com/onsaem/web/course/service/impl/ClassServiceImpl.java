@@ -16,17 +16,25 @@ public class ClassServiceImpl implements ClassService{
 	ClassMapper classMapper;
 
 	@Override
-	public ClassInfoVO getClass(ClassInfoVO classinfoVO) {
-
-		return classMapper.getClass(classinfoVO);
-	}
-
-	@Override
 	public List<ClassInfoVO> getClassList(ClassInfoVO classinfoVO) {
 
 		return classMapper.getClassList(classinfoVO);
 	}
+	
+	@Override
+	public ClassInfoVO getClass(ClassInfoVO classinfoVO) {
 
+		return classMapper.getClass(classinfoVO);
+	}
+	
+	//[위는 완성 아래는 미완성]
+	
+	@Override
+	public List<ClassInfoVO> popularClassList() {
+
+		return null;
+	}	
+	
 	@Override
 	public int classInsert(ClassInfoVO classinfoVO) {
 
@@ -38,6 +46,8 @@ public class ClassServiceImpl implements ClassService{
 
 		return classMapper.classUpdate(classinfoVO);
 	}
+
+	
 	
 	
 }

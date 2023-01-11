@@ -3,8 +3,8 @@ package com.onsaem.web.chal.mapper;
 import java.util.List;
 
 import com.onsaem.web.chal.service.ChalVO;
-import com.onsaem.web.chal.service.MediaVO;
 import com.onsaem.web.chal.service.ParticipantVO;
+import com.onsaem.web.common.service.MediaVO;
 
 public interface ChalMapper {
 	

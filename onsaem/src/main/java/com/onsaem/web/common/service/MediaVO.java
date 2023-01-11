@@ -1,4 +1,4 @@
-package com.onsaem.web.chal.service;
+package com.onsaem.web.common.service;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

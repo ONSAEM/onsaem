@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.onsaem.web.chal.mapper.ProofMapper;
-import com.onsaem.web.chal.service.LikeVO;
-import com.onsaem.web.chal.service.MediaVO;
 import com.onsaem.web.chal.service.ProofService;
 import com.onsaem.web.chal.service.ProofVO;
-import com.onsaem.web.chal.service.RepliesVO;
+import com.onsaem.web.common.service.LikeVO;
+import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.RepliesVO;
 
 @Component
 public class ProofServiceImpl implements ProofService {

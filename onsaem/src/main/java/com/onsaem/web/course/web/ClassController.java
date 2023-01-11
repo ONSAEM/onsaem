@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.onsaem.web.course.service.ClassInfoVO;
 import com.onsaem.web.course.service.ClassService;
 
+import lombok.extern.log4j.Log4j;
+
 @Controller
 @CrossOrigin(origins = "*")
 @RequestMapping("/class")
@@ -25,9 +27,12 @@ public class ClassController {
 		return "content/course/classList";
 	}
 	
+	// 강의상세 페이지 이동
 	@RequestMapping(value = "/classDetail", method = RequestMethod.GET)
 	public String classDetail(ClassInfoVO vo, Model model) {
-		model.addAttribute("classInfo", classService.getClassList(vo));
+		model.addAttribute("class", classService.getClass(vo));
+//		model.addAttribute("mediaList");
+//		model.addAttribute("reviewList");
 		return "content/course/classDetail";
 	}
 }

@@ -2,10 +2,10 @@ package com.onsaem.web.chal.mapper;
 
 import java.util.List;
 
-import com.onsaem.web.chal.service.LikeVO;
-import com.onsaem.web.chal.service.MediaVO;
 import com.onsaem.web.chal.service.ProofVO;
-import com.onsaem.web.chal.service.RepliesVO;
+import com.onsaem.web.common.service.LikeVO;
+import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.RepliesVO;
 
 public interface ProofMapper {
 	//인증샷 등록

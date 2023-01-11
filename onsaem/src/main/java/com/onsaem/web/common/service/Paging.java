@@ -1,4 +1,4 @@
-package com.onsaem.web.common;
+package com.onsaem.web.common.service;
 
 import lombok.ToString;
 

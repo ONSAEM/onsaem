@@ -4,11 +4,16 @@ import java.util.List;
 
 public interface ClassService {
 	
+	// 강의 전체조회
+	public List<ClassInfoVO> getClassList(ClassInfoVO classinfoVO);
+
 	// 강의 단건조회
 	public ClassInfoVO getClass(ClassInfoVO classinfoVO);
 	
-	// 강의 전체조회
-	public List<ClassInfoVO> getClassList(ClassInfoVO classinfoVO);
+	//[위는 완성 아래는 미완성]
+	
+	// 인기강의목록조회
+	public List<ClassInfoVO> popularClassList();
 	
 	// 강의 등록
 	public int classInsert(ClassInfoVO classinfoVO);
