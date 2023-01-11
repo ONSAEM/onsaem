@@ -211,12 +211,13 @@
 									<ul>
 										<li><div class="wrapper" >
 												<div class="button-container">
-													<div class="heartbutton" value="1">
+													<div class="heartbutton">
 														<span class="content"> <i class="icon fa fa-heart"
 															aria-hidden="true"></i> <i class="icon far fa-heart"
 															aria-hidden="true"></i> <span class="text like">Like<span
 																class="text d">d</span></span> <span class="text number">0</span>
 														</span>
+														<input type="hidden" class="blogLike" value="F"> <!-- 초기값을 F로 두기 -->
 													</div>
 												</div>
 											</div></li>
@@ -376,7 +377,7 @@
 				</div>
 			</div>
 		</div>
-		<input type="hidden" class="test" value="1">
+		
 	</section>
 	<!-- Related Blog Section End -->
 	<!-- JS -->
@@ -409,11 +410,14 @@
 		  	flag = !flag;
 		  	
 		  	// 디비에 저장
-		  	console.log($(".test").val());
-		  	if($(".test").val()==1){ // db에 저장
-		  		$(".test").val(0) 
+		  	//console.log($(".test").val());
+		  	console.log($(".blogLike").val());
+		  	if($(".blogLike").val()=='F'){ // db에 저장
+		  			//db에 저장하는 메서드 컨트롤러에 추가
+		  		$(".heartbutton").val('T') 
 		  	}else{					 // db에 삭제
-		  		$(".test").val(1)
+		  		$(".blogLike").val('F')
+		  			//db에서 삭제 또는 수정하는 메서드 컨트롤러에 추가
 		  	}
 		  	
 		}); 

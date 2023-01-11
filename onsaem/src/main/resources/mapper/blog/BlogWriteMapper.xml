@@ -49,6 +49,30 @@
 				0,
 				current_date)
  	</insert>
+ 	
+ 	<!-- 좋아요 추가 -->
+ 	<insert id="addBlogLike" parameterType="LikeVO">
+ 		<selectKey keyProperty="likeId" resultType="String" order="BEFORE">
+ 			SELECT 'LK'||LPAD(LK_SEQ.NEXTVAL,3,0) FROM DUAL
+ 		</selectKey>
+ 		INSERT INTO (LIKE_ID,
+					 MEMBER_ID,
+					 GROUP_ID,
+					 GROUPS,
+					 INSERT_DATE)
+		VALUES (#{likeId}, <!-- 시퀀스 -->
+				#{memberId}, <!-- 누른 사람의 아이디 -->
+				#{groupId}, <!-- 글 번호 -->
+				"블로그",
+				current_date)
+ 	</insert>
+ 	
+ 	
+ 	<!-- 좋아요 삭제 -->
+ 	
+ 	<!-- 그룹 아이디가 같은 경우에만 카운트하기(한 게시글에서 좋아요 수 조회) -->
+ 	
+ 	
  	<!-- 글 수정 -->
  	<update id="blogUpdate" parameterType="blogWriteVO">
  		UPDATE BLOG_WRITES
@@ -67,4 +91,6 @@
  		where blog_id = #{blogId}
  		and write_id = #{wirteId}
  	</delete>
+ 	
+ 	
  </mapper>
