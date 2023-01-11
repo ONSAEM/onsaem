@@ -52,9 +52,9 @@ public class CharServiceImpl implements ChalService {
 	}
 
 	@Override
-	public Integer updateDonate(Integer money) {
+	public Integer updateDonate(ChalVO vo) {
 		// TODO Auto-generated method stub
-		return chalMapper.updateDonate(money);
+		return chalMapper.updateDonate(vo);
 	}
 
 	@Override
@@ -67,6 +67,25 @@ public class CharServiceImpl implements ChalService {
 	public ChalVO getChal(String chalId) {
 		// TODO Auto-generated method stub
 		return chalMapper.getChal(chalId);
+	}
+	
+	//마이페이지용 
+	@Override
+	public List<ChalVO> myCurentChal(ChalVO vo) {
+		// TODO Auto-generated method stub
+		return chalMapper.myCurentChal(vo);
+	}
+
+	@Override
+	public List<ChalVO> myBeforeChal(ChalVO vo) {
+		// TODO Auto-generated method stub
+		return chalMapper.myBeforeChal(vo);
+	}
+
+	@Override
+	public List<ChalVO> myEndChal(ChalVO vo) {
+		// TODO Auto-generated method stub
+		return chalMapper.myEndChal(vo);
 	}
 
 }

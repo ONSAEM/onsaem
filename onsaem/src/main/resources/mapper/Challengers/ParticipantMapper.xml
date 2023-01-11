@@ -29,11 +29,19 @@
 	
 	<!-- 챌린저스 참가 -->
 	<insert id="inputParticipant" parameterType="ParticipantVO">
-		<selectKey keyProperty="paricipateId" resultType="string">
+		<selectKey keyProperty="participateId" resultType="string" order="BEFORE">
 			SELECT 'P'||to_char(part_seq.NEXTVAL) FROM DUAL	
 		</selectKey>
-		INSERT into PARTICIPANTS 
-		VALUES(#{paricipateId}, #{chalId}, #{privateDonate}, #{betPoint}, #{participantId})		
+		INSERT INTO PARTICIPANTS(PARTICIPATE_ID, CHAL_ID, PRIVATE_DONATE, BET_POINT,PARTICIPANT_ID ) 
+		VALUES(#{participateId}, #{chalId}, #{privateDonate}, #{betPoint}, #{participantId})		
+	</insert>
+	
+	<insert id="inputPayment" parameterType="PaymentVO">
+		<selectKey keyProperty="paymentId" resultType="string" order="BEFORE">
+			SELECT 'PAY'||LPAD(pay_seq.NEXTVAL,3,0) FROM DUAL	
+		</selectKey>
+		INSERT INTO PAYMENTS
+		VALUES(#{paymentId}, #{price}, #{payerId}, #{paymentMethod}, current_date, #{groupId}, '챌린저스') 
 	</insert>
 	
 	
