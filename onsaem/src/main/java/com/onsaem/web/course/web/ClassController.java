@@ -20,18 +20,18 @@ public class ClassController {
 	@Autowired
 	ClassService classService;
 	
-	// 강의목록 페이지 이동
+	// 강의목록 페이지 이동 (강의목록, 인기강의목록)
 	@RequestMapping(value = "/classList", method = RequestMethod.GET)
 	public String classList(ClassInfoVO vo, Model model) {
 		model.addAttribute("classList", classService.getClassList(vo));
 		return "content/course/classList";
 	}
 	
-	// 강의상세 페이지 이동
+	// 강의상세 페이지 이동 (강의정보, 미디어목록, 후기목록, 문의목록)
 	@RequestMapping(value = "/classDetail", method = RequestMethod.GET)
 	public String classDetail(ClassInfoVO vo, Model model) {
 		model.addAttribute("class", classService.getClass(vo));
-//		model.addAttribute("mediaList");
+		model.addAttribute("mediaList", classService.classMediaList(vo));
 //		model.addAttribute("reviewList");
 		return "content/course/classDetail";
 	}
