@@ -37,7 +37,7 @@
 					<div class="product__details__pic">
 						<div class="product__details__pic__item">
 							<img class="product__details__pic__item--large"
-								th:src="@{/shoptemplate/img/product/details/product-details-1.jpg}"
+								th:src=${mediaList[0].fileRoute}+${mediaList[0].mediaName}
 								alt="">
 						</div>
 						<div class="product__details__pic__slider owl-carousel">
@@ -59,12 +59,10 @@
 						</div>
 						<div class="product__details__price">[[${class.price}]]원</div>
 						<ul>
-							<li><b>Availability</b> <span>In Stock</span></li>
-							<li><b>Shipping</b> <span>01 day shipping. <samp>Free
-										pickup today</samp></span></li>
-							<li><b>Weight</b> <span>0.5 kg</span></li>
+							<li><b>소요시간</b> <span>[[${class.classTime}]]시간</span></li>
+							<li><b>난이도</b> <span>[[${class.difficulty}]]</span></li>
 						</ul>
-						<a href="#" class="primary-btn">예약</a> <a href="#"
+						<a href="#" class="primary-btn">예약하기</a> <a href="#"
 							class="heart-icon"><span class="icon_heart_alt"></span></a>
 					</div>
 				</div>

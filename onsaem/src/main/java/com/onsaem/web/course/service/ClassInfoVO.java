@@ -20,6 +20,7 @@ public class ClassInfoVO {
 	String memberId;
 	Date classDate;
 	String returnReason;
+	String difficulty;
 	double star;
 	int  reviewCount;
 	
