@@ -134,15 +134,15 @@
 		INSERT_DATE,
 		MEMBER_ID)
 		VALUES
-		('LK'||LPAD(LK_SEQ.NEXTVAL,3,0),#{DATA},'쇼핑몰',CURRENT_DATE ,'ljwon')
+		('LK'||LPAD(LK_SEQ.NEXTVAL,3,0),#{groupId},'쇼핑몰',CURRENT_DATE ,#{memberId})
 	</insert>
 
 	<!-- 찜삭제 -->
 	<delete id="likeDel" parameterType="String">
 		DELETE FROM LIKES
 		WHERE
-		GROUP_ID=#{data}
-		AND MEMBER_ID='ljwon'
+		GROUP_ID=#{groupId}
+		AND MEMBER_ID=#{memberId}
 	</delete>
 
 	<!-- 찜리스트 -->
@@ -152,6 +152,7 @@
 		INSERT_DATE,
 		LIKE_ID
 		FROM LIKES
+		WHERE MEMBER_ID=#{memberId}
 	</select>
 
 	<!-- 상품상세보기 -->
@@ -194,4 +195,5 @@
 		WHERE M.SUB_GROUP like '추가이미지'||'%'
 		AND P.PRODUCT_ID=#{data}
 	</select>
+	
 </mapper>

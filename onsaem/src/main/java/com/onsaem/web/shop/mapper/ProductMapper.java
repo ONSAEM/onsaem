@@ -2,6 +2,7 @@ package com.onsaem.web.shop.mapper;
 
 import java.util.List;
 
+import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.shop.service.ProductVO;
 
 public interface ProductMapper {
@@ -13,25 +14,23 @@ public interface ProductMapper {
 
 	// 카테고리별 상품목록
 	List<ProductVO> proCategory(String data);
-	
-	//검색목록
-		List<ProductVO> searchProduct(String data);
+
+	// 검색목록
+	List<ProductVO> searchProduct(String data);
 
 	// 찜 담기
-	int likeAdd(String data);
+	int likeAdd(LikeVO vo);
 
 	// 찜 삭제
-	int likeDel(String data);
+	int likeDel(LikeVO vo);
 
 	// 찜 리스트
-	List<ProductVO> likeList();
+	List<ProductVO> likeList(LikeVO vo);
 
 	// 상품 상세보기
 	List<ProductVO> selectPro(String data);
 
 	// 추가이미지
 	List<ProductVO> addImg(String data);
-	
-	
 
 }

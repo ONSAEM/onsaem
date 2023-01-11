@@ -26,26 +26,23 @@ public class CartController {
 
 	// 버튼클릭 장바구니담기
 	@RequestMapping(value = "/cartAdd", method = RequestMethod.GET)
-	public String cartAdd(Model model, @RequestParam(value = "data", required = false) String data,
-			@RequestParam(value = "amount", required = false) String amount, HttpServletRequest request) {
+	public String cartAdd(Model model,CartVO vo, HttpServletRequest request) {
 		CartVO cartVo = new CartVO();
 		HttpSession session = request.getSession();
-		if (amount == null) {
-			System.out.println("====================" + data);
+		if ( Integer.toString(vo.getCartAmount()) == null) {			
 			cartVo.setMemberId((String)session.getAttribute("id"));
 			cartVo.setCartAmount(1);
-			cartVo.setProductId(data);
+			cartVo.setProductId(vo.getProductId());
 			cartService.cartAdd(cartVo);
 			return "redirect:/shop";
 		} else {
-			System.out.println("======================" + amount);
-			System.out.println("====================" + data);
 			cartVo.setMemberId((String)session.getAttribute("id"));
-			cartVo.setProductId(data);
-			cartVo.setCartAmount(Integer.parseInt(amount));
+			cartVo.setProductId(vo.getProductId());
+			cartVo.setCartAmount((int)vo.getCartAmount());
+			cartVo.setCartOption(vo.getCartOption());
 			cartService.cartAdd(cartVo);
-			model.addAttribute("productList", proService.selectPro(data));// 상품데이터가져오기
-			model.addAttribute("imgList", proService.addImg(data));
+			model.addAttribute("productList", proService.selectPro(vo.getProductId()));// 상품데이터가져오기
+			model.addAttribute("imgList", proService.addImg(vo.getProductId()));
 			return "content/shop/shopDetail";
 		}
 	}
