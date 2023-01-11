@@ -32,15 +32,15 @@
 	<p>
 		배송비: <input id="deliveryFee" value=5000 name="deliveryFee"></input>
 	</p>
-	<div class="options" name="options">
+	<div>
 		<p>
-			상품옵션1: <input class="option" value=5000></input>
+			상품옵션1: <input class="option" value=5000 name="options"></input>
 			상품옵션2: <input class="option" value=5000></input>
 			상품옵션3: <input class="option" value=5000></input>
 			상품옵션4: <input class="option" value=5000></input>
 		</p>
 	</div>
-	<label for="ngoName">카테고리</label> <select name="ngoName">
+	<label for="category">카테고리</label> <select name="category">
 		<option value="">==카테고리 선택==</option>
 		<option></option>
 	</select>
@@ -58,8 +58,9 @@
 		<div>
 		<label for="contents">상품상세설명</label>
 		<textarea rows="5" cols="20" placeholder="상품에 대한 상세한 설명" id="contents"
-			value="contents"></textarea>
+			value="contents" name="productInfo"></textarea>
 	</div>	
+	<button>제출</button><button>취소</button>
 
 	<script>
 	</script>
