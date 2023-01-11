@@ -25,9 +25,6 @@
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
 		type="text/css">
 </th:block>
-
-<!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
     
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
@@ -83,22 +80,22 @@
 		$(".btn").on("click", function() {
 			oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
 			var value = document.getElementById("ir1").value;
-			
+			console.log('[[${session.member.memberId}]]');
 			// location.href 세션 아이디 값이 안 땡겨와져요...
-// 			$.ajax({
-// 			      url: '/blog/myblog/blogWrite/blogInsert',
-// 			      method: 'post',
-// 			      contentType: 'application/x-www-form-urlencoded',
-// 			      data: $('form[name="myfrm"]').serialize(),
-// 			      success: function (result) {
-// 			         console.log(result);
-// 			         alert('등록 완료');
-// 			         //location.href='/blog/myblog?userId='+{result.blogId}; // 수정필요
-// 			      },
-// 			      error: function (error) {
-// 			         console.log(error);
-// 			      }
-// 			   })
+			$.ajax({
+			      url: '/blog/myblog/blogWrite/blogInsert',
+			      method: 'post',
+			      contentType: 'application/x-www-form-urlencoded',
+			      data: $('form[name="myfrm"]').serialize(),
+			      success: function (result) {
+			         console.log(result);
+			         alert('등록 완료');
+			         location.href='/blog/myblog?userId='+'[[${session.member.memberId}]]'; 
+			      },
+			      error: function (error) {
+			         console.log(error);
+			      }
+			   })
 		});
 		
 	</script>

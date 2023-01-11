@@ -13,8 +13,6 @@
 
 <!-- Css  -->
 <th:block layout:fragment="css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
-		type="text/css">
 	<link rel="stylesheet"
 		th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
@@ -65,12 +63,13 @@
 								alt="">
 						</div>
 						<div class="product__details__pic__slider owl-carousel">
-						
+
 							<img th:each="img:${imgList}"
 								th:data-imgbigurl="@{{fileRoute}{mediaName}/
 									(fileRoute=${img.fileRoute},mediaName=${img.mediaName})}"
-									th:src="@{{fileRoute}{mediaName}/
-									(fileRoute=${img.fileRoute},mediaName=${img.mediaName})}" alt="">							
+								th:src="@{{fileRoute}{mediaName}/
+									(fileRoute=${img.fileRoute},mediaName=${img.mediaName})}"
+								alt="">
 						</div>
 					</div>
 				</div>
@@ -90,28 +89,27 @@
 							quam vehicula elementum sed sit amet dui. Sed porttitor lectus
 							nibh. Vestibulum ac diam sit amet quam vehicula elementum sed sit
 							amet dui. Proin eget tortor risus.</p>
-						<div class="product__details__quantity">
-							<div class="quantity">
-								<div class="pro-qty">
-									<input type="text" value="1" class="proAmount">
+
+						<div>
+							<div class="product__details__quantity">
+								<div class="quantity">
+									<div class="pro-qty">
+										<input type="text" value="1" class="proAmount">
+									</div>
 								</div>
-							</div>
+							</div>							
+							<select class="options" onchange="optionEvent(this.value)">
+								<option value='' selected >-- 옵션 --</option>
+								<option value='친환경'>친환경</option>
+							</select> 
+							<a th:onclick="cartEvent(this)" class="primary-btn">장바구니 담기</a>
+							<button th:onclick="changeHeart(this)" style="border: solid 0px;"
+								class="change-heart">♡</button>
+							<br>
 						</div>
-						<a th:onclick="cartEvent(this)" class="primary-btn">ADD TO CARD</a>
-						<button th:onclick="changeHeart(this)" style="border: solid 0px;"
-							class="change-heart">♡</button>
+						<a th:onclick="cartEvent(this)" class="primary-btn">구매하기</a>
 						<ul>
-							<li><b>Availability</b> <span>In Stock</span></li>
-							<li><b>Shipping</b> <span>01 day shipping. <samp>Free
-										pickup today</samp></span></li>
-							<li><b>Weight</b> <span>0.5 kg</span></li>
-							<li><b>Share on</b>
-								<div class="share">
-									<a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i
-										class="fa fa-twitter"></i></a> <a href="#"><i
-										class="fa fa-instagram"></i></a> <a href="#"><i
-										class="fa fa-pinterest"></i></a>
-								</div></li>
+							<li><b>Shipping</b> <span>01 day shipping. 
 						</ul>
 					</div>
 				</div>
@@ -306,19 +304,15 @@
 			<script th:src="@{/shoptemplate/js/main.js}"></script>
 
 			<script type="text/javascript">
-				function changeHeart(data){					
-					if(data.innerText=="♡"){
-						const urlParams = new URL(location.href).searchParams;
-						const name = urlParams.get('data');	
-						console.log(name);
+				function changeHeart(data){	
+					const urlParams = new URL(location.href).searchParams;
+					const name = urlParams.get('data');	
+					if(data.innerText=="♡"){						
 						fetch('http://localhost/likeAdd?data='+name)
 						  .then((response) => console.log('success'))
 						  .then((data) => console.log(data));		
 						data.innerText="♥";				
-					}else{
-						const urlParams = new URL(location.href).searchParams;
-						const name = urlParams.get('data');	
-						console.log(name);
+					}else{					
 						fetch('http://localhost/likeDel?data='+name)
 						  .then((response) => console.log('success'))
 						  .then((data) => console.log(data));
@@ -326,13 +320,22 @@
 					};					
 				}
 				
-				function cartEvent(data){
-					let amount=document.querySelector(".proAmount").value;
-					let urlParams = new URL(location.href).searchParams;
-					let name = urlParams.get('data');
-					fetch('http://localhost/cartAdd?data='+name+'&amount='+amount)
-					  .then((response) => alert('장바구니에 담겼습니다.'))			
+				function optionEvent(data){				
+					let options=document.querySelector(".options").value;
+					options.value(data);
 				}
+				
+				function cartEvent(data){
+					let cartAmount=document.querySelector(".proAmount").value;
+					let cartOption=document.querySelector(".options").value;
+					let urlParams = new URL(location.href).searchParams;
+					let productId = urlParams.get('data');		
+					console.log(cartOption)
+					 fetch('http://localhost/cartAdd?productId='+productId+'&cartAmount='+cartAmount+'&cartOption='+cartOption)
+					  .then((response) => alert('장바구니에 담겼습니다.'))		
+				}
+				
+				
 			</script>
 		</th:block>
 	</section>

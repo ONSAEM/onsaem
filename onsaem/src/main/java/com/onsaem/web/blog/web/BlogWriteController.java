@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.onsaem.web.blog.service.BlogWriteService;
 import com.onsaem.web.blog.service.BlogWriteVO;
+import com.onsaem.web.member.service.MemberVO;
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -39,8 +40,8 @@ public class BlogWriteController {
 	
 	// 블로그 글 상세 페이지로 이동(단건조회)
 	@RequestMapping(value = "/myblog/blogWrite", method = RequestMethod.GET)
-	public String blogWrite(Model model, String userId, String bno) {
-		model.addAttribute("blogWrite", blogWriteService.getBlog(userId, bno));
+	public String blogWrite(Model model, String bno) {
+		model.addAttribute("blogWrite", blogWriteService.getBlog(bno));
 		return "content/blog/blogWrite";
 	}
 	
@@ -54,7 +55,12 @@ public class BlogWriteController {
 	// 블로그 글 등록 처리(등록) 세션 아이디 값 vo에 다시 담는 방법 몰름... 
 	@RequestMapping(value = "/myblog/blogWrite/blogInsert", method = RequestMethod.POST)
 	@ResponseBody  //ajax 응답은 responseBody
-	public BlogWriteVO blogInsert(Model model, BlogWriteVO vo) {
+	public BlogWriteVO blogInsert(Model model, BlogWriteVO vo, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String id = (String)session.getAttribute("id");
+		vo.setBlogId(id);
+		MemberVO vo2 = (MemberVO)session.getAttribute("member");
+		vo.setWriterNickname(vo2.getNickname());
 		model.addAttribute("blogInsert", blogWriteService.blogInsert(vo));
 		return vo;
 	}
