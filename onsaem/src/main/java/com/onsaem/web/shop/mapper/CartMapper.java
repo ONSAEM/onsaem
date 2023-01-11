@@ -6,8 +6,8 @@ import com.onsaem.web.shop.service.CartVO;
 
 public interface CartMapper {
 	// 장바구니 담기
-	int cartAdd(String data);
+	int cartAdd(CartVO vo);
 
 	// 장바구니 리스트
-	List<CartVO> cartList();
+	List<CartVO> cartList(CartVO vo);
 }

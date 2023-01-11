@@ -93,11 +93,11 @@
 						<div class="product__details__quantity">
 							<div class="quantity">
 								<div class="pro-qty">
-									<input type="text" value="1">
+									<input type="text" value="1" class="proAmount">
 								</div>
 							</div>
 						</div>
-						<a href="#" class="primary-btn">ADD TO CARD</a>
+						<a th:onclick="cartEvent(this)" class="primary-btn">ADD TO CARD</a>
 						<button th:onclick="changeHeart(this)" style="border: solid 0px;"
 							class="change-heart">♡</button>
 						<ul>
@@ -323,8 +323,15 @@
 						  .then((response) => console.log('success'))
 						  .then((data) => console.log(data));
 						data.innerText="♡";
-					};
-					
+					};					
+				}
+				
+				function cartEvent(data){
+					let amount=document.querySelector(".proAmount").value;
+					let urlParams = new URL(location.href).searchParams;
+					let name = urlParams.get('data');
+					fetch('http://localhost/cartAdd?data='+name+'&amount='+amount)
+					  .then((response) => alert('장바구니에 담겼습니다.'))			
 				}
 			</script>
 		</th:block>

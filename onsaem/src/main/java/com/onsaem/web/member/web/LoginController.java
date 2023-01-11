@@ -34,6 +34,8 @@ public class LoginController {
 	      if(vo2!=null) {
 	         HttpSession session = request.getSession();
 	         session.setAttribute("member", vo2);
+	         session.setAttribute("id", vo2.getMemberId());
+	         session.setMaxInactiveInterval(1200);
 	         return "O";       // 계정 존재  
 	      }else {
 	         return "X";	   // 계정 없음

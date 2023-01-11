@@ -4,8 +4,8 @@ import java.util.List;
 
 public interface CartService {
 	//장바구니 담기
-	int cartAdd(String data);
+	int cartAdd(CartVO vo);
 	
 	//장바구니 리스트
-	List<CartVO> cartList();
+	List<CartVO> cartList(CartVO vo);
 }

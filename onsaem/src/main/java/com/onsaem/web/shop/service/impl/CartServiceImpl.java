@@ -15,15 +15,15 @@ public class CartServiceImpl implements CartService{
 	@Autowired CartMapper cartMapper;
 	
 	@Override
-	public int cartAdd(String data) {
+	public int cartAdd(CartVO vo) {
 		// 장바구니 답기
-		return cartMapper.cartAdd(data);
+		return cartMapper.cartAdd(vo);
 	}
 
 	@Override
-	public List<CartVO> cartList() {
+	public List<CartVO> cartList(CartVO vo) {
 		// 장바구니 리스트
-		return cartMapper.cartList();
+		return cartMapper.cartList(vo);
 	}
 
 }
