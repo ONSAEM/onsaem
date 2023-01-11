@@ -62,17 +62,14 @@
 							<i class="fa fa-bars"></i> <span>All departments</span>
 						</div>
 						<ul>
+						<li><a href="http://localhost/category?data=야채">야채</a></li>
+						<li><a href="http://localhost/category?data=과일">과일</a></li>
 							<li><a href="#">Fresh Meat</a></li>
 							<li><a href="#">Vegetables</a></li>
 							<li><a href="#">Fruit & Nut Gifts</a></li>
 							<li><a href="#">Fresh Berries</a></li>
 							<li><a href="#">Ocean Foods</a></li>
 							<li><a href="#">Butter & Eggs</a></li>
-							<li><a href="#">Fastfood</a></li>
-							<li><a href="#">Fresh Onion</a></li>
-							<li><a href="#">Papayaya & Crisps</a></li>
-							<li><a href="#">Oatmeal</a></li>
-							<li><a href="#">Fresh Bananas</a></li>
 						</ul>
 					</div>
 				</div>
@@ -114,7 +111,7 @@
 							<ul>
 								<li><a href="http://localhost/category?data=야채">야채</a></li>
 								<li><a href="http://localhost/category?data=과일">과일</a></li>
-							</ul>
+							</ul>							
 						</div>
 						<div class="sidebar__item">
 							<h4>가격</h4>
@@ -187,7 +184,7 @@
 						</div>
 						<div class="sidebar__item">
 							<div class="latest-product__text">
-								<h4>Latest Products</h4>
+								<h4>최근 본 상품</h4>
 								<div class="latest-product__slider owl-carousel">
 									<div class="latest-prdouct__slider__item">
 										<a href="/shopDetail" class="latest-product__item">
@@ -221,7 +218,7 @@
 				<div class="col-lg-9 col-md-7">
 					<div class="product__discount">
 						<div class="section-title product__discount__title">
-							<h2>Today Best</h2>
+							<h2>주간 베스트</h2>
 						</div>
 						<div class="row">
 							<div class="product__discount__slider owl-carousel">
@@ -279,9 +276,9 @@
 									<span>Sort By</span> <select id="changeList"
 										th:onchange="changeList(this.value)">
 										<option value="new"
-											th:selected="${#strings.equals(param.data, 'new')}">NEW</option>
+											th:selected="${#strings.equals(param.data, 'new')}">최신순</option>
 										<option value="popularity"
-											th:selected="${#strings.equals(param.data, 'popularity')}">POPULARITY</option>
+											th:selected="${#strings.equals(param.data, 'popularity')}">인기순</option>
 									</select>
 								</div>
 							</div>
@@ -319,7 +316,7 @@
 										<a th:href="@{/shopDetail(data=${product.productId})}"
 											th:text=${product.productName}>Crab Pool Security</a>
 									</h6>
-									<h5 th:text=${product.price}>$30.00</h5>
+									<h5 th:text="${product.price}+원">$30.00</h5>
 								</div>
 							</div>
 						</div>
@@ -330,6 +327,7 @@
 					</div>
 				</div>
 			</div>
+			<input type="hidden" value="${session.id}" id="id">
 		</div>
 	</section>
 	<!-- Product Section End -->
@@ -346,6 +344,7 @@
 		<script th:src="@{/shoptemplate/js/main.js}"></script>
 		
 		<script type="text/javascript">
+		let id='[[${session.id}]]';
 			function changeList(data) {
 				console.log(data);
 				if (data == 'new') {
@@ -361,8 +360,8 @@
 				alert("찜목록에 추가되었습니다.")
 			}
 
-			function cartEvent() {					
-				alert("장바구니에 추가되었습니다.")				
+			function cartEvent() {				
+				alert("장바구니에 추가되었습니다.");											
 			}
 		</script>
 	</th:block>

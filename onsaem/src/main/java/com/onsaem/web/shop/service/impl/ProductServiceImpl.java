@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.shop.mapper.ProductMapper;
 import com.onsaem.web.shop.service.ProductService;
 import com.onsaem.web.shop.service.ProductVO;
@@ -33,21 +34,21 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public int likeAdd(String data) {
+	public int likeAdd(LikeVO vo) {
 		// 찜담기
-		return proMapper.likeAdd(data);
+		return proMapper.likeAdd(vo);
 	}
 	
 	@Override
-	public int likeDel(String data) {
+	public int likeDel(LikeVO vo) {
 		// 찜 삭제
-		return proMapper.likeDel(data);
+		return proMapper.likeDel(vo);
 	}
 
 	@Override
-	public List<ProductVO> likeList() {
+	public List<ProductVO> likeList(LikeVO vo) {
 		// 찜정보가져오기
-		return proMapper.likeList();
+		return proMapper.likeList(vo);
 	}
 
 	@Override

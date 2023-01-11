@@ -9,7 +9,7 @@
 			CART_OPTION,CART_PRICE,MEMBER_ID)
 		VALUES
 			('CT'||TO_CHAR(CT_SEQ.NEXTVAL),
-			#{productId},#{cartAmount},NULL,
+			#{productId},#{cartAmount},#{cartOption},
 			(SELECT PRICE 
 			FROM PRODUCTS 
 			WHERE PRODUCT_ID=#{productId}) ,#{memberId})

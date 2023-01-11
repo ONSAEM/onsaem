@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<!-- index.html 고유 CSS 추가 -->
+<th:block layout:fragment="css">
+	<!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
+</th:block>
+<!-- index.html 고유 스크립트 추가 -->
+<th:block layout:fragment="script">
+	<!--    <script th:src="@{/js/page/home.js}"></script>-->
+</th:block>
+
+<!-- Content -->
+<div layout:fragment="content">
+	<h3>상품 등록</h3>
+	<label for="productName" id="productName">상품명</label><br> <input
+		type="text" id="productName" name="productName">
+	<div>
+		<label for="productDetail">상품설명</label>
+		<textarea rows="5" cols="20" placeholder="상품에 대한 간단한 설명" id="productDetail"
+			value="contents" name="productDetail"></textarea>
+	</div>
+	<p>
+		가격: <input id="price" value=5000 name="price"></input>
+	</p>
+	<p>
+		재고량: <input id="amount" value=5000 name="amount"></input>
+	</p>
+	<p>
+		배송비: <input id="deliveryFee" value=5000 name="deliveryFee"></input>
+	</p>
+	<div class="options" name="options">
+		<p>
+			상품옵션1: <input class="option" value=5000></input>
+			상품옵션2: <input class="option" value=5000></input>
+			상품옵션3: <input class="option" value=5000></input>
+			상품옵션4: <input class="option" value=5000></input>
+		</p>
+	</div>
+	<label for="ngoName">카테고리</label> <select name="ngoName">
+		<option value="">==카테고리 선택==</option>
+		<option></option>
+	</select>
+	<br>
+	<label for="proofEx">친환경인증증서</label> <input type="file" id="proofEx"
+		name="fileName"> <br>
+		<label for="proofEx">대표이미지</label> <input type="file" id="proofEx"
+		name="fileName"> <br>
+		<label for="proofEx">추가이미지1</label> <input type="file" id="proofEx"
+		name="fileName"> <br>
+		<label for="proofEx">추가이미지2</label> <input type="file" id="proofEx"
+		name="fileName"> <br>
+		<label for="proofEx">추가이미지3</label> <input type="file" id="proofEx"
+		name="fileName"> <br>
+		<div>
+		<label for="contents">상품상세설명</label>
+		<textarea rows="5" cols="20" placeholder="상품에 대한 상세한 설명" id="contents"
+			value="contents"></textarea>
+	</div>	
+
+	<script>
+	</script>
+</div>
+</html>
