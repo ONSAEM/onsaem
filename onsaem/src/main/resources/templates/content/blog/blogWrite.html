@@ -22,7 +22,7 @@
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
 		type="text/css">
 	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}"
+		th:href="@{/shoptemplate/css/jquery-ui.min.css}"
 		type="text/css">
 	<link rel="stylesheet"
 		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
@@ -97,7 +97,7 @@
 
 <!-- Content -->
 
-<div layout:fragment="content" th:each="blog : ${blogWrite}">
+<div layout:fragment="content">
 
 	<!-- Blog Details Hero Begin -->
 	<section class="blog-details-hero set-bg"
@@ -106,10 +106,10 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="blog__details__hero__text">
-						<h2>[[${blog.writeTitle}]]</h2>
+						<h2>[[${blogWrite.writeTitle}]]</h2>
 						<ul>
-							<li>By [[${blog.writerNickname}]]</li>
-							<li>[[${#dates.format(blog.writeDate, 'YYYY-MM-DD')}]]</li>
+							<li>By [[${blogWrite.writerNickname}]]</li>
+							<li>[[${#dates.format(blogWrite.writeDate, 'YYYY-MM-DD')}]]</li>
 							<li>8 Comments</li>
 						</ul>
 					</div>
@@ -189,7 +189,7 @@
 				<div class="col-lg-8 col-md-7 order-md-1 order-1">
 					<div class="blog__details__text">
 						<img th:src="@{/shoptemplate/img/blog/details/details-pic.jpg}"
-							alt=""> [(${blog.blogWrite})]
+							alt=""> [(${blogWrite.blogWrite})]
 					</div>
 					<div class="blog__details__content">
 						<div class="row">
@@ -201,17 +201,18 @@
 											alt="">
 									</div>
 									<div class="blog__details__author__text">
-										<h6>[[${blog.writerNickname}]]</h6>
-										<span>[[${blog.blogId}]]</span>
+										<h6>[[${blogWrite.writerNickname}]]</h6>
+										<span>[[${blogWrite.blogId}]]</span>
 									</div>
 								</div>
 							</div>
 							<div class="col-lg-6">
 								<div class="blog__details__widget">
 									<ul>
+										<!-- 하트 -->
 										<li><div class="wrapper" >
 												<div class="button-container">
-													<div class="heartbutton">
+													<div class="heartbutton" th:onclick="saveLike(this)">
 														<span class="content"> <i class="icon fa fa-heart"
 															aria-hidden="true"></i> <i class="icon far fa-heart"
 															aria-hidden="true"></i> <span class="text like">Like<span
@@ -221,7 +222,7 @@
 													</div>
 												</div>
 											</div></li>
-										<li><span>Categories:</span>[[${blog.categoryName}]]</li>
+										<li><span>Categories:</span>[[${blogWrite.categoryName}]]</li>
 									</ul>
 								</div>
 							</div>
@@ -404,26 +405,66 @@
 				 .to(".heartbutton", {duration: 0.7, width: 170})
 				 .to(".like", { opacity: 1},"-=0.5")
 				 .to(".d", {duration: 0.3, opacity: 1, translateX: 0},"-=0.2").to(".number", {duration: 0.2, opacity: 1,text: like, fontSize: 25}, "-=0.1");
+		
 		$(".heartbutton").click(function(){
 			event.stopPropagation();
 		  	flag ? timeline1.play() :   timeline1.progress(0).pause();
-		  	flag = !flag;
+		  	flag = !flag;  	
+		});
+		
+		function saveLike(data){
+			// 좋아요 디비 저장
+			console.log(data);
+			let bno = "[[${blogWrite.writeId}]]";
+			let id = "[[${session.id}]]";
+			if(id!=null){ // 로그인 된 상태이면
+				//console.log($(".blogLike").val());
+			  	if('[[${likeCount}]]'=='F'){ // db에 저장
+			  			//db에 저장하는 메서드 컨트롤러에 추가
+// 			  			fetch('/blog/addBlogLike?groupId='+bno)
+// 			  			.then((response)=> console.log('success'))
+// 			  			.then((data) => console.log(data));
+			  	
+			  			$.ajax({
+						      url: '/blog/addBlogLike',
+						      method: 'post',
+						      contentType: 'application/x-www-form-urlencoded',
+						      data: {"groupId": bno},
+						      success: function (result) {
+						         console.log(result);
+						         alert('좋아요 완료');
+						      },
+						      error: function (error) {
+						         console.log(error);
+						      }
+						   })
+			  	
+			  	
+			  	}else{					 // db에 삭제
+			  			//db에서 삭제 또는 수정하는 메서드 컨트롤러에 추가
+// 			  			fetch('/blog/delBlogLike?groupId='+bno)
+// 			  			.then((response)=> console.log('success'))
+// 			  			.then((data) => console.log(data));
+			  	
+			  			$.ajax({
+						      url: '/blog/delBlogLike',
+						      method: 'post',
+						      contentType: 'application/x-www-form-urlencoded',
+						      data: {"groupId": bno},
+						      success: function (result) {
+						         console.log(result);
+						         alert('좋아요 삭제 완료');
+						      },
+						      error: function (error) {
+						         console.log(error);
+						      }
+						   })
+			  	};
+			}else{ // 로그인 하지 않은 상태이면
+				alert('로그인이 필요합니다');
+			}
 		  	
-		  	// 디비에 저장
-		  	//console.log($(".test").val());
-		  	console.log($(".blogLike").val());
-		  	if($(".blogLike").val()=='F'){ // db에 저장
-		  			//db에 저장하는 메서드 컨트롤러에 추가
-		  		$(".heartbutton").val('T') 
-		  	}else{					 // db에 삭제
-		  		$(".blogLike").val('F')
-		  			//db에서 삭제 또는 수정하는 메서드 컨트롤러에 추가
-		  	}
-		  	
-		}); 
-	
-	// 좋아요 디비 저장
-	
+		}
 	
 	</script>
 	

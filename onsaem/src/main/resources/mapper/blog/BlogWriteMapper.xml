@@ -50,12 +50,20 @@
 				current_date)
  	</insert>
  	
+ 	<!-- 좋아요 조회 -->
+ 	<select id="likeCount" resultType="String" parameterType="String">
+ 		select case when count(*) != 0 then 'Y' else 'F' end as like_count
+		from likes
+		where member_id = #{memberId}
+		and group_id = #{groupId}
+ 	</select>
+ 	
  	<!-- 좋아요 추가 -->
  	<insert id="addBlogLike" parameterType="LikeVO">
  		<selectKey keyProperty="likeId" resultType="String" order="BEFORE">
  			SELECT 'LK'||LPAD(LK_SEQ.NEXTVAL,3,0) FROM DUAL
  		</selectKey>
- 		INSERT INTO (LIKE_ID,
+ 		INSERT INTO LIKES(LIKE_ID,
 					 MEMBER_ID,
 					 GROUP_ID,
 					 GROUPS,
@@ -63,15 +71,25 @@
 		VALUES (#{likeId}, <!-- 시퀀스 -->
 				#{memberId}, <!-- 누른 사람의 아이디 -->
 				#{groupId}, <!-- 글 번호 -->
-				"블로그",
+				'블로그',
 				current_date)
  	</insert>
  	
- 	
  	<!-- 좋아요 삭제 -->
+ 	<delete id="delBlogLike" parameterType="String">
+ 		DELETE FROM LIKES
+		WHERE
+		GROUP_ID=#{groupId}
+		AND MEMBER_ID=#{memberId}
+ 	</delete>
  	
  	<!-- 그룹 아이디가 같은 경우에만 카운트하기(한 게시글에서 좋아요 수 조회) -->
- 	
+ 	<select id="cntBlogLike" resultType="LikeVO" parameterType="String">
+ 		select group_id, count(*) cbl
+ 		from likes
+ 		group by group_id
+ 		having group_id = #{groupId}
+ 	</select>
  	
  	<!-- 글 수정 -->
  	<update id="blogUpdate" parameterType="blogWriteVO">
