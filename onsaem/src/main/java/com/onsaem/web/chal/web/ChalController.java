@@ -24,7 +24,7 @@ import com.onsaem.web.chal.service.NgoService;
 import com.onsaem.web.chal.service.NgoVO;
 import com.onsaem.web.chal.service.ParticipantService;
 import com.onsaem.web.chal.service.ParticipantVO;
-import com.onsaem.web.chal.service.PaymentVO;
+import com.onsaem.web.common.service.PaymentVO;
 import com.onsaem.web.chal.service.ProofService;
 import com.onsaem.web.common.service.MediaVO;
 @Controller
