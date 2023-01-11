@@ -7,7 +7,7 @@
 </head>
 <body>
 	<h3>챌린저스 팀전 등록</h3>
-	<form action="http://localhost/inputTeamChal" method="post">
+	<form action="http://localhost/inputTeamChal" method="post" enctype="multipart/form-data">
 		<p>챌린지를 만들어 주세요!</p>
 		<label for="chalName" id="chalName">챌린지 제목</label><br>
 		<input type="text"  id="chalName" name="chalName">
@@ -17,7 +17,7 @@
             	<input name="frequency" type="radio" value="월화수목금토일">매일
 				<input name="frequency" type="radio" value="월화수목금">평일 매일
 				<input name="frequency" type="radio" value="토일">주말 매일
-				<select name="frequency">
+				<select >
 					<option value="">==요일선택==</option>
 					<option value="월" name="frequency">월요일</option>
 					<option value="화" name="frequency">화요일</option>
@@ -33,8 +33,10 @@
         	<label for="teamFee">기부금</label>
        	 	<p>챌린지 리더님이 설정하시는 금액은 모든 팀원에게 적용 됩니다!</p>
         	<p>내기 포인트는 설정하시는 기부금액의 1%으로 설정됩니다!</p>
-        		<p>Value: <input id="value" value=5000></input></p>
-        		<input name="teamFee" type="range" min=1000 max=50000 value=5000 id="teamFee">
+        		<input id="value" value=5000></input>
+        		<input name="teamFee" type="range" min=1000 max=50000 value=5000 id="teamFee" onchange="changePoint(this.value)">
+        		<br>
+        		<label>포인트</label><input name="betPoint" type="number" id="betPoint" readonly>
         </div>
         <label for="ngoName">기부처</label>
         <select th:field="*{ngoes}" name="ngoName">
@@ -60,14 +62,14 @@
         </ul>
         
         <label for="proofEx">인증샷 예시</label>
-        <input type="file" id ="proofEx" name="fileName" >
+        <input type="file" id ="proofEx" name="uploadFile" >
         <br>
         
         <label for="contents">챌린지 소개</label>
         <textarea rows="5" cols="20" placeholder="예) 매일 1만보 걷고 건강해지기! 오늘부터 같이 해봐요 :)" id="contents" value="contents"></textarea>	
 		<br>
 		 <label for="proofEx">썸네일 첨부</label>
-        <input type="file" id ="thumbnail" name="fileName" >
+        <input type="file" id ="thumbnail" name="uploadFile" >
         <br>
 		
 		<input type="submit" value="챌린저스 등록" class="btn">&nbsp;&nbsp;
@@ -86,6 +88,16 @@
 	output.oninput = function() {
 	    slider.value = this.value;
 	}
+	
+	
+	let betPoint = document.getElementById("betPoint");
+	betPoint.value = Number(output.value)*0.01;
+	
+	function changePoint(money){
+		console.log(money);
+		betPoint.value = Number(money)*0.01;
+	}
+	
 </script>
 </body>
 </html>

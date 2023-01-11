@@ -143,20 +143,62 @@ public class ChalController {
 	
 	//챌린지 등록 - 팀전
 	@RequestMapping(value="/inputTeamChal", method=RequestMethod.POST)
-	public ChalVO insertTeamChal(@RequestParam String data,ChalVO vo, MediaVO mvo, ParticipantVO pvo) {
-		System.out.println("============="+data);
+	public String insertTeamChal(HttpServletRequest req, ChalVO vo, MediaVO mvo, ParticipantVO pvo, List<MultipartFile> uploadFile) {
+
+		//Challengers테이블에 삽입
+		vo.setMemberId("podo");
+		vo.setSubClass("팀");
+		vo.setDonationFee(vo.getTeamFee());
 		chalService.inputChal(vo);
-		proofService.inputMedia(mvo);
-		return vo;
+		
+		//Participant에 챌린저스 개최자 등록
+		System.out.println("아이디" + vo.getChalId());
+		System.out.println("기부금" + vo.getDonationFee());
+		
+		pvo.setChalId(vo.getChalId());
+		pvo.setParticipantId(vo.getMemberId());
+		pvo.setPrivateDonate(vo.getDonationFee());
+		
+		partService.inputParticipant(pvo);
+		
+		
+		//사진 등록
+		//session = req.getSession();
+		String realFolder = "/challengers/img/";
+        File dir = new File(realFolder);
+        if (!dir.isDirectory()) {
+            dir.mkdirs();
+        }
+		
+		
+		//넘어온 파일 리스트로 저장
+		//List<MultipartFile> files = mhsq.getFiles("uploadFile");
+			for(int i=0; i<uploadFile.size(); i++) {
+				//원래 파일 이름 
+				String originName = uploadFile.get(i).getOriginalFilename();
+				//groupId 지정  - chal 글번호루,,
+				mvo.setGroupId(vo.getChalId());
+				mvo.setFileName(originName);
+				//경로?주소?지정
+				mvo.setFileRoute(realFolder);
+				
+				mvo.setSubGroup("챌린저스");
+				System.out.println(mvo);
+				proofService.inputMedia(mvo);
+				
+			}
+		return "redirect:/chalList";
 	}
 	
 	
 	
 	//챌린지 참가 - 개인전 페이지 이동
 	@RequestMapping(value="/applyChalFrm", method=RequestMethod.GET)
-	public String applyChalFrm(@RequestParam(value="chalId", required= true)String chalId, Model model) {
-		
+	public String applyChalFrm(@RequestParam(value="chalId", required= true)String chalId, Model model,MediaVO vo) {
+		System.out.println(chalService.getChal(chalId));
 		model.addAttribute("chals", chalService.getChal(chalId));
+		vo.setGroupId(chalId);
+		model.addAttribute("photoes", proofService.listMedia(vo));
 		return "content/challengers/applyChalFrm";
 	}
 	
@@ -170,7 +212,9 @@ public class ChalController {
 				partService.inputParticipant(pvo);
 				//챌린저스 테이블 수정
 				
+				vo.setChalId(pvo.getChalId());
 				chalService.updateDonate(vo);
+				System.out.println("group_id" + pvo.getChalId());
 				
 				//결제 테이블
 				payvo.setGroupId(pvo.getChalId());
@@ -185,10 +229,13 @@ public class ChalController {
 	
 	//챌린지 참가 - 팀전 페이지 이동
 	@RequestMapping(value="/applyChalTeamFrm", method=RequestMethod.GET)
-	public String applyChalTeamFrm(@RequestParam(value="chalId", required= true)String chalId, Model model) {
-		//한건 정보 가져오기
+	public String applyChalTeamFrm(@RequestParam(value="chalId", required= true)String chalId, Model model,MediaVO vo) {
+		System.out.println(chalService.getChal(chalId));
 		model.addAttribute("chals", chalService.getChal(chalId));
-		return "content/challengers/applyChalFrm";
+		vo.setGroupId(chalId);
+		model.addAttribute("photoes", proofService.listMedia(vo));
+
+		return "content/challengers/applyChalTeamFrm";
 	}
 	
 	//챌린지 참가 - 팀 등록
@@ -204,6 +251,7 @@ public class ChalController {
 		chalService.updateDonate(vo);
 		
 		//결제 테이블
+		System.out.println(pvo.getChalId());
 		payvo.setGroupId(pvo.getChalId());
 		payvo.setPrice(pvo.getPrivateDonate());
 		payvo.setPayerId(pvo.getParticipantId());
