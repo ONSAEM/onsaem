@@ -109,5 +109,17 @@ public class ProofServiceImpl implements ProofService {
 		return proofMapper.getMediaOption(vo);
 	}
 
+	@Override
+	public List<MediaVO> getMyShotsForOne(MediaVO vo) {
+		// TODO Auto-generated method stub
+		return proofMapper.getMyShotsForOne(vo);
+	}
+
+	@Override
+	public Integer countProof(ProofVO vo) {
+		// TODO Auto-generated method stub
+		return proofMapper.countProof(vo);
+	}
+
 
 }

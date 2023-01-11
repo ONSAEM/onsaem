@@ -7,7 +7,7 @@
 	<insert id="inputProof" parameterType="ProofVO">
 		<selectKey keyProperty="proofId" resultType="string">
 			SELECT
-			'PF'||to_char(proof_seq.NEXTVAL) FROM DUAL
+			'PROOF'||to_char(proof_seq.NEXTVAL) FROM DUAL
 		</selectKey>
 		INSERT INTO PROOFS
 		VALUES(#{proofId}, #{chalId}, #{proofWriter},
@@ -110,5 +110,26 @@
 		ON M.GROUP_ID = C.CHAL_ID
 		WHERE M.SUB_GROUP = #{subGroup}';
 	</select>
+	
+	<!-- 한 챌린지에 대해 내가 입력한 모든 인증샷 싹다 가져오기 -->
+	<select id="getMyShotsForOne" parameterType="MediaVO" resultType="MediaVO">
+			SELECT M.FILE_ROUTE AS FILEROUTE, M.MEDIA_NAME AS MEDIANAME
+			FROM MEDIA M JOIN PROOFS P
+			ON M.GROUP_ID = P.CHAL_ID 
+			WHERE P.PROOF_WRITER = #{proofWriter}
+			AND M.GROUP_ID = #{groupId}
+			ORDER BY P.WRITE_DATE;
+	</select>
+	
+	<!-- 조건에 맞는 proof 행 갯수 count하기  -->
+	<select id="countProof" parameterType="ProofVO">
+		SELECT COUNT(*) AS CNT
+		FROM PROOFS
+		WHERE CHAL_ID = #{chalId}
+		AND PROOF_WRITER = #{proofWriter}
+		AND CONDITION = #{condition}
+	</select> 
+	
+	
 
 </mapper>

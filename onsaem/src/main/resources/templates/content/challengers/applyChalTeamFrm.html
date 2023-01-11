@@ -53,7 +53,7 @@
 
     <!-- Product Details Section Begin -->
     <section class="product-details spad">
-        <div class="container">
+        <div class="container" th:each="chal : ${chals}"  >
             <div class="row">
                 <div class="col-lg-6 col-md-6">
                     <div class="product__details__pic">
@@ -74,7 +74,9 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
-                    <div class="product__details__text" th:each="chal : ${chals}">
+                    <div class="product__details__text">
+                    
+                    <form action="/applyChalTeamFrm" method="post"> 
                         <h3 th:text="${chal.chalName}">Vetgetable’s Package</h3>
                         <div class="product__details__rating">
                             <i class="fa fa-star"></i>
@@ -127,16 +129,18 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <div class="product__details__tab__desc">
-                                    <form th:each="chal : ${chals}"  >
+                                    
 										<h2>기부금</h2>
 										<p>챌린지 리더가 설정한 금액이 기부됩니다.</p>
-										<input th:value="${chal.teamFee}" name="privateDonate" id="privateDonate" readonly></input>
+										<input th:value=${chal.teamFee} name="privateDonate" id="privateDonate" readonly>
 										<p>포인트</p>
         								<input id="betPoint" name="betPoint"  type="number" read only>
-        								<input type="number" id="donation" value=donationFee name="donationFee" style="display:none;">
-        								<input type="hidden" id="currentFee" th:value="${chal.donationFee}">                    
+        								<input type="number" value="donationFee" id="donationFee" name="donationFee" style="display:none;">
+        								<input type="hidden" id="currentFee" th:value=${chal.donationFee}>
+        								<input type="hidden" th:value=${chal.chalId} name="chalId">                    
                                     	<p>결제 조건 및 약관에 동의합니다.</p>
-                                   		<input type="button" value="결제하기">
+                                   		<input type="submit" value="참가하기" class="btn">&nbsp;&nbsp;
+										<input type="reset" value="취소" class="btn" onClick="history.go(-1)">
                                    	</form>
                                 </div>
                             </div>
@@ -146,13 +150,8 @@
                 </div>
             </div>
         </div>
-    </section>
-    <!-- Product Details Section End -->
-
- 	</div>
-     
-        <!-- JS -->
-		<th:block layout:fragment="script">
+ <!-- JS -->
+ 		<th:block layout:fragment="script">
 			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
@@ -163,19 +162,29 @@
 			<script th:src="@{/shoptemplate/js/main.js}"></script>
 			
 		<script>
-			var privateDonation = Number(document.getElementById("privateDonate")).value;
-			var donation = document.getElementById("donation");
-			
+			var privateDonation = Number(document.getElementById("privateDonate").value);
+			/* var donation = Number(document.getElementById("donation").value); */
+			console.log(privateDonation);
 			
 			var currentFee = Number(document.getElementById("currentFee").value);
+			console.log("현재기부금모인거"+currentFee);
+			
 			donationFee.value = currentFee+privateDonation;
-			console.log(donationFee);
+			console.log(donationFee.value);
 			let betPoint = document.getElementById("betPoint");
 			betPoint.value = privateDonation*0.01;
+			console.log(betPoint.value);
+
 			
 			
 		</script> 
 		</th:block>
+    <!-- Product Details Section End -->
+
+ 	</div>
+     
+    
+		
 		
 	  
     </section>
