@@ -91,9 +91,7 @@
 		SELECT *
 		FROM MEDIA
 		WHERE GROUP_ID = #{groupId}
-		AND GROUPS = #{groups}
-		AND SUB_GROUP =
-		#{subGroup}
+		ORDER BY MEDIA_NAME
 	</select>
 
 	<!-- 사진 한건 보기 -->

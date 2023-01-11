@@ -204,71 +204,7 @@
 								</div>
 							</div>
 							<div class="sidebar__item">
-								<div class="latest-product__text">
-									<h4>Latest Products</h4>
-									<div class="latest-product__slider owl-carousel">
-										<div class="latest-prdouct__slider__item">
-											<a href="/shopDetail" class="latest-product__item">
-												<div class="latest-product__item__pic">
-													<img th:src="@{/shoptemplate/img/latest-product/lp-1.jpg}"
-														alt="">
-												</div>
-												<div class="latest-product__item__text">
-													<h6>Crab Pool Security</h6>
-													<span>$30.00</span>
-												</div>
-											</a> <a href="/shopDetail" class="latest-product__item">
-												<div class="latest-product__item__pic">
-													<img th:src="@{/shoptemplate/img/latest-product/lp-2.jpg}"
-														alt="">
-												</div>
-												<div class="latest-product__item__text">
-													<h6>Crab Pool Security</h6>
-													<span>$30.00</span>
-												</div>
-											</a> <a href="/shopDetail" class="latest-product__item">
-												<div class="latest-product__item__pic">
-													<img th:src="@{/shoptemplate/img/latest-product/lp-3.jpg}"
-														alt="">
-												</div>
-												<div class="latest-product__item__text">
-													<h6>Crab Pool Security</h6>
-													<span>$30.00</span>
-												</div>
-											</a>
-										</div>
-										<div class="latest-prdouct__slider__item">
-											<a href="#" class="latest-product__item">
-												<div class="latest-product__item__pic">
-													<img th:src="@{/shoptemplate/img/latest-product/lp-1.jpg}"
-														alt="">
-												</div>
-												<div class="latest-product__item__text">
-													<h6>Crab Pool Security</h6>
-													<span>$30.00</span>
-												</div>
-											</a> <a href="#" class="latest-product__item">
-												<div class="latest-product__item__pic">
-													<img th:src="@{/shoptemplate/img/latest-product/lp-2.jpg}"
-														alt="">
-												</div>
-												<div class="latest-product__item__text">
-													<h6>Crab Pool Security</h6>
-													<span>$30.00</span>
-												</div>
-											</a> <a href="#" class="latest-product__item">
-												<div class="latest-product__item__pic">
-													<img th:src="@{/shoptemplate/img/latest-product/lp-3.jpg}"
-														alt="">
-												</div>
-												<div class="latest-product__item__text">
-													<h6>Crab Pool Security</h6>
-													<span>$30.00</span>
-												</div>
-											</a>
-										</div>
-									</div>
-								</div>
+								
 							</div>
 						</div>
 					</div>
@@ -455,7 +391,8 @@
 										<h6>
 											<a th:href="@{/detailChal(chalId = ${chal.chalId})}" th:text=${chal.chalName}>Oing</a>
 										</h6>
-										<h5 th:text=${chal.startDate}>$30.00</h5>
+										<h5 th:text="${#dates.format(chal.startDate, 'MM월 dd일')}">$30.00</h5><h6>부터 시작</h6>
+										
 									</div>
 								</div>
 							</div>

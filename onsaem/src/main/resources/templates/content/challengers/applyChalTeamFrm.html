@@ -121,7 +121,7 @@
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
-                                    aria-selected="true">개인 챌린저스</a>
+                                    aria-selected="true">팀 챌린저스</a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -130,7 +130,7 @@
                                     <form th:each="chal : ${chals}"  >
 										<h2>기부금</h2>
 										<p>챌린지 리더가 설정한 금액이 기부됩니다.</p>
-										<input id="value" value=5000 th:name="privateDonate"></input>
+										<input id="value" th:value="${chal.teamFee}" th:name="privateDonate" readonly></input>
         								                     
                                     	<p>결제 조건 및 약관에 동의합니다.</p>
                                    		<input type="button" value="결제하기">
