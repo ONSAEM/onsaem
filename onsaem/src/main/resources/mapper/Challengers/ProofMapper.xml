@@ -130,6 +130,10 @@
 		AND CONDITION = #{condition}
 	</select> 
 	
+	<!-- 썸네일만 싹다 가져오기,,한 사람이 참가한 챌린지의,,모든 사진 가져오기 휴 ㅋㅋ  -->
+	<select id="myChalsThumnails"  parameterType="MediaVO" resultType="MediaVO">
+		SELECT * FROM PROOFS
+	</select>
 	
 
 </mapper>
