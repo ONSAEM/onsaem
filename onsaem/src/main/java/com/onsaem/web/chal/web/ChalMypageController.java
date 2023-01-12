@@ -29,7 +29,10 @@ public class ChalMypageController {
 	@RequestMapping(value="/myCurrentChal",method=RequestMethod.GET)
 	public String myCurrentChalList(Model model,@RequestParam(value="userId", required=false)String userId,ChalVO vo) {
 		vo.setMemberId(userId);
+		//로그인 유저가 참가중인 챌린저들,,,
 		model.addAttribute("chalList", chalService.myCurentChal(vo));
+		
+		//그거 썸네일로 쓸것들 
 		return "content/challengers/MyCurrentChal";
 	}
 	
