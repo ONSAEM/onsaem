@@ -9,12 +9,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.onsaem.web.blog.service.BlogReplyService;
 import com.onsaem.web.blog.service.BlogWriteService;
 import com.onsaem.web.blog.service.BlogWriteVO;
 import com.onsaem.web.common.service.LikeVO;
+import com.onsaem.web.common.service.RepliesVO;
 import com.onsaem.web.member.service.MemberVO;
 
 @Controller
@@ -23,6 +24,8 @@ import com.onsaem.web.member.service.MemberVO;
 public class BlogWriteController {
 	@Autowired
 	BlogWriteService blogWriteService;
+	@Autowired
+	BlogReplyService replyService;
 	
 	// 블로그 메인으로 이동 (조회)
 	@RequestMapping(value = "/blogMain", method = RequestMethod.GET)
@@ -48,6 +51,9 @@ public class BlogWriteController {
 		vo.setGroupId(bno);
 		model.addAttribute("likeCount", blogWriteService.likeCount(vo)); // 좋아요 조회
 		model.addAttribute("cntBlogLike", blogWriteService.cntBlogLike(vo)); // 좋아요 수
+
+		
+		model.addAttribute("replyList", replyService.replyList(bno)); // 댓글 조회 
 		return "content/blog/blogWrite";
 	}
 	

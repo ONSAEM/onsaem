@@ -2,7 +2,6 @@ package com.onsaem.web.blog.mapper;
 
 import java.util.List;
 
-import com.onsaem.web.blog.service.BlogLikeVO;
 import com.onsaem.web.blog.service.BlogMediaVO;
 import com.onsaem.web.blog.service.BlogReportVO;
 import com.onsaem.web.blog.service.BlogWriteVO;
