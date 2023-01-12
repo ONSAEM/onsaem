@@ -98,7 +98,7 @@
 <!-- Content -->
 
 <div layout:fragment="content">
-
+	
 	<!-- Blog Details Hero Begin -->
 	<section class="blog-details-hero set-bg"
 		th:data-setbg="@{/shoptemplate/img/blog/details/details-hero.jpg}">
@@ -209,20 +209,21 @@
 							<div class="col-lg-6">
 								<div class="blog__details__widget">
 									<ul>
-										<!-- 하트 -->
+					<!--------------------   ------------------------->
 										<li><div class="wrapper" >
 												<div class="button-container">
-													<div class="heartbutton" th:onclick="saveLike(this)">
+													<div class="heartbutton">
 														<span class="content"> <i class="icon fa fa-heart"
 															aria-hidden="true"></i> <i class="icon far fa-heart"
 															aria-hidden="true"></i> <span class="text like">Like<span
-																class="text d">d</span></span> <span class="text number">0</span>
+																class="text d">d</span></span> <span class="text number" th:text="${cntBlogLike.count}"></span>
 														</span>
-														<input type="hidden" class="blogLike" value="F"> <!-- 초기값을 F로 두기 -->
+														<input type="hidden" class="blogLike" th:value=${likeCount}> <!-- 초기값을 F로 두기 -->
 													</div>
 												</div>
 											</div></li>
-										<li><span>Categories:</span>[[${blogWrite.categoryName}]]</li>
+					<!-------------------- 하트 끝 ------------------------->	
+<!-- 										<li><span>Categories:</span>[[${blogWrite.categoryName}]]</li> -->
 									</ul>
 								</div>
 							</div>
@@ -232,7 +233,7 @@
 			</div>
 		</div>
 		
-		<!--댓글 -->
+<!-------------댓글--------------------------------------------------->
 		<main>
 			<section class="news-section section-padding">
             <div class="container">
@@ -248,9 +249,9 @@
                                             Bootstrap 5 HTML CSS template for everyone. Thank you.</p>
 
                                         <div class="d-flex mt-2">
-                                            <a href="#" class="author-comment-link me-3">Like</a>
+                                            <a href="#" class="author-comment-link me-3">신고</a>
 
-                                            <a href="#" class="author-comment-link">Reply</a>
+                                            <a href="#" class="author-comment-link">댓글달기</a>
                                         </div>
                                     </div>
                                 </div>
@@ -266,9 +267,9 @@
                                             Etiam quis metus elementum, tempor risus vel, condimentum orci</p>
 
                                         <div class="d-flex mt-2">
-                                            <a href="#" class="author-comment-link me-3">Like</a>
+                                            <a href="#" class="author-comment-link me-3">신고</a>
 
-                                            <a href="#" class="author-comment-link">Reply</a>
+                                            <a href="#" class="author-comment-link">댓글달기</a>
                                         </div>
                                     </div>
                                 </div>
@@ -284,32 +285,30 @@
                                             kohm tokito Professional charity theme based on Bootstrap</p>
 
                                         <div class="d-flex mt-2">
-                                            <a href="#" class="author-comment-link me-3">Like</a>
+                                            <a href="#" class="author-comment-link me-3">신고</a>
 
-                                            <a href="#" class="author-comment-link">Reply</a>
+                                            <a href="#" class="author-comment-link">댓글달기</a>
                                         </div>
                                     </div>
                                 </div>
 
                                 <form class="custom-form comment-form mt-4" action="#" method="post" role="form">
-                                    <h6 class="mb-3">Write a comment</h6>
+                                    <h6 class="mb-3">댓글</h6>
 
                                     <textarea name="comment-message" rows="4" class="form-control" id="comment-message"
-                                        placeholder="Your comment here"></textarea>
+                                        placeholder="온샘은 신고 관리를 철저하게 합니다. 댓글 작성 시, 한번 더 생각해주세요"></textarea>
 
                                     <div class="col-lg-3 col-md-4 col-6 ms-auto">
-                                        <button type="submit" class="form-control">Comment</button>
+                                        <button type="submit" class="form-control">등록</button>
                                     </div>
                                 </form>
-                </div>
-            </div>
+                	</div>
+            	</div>
             </section>
 		</main>
+<!----------------------------------- 댓글 끝 -------------------------------->
 	</section>
 	<!-- Blog Details Section End -->
-	
-	
-	
 	
 	<!-- Related Blog Section Begin -->
 	<section class="related-blog spad">
@@ -393,10 +392,10 @@
 	
 	<!-- 좋아요버튼 / 디비 저장해야함 -->
 	<script type="text/javascript">
-
-	var like = parseInt($(".number").text()) + 1;
-	var flag = true;
-	var timeline1 = gsap.timeline({ repeatDelay: 0.7, paused: true});
+	
+		let likeTF = $('.blogLike').val(); // input hidden value값으로 likeCount(like 테이블에 값이 있는지 조회)를 주고, 그 value를 가져옴
+		
+		var timeline1 = gsap.timeline({ repeatDelay: 0.7, paused: true}); //하트 효과
 		timeline1.to(".heartbutton", {duration: 0.7, width: 50, ease: Back.easeIn}) 
 	  			 .to(".like", {duration: 0.2, opacity: 0}, "-=0.7")
 				 .to(".number", {duration: 0.2,opacity: 0, fontSize: 0}, "-=0.7")
@@ -404,35 +403,45 @@
 				 .to(".fa", {duration: 0.1, display: "inline-block"},"-=0.1")
 				 .to(".heartbutton", {duration: 0.7, width: 170})
 				 .to(".like", { opacity: 1},"-=0.5")
-				 .to(".d", {duration: 0.3, opacity: 1, translateX: 0},"-=0.2").to(".number", {duration: 0.2, opacity: 1,text: like, fontSize: 25}, "-=0.1");
+				 .to(".d", {duration: 0.3, opacity: 1, translateX: 0},"-=0.2").to(".number", {duration: 0.2, opacity: 1,text: "[[${cntBlogLike.count}]]", fontSize: 25}, "-=0.1");
+		
+		if(likeTF == 'Y'){ // like 테이블에 값이 있는지 확인하고, 값이 있으면 하트가 눌러진 상태로 표시 되게.
+			timeline("[[${cntBlogLike.count}]]",true);
+		}
+		
+		function timeline(e,tf){
+			if(tf){ //만약 true이면,
+				timeline1.to(".number", {duration: 0.2, opacity: 1,text: e, fontSize: 25}, "-=0.1"); //
+				timeline1.play(); // 버튼 눌림
+			}else{
+				timeline1.progress(0).pause(); // 버튼 초기화
+				$('.number').text(e);
+			}
+		}
 		
 		$(".heartbutton").click(function(){
+			likeTF = $('.wrapper').find('input').val();
 			event.stopPropagation();
-		  	flag ? timeline1.play() :   timeline1.progress(0).pause();
-		  	flag = !flag;  	
-		});
-		
-		function saveLike(data){
 			// 좋아요 디비 저장
-			console.log(data);
 			let bno = "[[${blogWrite.writeId}]]";
 			let id = "[[${session.id}]]";
+			
 			if(id!=null){ // 로그인 된 상태이면
 				//console.log($(".blogLike").val());
-			  	if('[[${likeCount}]]'=='F'){ // db에 저장
+			  	if(likeTF=='F'){ // 테이블에 조회된 값이 없으면 db에 저장
 			  			//db에 저장하는 메서드 컨트롤러에 추가
-// 			  			fetch('/blog/addBlogLike?groupId='+bno)
-// 			  			.then((response)=> console.log('success'))
-// 			  			.then((data) => console.log(data));
 			  	
 			  			$.ajax({
 						      url: '/blog/addBlogLike',
 						      method: 'post',
 						      contentType: 'application/x-www-form-urlencoded',
-						      data: {"groupId": bno},
+						      data: {"groupId": bno}, // 컨트롤러로 넘겨줄 값. 이 페이지의 글 번호
 						      success: function (result) {
-						         console.log(result);
-						         alert('좋아요 완료');
+						         console.log(result.count);
+						         // Y를 F로
+						         
+						       $('.blogLike').val('Y'); // blogLike인 클래스의 값을 불러와서 'Y'로 바꿔준다
+						       timeline(result.count,true);
 						      },
 						      error: function (error) {
 						         console.log(error);
@@ -440,11 +449,8 @@
 						   })
 			  	
 			  	
-			  	}else{					 // db에 삭제
+			  	}else{	// db에 삭제
 			  			//db에서 삭제 또는 수정하는 메서드 컨트롤러에 추가
-// 			  			fetch('/blog/delBlogLike?groupId='+bno)
-// 			  			.then((response)=> console.log('success'))
-// 			  			.then((data) => console.log(data));
 			  	
 			  			$.ajax({
 						      url: '/blog/delBlogLike',
@@ -452,8 +458,11 @@
 						      contentType: 'application/x-www-form-urlencoded',
 						      data: {"groupId": bno},
 						      success: function (result) {
-						         console.log(result);
-						         alert('좋아요 삭제 완료');
+						         console.log(result.count);
+						         
+						         // F를 Y로
+						         $('.blogLike').val('F'); // blogLike인 클래스의 값을 불러와서 'F'로 바꿔준다
+						         timeline(result.count,false);
 						      },
 						      error: function (error) {
 						         console.log(error);
@@ -463,9 +472,7 @@
 			}else{ // 로그인 하지 않은 상태이면
 				alert('로그인이 필요합니다');
 			}
-		  	
-		}
-	
+			});
 	</script>
 	
 </div>

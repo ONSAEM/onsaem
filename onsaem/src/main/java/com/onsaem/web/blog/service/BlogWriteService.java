@@ -25,6 +25,8 @@ public interface BlogWriteService {
 		int addBlogLike(LikeVO likeVO);
 		// 좋아요 취소
 		int delBlogLike(LikeVO likeVO);
+		// 좋아요 수
+		public LikeVO cntBlogLike(LikeVO likeVO);
 		
 		// 신고
 		int reportInsert(BlogReportVO blogReportVO);

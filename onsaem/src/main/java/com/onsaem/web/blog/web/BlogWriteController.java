@@ -43,10 +43,11 @@ public class BlogWriteController {
 	public String blogWrite(Model model, String bno, LikeVO vo,HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		String id = (String)session.getAttribute("id");
-		model.addAttribute("blogWrite", blogWriteService.getBlog(bno));
+		model.addAttribute("blogWrite", blogWriteService.getBlog(bno)); // 블로그 단건 조회
 		vo.setMemberId(id);
 		vo.setGroupId(bno);
-		model.addAttribute("likeCount", blogWriteService.likeCount(vo));
+		model.addAttribute("likeCount", blogWriteService.likeCount(vo)); // 좋아요 조회
+		model.addAttribute("cntBlogLike", blogWriteService.cntBlogLike(vo)); // 좋아요 수
 		return "content/blog/blogWrite";
 	}
 	
@@ -73,21 +74,22 @@ public class BlogWriteController {
 	// 좋아요 추가
 	@RequestMapping(value = "/addBlogLike", method = RequestMethod.POST)
 	@ResponseBody
-	public String addBlogLike(Model model, LikeVO vo, HttpServletRequest request) {		
+	public LikeVO addBlogLike(LikeVO vo, HttpServletRequest request) {		
 		HttpSession session = request.getSession();
 		String id = (String)session.getAttribute("id");
 		vo.setMemberId(id);
-		model.addAttribute("addBlogLike", blogWriteService.addBlogLike(vo));
-		return "success";
+		blogWriteService.addBlogLike(vo);
+		return blogWriteService.cntBlogLike(vo);
 	}
 	// 좋아요 삭제
 	@RequestMapping(value = "/delBlogLike", method = RequestMethod.POST)
 	@ResponseBody
-	public String delBlogLike(Model model,LikeVO vo, HttpServletRequest request ) {
+	public LikeVO delBlogLike(LikeVO vo, HttpServletRequest request) {
 		HttpSession session = request.getSession();		
 		vo.setMemberId((String)session.getAttribute("id"));
 		blogWriteService.delBlogLike(vo);
-		return "success";
+		
+		return blogWriteService.cntBlogLike(vo);
 	}
 	
 	

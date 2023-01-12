@@ -82,6 +82,12 @@ public class BlogWriteServiceImpl implements BlogWriteService {
 		return blogWriteMapper.likeCount(likeVO);
 	}
 
+	@Override
+	public LikeVO cntBlogLike(LikeVO likeVO) {
+		// 좋아요 수
+		return blogWriteMapper.cntBlogLike(likeVO);
+	}
+
 	
 
 }
