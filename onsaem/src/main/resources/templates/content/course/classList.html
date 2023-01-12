@@ -8,10 +8,6 @@
 <th:block layout:fragment="css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
 		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
-		type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
 		type="text/css">
 	<link rel="stylesheet"
@@ -24,8 +20,32 @@
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
 		type="text/css">
 </th:block>
+<head>
+<style>
 
+/* GENERAL STYLES */
 
+.pagination ul{
+  margin: auto;
+  padding: 0;
+  list-style:none;
+}
+
+/* ONE */
+
+.p1 li{
+  font-size: 14px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  padding: 0;
+  text-align: center;
+  float: left;
+  cursor:pointer;
+}
+
+</style>
+</head>
 
 <!-- Content -->
 
@@ -57,7 +77,7 @@
 						<div class="sidebar">
 							<div class="sidebar__item">
 								<h4>지역</h4>
-								<select>
+								<select class="addr">
 									<option>::지역선택::</option>
 									<option value="서울">서울</option>
 									<option value="부산">부산</option>
@@ -100,14 +120,14 @@
 							</div>
 							<div class="sidebar__item sidebar__item__color--option">
 								<h4>날짜</h4>
-								<label for="white"> 시작 <input type="date">
+								<label for="white"> 시작 <input class="startDate" type="date">
 								</label>
-								<label for="gray"> 종료 <input type="date">
+								<label for="gray"> 종료 <input class="endDate" type="date">
 								</label>
 							</div>
 							<div class="sidebar__item">
 								<h4>검색</h4>
-								<input type="text" placeholder="검색">
+								<input type="text" class="searchWord" placeholder="검색">
 							</div>
 							<button type="submit" class="site-btn" >SEARCH</button>
 						</div>
@@ -268,28 +288,63 @@
 									</div>
 								</div>
 							</div>
-							
-							
-	<!-- 					<div class="container">
-						    <h1>12 Pagination Ideas</h1>
-						    <div class="pagination p1">
+ 						    <div class="pagination p1" th:if="${page.totalRecord != 0}">
 						      <ul>
-						        <a href="#"><li></li></a>
-						        <a class="is-active" href="#"><li>1</li></a>
-						        <a href="#"><li>2</li></a>
-						        <a href="#"><li>3</li></a>
-						        <a href="#"><li>4</li></a>
-						        <a href="#"><li>5</li></a>
-						        <a href="#"><li>6</li></a>
-						        <a href="#"><li>></li></a>
+						        <li th:if="${page.startPage > 1}" style="font-size: 30px;">&laquo;</li>
+						        <th:block th:each="num : ${#numbers.sequence(page.startPage,page.endPage)}">
+						        	<li th:if="${page.page != num}" th:text=${num}></li>
+						        	<li th:if="${page.page == num}" th:text=${num} style="background-color: #2ecc71;border-radius: 100%;color: #fff;"></li>
+						        </th:block>
+						        <li th:if="${page.endPage < page.lastPage}" style="font-size: 30px;">&raquo;</li>
 						      </ul>
-						    </div>
-						  </div> -->
+						    </div>					  
 					</div>
 				</div>
 			</div>
 		</section>
 		<!-- Product Section End -->
+		<script type="text/javascript">
+			let addr = $(".addr").val();
+			let maxPrice = $("#minamount").val();
+			let minPrice = $("#maxamount").val();
+			let startDate = $(".startDate").val();
+			let endDate = $(".endDate").val();
+			let searchWord = $(".searchWord").val();
+
+			// 검색
+			$(".site-btn").on("click",function(){
+				// newClassList(1);
+			})
+
+			// 페이지 이동
+			$(".pagination").find('li').on("click",function(){
+				console.log($(this.text()))
+				// newClassList();
+			})
+
+			function newClassList(page){
+				$.ajax({
+			      url: '/class/classSearch',
+			      method: 'post',
+			      contentType: 'application/x-www-form-urlencoded',
+			      data: {"classAddr": addr,
+				  "maxPrice": maxPrice,
+				  "minPrice": minPrice,
+				  "startdate": startDate,
+				  "enddate": endDate,
+				  "className": searchWord,
+				  "page": page},
+			      success: function (result) {
+			         console.log(result);
+			         alert('좋아요 삭제 완료');
+			      },
+			      error: function (error) {
+			         console.log(error);
+			      }
+			   })
+			}
+			
+		</script>
 		
 		<!-- JS -->
 		<th:block layout:fragment="script">

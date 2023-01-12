@@ -51,7 +51,7 @@
 					<div class="product__details__text">
 						<h3 th:text="${class.className}"></h3>
 						<div class="product__details__rating">
-							<i class="fa-solid fa-star" th:if="${class.star} != 0"
+							<i class="fa-solid fa-star" th:if="${class.star != 0}"
 								th:each="num:${#numbers.sequence(1,class.star)}"
 								style="color: #ffe949"></i><i class="fa-solid fa-star-half"
 								th:if="${class.star%1 >= 0.5}" style="color: #ffe949"></i> <span>([[${class.reviewCount}]]

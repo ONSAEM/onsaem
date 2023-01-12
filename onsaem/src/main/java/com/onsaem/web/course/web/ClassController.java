@@ -28,9 +28,20 @@ public class ClassController {
 		model.addAttribute("classList", classService.getClassList(vo,paging));
 		model.addAttribute("maxPrice", classService.classMaxPrice(vo));
 		model.addAttribute("minPrice", classService.classMinPrice(vo));
-		model.addAttribute("Page", classService.classCount(vo));
+		model.addAttribute("page", classService.classCount(vo));
 		return "content/course/classList";
 	}
+	
+	// 강의검색, 페이지, 정렬 처리
+		@RequestMapping(value = "/classSearch", method = RequestMethod.GET)
+		public String classSearch(ClassInfoVO vo, Model model, Paging paging) {
+			paging.setPageUnit(9);
+			model.addAttribute("classList", classService.getClassList(vo,paging));
+			model.addAttribute("maxPrice", classService.classMaxPrice(vo));
+			model.addAttribute("minPrice", classService.classMinPrice(vo));
+			model.addAttribute("page", classService.classCount(vo));
+			return "content/course/classList";
+		}
 	
 	// 강의상세 페이지 이동 (강의정보, 미디어목록, 후기목록, 문의목록)
 	@RequestMapping(value = "/classDetail", method = RequestMethod.GET)
