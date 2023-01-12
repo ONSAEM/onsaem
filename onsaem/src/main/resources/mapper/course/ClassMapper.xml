@@ -5,12 +5,26 @@
 		parameterType="ClassInfoVO">
 		SELECT * FROM ( SELECT ROWNUM RN, A.* FROM (
 		SELECT  C.CLASS_ID,  C.CLASS_NAME,  C.PRICE,  C.CLASS_TIME, C.CLASS_GROUP, NVL(TRUNC(AVG(R.REVIEW_STAR),1),0) AS star, M.FILE_NAME, M.FILE_ROUTE, M.MEDIA_NAME
-		FROM CLASS_INFO C, REVIEWS R, MEDIA M
-        where  C.CLASS_ID = R.GROUP_ID(+)
-        and C.CLASS_ID = M.GROUP_ID
-        and M.SUB_GROUP = '대표이미지'
+		FROM CLASS_INFO C, REVIEWS R, MEDIA M, CLASSES L
+        WHERE  C.CLASS_ID = R.GROUP_ID(+)
+        AND C.CLASS_ID = M.GROUP_ID
+        AND C.CLASS_ID = L.CLASS_ID(+)
+        AND M.SUB_GROUP = '대표이미지'
 			<if test="className">
 				AND C.CLASS_NAME LIKE '%' || #{className} || '%'
+			</if>
+			<if test="classAddr">
+				AND C.CLASS_ADDR LIKE '%' || #{classAddr} || '%'
+			</if>
+			<if test="startdate">
+			<![CDATA[
+				AND L.START_DATE >= #{startDate}
+				]]>
+			</if>
+			<if test="enddate">
+			<![CDATA[
+				AND L.END_DATE < #{enddate}
+				]]>
 			</if>
 			<if test="minPrice">
 				<![CDATA[
@@ -31,11 +45,11 @@
 	
 	<select id="getClass" resultType="ClassInfoVO"
 		parameterType="ClassInfoVO">
-		SELECT  C.CLASS_ID,  C.CLASS_NAME,  C.PRICE,  C.CLASS_TIME, C.EXPLANATION, C.CLASS_GROUP, NVL(TRUNC(AVG(R.REVIEW_STAR),1),0) AS STAR, COUNT(R.REVIEW_ID) AS REVIEW_COUNT
+		SELECT  C.CLASS_ID,  C.CLASS_NAME,  C.PRICE,  C.CLASS_TIME, C.EXPLANATION, C.CLASS_GROUP, C.DIFFICULTY, NVL(TRUNC(AVG(R.REVIEW_STAR),1),0) AS STAR, COUNT(R.REVIEW_ID) AS REVIEW_COUNT
 		FROM CLASS_INFO C, REVIEWS R
         WHERE  C.CLASS_ID = R.GROUP_ID(+)
         AND C.CLASS_ID = #{classId}
-        GROUP BY C.CLASS_ID,  C.CLASS_NAME,  C.PRICE,  C.CLASS_TIME, C.EXPLANATION, C.CLASS_GROUP
+        GROUP BY C.CLASS_ID,  C.CLASS_NAME,  C.PRICE,  C.CLASS_TIME, C.EXPLANATION, C.CLASS_GROUP, C.DIFFICULTY
 
 	</select>
 	
@@ -45,6 +59,103 @@
 		where GROUP_ID = #{classId}
 		ORDER BY SUB_GROUP
 	</select>
+	
+	<select id="classCount" resultType="Paging" parameterType="ClassInfoVO">
+		SELECT  COUNT(C.CLASS_ID) AS TOTAL_RECORD
+		FROM CLASS_INFO C, CLASSES L
+		WHERE C.CLASS_ID = L.CLASS_ID(+)
+			<if test="className">
+				AND C.CLASS_NAME LIKE '%' || #{className} || '%'
+			</if>
+			<if test="classAddr">
+				AND C.CLASS_ADDR LIKE '%' || #{classAddr} || '%'
+			</if>
+			<if test="startdate">
+			<![CDATA[
+				AND L.START_DATE >= #{startDate}
+				]]>
+			</if>
+			<if test="enddate">
+			<![CDATA[
+				AND L.END_DATE < #{enddate}
+				]]>
+			</if>
+			<if test="minPrice">
+				<![CDATA[
+					AND C.PRICE >= #{minPrice}
+				]]>
+			</if>
+			<if test="maxPrice">
+				<![CDATA[
+					AND C.PRICE <= #{maxPrice}
+				]]>
+			</if>	
+	</select>
+	
+	<select id="classMaxPrice" resultType="int" parameterType="ClassInfoVO">
+		SELECT  MAX(C.PRICE)
+		FROM CLASS_INFO C, CLASSES L
+		WHERE C.CLASS_ID = L.CLASS_ID(+)
+			<if test="className">
+				AND C.CLASS_NAME LIKE '%' || #{className} || '%'
+			</if>
+			<if test="classAddr">
+				AND C.CLASS_ADDR LIKE '%' || #{classAddr} || '%'
+			</if>
+			<if test="startdate">
+			<![CDATA[
+				AND L.START_DATE >= #{startDate}
+				]]>
+			</if>
+			<if test="enddate">
+			<![CDATA[
+				AND L.END_DATE < #{enddate}
+				]]>
+			</if>
+			<if test="minPrice">
+				<![CDATA[
+					AND C.PRICE >= #{minPrice}
+				]]>
+			</if>
+			<if test="maxPrice">
+				<![CDATA[
+					AND C.PRICE <= #{maxPrice}
+				]]>
+			</if>
+	</select>
+	
+	<select id="classMinPrice" resultType="int" parameterType="ClassInfoVO">
+		SELECT  MIN(C.PRICE)
+		FROM CLASS_INFO C, CLASSES L
+		WHERE C.CLASS_ID = L.CLASS_ID(+)
+			<if test="className">
+				AND C.CLASS_NAME LIKE '%' || #{className} || '%'
+			</if>
+			<if test="classAddr">
+				AND C.CLASS_ADDR LIKE '%' || #{classAddr} || '%'
+			</if>
+			<if test="startdate">
+			<![CDATA[
+				AND L.START_DATE >= #{startDate}
+				]]>
+			</if>
+			<if test="enddate">
+			<![CDATA[
+				AND L.END_DATE < #{enddate}
+				]]>
+			</if>
+			<if test="minPrice">
+				<![CDATA[
+					AND C.PRICE >= #{minPrice}
+				]]>
+			</if>
+			<if test="maxPrice">
+				<![CDATA[
+					AND C.PRICE <= #{maxPrice}
+				]]>
+			</if>
+	</select>
+	
 	
 	
 	

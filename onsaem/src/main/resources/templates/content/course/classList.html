@@ -6,6 +6,8 @@
 
 <!-- Css  -->
 <th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
+		type="text/css">
 	<link rel="stylesheet"
 		th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
@@ -57,23 +59,23 @@
 								<h4>지역</h4>
 								<select>
 									<option>::지역선택::</option>
-									<option>서울</option>
-									<option>부산</option>
-									<option>대구</option>
-									<option>인천</option>
-									<option>광주</option>
-									<option>대전</option>
-									<option>울산</option>
-									<option>세종</option>
-									<option>경기</option>
-									<option>강원</option>
-									<option>충북</option>
-									<option>충남</option>
-									<option>전북</option>
-									<option>전남</option>
-									<option>경북</option>
-									<option>경남</option>
-									<option>제주</option>
+									<option value="서울">서울</option>
+									<option value="부산">부산</option>
+									<option value="대구">대구</option>
+									<option value="인천">인천</option>
+									<option value="광주">광주</option>
+									<option value="대전">대전</option>
+									<option value="울산">울산</option>
+									<option value="세종">세종</option>
+									<option value="경기">경기</option>
+									<option value="강원">강원</option>
+									<option value="충청북도">충북</option>
+									<option value="충청남도">충남</option>
+									<option value="전라북도">전북</option>
+									<option value="전라남도">전남</option>
+									<option value="경상북도">경북</option>
+									<option value="경상남도">경남</option>
+									<option value="제주">제주</option>
 								</select>
 								<br>
 							</div>
@@ -82,7 +84,7 @@
 								<div class="price-range-wrap" style="text-align: center">
 									<div
 										class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-										data-min="1000" data-max="50000">
+										th:data-min=${minPrice} th:data-max=${maxPrice}>
 										<div class="ui-slider-range ui-corner-all ui-widget-header"></div>
 										<span tabindex="0"
 											class="ui-slider-handle ui-corner-all ui-state-default"></span>
@@ -268,10 +270,21 @@
 							</div>
 							
 							
-						<div class="product__pagination">
-							<a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#"><i
-								class="fa fa-long-arrow-right"></i></a>
-						</div>
+	<!-- 					<div class="container">
+						    <h1>12 Pagination Ideas</h1>
+						    <div class="pagination p1">
+						      <ul>
+						        <a href="#"><li></li></a>
+						        <a class="is-active" href="#"><li>1</li></a>
+						        <a href="#"><li>2</li></a>
+						        <a href="#"><li>3</li></a>
+						        <a href="#"><li>4</li></a>
+						        <a href="#"><li>5</li></a>
+						        <a href="#"><li>6</li></a>
+						        <a href="#"><li>></li></a>
+						      </ul>
+						    </div>
+						  </div> -->
 					</div>
 				</div>
 			</div>

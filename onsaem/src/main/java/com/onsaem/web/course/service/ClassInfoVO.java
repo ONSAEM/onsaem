@@ -1,6 +1,6 @@
 package com.onsaem.web.course.service;
 
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +20,8 @@ public class ClassInfoVO {
 	String memberId;
 	Date classDate;
 	String returnReason;
+	String difficulty;
+	String classAddr;
 	double star;
 	int  reviewCount;
 	
@@ -28,9 +30,11 @@ public class ClassInfoVO {
 	String fileRoute;
 	String mediaName;
 	
-	//검색 가격대
+	//검색
 	int maxPrice;
 	int minPrice;
+	Date startdate;
+	Date enddate;
 	
 	//페이징
 	Integer first = 1;
