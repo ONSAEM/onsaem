@@ -2,6 +2,8 @@ package com.onsaem.web.course.service;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,6 +20,7 @@ public class ClassInfoVO {
 	String status;
 	String classGroup;
 	String memberId;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH24:MI:SS")
 	Date classDate;
 	String returnReason;
 	String difficulty;
@@ -33,8 +36,11 @@ public class ClassInfoVO {
 	//검색
 	int maxPrice;
 	int minPrice;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date startdate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date enddate;
+	String orderId = "OD0";
 	
 	//페이징
 	Integer first = 1;
