@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.onsaem.web.blog.service.BlogWriteService;
 import com.onsaem.web.blog.service.BlogWriteVO;
+import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.member.service.MemberVO;
 
 @Controller
@@ -40,8 +40,13 @@ public class BlogWriteController {
 	
 	// 블로그 글 상세 페이지로 이동(단건조회)
 	@RequestMapping(value = "/myblog/blogWrite", method = RequestMethod.GET)
-	public String blogWrite(Model model, String bno) {
+	public String blogWrite(Model model, String bno, LikeVO vo,HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String id = (String)session.getAttribute("id");
 		model.addAttribute("blogWrite", blogWriteService.getBlog(bno));
+		vo.setMemberId(id);
+		vo.setGroupId(bno);
+		model.addAttribute("likeCount", blogWriteService.likeCount(vo));
 		return "content/blog/blogWrite";
 	}
 	
@@ -64,6 +69,29 @@ public class BlogWriteController {
 		model.addAttribute("blogInsert", blogWriteService.blogInsert(vo));
 		return vo;
 	}
+	
+	// 좋아요 추가
+	@RequestMapping(value = "/addBlogLike", method = RequestMethod.POST)
+	@ResponseBody
+	public String addBlogLike(Model model, LikeVO vo, HttpServletRequest request) {		
+		HttpSession session = request.getSession();
+		String id = (String)session.getAttribute("id");
+		vo.setMemberId(id);
+		model.addAttribute("addBlogLike", blogWriteService.addBlogLike(vo));
+		return "success";
+	}
+	// 좋아요 삭제
+	@RequestMapping(value = "/delBlogLike", method = RequestMethod.POST)
+	@ResponseBody
+	public String delBlogLike(Model model,LikeVO vo, HttpServletRequest request ) {
+		HttpSession session = request.getSession();		
+		vo.setMemberId((String)session.getAttribute("id"));
+		blogWriteService.delBlogLike(vo);
+		return "success";
+	}
+	
+	
+	
 	// 블로그 글 수정 페이지로 이동
 //	@RequestMapping(value = "/myblog/blogWrite/blogUpdate/{userId}/{bno}", method = RequestMethod.GET)
 //	public String blogUpdatePage(Model model, @PathVariable String userId, @PathVariable String bno) {

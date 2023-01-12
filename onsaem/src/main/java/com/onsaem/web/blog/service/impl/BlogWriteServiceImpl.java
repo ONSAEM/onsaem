@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.onsaem.web.blog.mapper.BlogWriteMapper;
-import com.onsaem.web.blog.service.BlogLikeVO;
 import com.onsaem.web.blog.service.BlogMediaVO;
 import com.onsaem.web.blog.service.BlogReportVO;
 import com.onsaem.web.blog.service.BlogWriteService;
 import com.onsaem.web.blog.service.BlogWriteVO;
+import com.onsaem.web.common.service.LikeVO;
 
 @Service
 public class BlogWriteServiceImpl implements BlogWriteService {
@@ -59,21 +59,27 @@ public class BlogWriteServiceImpl implements BlogWriteService {
 	}
 
 	@Override
-	public int likeInsert(BlogLikeVO likeVO) {
-		// 좋아요
-		return 0;
+	public int addBlogLike(LikeVO likeVO) {
+		// 좋아요 등록
+		return blogWriteMapper.addBlogLike(likeVO);
 	}
 
 	@Override
-	public int likeDelete(BlogLikeVO likeVO) {
+	public int delBlogLike(LikeVO likeVO) {
 		// 좋아요 취소
-		return 0;
+		return blogWriteMapper.delBlogLike(likeVO);
 	}
 
 	@Override
 	public int reportInsert(BlogReportVO blogReportVO) {
 		// 신고
 		return 0;
+	}
+
+	@Override
+	public String likeCount(LikeVO likeVO) {
+		// 좋아요 조회
+		return blogWriteMapper.likeCount(likeVO);
 	}
 
 	
