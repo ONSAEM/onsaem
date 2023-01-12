@@ -28,8 +28,8 @@ public class CartController {
 	@RequestMapping(value = "/cartAdd", method = RequestMethod.GET)
 	public String cartAdd(Model model,CartVO vo, HttpServletRequest request) {
 		CartVO cartVo = new CartVO();
-		HttpSession session = request.getSession();
-		if ( Integer.toString(vo.getCartAmount()) == null) {			
+		HttpSession session = request.getSession();		
+		if ( Integer.toString(vo.getCartAmount()).equals("0") ) {	
 			cartVo.setMemberId((String)session.getAttribute("id"));
 			cartVo.setCartAmount(1);
 			cartVo.setProductId(vo.getProductId());
