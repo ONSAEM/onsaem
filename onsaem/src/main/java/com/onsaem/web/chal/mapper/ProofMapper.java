@@ -2,6 +2,7 @@ package com.onsaem.web.chal.mapper;
 
 import java.util.List;
 
+import com.onsaem.web.chal.service.ChalVO;
 import com.onsaem.web.chal.service.ProofVO;
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
@@ -61,6 +62,11 @@ public interface ProofMapper {
 	//조건에 맞는 proof 행 갯수 count하기
 	Integer countProof(ProofVO vo);
 
+	//인증샷만 싹다 가져오기,,한 사람이 참가한 한 챌린지의,,모든 인증샷 가져오기
+	List<MediaVO> myChalsProofs(ProofVO vo);
+	
+	//한사람이 참가한 모든 챌린지의 섬네일,,사진,,가져오기 - 진행중ㄷ인챌린지
+	List<MediaVO> myChalThumnails(ChalVO vo);
 
 
 }

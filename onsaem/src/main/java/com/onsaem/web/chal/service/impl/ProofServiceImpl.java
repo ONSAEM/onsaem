@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.onsaem.web.chal.mapper.ProofMapper;
+import com.onsaem.web.chal.service.ChalVO;
 import com.onsaem.web.chal.service.ProofService;
 import com.onsaem.web.chal.service.ProofVO;
 import com.onsaem.web.common.service.LikeVO;
@@ -119,6 +120,18 @@ public class ProofServiceImpl implements ProofService {
 	public Integer countProof(ProofVO vo) {
 		// TODO Auto-generated method stub
 		return proofMapper.countProof(vo);
+	}
+
+	@Override
+	public List<MediaVO> myChalsProofs(ProofVO vo) {
+		// TODO Auto-generated method stub
+		return proofMapper.myChalsProofs(vo);
+	}
+
+	@Override
+	public List<MediaVO> myChalThumnails(ChalVO vo) {
+		// TODO Auto-generated method stub
+		return proofMapper.myChalThumnails(vo);
 	}
 
 

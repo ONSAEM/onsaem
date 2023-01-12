@@ -130,9 +130,26 @@
 		AND CONDITION = #{condition}
 	</select> 
 	
-	<!-- 썸네일만 싹다 가져오기,,한 사람이 참가한 챌린지의,,모든 사진 가져오기 휴 ㅋㅋ  -->
-	<select id="myChalsThumnails"  parameterType="MediaVO" resultType="MediaVO">
-		SELECT * FROM PROOFS
+	<!-- 인증샷만 싹다 가져오기,,한 사람이 참가한 챌린지의,,모든 사진 가져오기 휴 ㅋㅋ  -->
+	<select id="myChalsProofs"  parameterType="ProofVO" resultType="MediaVO">
+		SELECT M.FILE_ROUTE AS FILEROUTE, M.MEDIA_NAME AS MEDIANAME 
+		FROM MEDIA M JOIN PROOFS P
+		ON P.PROOF_ID = M.GROUP_ID
+		WHERE P.CHAL_ID = #{chalId}
+		AND P.PROOF_WRITER=#{proofWriter}
+		ORDER BY P.WRITE_DATE 
+	</select>
+	
+	<!-- 이용자가 참가한 모든 진행중인 챌린지의 썸네일 가져오기 -->
+	<select id="myChalThumnails" parameterType="ChalVO" resultType="MediaVO">
+		SELECT M.FILE_ROUTE AS FILEROUTE, M.MEDIA_NAME AS MEDIANAME, C.CHAL_ID AS CHALID 
+	    FROM MEDIA M JOIN CHALLENGES C
+	    ON M.GROUP_ID = C.CHAL_ID
+	    JOIN PARTICIPANTS P
+	    ON C.CHAL_ID = P.CHAL_ID
+	    WHERE CURRENT_DATE BETWEEN C.START_DATE AND C.END_DATE
+	    AND C.MEMBER_ID = #{memberId}
+	    ORDER BY M.MEDIA_ID	
 	</select>
 	
 
