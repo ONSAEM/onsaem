@@ -14,4 +14,7 @@ public class ProofVO {
 	String content; //내용
 	Date writeDate; //
 	String condition;
+	
+	//
+	Integer cnt;
 }

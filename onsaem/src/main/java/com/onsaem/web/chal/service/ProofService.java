@@ -52,5 +52,11 @@ public interface ProofService {
 		
 		//사진 한개보기 조건
 		MediaVO getMediaOption(MediaVO vo);
+		
+		//한 챌린지에 대해 내가 입력한 모든 인증샷 싹다 가져오기
+		List<MediaVO> getMyShotsForOne(MediaVO vo); 
+		
+		//조건에 맞는 proof 행 갯수 count하기
+		Integer countProof(ProofVO vo);
 
 }

@@ -244,10 +244,10 @@ public class ChalController {
 		//참가자 테이블
 		
 		pvo.setParticipantId("hodu");
-		pvo.setBetPoint(0); //수정필요 
 		partService.inputParticipant(pvo);
 		//챌린저스 테이블 수정
 		
+		vo.setChalId(pvo.getChalId());
 		chalService.updateDonate(vo);
 		
 		//결제 테이블
