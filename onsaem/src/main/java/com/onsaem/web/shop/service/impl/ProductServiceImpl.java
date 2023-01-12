@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.onsaem.web.common.service.LikeVO;
+import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.shop.mapper.ProductMapper;
 import com.onsaem.web.shop.service.ProductService;
 import com.onsaem.web.shop.service.ProductVO;
@@ -67,6 +68,24 @@ public class ProductServiceImpl implements ProductService{
 	public List<ProductVO> searchProduct(String data) {
 		// 검색목록
 		return proMapper.searchProduct(data);
+	}
+
+	@Override
+	public List<ProductVO> categoryList() {
+		// 카테고리 리스트
+		return proMapper.categoryList();
+	}
+
+	@Override
+	public int addProduct(ProductVO vo) {
+		// 상품등록 신청
+		return proMapper.addProduct(vo);
+	}
+
+	@Override
+	public int addMedia(MediaVO vo) {
+		// 상품이미지등록
+		return proMapper.addMedia(vo);
 	}
 
 	

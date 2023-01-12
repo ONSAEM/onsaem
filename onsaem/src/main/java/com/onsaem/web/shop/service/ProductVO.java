@@ -21,6 +21,7 @@ public class ProductVO {
 	String productStatus;	//상품상태
 	Date registerDate;	//등록일자
 	String memberId;	//판매자ID
+	String productInfo; //상품 상세설명
 	
 	//이미지
 	String fileName;

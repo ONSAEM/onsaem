@@ -3,6 +3,7 @@ package com.onsaem.web.shop.service;
 import java.util.List;
 
 import com.onsaem.web.common.service.LikeVO;
+import com.onsaem.web.common.service.MediaVO;
 
 public interface ProductService {
 	//상품전체목록(최신순)
@@ -32,5 +33,12 @@ public interface ProductService {
 	//추가이미지
 	List<ProductVO> addImg(String data);
 	
-		
+	//카테고리리스트
+	List<ProductVO> categoryList();
+	
+	//상품등록신청
+	int addProduct(ProductVO vo);
+	
+	//상품이미지등록
+	int addMedia(MediaVO vo);
 }

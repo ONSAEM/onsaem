@@ -16,10 +16,11 @@
 		P.DELIVERY_FEE AS DELIVERY_FEE,
 		P.OPTIONS AS OPTIONS,
 		P.CATEGORY AS CATEGORY,
-		P.NATURE_ID AS NATURE_ID,
-		P.PRODUCT_STATUS AS PRODUCT_STATUS,
+		P.PRODUCT_STATUS AS
+		PRODUCT_STATUS,
 		P.REGISTER_DATE AS REGISTER_DATE,
-		P.MEMBER_ID AS MEMBER_ID,
+		P.MEMBER_ID AS
+		MEMBER_ID,
 		M.FILE_NAME AS FILE_NAME,
 		M.FILE_ROUTE AS
 		FILE_ROUTE,
@@ -47,10 +48,11 @@
 		P.DELIVERY_FEE AS DELIVERY_FEE,
 		P.OPTIONS AS OPTIONS,
 		P.CATEGORY AS CATEGORY,
-		P.NATURE_ID AS NATURE_ID,
-		P.PRODUCT_STATUS AS PRODUCT_STATUS,
+		P.PRODUCT_STATUS AS
+		PRODUCT_STATUS,
 		P.REGISTER_DATE AS REGISTER_DATE,
-		P.MEMBER_ID AS MEMBER_ID,
+		P.MEMBER_ID AS
+		MEMBER_ID,
 		M.FILE_NAME AS FILE_NAME,
 		M.FILE_ROUTE AS
 		FILE_ROUTE,
@@ -77,10 +79,11 @@
 		P.DELIVERY_FEE AS DELIVERY_FEE,
 		P.OPTIONS AS OPTIONS,
 		P.CATEGORY AS CATEGORY,
-		P.NATURE_ID AS NATURE_ID,
-		P.PRODUCT_STATUS AS PRODUCT_STATUS,
+		P.PRODUCT_STATUS AS
+		PRODUCT_STATUS,
 		P.REGISTER_DATE AS REGISTER_DATE,
-		P.MEMBER_ID AS MEMBER_ID,
+		P.MEMBER_ID AS
+		MEMBER_ID,
 		M.FILE_NAME AS FILE_NAME,
 		M.FILE_ROUTE AS
 		FILE_ROUTE,
@@ -95,7 +98,8 @@
 	</select>
 
 	<!-- 검색후 품목리스트 -->
-	<select id="searchProduct" resultType="com.onsaem.web.shop.service.ProductVO">
+	<select id="searchProduct"
+		resultType="com.onsaem.web.shop.service.ProductVO">
 		SELECT
 		P.PRODUCT_ID AS PRODUCT_ID,
 		P.PRODUCT_NAME AS
@@ -108,10 +112,11 @@
 		P.OPTIONS AS
 		OPTIONS,
 		P.CATEGORY AS CATEGORY,
-		P.NATURE_ID AS NATURE_ID,
-		P.PRODUCT_STATUS AS PRODUCT_STATUS,
+		P.PRODUCT_STATUS AS
+		PRODUCT_STATUS,
 		P.REGISTER_DATE AS REGISTER_DATE,
-		P.MEMBER_ID AS MEMBER_ID,
+		P.MEMBER_ID AS
+		MEMBER_ID,
 		M.FILE_NAME AS FILE_NAME,
 		M.FILE_ROUTE AS
 		FILE_ROUTE,
@@ -121,7 +126,8 @@
 		ON
 		P.PRODUCT_ID=M.GROUP_ID
 		WHERE M.SUB_GROUP = '대표이미지'
-		AND PRODUCT_NAME LIKE '%'||#{data}||'%'
+		AND PRODUCT_NAME
+		LIKE '%'||#{data}||'%'
 		ORDER BY
 		P.REGISTER_DATE DESC
 	</select>
@@ -134,7 +140,8 @@
 		INSERT_DATE,
 		MEMBER_ID)
 		VALUES
-		('LK'||LPAD(LK_SEQ.NEXTVAL,3,0),#{groupId},'쇼핑몰',CURRENT_DATE ,#{memberId})
+		('LK'||LPAD(LK_SEQ.NEXTVAL,3,0),#{groupId},'쇼핑몰',CURRENT_DATE
+		,#{memberId})
 	</insert>
 
 	<!-- 찜삭제 -->
@@ -169,10 +176,11 @@
 		P.DELIVERY_FEE AS DELIVERY_FEE,
 		P.OPTIONS AS OPTIONS,
 		P.CATEGORY AS CATEGORY,
-		P.NATURE_ID AS NATURE_ID,
-		P.PRODUCT_STATUS AS PRODUCT_STATUS,
+		P.PRODUCT_STATUS AS
+		PRODUCT_STATUS,
 		P.REGISTER_DATE AS REGISTER_DATE,
-		P.MEMBER_ID AS MEMBER_ID,
+		P.MEMBER_ID AS
+		MEMBER_ID,
 		M.FILE_NAME AS FILE_NAME,
 		M.FILE_ROUTE AS
 		FILE_ROUTE,
@@ -182,7 +190,8 @@
 		ON
 		P.PRODUCT_ID=M.GROUP_ID
 		WHERE PRODUCT_ID=#{data}
-		AND M.SUB_GROUP = '대표이미지'
+		AND M.SUB_GROUP =
+		'대표이미지'
 	</select>
 
 	<!-- 추가이미지 -->
@@ -193,7 +202,53 @@
 		P
 		ON p.product_id = M.GROUP_ID
 		WHERE M.SUB_GROUP like '추가이미지'||'%'
-		AND P.PRODUCT_ID=#{data}
+		AND
+		P.PRODUCT_ID=#{data}
 	</select>
-	
+
+	<!-- 카테고리 리스트 -->
+	<select id="categoryList"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT CATEGORY
+		FROM PRODUCTS
+		GROUP BY CATEGORY
+	</select>
+
+
+	<!-- 상품등록 -->
+	<insert id="addProduct"
+		parameterType="com.onsaem.web.shop.service.ProductVO">
+		INSERT INTO
+		PRODUCTS(PRODUCT_ID,
+		PRODUCT_NAME,
+		PRODUCT_DETAIL,
+		PRICE,
+		STAR,
+		AMOUNT,
+		DELIVERY_FEE,
+		OPTIONS,
+		CATEGORY,
+		PRODUCT_STATUS,
+		REGISTER_DATE,
+		MEMBER_ID,
+		PRODUCT_INFO)
+		VALUES('PR'||PRODUCT_SEQ.NEXTVAL,#{productName},#{productDetail}
+		,#{price},0,#{amount},#{deliveryFee},'OP'||OP_SEQ.NEXTVAL,#{category},'승인대기',CURRENT_DATE,#{memberId},#{productInfo})
+	</insert>
+
+	<!-- 상품이미지등록 -->
+	<insert id="addMedia"
+		parameterType="com.onsaem.web.common.service.MediaVO">
+		insert into
+		media(MEDIA_ID,
+		GROUP_ID,
+		GROUPS,
+		SUB_GROUP,
+		FILE_NAME,
+		FILE_ROUTE,
+		MEDIA_NAME)
+		values('M'||lpad(media_seq.nextval,3,0),#{groupId},'쇼핑몰',null,#{fileName},
+		'/shoptemplate/img/product/','M'||lpad(media_seq.nextval,3,0)||'.jpg')
+	</insert>
+
 </mapper>

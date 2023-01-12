@@ -83,8 +83,13 @@
 								<input type="text" placeholder="What do yo u need?" name="data">
 								<button type="submit" class="site-btn">SEARCH</button>
 							</form>
+							
 						</div>
 						<div class="header__cart">
+						<div class="sidebar__item__size">
+								<label for="large" th:onclick="location.href='/sellerMain'"> 판매자 <input type="radio" id="large">
+								</label>
+							</div>
 							<ul>
 								<li><a href="#"><i class="fa fa-heart"></i> <span
 										th:text="${#lists.size(likeList)}">1</span></a></li>
