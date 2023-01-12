@@ -85,10 +85,9 @@
  	
  	<!-- 그룹 아이디가 같은 경우에만 카운트하기(한 게시글에서 좋아요 수 조회) -->
  	<select id="cntBlogLike" resultType="LikeVO" parameterType="String">
- 		select group_id, count(*) cbl
+ 		select count(*) as count
  		from likes
- 		group by group_id
- 		having group_id = #{groupId}
+ 		where group_id = #{groupId}
  	</select>
  	
  	<!-- 글 수정 -->
