@@ -3,6 +3,7 @@ package com.onsaem.web.shop.mapper;
 import java.util.List;
 
 import com.onsaem.web.common.service.LikeVO;
+import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.shop.service.ProductVO;
 
 public interface ProductMapper {
@@ -32,5 +33,14 @@ public interface ProductMapper {
 
 	// 추가이미지
 	List<ProductVO> addImg(String data);
+	
+	//카테고리 리스트
+	List<ProductVO> categoryList();
+	
+	//상품등록 신청
+	int addProduct(ProductVO vo);
+	
+	//상품이미지 등록
+	int addMedia(MediaVO vo);
 
 }
