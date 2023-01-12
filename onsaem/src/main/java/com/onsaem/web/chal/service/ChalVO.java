@@ -30,5 +30,6 @@ public class ChalVO {
 	
 	String fileRoute;
 	String mediaName;
+	String participantId;
 	
 }

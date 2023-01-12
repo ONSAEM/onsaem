@@ -26,7 +26,7 @@ public class ChalMypageController {
 	@Autowired ProofService proofService;
 	
 	//권한 - 일반회원의 챌린저스 마이페이지 첫화면, 진행중 챌린지 띄우깅
-	@RequestMapping(value="/myEndChal",method=RequestMethod.GET)
+	@RequestMapping(value="/myCurrentChal",method=RequestMethod.GET)
 	public String myCurrentChalList(Model model,@RequestParam(value="userId", required=false)String userId,ChalVO vo) {
 		vo.setMemberId(userId);
 		model.addAttribute("chalList", chalService.myCurentChal(vo));
@@ -43,7 +43,7 @@ public class ChalMypageController {
 		
 		
 	//권한 - 일반회원의 챌린저스 마이페이지- 완료된 챌린지 모음
-	@RequestMapping(value="/myCurrentChal",method=RequestMethod.GET)
+	@RequestMapping(value="/myEndChal",method=RequestMethod.GET)
 	public String myEndChalList(Model model,@RequestParam(value="userId", required=false)String userId,ChalVO vo) {
 		vo.setMemberId(userId);
 		model.addAttribute("chalList", chalService.myEndChal(vo));
@@ -52,33 +52,43 @@ public class ChalMypageController {
 	
 	//마이페이지의 나의 인증현황
 	@RequestMapping(value="/myChalStatus", method=RequestMethod.GET)
-	public String myChalStatus(Model model, @RequestParam(value="chalId", required=true)String chalId, MediaVO vo, ProofVO pvo,HttpServletRequest request) {
-		HttpSession session=request.getSession();
-		//세션에서 가져온 로그인 된 id값
-		String id = (String)session.getAttribute("id");
-		//챌린저스 한건 정보
-		model.addAttribute("chal",chalService.getChal(chalId));
-		
-		//해당 챌린지에 대해 내가 입력한 모든 인증샷 싹다 가져오기 - chalId, memberid
-		vo.setGroupId(chalId);
-		vo.setProofWriter(id);
-		model.addAttribute("myPhotoes", proofService.getMyShotsForOne(vo));
-		
-		//Proofs 테이블에서 count(*) 해야함 - 조건이 성공인거, 작성자 아이디, 챌린지 아이디 필요
-		pvo.setChalId(chalId);
-		pvo.setProofWriter(id);
-		pvo.setCondition("성공");
-		
-		model.addAttribute("cntGood", proofService.countProof(pvo));
-		
-		//Proofs 테이블에서 count(*) 해야함 - 조건이 성공인거, 작성자 아이디, 챌린지 아이디 필요
-		pvo.setChalId(chalId);
-		pvo.setProofWriter(id);
-		pvo.setCondition("실패");
-		
-		model.addAttribute("cntBad", proofService.countProof(pvo));
+	public String myChalStatus(Model model, @RequestParam(value="chalId", required=false)String chalId, MediaVO vo, ProofVO pvo,HttpServletRequest request) {
+//		HttpSession session=request.getSession();
+//		//세션에서 가져온 로그인 된 id값
+//		String id = (String)session.getAttribute("id");
+//		//챌린저스 한건 정보
+//		model.addAttribute("chal",chalService.getChal(chalId));
+//		
+//		//해당 챌린지에 대해 내가 입력한 모든 인증샷 싹다 가져오기 - chalId, memberid
+//		vo.setGroupId(chalId);
+//		vo.setProofWriter(id);
+//		model.addAttribute("myPhotoes", proofService.getMyShotsForOne(vo));
+//		
+//		//Proofs 테이블에서 count(*) 해야함 - 조건이 성공인거, 작성자 아이디, 챌린지 아이디 필요
+//		pvo.setChalId(chalId);
+//		pvo.setProofWriter(id);
+//		pvo.setCondition("성공");
+//		
+//		model.addAttribute("cntGood", proofService.countProof(pvo));
+//		
+//		//Proofs 테이블에서 count(*) 해야함 - 조건이 성공인거, 작성자 아이디, 챌린지 아이디 필요
+//		pvo.setChalId(chalId);
+//		pvo.setProofWriter(id);
+//		pvo.setCondition("실패");
+//		
+//		model.addAttribute("cntBad", proofService.countProof(pvo));
 		
 		return "content/challengers/MyChalStatus";
+	}
+	
+	@RequestMapping(value="/check", method=RequestMethod.GET)
+	public String check() {
+		return "content/challengers/mytem";
+	}
+	
+	@RequestMapping(value="/test", method=RequestMethod.GET)
+	public String test() {
+		return "content/challengers/testFile";
 	}
 	
 	
