@@ -134,5 +134,11 @@ public class ProofServiceImpl implements ProofService {
 		return proofMapper.myChalThumnails(vo);
 	}
 
+	@Override
+	public Integer checkProof(ProofVO vo) {
+		// TODO Auto-generated method stub
+		return proofMapper.checkProof(vo);
+	}
+
 
 }
