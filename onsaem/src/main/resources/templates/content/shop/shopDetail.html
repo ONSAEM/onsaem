@@ -4,7 +4,63 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/layout}">
 
+<head>
+<style type="text/css">
+button {
+	all: unset;
+	background-color: mediumslateblue;
+	color: white;
+	padding: 5px 25px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.btn {
+	margin-top: 60px;
+}
+
+.modal {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.modal__background {
+	background-color: rgba(0, 0, 0, 0.6);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
+.modal__content {
+	text-align: center;
+	position: relative;
+	background-color: white;
+	border-radius: 10px;
+	top: 0;
+	padding: 10px 25px;
+	width: 20%;
+}
+
+h1 {
+	margin: 0;
+	margin-bottom: 13px;
+}
+
+.hidden {
+	display: none;
+}
+</style>
+</head>
+
 <title>shop detail</title>
+
+
 
 <!-- Google Font -->
 <link
@@ -76,11 +132,13 @@
 				<div class="col-lg-6 col-md-6">
 					<div class="product__details__text">
 						<h3 th:text=${product.productName}>Vetgetable’s Package</h3>
+
 						<div class="product__details__rating">
+
 							<i class="fa fa-star"
 								th:each="num:${#numbers.sequence(1,product.star)}"></i> <i
 								class="fa-solid fa-star-half" th:if="${product.star%1 >= 0.5}"></i>
-
+							<button class="openBtn">신고하기</button>
 							<span>(18 reviews)</span>
 						</div>
 						<div class="product__details__price" th:text=${product.price}>$50.00</div>
@@ -97,12 +155,11 @@
 										<input type="text" value="1" class="proAmount">
 									</div>
 								</div>
-							</div>							
+							</div>
 							<select class="options" onchange="optionEvent(this.value)">
-								<option value='' selected >-- 옵션 --</option>
+								<option value='' selected>-- 옵션 --</option>
 								<option value='친환경'>친환경</option>
-							</select> 
-							<a th:onclick="cartEvent(this)" class="primary-btn">장바구니 담기</a>
+							</select> <a th:onclick="cartEvent(this)" class="primary-btn">장바구니 담기</a>
 							<button th:onclick="changeHeart(this)" style="border: solid 0px;"
 								class="change-heart">♡</button>
 							<br>
@@ -290,6 +347,31 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="modal hidden">
+				<div class="modal__background"></div>
+				<div class="modal__content">
+					<h3>신고하기</h3>
+					<div class="modalText">
+						<p>사유선택</p>
+						<input type="checkbox" name="reason" id="ban1"
+							th:onclick="checkOnlyone(this)" value="욕설 및 비하 발언">욕설 및
+						비하 발언 <span id="1"></span><br> <input type="checkbox"
+							value="친환경 물품이 아님" id="ban2" name="reason"
+							th:onclick="checkOnlyone(this)"> 친환경 물품이 아님<span id="2"></span>
+
+						<br> <input type="checkbox" value="불건전한 게시물 등록" name="reason"
+							id="ban3" th:onclick="checkOnlyone(this)"> 불건전한 게시물 등록 <span
+							id="3"></span><br> <input type="checkbox" value="기타"
+							name="reason" id="ban4" th:onclick="checkOnlyone(this)">
+						기타 <span id="4"></span> <br>
+
+						<button th:onclick="banSubmit()">신고하기</button>
+						<button class="closeBtn">닫기</button>
+					</div>
+				</div>
+			</div>
+
 		</div>
 
 		<!-- JS -->
@@ -334,8 +416,57 @@
 					 fetch('http://localhost/cartAdd?productId='+productId+'&cartAmount='+cartAmount+'&cartOption='+cartOption)
 					  .then((response) => alert('장바구니에 담겼습니다.'))		
 				}
+			
+					
 				
+			/* 	let id="[[${session.id}]]";
+				console.log("[[${param.data}]]"); */
+				//모달창 생성
+				const openButton = document.querySelector(".openBtn");
+				const modal = document.querySelector(".modal");
+				const closeButton = modal.querySelector(".closeBtn");
+				const modalBackground = modal.querySelector(".modal__background");
+
+				function displayModal(){
+				    modal.classList.toggle("hidden");
+				}
+
+				openButton.addEventListener("click", displayModal);
+				closeButton.addEventListener("click", displayModal)
+				modalBackground.addEventListener("click", displayModal);
 				
+				//신고체크박스시 자세내용적기 창 생성
+				function checkOnlyone(element){
+					const reason=document.getElementsByName("reason");
+					reason.forEach((cb) => 
+					{cb.checked = false;	
+					let span=cb.nextElementSibling;
+					span.innerHTML="";	
+					})						
+					element.checked = true;
+					let span=element.nextElementSibling;
+					span.innerHTML="<textarea name='text' placeholder='상세설명' name='detailReason'></textarea>";										
+				}
+				
+				//신고제출
+				function banSubmit(){			
+					let reason = document.getElementsByName("reason").length;  
+       				for (var i=0; i<reason; i++) {
+            			if (document.getElementsByName("reason")[i].checked == true) {
+                			console.log(document.getElementsByName("reason")[i].value);
+                			console.log(document.getElementsByName("reason")[i].nextElementSibling.children);
+                			console.log(document.getElementsByName("text")[0].innerHTML)
+            			}
+					}
+				}
+				
+				//상세내용변경시 이벤트
+				let changeText=document.getElementsByName("text")
+				changeText.onkeyup=function(){
+					for(var i=0; i<changeText.length;i++){
+						changeText[i].textContent=changeText.value;
+					}
+				}
 			</script>
 		</th:block>
 	</section>
