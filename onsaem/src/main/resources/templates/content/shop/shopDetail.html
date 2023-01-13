@@ -445,27 +445,36 @@ h1 {
 					})						
 					element.checked = true;
 					let span=element.nextElementSibling;
-					span.innerHTML="<textarea name='text' placeholder='상세설명' name='detailReason'></textarea>";										
+					span.innerHTML="<br><textarea name='text' placeholder='상세설명' id='detailReason'></textarea>";										
 				}
 				
 				//신고제출
 				function banSubmit(){			
-					let reason = document.getElementsByName("reason").length;  
-       				for (var i=0; i<reason; i++) {
+					let reasonLength = document.getElementsByName("reason").length;  
+       				for (var i=0; i<reasonLength; i++) {
             			if (document.getElementsByName("reason")[i].checked == true) {
-                			console.log(document.getElementsByName("reason")[i].value);
-                			console.log(document.getElementsByName("reason")[i].nextElementSibling.children);
-                			console.log(document.getElementsByName("text")[0].innerHTML)
+                			console.log(document.getElementsByName("reason")[i].value); 
+                			var reason=document.getElementsByName("reason")[i].value
             			}
 					}
-				}
-				
-				//상세내용변경시 이벤트
-				let changeText=document.getElementsByName("text")
-				changeText.onkeyup=function(){
-					for(var i=0; i<changeText.length;i++){
-						changeText[i].textContent=changeText.value;
-					}
+       				console.log(document.getElementById("detailReason").value);
+       				let detailReason=document.getElementById("detailReason").value;
+       				let fromId="[[${session.id}]]";
+    				let groupId="[[${param.data}]]";
+       				fetch('http://localhost/addBan',{
+       					headers: {
+       					    "Content-Type": "application/json",
+       					  },
+       					method:"post",
+       					body: JSON.stringify({
+       						reason: reason,
+       						detailReason: detailReason,
+       						fromId:fromId,
+       						groupId:groupId
+       					  })
+       					})
+					  .then((response) => alert('신고처리 되었습니다.'))
+					  .then((data)=>location.href="http://localhost/shop")	
 				}
 			</script>
 		</th:block>

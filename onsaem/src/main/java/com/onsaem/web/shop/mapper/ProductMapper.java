@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.shop.service.ProductVO;
 
 public interface ProductMapper {
@@ -42,5 +43,8 @@ public interface ProductMapper {
 	
 	//상품이미지 등록
 	int addMedia(MediaVO vo);
+	
+	//신고등록
+	int addBan(ReportVO vo);
 
 }

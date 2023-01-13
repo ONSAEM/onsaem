@@ -239,16 +239,22 @@
 	<!-- 상품이미지등록 -->
 	<insert id="addMedia"
 		parameterType="com.onsaem.web.common.service.MediaVO">
-		insert into
-		media(MEDIA_ID,
+		INSERT INTO
+		MEDIA(MEDIA_ID,
 		GROUP_ID,
 		GROUPS,
 		SUB_GROUP,
 		FILE_NAME,
 		FILE_ROUTE,
 		MEDIA_NAME)
-		values('M'||lpad(media_seq.nextval,3,0),#{groupId},'쇼핑몰',null,#{fileName},
-		'/shoptemplate/img/product/','M'||lpad(media_seq.nextval,3,0)||'.jpg')
+		VALUES('M'||LPAD(MEDIA_SEQ.NEXTVAL,3,0),#{groupId},'쇼핑몰',null,#{fileName},
+		'/shoptemplate/img/product/','M'||LPAD(media_seq.nextval,3,0)||'.jpg')
 	</insert>
-
+	
+	<!-- 신고등록 -->
+	<insert id="addBan" parameterType="com.onsaem.web.common.service.ReportVO">
+		INSERT INTO REPORTS
+		VALUES('RP'||REPORT_SEQ.NEXTVAL,#{fromId},#{toId},CURRENT_DATE,#{reason}
+		,#{detailReason},'신고대기','쇼핑몰',#{groupId})
+	</insert>
 </mapper>

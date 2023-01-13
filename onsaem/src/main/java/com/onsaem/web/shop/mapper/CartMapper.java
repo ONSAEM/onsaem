@@ -10,4 +10,7 @@ public interface CartMapper {
 
 	// 장바구니 리스트
 	List<CartVO> cartList(CartVO vo);
+	
+	// 나의장바구니 리스트
+	List<CartVO> myCartList(CartVO vo);
 }
