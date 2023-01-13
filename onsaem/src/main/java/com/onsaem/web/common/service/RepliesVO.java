@@ -14,5 +14,6 @@ public class RepliesVO {
 	String groups;
 	String writerId;
 	Date replyDate;
+	int replyCnt;
 	String publicScope;
 }

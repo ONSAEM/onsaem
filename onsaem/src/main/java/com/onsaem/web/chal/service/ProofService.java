@@ -64,5 +64,8 @@ public interface ProofService {
 		
 		//한사람이 참가한 모든 챌린지의 섬네일,,사진,,가져오기 - 진행중ㄷ인챌린지
 		List<MediaVO> myChalThumnails(ChalVO vo);
+		
+		//인증샷있는지 확인하는 메소드 ㅋㅋ 없으면 0개로 뜨게끔 함 멋진나 ㅎㅎ
+		Integer checkProof(ProofVO vo);
 
 }

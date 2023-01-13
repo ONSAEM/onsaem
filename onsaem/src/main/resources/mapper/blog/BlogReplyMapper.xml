@@ -26,4 +26,11 @@
 		                     PUBLIC_SCOPE)
 		VALUES(#{replyId}, #{content}, #{groupId}, '블로그', #{writerId}, current_date, 'public')
  	</insert>
+ 	
+	<!--  	댓글 수 조회 -->
+	<select id="replyCnt" resultType="RepliesVO" parameterType="String">
+		SELECT COUNT(*) AS replyCnt
+		FROM REPLIES
+		WHERE GROUP_ID = #{groupId}
+	</select>
  </mapper>

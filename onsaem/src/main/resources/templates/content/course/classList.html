@@ -289,12 +289,12 @@
 							</div>
  						    <div class="pagination p1" th:if="${page.totalRecord != 0}">
 						      <ul>
-						        <li th:if="${page.startPage > 1}" style="font-size: 30px;">&laquo;</li>
+						        <li id="prevPaging" th:if="${page.startPage > 1}" style="font-size: 30px;">&laquo;</li>
 						        <th:block th:each="num : ${#numbers.sequence(page.startPage,page.endPage)}">
-						        	<li th:if="${page.page != num}" th:text=${num}></li>
+						        	<li id="pageNum" th:if="${page.page != num}" th:text=${num}></li>
 						        	<li th:if="${page.page == num}" th:text=${num} style="background-color: #2ecc71;border-radius: 100%;color: #fff;"></li>
 						        </th:block>
-						        <li th:if="${page.endPage < page.lastPage}" style="font-size: 30px;">&raquo;</li>
+						        <li id="nextPaging" th:if="${page.endPage < page.lastPage}" style="font-size: 30px;">&raquo;</li>
 						      </ul>
 						    </div>					  
 					</div>
@@ -303,8 +303,8 @@
 		</section>
 		<!-- Product Section End -->
 		<script type="text/javascript">
-			let listClone = $(".classList").find(".col-md-6").first().clone();
-			let pageClone = $(".pagination").first().clone();
+			let listClone = $(".classList").find(".col-md-6").first().clone(true);
+			let nowData = {};
 			function dataMake(){
 				let data = {};
 				if($(".addr").val()){
@@ -317,10 +317,10 @@
 					data['maxPrice'] = $("#maxamount").val().slice(0, -1);;
 				}
 				if($(".startDate").val()){
-					data['startdate'] = $(".startDate").val();
+					data['startDate'] = $(".startDate").val();
 				}
 				if($(".endDate").val()){
-					data['enddate'] = $(".endDate").val();
+					data['endDate'] = $(".endDate").val();
 				}
 				if($(".searchWord").val()){
 					data['className'] = $(".searchWord").val();
@@ -330,58 +330,105 @@
 				}
 				return data;
 			}
-
+			
 			// 검색
 			$(".site-btn").on("click",function(){
+				nowData = dataMake();
 				newClassList(1);
 			});
 
 			// 페이지 이동
-			$(".pagination").find('li').on("click",function(){
+			$(".classList").find("#pageNum").on("click",function(){
 				newClassList($(this).text());
 			});
 
+			// 다음 페이징 목록 이동
+			$(".classList").find("#nextPaging").on("click",function(){
+				newClassList("[[${page.startPage+page.pageSize}]]");
+			});
+
+			// 이전 페이징 목록 이동
+			$(".classList").find("#prevPaging").on("click",function(){
+				newClassList("[[${page.startPage-page.pageSize}]]");
+			});
+
+
 			// 페이징 가져오기
-
-			// 페이징 만들기
-
-			// 강의 리스트 만들기
-			function makeList(item){
-					console.log(index);
-					let makeClone = listClone;
-					$(makeClone).find(".product__item__pic").attr("data-setbg",item.fileRoute+item.mediaName);
-					$(makeClone).find("h5").text(item.price+"원");
-					$(makeClone).find(".product__item__text").find("a").attr("href","/class/classDetail?classId="+item.classId);
-					$(makeClone).find(".product__item__text").find("a").text(item.className);
-					$(makeClone).find(".fa-solid").remove();
-					for( let i = 0; i < item.star; i++){
-						$(makeClone).find(".product__item__text").append($("i").addClass('fa-solid fa-star').css("color","#ffe949"));
-					}
-					if(item.star%1 >= 0.5){
-						$(makeClone).find(".product__item__text").append($("i").addClass('fa-solid fa-star-half').css("color","#ffe949"));
-					}
-					console.log(makeClone);
-					return makeClone;
-			}
-
-			// 강의목록 가져오기
-			function newClassList(page){
-				let classData = dataMake();
-				classData['page'] = page;
-				console.log(classData);
+			function newPaging(classData){
 				$.ajax({
-			      url: '/class/classSearch',
+			      url: '/class/getPaging',
 			      method: 'GET',
 			      contentType: 'application/x-www-form-urlencoded',
 			      data: classData,
 			      success: function (result) {
 			         console.log(result);
-			         alert('성공');
-					 $(".row").find(".col-sm-6").remove();
-					 $(".row").find(".pagination").remove();
+					 $(".classList").append(makePageing(result));
+			      },
+			      error: function (error) {
+			         console.log(error);
+			         alert('실패');
+			      }
+			   })
+			}
+			
+			// 페이징 만들기
+			function makePageing(page){
+				if(page.totalRecord == 0){
+					return;
+				}
+				let pagination = $("<div/>").addClass("pagination p1");
+				let ul = $("<ul/>");
+				if(page.startPage > 1){
+					$(ul).append($("<li/>").html("&laquo;").css("font-size","30px").on("click",function(){newClassList(page.startPage-page.pageSize)}));
+				}
+				for(let i = page.startPage; i <= page.endPage; i++){
+					if(page.page == i){
+						$(ul).append($("<li/>").text(i).css("background-color","#2ecc71").css("border-radius","100%").css("color","#fff"));
+					}else {
+						$(ul).append($("<li/>").text(i).attr("id","pageNum").on("click",function(){newClassList($(this).text());}));
+					}
+				}
+				if(page.endPage < page.lastPage){
+					$(ul).append($("<li/>").html("&raquo;").css("font-size","30px").on("click",function(){newClassList(page.startPage+page.pageSize)}));
+				}
+				pagination.append(ul);
+				return pagination;
+			}
+
+			// 강의 리스트 만들기
+			function makeList(item){
+					let makeClone = $(listClone).clone();
+					$(makeClone).find(".product__item__pic").attr("data-setbg",item.fileRoute+item.mediaName);
+					$(makeClone).find(".product__item__pic").css("background-image","url("+item.fileRoute+item.mediaName+")");
+					$(makeClone).find("h5").text(item.price+"원");
+					$(makeClone).find(".product__item__text").find("a").attr("href","/class/classDetail?classId="+item.classId);
+					$(makeClone).find(".product__item__text").find("a").text(item.className);
+					$(makeClone).find(".product__item__text").find("i").remove();
+					for( let i = 1; i <= item.star; i++){
+						$(makeClone).find(".product__item__text").append($("<i/>").addClass('fa-solid fa-star').css("color","#ffe949"));
+					}
+					if(item.star%1 >= 0.5){
+						$(makeClone).find(".product__item__text").append($("<i/>").addClass('fa-solid fa-star-half').css("color","#ffe949"));
+					}
+					return makeClone;
+			}
+
+			// 강의목록 가져오기
+			function newClassList(page){
+				let data = nowData;
+				data['page'] = page;
+				$.ajax({
+			      url: '/class/classSearch',
+			      method: 'GET',
+			      contentType: 'application/x-www-form-urlencoded',
+			      data: data,
+			      success: function (result) {
+					 $(".row").find(".col-sm-6").detach();
+					 $(".row").find(".pagination").detach();
 					 $(result).each(function(index, item){
 						$(".classList").append(makeList(item));
 					 })
+					 newPaging(data);
 			      },
 			      error: function (error) {
 			         console.log(error);

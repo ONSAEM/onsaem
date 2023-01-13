@@ -10,6 +10,7 @@ import com.onsaem.web.blog.service.BlogMediaVO;
 import com.onsaem.web.blog.service.BlogReportVO;
 import com.onsaem.web.blog.service.BlogWriteService;
 import com.onsaem.web.blog.service.BlogWriteVO;
+import com.onsaem.web.blog.service.CategoriesVO;
 import com.onsaem.web.common.service.LikeVO;
 
 @Service
@@ -86,6 +87,24 @@ public class BlogWriteServiceImpl implements BlogWriteService {
 	public LikeVO cntBlogLike(LikeVO likeVO) {
 		// 좋아요 수
 		return blogWriteMapper.cntBlogLike(likeVO);
+	}
+
+	@Override
+	public List<CategoriesVO> cateList(CategoriesVO categoriesVO) {
+		// 카테고리 조회
+		return blogWriteMapper.cateList(categoriesVO);
+	}
+
+	@Override
+	public List<BlogWriteVO> recentWrite(String blogId) {
+		// 해당 유저의 최신 글 3개 조회
+		return blogWriteMapper.recentWrite(blogId);
+	}
+
+	@Override
+	public List<BlogWriteVO> searchWrite(String blogId, String data) {
+		// 해당 유저의 검색 목록 조회
+		return blogWriteMapper.searchWrite(blogId, data);
 	}
 
 	

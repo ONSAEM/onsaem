@@ -11,7 +11,8 @@ public interface BlogReplyMapper {
 		List<RepliesVO> replyList(String groupId);
 	// 댓글 작성
 		int replyInsert(RepliesVO repliesVO);
-
+	// 댓글 수 조회
+		public RepliesVO replyCnt(RepliesVO repliesVO);
 	
 	
 

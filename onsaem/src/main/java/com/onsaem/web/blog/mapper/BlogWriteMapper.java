@@ -5,6 +5,7 @@ import java.util.List;
 import com.onsaem.web.blog.service.BlogMediaVO;
 import com.onsaem.web.blog.service.BlogReportVO;
 import com.onsaem.web.blog.service.BlogWriteVO;
+import com.onsaem.web.blog.service.CategoriesVO;
 import com.onsaem.web.common.service.LikeVO;
 
 public interface BlogWriteMapper {
@@ -30,6 +31,15 @@ public interface BlogWriteMapper {
 	int delBlogLike(LikeVO likeVO);
 	// 좋아요 수
 	public LikeVO cntBlogLike(LikeVO likeVO);
+	
+	// 해당 유저의 카테고리 조회
+	public List<CategoriesVO> cateList(CategoriesVO categoriesVO);
+	
+	// 해당 유저의 최신글 3개 조회
+	public List<BlogWriteVO> recentWrite(String blogId);
+	
+	// 해당 유저의 검색 목록 조회
+	public List<BlogWriteVO> searchWrite(String blogId, String data);
 	
 	// 신고
 	int reportInsert(BlogReportVO blogReportVO);
