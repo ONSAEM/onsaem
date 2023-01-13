@@ -17,6 +17,7 @@ import com.onsaem.web.member.service.MemberVO;
 
 @Controller
 @CrossOrigin(origins = "*")
+@RequestMapping(value = "/login")
 public class LoginController {
 	@Autowired
 	LoginService loginService;
