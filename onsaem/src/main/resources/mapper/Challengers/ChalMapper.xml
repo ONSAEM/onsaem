@@ -55,13 +55,12 @@
 		AND CURRENT_DATE > C.START_DATE
 	</select>
 	
-	<select id="myEndCha" resultType="ChalVO" parameterType="ChalVO">
+	<select id="myEndChal" resultType="ChalVO" parameterType="ChalVO">
 		SELECT C.CHAL_ID AS CHALID, C.SUB_CLASS AS SUBCLASS, C.FREQUENCY AS FREQUENCY, C.MEMBER_ID AS MEMBERID, C.CHAL_NAME AS CHALNAME
-		FROM CHALLENGES C JOIN MEMBERS M
-		ON C.MEMBER_ID = M.MEMBER_ID
-		WHERE C.MEMBER_ID = #{memberId} 
+		FROM CHALLENGES C JOIN PARTICIPANTS P
+		ON C.CHAL_ID = P.CHAL_ID
+		WHERE P.PARTICIPANT_ID = #{participantId} 
 		AND CURRENT_DATE > C.END_DATE
-		AND M.RIGHT = '일반회원'
 	</select>
 	
 	

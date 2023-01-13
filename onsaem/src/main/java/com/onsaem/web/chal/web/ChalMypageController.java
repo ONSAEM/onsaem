@@ -29,7 +29,24 @@ public class ChalMypageController {
 	@RequestMapping(value="/myCurrentChal",method=RequestMethod.GET)
 	public String myCurrentChalList(Model model,@RequestParam(value="userId", required=false)String userId,ChalVO vo) {
 		vo.setMemberId(userId);
+		//로그인 유저가 참가중인 챌린저들,,,
 		model.addAttribute("chalList", chalService.myCurentChal(vo));
+		
+		//썸네일덜 ~ 나중에 디자인 하기 싫으면 걍 뺴고 표로 만들면 됨 ~
+		model.addAttribute("pics", proofService.myChalThumnails(vo));
+		
+		//오늘 날짜에, 인증샷 넣엇는지 안넣엇는지 체크하는 메소드 필요 ㅠㅠ 
+		
+		return "content/challengers/MyCurrentChal";
+	}
+	
+	//인증샷 넣기 ! 
+	@RequestMapping(value="/myCurrentChal",method=RequestMethod.POST)
+	public String inputProof(Model model,@RequestParam(value="userId", required=false)String userId,ChalVO vo) {
+		//인증테이블에 값넣기
+		
+		//미디어 테이블에 값넣기 
+		
 		return "content/challengers/MyCurrentChal";
 	}
 	
@@ -86,6 +103,8 @@ public class ChalMypageController {
 		return "content/challengers/mytem";
 	}
 	
+	
+	//얘 마이페이지의 - 2버냬ㅉ 페이지, value 파일명 다고치삼
 	@RequestMapping(value="/test", method=RequestMethod.GET)
 	public String test() {
 		return "content/challengers/testFile";

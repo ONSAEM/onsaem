@@ -58,5 +58,11 @@ public interface ProofService {
 		
 		//조건에 맞는 proof 행 갯수 count하기
 		Integer countProof(ProofVO vo);
+		
+		//인증샷만 싹다 가져오기,,한 사람이 참가한 챌린지의,,모든 사진 가져오기
+		List<MediaVO> myChalsProofs(ProofVO vo);
+		
+		//한사람이 참가한 모든 챌린지의 섬네일,,사진,,가져오기 - 진행중ㄷ인챌린지
+		List<MediaVO> myChalThumnails(ChalVO vo);
 
 }
