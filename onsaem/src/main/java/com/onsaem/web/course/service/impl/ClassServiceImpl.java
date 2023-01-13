@@ -22,7 +22,10 @@ public class ClassServiceImpl implements ClassService{
 
 	@Override
 	public List<ClassInfoVO> getClassList(ClassInfoVO vo, Paging paging) {
-
+		Paging totalRecord = classMapper.classCount(vo);
+		paging.setTotalRecord(totalRecord.getTotalRecord());
+		vo.setFirst(paging.getFirst());
+		vo.setLast(paging.getLast());
 		return classMapper.getClassList(vo);
 	}
 	

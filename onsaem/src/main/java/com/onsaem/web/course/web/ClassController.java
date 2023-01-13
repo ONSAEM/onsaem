@@ -1,5 +1,7 @@
 package com.onsaem.web.course.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.stereotype.Controller;
@@ -7,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.course.service.ClassInfoVO;
@@ -34,13 +37,10 @@ public class ClassController {
 	
 	// 강의검색, 페이지, 정렬 처리
 		@RequestMapping(value = "/classSearch", method = RequestMethod.GET)
-		public String classSearch(ClassInfoVO vo, Model model, Paging paging) {
+		@ResponseBody
+		public List<ClassInfoVO> classSearch(ClassInfoVO vo, Model model, Paging paging) {
 			paging.setPageUnit(9);
-			model.addAttribute("classList", classService.getClassList(vo,paging));
-			model.addAttribute("maxPrice", classService.classMaxPrice(vo));
-			model.addAttribute("minPrice", classService.classMinPrice(vo));
-			model.addAttribute("page", classService.classCount(vo));
-			return "content/course/classList";
+			return classService.getClassList(vo,paging);
 		}
 	
 	// 강의상세 페이지 이동 (강의정보, 미디어목록, 후기목록, 문의목록)

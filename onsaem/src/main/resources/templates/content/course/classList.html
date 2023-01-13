@@ -68,7 +68,6 @@
 		</section>
 		<!-- Breadcrumb Section End -->
 		<br>
-		
 		<!-- Product Section Begin -->
 		<section class="product spad">
 			<div class="container">
@@ -78,7 +77,7 @@
 							<div class="sidebar__item">
 								<h4>지역</h4>
 								<select class="addr">
-									<option>::지역선택::</option>
+									<option value="">::지역선택::</option>
 									<option value="서울">서울</option>
 									<option value="부산">부산</option>
 									<option value="대구">대구</option>
@@ -129,7 +128,7 @@
 								<h4>검색</h4>
 								<input type="text" class="searchWord" placeholder="검색">
 							</div>
-							<button type="submit" class="site-btn" >SEARCH</button>
+							<button type="button" class="site-btn" >SEARCH</button>
 						</div>
 					</div>
 					<div class="col-lg-9 col-md-7">
@@ -259,18 +258,18 @@
 								<div class="col-lg-4 col-md-5">
 									<div class="filter__sort">
 										<span>Sort By</span> 
-										<select name="orderId">
+										<select name="orderId" class="orderId" th:onchange="newClassList(1)">
 											<option value="OD0">최신순</option>
-											<option value="OD2">후기많은순</option>
-											<option value="OD3">가격높은순</option>
-											<option value="OD4">가격낮은순</option>
+											<option value="OD1">별점높은순</option>
+											<option value="OD2">가격높은순</option>
+											<option value="OD3">가격낮은순</option>
 										</select>
 									</div>
 								</div>
 							</div>
 						</div>
 						
-						<div class="row">
+						<div class="row classList">
 							<div class="col-lg-4 col-md-6 col-sm-6" th:each="class : ${classList}">
 								<div class="product__item">
 									<div class="product__item__pic set-bg"
@@ -304,42 +303,89 @@
 		</section>
 		<!-- Product Section End -->
 		<script type="text/javascript">
-			let addr = $(".addr").val();
-			let maxPrice = $("#minamount").val();
-			let minPrice = $("#maxamount").val();
-			let startDate = $(".startDate").val();
-			let endDate = $(".endDate").val();
-			let searchWord = $(".searchWord").val();
+			let listClone = $(".classList").find(".col-md-6").first().clone();
+			let pageClone = $(".pagination").first().clone();
+			function dataMake(){
+				let data = {};
+				if($(".addr").val()){
+					data['classAddr'] = $(".addr").val();
+				}
+				if($("#minamount").val().slice(0, -1)){
+					data['minPrice'] = $("#minamount").val().slice(0, -1);
+				}
+				if($("#maxamount").val().slice(0, -1)){
+					data['maxPrice'] = $("#maxamount").val().slice(0, -1);;
+				}
+				if($(".startDate").val()){
+					data['startdate'] = $(".startDate").val();
+				}
+				if($(".endDate").val()){
+					data['enddate'] = $(".endDate").val();
+				}
+				if($(".searchWord").val()){
+					data['className'] = $(".searchWord").val();
+				}
+				if($(".orderId").val()){
+					data['orderId'] = $(".orderId").val();
+				}
+				return data;
+			}
 
 			// 검색
 			$(".site-btn").on("click",function(){
-				// newClassList(1);
-			})
+				newClassList(1);
+			});
 
 			// 페이지 이동
 			$(".pagination").find('li').on("click",function(){
-				console.log($(this.text()))
-				// newClassList();
-			})
+				newClassList($(this).text());
+			});
 
+			// 페이징 가져오기
+
+			// 페이징 만들기
+
+			// 강의 리스트 만들기
+			function makeList(item){
+					console.log(index);
+					let makeClone = listClone;
+					$(makeClone).find(".product__item__pic").attr("data-setbg",item.fileRoute+item.mediaName);
+					$(makeClone).find("h5").text(item.price+"원");
+					$(makeClone).find(".product__item__text").find("a").attr("href","/class/classDetail?classId="+item.classId);
+					$(makeClone).find(".product__item__text").find("a").text(item.className);
+					$(makeClone).find(".fa-solid").remove();
+					for( let i = 0; i < item.star; i++){
+						$(makeClone).find(".product__item__text").append($("i").addClass('fa-solid fa-star').css("color","#ffe949"));
+					}
+					if(item.star%1 >= 0.5){
+						$(makeClone).find(".product__item__text").append($("i").addClass('fa-solid fa-star-half').css("color","#ffe949"));
+					}
+					console.log(makeClone);
+					return makeClone;
+			}
+
+			// 강의목록 가져오기
 			function newClassList(page){
+				let classData = dataMake();
+				classData['page'] = page;
+				console.log(classData);
 				$.ajax({
 			      url: '/class/classSearch',
-			      method: 'post',
+			      method: 'GET',
 			      contentType: 'application/x-www-form-urlencoded',
-			      data: {"classAddr": addr,
-				  "maxPrice": maxPrice,
-				  "minPrice": minPrice,
-				  "startdate": startDate,
-				  "enddate": endDate,
-				  "className": searchWord,
-				  "page": page},
+			      data: classData,
 			      success: function (result) {
 			         console.log(result);
-			         alert('좋아요 삭제 완료');
+			         alert('성공');
+					 $(".row").find(".col-sm-6").remove();
+					 $(".row").find(".pagination").remove();
+					 $(result).each(function(index, item){
+						$(".classList").append(makeList(item));
+					 })
 			      },
 			      error: function (error) {
 			         console.log(error);
+			         alert('실패');
 			      }
 			   })
 			}

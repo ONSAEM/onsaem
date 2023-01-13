@@ -34,7 +34,7 @@
 	<select id="getClassList" resultType="ClassInfoVO"
 		parameterType="ClassInfoVO">
 		SELECT * FROM ( SELECT ROWNUM RN, A.* FROM (
-		SELECT  C.CLASS_ID,  C.CLASS_NAME,  C.PRICE,  C.CLASS_TIME, C.CLASS_GROUP, NVL(TRUNC(AVG(R.REVIEW_STAR),1),0) AS star, M.FILE_NAME, M.FILE_ROUTE, M.MEDIA_NAME
+		SELECT  C.CLASS_ID,  C.CLASS_NAME,  C.PRICE,  C.CLASS_TIME, C.CLASS_GROUP, NVL(TRUNC(AVG(R.REVIEW_STAR),1),0) AS STAR, M.FILE_NAME, M.FILE_ROUTE, M.MEDIA_NAME
 		FROM CLASS_INFO C, REVIEWS R, MEDIA M, CLASSES L
         WHERE  C.CLASS_ID = R.GROUP_ID(+)
         AND C.CLASS_ID = M.GROUP_ID
@@ -42,7 +42,12 @@
         AND M.SUB_GROUP = '대표이미지'
 			<include refid="condition"/>
 		GROUP BY C.CLASS_ID,  C.CLASS_NAME,  C.PRICE,  C.CLASS_TIME, C.CLASS_GROUP, M.FILE_NAME, M.FILE_ROUTE, M.MEDIA_NAME
-		ORDER BY C.CLASS_ID
+		<choose>
+		<when test="'OD0'.equals(orderId)"> ORDER BY C.CLASS_ID </when>
+    	<when test="'OD1'.equals(orderId)"> ORDER BY STAR DESC </when>
+    	<when test="'OD2'.equals(orderId)"> ORDER BY C.PRICE DESC  </when>
+    	<when test="'OD3'.equals(orderId)"> ORDER BY C.PRICE  </when>
+		</choose>
 			<![CDATA[
 				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
 			]]>
@@ -55,13 +60,12 @@
         WHERE  C.CLASS_ID = R.GROUP_ID(+)
         AND C.CLASS_ID = #{classId}
         GROUP BY C.CLASS_ID,  C.CLASS_NAME,  C.PRICE,  C.CLASS_TIME, C.EXPLANATION, C.CLASS_GROUP, C.DIFFICULTY
-
 	</select>
 	
 	<select id="classMediaList" resultType="MediaVO" parameterType="ClassInfoVO">
 		SELECT *
 		from MEDIA
-		where GROUP_ID = #{classId}
+		WHERE GROUP_ID = #{classId}
 		ORDER BY SUB_GROUP
 	</select>
 	
