@@ -209,7 +209,7 @@
 							<div class="col-lg-6">
 								<div class="blog__details__widget">
 									<ul>
-					<!--------------------   ------------------------->
+					<!-------------------- 하트 ------------------------->
 										<li><div class="wrapper" >
 												<div class="button-container">
 													<div class="heartbutton">
@@ -238,15 +238,14 @@
 			<section class="news-section section-padding">
             <div class="container">
                 <div class="row">
-                	<div class="author-comment d-flex mt-3 mb-4">
+                	<div class="author-comment d-flex mt-3 mb-4" th:each=" reply : ${replyList}">
                                     <img th:src="@{/images/avatar/studio-portrait-emotional-happy-funny.jpg}"
                                         class="img-fluid avatar-image" alt="">
 
                                     <div class="author-comment-info ms-3">
-                                        <h6 class="mb-1">Jack</h6>
+                                        <h6 class="mb-1"><span style="font-weight:bold">[[${reply.writerId}]]</span> ([[${#dates.format(reply.replyDate, 'YY.MM.DD HH:mm')}]])</h6>
 
-                                        <p class="mb-0">Kind Heart Charity is the most supportive organization. This is
-                                            Bootstrap 5 HTML CSS template for everyone. Thank you.</p>
+                                        <p class="mb-0">[[${reply.content}]]</p>
 
                                         <div class="d-flex mt-2">
                                             <a href="#" class="author-comment-link me-3">신고</a>
@@ -254,8 +253,8 @@
                                             <a href="#" class="author-comment-link">댓글달기</a>
                                         </div>
                                     </div>
-                                </div>
-
+                     </div>
+						<!-- 대댓글 
                                 <div class="author-comment d-flex ms-5 ps-3">
                                     <img th:src="@{/images/avatar/pretty-blonde-woman-wearing-white-t-shirt.jpg}"
                                         class="img-fluid avatar-image" alt="">
@@ -273,34 +272,18 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="author-comment d-flex mt-3 mb-4">
-                                    <img th:src="@{/images/avatar/portrait-young-redhead-bearded-male.jpg}"
-                                        class="img-fluid avatar-image" alt="">
-
-                                    <div class="author-comment-info ms-3">
-                                        <h6 class="mb-1">Wilson</h6>
-
-                                        <p class="mb-0">Lorem Ipsum dolor sit amet, consectetur adipsicing kengan omeg
-                                            kohm tokito Professional charity theme based on Bootstrap</p>
-
-                                        <div class="d-flex mt-2">
-                                            <a href="#" class="author-comment-link me-3">신고</a>
-
-                                            <a href="#" class="author-comment-link">댓글달기</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <form class="custom-form comment-form mt-4" action="#" method="post" role="form">
+						-->
+                                <form class="custom-form comment-form mt-4" action="/blog/blogWrite/replyInsert" method="post" role="form" name="replyFrm">
                                     <h6 class="mb-3">댓글</h6>
 
-                                    <textarea name="comment-message" rows="4" class="form-control" id="comment-message"
+                                    <textarea name="content" rows="4" class="form-control" id="comment-message"
                                         placeholder="온샘은 신고 관리를 철저하게 합니다. 댓글 작성 시, 한번 더 생각해주세요"></textarea>
 
                                     <div class="col-lg-3 col-md-4 col-6 ms-auto">
-                                        <button type="submit" class="form-control">등록</button>
+                                        <button type="submit" id="replyBtn" class="form-control" th:if="${session.id}!=null">등록</button>
+                                        <button type="button" id="replyBtn" class="form-control" th:unless="${session.id}!=null" disabled>로그인이 필요합니다 <a th:href="@{/loginPage}">login</a></button>
                                     </div>
+                                    <input type="hidden" name="groupId" th:value="${blogWrite.writeId}">
                                 </form>
                 	</div>
             	</div>
@@ -473,6 +456,31 @@
 				alert('로그인이 필요합니다');
 			}
 			});
+				// 	좋아요 끝
+			
+				// 댓글 등록
+			$('#replyBtn').on("click", function(){
+				let bno = "[[${blogWrite.writeId}]]";
+				let id = "[[${session.id}]]";
+				if(id!=null){ // 로그인 된 상태이면
+					$.ajax({
+						url: '/blog/myblog/blogWrite/replyInsert',
+						method: 'post',
+						contentType: 'application/x-www-form-urlencoded',
+						data: $('form[name="replyFrm"]').serialize(),
+						success: function (result) {
+					         console.log(result);
+					         location.href='/blog/myblog/blogWrite?bno='+bno;	
+					      },
+					      error: function (error) {
+					         console.log(error);
+					      }
+					});
+				}else{
+					alert('로그인이 필요합니다.');
+				}
+			});
+	
 	</script>
 	
 </div>
