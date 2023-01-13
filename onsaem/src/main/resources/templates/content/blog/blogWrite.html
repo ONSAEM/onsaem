@@ -110,7 +110,7 @@
 						<ul>
 							<li>By [[${blogWrite.writerNickname}]]</li>
 							<li>[[${#dates.format(blogWrite.writeDate, 'YYYY-MM-DD')}]]</li>
-							<li>8 Comments</li>
+							<li>[[${replyCnt.replyCnt}]] Comments</li>
 						</ul>
 					</div>
 				</div>
@@ -137,13 +137,9 @@
 						</div>
 						<div class="blog__sidebar__item">
 							<h4>Categories</h4>
-							<ul>
-								<li><a href="#">All</a></li>
-								<li><a href="#">Beauty (20)</a></li>
-								<li><a href="#">Food (5)</a></li>
-								<li><a href="#">Life Style (9)</a></li>
-								<li><a href="#">Travel (10)</a></li>
-							</ul>
+							<ul th:each="cate:${category}">
+                                <li><a href="#">[[${cate.categoryName}]]</a></li>
+                            </ul>
 						</div>
 						<div class="blog__sidebar__item">
 							<h4>Recent News</h4>
@@ -273,15 +269,15 @@
                                     </div>
                                 </div>
 						-->
-                                <form class="custom-form comment-form mt-4" action="/blog/blogWrite/replyInsert" method="post" role="form" name="replyFrm">
+                                <form class="custom-form comment-form mt-4" role="form" name="replyFrm">
                                     <h6 class="mb-3">댓글</h6>
 
                                     <textarea name="content" rows="4" class="form-control" id="comment-message"
                                         placeholder="온샘은 신고 관리를 철저하게 합니다. 댓글 작성 시, 한번 더 생각해주세요"></textarea>
 
                                     <div class="col-lg-3 col-md-4 col-6 ms-auto">
-                                        <button type="submit" id="replyBtn" class="form-control" th:if="${session.id}!=null">등록</button>
-                                        <button type="button" id="replyBtn" class="form-control" th:unless="${session.id}!=null" disabled>로그인이 필요합니다 <a th:href="@{/loginPage}">login</a></button>
+                                        <button type="submit" id="replyBtn" class="form-control" th:if="(${session.id}!=null)">등록</button>
+                                        <button type="button" id="replyBtn" class="form-control" th:unless="(${session.id}!=null)" disabled>로그인이 필요합니다 <a th:href="@{/loginPage}">login</a></button>
                                     </div>
                                     <input type="hidden" name="groupId" th:value="${blogWrite.writeId}">
                                 </form>
@@ -409,7 +405,7 @@
 			let bno = "[[${blogWrite.writeId}]]";
 			let id = "[[${session.id}]]";
 			
-			if(id!=null){ // 로그인 된 상태이면
+			if(id!=""){ // 로그인 된 상태이면
 				//console.log($(".blogLike").val());
 			  	if(likeTF=='F'){ // 테이블에 조회된 값이 없으면 db에 저장
 			  			//db에 저장하는 메서드 컨트롤러에 추가
@@ -470,8 +466,9 @@
 						data: $('form[name="replyFrm"]').serialize(),
 						success: function (result) {
 					         console.log(result);
-					         location.href='/blog/myblog/blogWrite?bno='+bno;	
-					      },
+					         location.href='/blog/myblog/blogWrite?bno='+bno;	// 이거 빼고 어디에 뭐 넣어라~ 이런식으로
+					    	 
+						},
 					      error: function (error) {
 					         console.log(error);
 					      }

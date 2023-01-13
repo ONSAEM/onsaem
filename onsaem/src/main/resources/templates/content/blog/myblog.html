@@ -273,52 +273,32 @@
                 <div class="col-lg-4 col-md-5">
                     <div class="blog__sidebar">
                         <div class="blog__sidebar__search">
-                            <form action="#">
-                                <input type="text" placeholder="Search...">
-                                <button type="submit"><span class="icon_search"></span></button>
+                            <form method="post" action="/blog/myblog/searchWrite">
+                                <input type="text" placeholder="Search..." name="data">
+                               	<input type="hidden" th:value="${param.userId}" id="blogId" name="blogId">
+                               	<button type="submit" th:onclick="location.href='@{//blog/myblog/searchWrite/blogId/(blogId=${param.userId})}'"><span class="icon_search"></span></button>
                             </form>
                         </div>
+						<!--[[${param.userId}]]  유저 이름확인--> 
                         <div class="blog__sidebar__item">
                         	<a th:href="@{/blog/myblog/blogWrite/blogInsert}" class="blog__btn">글 작성<span class="arrow_right"></span></a>
                             <h4>Categories</h4>
-                            <ul>
-                                <li><a href="#">All</a></li>
-                                <li><a href="#">Beauty (20)</a></li>
-                                <li><a href="#">Food (5)</a></li>
-                                <li><a href="#">Life Style (9)</a></li>
-                                <li><a href="#">Travel (10)</a></li>
+                            <ul th:each="cate:${category}">
+                                <li><a href="#">[[${cate.categoryName}]]</a></li>
                             </ul>
                         </div>
                         <div class="blog__sidebar__item">
                             <h4>Recent News</h4>
-                            <div class="blog__sidebar__recent">
-                                <a href="#" class="blog__sidebar__recent__item">
+                            <div class="blog__sidebar__recent" >
+                                <a href="#" class="blog__sidebar__recent__item" th:each="rW:${recentWrite}">
                                     <div class="blog__sidebar__recent__item__pic">
                                         <img th:src="@{/shoptemplate/img/blog/sidebar/sr-1.jpg}" alt="">
                                     </div>
                                     <div class="blog__sidebar__recent__item__text">
-                                        <h6>09 Kinds Of Vegetables<br /> Protect The Liver</h6>
-                                        <span>MAR 05, 2019</span>
+                                        <h6>[[${rW.writeTitle}]]<br /> -[[${rW.subTitle}]]</h6>
+                                        <span>[[${#dates.format(rW.writeDate, 'YYYY-MM-DD')}]]</span>
                                     </div>
-                                </a>
-                                <a href="#" class="blog__sidebar__recent__item">
-                                    <div class="blog__sidebar__recent__item__pic">
-                                        <img th:src="@{/shoptemplate/img/blog/sidebar/sr-2.jpg}" alt="">
-                                    </div>
-                                    <div class="blog__sidebar__recent__item__text">
-                                        <h6>Tips You To Balance<br /> Nutrition Meal Day</h6>
-                                        <span>MAR 05, 2019</span>
-                                    </div>
-                                </a>
-                                <a href="#" class="blog__sidebar__recent__item">
-                                    <div class="blog__sidebar__recent__item__pic">
-                                        <img th:src="@{/shoptemplate/img/blog/sidebar/sr-3.jpg}" alt="">
-                                    </div>
-                                    <div class="blog__sidebar__recent__item__text">
-                                        <h6>4 Principles Help You Lose <br />Weight With Vegetables</h6>
-                                        <span>MAR 05, 2019</span>
-                                    </div>
-                                </a>
+                                </a> 
                             </div>
                         </div>
                     </div>
@@ -333,7 +313,7 @@
                                 <div class="blog__item__text">
                                     <ul>
                                         <li><i class="fa fa-calendar-o" th:text="${#dates.format(blog.writeDate, 'YYYY-MM-DD')}"></i></li>
-                                        <li><i class="fa fa-comment-o"></i> 5</li>
+                                        <li><i class="fa fa-comment-o" th:text="${blog.replyCnt}"></i></li>
                                     </ul>
                                     <h5><a th:href="@{/blog/myblog/blogWrite(bno=${blog.writeId})}" th:text="${blog.writeTitle}"></a></h5>
                                 	<p th:text="${blog.subTitle}"/>

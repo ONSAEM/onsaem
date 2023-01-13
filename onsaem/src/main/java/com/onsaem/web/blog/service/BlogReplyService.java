@@ -2,6 +2,7 @@ package com.onsaem.web.blog.service;
 
 import java.util.List;
 
+import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.RepliesVO;
 
 public interface BlogReplyService {
@@ -9,4 +10,6 @@ public interface BlogReplyService {
 		List<RepliesVO> replyList(String groupId);
 	// 댓글 등록
 		int replyInsert(RepliesVO repliesVO);
+	// 댓글 수 조회
+		public RepliesVO replyCnt(RepliesVO repliesVO);
 }
