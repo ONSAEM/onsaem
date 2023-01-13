@@ -26,4 +26,10 @@ public class BlogReplyServiceImpl implements BlogReplyService {
 		return blogReplyMapper.replyInsert(repliesVO);
 	}
 
+	@Override
+	public RepliesVO replyCnt(RepliesVO repliesVO) {
+		// 댓글 수 조회
+		return blogReplyMapper.replyCnt(repliesVO);
+	}
+
 }

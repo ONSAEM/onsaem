@@ -23,4 +23,5 @@ public class BlogWriteVO {
 	int likeNumber;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date writeDate;
+	int replyCnt;
 }
