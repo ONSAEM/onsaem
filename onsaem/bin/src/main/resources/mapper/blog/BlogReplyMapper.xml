@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.onsaem.web.blog.mapper.BlogReplyMapper">
+	
+	<!-- 댓글 조회 -->
+ 	<select id="replyList" resultType="RepliesVO" parameterType="String">
+ 		SELECT * 
+ 		FROM REPLIES 
+ 		WHERE GROUP_ID = #{groupId}
+ 		ORDER BY REPLY_ID
+ 	</select>
+ 	
+	<!-- 댓글 등록 -->
+ 	<insert id="replyInsert" parameterType="RepliesVO">
+ 	<selectKey keyProperty="replyId" resultType="String" order="BEFORE">
+ 			SELECT 'RP'||LPAD(REPLY_SEQ.NEXTVAL,3,0) FROM DUAL
+ 	</selectKey>
+ 		INSERT INTO REPLIES (REPLY_ID,
+		                     CONTENT,
+		                     GROUP_ID,
+		                     GROUPS,
+		                     WRITER_ID,
+		                     REPLY_DATE,
+		                     PUBLIC_SCOPE)
+		VALUES(#{replyId}, #{content}, #{groupId}, '블로그', #{writerId}, current_date, 'public')
+ 	</insert>
+ </mapper>

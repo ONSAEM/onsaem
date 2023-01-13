@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onsaem.web.shop.mapper.ProductMapper">
+
+	<!-- 상품전체조회 -->
+	<select id="proList"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT
+		P.PRODUCT_ID AS PRODUCT_ID,
+		P.PRODUCT_NAME AS
+		PRODUCT_NAME,
+		P.PRODUCT_DETAIL AS PRODUCT_DETAIL,
+		P.PRICE AS PRICE,
+		P.STAR AS STAR,
+		P.AMOUNT AS AMOUNT,
+		P.DELIVERY_FEE AS DELIVERY_FEE,
+		P.OPTIONS AS OPTIONS,
+		P.CATEGORY AS CATEGORY,
+		P.PRODUCT_STATUS AS
+		PRODUCT_STATUS,
+		P.REGISTER_DATE AS REGISTER_DATE,
+		P.MEMBER_ID AS
+		MEMBER_ID,
+		M.FILE_NAME AS FILE_NAME,
+		M.FILE_ROUTE AS
+		FILE_ROUTE,
+		M.MEDIA_NAME AS MEDIA_NAME
+		FROM PRODUCTS P
+		JOIN MEDIA M
+		ON
+		P.PRODUCT_ID=M.GROUP_ID
+		WHERE M.SUB_GROUP = '대표이미지'
+		ORDER BY
+		P.REGISTER_DATE DESC
+	</select>
+
+	<!-- 상품전체조회(인기순) -->
+	<select id="popList"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT
+		P.PRODUCT_ID AS PRODUCT_ID,
+		P.PRODUCT_NAME AS
+		PRODUCT_NAME,
+		P.PRODUCT_DETAIL AS PRODUCT_DETAIL,
+		P.PRICE AS PRICE,
+		P.STAR AS STAR,
+		P.AMOUNT AS AMOUNT,
+		P.DELIVERY_FEE AS DELIVERY_FEE,
+		P.OPTIONS AS OPTIONS,
+		P.CATEGORY AS CATEGORY,
+		P.PRODUCT_STATUS AS
+		PRODUCT_STATUS,
+		P.REGISTER_DATE AS REGISTER_DATE,
+		P.MEMBER_ID AS
+		MEMBER_ID,
+		M.FILE_NAME AS FILE_NAME,
+		M.FILE_ROUTE AS
+		FILE_ROUTE,
+		M.MEDIA_NAME AS MEDIA_NAME
+		FROM PRODUCTS P
+		JOIN MEDIA M
+		ON
+		P.PRODUCT_ID=M.GROUP_ID
+		WHERE M.SUB_GROUP = '대표이미지'
+		ORDER BY P.STAR DESC
+	</select>
+
+	<!-- 카테고리별 상품목록 -->
+	<select id="proCategory"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT
+		P.PRODUCT_ID AS PRODUCT_ID,
+		P.PRODUCT_NAME AS
+		PRODUCT_NAME,
+		P.PRODUCT_DETAIL AS PRODUCT_DETAIL,
+		P.PRICE AS PRICE,
+		P.STAR AS STAR,
+		P.AMOUNT AS AMOUNT,
+		P.DELIVERY_FEE AS DELIVERY_FEE,
+		P.OPTIONS AS OPTIONS,
+		P.CATEGORY AS CATEGORY,
+		P.PRODUCT_STATUS AS
+		PRODUCT_STATUS,
+		P.REGISTER_DATE AS REGISTER_DATE,
+		P.MEMBER_ID AS
+		MEMBER_ID,
+		M.FILE_NAME AS FILE_NAME,
+		M.FILE_ROUTE AS
+		FILE_ROUTE,
+		M.MEDIA_NAME AS MEDIA_NAME
+		FROM PRODUCTS P
+		JOIN MEDIA M
+		ON
+		P.PRODUCT_ID=M.GROUP_ID
+		WHERE CATEGORY=#{data}
+		AND M.SUB_GROUP = '대표이미지'
+		ORDER BY P.STAR DESC
+	</select>
+
+	<!-- 검색후 품목리스트 -->
+	<select id="searchProduct"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT
+		P.PRODUCT_ID AS PRODUCT_ID,
+		P.PRODUCT_NAME AS
+		PRODUCT_NAME,
+		P.PRODUCT_DETAIL AS PRODUCT_DETAIL,
+		P.PRICE AS PRICE,
+		P.STAR AS STAR,
+		P.AMOUNT AS AMOUNT,
+		P.DELIVERY_FEE AS DELIVERY_FEE,
+		P.OPTIONS AS
+		OPTIONS,
+		P.CATEGORY AS CATEGORY,
+		P.PRODUCT_STATUS AS
+		PRODUCT_STATUS,
+		P.REGISTER_DATE AS REGISTER_DATE,
+		P.MEMBER_ID AS
+		MEMBER_ID,
+		M.FILE_NAME AS FILE_NAME,
+		M.FILE_ROUTE AS
+		FILE_ROUTE,
+		M.MEDIA_NAME AS MEDIA_NAME
+		FROM PRODUCTS P
+		JOIN MEDIA M
+		ON
+		P.PRODUCT_ID=M.GROUP_ID
+		WHERE M.SUB_GROUP = '대표이미지'
+		AND PRODUCT_NAME
+		LIKE '%'||#{data}||'%'
+		ORDER BY
+		P.REGISTER_DATE DESC
+	</select>
+
+	<!-- 찜담기 -->
+	<insert id="likeAdd" parameterType="String">
+		INSERT INTO LIKES(LIKE_ID,
+		GROUP_ID,
+		GROUPS,
+		INSERT_DATE,
+		MEMBER_ID)
+		VALUES
+		('LK'||LPAD(LK_SEQ.NEXTVAL,3,0),#{groupId},'쇼핑몰',CURRENT_DATE
+		,#{memberId})
+	</insert>
+
+	<!-- 찜삭제 -->
+	<delete id="likeDel" parameterType="String">
+		DELETE FROM LIKES
+		WHERE
+		GROUP_ID=#{groupId}
+		AND MEMBER_ID=#{memberId}
+	</delete>
+
+	<!-- 찜리스트 -->
+	<select id="likeList" resultType="ProductVO">
+		SELECT GROUP_ID,
+		GROUPS,
+		INSERT_DATE,
+		LIKE_ID
+		FROM LIKES
+		WHERE MEMBER_ID=#{memberId}
+	</select>
+
+	<!-- 상품상세보기 -->
+	<select id="selectPro"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT
+		P.PRODUCT_ID AS PRODUCT_ID,
+		P.PRODUCT_NAME AS
+		PRODUCT_NAME,
+		P.PRODUCT_DETAIL AS PRODUCT_DETAIL,
+		P.PRICE AS PRICE,
+		P.STAR AS STAR,
+		P.AMOUNT AS AMOUNT,
+		P.DELIVERY_FEE AS DELIVERY_FEE,
+		P.OPTIONS AS OPTIONS,
+		P.CATEGORY AS CATEGORY,
+		P.PRODUCT_STATUS AS
+		PRODUCT_STATUS,
+		P.REGISTER_DATE AS REGISTER_DATE,
+		P.MEMBER_ID AS
+		MEMBER_ID,
+		M.FILE_NAME AS FILE_NAME,
+		M.FILE_ROUTE AS
+		FILE_ROUTE,
+		M.MEDIA_NAME AS MEDIA_NAME
+		FROM PRODUCTS P
+		JOIN MEDIA M
+		ON
+		P.PRODUCT_ID=M.GROUP_ID
+		WHERE PRODUCT_ID=#{data}
+		AND M.SUB_GROUP =
+		'대표이미지'
+	</select>
+
+	<!-- 추가이미지 -->
+	<select id="addImg"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT M.FILE_ROUTE, M.MEDIA_NAME
+		FROM MEDIA M JOIN PRODUCTS
+		P
+		ON p.product_id = M.GROUP_ID
+		WHERE M.SUB_GROUP like '추가이미지'||'%'
+		AND
+		P.PRODUCT_ID=#{data}
+	</select>
+
+	<!-- 카테고리 리스트 -->
+	<select id="categoryList"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT CATEGORY
+		FROM PRODUCTS
+		GROUP BY CATEGORY
+	</select>
+
+
+	<!-- 상품등록 -->
+	<insert id="addProduct"
+		parameterType="com.onsaem.web.shop.service.ProductVO">
+		INSERT INTO
+		PRODUCTS(PRODUCT_ID,
+		PRODUCT_NAME,
+		PRODUCT_DETAIL,
+		PRICE,
+		STAR,
+		AMOUNT,
+		DELIVERY_FEE,
+		OPTIONS,
+		CATEGORY,
+		PRODUCT_STATUS,
+		REGISTER_DATE,
+		MEMBER_ID,
+		PRODUCT_INFO)
+		VALUES('PR'||PRODUCT_SEQ.NEXTVAL,#{productName},#{productDetail}
+		,#{price},0,#{amount},#{deliveryFee},'OP'||OP_SEQ.NEXTVAL,#{category},'승인대기',CURRENT_DATE,#{memberId},#{productInfo})
+	</insert>
+
+	<!-- 상품이미지등록 -->
+	<insert id="addMedia"
+		parameterType="com.onsaem.web.common.service.MediaVO">
+		insert into
+		media(MEDIA_ID,
+		GROUP_ID,
+		GROUPS,
+		SUB_GROUP,
+		FILE_NAME,
+		FILE_ROUTE,
+		MEDIA_NAME)
+		values('M'||lpad(media_seq.nextval,3,0),#{groupId},'쇼핑몰',null,#{fileName},
+		'/shoptemplate/img/product/','M'||lpad(media_seq.nextval,3,0)||'.jpg')
+	</insert>
+
+</mapper>
