@@ -34,14 +34,24 @@ public class ClassController {
 		model.addAttribute("page", classService.classCount(vo));
 		return "content/course/classList";
 	}
-	
+
 	// 강의검색, 페이지, 정렬 처리
-		@RequestMapping(value = "/classSearch", method = RequestMethod.GET)
-		@ResponseBody
-		public List<ClassInfoVO> classSearch(ClassInfoVO vo, Model model, Paging paging) {
-			paging.setPageUnit(9);
-			return classService.getClassList(vo,paging);
-		}
+	@RequestMapping(value = "/classSearch", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ClassInfoVO> classSearch(ClassInfoVO vo, Model model, Paging paging) {
+		paging.setPageUnit(9);
+		return classService.getClassList(vo,paging);
+	}
+	
+	// 새 페이징 가져오기
+	@RequestMapping(value = "/getPaging", method = RequestMethod.GET)
+	@ResponseBody
+	public Paging getPaging(ClassInfoVO vo, Paging paging) {
+		Paging newPaging = classService.classCount(vo);
+		newPaging.setPageUnit(9);
+		newPaging.setPage(paging.getPage());
+		return newPaging;
+	}
 	
 	// 강의상세 페이지 이동 (강의정보, 미디어목록, 후기목록, 문의목록)
 	@RequestMapping(value = "/classDetail", method = RequestMethod.GET)

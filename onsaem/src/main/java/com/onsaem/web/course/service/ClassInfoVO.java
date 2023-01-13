@@ -37,9 +37,9 @@ public class ClassInfoVO {
 	int maxPrice;
 	int minPrice;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	Date startdate;
+	Date startDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	Date enddate;
+	Date endDate;
 	String orderId = "OD0";
 	
 	//페이징

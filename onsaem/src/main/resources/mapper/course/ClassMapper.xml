@@ -9,14 +9,14 @@
 			<if test="classAddr">
 				AND C.CLASS_ADDR LIKE '%' || #{classAddr} || '%'
 			</if>
-			<if test="startdate">
+			<if test="startDate">
 			<![CDATA[
 				AND L.START_DATE >= #{startDate}
 				]]>
 			</if>
-			<if test="enddate">
+			<if test="endDate">
 			<![CDATA[
-				AND L.END_DATE < #{enddate}
+				AND L.END_DATE < #{endDate}
 				]]>
 			</if>
 			<if test="minPrice">
