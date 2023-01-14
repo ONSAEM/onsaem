@@ -49,32 +49,28 @@
 		<!-- Breadcrumb Section End -->
 		<br>
 	
-		<form action="/login" name="myfrm">
+		<form th:action="@{/login}" method="post" name="myfrm">
 		  <!-- Email input -->
 		  <div class="form-outline mb-4">
-		    <input type="text" id="memberId" class="form-control" name="memberId" />
-		    <label class="form-label" for="form2Example1">ID</label>
+		    <label for="memberId">ID</label>
+		    <input type="text" id="memberId" class="form-control"  name="memberId" />
 		  </div>
 		
 		  <!-- Password input -->
 		  <div class="form-outline mb-4">
+		  	<label for="password">Password</label>
 		    <input type="password" id="password" class="form-control" name="password"/>
-		    <label class="form-label" for="form2Example2">Password</label>
 		  </div>
 		
 		  <!-- Submit button -->
-		  <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+		  <button type="submit" class="btn btn-primary btn-block mb-4">로그인</button>
 		
 		  <!-- Register buttons -->
 		  <div class="text-center">
-		    <p>Not a member? <a href="#!">Register</a></p>
+		    <p>아직 회원이 아니신가요? <a href="#!">회원가입</a></p>
 		  </div>
 		</form>
 	
-	
-	<script>
-
-	</script>
 	
 	<!-- JS -->
 		<th:block layout:fragment="script">

@@ -19,25 +19,28 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberVO implements UserDetails{
-	String password;
-	String nickname;
-	String email;
-	String phone;
-	String postalCode;
-	String addr;
-	String detailAddr;
-	String bank;
-	String bankAccount;
-	String businessNumber;
-	String right;
-	int point;
-	String status;
-	String memberId;
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
+	private String password;
+	private String nickname;
+	private String email;
+	private String phone;
+	private String postalCode;
+	private String addr;
+	private String detailAddr;
+	private String bank;
+	private String bankAccount;
+	private String businessNumber;
+	private String role;
+	private int point;
+	private String status;
+	private String memberId;
+	
 
-		return Collections.singletonList(new SimpleGrantedAuthority(this.right));
-	}
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+    	 List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();   
+         authorities.add(new SimpleGrantedAuthority(this.getRole()));
+         return authorities;
+    }
 	@Override
 	public String getUsername() {
 

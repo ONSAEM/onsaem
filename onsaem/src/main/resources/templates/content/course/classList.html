@@ -258,7 +258,7 @@
 								<div class="col-lg-4 col-md-5">
 									<div class="filter__sort">
 										<span>Sort By</span> 
-										<select name="orderId" class="orderId" th:onchange="newClassList(1)">
+										<select name="orderId" class="orderId" th:onchange="newOrder()">
 											<option value="OD0">최신순</option>
 											<option value="OD1">별점높은순</option>
 											<option value="OD2">가격높은순</option>
@@ -305,6 +305,7 @@
 		<script type="text/javascript">
 			let listClone = $(".classList").find(".col-md-6").first().clone(true);
 			let nowData = {};
+			
 			function dataMake(){
 				let data = {};
 				if($(".addr").val()){
@@ -325,12 +326,9 @@
 				if($(".searchWord").val()){
 					data['className'] = $(".searchWord").val();
 				}
-				if($(".orderId").val()){
-					data['orderId'] = $(".orderId").val();
-				}
+				data['orderId'] = $(".orderId").val();
 				return data;
 			}
-			
 			// 검색
 			$(".site-btn").on("click",function(){
 				nowData = dataMake();
@@ -351,8 +349,13 @@
 			$(".classList").find("#prevPaging").on("click",function(){
 				newClassList("[[${page.startPage-page.pageSize}]]");
 			});
-
-
+			
+			// 정렬 변경
+			function newOrder(){
+				nowData['orderId'] = $(".orderId").val();
+				newClassList(1);
+			}
+			
 			// 페이징 가져오기
 			function newPaging(classData){
 				$.ajax({
@@ -361,7 +364,6 @@
 			      contentType: 'application/x-www-form-urlencoded',
 			      data: classData,
 			      success: function (result) {
-			         console.log(result);
 					 $(".classList").append(makePageing(result));
 			      },
 			      error: function (error) {
@@ -417,6 +419,7 @@
 			function newClassList(page){
 				let data = nowData;
 				data['page'] = page;
+		         console.log(data);
 				$.ajax({
 			      url: '/class/classSearch',
 			      method: 'GET',
