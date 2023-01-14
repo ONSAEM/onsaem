@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onsaem.web.chal.mapper.ProofMapper">
+	<!-- 인증샷 등록 과정-->
+	<!-- 미디어도 등록해줘야-->
+	<insert id="inputProof" parameterType="ProofVO">
+		<selectKey keyProperty="proofId" resultType="string">
+			SELECT
+			'PROOF'||to_char(proof_seq.NEXTVAL) FROM DUAL
+		</selectKey>
+		INSERT INTO PROOFS
+		VALUES(#{proofId}, #{chalId}, #{proofWriter},
+		#{content}, CURRENT_DATE, #{condition})
+	</insert>
+
+	<!--인증샷 안보이게 하는거 -->
+	<update id="hideProof" parameterType="ProofVO">
+		UPDATE PROOF
+		SET CONDITION =
+		#{CONDITION}
+		WHERE PROOF_ID = #{proofId}
+	</update>
+
+	<!-- 댓글 달기 ! -->
+	<insert id="inputReply" parameterType="RepliesVO">
+		<selectKey keyProperty="replyId" resultType="string">
+			SELECT
+			'CRP'||to_char(c_reply_seq.NEXTVAL) FROM DUAL
+		</selectKey>
+		INSERT INTO
+		REPLIES(REPLY_ID,CONTENT,GROUP_ID,GROUPS,WRITER_ID,REPLY_DATE)
+		VALUES(#{replyId}, #{content}, #{groupId}, #{groups}, #{writerId},
+		CURRENT_DATE);
+	</insert>
+
+	<!-- 댓삭 -->
+	<delete id="delReply" parameterType="string">
+		DELETE REPLIES
+		WHERE REPLY_ID = #{replyId}
+	</delete>
+
+	<!--좋아요 -->
+	<insert id="inputLike" parameterType="LikeVO">
+		<selectKey keyProperty="likeId" resultType="string">
+			SELECT
+			'CLIKE'||to_char(c_like_seq.NEXTVAL) FROM DUAL
+		</selectKey>
+		Insert into
+		likes(like_id,member_id,GROUP_ID,GROUPS,WRITER_ID,REPLY_DATE)
+		values(#{replyId}, #{content}, #{groupId}, #{groups}, #{writerId},
+		CURRENT_DATE);
+	</insert>
+
+	<!--좋아요 취소 -->
+	<delete id="delLike" parameterType="string">
+		DELETE FROM LIKES
+		WHERE
+		LIKE_ID = #{likeId}
+	</delete>
+
+	<!-- 좋아요 리스트 뽑기 -->
+	<select id="listLike" parameterType="LikeVO" resultType="LikeVO">
+		SELECT
+		FROM LIKES
+		WHERE GROUPS = #{groups}
+		AND GROUP_ID = #{groupId}
+	</select>
+
+	<!-- 사진등록 -->
+	<insert id="inputMedia" parameterType="MediaVO">
+		<selectKey keyProperty="mediaId" resultType="string" order="BEFORE">
+			SELECT 'M'||LPAD(media_seq.nextval,3,0) FROM DUAL
+		</selectKey>
+		INSERT INTO MEDIA
+		VALUES( #{mediaId}, #{groupId}, '챌린저스', #{subGroup},
+		#{fileName}, #{fileRoute}, #{mediaId}||'.jpg')
+	</insert>
+
+	<!-- 사진 안보이게 하기 //등등 수정 -->
+	<update id="updateMedia" parameterType="MediaVO">
+		UPDATE MEDIA
+		SET SUB_GROUP
+		= #{subGroup}
+		WHERE MEDIA_ID = #{mediaId}
+	</update>
+
+	<!-- 사진 리스트 뽑기 -->
+	<select id="listMedia" parameterType="MediaVO"
+		resultType="MediaVO">
+		SELECT *
+		FROM MEDIA
+		WHERE GROUP_ID = #{groupId}
+		ORDER BY MEDIA_NAME
+	</select>
+
+	<!-- 사진 한건 보기 -->
+	<select id="getMedia" parameterType="MediaVO"
+		resultType="MediaVO">
+		SELECT *
+		FROM MEDIA
+		WHERE MEDIA_ID = #{mediaId}
+	</select>
+
+	<!-- 사진 한건 보기 -->
+	<select id="getMediaOption" parameterType="MediaVO"
+		resultType="MediaVO">
+		SELECT M.FILE_ROUTE AS FILEROUTE, M.MEDIA_NAME AS MEDIANAME
+		FROM MEDIA M JOIN CHALLENGES C
+		ON M.GROUP_ID = C.CHAL_ID
+		WHERE M.SUB_GROUP = #{subGroup}';
+	</select>
+	
+	<!-- 한 챌린지에 대해 내가 입력한 모든 인증샷 싹다 가져오기 -->
+	<select id="getMyShotsForOne" parameterType="MediaVO" resultType="MediaVO">
+			SELECT M.FILE_ROUTE AS FILEROUTE, M.MEDIA_NAME AS MEDIANAME
+			FROM MEDIA M JOIN PROOFS P
+			ON M.GROUP_ID = P.CHAL_ID 
+			WHERE P.PROOF_WRITER = #{proofWriter}
+			AND M.GROUP_ID = #{groupId}
+			ORDER BY P.WRITE_DATE;
+	</select>
+	
+	<!-- 조건에 맞는 proof 행 갯수 count하기  -->
+	<select id="countProof" parameterType="ProofVO">
+		SELECT COUNT(*) AS CNT
+		FROM PROOFS
+		WHERE CHAL_ID = #{chalId}
+		AND PROOF_WRITER = #{proofWriter}
+		AND CONDITION = #{condition}
+	</select> 
+	
+	<!-- 인증샷만 싹다 가져오기,,한 사람이 참가한 챌린지의,,모든 사진 가져오기 휴 ㅋㅋ  -->
+	<select id="myChalsProofs"  parameterType="ProofVO" resultType="MediaVO">
+		SELECT M.FILE_ROUTE AS FILEROUTE, M.MEDIA_NAME AS MEDIANAME 
+		FROM MEDIA M JOIN PROOFS P
+		ON P.PROOF_ID = M.GROUP_ID
+		WHERE P.CHAL_ID = #{chalId}
+		AND P.PROOF_WRITER=#{proofWriter}
+		ORDER BY P.WRITE_DATE 
+	</select>
+	
+	<!-- 이용자가 참가한 모든 진행중인 챌린지의 썸네일 가져오기 -->
+	<select id="myChalThumnails" parameterType="ChalVO" resultType="MediaVO">
+		SELECT M.FILE_ROUTE AS FILEROUTE, M.MEDIA_NAME AS MEDIANAME, C.CHAL_ID AS CHALID 
+	    FROM MEDIA M JOIN CHALLENGES C
+	    ON M.GROUP_ID = C.CHAL_ID
+	    JOIN PARTICIPANTS P
+	    ON C.CHAL_ID = P.CHAL_ID
+	    WHERE CURRENT_DATE BETWEEN C.START_DATE AND C.END_DATE
+	    AND C.MEMBER_ID = #{memberId}
+	    ORDER BY M.MEDIA_ID	
+	</select>
+	
+
+</mapper>

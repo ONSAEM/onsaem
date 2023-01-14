@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.ReportVO;
 
 public interface ProductService {
 	//상품전체목록(최신순)
@@ -41,4 +42,7 @@ public interface ProductService {
 	
 	//상품이미지등록
 	int addMedia(MediaVO vo);
+	
+	//신고처리
+	int addBan(ReportVO vo);
 }

@@ -1,7 +1,5 @@
 package com.onsaem.web.shop.web;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.shop.service.CartService;
 import com.onsaem.web.shop.service.CartVO;
 import com.onsaem.web.shop.service.ProductService;
@@ -61,12 +61,6 @@ public class ProductController {
 		model.addAttribute("imgList", proService.addImg(data));
 		return "content/shop/shopDetail";
 
-	}
-
-	// 장바구니페이지이동
-	@RequestMapping(value = "/shopCart", method = RequestMethod.GET)
-	public String shopCart(Model model) {
-		return "content/shop/shopCart";
 	}
 
 	// 결제페이지이동
@@ -151,6 +145,17 @@ public class ProductController {
 			proService.addMedia(mediaVo);
 		}
 		return "content/shop/addProduct";
+	}
+	
+	//상품신고
+	@RequestMapping(value = "/addBan", method = RequestMethod.POST)
+	public String addBan(Model model, @RequestBody ReportVO vo, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String id=(String) session.getAttribute("id");
+		vo.setToId(id);
+		System.out.println(vo);
+		proService.addBan(vo);
+		return "redirect:shopDetail";
 	}
 
 }

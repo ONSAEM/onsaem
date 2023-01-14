@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.shop.mapper.ProductMapper;
 import com.onsaem.web.shop.service.ProductService;
 import com.onsaem.web.shop.service.ProductVO;
@@ -86,6 +87,12 @@ public class ProductServiceImpl implements ProductService{
 	public int addMedia(MediaVO vo) {
 		// 상품이미지등록
 		return proMapper.addMedia(vo);
+	}
+
+	@Override
+	public int addBan(ReportVO vo) {
+		// 신고등록
+		return proMapper.addBan(vo);
 	}
 
 	

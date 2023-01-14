@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
+		type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/jquery-ui.min.css}"
+		type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
+		type="text/css">
+</th:block>
+<head>
+<style>
+
+/* GENERAL STYLES */
+
+.pagination ul{
+  margin: auto;
+  padding: 0;
+  list-style:none;
+}
+
+/* ONE */
+
+.p1 li{
+  font-size: 14px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  padding: 0;
+  text-align: center;
+  float: left;
+  cursor:pointer;
+}
+
+</style>
+</head>
+
+<!-- Content -->
+
+<div layout:fragment="content">
+		<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-section set-bg"
+			th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 text-center">
+						<div class="breadcrumb__text">
+							<h2>Onsaem Class</h2>
+							<div class="breadcrumb__option">
+								<a href="./index.html">Home</a> <span>Class</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section End -->
+		<br>
+		<!-- Product Section Begin -->
+		<section class="product spad">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3 col-md-5">
+						<div class="sidebar">
+							<div class="sidebar__item">
+								<h4>지역</h4>
+								<select class="addr">
+									<option value="">::지역선택::</option>
+									<option value="서울">서울</option>
+									<option value="부산">부산</option>
+									<option value="대구">대구</option>
+									<option value="인천">인천</option>
+									<option value="광주">광주</option>
+									<option value="대전">대전</option>
+									<option value="울산">울산</option>
+									<option value="세종">세종</option>
+									<option value="경기">경기</option>
+									<option value="강원">강원</option>
+									<option value="충청북도">충북</option>
+									<option value="충청남도">충남</option>
+									<option value="전라북도">전북</option>
+									<option value="전라남도">전남</option>
+									<option value="경상북도">경북</option>
+									<option value="경상남도">경남</option>
+									<option value="제주">제주</option>
+								</select>
+								<br>
+							</div>
+							<div class="sidebar__item">
+								<h4>가격</h4>
+								<div class="price-range-wrap" style="text-align: center">
+									<div
+										class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+										th:data-min=${minPrice} th:data-max=${maxPrice}>
+										<div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+										<span tabindex="0"
+											class="ui-slider-handle ui-corner-all ui-state-default"></span>
+										<span tabindex="0"
+											class="ui-slider-handle ui-corner-all ui-state-default"></span>
+									</div>
+									<div class="range-slider">
+										<div class="price-input">
+											<input type="text" id="minamount" style="text-align:right"><i class="fa-solid fa-minus" style="color:#63bf63; margin: 0px 10px"></i><input type="text" id="maxamount" style="text-align:left">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="sidebar__item sidebar__item__color--option">
+								<h4>날짜</h4>
+								<label for="white"> 시작 <input class="startDate" type="date">
+								</label>
+								<label for="gray"> 종료 <input class="endDate" type="date">
+								</label>
+							</div>
+							<div class="sidebar__item">
+								<h4>검색</h4>
+								<input type="text" class="searchWord" placeholder="검색">
+							</div>
+							<button type="button" class="site-btn" >SEARCH</button>
+						</div>
+					</div>
+					<div class="col-lg-9 col-md-7">
+						<div class="product__discount">
+							<div class="section-title product__discount__title">
+								<h2 class="ko-h2">인기 클래스</h2>
+							</div>
+							<div class="row">
+								<div class="product__discount__slider owl-carousel">
+									<div class="col-lg-4">
+										<div class="product__discount__item">
+											<div class="product__discount__item__pic set-bg"
+												th:data-setbg="@{/shoptemplate/img/product/discount/pd-1.jpg}">
+												<div class="product__discount__percent">-20%</div>
+												<ul class="product__item__pic__hover">
+													<li><a href="#"><i class="fa fa-heart"></i></a></li>
+													<li><a href="#"><i class="fa fa-retweet"></i></a></li>
+													<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+												</ul>
+											</div>
+											<div class="product__discount__item__text">
+												<span>Dried Fruit</span>
+												<h5>
+													<a href="#">Raisin’n’nuts</a>
+												</h5>
+												<div class="product__item__price">
+													$30.00 <span>$36.00</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4">
+										<div class="product__discount__item">
+											<div class="product__discount__item__pic set-bg"
+												th:data-setbg="@{/shoptemplate/img/product/discount/pd-2.jpg}">
+												<div class="product__discount__percent">-20%</div>
+												<ul class="product__item__pic__hover">
+													<li><a href="#"><i class="fa fa-heart"></i></a></li>
+													<li><a href="#"><i class="fa fa-retweet"></i></a></li>
+													<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+												</ul>
+											</div>
+											<div class="product__discount__item__text">
+												<span>Vegetables</span>
+												<h5>
+													<a href="#">Vegetables’package</a>
+												</h5>
+												<div class="product__item__price">
+													$30.00 <span>$36.00</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4">
+										<div class="product__discount__item">
+											<div class="product__discount__item__pic set-bg"
+												th:data-setbg="@{/shoptemplate/img/product/discount/pd-3.jpg}">
+												<div class="product__discount__percent">-20%</div>
+												<ul class="product__item__pic__hover">
+													<li><a href="#"><i class="fa fa-heart"></i></a></li>
+													<li><a href="#"><i class="fa fa-retweet"></i></a></li>
+													<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+												</ul>
+											</div>
+											<div class="product__discount__item__text">
+												<span>Dried Fruit</span>
+												<h5>
+													<a href="#">Mixed Fruitss</a>
+												</h5>
+												<div class="product__item__price">
+													$30.00 <span>$36.00</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4">
+										<div class="product__discount__item">
+											<div class="product__discount__item__pic set-bg"
+												th:data-setbg="@{/shoptemplate/img/product/discount/pd-4.jpg}">
+												<div class="product__discount__percent">-20%</div>
+												<ul class="product__item__pic__hover">
+													<li><a href="#"><i class="fa fa-heart"></i></a></li>
+													<li><a href="#"><i class="fa fa-retweet"></i></a></li>
+													<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+												</ul>
+											</div>
+											<div class="product__discount__item__text">
+												<span>Dried Fruit</span>
+												<h5>
+													<a href="#">Raisin’n’nuts</a>
+												</h5>
+												<div class="product__item__price">
+													$30.00 <span>$36.00</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4">
+										<div class="product__discount__item">
+											<div class="product__discount__item__pic set-bg"
+												th:data-setbg="@{/shoptemplate/img/product/discount/pd-5.jpg}">
+												<div class="product__discount__percent">-20%</div>
+												<ul class="product__item__pic__hover">
+													<li><a href="#"><i class="fa fa-heart"></i></a></li>
+													<li><a href="#"><i class="fa fa-retweet"></i></a></li>
+													<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+												</ul>
+											</div>
+											<div class="product__discount__item__text">
+												<span>Dried Fruit</span>
+												<h5>
+													<a href="#">Raisin’n’nuts</a>
+												</h5>
+												<div class="product__item__price">
+													$30.00 <span>$36.00</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="filter__item">
+							<div class="row">
+								<div class="col-lg-4 col-md-5">
+									<div class="filter__sort">
+										<span>Sort By</span> 
+										<select name="orderId" class="orderId" th:onchange="newClassList(1)">
+											<option value="OD0">최신순</option>
+											<option value="OD1">별점높은순</option>
+											<option value="OD2">가격높은순</option>
+											<option value="OD3">가격낮은순</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row classList">
+							<div class="col-lg-4 col-md-6 col-sm-6" th:each="class : ${classList}">
+								<div class="product__item">
+									<div class="product__item__pic set-bg"
+										th:data-setbg=${class.fileRoute}+${class.mediaName}>
+										<ul class="product__item__pic__hover">
+											<li><a href="#"><i class="fa fa-heart"></i></a></li>
+										</ul>
+									</div>
+									<div class="product__item__text">
+										<h6>
+											<a th:href="@{/class/classDetail(classId=${class.classId})}" th:text="${class.className}"></a>
+										</h6>
+										<h5 th:text="${class.price}+'원'"></h5>
+										<i class="fa-solid fa-star" th:if="${class.star} != 0" th:each="num:${#numbers.sequence(1,class.star)}" style="color: #ffe949"></i><i class="fa-solid fa-star-half"th:if="${class.star%1 >= 0.5}" style="color: #ffe949"></i>
+									</div>
+								</div>
+							</div>
+ 						    <div class="pagination p1" th:if="${page.totalRecord != 0}">
+						      <ul>
+						        <li th:if="${page.startPage > 1}" style="font-size: 30px;">&laquo;</li>
+						        <th:block th:each="num : ${#numbers.sequence(page.startPage,page.endPage)}">
+						        	<li th:if="${page.page != num}" th:text=${num}></li>
+						        	<li th:if="${page.page == num}" th:text=${num} style="background-color: #2ecc71;border-radius: 100%;color: #fff;"></li>
+						        </th:block>
+						        <li th:if="${page.endPage < page.lastPage}" style="font-size: 30px;">&raquo;</li>
+						      </ul>
+						    </div>					  
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Product Section End -->
+		<script type="text/javascript">
+			let listClone = $(".classList").find(".col-md-6").first().clone();
+			let pageClone = $(".pagination").first().clone();
+			function dataMake(){
+				let data = {};
+				if($(".addr").val()){
+					data['classAddr'] = $(".addr").val();
+				}
+				if($("#minamount").val().slice(0, -1)){
+					data['minPrice'] = $("#minamount").val().slice(0, -1);
+				}
+				if($("#maxamount").val().slice(0, -1)){
+					data['maxPrice'] = $("#maxamount").val().slice(0, -1);;
+				}
+				if($(".startDate").val()){
+					data['startdate'] = $(".startDate").val();
+				}
+				if($(".endDate").val()){
+					data['enddate'] = $(".endDate").val();
+				}
+				if($(".searchWord").val()){
+					data['className'] = $(".searchWord").val();
+				}
+				if($(".orderId").val()){
+					data['orderId'] = $(".orderId").val();
+				}
+				return data;
+			}
+
+			// 검색
+			$(".site-btn").on("click",function(){
+				newClassList(1);
+			});
+
+			// 페이지 이동
+			$(".pagination").find('li').on("click",function(){
+				newClassList($(this).text());
+			});
+
+			// 페이징 가져오기
+
+			// 페이징 만들기
+
+			// 강의 리스트 만들기
+			function makeList(item){
+					console.log(index);
+					let makeClone = listClone;
+					$(makeClone).find(".product__item__pic").attr("data-setbg",item.fileRoute+item.mediaName);
+					$(makeClone).find("h5").text(item.price+"원");
+					$(makeClone).find(".product__item__text").find("a").attr("href","/class/classDetail?classId="+item.classId);
+					$(makeClone).find(".product__item__text").find("a").text(item.className);
+					$(makeClone).find(".fa-solid").remove();
+					for( let i = 0; i < item.star; i++){
+						$(makeClone).find(".product__item__text").append($("i").addClass('fa-solid fa-star').css("color","#ffe949"));
+					}
+					if(item.star%1 >= 0.5){
+						$(makeClone).find(".product__item__text").append($("i").addClass('fa-solid fa-star-half').css("color","#ffe949"));
+					}
+					console.log(makeClone);
+					return makeClone;
+			}
+
+			// 강의목록 가져오기
+			function newClassList(page){
+				let classData = dataMake();
+				classData['page'] = page;
+				console.log(classData);
+				$.ajax({
+			      url: '/class/classSearch',
+			      method: 'GET',
+			      contentType: 'application/x-www-form-urlencoded',
+			      data: classData,
+			      success: function (result) {
+			         console.log(result);
+			         alert('성공');
+					 $(".row").find(".col-sm-6").remove();
+					 $(".row").find(".pagination").remove();
+					 $(result).each(function(index, item){
+						$(".classList").append(makeList(item));
+					 })
+			      },
+			      error: function (error) {
+			         console.log(error);
+			         alert('실패');
+			      }
+			   })
+			}
+			
+		</script>
+		
+		<!-- JS -->
+		<th:block layout:fragment="script">
+			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery-ui.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.slicknav.js}"></script>
+			<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/main.js}"></script>
+		</th:block>
+</div>
+</html>

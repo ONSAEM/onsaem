@@ -8,4 +8,7 @@ public interface CartService {
 	
 	//장바구니 리스트
 	List<CartVO> cartList(CartVO vo);
+	
+	//나의 장바구니 리스트
+	List<CartVO> myCartList(CartVO vo);
 }

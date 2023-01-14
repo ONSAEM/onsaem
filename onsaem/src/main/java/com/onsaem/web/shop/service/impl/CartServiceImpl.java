@@ -26,4 +26,10 @@ public class CartServiceImpl implements CartService{
 		return cartMapper.cartList(vo);
 	}
 
+	@Override
+	public List<CartVO> myCartList(CartVO vo) {
+		// TODO Auto-generated method stub
+		return cartMapper.myCartList(vo);
+	}
+
 }

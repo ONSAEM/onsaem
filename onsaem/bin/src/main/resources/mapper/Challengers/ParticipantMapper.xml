@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onsaem.web.chal.mapper.ParticipantMapper">
+	
+	<!--  참가자 리스트 조회 -->
+	<select id="listParticipantAll" resultType="ParticipantVO" parameterType="string">
+		SELECT *
+		FROM PARTICIPANTS
+		WHERE CHAL_ID = #{chalId} 
+	</select>
+	
+	<!--  한참가자가 참여하는 챌린저스 목록/진행중, 시작전, 완료 -->
+	<select id="listChalForOne" resultType="ParticipantVO" parameterType="ParticipantVO">
+		SELECT P.PARTICIPATE_ID, P.CHAL_ID, C.CLASSES, C.SUB_CLASS, C.CHAL_NAME, P.PRIVATE_DONATE, P.RESULT, P.RESULT_POINT, C.START_DATE, C.END_DATE, C.FREQUENCY      
+		FROM PARTICIPANTS P JOIN CHALLENGES C
+		ON P.CHAL_ID = C.CHAL_ID
+		WHERE PARTICIPANT_ID = #{participantId}
+		AND CLASSES = #{classes}
+	</select>
+	
+	<!--  참가자가 참가 -->
+	<select id="getParticipant" resultType="ParticipantVO" parameterType="ParticipantVO">
+		SELECT *
+		FROM PARTICIPANTS
+		WHERE CHAL_ID = #{chalId}
+		AND PARTICIPANT_ID = #{participantId} 
+	</select>
+	
+	<!-- 챌린저스 참가 -->
+	<insert id="inputParticipant" parameterType="ParticipantVO">
+		<selectKey keyProperty="participateId" resultType="string" order="BEFORE">
+			SELECT 'P'||to_char(part_seq.NEXTVAL) FROM DUAL	
+		</selectKey>
+		INSERT INTO PARTICIPANTS(PARTICIPATE_ID, CHAL_ID, PRIVATE_DONATE, BET_POINT,PARTICIPANT_ID ) 
+		VALUES(#{participateId}, #{chalId}, #{privateDonate}, #{betPoint}, #{participantId})		
+	</insert>
+	
+	<insert id="inputPayment" parameterType="PaymentVO">
+		<selectKey keyProperty="paymentId" resultType="string" order="BEFORE">
+			SELECT 'PAY'||LPAD(pay_seq.NEXTVAL,3,0) FROM DUAL	
+		</selectKey>
+		INSERT INTO PAYMENTS
+		VALUES(#{paymentId}, #{price}, #{payerId}, #{paymentMethod}, current_date, #{groupId}, '챌린저스') 
+	</insert>
+	
+	
+</mapper>

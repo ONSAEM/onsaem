@@ -24,6 +24,8 @@ public class CartController {
 	@Autowired
 	ProductService proService;
 
+	CartVO cartVO=new CartVO();
+	
 	// 버튼클릭 장바구니담기
 	@RequestMapping(value = "/cartAdd", method = RequestMethod.GET)
 	public String cartAdd(Model model,CartVO vo, HttpServletRequest request) {
@@ -46,5 +48,14 @@ public class CartController {
 			return "content/shop/shopDetail";
 		}
 	}
+	
+	// 장바구니페이지이동,나의 장바구니리스트
+		@RequestMapping(value = "/shopCart", method = RequestMethod.GET)
+		public String shopCart(Model model,@RequestParam(value="data" ,required=false) String data) {
+			cartVO.setMemberId(data);
+			cartService.myCartList(cartVO);
+			model.addAttribute("myCartList",cartService.myCartList(cartVO));
+			return "content/shop/shopCart";
+		}
 
 }
