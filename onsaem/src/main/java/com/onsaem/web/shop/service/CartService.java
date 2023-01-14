@@ -11,4 +11,7 @@ public interface CartService {
 	
 	//나의 장바구니 리스트
 	List<CartVO> myCartList(CartVO vo);
+	
+	//장바구니 삭제
+	int delCart(CartVO vo);
 }

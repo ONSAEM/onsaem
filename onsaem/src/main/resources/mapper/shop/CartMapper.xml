@@ -24,14 +24,36 @@
 	<!-- 나의 장바구니 리스트 -->
 	<select id="myCartList"
 		resultType="com.onsaem.web.shop.service.CartVO">
-		sELECT P.PRODUCT_ID,P.PRODUCT_NAME,P.DELIVERY_FEE,P.PRICE AS CART_PRICE,
+		SELECT P.PRODUCT_ID,P.PRODUCT_NAME,P.DELIVERY_FEE,P.PRICE
+		AS CART_PRICE,
 		C.CART_AMOUNT,C.CART_OPTION,M.FILE_ROUTE,M.MEDIA_NAME
 		FROM PRODUCTS
 		P,CARTS C,MEDIA M
-		WHERE P.PRODUCT_ID = C.PRODUCT_ID AND C.PRODUCT_ID=M.GROUP_ID AND
-		C.MEMBER_ID = #{memberId} AND M.SUB_GROUP='대표이미지'
+		WHERE P.PRODUCT_ID = C.PRODUCT_ID AND
+		C.PRODUCT_ID=M.GROUP_ID AND
+		C.MEMBER_ID = #{memberId} AND
+		M.SUB_GROUP='대표이미지'
 		GROUP BY
 		P.PRODUCT_ID,P.PRODUCT_NAME,P.DELIVERY_FEE,P.PRICE, C.CART_AMOUNT,
 		C.CART_OPTION,M.FILE_ROUTE,M.MEDIA_NAME
 	</select>
+
+	<!-- 나의 장바구니 삭제 -->
+	<delete id="delCart"
+		parameterType="com.onsaem.web.shop.service.CartVO">
+		<if test="cartOption == null">
+			DELETE FROM CARTS
+			WHERE PRODUCT_ID = #{productId} AND
+			CART_OPTION IS
+			NULL AND CART_AMOUNT=#{cartAmount} AND
+			MEMBER_ID =#{memberId}
+		</if>
+		<if test="cartOption != null">
+			DELETE FROM CARTS
+			WHERE PRODUCT_ID = #{productId} AND
+			CART_OPTION =
+			#{cartOption} AND CART_AMOUNT=#{cartAmount} AND
+			MEMBER_ID =#{memberId}
+		</if>
+	</delete>
 </mapper>

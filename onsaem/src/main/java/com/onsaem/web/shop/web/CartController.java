@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,9 +58,30 @@ public class CartController {
 			cartVO.setMemberId("user");
 			cartService.myCartList(cartVO);
 			model.addAttribute("myCartList",cartService.myCartList(cartVO));
-			System.out.println("========================"+data);
-			System.out.println("========================"+cartService.myCartList(cartVO));
 			return "content/shop/shopCart";
 		}
 
+	//장바구니 수량변경
+		@RequestMapping(value = "/changeAmount", method = RequestMethod.POST)
+		public String changeAmount(Model model,HttpServletRequest request) {
+			HttpSession session=request.getSession();
+			String data=(String)session.getAttribute("id");
+			cartVO.setMemberId("user");
+			
+			model.addAttribute("myCartList",cartService.myCartList(cartVO));
+			return "content/shop/shopCart";
+		}
+		
+	//장바구니 삭제
+		@RequestMapping(value = "/delCart", method = RequestMethod.POST)
+		public String delCart(Model model,HttpServletRequest request,@RequestBody CartVO vo) {
+			HttpSession session=request.getSession();
+			String data=(String)session.getAttribute("id");
+			vo.setMemberId("user");
+			System.out.println("===================="+vo);
+			cartService.delCart(vo);	
+			
+			return "content/shop/shopCart";
+		}
+		
 }
