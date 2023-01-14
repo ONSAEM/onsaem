@@ -1,4 +1,4 @@
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko"	xmlns:th="http://www.thymeleaf.org">
 <!--headerFragment 선언-->
 <div th:fragment="headerFragment">
 
@@ -19,9 +19,9 @@
 
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav ms-auto">
+	
 					<li class="nav-item"><a class="nav-link click-scroll"
-						href="#top">Home</a></li>
-
+						th:href="@{/}">Home</a></li>
 
 					<li class="nav-item"><a class="nav-link click-scroll"
 						href="#section_2">Donation</a></li>
@@ -53,20 +53,20 @@
 					<li class="nav-item"><a class="nav-link click-scroll"
 						th:href="@{/blog/blogMain}">Blog</a></li>
 
-					<li class="nav-item dropdown" th:if="${session.member}!=null"><a
+					<li class="nav-item dropdown" sec:authorize="isAuthenticated()"><a
 						class="nav-link click-scroll dropdown-toggle"
 						id="navbarLightDropdownMenuLink" role="button"
 						data-bs-toggle="dropdown" aria-expanded="false"
-						th:text="${session.member.memberId}"></a>
+						th:text="${#authentication.principal.nickname}"></a>
 						<ul class="dropdown-menu dropdown-menu-light"
 							aria-labelledby="navbarLightDropdownMenuLink">
 							<li><a class="dropdown-item" href="#">MY PAGE</a></li>
 							<li><a class="dropdown-item"
-								th:href="@{/blog/myblog(userId=${session.member.memberId})}">MY
+								th:href="@{/blog/myblog(userId=${#authentication.principal.memberId})}">MY
 									BLOG</a></li>
 							<li><a class="dropdown-item" th:href="@{/logout}">LOGOUT</a></li>
 						</ul></li>
-					<li class="nav-item" th:if="${session.member}==null"><a
+					<li class="nav-item" sec:authorize="isAnonymous()"><a
 						class="nav-link click-scroll" th:href="@{/loginPage}">Login</a></li>
 					<li class="nav-item ms-3"><a
 						class="nav-link custom-btn custom-border-btn btn"

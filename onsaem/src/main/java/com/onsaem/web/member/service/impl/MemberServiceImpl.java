@@ -16,7 +16,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
-
+		
 		return loginMapper.getMember(memberId);
 	}
 }

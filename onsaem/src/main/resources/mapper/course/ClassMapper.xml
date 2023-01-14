@@ -40,7 +40,7 @@
         AND C.CLASS_ID = M.GROUP_ID
         AND C.CLASS_ID = L.CLASS_ID(+)
         AND M.SUB_GROUP = '대표이미지'
-			<include refid="condition"/>
+		<include refid="condition"/>
 		GROUP BY C.CLASS_ID,  C.CLASS_NAME,  C.PRICE,  C.CLASS_TIME, C.CLASS_GROUP, M.FILE_NAME, M.FILE_ROUTE, M.MEDIA_NAME
 		<choose>
 		<when test="'OD0'.equals(orderId)"> ORDER BY C.CLASS_ID </when>

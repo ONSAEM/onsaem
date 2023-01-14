@@ -6,8 +6,8 @@
 
 	<!-- 로그인 아이디, 비밀번호 찾기 -->
 	<select id="getMember" resultType="MemberVO" parameterType="String">
-		Select * from members
-		where member_id = #{memberId}
+		SELECT * FROM MEMBERS
+		WHERE MEMBER_ID = #{memberId}
 	</select>
 	
 </mapper>
