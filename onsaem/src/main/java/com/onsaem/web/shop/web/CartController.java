@@ -51,10 +51,14 @@ public class CartController {
 	
 	// 장바구니페이지이동,나의 장바구니리스트
 		@RequestMapping(value = "/shopCart", method = RequestMethod.GET)
-		public String shopCart(Model model,@RequestParam(value="data" ,required=false) String data) {
-			cartVO.setMemberId(data);
+		public String shopCart(Model model,HttpServletRequest request) {
+			HttpSession session=request.getSession();
+			String data=(String)session.getAttribute("id");
+			cartVO.setMemberId("user");
 			cartService.myCartList(cartVO);
 			model.addAttribute("myCartList",cartService.myCartList(cartVO));
+			System.out.println("========================"+data);
+			System.out.println("========================"+cartService.myCartList(cartVO));
 			return "content/shop/shopCart";
 		}
 

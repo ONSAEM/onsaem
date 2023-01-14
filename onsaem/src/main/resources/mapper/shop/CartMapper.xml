@@ -24,12 +24,14 @@
 	<!-- 나의 장바구니 리스트 -->
 	<select id="myCartList"
 		resultType="com.onsaem.web.shop.service.CartVO">
-		select p.product_name, p.price, c.cart_amount,
-		c.cart_option
-		from products p join carts c
-		on p.product_id = c.product_id
-		where c.member_id = #{memberId}
-		group by p.product_name, p.price, c.cart_amount, c.cart_option
-
+		sELECT P.PRODUCT_ID,P.PRODUCT_NAME,P.DELIVERY_FEE,P.PRICE AS CART_PRICE,
+		C.CART_AMOUNT,C.CART_OPTION,M.FILE_ROUTE,M.MEDIA_NAME
+		FROM PRODUCTS
+		P,CARTS C,MEDIA M
+		WHERE P.PRODUCT_ID = C.PRODUCT_ID AND C.PRODUCT_ID=M.GROUP_ID AND
+		C.MEMBER_ID = #{memberId} AND M.SUB_GROUP='대표이미지'
+		GROUP BY
+		P.PRODUCT_ID,P.PRODUCT_NAME,P.DELIVERY_FEE,P.PRICE, C.CART_AMOUNT,
+		C.CART_OPTION,M.FILE_ROUTE,M.MEDIA_NAME
 	</select>
 </mapper>
