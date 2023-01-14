@@ -31,6 +31,8 @@ public class ChalVO {
 	String fileRoute;
 	String mediaName;
 	String participantId;
-	String privateDonate;
+	Integer privateDonate;
+	String paymentId;
+	String paymentMethod;
 	
 }

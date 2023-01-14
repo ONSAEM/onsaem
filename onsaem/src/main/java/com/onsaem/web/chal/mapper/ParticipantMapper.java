@@ -4,15 +4,14 @@ import java.util.List;
 
 import com.onsaem.web.chal.service.ParticipantVO;
 import com.onsaem.web.common.service.PaymentVO;
+import com.onsaem.web.common.service.RefundVO;
 
 public interface ParticipantMapper {
 	
 	//참가자 조회 - 챌린저스 한개에 대한 
 	List<ParticipantVO> listParticipantAll(String chalId);
 	
-	//한 참가자가 참여하는 챌린저스 목록,
-	List<ParticipantVO> listChalForOne(ParticipantVO vo);
-	
+
 	//참가자 상세 조회
 	ParticipantVO getParticipant(ParticipantVO vo);
 	
@@ -27,6 +26,9 @@ public interface ParticipantMapper {
 	
 	//참가 취소 시 결제테이블에서 삭제
 	Integer delPayment();
+	
+	//환불테이블에 등록
+	Integer inputRefund(RefundVO vo);
 	
 	
 }

@@ -10,14 +10,7 @@
 		WHERE CHAL_ID = #{chalId} 
 	</select>
 	
-	<!--  한참가자가 참여하는 챌린저스 목록/진행중, 시작전, 완료 -->
-	<select id="listChalForOne" resultType="ParticipantVO" parameterType="ParticipantVO">
-		SELECT P.PARTICIPATE_ID, P.CHAL_ID, C.CLASSES, C.SUB_CLASS, C.CHAL_NAME, P.PRIVATE_DONATE, P.RESULT, P.RESULT_POINT, C.START_DATE, C.END_DATE, C.FREQUENCY      
-		FROM PARTICIPANTS P JOIN CHALLENGES C
-		ON P.CHAL_ID = C.CHAL_ID
-		WHERE PARTICIPANT_ID = #{participantId}
-		AND CLASSES = #{classes}
-	</select>
+	
 	
 	<!--  참가자가 참가 -->
 	<select id="getParticipant" resultType="ParticipantVO" parameterType="ParticipantVO">
@@ -36,12 +29,22 @@
 		VALUES(#{participateId}, #{chalId}, #{privateDonate}, #{betPoint}, #{participantId})		
 	</insert>
 	
+	<!-- 결제 -->
 	<insert id="inputPayment" parameterType="PaymentVO">
 		<selectKey keyProperty="paymentId" resultType="string" order="BEFORE">
 			SELECT 'PAY'||LPAD(pay_seq.NEXTVAL,3,0) FROM DUAL	
 		</selectKey>
 		INSERT INTO PAYMENTS
 		VALUES(#{paymentId}, #{price}, #{payerId}, #{paymentMethod}, current_date, #{groupId}, '챌린저스') 
+	</insert>
+	
+	<!-- 환불테이블에 등록 -->
+	<insert id="inputRefund" parameterType="RefundVO">
+		<selectKey keyProperty="refundId" resultType="string" order="BEFORE">
+			SELECT 'RF'||LPAD(pay_seq.NEXTVAL,3,0) FROM DUAL	
+		</selectKey>
+		INSERT INTO REFUNDS
+		VALUES(#{REFUNDID}, #{PAYMENTID}, #{REFUNDMETHOD}, #{REFUNDACCOUNT}, CURRENT_DATE, #{GROUPID}, '챌린저스' )
 	</insert>
 	
 	

@@ -19,9 +19,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.onsaem.web.chal.service.ChalService;
 import com.onsaem.web.chal.service.ChalVO;
 import com.onsaem.web.chal.service.MediaService;
+import com.onsaem.web.chal.service.ParticipantService;
 import com.onsaem.web.chal.service.ProofService;
 import com.onsaem.web.chal.service.ProofVO;
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.RefundVO;
 
 @Controller
 @CrossOrigin(origins="*")
@@ -30,6 +32,7 @@ public class ChalMypageController {
 
 	@Autowired ChalService chalService;
 	@Autowired ProofService proofService;
+	@Autowired ParticipantService partService;
 
 	
 	//권한 - 일반회원의 챌린저스 마이페이지 첫화면, 진행중 챌린지 띄우깅
@@ -47,7 +50,7 @@ public class ChalMypageController {
 		List<Integer> plist = new ArrayList<>();
 		
 		for(int i=0;i<list.size();i++) {
-			System.out.println("==================="+list.get(i).getChalId());
+			
 			pvo.setChalId(list.get(i).getChalId());
 			pvo.setProofWriter("hodu");
 			Integer n = proofService.checkProof(pvo);
@@ -100,7 +103,14 @@ public class ChalMypageController {
 		String id = (String)session.getAttribute("id");
 		
 		vo.setMemberId("hodu");
-		model.addAttribute("chals", chalService.myBeforeChal(vo));
+		//이용자가 참가한 시작 전인 챌린지들 가져오기.
+		List<ChalVO> list=chalService.myBeforeChal(vo);
+		
+		if(list.size()>0){
+			model.addAttribute("chals", list);
+		} else {
+			model.addAttribute("msg1", "시작 예정인 챌린지가 없습니다!");
+		}
 		
 		//썸네일덜 ~ 나중에 디자인 하기 싫으면 걍 뺴고 표로 만들면 됨 ~
 		model.addAttribute("pics", proofService.myChalThumnails(vo));
@@ -110,20 +120,21 @@ public class ChalMypageController {
 	
 	//마이페이지 시작전 챌린지 모음 - 취소하기
 	@RequestMapping(value="/myBeforeChal",method=RequestMethod.POST)
-	public String CabcelChal(Model model,ChalVO vo, HttpServletRequest req) {
+	public String CabcelChal(ChalVO vo, HttpServletRequest req, RefundVO rvo) {
 		HttpSession session = req.getSession();
 //		//세션에서 가져온 로그인 된 id값
 		String id = (String)session.getAttribute("id");
 		
 		vo.setMemberId("hodu");
 		
-		//participant테이블에서 삭제갈김
+		//participant테이블에서 삭제갈김 - 이것도 update로 해야할지 판단필요
 		
 		
-		//결제 테이블에 추가
+		//결제 테이블에서 update 혹은 delete하기
 		
 		
 		//환불테이블에 추가
+		partService.inputRefund(rvo);
 		
 		return "content/challengers/MyCurrentChal";
 	}
