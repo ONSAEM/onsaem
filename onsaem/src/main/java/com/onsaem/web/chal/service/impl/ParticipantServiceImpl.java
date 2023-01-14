@@ -9,6 +9,7 @@ import com.onsaem.web.chal.mapper.ParticipantMapper;
 import com.onsaem.web.chal.service.ParticipantService;
 import com.onsaem.web.chal.service.ParticipantVO;
 import com.onsaem.web.common.service.PaymentVO;
+import com.onsaem.web.common.service.RefundVO;
 
 @Component
 public class ParticipantServiceImpl implements ParticipantService {
@@ -50,10 +51,11 @@ public class ParticipantServiceImpl implements ParticipantService {
 		return mapper.getParticipant(vo);
 	}
 
+
 	@Override
-	public List<ParticipantVO> listChalForOne(ParticipantVO vo) {
+	public Integer inputRefund(RefundVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.listChalForOne(vo);
+		return mapper.inputRefund(vo);
 	}
 
 }
