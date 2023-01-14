@@ -15,46 +15,48 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests((requests) -> requests
-	            .antMatchers("/").permitAll()
 	            .anyRequest().permitAll()
 	            );
 
-//		http.formLogin()	//<security:form-loging
-//				.loginPage("content/loginForm") // 사용자 정의 로그인 페이지
+		http.formLogin()	//<security:form-loging
+//				.loginPage("/loginPage") // 사용자 정의 로그인 페이지
 //				.defaultSuccessUrl("/") // 로그인 성공 후 이동 페이지
-//				.failureUrl("/login.html?error=true")  // 로그인 실패 후 이동 페이지
-//				.usernameParameter("username") // 아이디 파라미터명 설정
-//				.passwordParameter("password") // 패스워드 파라미터명 설정
-//				.loginProcessingUrl("/login") // 로그인 Form Action Url
-//				.successHandler(
-//						new AuthenticationSuccessHandler() {
-//							@Override
-//							public void onAuthenticationSuccess(HttpServletRequest request,
-//									HttpServletResponse response, Authentication authentication)
-//									throws IOException, ServletException {
-//								
-//								System.out.println("authentication : " + authentication.getName());
-//		                        response.sendRedirect("/"); // 인증이 성공한 후에는 root로 이동
-//							}
-//				})		// 로그인 성공 후 핸들러
-//			    .failureHandler(
-//			    		 new AuthenticationFailureHandler() {
-//							@Override
-//							public void onAuthenticationFailure(HttpServletRequest request,
-//									HttpServletResponse response, AuthenticationException exception)
-//									throws IOException, ServletException {
-//								
-//								 System.out.println("exception : " + exception.getMessage());
-//			                        response.sendRedirect("/login");
-//							}
-//			    })		// 로그인 실패 후 핸들러
-//			    .permitAll();
+//				.failureUrl("content/loginFrom")  // 로그인 실패 후 이동 페이지
+				.usernameParameter("memberId") // 아이디 파라미터명 설정
+				.passwordParameter("password") // 패스워드 파라미터명 설정
+				.loginProcessingUrl("/login") // 로그인 Form Action Url
+				.successHandler(
+						new AuthenticationSuccessHandler() {
+							@Override
+							public void onAuthenticationSuccess(HttpServletRequest request,
+									HttpServletResponse response, Authentication authentication)
+									throws IOException, ServletException {
+								
+								System.out.println("authentication : " + authentication.getName());
+		                        response.sendRedirect("/"); // 인증이 성공한 후에는 root로 이동
+							}
+				})		// 로그인 성공 후 핸들러
+			    .failureHandler(
+			    		 new AuthenticationFailureHandler() {
+							@Override
+							public void onAuthenticationFailure(HttpServletRequest request,
+									HttpServletResponse response, AuthenticationException exception)
+									throws IOException, ServletException {
+								
+								 System.out.println("exception : " + exception.getMessage());
+			                        response.sendRedirect("/login");
+							}
+			    })		// 로그인 실패 후 핸들러
+			    .permitAll();
+		
 				
 		http.logout()
 			.logoutUrl("/logout")
 			.logoutSuccessUrl("/")
 			  .deleteCookies("JSESSIONID", "remember");
 		
+		http
+        .csrf().disable();
 
 		return http.build();
 	}

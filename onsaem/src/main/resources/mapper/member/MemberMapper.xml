@@ -2,13 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="com.onsaem.web.member.mapper.LoginMapper">
+<mapper namespace="com.onsaem.web.member.mapper.MemberMapper">
 
 	<!-- 로그인 아이디, 비밀번호 찾기 -->
-	<select id="memberLogin" resultType="MemberVO">
+	<select id="getMember" resultType="MemberVO" parameterType="String">
 		Select * from members
 		where member_id = #{memberId}
-		and password = #{password}
 	</select>
 	
 </mapper>
