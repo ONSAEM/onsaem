@@ -9,13 +9,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.onsaem.web.blog.service.BlogReplyService;
 import com.onsaem.web.blog.service.BlogWriteService;
 import com.onsaem.web.blog.service.BlogWriteVO;
 import com.onsaem.web.blog.service.CategoriesVO;
+import com.onsaem.web.blog.service.MomentService;
+import com.onsaem.web.blog.service.MomentsVO;
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.RepliesVO;
 import com.onsaem.web.member.service.MemberVO;
@@ -28,6 +29,8 @@ public class BlogWriteController {
 	BlogWriteService blogWriteService;
 	@Autowired
 	BlogReplyService replyService;
+	@Autowired
+	MomentService momentService;
 	
 	// 블로그 메인으로 이동 (조회)
 	@RequestMapping(value = "/blogMain", method = RequestMethod.GET)
@@ -38,11 +41,13 @@ public class BlogWriteController {
 	
 	// 내 블로그로 이동
 	@RequestMapping(value = "/myblog", method = RequestMethod.GET)
-	public String myblog(Model model, String userId, CategoriesVO vo) {
+	public String myblog(Model model, String userId, CategoriesVO vo, MomentsVO mVo) {
 		model.addAttribute("myblog", blogWriteService.myBlog(userId));	
 		vo.setBlogId(userId);
 		model.addAttribute("category", blogWriteService.cateList(vo));
 		model.addAttribute("recentWrite", blogWriteService.recentWrite(userId)); // 최신글 조회
+		mVo.setBlogId(userId);
+		model.addAttribute("moments", momentService.getMomentList(mVo));
 		return "content/blog/myblog";
 	}
 	
@@ -82,7 +87,7 @@ public class BlogWriteController {
 		HttpSession session = request.getSession();
 		String id = (String)session.getAttribute("id");
 		vo.setBlogId(id);
-		MemberVO vo2 = (MemberVO)session.getAttribute("member");
+		MemberVO vo2 = (MemberVO)session.getAttribute("member"); // 아이디로 닉네임 찾아오게 글 등록 시, 매퍼에서 멤버 테이블과 조인하기(닉네임 필요)
 		vo.setWriterNickname(vo2.getNickname());
 		model.addAttribute("blogInsert", blogWriteService.blogInsert(vo));
 		return vo;

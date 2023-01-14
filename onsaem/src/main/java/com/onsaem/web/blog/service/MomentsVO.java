@@ -22,4 +22,6 @@ public class MomentsVO {
 	String momentWrite;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date writeDate;
+	String fileRoute;
+	String mediaName;
 }

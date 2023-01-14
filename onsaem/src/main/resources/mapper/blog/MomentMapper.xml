@@ -3,4 +3,46 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
  <mapper namespace="com.onsaem.web.blog.mapper.MomentMapper">
+	<!-- 한 블로거의 모먼트 전체 조회 (4개만 출력)-->
+ 	<select id="getMomentList" resultType="MomentsVO" parameterType="MomentsVO">
+ 		select  M.MOMENT_ID,
+		        M.BLOG_ID,
+		        M.ADD_URL,
+		        M.UPLOAD_START,
+		        M.UPLOAD_END,
+		        M.PUBLIC_SCOPE,
+		        M.LIKE_NUMBER,
+		        M.MOMENT_WRITE,
+		        M.WRITE_DATE,
+		        A.FILE_NAME,
+		        A.FILE_ROUTE,
+		        A.MEDIA_NAME
+		from moments M, media A
+		where M.moment_id=A.group_id
+		and M.blog_id=#{blogId}
+		<![CDATA[
+		and rownum <=4
+		]]>
+ 	</select>
+ 	<!-- 한 블로거의 모먼트 단건 조회 -->
+ 	<select id="getMoment" resultType="MomentsVO" parameterType="String">
+ 		select  M.MOMENT_ID,
+		        M.BLOG_ID,
+		        M.ADD_URL,
+		        M.UPLOAD_START,
+		        M.UPLOAD_END,
+		        M.PUBLIC_SCOPE,
+		        M.LIKE_NUMBER,
+		        M.MOMENT_WRITE,
+		        M.WRITE_DATE,
+		        A.FILE_NAME,
+		        A.FILE_ROUTE,
+		        A.MEDIA_NAME,
+		        B.NICKNAME
+		from moments M, media A, members B
+		where M.moment_id=A.group_id
+		and M.BLOG_ID = B.MEMBER_ID
+		and moment_id = #{momentId}
+ 	</select>
+ 	
  </mapper>
