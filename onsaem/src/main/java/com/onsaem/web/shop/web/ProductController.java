@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -38,10 +40,10 @@ public class ProductController {
 	// 쇼핑몰페이지이동,최신순,인기순 목록나열
 	@RequestMapping(value = "/shop", method = RequestMethod.GET)
 	public String shopMain(Model model, @RequestParam(value = "data", required = false) String data,
-		HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		cartVo.setMemberId((String) session.getAttribute("id"));
-		likeVo.setMemberId((String) session.getAttribute("id"));
+			Authentication authentication) {
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		cartVo.setMemberId(userDetails.getUsername());
+		likeVo.setMemberId(userDetails.getUsername());
 		model.addAttribute("cartList", cartService.cartList(cartVo)); // 장바구니 수량가져오기 위한 리스트
 		model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
 		if (data != null && data.equals("popularity")) {
