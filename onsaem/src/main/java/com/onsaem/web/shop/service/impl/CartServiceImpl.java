@@ -28,8 +28,14 @@ public class CartServiceImpl implements CartService{
 
 	@Override
 	public List<CartVO> myCartList(CartVO vo) {
-		// TODO Auto-generated method stub
+		// 나의 장바구니 리스트
 		return cartMapper.myCartList(vo);
+	}
+
+	@Override
+	public int delCart(CartVO vo) {
+		// 장바구니삭제
+		return cartMapper.delCart(vo);
 	}
 
 }

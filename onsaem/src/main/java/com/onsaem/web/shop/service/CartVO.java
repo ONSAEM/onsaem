@@ -12,4 +12,10 @@ public class CartVO {
 	String cartOption;
 	int cartPrice;
 	String memberId;
+	
+	String productName;
+	int deliveryFee;
+	String fileRoute;
+	String mediaName;
+	
 }
