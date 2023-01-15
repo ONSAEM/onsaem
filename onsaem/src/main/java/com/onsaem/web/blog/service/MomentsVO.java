@@ -24,4 +24,5 @@ public class MomentsVO {
 	Date writeDate;
 	String fileRoute;
 	String mediaName;
+	String nickname;
 }

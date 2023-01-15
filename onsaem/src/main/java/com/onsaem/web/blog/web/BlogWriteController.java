@@ -1,9 +1,9 @@
 package com.onsaem.web.blog.web;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,7 +19,6 @@ import com.onsaem.web.blog.service.MomentService;
 import com.onsaem.web.blog.service.MomentsVO;
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.RepliesVO;
-import com.onsaem.web.member.service.MemberVO;
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -53,9 +52,10 @@ public class BlogWriteController {
 	
 	// 블로그 글 상세 페이지로 이동(단건조회)
 	@RequestMapping(value = "/myblog/blogWrite", method = RequestMethod.GET)
-	public String blogWrite(Model model, String bno,BlogWriteVO bVo, LikeVO vo, RepliesVO rVo, CategoriesVO cVo,HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		String id = (String)session.getAttribute("id");
+	public String blogWrite(Model model, String bno,BlogWriteVO bVo, LikeVO vo, RepliesVO rVo, CategoriesVO cVo,Authentication authentication) {
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		String id = userDetails.getUsername();
+		
 		model.addAttribute("blogWrite", blogWriteService.getBlog(bno)); // 블로그 단건 조회
 
 		vo.setMemberId(id);
@@ -83,12 +83,12 @@ public class BlogWriteController {
 	// 블로그 글 등록 처리(등록) 세션 아이디 값 vo에 다시 담는 방법 몰름... 
 	@RequestMapping(value = "/myblog/blogWrite/blogInsert", method = RequestMethod.POST)
 	@ResponseBody  //ajax 응답은 responseBody
-	public BlogWriteVO blogInsert(Model model, BlogWriteVO vo, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		String id = (String)session.getAttribute("id");
+	public BlogWriteVO blogInsert(Model model, BlogWriteVO vo, Authentication authentication) {
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		String id = userDetails.getUsername();
 		vo.setBlogId(id);
-		MemberVO vo2 = (MemberVO)session.getAttribute("member"); // 아이디로 닉네임 찾아오게 글 등록 시, 매퍼에서 멤버 테이블과 조인하기(닉네임 필요)
-		vo.setWriterNickname(vo2.getNickname());
+		//MemberVO vo2 = (MemberVO)session.getAttribute("member"); // 아이디로 닉네임 찾아오게 글 등록 시, 매퍼에서 멤버 테이블과 조인하기(닉네임 필요)
+		//vo.setWriterNickname(vo2.getNickname());
 		model.addAttribute("blogInsert", blogWriteService.blogInsert(vo));
 		return vo;
 	}
@@ -96,9 +96,9 @@ public class BlogWriteController {
 	// 좋아요 추가
 	@RequestMapping(value = "/addBlogLike", method = RequestMethod.POST)
 	@ResponseBody
-	public LikeVO addBlogLike(LikeVO vo, HttpServletRequest request) {		
-		HttpSession session = request.getSession();
-		String id = (String)session.getAttribute("id");
+	public LikeVO addBlogLike(LikeVO vo, Authentication authentication) {		
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		String id = userDetails.getUsername();
 		vo.setMemberId(id);
 		blogWriteService.addBlogLike(vo);
 		return blogWriteService.cntBlogLike(vo);
@@ -106,9 +106,10 @@ public class BlogWriteController {
 	// 좋아요 삭제
 	@RequestMapping(value = "/delBlogLike", method = RequestMethod.POST)
 	@ResponseBody
-	public LikeVO delBlogLike(LikeVO vo, HttpServletRequest request) {
-		HttpSession session = request.getSession();		
-		vo.setMemberId((String)session.getAttribute("id"));
+	public LikeVO delBlogLike(LikeVO vo, Authentication authentication) {
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		String id = userDetails.getUsername();		
+		vo.setMemberId(id);
 		blogWriteService.delBlogLike(vo);
 		
 		return blogWriteService.cntBlogLike(vo);

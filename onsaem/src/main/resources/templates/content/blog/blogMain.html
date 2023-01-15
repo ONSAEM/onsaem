@@ -52,7 +52,7 @@
                         <ul>
                             <li th:if="${session.member}!=null"><a th:href="@{/blog/myblog(userId=${session.member.memberId})}">내 블로그</a></li>
                             <li><a th:href="@{/blog/myblog(userId=user)}">User의 블로그 바로가기</a></li>
-                            <li><a href="#">Fruit & Nut Gifts</a></li>
+                            <li><a th:href="@{/blog/myblog(userId=test01)}">test01의 블로그 바로가기</a></li>
                             <li><a href="#">Fresh Berries</a></li>
                             <li><a href="#">Ocean Foods</a></li>
                             <li><a href="#">Butter & Eggs</a></li>
