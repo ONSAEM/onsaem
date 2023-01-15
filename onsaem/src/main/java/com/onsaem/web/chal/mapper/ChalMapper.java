@@ -41,4 +41,6 @@ public interface ChalMapper {
 	//챌린저스 취소-개최자만 가능함, 관리자랑 ㅋㅋ
 	Integer delChal(String chalId);
 	
+	//기부금 3등까지
+	List<ChalVO> donateRank();
 }

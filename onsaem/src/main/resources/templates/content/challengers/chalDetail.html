@@ -6,9 +6,9 @@
 
 
 <!-- Google Font -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
 	rel="stylesheet">
+
 
 <!-- Css  -->
 <th:block layout:fragment="css">
@@ -30,6 +30,58 @@
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
 		type="text/css">
 </th:block>
+<head>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	  
+	<style type="text/css">
+	button {
+	   cursor: pointer;
+	}
+	
+	.btn {
+	   margin-top: 60px;
+	}
+	
+	.modal {
+	   display: flex;
+	   justify-content: center;
+	   align-items: center;
+	   position: fixed;
+	   top: 0;
+	   left: 0;
+	   width: 100%;
+	   height: 100%;
+	}
+	
+	.modal__background {
+	   background-color: rgba(0, 0, 0, 0.6);
+	   width: 100%;
+	   height: 100%;
+	   position: absolute;
+	}
+	
+	.modal__content {
+	   text-align: center;
+	   position: relative;
+	   background-color: white;
+	   border-radius: 10px;
+	   top: 0;
+	   padding: 10px 25px;
+	   width: 20%;
+	}
+	
+	h1 {
+	   margin: 0;
+	   margin-bottom: 13px;
+	}
+	
+	.hidden {
+	   display: none;
+	}
+	</style>
+
+  
+</head>
 
 <div layout:fragment="content">
 <br>
@@ -56,7 +108,7 @@
 
     <!-- Product Details Section Begin -->
     <section class="product-details spad">
-        <div class="container">
+        <div class="container"  th:each="chal : ${chals}">
             <div class="row">
                 <div class="col-lg-6 col-md-6" >
                     <div class="product__details__pic">
@@ -69,29 +121,22 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
-                    <div class="product__details__text" th:each="chal : ${chals}">
+                    <div class="product__details__text">
                         <h3 th:text="${chal.chalName}">Vetgetable’s Package</h3>
-                        <div class="product__details__rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-half-o"></i>
-                        </div>
-                        <div class="product__details__price"><span th:text=${chal.startDate}>$50.00</span></div>
+                        
+                        <div class="product__details__price"><span th:text="'기부처 : ' + ${chal.ngoName}">$50.00</span></div>
                         	<ul>
                             <li><b>시작일</b> <span th:text="${#dates.format(chal.startDate, 'yyyy년 MM월 dd일')}" ></span></li>
                             <li><b>종료일</b> <span th:text="${#dates.format(chal.endDate, 'yyyy년 MM월 dd일')}"> <samp>Free pickup today</samp></span></li>
                             <li><b>유형</b> <span th:text="${chal.subClass}"></span></li>
                             <li><b>참가 요일</b> <span th:text="${chal.frequency}"></span></li>
                        		</ul>
-
-							 <a th:if="${chal.subClass} == '개인'"  th:href="@{/applyChalFrm(chalId=${chal.chalId})}" class="primary-btn">참가하기</a>                      
-           
-							 <a th:if="${chal.subClass} == '팀'" th:href="@{/applyChalTeamFrm(chalId=${chal.chalId})}" class="primary-btn">참가하기</a>                      
-                        
-                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
-                    
+							<a th:if="${cnt.cnt} >=1" class="primary-btn" >이미 참가 중인 챌린지 입니다</a>
+							<a th:unless="${cnt.cnt} >=1" class="primary-btn">
+								<a th:if="${chal.subClass} == '개인'"  th:href="@{/applyChalFrm(chalId=${chal.chalId})}" class="primary-btn goApply">참가하기</a>                      
+								<a th:if="${chal.subClass} == '팀'" th:href="@{/applyChalTeamFrm(chalId=${chal.chalId})}" class="primary-btn goApply">참가하기</a>
+							<a>
+							<button class="openBtn" style="background-color:red; color:white; width:120px; height:51px; border:none">신고하기</button>						 	
                     </div>
                 </div>
                 <div class="col-lg-12">
@@ -99,78 +144,39 @@
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
-                                    aria-selected="true">Description</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
-                                    aria-selected="false">Information</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
-                                    aria-selected="false">Reviews <span>(1)</span></a>
+                                    aria-selected="true">상세보기</a>
                             </li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <div class="product__details__tab__desc">
-                                    <h6>Products Infomation</h6>
-                                    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-                                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus. Vivamus
-                                        suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam sit amet quam
-                                        vehicula elementum sed sit amet dui. Donec rutrum congue leo eget malesuada.
-                                        Vivamus suscipit tortor eget felis porttitor volutpat. Curabitur arcu erat,
-                                        accumsan id imperdiet et, porttitor at sem. Praesent sapien massa, convallis a
-                                        pellentesque nec, egestas non nisi. Vestibulum ac diam sit amet quam vehicula
-                                        elementum sed sit amet dui. Vestibulum ante ipsum primis in faucibus orci luctus
-                                        et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam
-                                        vel, ullamcorper sit amet ligula. Proin eget tortor risus.</p>
-                                        <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem
-                                        ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet
-                                        elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum
-                                        porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus
-                                        nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.
-                                        Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Sed
-                                        porttitor lectus nibh. Vestibulum ac diam sit amet quam vehicula elementum
-                                        sed sit amet dui. Proin eget tortor risus.</p>
+                                    <h6>환급 안내</h6>
+                                    <p>100% 성공 : 예치금 전액 기부 + 예치금의 1% 포인트 적립</p>
+                                    <p>85% 이상 성공 : 예치금 전액 기부 + 예치금 0.5% 포인트 적립</p>
+                                    <p>85% 미만 성공 : 예치금 전액 기부</p>
+                                    <div id="chart_div"></div>
                                 </div>
-                            </div>
-                            <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                  
                                 <div class="product__details__tab__desc">
-                                    <h6>Products Infomation</h6>
-                                    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-                                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
-                                        Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
-                                        sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
-                                        eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
-                                        Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
-                                        sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
-                                        diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
-                                        ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
-                                        Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
-                                        Proin eget tortor risus.</p>
-                                    <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Lorem
-                                        ipsum dolor sit amet, consectetur adipiscing elit. Mauris blandit aliquet
-                                        elit, eget tincidunt nibh pulvinar a. Cras ultricies ligula sed magna dictum
-                                        porta. Cras ultricies ligula sed magna dictum porta. Sed porttitor lectus
-                                        nibh. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a.</p>
+                                    <h6>챌린지 소개</h6>
+                                    <p th:text="${chal.contents}">챌린지 소개</p>
                                 </div>
-                            </div>
-                            <div class="tab-pane" id="tabs-3" role="tabpanel">
+                                
                                 <div class="product__details__tab__desc">
-                                    <h6>Products Infomation</h6>
-                                    <p>Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
-                                        Pellentesque in ipsum id orci porta dapibus. Proin eget tortor risus.
-                                        Vivamus suscipit tortor eget felis porttitor volutpat. Vestibulum ac diam
-                                        sit amet quam vehicula elementum sed sit amet dui. Donec rutrum congue leo
-                                        eget malesuada. Vivamus suscipit tortor eget felis porttitor volutpat.
-                                        Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Praesent
-                                        sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ac
-                                        diam sit amet quam vehicula elementum sed sit amet dui. Vestibulum ante
-                                        ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
-                                        Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula.
-                                        Proin eget tortor risus.</p>
+                                    <h6>인증샷 예시</h6>
+                                    <img th:src="@{{fileRoute}{mediaName}/(fileRoute=${photoes.get(1).fileRoute},mediaName=${photoes.get(1).mediaName})}" class="rounded float-start" >
+                                    <p th:text="${chal.proofContent}">인증 샷 예시</p>
                                 </div>
-                            </div>
+                                
+                                <div class="product__details__tab__desc">
+                                    <h6>동의사항 요건</h6>
+                                    	<p>챌린지에 참가하시기 전에 동의사항에 체크해 주세요</p>
+                                     	<label><input type="checkbox" name="check">모든 예치금은 성취퍼센트와 관계 없이 100% 기부됩니다.</label><br>
+                                     	<label><input type="checkbox" name="check">참가하셨을 시에 등록하신 인증 사진은 모든 유저가 조회 가능 합니다.</label><br>
+                                     	<label><input type="checkbox" name="check">챌린지 참가 취소는 마이페이지에서 가능하며, 시작일 하루 전 까지 가능합니다.</label><br>
+                                </div>
+                                
+                                
+
                         </div>
                     </div>
                 </div>
@@ -185,7 +191,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title related__product__title">
-                        <h2>Related Product</h2>
+                        <h2>Related Challenges</h2>
                     </div>
                 </div>
             </div>
@@ -251,8 +257,28 @@
                     </div>
                 </div>
             </div>
-        </div>
+            <!-- 모달창 -->
+                  <div class="modal hidden">
+                     <div class="modal__background"></div>
+                     <div class="modal__content">
+
+                        <h3>신고하기</h3>
+                     
+                        <p th:text="'챌린지 명 : '+${chals.chalName}"></p>
+                        <div class="modalText">
+                           <p th:text="${chals.chalId}" id="chalId"></p>
+                           <textarea id="content" name="content"></textarea>
+                           <button type="button" th:onclick="inputReport()">신고하기</button>
+                           <button type="button" class="closeBtn">닫기</button>
+                        </div>
+                     
+                     </div>
+                  </div>
+                  <!-- 모달창 끛-->
         
+        </div>
+
+          
         <!-- JS -->
 		<th:block layout:fragment="script">
 			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
@@ -264,7 +290,116 @@
 			<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/main.js}"></script>
 		</th:block>
+		
     </section>
     <!-- Related Product Section End -->
+    	<script>
+    google.charts.load('current', {packages: ['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawStacked);
+
+    function drawStacked() {
+          var data = new google.visualization.DataTable();
+          data.addColumn('timeofday', 'Percent');
+          data.addColumn('number', 'Motivation Level');
+          data.addColumn('number', '예치금');
+          //data.addColumn('number', '예치금');
+
+          data.addRows([
+            [{v: [8, 0, 0], f: '0 %'}, 1, .25],
+            [{v: [9, 0, 0], f: ''}, 2, .5],
+            [{v: [10, 0, 0], f:''}, 3, 1],
+            [{v: [11, 0, 0], f: ''}, 4, 2.25],
+            [{v: [12, 0, 0], f: ''}, 5, 2.25],
+            [{v: [13, 0, 0], f: '85 %'}, 6, 3],
+            [{v: [14, 0, 0], f: '100 %'}, 10, 10],
+          ]);
+
+          var options = {
+            isStacked: true,
+            hAxis: {
+              title: 'Time of Day',
+              format: 'h:mm a',
+              viewWindow: {
+                min: [7, 30, 0],
+                max: [17, 30, 0]
+              }
+            },
+            vAxis: {
+              title: 'Rating (scale of 1-10)'
+            }
+          };
+
+          var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+          chart.draw(data, options);
+        }
+    
+    	//체크박스 체크했는지 여부
+    	let goBtn = document.querySelectorAll(".goApply");
+    	let check = document.getElementsByName("check");
+    	let chk = false;
+    	goBtn.addEventListener('click', function(){
+    		for(let i=0; i<check.length; i++){
+    			if(check[i].checked) { 
+    			   chk = true;
+    			  } else {
+    				  chk = false;
+    			  }
+    		}
+    		
+    		if(chk){
+    			alet("굿");
+    		}else {
+    			alert("모든 동의사항에 동의해 주세요.");
+    		}
+    	});
+    	
+    	//신고 모달창
+		   document.querySelectorAll(".openBtn").forEach((openBtn) => {
+		   console.log(openBtn);
+		   openBtn.addEventListener("click", displayModal);
+		         
+		      })
+		      const modal = document.querySelector(".modal");
+		      const closeButton = modal.querySelector(".closeBtn");
+		      const modalBackground = modal.querySelector(".modal__background");
+		
+		      function displayModal() {
+		         modal.classList.toggle("hidden");
+		      }
+
+		      closeButton.addEventListener("click", displayModal)
+		      modalBackground.addEventListener("click", displayModal);
+		
+		  //신고보내기
+		      function inputReport(){
+		          let content=document.getElementById("content").value;
+		          console.log(content.value)
+		          let img=document.getElementById("input-image").value;
+		          console.log(img);
+		          let imgName= img.substr(12,img.length);
+		          console.log(imgName);
+		          let chalId=document.getElementById("chalId").innerText;
+		          console.log(chalId)
+		          
+		          $.ajax({
+		              url:'/inputReport',
+		              method: 'post',
+		              contentType : 'application/json',
+		              data: JSON.stringify({content:content,
+		                 fileName:imgName,
+		                 chalId:chalId}),
+		              success : function(result){
+		                 console.log(result);
+		                 alert('신고 접수 완료');
+		                 location.href="http://localhost/detailChal";
+		              },
+		              error : function(error){
+		                 console.log(error);
+		              }
+		           }) 
+		       }
+    	
+		</script>	
+    
 </div>
 </html>

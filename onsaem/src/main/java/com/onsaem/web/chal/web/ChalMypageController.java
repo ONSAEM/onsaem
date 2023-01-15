@@ -109,10 +109,10 @@ public class ChalMypageController {
 		if(list.size()>0){
 			model.addAttribute("chals", list);
 		} else {
-			model.addAttribute("msg1", "시작 예정인 챌린지가 없습니다!");
+			model.addAttribute("msg", "시작 예정인 챌린지가 없습니다!");
 		}
 		
-		//썸네일덜 ~ 나중에 디자인 하기 싫으면 걍 뺴고 표로 만들면 됨 ~
+		//썸네일 조회
 		model.addAttribute("pics", proofService.myChalThumnails(vo));
 		
 		return "content/challengers/MyBeforeChal";
@@ -129,7 +129,7 @@ public class ChalMypageController {
 		
 		//participant테이블에서 삭제갈김 - 이것도 update로 해야할지 판단필요
 		
-		
+		partService.delParticipant(id);
 		//결제 테이블에서 update 혹은 delete하기
 		
 		
@@ -145,6 +145,8 @@ public class ChalMypageController {
 	public String myEndChalList(Model model,@RequestParam(value="userId", required=false)String userId,ChalVO vo) {
 		vo.setMemberId(userId);
 		model.addAttribute("chalList", chalService.myEndChal(vo));
+		
+		//미디어가져오기 필요 if문 사용 필요~ 
 		return "content/challengers/MyCurrentChal";
 	}
 	
@@ -176,20 +178,45 @@ public class ChalMypageController {
 //		
 //		model.addAttribute("cntBad", proofService.countProof(pvo));
 		
-		return "content/challengers/MyChalStatus";
-	}
-	
-	@RequestMapping(value="/check", method=RequestMethod.GET)
-	public String check() {
-		return "content/challengers/mytem";
+		return "content/challengers/MyChalStatus1";
 	}
 	
 	
-	//얘 마이페이지의 - 2버냬ㅉ 페이지, value 파일명 다고치삼
-	@RequestMapping(value="/test", method=RequestMethod.GET)
+	//얘 마이페이지의 - 2번째 페이지, value 파일명 다고치삼
+	@RequestMapping(value="/myChalStatus2", method=RequestMethod.GET)
 	public String test() {
-		return "content/challengers/testFile";
+		return "content/challengers/MyChalStatus2";
 	}
+	
+	
+	//관리자의챌린저스 마이페이지 중 완료챌린저스 목록을 보기
+	@RequestMapping(value="/adminEndChal", method=RequestMethod.GET)
+	public String adminEndChal(Model model, @RequestParam(value="chalId", required=false)String chalId, MediaVO vo) {
+		// 모든 완료된 챌린지를 가져오기
+		//챌린저스 한건 정보
+		model.addAttribute("chal",chalService.getChal(chalId));
+		
+		//썸네일 줍줍
+		vo.setGroupId(chalId);
+		model.addAttribute("pics", proofService.listMedia(vo));
+		
+		//한 챌린지의 모든 인증 샷 가져오기
+		
+		
+		return "content/challengers/adminEndChal";
+	}
+	
+	
+	//관리자의챌린저스 마이페이지 중 완료챌린저스 목록을 보기
+	@RequestMapping(value="/adminEndChal", method=RequestMethod.POST)
+	public String inputRecipt(MediaVO vo) {
+		//media테이블에 input을 한다 - subclass를 기부정산서라고 지정하기
+		
+		//challenges테이블에 컬럼을 수정하기
+		
+		return "content/challengers/adminEndChal";
+	}
+	
 	
 	
 }

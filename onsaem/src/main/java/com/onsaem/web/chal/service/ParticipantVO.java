@@ -28,4 +28,5 @@ public class ParticipantVO {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date endDate;
 	String frequency;
+	Integer cnt;
 }

@@ -152,7 +152,7 @@
 	    ORDER BY M.MEDIA_ID	
 	</select>
 	
-	<!--  오늘 날짜에, 인증샷 넣엇는지 안넣엇는지 체크하는 메소드 필요 ㅠㅠ-->
+	<!--  오늘 날짜에, 인증샷 넣엇는지 안넣엇는지 체크하는-->
 	<select id="checkProof" parameterType="ProofVO" resultType="Integer">
 		SELECT COUNT(*) AS CNT
 		FROM PROOFS
