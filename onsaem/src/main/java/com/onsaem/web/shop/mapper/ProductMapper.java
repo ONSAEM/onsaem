@@ -5,6 +5,7 @@ import java.util.List;
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.ReportVO;
+import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.shop.service.ProductVO;
 
 public interface ProductMapper {
@@ -34,17 +35,23 @@ public interface ProductMapper {
 
 	// 추가이미지
 	List<ProductVO> addImg(String data);
-	
-	//카테고리 리스트
+
+	// 카테고리 리스트
 	List<ProductVO> categoryList();
-	
-	//상품등록 신청
+
+	// 상품등록 신청
 	int addProduct(ProductVO vo);
-	
-	//상품이미지 등록
+
+	// 상품이미지 등록
 	int addMedia(MediaVO vo);
-	
-	//신고등록
+
+	// 신고등록
 	int addBan(ReportVO vo);
+
+	// 친환경이미지
+	List<ProductVO> natureImg(String data);
+
+	// 상품리뷰리스트
+	List<ReviewVO> reviewList(String data);
 
 }

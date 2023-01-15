@@ -153,13 +153,14 @@
 	</delete>
 
 	<!-- 찜리스트 -->
-	<select id="likeList" resultType="ProductVO">
-		SELECT GROUP_ID,
-		GROUPS,
-		INSERT_DATE,
-		LIKE_ID
-		FROM LIKES
-		WHERE MEMBER_ID=#{memberId}
+	<select id="likeList" resultType="com.onsaem.web.shop.service.ProductVO">
+	SELECT L.GROUP_ID,P.PRODUCT_NAME,P.PRICE,
+	L.GROUPS,
+	L.INSERT_DATE,
+	L.LIKE_ID,M.FILE_ROUTE,M.MEDIA_NAME
+	FROM LIKES L,MEDIA M,PRODUCTS P
+	WHERE L.MEMBER_ID=#{memberId} AND M.SUB_GROUP='대표이미지' AND L.GROUPS='쇼핑몰' AND
+	M.GROUP_ID=L.GROUP_ID AND L.GROUP_ID=P.PRODUCT_ID
 	</select>
 
 	<!-- 상품상세보기 -->
@@ -184,14 +185,15 @@
 		M.FILE_NAME AS FILE_NAME,
 		M.FILE_ROUTE AS
 		FILE_ROUTE,
-		M.MEDIA_NAME AS MEDIA_NAME
+		M.MEDIA_NAME AS MEDIA_NAME,
+		P.PRODUCT_INFO
 		FROM PRODUCTS P
 		JOIN MEDIA M
 		ON
 		P.PRODUCT_ID=M.GROUP_ID
 		WHERE PRODUCT_ID=#{data}
-		AND M.SUB_GROUP =
-		'대표이미지'
+		AND M.SUB_GROUP
+		='대표이미지'
 	</select>
 
 	<!-- 추가이미지 -->
@@ -250,11 +252,31 @@
 		VALUES('M'||LPAD(MEDIA_SEQ.NEXTVAL,3,0),#{groupId},'쇼핑몰',null,#{fileName},
 		'/shoptemplate/img/product/','M'||LPAD(media_seq.nextval,3,0)||'.jpg')
 	</insert>
-	
+
 	<!-- 신고등록 -->
-	<insert id="addBan" parameterType="com.onsaem.web.common.service.ReportVO">
+	<insert id="addBan"
+		parameterType="com.onsaem.web.common.service.ReportVO">
 		INSERT INTO REPORTS
 		VALUES('RP'||REPORT_SEQ.NEXTVAL,#{fromId},#{toId},CURRENT_DATE,#{reason}
 		,#{detailReason},'신고대기','쇼핑몰',#{groupId})
 	</insert>
+
+	<!-- 친환경이미지 -->
+	<select id="natureImg"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT FILE_ROUTE,MEDIA_NAME
+		FROM MEDIA
+		WHERE SUB_GROUP LIKE
+		'친환경이미지'||'%'
+		AND
+		GROUP_ID=#{data}
+	</select>
+
+	<!-- 상품리뷰리스트 -->
+	<select id="reviewList"
+		resultType="com.onsaem.web.common.service.ReviewVO">
+		SELECT * FROM REVIEWS
+		WHERE GROUP_ID=#{data}
+	</select>
+
 </mapper>
