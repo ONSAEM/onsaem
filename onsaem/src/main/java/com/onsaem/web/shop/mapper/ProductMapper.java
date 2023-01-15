@@ -54,4 +54,7 @@ public interface ProductMapper {
 	// 상품리뷰리스트
 	List<ReviewVO> reviewList(String data);
 
+	// 나의찜삭제
+	int delMyLike(ProductVO vo);
+
 }

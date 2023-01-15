@@ -108,6 +108,12 @@ public class ProductServiceImpl implements ProductService{
 		return proMapper.reviewList(data);
 	}
 
+	@Override
+	public int delMyLike(ProductVO vo) {
+		// 나의찜삭제
+		return proMapper.delMyLike(vo);
+	}
+
 	
 	
 }

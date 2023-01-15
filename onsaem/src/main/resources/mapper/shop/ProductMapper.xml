@@ -153,14 +153,16 @@
 	</delete>
 
 	<!-- 찜리스트 -->
-	<select id="likeList" resultType="com.onsaem.web.shop.service.ProductVO">
-	SELECT L.GROUP_ID,P.PRODUCT_NAME,P.PRICE,
-	L.GROUPS,
-	L.INSERT_DATE,
-	L.LIKE_ID,M.FILE_ROUTE,M.MEDIA_NAME
-	FROM LIKES L,MEDIA M,PRODUCTS P
-	WHERE L.MEMBER_ID=#{memberId} AND M.SUB_GROUP='대표이미지' AND L.GROUPS='쇼핑몰' AND
-	M.GROUP_ID=L.GROUP_ID AND L.GROUP_ID=P.PRODUCT_ID
+	<select id="likeList"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT L.GROUP_ID,P.PRODUCT_NAME,P.PRICE,
+		L.GROUPS,
+		L.INSERT_DATE,
+		L.LIKE_ID,M.FILE_ROUTE,M.MEDIA_NAME
+		FROM LIKES L,MEDIA M,PRODUCTS P
+		WHERE L.MEMBER_ID=#{memberId} AND M.SUB_GROUP='대표이미지' AND L.GROUPS='쇼핑몰'
+		AND
+		M.GROUP_ID=L.GROUP_ID AND L.GROUP_ID=P.PRODUCT_ID
 	</select>
 
 	<!-- 상품상세보기 -->
@@ -279,4 +281,10 @@
 		WHERE GROUP_ID=#{data}
 	</select>
 
+	<!-- 나의찜삭제 -->
+	<delete id="delMyLike"
+		parameterType="com.onsaem.web.shop.service.ProductVO">
+		delete from likes
+		where like_id=#{likeId}
+	</delete>
 </mapper>

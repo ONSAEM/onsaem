@@ -107,7 +107,7 @@ public class ProductController {
 		return "redirect:/shop";
 	}
 
-	// 찜클릭 삭제
+	// 버튼찜클릭 삭제
 	@RequestMapping(value = "/likeDel", method = RequestMethod.GET)
 	public String cartDel(Model model, @RequestParam(value = "data", required = false) String data,
 			Authentication authentication) {
@@ -162,9 +162,14 @@ public class ProductController {
 	public String likeList(Model model, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		likeVo.setLikeId(userDetails.getUsername());
-		model.addAttribute("likeList",proService.likeList(likeVo));
-		System.out.println("================="+proService.likeList(likeVo));
+		model.addAttribute("likeList", proService.likeList(likeVo));
 		return "content/shop/shopLike";
 	}
 
+	// 버튼찜클릭 삭제
+	@RequestMapping(value = "/delMyLike", method = RequestMethod.POST)
+	public String delMyLike(Model model, @RequestBody ProductVO vo, Authentication authentication) {	
+		proService.delMyLike(vo);	
+		return "content/shop/shopLike";
+	}
 }
