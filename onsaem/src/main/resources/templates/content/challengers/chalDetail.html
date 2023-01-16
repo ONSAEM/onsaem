@@ -131,11 +131,13 @@
                             <li><b>유형</b> <span th:text="${chal.subClass}"></span></li>
                             <li><b>참가 요일</b> <span th:text="${chal.frequency}"></span></li>
                        		</ul>
-							<a th:if="${cnt.cnt} >=1" class="primary-btn" >이미 참가 중인 챌린지 입니다</a>
-							<a th:unless="${cnt.cnt} >=1" class="primary-btn">
+
+							<span th:if="${cnt.cnt} >=1" class="primary-btn" >이미 참가 중인 챌린지 입니다</span>
+
+							<span th:unless="${cnt.cnt} >=1">
 								<a th:if="${chal.subClass} == '개인'"  th:href="@{/applyChalFrm(chalId=${chal.chalId})}" class="primary-btn goApply">참가하기</a>                      
 								<a th:if="${chal.subClass} == '팀'" th:href="@{/applyChalTeamFrm(chalId=${chal.chalId})}" class="primary-btn goApply">참가하기</a>
-							<a>
+							<span>
 							<button class="openBtn" style="background-color:red; color:white; width:120px; height:51px; border:none">신고하기</button>						 	
                     </div>
                 </div>
@@ -266,8 +268,7 @@
                      
                         <p th:text="'챌린지 명 : '+${chals.chalName}"></p>
                         <div class="modalText">
-                           <p th:text="${chals.chalId}" id="chalId"></p>
-                           <textarea id="content" name="content"></textarea>
+                           <textarea id="detailReason" name="detailReason"></textarea>
                            <button type="button" th:onclick="inputReport()">신고하기</button>
                            <button type="button" class="closeBtn">닫기</button>
                         </div>
@@ -293,7 +294,7 @@
 		
     </section>
     <!-- Related Product Section End -->
-    	<script>
+    <script type="text/javascript">
     google.charts.load('current', {packages: ['corechart', 'bar']});
     google.charts.setOnLoadCallback(drawStacked);
 
@@ -334,7 +335,7 @@
         }
     
     	//체크박스 체크했는지 여부
-    	let goBtn = document.querySelectorAll(".goApply");
+    	/* let goBtn = document.querySelectorAll(".goApply");
     	let check = document.getElementsByName("check");
     	let chk = false;
     	goBtn.addEventListener('click', function(){
@@ -351,43 +352,40 @@
     		}else {
     			alert("모든 동의사항에 동의해 주세요.");
     		}
-    	});
+    	}); */
     	
     	//신고 모달창
-		   document.querySelectorAll(".openBtn").forEach((openBtn) => {
-		   console.log(openBtn);
-		   openBtn.addEventListener("click", displayModal);
-		         
-		      })
-		      const modal = document.querySelector(".modal");
-		      const closeButton = modal.querySelector(".closeBtn");
-		      const modalBackground = modal.querySelector(".modal__background");
-		
-		      function displayModal() {
-		         modal.classList.toggle("hidden");
-		      }
+		 const openButton = document.querySelector(".openBtn");
+				const modal = document.querySelector(".modal");
+				const closeButton = modal.querySelector(".closeBtn");
+				const modalBackground = modal.querySelector(".modal__background");
 
-		      closeButton.addEventListener("click", displayModal)
-		      modalBackground.addEventListener("click", displayModal);
-		
+				function displayModal(){
+				    modal.classList.toggle("hidden");
+				}
+
+				openButton.addEventListener("click", displayModal);
+				closeButton.addEventListener("click", displayModal)
+				modalBackground.addEventListener("click", displayModal);
+			
 		  //신고보내기
 		      function inputReport(){
-		          let content=document.getElementById("content").value;
-		          console.log(content.value)
-		          let img=document.getElementById("input-image").value;
-		          console.log(img);
-		          let imgName= img.substr(12,img.length);
-		          console.log(imgName);
-		          let chalId=document.getElementById("chalId").innerText;
-		          console.log(chalId)
-		          
-		          $.ajax({
+
+				  let groupId= "[[${chals.chalId}]]";
+		          let toId="[[${chals.memberId}]]";
+		          let detailReason = document.getElementById("detailReason").value;
+		          console.log(detailReason);
+		          let reason = "불량챌린지";
+
+ 
+		           $.ajax({
 		              url:'/inputReport',
 		              method: 'post',
 		              contentType : 'application/json',
-		              data: JSON.stringify({content:content,
-		                 fileName:imgName,
-		                 chalId:chalId}),
+		              data: JSON.stringify({groupId:groupId,
+		                 toId:toId,
+		                 detailReaon:detailReason,
+		                 reason:reason}),
 		              success : function(result){
 		                 console.log(result);
 		                 alert('신고 접수 완료');
@@ -396,7 +394,7 @@
 		              error : function(error){
 		                 console.log(error);
 		              }
-		           }) 
+		           })  
 		       }
     	
 		</script>	

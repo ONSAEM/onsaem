@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.onsaem.web.chal.mapper.ChalReportMapper">
+<mapper namespace="com.onsaem.web.chal.mapper.ReportMapper">
 	
 	<!-- 신고하기 -->
 	<insert id="inputReport" parameterType="ReportVO">
-		<selectKey keyProperty="reportId" resultType="string">
-			select 'CHRP'||to_char(chal_report_seq.nextval) FROM DUAL
+		<selectKey keyProperty="reportId" resultType="string" order="BEFORE">
+			SELECT 'RP'||TO_CHAR(REPORT_SEQ.NEXTVAL) FROM DUAL
 		</selectKey>
 		INsert into Reports
-		values(#{reportId}, #{fromId}, #{toId}, CURRENT_DATE, #{reason}, #{detailReason}, "신고접수", '챌린저스', "#{groupId}")
+		values(#{reportId}, #{fromId}, #{toId}, CURRENT_DATE, #{reason}, #{detailReason}, '신고대기', '챌린저스', #{groupId})
 	</insert>
 	
 	<!-- 신고 수정 - 관리자 입장에서 반려하거나, 제재하거나 할 때  -->

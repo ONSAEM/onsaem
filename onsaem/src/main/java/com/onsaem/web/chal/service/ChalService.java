@@ -39,5 +39,8 @@ public interface ChalService {
 	//기부금 3등까지
 	List<ChalVO> donateRank();
 	
+	//신고
+	
+	
 	
 }
