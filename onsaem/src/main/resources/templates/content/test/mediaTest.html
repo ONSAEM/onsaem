@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
+		type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
+		type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}"
+		type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
+</th:block>
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+<style type="text/css">
+.wrapper {
+	max-width: 900px;
+	width: 100%;
+	background: #fff;
+	margin: 50px auto;
+	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.125);
+	padding: 30px;
+}
+
+.wrapper .title {
+	font-size: 24px;
+	font-weight: 700;
+	margin-bottom: 25px;
+	color: #5bc1ac;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.wrapper .form {
+	width: 100%;
+}
+
+.wrapper .form .inputfield {
+	margin-bottom: 15px;
+	display: flex;
+	align-items: center;
+}
+
+.wrapper .form .inputfield label {
+	width: 20%;
+	color: #757575;
+	font-size: 14px;
+}
+
+.wrapper .form .inputfield .request {
+	color: red;
+	font-size: 20px;
+}
+
+.wrapper .form .inputfield .input, .wrapper .form .inputfield .textarea
+	{
+	width: 50%;
+	outline: none;
+	border: 1px solid #d5dbd9;
+	font-size: 15px;
+	padding: 8px 10px;
+	border-radius: 3px;
+	transition: all 0.3s ease;
+}
+
+.wrapper .form .inputfield .textarea {
+	width: 100%;
+	height: 125px;
+	resize: none;
+}
+
+.wrapper .form .inputfield .custom_select {
+	position: relative;
+	height: 37px;
+}
+
+.wrapper .form .inputfield .custom_select:before {
+	content: "";
+	position: absolute;
+	top: 12px;
+	right: 10px;
+	border: 8px solid;
+	border-color: #d5dbd9 transparent transparent transparent;
+	pointer-events: none;
+}
+
+.wrapper .form .inputfield .custom_select select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	outline: none;
+	width: 100%;
+	height: 100%;
+	border: 0px;
+	padding: 8px 10px;
+	font-size: 15px;
+	border: 1px solid #d5dbd9;
+	border-radius: 3px;
+}
+
+.wrapper .form .emailCk {
+	display: none;
+}
+
+.wrapper .form .inputfield .input:focus, .wrapper .form .inputfield .textarea:focus,
+	.wrapper .form .inputfield .custom_select select:focus {
+	border: 1px solid #fec107;
+}
+
+.wrapper .form .inputfield p {
+	font-size: 14px;
+	color: #757575;
+}
+
+.wrapper .form .inputfield .check {
+	width: 15px;
+	height: 15px;
+	position: relative;
+	display: block;
+	cursor: pointer;
+}
+
+.wrapper .form .inputfield .check input[type="checkbox"] {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+}
+
+.wrapper .form .inputfield .check .checkmark {
+	width: 15px;
+	height: 15px;
+	border: 1px solid #5bc1ac;
+	display: block;
+	position: relative;
+}
+
+.wrapper .form .inputfield .check .checkmark:before {
+	content: "";
+	position: absolute;
+	top: 1px;
+	left: 2px;
+	width: 5px;
+	height: 2px;
+	border: 2px solid;
+	border-color: transparent transparent #fff #fff;
+	transform: rotate(-45deg);
+	display: none;
+}
+
+.wrapper .form .inputfield .check input[type="checkbox"]:checked ~
+	.checkmark {
+	background: #5bc1ac;
+}
+
+.wrapper .form .inputfield .check input[type="checkbox"]:checked ~
+	.checkmark:before {
+	display: block;
+}
+
+.wrapper .form .inputfield .btn, .wrapper .form .inputfield  .checkBtn {
+	margin: 0px auto;
+	padding: 8px 10px;
+	font-size: 15px;
+	border: 0px;
+	background: #5bc1ac;
+	color: #fff;
+	cursor: pointer;
+	border-radius: 3px;
+	outline: none;
+}
+
+.wrapper .form .inputfield .btn {
+	width: 100%;
+}
+
+.form .inputfield .checkBtn {
+	width: 20%;
+}
+
+.wrapper .form .inputfield .btn:hover, .wrapper .form .inputfield  .checkBtn:hover
+	{
+	background: #42a18d;
+}
+
+.wrapper .form .inputfield:last-child {
+	margin-bottom: 0;
+}
+
+@media ( max-width :420px) {
+	.wrapper .form .inputfield {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.wrapper .form .inputfield label {
+		margin-bottom: 5px;
+	}
+	.wrapper .form .inputfield.terms {
+		flex-direction: row;
+	}
+}
+
+.filebox {
+	margin-bottom: 15px;
+	display: flex;
+	align-items: center;
+}
+
+.filebox .inputfile {
+	width: 50%;
+	outline: none;
+	border: 1px solid #d5dbd9;
+	font-size: 15px;
+	padding: 8px 10px;
+	border-radius: 3px;
+	transition: all 0.3s ease;
+	cursor: default;
+}
+
+.inputfield #preview-image {
+	width: 300px;
+	height: 300px;
+	margin: 0px auto;
+}
+
+.filebox .filelabel {
+	width: 20%;
+	margin: 0px auto;
+	padding: 8px 10px;
+	font-size: 15px;
+	border: 0px;
+	background: #5bc1ac;
+	color: #fff;
+	cursor: pointer;
+	border-radius: 3px;
+	outline: none;
+	text-align: center;
+}
+
+.filebox .filelabel:hover {
+	background: #42a18d;
+}
+
+.filebox #file {
+	position: absolute;
+	width: 0;
+	height: 0;
+	padding: 0;
+	overflow: hidden;
+	border: 0;
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+
+		<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-section set-bg"
+			th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 text-center">
+						<div class="breadcrumb__text">
+							<h2>Onsaem SignUp</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section End -->
+		<br>
+		<div class="wrapper">
+			<div class="title">사진등록 테스트</div>
+			<div class="form">
+				<form name="mediaFrm">
+					<div class="inputfield">
+						<img id="preview-image"
+							src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
+					</div>
+					<div class="filebox">
+						<label style="width: 20%;"></label> <input
+							class="inputfile" placeholder="프로필사진" readonly> <label
+							for="file" class="filelabel">사진등록</label> <input type="file"
+							id="file" name="uploadfile" multiple="multiple">
+					</div>
+					<input type="hidden" name="groupId" value="test"> <input
+						type="hidden" name="groups" value="테스트용이미지">
+					<div class="inputfield">
+						<input type="button" value="등록" class="btn sendMedia">
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			$("#file").on('change', function() {
+				var fileName = $("#file").val();
+				$(".inputfile").val(fileName);
+				readURL(this);
+			});
+
+			function readURL(obj) {
+				let reader = new FileReader();
+				if (!obj.files.length) {
+					return;
+				}
+				reader.readAsDataURL(obj.files[0]);
+				reader.onload = function(e) {
+					$('#preview-image').attr('src', e.target.result);
+				}
+			}
+
+			$(".sendMedia").on('click', function() {
+				var data = new FormData($('form')[0]);
+				console.log(data);
+				$.ajax({
+					url : '/mediaTest',
+					enctype: 'multipart/form-data',
+					method : 'POST',
+					processData: false,
+					contentType: false,
+					data : data,
+					dataType:'json',
+					success : function(result) {
+						$(".classList").append(makePageing(result));
+					},
+					error : function(error) {
+						console.log(error);
+						alert('실패');
+					}
+				})
+			});
+		</script>
+
+		<!-- JS -->
+		<th:block layout:fragment="script">
+			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery-ui.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.slicknav.js}"></script>
+			<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/main.js}"></script>
+		</th:block>
+	</div>
+
+</body>
+</html>
