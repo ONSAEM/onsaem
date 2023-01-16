@@ -218,10 +218,14 @@ margin-bottom: 15px;
   transition: all 0.3s ease;
   cursor:default;
 }
+.filebox #preview-image{
+	width: 300px; 
+	height:300px; 
+	margin: 0px auto;
+}
 .filebox .filelabel {
-  width:  20%;
+  width: 20%;
   margin: 0px auto;
-  margin-left: 20px;
   padding: 8px 10px;
   font-size: 15px; 
   border: 0px;
@@ -236,7 +240,7 @@ margin-bottom: 15px;
 background: #42a18d;
 }
 
-.filebox #fileInput {
+.filebox #file {
     position: absolute;
     width: 0;
     height: 0;
@@ -270,12 +274,13 @@ background: #42a18d;
     </div>
     <div class="form">
     <div class="inputfield">
-    <img style="width: 30%;" id="preview-image" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
+    <img id="preview-image" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
 	</div>
 	<div class="filebox">
+	<label style="width: 20%;"></label>
     <input class="inputfile" placeholder="프로필사진" readonly>
     <label for="file" class="filelabel">사진등록</label> 
-    <input type="file" id="fileInput">
+    <input type="file" id=file>
 	</div>
        <div class="inputfield">
           <label>아이디</label>
@@ -348,31 +353,19 @@ background: #42a18d;
 		$("#file").on('change',function(){
 		  var fileName = $("#file").val();
 		  $(".inputfile").val(fileName);
+		  readURL(this);
 		});
-	
-		function readImage(fileInput) {
-		    // 인풋 태그에 파일이 있는 경우
-		    if(fileInput.files && fileInput.files[0]) {
-		        // 이미지 파일인지 검사 (생략)
-		        // FileReader 인스턴스 생성
-		        let reader = new FileReader()
-		        // 이미지가 로드가 된 경우
-		        
-		       $(reader).onload(function(){
-		    	   $("#preview-image").attr("src",)
-		       });
-		        reader.onload = e => {
-		            const previewImage = document.getElementById("preview-image")
-		            previewImage.src = e.target.result
-		        }
-		        // reader가 이미지 읽도록 하기
-		        reader.readAsDataURL(input.files[0])
-		    }
-		}
-		// input file에 change 이벤트 부여
-		$(".fileInput").on('change',function(){
-			readImage(this);
-		})
+		
+		function readURL(obj) {
+            let reader = new FileReader();
+            if(!obj.files.length) {
+                return;
+            }
+            reader.readAsDataURL(obj.files[0]);
+            reader.onload = function (e) {
+                $('#preview-image').attr('src', e.target.result);
+            }
+        }
 	</script>
 	
 	<!-- JS -->
