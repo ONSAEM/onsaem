@@ -1,6 +1,5 @@
 package com.onsaem.web.member.web;
 
-import org.apache.tomcat.util.modeler.modules.ModelerSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,5 +24,11 @@ public class MemberController {
 		model.addAttribute("excep", excep);
 		return "content/member/loginForm";
 	}
+	
+	// 회원가입페이지 이동
+		@RequestMapping(value = "/SignUpPage", method = RequestMethod.GET)
+		public String SignUpPage() {
+			return "content/member/signUpForm";
+		}
 
 }
