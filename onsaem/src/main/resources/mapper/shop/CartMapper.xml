@@ -56,4 +56,6 @@
 			MEMBER_ID =#{memberId}
 		</if>
 	</delete>
+	
+	
 </mapper>

@@ -58,6 +58,7 @@ h1 {
 </style>
 </head>
 
+
 <title>shop detail</title>
 
 
@@ -118,15 +119,7 @@ h1 {
 									(fileRoute=${product.fileRoute},mediaName=${product.mediaName})}"
 								alt="">
 						</div>
-						<div class="product__details__pic__slider owl-carousel">
 
-							<img th:each="img:${imgList}"
-								th:data-imgbigurl="@{{fileRoute}{mediaName}/
-									(fileRoute=${img.fileRoute},mediaName=${img.mediaName})}"
-								th:src="@{{fileRoute}{mediaName}/
-									(fileRoute=${img.fileRoute},mediaName=${img.mediaName})}"
-								alt="">
-						</div>
 					</div>
 				</div>
 				<div class="col-lg-6 col-md-6">
@@ -166,7 +159,7 @@ h1 {
 						</div>
 						<a th:onclick="cartEvent(this)" class="primary-btn">구매하기</a>
 						<ul>
-							<li><b>Shipping</b> <span>01 day shipping. 
+							<li><b>Shipping</b> <span>01 day shipping. </span>
 						</ul>
 					</div>
 				</div>
@@ -174,85 +167,84 @@ h1 {
 					<div class="product__details__tab">
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item"><a class="nav-link active"
-								data-toggle="tab" href="#tabs-1" role="tab" aria-selected="true">Description</a>
+								data-toggle="tab" href="#tabs-1" role="tab" aria-selected="true">상품상세정보</a>
 							</li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tabs-2" role="tab" aria-selected="false">Information</a>
-							</li>
+								href="#tabs-2" role="tab" aria-selected="false">상품리뷰<span th:text="'('+${#lists.size(reviewList)}+')'">(1)</span></a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tabs-3" role="tab" aria-selected="false">Reviews <span>(1)</span></a>
+								href="#tabs-3" role="tab" aria-selected="false">상품문의 </a>
 							</li>
 						</ul>
+
+						<!-- 상품상세보기 -->
 						<div class="tab-content">
-							<div class="tab-pane active" id="tabs-1" role="tabpanel">
+							<div class="tab-pane active" id="tabs-1" role="tabpanel"
+								th:each=product:${productList}>
 								<div class="product__details__tab__desc">
-									<h6>Products Infomation</h6>
-									<p>Vestibulum ac diam sit amet quam vehicula elementum sed
-										sit amet dui. Pellentesque in ipsum id orci porta dapibus.
-										Proin eget tortor risus. Vivamus suscipit tortor eget felis
-										porttitor volutpat. Vestibulum ac diam sit amet quam vehicula
-										elementum sed sit amet dui. Donec rutrum congue leo eget
-										malesuada. Vivamus suscipit tortor eget felis porttitor
-										volutpat. Curabitur arcu erat, accumsan id imperdiet et,
-										porttitor at sem. Praesent sapien massa, convallis a
-										pellentesque nec, egestas non nisi. Vestibulum ac diam sit
-										amet quam vehicula elementum sed sit amet dui. Vestibulum ante
-										ipsum primis in faucibus orci luctus et ultrices posuere
-										cubilia Curae; Donec velit neque, auctor sit amet aliquam vel,
-										ullamcorper sit amet ligula. Proin eget tortor risus.</p>
-									<p>Praesent sapien massa, convallis a pellentesque nec,
-										egestas non nisi. Lorem ipsum dolor sit amet, consectetur
-										adipiscing elit. Mauris blandit aliquet elit, eget tincidunt
-										nibh pulvinar a. Cras ultricies ligula sed magna dictum porta.
-										Cras ultricies ligula sed magna dictum porta. Sed porttitor
-										lectus nibh. Mauris blandit aliquet elit, eget tincidunt nibh
-										pulvinar a. Vestibulum ac diam sit amet quam vehicula
-										elementum sed sit amet dui. Sed porttitor lectus nibh.
-										Vestibulum ac diam sit amet quam vehicula elementum sed sit
-										amet dui. Proin eget tortor risus.</p>
+									<div class="product__details__pic__slider owl-carousel">
+										<img th:each="img:${imgList}"
+											th:data-imgbigurl="@{{fileRoute}{mediaName}/
+									(fileRoute=${img.fileRoute},mediaName=${img.mediaName})}"
+											th:src="@{{fileRoute}{mediaName}/
+									(fileRoute=${img.fileRoute},mediaName=${img.mediaName})}"
+											alt="">
+									</div>
+									<br>
+									<h6 th:text="${product.productName}">Products Infomation</h6>
+									<p th:text="${product.productInfo}"></p>
+									<div th:each="nature:${natureImg}">
+										<img
+											th:data-imgbigurl="@{{fileRoute}{mediaName}/
+									(fileRoute=${nature.fileRoute},mediaName=${nature.mediaName})}"
+											th:src="@{{fileRoute}{mediaName}/
+									(fileRoute=${nature.fileRoute},mediaName=${nature.mediaName})}"
+											alt="">
+									</div>
+									<p></p>
 								</div>
 							</div>
+
+							<!-- 상품리뷰 -->
 							<div class="tab-pane" id="tabs-2" role="tabpanel">
 								<div class="product__details__tab__desc">
-									<h6>Products Infomation</h6>
-									<p>Vestibulum ac diam sit amet quam vehicula elementum sed
-										sit amet dui. Pellentesque in ipsum id orci porta dapibus.
-										Proin eget tortor risus. Vivamus suscipit tortor eget felis
-										porttitor volutpat. Vestibulum ac diam sit amet quam vehicula
-										elementum sed sit amet dui. Donec rutrum congue leo eget
-										malesuada. Vivamus suscipit tortor eget felis porttitor
-										volutpat. Curabitur arcu erat, accumsan id imperdiet et,
-										porttitor at sem. Praesent sapien massa, convallis a
-										pellentesque nec, egestas non nisi. Vestibulum ac diam sit
-										amet quam vehicula elementum sed sit amet dui. Vestibulum ante
-										ipsum primis in faucibus orci luctus et ultrices posuere
-										cubilia Curae; Donec velit neque, auctor sit amet aliquam vel,
-										ullamcorper sit amet ligula. Proin eget tortor risus.</p>
-									<p>Praesent sapien massa, convallis a pellentesque nec,
-										egestas non nisi. Lorem ipsum dolor sit amet, consectetur
-										adipiscing elit. Mauris blandit aliquet elit, eget tincidunt
-										nibh pulvinar a. Cras ultricies ligula sed magna dictum porta.
-										Cras ultricies ligula sed magna dictum porta. Sed porttitor
-										lectus nibh. Mauris blandit aliquet elit, eget tincidunt nibh
-										pulvinar a.</p>
+									<main>
+										<section class="news-section section-padding">
+											<div class="container">
+												<div class="row">
+													<div class="author-comment d-flex mt-3 mb-4"
+														th:each=" review : ${reviewList}">
+														<img
+															th:src="@{/images/avatar/studio-portrait-emotional-happy-funny.jpg}"
+															class="img-fluid avatar-image" alt="">
+
+														<div class="author-comment-info ms-3">
+															<h6 class="mb-1">
+																<span style="font-weight: bold">[[${review.writerId}]]</span>
+																([[${#dates.format(review.reviewDate, 'YY.MM.DD
+																HH:mm')}]])
+															</h6>
+															<p class="mb-0">[[${review.reviewContent}]]</p>
+															<i class="fa fa-star"
+																th:each="num:${#numbers.sequence(1,review.reviewStar)}"></i>
+															<i class="fa-solid fa-star-half"
+																th:if="${review.reviewStar%1 >= 0.5}"></i>
+															<div class="d-flex mt-2">
+																<button href="#" class="openBtn">신고</button>
+															</div>
+														</div>
+													</div>													
+												</div>
+											</div>
+										</section>
+									</main>
 								</div>
 							</div>
+
+							<!-- 상품문의 -->
 							<div class="tab-pane" id="tabs-3" role="tabpanel">
 								<div class="product__details__tab__desc">
 									<h6>Products Infomation</h6>
-									<p>Vestibulum ac diam sit amet quam vehicula elementum sed
-										sit amet dui. Pellentesque in ipsum id orci porta dapibus.
-										Proin eget tortor risus. Vivamus suscipit tortor eget felis
-										porttitor volutpat. Vestibulum ac diam sit amet quam vehicula
-										elementum sed sit amet dui. Donec rutrum congue leo eget
-										malesuada. Vivamus suscipit tortor eget felis porttitor
-										volutpat. Curabitur arcu erat, accumsan id imperdiet et,
-										porttitor at sem. Praesent sapien massa, convallis a
-										pellentesque nec, egestas non nisi. Vestibulum ac diam sit
-										amet quam vehicula elementum sed sit amet dui. Vestibulum ante
-										ipsum primis in faucibus orci luctus et ultrices posuere
-										cubilia Curae; Donec velit neque, auctor sit amet aliquam vel,
-										ullamcorper sit amet ligula. Proin eget tortor risus.</p>
+									<p></p>
 								</div>
 							</div>
 						</div>
@@ -263,129 +255,47 @@ h1 {
 	</section>
 	<!-- Product Details Section End -->
 
-	<!-- Related Product Section Begin -->
-	<section class="related-product">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="section-title related__product__title">
-						<h2>Related Product</h2>
-					</div>
-				</div>
+	<!-- 상품신고모당창 -->
+	<div class="modal hidden">
+		<div class="modal__background"></div>
+		<div class="modal__content">
+			<h3>신고하기</h3>
+			<div class="modalText">
+				<p>사유선택</p>
+				<input type="checkbox" name="reason" id="ban1"
+					th:onclick="checkOnlyone(this)" value="욕설 및 비하 발언">욕설 및 비하
+				발언 <span id="1"></span><br> <input type="checkbox"
+					value="친환경 물품이 아님" id="ban2" name="reason"
+					th:onclick="checkOnlyone(this)"> 친환경 물품이 아님<span id="2"></span>
+
+				<br> <input type="checkbox" value="불건전한 게시물 등록" name="reason"
+					id="ban3" th:onclick="checkOnlyone(this)"> 불건전한 게시물 등록 <span
+					id="3"></span><br> <input type="checkbox" value="기타"
+					name="reason" id="ban4" th:onclick="checkOnlyone(this)"> 기타
+				<span id="4"></span> <br>
+
+				<button th:onclick="banSubmit()">신고하기</button>
+				<button class="closeBtn">닫기</button>
 			</div>
-			<div class="row">
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<div class="product__item">
-						<div class="product__item__pic set-bg"
-							th:data-setbg="@{/shoptemplate/img/product/product-1.jpg}">
-							<ul class="product__item__pic__hover">
-								<li><a href="#"><i class="fa fa-heart"></i></a></li>
-								<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-								<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-							</ul>
-						</div>
-						<div class="product__item__text">
-							<h6>
-								<a href="#">Crab Pool Security</a>
-							</h6>
-							<h5>$30.00</h5>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<div class="product__item">
-						<div class="product__item__pic set-bg"
-							th:data-setbg="@{/shoptemplate/img/product/product-2.jpg}">
-							<ul class="product__item__pic__hover">
-								<li><a href="#"><i class="fa fa-heart"></i></a></li>
-								<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-								<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-							</ul>
-						</div>
-						<div class="product__item__text">
-							<h6>
-								<a href="#">Crab Pool Security</a>
-							</h6>
-							<h5>$30.00</h5>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<div class="product__item">
-						<div class="product__item__pic set-bg"
-							th:data-setbg="@{/shoptemplate/img/product/product-3.jpg}">
-							<ul class="product__item__pic__hover">
-								<li><a href="#"><i class="fa fa-heart"></i></a></li>
-								<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-								<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-							</ul>
-						</div>
-						<div class="product__item__text">
-							<h6>
-								<a href="#">Crab Pool Security</a>
-							</h6>
-							<h5>$30.00</h5>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<div class="product__item">
-						<div class="product__item__pic set-bg"
-							th:data-setbg="@{/shoptemplate/img/product/product-7.jpg}">
-							<ul class="product__item__pic__hover">
-								<li><a href="#"><i class="fa fa-heart"></i></a></li>
-								<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-								<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-							</ul>
-						</div>
-						<div class="product__item__text">
-							<h6>
-								<a href="#">Crab Pool Security</a>
-							</h6>
-							<h5>$30.00</h5>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="modal hidden">
-				<div class="modal__background"></div>
-				<div class="modal__content">
-					<h3>신고하기</h3>
-					<div class="modalText">
-						<p>사유선택</p>
-						<input type="checkbox" name="reason" id="ban1"
-							th:onclick="checkOnlyone(this)" value="욕설 및 비하 발언">욕설 및
-						비하 발언 <span id="1"></span><br> <input type="checkbox"
-							value="친환경 물품이 아님" id="ban2" name="reason"
-							th:onclick="checkOnlyone(this)"> 친환경 물품이 아님<span id="2"></span>
-
-						<br> <input type="checkbox" value="불건전한 게시물 등록" name="reason"
-							id="ban3" th:onclick="checkOnlyone(this)"> 불건전한 게시물 등록 <span
-							id="3"></span><br> <input type="checkbox" value="기타"
-							name="reason" id="ban4" th:onclick="checkOnlyone(this)">
-						기타 <span id="4"></span> <br>
-
-						<button th:onclick="banSubmit()">신고하기</button>
-						<button class="closeBtn">닫기</button>
-					</div>
-				</div>
-			</div>
-
 		</div>
+	</div>
 
-		<!-- JS -->
-		<th:block layout:fragment="script">
-			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
-			<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
-			<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
-			<script th:src="@{/shoptemplate/js/jquery-ui.min.js}"></script>
-			<script th:src="@{/shoptemplate/js/jquery.slicknav.js}"></script>
-			<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
-			<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
-			<script th:src="@{/shoptemplate/js/main.js}"></script>
+	
 
-			<script type="text/javascript">
+
+
+	<!-- JS -->
+	<th:block layout:fragment="script">
+		<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
+		<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
+		<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
+		<script th:src="@{/shoptemplate/js/jquery-ui.min.js}"></script>
+		<script th:src="@{/shoptemplate/js/jquery.slicknav.js}"></script>
+		<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
+		<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
+		<script th:src="@{/shoptemplate/js/main.js}"></script>
+
+		<script type="text/javascript">
 				function changeHeart(data){	
 					const urlParams = new URL(location.href).searchParams;
 					const name = urlParams.get('data');	
@@ -418,10 +328,7 @@ h1 {
 				}
 			
 					
-				
-			/* 	let id="[[${session.id}]]";
-				console.log("[[${param.data}]]"); */
-				//모달창 생성
+				//상품신고모달창 생성
 				const openButton = document.querySelector(".openBtn");
 				const modal = document.querySelector(".modal");
 				const closeButton = modal.querySelector(".closeBtn");
@@ -434,6 +341,7 @@ h1 {
 				openButton.addEventListener("click", displayModal);
 				closeButton.addEventListener("click", displayModal)
 				modalBackground.addEventListener("click", displayModal);
+			
 				
 				//신고체크박스시 자세내용적기 창 생성
 				function checkOnlyone(element){
@@ -477,7 +385,6 @@ h1 {
 					  .then((data)=>location.href="http://localhost/shop")	
 				}
 			</script>
-		</th:block>
-	</section>
-	<!-- Related Product Section End -->
+	</th:block>
 </div>
+<!-- Related Product Section End -->

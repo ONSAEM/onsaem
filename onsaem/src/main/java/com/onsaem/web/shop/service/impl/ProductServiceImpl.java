@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.ReportVO;
+import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.shop.mapper.ProductMapper;
 import com.onsaem.web.shop.service.ProductService;
 import com.onsaem.web.shop.service.ProductVO;
@@ -93,6 +94,24 @@ public class ProductServiceImpl implements ProductService{
 	public int addBan(ReportVO vo) {
 		// 신고등록
 		return proMapper.addBan(vo);
+	}
+
+	@Override
+	public List<ProductVO> natureImg(String data) {
+		// 친환경이미지
+		return proMapper.natureImg(data);
+	}
+
+	@Override
+	public List<ReviewVO> reviewList(String data) {
+		// 상품리뷰리스트
+		return proMapper.reviewList(data);
+	}
+
+	@Override
+	public int delMyLike(ProductVO vo) {
+		// 나의찜삭제
+		return proMapper.delMyLike(vo);
 	}
 
 	
