@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onsaem.web.shop.mapper.OrderMapper">
+	<!-- 구매자 정보가져오기 -->
+	<select id="userData" resultType="com.onsaem.web.member.service.MemberVO">
+		SELECT *
+		FROM MEMBERS
+		WHERE MEMBER_ID=#{memberId}
+	</select>
+</mapper>

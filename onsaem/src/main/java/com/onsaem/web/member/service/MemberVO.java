@@ -2,7 +2,6 @@ package com.onsaem.web.member.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -33,7 +32,7 @@ public class MemberVO implements UserDetails{
 	private int point;
 	private String status;
 	private String memberId;
-	
+	private String name;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

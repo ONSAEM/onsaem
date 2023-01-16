@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.ReportVO;
+import com.onsaem.web.member.service.MemberVO;
 import com.onsaem.web.shop.service.CartService;
 import com.onsaem.web.shop.service.CartVO;
 import com.onsaem.web.shop.service.ProductService;
@@ -172,4 +173,6 @@ public class ProductController {
 		proService.delMyLike(vo);	
 		return "content/shop/shopLike";
 	}
+	
+	
 }

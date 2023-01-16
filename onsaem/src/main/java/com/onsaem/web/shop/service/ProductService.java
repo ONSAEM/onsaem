@@ -6,6 +6,7 @@ import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.common.service.ReviewVO;
+import com.onsaem.web.member.service.MemberVO;
 
 public interface ProductService {
 	//상품전체목록(최신순)
@@ -55,4 +56,5 @@ public interface ProductService {
 	
 	//나의찜삭제
 	int delMyLike(ProductVO vo);
+
 }
