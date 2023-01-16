@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,16 +16,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.onsaem.web.chal.service.BankService;
 import com.onsaem.web.chal.service.ChalService;
 import com.onsaem.web.chal.service.ChalVO;
 import com.onsaem.web.chal.service.MediaService;
 import com.onsaem.web.chal.service.ParticipantService;
+import com.onsaem.web.chal.service.ParticipantVO;
 import com.onsaem.web.chal.service.ProofService;
 import com.onsaem.web.chal.service.ProofVO;
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.PaymentVO;
 import com.onsaem.web.common.service.RefundVO;
+import com.onsaem.web.member.service.MemberService;
 
 @Controller
 @CrossOrigin(origins="*")
@@ -33,6 +40,8 @@ public class ChalMypageController {
 	@Autowired ChalService chalService;
 	@Autowired ProofService proofService;
 	@Autowired ParticipantService partService;
+	@Autowired MemberService memService;
+	@Autowired BankService bankService;
 
 	
 	//권한 - 일반회원의 챌린저스 마이페이지 첫화면, 진행중 챌린지 띄우깅
@@ -97,13 +106,17 @@ public class ChalMypageController {
 	//권한 - 일반회원의 챌린저스 마이페이지 - 시작전 챌린지 모음
 	@RequestMapping(value="/myBeforeChal",method=RequestMethod.GET)
 	public String myBeforeChalList(Model model,ChalVO vo, HttpServletRequest req) {
-		HttpSession session = req.getSession();
-//		//세션에서 가져온 로그인 된 id값
-		String id = (String)session.getAttribute("id");
 		
-		vo.setMemberId("hodu");
+		/*
+		 * // //세션에서 가져온 로그인 된 id값 UserDetails userDetails = (UserDetails)
+		 * authentication.getPrincipal(); 
+		 */
+		
+		vo.setParticipantId("hodu");
 		//이용자가 참가한 시작 전인 챌린지들 가져오기.
 		List<ChalVO> list=chalService.myBeforeChal(vo);
+		System.out.println(list);
+		System.out.println(list.size());
 		
 		if(list.size()>0){
 			model.addAttribute("chals", list);
@@ -114,29 +127,36 @@ public class ChalMypageController {
 		//썸네일 조회
 		model.addAttribute("pics", proofService.myChalThumnails(vo));
 		
+		//은행들 가져오기
+		model.addAttribute("banks", bankService.listBank());
+
+		//개인 정보 가져오기
+		model.addAttribute("user", memService.getMember("hodu"));
+		
 		return "content/challengers/MyBeforeChal";
 	}
 	
 	//마이페이지 시작전 챌린지 모음 - 취소하기
 	@RequestMapping(value="/myBeforeChal",method=RequestMethod.POST)
-	public String CabcelChal(ChalVO vo, HttpServletRequest req, RefundVO rvo) {
-		HttpSession session = req.getSession();
-//		//세션에서 가져온 로그인 된 id값
-		String id = (String)session.getAttribute("id");
+	@ResponseBody
+	public String CabcelChal(@RequestBody RefundVO rvo,ParticipantVO pvo, PaymentVO yvo, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+		//환불테이블에 추가
 		
-		vo.setMemberId("hodu");
+		partService.inputRefund(rvo);
 		
 		//participant테이블에서 삭제갈김 - 이것도 update로 해야할지 판단필요
 		
-		partService.delParticipant(id);
+		partService.delParticipant(pvo);
 		
 		//결제 테이블에서 update
 		
+		partService.updateForRefund(yvo);
 		
-		//환불테이블에 추가
-		partService.inputRefund(rvo);
 		
-		return "content/challengers/MyCurrentChal";
+		
+		return "content/challengers/MyBeforeChal";
 	}
 		
 		

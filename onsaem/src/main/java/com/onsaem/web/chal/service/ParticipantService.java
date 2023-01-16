@@ -20,14 +20,14 @@ public interface ParticipantService {
 		Integer inputParticipant(ParticipantVO vo);
 		
 		//챌린저스 참가 취소
-		Integer delParticipant(String ParticipantId);
+		Integer delParticipant(ParticipantVO vo);
 		
 		//참가 시 결제
 		Integer inputPayment(PaymentVO vo);
-		
-		//참가 취소 시 결제테이블에서 삭제
-		Integer delPayment();
-		
+				
 		//환불테이블에 등록
 		Integer inputRefund(RefundVO vo);
+		
+		//참가 취소 시 결제테이블 수정
+		Integer updateForRefund(PaymentVO vo);
 }

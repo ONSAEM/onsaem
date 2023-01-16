@@ -17,4 +17,5 @@ public class PaymentVO {
 	Date payDate;
 	String groupId;
 	String groups;
+	String status;
 }
