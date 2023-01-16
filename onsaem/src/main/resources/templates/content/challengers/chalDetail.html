@@ -373,7 +373,7 @@
 
 				  let groupId= "[[${chals.chalId}]]";
 		          let toId="[[${chals.memberId}]]";
-		          let detailReason = document.getElementById("detailReason").value;
+     			  let detailReason = document.getElementById("detailReason").value;
 		          console.log(detailReason);
 		          let reason = "불량챌린지";
 
@@ -384,12 +384,12 @@
 		              contentType : 'application/json',
 		              data: JSON.stringify({groupId:groupId,
 		                 toId:toId,
-		                 detailReaon:detailReason,
+		                 detailReason:detailReason,
 		                 reason:reason}),
 		              success : function(result){
 		                 console.log(result);
 		                 alert('신고 접수 완료');
-		                 location.href="http://localhost/detailChal";
+		                 location.href="http://localhost/detailChal?chalId="+groupId;
 		              },
 		              error : function(error){
 		                 console.log(error);

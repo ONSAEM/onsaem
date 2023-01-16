@@ -70,7 +70,6 @@ public class ChalMypageController {
 	
 	//인증샷 넣기 ! 
 	@RequestMapping(value="/myCurrentChal",method=RequestMethod.POST)
-	
 	public String inputProof(@RequestBody ProofVO pvo, HttpServletRequest req) {
 		HttpSession session = req.getSession();
 		MediaVO vo = new MediaVO();
