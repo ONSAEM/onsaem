@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<!-- Google Font -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
+	rel="stylesheet">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
+		type="text/css">
+</th:block>
+
+<div layout:fragment="content">
+	<!-- Breadcrumb Section Begin -->
+	<section class="breadcrumb-section set-bg"
+		th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<div class="breadcrumb__text">
+						<h2>주문결제</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Breadcrumb Section End -->
+	<form>
+		<br>
+		<h3>주문결제</h3>
+		<div>
+			<br>
+			<h4>구매자정보</h4>
+			<ul th:each="user:${userData}">
+				<li>이름 [[${user.name}]]</li>
+				<li>이메일 [[${user.email}]]</li>
+				<li>휴대폰 번호 [[${user.phone}]]</li>
+			</ul>
+			<br>
+			<h4>받는사람정보</h4>
+			<ul th:each="user:${userData}">
+				<li>이름 [[${user.name}]]</li>
+				<li>배송주소 <input type="text" id="sample6_postcode"
+					placeholder="우편번호" name="postalCode"> <input type="button"
+					onclick="sample6_execDaumPostcode()" value="우편번호 찾기"> <br>
+					<input type="text" id="sample6_address" placeholder="주소"
+					name="addr"> <br> <input type="text"
+					id="sample6_detailAddress" placeholder="상세주소" name="detailAddr">
+					<input type="text" id="sample6_extraAddress" placeholder="참고항목"></li>
+				<li>휴대폰 번호 <input placeholder="- 빼고 작성해주세요">
+				</li>
+				<li>요청사항 <input>
+				</li>
+			</ul>
+			<br>
+			<h4>구매정보</h4>
+			<ul th:each="product:${productList}">
+				<li>상품명 [[${product.productName}]]</li>
+				<li><img th:src="@{{fileRoute}{mediaName}/
+									(fileRoute=${product.fileRoute},mediaName=${product.mediaName})}"
+					alt=""></li>
+				
+			</ul>
+
+		</div>
+	</form>
+	<th:block layout:fragment="script">
+		<script th:src="@{/shoptemplate/js/main.js}"></script>
+	</th:block>
+
+</div>
