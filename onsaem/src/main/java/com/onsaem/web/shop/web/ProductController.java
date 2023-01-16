@@ -41,11 +41,15 @@ public class ProductController {
 	@RequestMapping(value = "/shop", method = RequestMethod.GET)
 	public String shopMain(Model model, @RequestParam(value = "data", required = false) String data,
 			Authentication authentication) {
+		System.out.println("======================="+authentication);
+		if(authentication!=null) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		cartVo.setMemberId(userDetails.getUsername());
 		likeVo.setMemberId(userDetails.getUsername());
 		model.addAttribute("cartList", cartService.cartList(cartVo)); // 장바구니 수량가져오기 위한 리스트
 		model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
+		}		
+		
 		if (data != null && data.equals("popularity")) {
 			model.addAttribute("productList", proService.popList());
 			return "content/shop/shopMain";

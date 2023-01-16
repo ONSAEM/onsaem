@@ -91,10 +91,10 @@
 								</label>
 							</div>
 							<ul>
-								<li><a href="/likeList"><i class="fa fa-heart"></i> <span
-										th:text="${#lists.size(likeList)}">1</span></a></li>
-								<li><a th:href="@{/shopCart}"><i class="fa fa-shopping-bag"></i> <span
-										th:text="${#lists.size(cartList)}">3</span></a></li>
+								<li><a href="/likeList"><i class="fa fa-heart" sec:authorize="isAuthenticated()"></i> <span
+										th:text="${#lists.size(likeList)}"  sec:authorize="isAuthenticated()">1</span></a></li>
+								<li><a th:href="@{/shopCart}"><i class="fa fa-shopping-bag" sec:authorize="isAuthenticated()"></i> <span
+										th:text="${#lists.size(cartList)}"  sec:authorize="isAuthenticated()">3</span></a></li>
 							</ul>
 						</div>
 					</div>

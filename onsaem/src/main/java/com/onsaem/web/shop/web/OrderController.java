@@ -15,25 +15,34 @@ import com.onsaem.web.shop.service.OrderService;
 import com.onsaem.web.shop.service.ProductService;
 import com.onsaem.web.shop.service.ProductVO;
 
-
 @Controller
 @CrossOrigin(origins = "*")
 public class OrderController {
-	
+
 	@Autowired
 	ProductService proService;
 	@Autowired
 	CartService cartService;
 	@Autowired
 	OrderService orderService;
+
 	// 주문결제페이지이동
-		@RequestMapping(value = "/buyProduct", method = RequestMethod.GET)
-		public String buyProduct(Model model, ProductVO vo, Authentication authentication) {	
-			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-			MemberVO memberVO=new MemberVO();
-			memberVO.setMemberId(userDetails.getUsername());
-			model.addAttribute("userData",orderService.userData(memberVO));
-			model.addAttribute("productList",proService.selectPro(vo.getProductId()));
-			return "content/shop/shopBuy";
-		}
+	@RequestMapping(value = "/buyProduct", method = RequestMethod.GET)
+	public String buyProduct(Model model, ProductVO vo, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		MemberVO memberVO = new MemberVO();
+		memberVO.setMemberId(userDetails.getUsername());
+		model.addAttribute("userData", orderService.userData(memberVO));
+		model.addAttribute("productList", proService.selectPro(vo.getProductId()));
+		return "content/shop/shopBuy";
+	}
+
+	// 나의 주문목록
+	@RequestMapping(value = "/myOrder", method = RequestMethod.GET)
+	public String myOrder(Model model, ProductVO vo, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		
+		return "content/shop/myOrder";
+	}
+
 }

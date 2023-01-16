@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+
+<meta charset="UTF-8">
+<meta name="description" content="Ogani Template">
+<meta name="keywords" content="Ogani, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Ogani | Template</title>
+
+<!-- Google Font -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
+	rel="stylesheet">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
+		type="text/css">
+</th:block>
+
+
+
+<!-- Content -->
+
+<div layout:fragment="content">
+	<!-- Breadcrumb Section Begin -->
+	<section class="breadcrumb-section set-bg"
+		th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<div class="breadcrumb__text">
+						<h2>내 주문목록</h2>					
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Breadcrumb Section End -->
+
+	<!-- Shoping Cart Section Begin -->
+	<section class="shoping-cart spad">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="shoping__cart__table">
+						<table>
+							<thead>
+								<tr>
+									<th><input type="checkbox" th:onclick="checkBoxAll(this)"></input></th>
+									<th>상품이미지</th>
+									<th class="shoping__product">상품명</th>
+									<th>가격</th>
+									<th>옵션</th>
+									<th>수량</th>
+									<th>총가격</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="cart:${myCartList}">
+									<td><input type="checkbox" name="checkBox"
+										th:onchange="saveList([[${cart}]])"></input></td>
+									<td class="shoping__cart__item" style="width:389px"><img
+										th:src="@{{fileRoute}{mediaName}/
+									(fileRoute=${cart.fileRoute},mediaName=${cart.mediaName})}"
+										alt="" ></td>
+									<td><h5 th:text="${cart.productName}" id="productName">Fresh
+											Garden Vegetable</h5></td>
+									<td class="shoping__cart__price" id="cartPrice"
+										th:text="${cart.cartPrice}+원">$39.00</td>
+									<td th:text="${cartOption}">옵션</td>
+									<td class="shoping__cart__quantity">
+										<div class="quantity">
+											<div class="pro-qty" th:onclick="changeAmount()">
+												<input type="text" id="cartAmount"
+													th:value="${cart.cartAmount}">
+											</div>
+										</div>
+									</td>
+									<td class="shoping__cart__total" id="totalPrice"
+										th:text="${cart.cartPrice}*${cart.cartAmount}+원">$39.99</td>
+									<td class="shoping__cart__item__close" value=${cart.productId}
+										th:onclick="delCart([[${cart}]])"><span
+										class="icon_close"></span></td>
+
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<button th:onclick="selectDel()">선택삭제</button>
+			&nbsp
+			<button th:onclick="allDel([[${myCartList}]])">전체삭제</button>
+			<div class="row">
+
+				<div class="col-lg-6">
+					<div class="shoping__checkout">
+						<h5>장바구니 내역</h5>
+						<ul>
+							<li>총상품가격 <span>$454.98</span></li>
+							<li>배송비 <span>$454.98</span></li>
+							<li>총가격 <span>$454.98</span></li>
+						</ul>
+						<a href="#" class="primary-btn">구매하기</a>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- JS -->
+		<th:block layout:fragment="script">
+		
+			<script th:src="@{/shoptemplate/js/main.js}"></script>
+		</th:block>
+	</section>
+
+	<script type="text/javascript">
+		
+		//장바구니삭제
+		function delCart(data){
+			console.log(data.productId);	
+			let productId=data.productId;
+			let cartOption=data.cartOption;
+			let cartAmount=data.cartAmount;
+			
+			 fetch('/delCart',{
+					headers: {
+					    "Content-Type": "application/json",
+					  },
+					method:"post",
+					body: JSON.stringify({
+						productId: productId,
+						cartOption: cartOption,
+						cartAmount:cartAmount						
+					  })
+					})
+			  .then((response) => console.log('삭제되었습니다.'))
+			  .then((data)=>location.reload()) 
+		}
+		//전체체크박스 클릭
+		function checkBoxAll(checkBoxAll){
+			let checkboxes=document.getElementsByName('checkBox');			
+			checkboxes.forEach((checkbox) => {
+			    checkbox.checked = checkBoxAll.checked;
+			  })
+		}
+		
+		let carts=[];
+		//선택된 상품데이터 저장
+		function saveList(cart){			
+			carts.push(cart);
+		}
+		
+		//선택된 장바구니삭제
+		function selectDel(){
+			console.log(carts)
+			carts.forEach((cart)=>{
+				delCart(cart);
+			})
+		}
+		//전체 장바구니 삭제
+		function allDel(cartList){
+			console.log(cartList)
+			cartList.forEach((cart)=>{
+				delCart(cart)
+			}) 
+		}
+	</script>
+	<!-- Shoping Cart Section End -->
+</div>
