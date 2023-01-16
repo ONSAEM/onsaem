@@ -24,7 +24,6 @@ public class MomentController {
 	@ResponseBody
 	public MomentsVO getMoment(String momentId) {
 		MomentsVO vo = momentService.getMoment(momentId);
-
 		
 		return vo;
 	}
