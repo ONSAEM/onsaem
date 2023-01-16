@@ -1,5 +1,7 @@
 package com.onsaem.web.blog.web;
 
+import java.text.SimpleDateFormat;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +24,8 @@ public class MomentController {
 	@ResponseBody
 	public MomentsVO getMoment(String momentId) {
 		MomentsVO vo = momentService.getMoment(momentId);
+
+		
 		return vo;
 	}
 }
