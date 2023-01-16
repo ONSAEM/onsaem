@@ -57,7 +57,7 @@ public class BlogWriteController {
 		String id = userDetails.getUsername();
 		
 		model.addAttribute("blogWrite", blogWriteService.getBlog(bno)); // 블로그 단건 조회
-
+		
 		vo.setMemberId(id);
 		vo.setGroupId(bno);
 		model.addAttribute("likeCount", blogWriteService.likeCount(vo)); // 좋아요 조회

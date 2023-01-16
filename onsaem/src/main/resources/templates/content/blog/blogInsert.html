@@ -36,6 +36,11 @@
 
 <!-- Content -->
 <div layout:fragment="content">
+		<headers>
+
+			<frame-options disabled="true"/>
+
+		</headers>
 	<h1>글 등록</h1>
 	<form method="post" action="/blog/blogInsert" name="myfrm">
 		<ul>
@@ -80,7 +85,7 @@
 		$(".btn").on("click", function() {
 			oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
 			var value = document.getElementById("ir1").value;
-			console.log('[[${session.member.memberId}]]');
+			console.log('[(${#authentication.principal.memberId})]');
 			// location.href 세션 아이디 값이 안 땡겨와져요...
 			$.ajax({
 			      url: '/blog/myblog/blogWrite/blogInsert',
@@ -90,7 +95,7 @@
 			      success: function (result) {
 			         console.log(result);
 			         alert('등록 완료');
-			         location.href='/blog/myblog?userId='+'[[${session.member.memberId}]]'; 
+			         location.href='/blog/myblog?userId='+'[(${#authentication.principal.memberId})]'; 
 			      },
 			      error: function (error) {
 			         console.log(error);

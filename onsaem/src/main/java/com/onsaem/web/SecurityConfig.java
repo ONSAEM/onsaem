@@ -20,6 +20,11 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		
+		http.headers()
+        .frameOptions()
+        .sameOrigin(); //security 설정 추가
+		
 		http.authorizeHttpRequests((requests) -> requests
 	            .anyRequest().permitAll()
 	            );

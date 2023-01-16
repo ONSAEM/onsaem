@@ -36,10 +36,10 @@
 	url("https://fonts.googleapis.com/css?family=Cardo:400i|Rubik:400,700&display=swap")
 	;
 
-:root { -
-	-d: 700ms; -
-	-e: cubic-bezier(0.19, 1, 0.22, 1); -
-	-font-sans: "Rubik", sans-serif; -
+:root { 
+	-d: 700ms; 
+	-e: cubic-bezier(0.19, 1, 0.22, 1); 
+	-font-sans: "Rubik", sans-serif; 
 	-font-serif: "Cardo", serif;
 }
 
@@ -245,7 +245,8 @@
 			<div class="blog__sidebar__item">
 				<h3 style="text-align: center; margin: 0 auto;">
 					MOMENT
-					<button th:onclick="createMmt(this)">▶</button>
+					<a data-bs-toggle="modal" data-bs-target="#insertModal"
+				type="button">▶</a>
 				</h3>
 			</div>
 		</div>
@@ -255,15 +256,16 @@
 			<!-- 모달창 띄우는 버튼 -->
 			<a data-bs-toggle="modal" data-bs-target="#exampleModal"
 				type="button" th:each="moment : ${moments}" id="modalBtn">
-				<input type="hidden" id="mmtId" th:value="${moment.momentId}">
-				<div class="mmtcard" th:style="'background-image:url('+ @{${moment.fileRoute}} + @{${moment.mediaName}} + ');'">
-					<div class="mmtcontent">
-						<h2 class="mmttitle">@[[${moment.blogId}]]</h2>
-						<p class="mmtcopy">[[${moment.momentWrite}]]</p>
-						<button class="mmtbtn">more</button>
+					<input type="hidden" id="mmtId" th:value="${moment.momentId}">
+					<div class="mmtcard" th:style="'background-image:url('+ @{${moment.fileRoute}} + @{${moment.mediaName}} + ');'">
+						<div class="mmtcontent">
+							<h2 class="mmttitle">@[[${moment.blogId}]]</h2>
+							<p class="mmtcopy">[[${moment.momentWrite}]]</p>
+							<button class="mmtbtn">more</button>
+						</div>
 					</div>
-				</div>
 			</a>
+			
 
 		</main>
 		<!-- 모먼트 끝 -->
@@ -352,7 +354,7 @@
 		</section>
 		<!-- Blog Section End -->
 
-		<!-- 모달창 -->
+		<!-- 모달창 조회 -->
 		<div class="modal fade" id="exampleModal" tabindex="-1"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-xl modal-dialog-scrollable">
@@ -364,45 +366,72 @@
 								class="img-fluid sticky-top">
 						</div>
 						<div class="col-md-6 p-3">
-
-							<h3 class="mt-3" style="font-weight:bold"> @닉네임 </h3>
+							<span class="round"><img
+										src="https://www.thispersondoesnotexist.com/image" alt="user"
+										width="50"></span>
+							<h3 class="mt-3" style="font-weight:bold"> 닉네임 </h3>
 
 							<p id="nickname">Edited · 1d</p>
 							<div class="mt-2 mx-2">
 								<input type="text" class="form-control"
-									placeholder="type comment" id="addUrl">
+									placeholder="type comment" id="addUrl" readonly>
 							</div>
-							
-							<div class="mt-2 mx-2">
-							<h5 id="mmtWrite">내용</h5>
-							</div>
-							
+
 							<div class="d-flex flex-row comment-row mt-2">
 								<div class="p-2">
-									<span class="round"><img
-										src="https://www.thispersondoesnotexist.com/image" alt="user"
-										width="50"></span>
+									
 								</div>
 								<div class="comment-text active w-100">
-									<h5>Jonty Andrews</h5>
-									<div class="comment-footer">
-										<span class="date">March 13, 2020</span> <span
-											class="label label-success">Approved</span> <span
-											class="action-icons active"> <a href="#"
-											data-abc="true"><i class="fa fa-pencil"></i></a> <a href="#"
-											data-abc="true"><i
-												class="fa fa-rotate-right text-success"></i></a> <a href="#"
-											data-abc="true"><i class="fa fa-heart text-danger"></i></a>
-										</span>
-									</div>
+									<h5 id="mmtWrite">내용</h5>
 								</div>
 							</div>
+							<p id="uploadDate"></p>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<!-- 모달창 끝 -->
+		
+		<!-- 모먼트 작성 -->
+		<div class="modal fade" id="insertModal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-xl modal-dialog-scrollable">
+				<div class="modal-content">
+
+					<div class="modal-body row">
+						<div class="col-md-6 modal-image sticky-top">
+							<textarea cols="58" rows="20" placeholder="500자 미만으로 입력해주세요"></textarea>
+						</div>
+						<div class="col-md-6 p-3">
+							<input type="text" class="form-control"
+									placeholder="첨부할 주소를 입력하세요" id="insertUrl">
+								<br>
+							  <fieldset>
+							    <label for="date">업로드 기간</label>
+							    <input type="date" id="date" placeholder="Select a date" data-datepicker-events="{date: '2020-07-12T12:00', name: 'Business Lunch Zürich', type: 'holiday'}" required/>
+							  </fieldset>
+
+							
+							<div class="mt-2 mx-2">
+								
+							</div>
+
+							<div class="d-flex flex-row comment-row mt-2">
+								<div class="p-2">
+									
+								</div>
+								<div class="comment-text active w-100">
+									<h5 id="mmtWrite">내용</h5>
+								</div>
+							</div>
+							<p id="uploadDate"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+		<!-- 모먼트 작성 끝 -->
 
 		<!-- JS -->
 		<th:block layout:fragment="script">
@@ -422,7 +451,7 @@
 			
 			//moment 등록 버튼
 			function createMmt(data) { // 만약 모먼트에 저장된 데이터가 4개 이상이면 사용할 수 없도록 표시	 				
-
+				console.log(data);
 			}
 			//moment 등록버튼을 누르면 모달창이 뜨도록하고, 입력된 값을 DB로 보내기
 			
@@ -443,7 +472,8 @@
  	 						$("#modalImg").attr("src",result.fileRoute + result.mediaName);
  	 						$("#addUrl").attr("placeholder",result.addUrl);
  	 						$("#mmtWrite").text(result.momentWrite);
-							$("#nickname").text("@"+result.blogId+" · "+result.writeDate);
+							$("#nickname").text("@"+result.blogId+" · "+result.writeDate.substr(0,10)+" "+result.writeDate.substr(11,5));
+							$("#uploadDate").text(result.uploadStart.substr(0,10)+" - "+result.uploadEnd.substr(0,10));
 	 					},
 	 					error: function (error){
 	 						console.log(error);
