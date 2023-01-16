@@ -60,14 +60,40 @@ public class ChalController {
 		String classes = "항시";
 		model.addAttribute("ngoes", ngoService.listNgoClass(classes));
 		model.addAttribute("chals", chalService.getChalNgoAll(ngoName));
+		
+		//기부금 순위로
+		model.addAttribute("ranks", chalService.donateRank());
 		return "content/challengers/chalMain";
 	}
 	
 	//팀별
-	@RequestMapping(value="/chalListTeam",method=RequestMethod.GET)
-	public String chalListTeam(Model model,String value){
-		model.addAttribute("chals", chalService.getChalTeamAll(value));
-		return "content/challengers/chalMainTeam";
+	@RequestMapping(value="/chalDepart",method=RequestMethod.GET)
+	public String chalListTeam(Model model,@RequestParam(value="data", required=false)String data){
+		System.out.println(data);
+		
+		switch(data) {
+			case "팀" :
+				model.addAttribute("chals",chalService.getChalTeamAll(data));
+				model.addAttribute("ranks", chalService.donateRank());
+				break;
+			case "개인" :
+				model.addAttribute("chals", chalService.getChalTeamAll(data));
+				model.addAttribute("ranks", chalService.donateRank());
+				break;
+			case "모집중" :
+				model.addAttribute("chals", chalService.beforeChals());
+				model.addAttribute("ranks", chalService.donateRank());
+				break;
+			case "진행중" :
+				model.addAttribute("chals", chalService.currentChals());
+				model.addAttribute("ranks", chalService.donateRank());
+				break;
+			case "완료" :
+				model.addAttribute("chals", chalService.endChals());
+				model.addAttribute("ranks", chalService.donateRank());
+				break;
+		}
+		return "content/challengers/chalMain";
 	}
 			
 	//챌린지 한건 상세보기

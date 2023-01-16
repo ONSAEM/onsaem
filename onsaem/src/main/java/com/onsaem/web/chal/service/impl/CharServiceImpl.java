@@ -94,4 +94,22 @@ public class CharServiceImpl implements ChalService {
 		return chalMapper.donateRank();
 	}
 
+	@Override
+	public List<ChalVO> currentChals() {
+		// TODO Auto-generated method stub
+		return chalMapper.currentChals();
+	}
+
+	@Override
+	public List<ChalVO> beforeChals() {
+		// TODO Auto-generated method stub
+		return chalMapper.beforeChals();
+	}
+
+	@Override
+	public List<ChalVO> endChals() {
+		// TODO Auto-generated method stub
+		return chalMapper.endChals();
+	}
+
 }

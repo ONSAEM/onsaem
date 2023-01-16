@@ -41,6 +41,13 @@ public interface ChalService {
 	
 	//신고
 	
+	//챌린지 조회 - 진행중
+	List<ChalVO> currentChals();
+	//챌린지 조회 - 모집중
+	List<ChalVO> beforeChals();
+	// 챌린지 조회 - 완료
+	List<ChalVO> endChals();
+	
 	
 	
 }

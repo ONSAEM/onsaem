@@ -51,15 +51,14 @@
 			SELECT 'RF'||LPAD(pay_seq.NEXTVAL,3,0) FROM DUAL	
 		</selectKey>
 		INSERT INTO REFUNDS
-		VALUES(#{REFUNDID}, #{PAYMENTID}, #{REFUNDMETHOD}, #{REFUNDACCOUNT}, CURRENT_DATE, #{GROUPID}, '챌린저스' )
+		VALUES(#{refundId}, #{paymentId}, #{refundMethod}, #{refundAccount}, CURRENT_DATE, #{groupId}, '챌린저스' )
 	</insert>
 	
 	<!-- 환불목적 - 결제 테이블 수정 -->
 	<update id="updateForRefund" parameterType="PaymentVO">
-		UPDATE PARTICIPANTS
+		UPDATE PAYMENTS
 		SET STATUS = '환불'
-		WHERE GROUP_ID = #{groupId}
-		AND PAYER_ID = #{payerId}	 
+		WHERE PAYMENT_ID = #{paymentId}
 	</update>
 	
 	<!-- 참가자 테이블에서 삭제 -->

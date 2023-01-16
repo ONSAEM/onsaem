@@ -105,14 +105,12 @@ public class ChalMypageController {
 	
 	//권한 - 일반회원의 챌린저스 마이페이지 - 시작전 챌린지 모음
 	@RequestMapping(value="/myBeforeChal",method=RequestMethod.GET)
-	public String myBeforeChalList(Model model,ChalVO vo, HttpServletRequest req) {
+	public String myBeforeChalList(Model model,ChalVO vo, HttpServletRequest req, Authentication authentication) {
 		
-		/*
-		 * // //세션에서 가져온 로그인 된 id값 UserDetails userDetails = (UserDetails)
-		 * authentication.getPrincipal(); 
-		 */
+		//세션에서 가져온 로그인 된 id값 
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		
-		vo.setParticipantId("hodu");
+		vo.setParticipantId(userDetails.getUsername());
 		//이용자가 참가한 시작 전인 챌린지들 가져오기.
 		List<ChalVO> list=chalService.myBeforeChal(vo);
 		System.out.println(list);
@@ -147,11 +145,12 @@ public class ChalMypageController {
 		partService.inputRefund(rvo);
 		
 		//participant테이블에서 삭제갈김 - 이것도 update로 해야할지 판단필요
-		
+		pvo.setChalId(rvo.getGroupId());
+		pvo.setParticipantId(userDetails.getUsername());
 		partService.delParticipant(pvo);
 		
 		//결제 테이블에서 update
-		
+		yvo.setPaymentId(rvo.getPaymentId());
 		partService.updateForRefund(yvo);
 		
 		
