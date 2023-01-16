@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.onsaem.web.blog.service.BlogReplyService;
+import com.onsaem.web.blog.service.BlogService;
+import com.onsaem.web.blog.service.BlogVO;
 import com.onsaem.web.blog.service.BlogWriteService;
 import com.onsaem.web.blog.service.BlogWriteVO;
 import com.onsaem.web.blog.service.CategoriesVO;
@@ -30,6 +32,8 @@ public class BlogWriteController {
 	BlogReplyService replyService;
 	@Autowired
 	MomentService momentService;
+	@Autowired
+	BlogService blogService;
 	
 	// 블로그 메인으로 이동 (조회)
 	@RequestMapping(value = "/blogMain", method = RequestMethod.GET)
@@ -40,13 +44,14 @@ public class BlogWriteController {
 	
 	// 내 블로그로 이동
 	@RequestMapping(value = "/myblog", method = RequestMethod.GET)
-	public String myblog(Model model, String userId, CategoriesVO vo, MomentsVO mVo) {
+	public String myblog(Model model, String userId, CategoriesVO vo, MomentsVO mVo, BlogVO bVo) {
 		model.addAttribute("myblog", blogWriteService.myBlog(userId));	
 		vo.setBlogId(userId);
 		model.addAttribute("category", blogWriteService.cateList(vo));
 		model.addAttribute("recentWrite", blogWriteService.recentWrite(userId)); // 최신글 조회
 		mVo.setBlogId(userId);
 		model.addAttribute("moments", momentService.getMomentList(mVo));
+		// getBlog를 써서 유저아이디 받아오고, getbloginfo라고 이름 지어주기
 		return "content/blog/myblog";
 	}
 	

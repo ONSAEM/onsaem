@@ -1,9 +1,15 @@
 package com.onsaem.web.blog.mapper;
 
+import java.util.List;
+
+import com.onsaem.web.blog.service.BlogVO;
+
 public interface BlogMapper {
 	// 블로그 관리
-	// 아이디 당 단건 조회
-	
+	// 블로그 관리 전체 조회
+		List<BlogVO> taskList(BlogVO blogVO);
+	// 블로그 관리 단건 조회
+		public BlogVO task(String blogId);
 	// 블로그 관리 내용 작성
 	
 	// 블로그 관리 내용 수정
