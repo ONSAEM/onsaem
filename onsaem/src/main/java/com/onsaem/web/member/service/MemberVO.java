@@ -33,6 +33,7 @@ public class MemberVO implements UserDetails{
 	private int point;
 	private String status;
 	private String memberId;
+	private String name;
 	
 
     @Override
