@@ -22,9 +22,9 @@ public class ParticipantServiceImpl implements ParticipantService {
 	}
 
 	@Override
-	public Integer delParticipant(String ParticipantId) {
+	public Integer delParticipant(ParticipantVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.delParticipant(ParticipantId);
+		return mapper.delParticipant(vo);
 	}
 
 	@Override
@@ -33,11 +33,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 		return mapper.inputPayment(vo);
 	}
 
-	@Override
-	public Integer delPayment() {
-		// TODO Auto-generated method stub
-		return mapper.delPayment();
-	}
+
 
 	@Override
 	public List<ParticipantVO> listParticipantAll(String chalId) {
@@ -62,6 +58,12 @@ public class ParticipantServiceImpl implements ParticipantService {
 	public ParticipantVO cntParticipant(ParticipantVO vo) {
 		// TODO Auto-generated method stub
 		return mapper.cntParticipant(vo);
+	}
+
+	@Override
+	public Integer updateForRefund(PaymentVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.updateForRefund(vo);
 	}
 
 }

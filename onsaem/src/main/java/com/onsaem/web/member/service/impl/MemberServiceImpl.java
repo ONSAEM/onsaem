@@ -8,15 +8,22 @@ import org.springframework.stereotype.Service;
 
 import com.onsaem.web.member.mapper.MemberMapper;
 import com.onsaem.web.member.service.MemberService;
+import com.onsaem.web.member.service.MemberVO;
 
 @Service
 public class MemberServiceImpl implements MemberService, UserDetailsService {
 	
-	@Autowired MemberMapper loginMapper;
-
+	@Autowired MemberMapper loginMapper; 
+	
 	@Override
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
 		
+		return loginMapper.getMember(memberId);
+	}
+
+	@Override
+	public MemberVO getMember(String memberId) {
+		// TODO Auto-generated method stub
 		return loginMapper.getMember(memberId);
 	}
 }
