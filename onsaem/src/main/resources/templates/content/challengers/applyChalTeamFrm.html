@@ -96,12 +96,7 @@
                                 </div>
                             </div>
                         </div>
-                        <th:block th:if="${chal.subClass == '개인'}">
-							 <a th:href="@{/applyChalFrm(chalId = ${chal.chalId})}" class="primary-btn">11참가하기</a>                      
-                        </th:block>
-						<th:block th:if="${chal.subClass == '팀'}">
-							 <a th:href="@{/applyChalTeamFrm(chalId = ${chal.chalId})}" class="primary-btn">참가하기</a>                      
-                        </th:block>
+                       
                         <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
                         <ul>
                             <li><b>Availability</b> <span>In Stock</span></li>

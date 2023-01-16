@@ -130,7 +130,8 @@ public class ChalMypageController {
 		//participant테이블에서 삭제갈김 - 이것도 update로 해야할지 판단필요
 		
 		partService.delParticipant(id);
-		//결제 테이블에서 update 혹은 delete하기
+		
+		//결제 테이블에서 update
 		
 		
 		//환불테이블에 추가

@@ -6,6 +6,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,7 +27,9 @@ import com.onsaem.web.chal.service.NgoVO;
 import com.onsaem.web.chal.service.ParticipantService;
 import com.onsaem.web.chal.service.ParticipantVO;
 import com.onsaem.web.common.service.PaymentVO;
+import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.chal.service.ProofService;
+import com.onsaem.web.chal.service.ReportService;
 import com.onsaem.web.common.service.MediaVO;
 @Controller
 @CrossOrigin(origins="*")
@@ -35,6 +39,7 @@ public class ChalController {
 	@Autowired BankService bankService;
 	@Autowired ProofService proofService;
 	@Autowired ParticipantService partService;
+	@Autowired ReportService reportService;
 	
 	//챌린지 전체 리스트 확인
 	@RequestMapping(value="/chalList",method=RequestMethod.GET)
@@ -66,14 +71,17 @@ public class ChalController {
 			
 	//챌린지 한건 상세보기
 	@RequestMapping(value="/detailChal",method=RequestMethod.GET)
-	public String chalDetail(Model model, MediaVO vo, @RequestParam(value="chalId", required= true)String chalId, ParticipantVO pvo) {
+	public String chalDetail(Model model, MediaVO vo, @RequestParam(value="chalId", required= true)String chalId, ParticipantVO pvo
+			,Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
 		model.addAttribute("chals", chalService.getChal(chalId));
 		vo.setGroupId(chalId);
 		model.addAttribute("photoes", proofService.listMedia(vo));
 		
 		//아이디가 참가했는지 안했는지 확인,,- 수로 보냄
 		pvo.setChalId(chalId);
-		pvo.setParticipantId("hi");
+		pvo.setParticipantId(userDetails.getUsername());
 		//참가안했으면 0, 참가했으면 1
 		model.addAttribute("cnt", partService.cntParticipant(pvo));
 		return "content/challengers/chalDetail";
@@ -81,13 +89,15 @@ public class ChalController {
 	
 	//등록페이지 일단,,
 	@RequestMapping(value="/inputChal",method=RequestMethod.GET)
-	public String inputChal(Model model) {
+	public String inputChal(Model model, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		return "content/challengers/inputChal";
 	}
 	
 	//개인전 등록 페이지 이동
 	@RequestMapping(value="/inputNormalChal",method=RequestMethod.GET)
-	public String inputChalNormal(Model model) {
+	public String inputChalNormal(Model model, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		String classes = "항시";
 		model.addAttribute("ngoes", ngoService.listNgoClass(classes));
 		
@@ -104,8 +114,9 @@ public class ChalController {
 	
 	//챌린지 등록 - 개인전
 	@RequestMapping(value="/inputNormalChal", method=RequestMethod.POST)
-	public String insertNormalChal(HttpServletRequest req,ChalVO vo, MediaVO mvo, ParticipantVO pvo, List<MultipartFile> uploadFile) {
-		
+	public String insertNormalChal(HttpServletRequest req,ChalVO vo, MediaVO mvo, ParticipantVO pvo, List<MultipartFile> uploadFile, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
 		//Challengers테이블에 삽입
 		vo.setMemberId("podo");
 		vo.setSubClass("개인");
@@ -153,10 +164,12 @@ public class ChalController {
 	
 	//챌린지 등록 - 팀전
 	@RequestMapping(value="/inputTeamChal", method=RequestMethod.POST)
-	public String insertTeamChal(HttpServletRequest req, ChalVO vo, MediaVO mvo, ParticipantVO pvo, List<MultipartFile> uploadFile) {
+	public String insertTeamChal(HttpServletRequest req, ChalVO vo, MediaVO mvo, ParticipantVO pvo, List<MultipartFile> uploadFile, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
 
 		//Challengers테이블에 삽입
-		vo.setMemberId("podo");
+		vo.setMemberId(userDetails.getUsername());
 		vo.setSubClass("팀");
 		vo.setDonationFee(vo.getTeamFee());
 		chalService.inputChal(vo);
@@ -204,7 +217,8 @@ public class ChalController {
 	
 	//챌린지 참가 - 개인전 페이지 이동
 	@RequestMapping(value="/applyChalFrm", method=RequestMethod.GET)
-	public String applyChalFrm(@RequestParam(value="chalId", required= true)String chalId, Model model,MediaVO vo) {
+	public String applyChalFrm(@RequestParam(value="chalId", required= true)String chalId, Model model,MediaVO vo, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		System.out.println(chalService.getChal(chalId));
 		model.addAttribute("chals", chalService.getChal(chalId));
 		vo.setGroupId(chalId);
@@ -214,10 +228,11 @@ public class ChalController {
 	
 	//챌린지 참가 - 개인전 데이터 등록,,ㅎ
 	@RequestMapping(value="/applyChalFrm", method=RequestMethod.POST)
-	public String applyChal(ChalVO vo, ParticipantVO pvo, PaymentVO payvo) {
+	public String applyChal(ChalVO vo, ParticipantVO pvo, PaymentVO payvo, Authentication authentication) {
 		//참가자 테이블
-		
-				pvo.setParticipantId("hodu");
+				UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+				pvo.setParticipantId(userDetails.getUsername());
 				pvo.setBetPoint(0);
 				partService.inputParticipant(pvo);
 				//챌린저스 테이블 수정
@@ -294,7 +309,16 @@ public class ChalController {
 		ngoService.inputNgo(vo);
 		return "content/challengers/inputNGO";
 	}
-	//기부처 승인
+	
+	//신고
+	@RequestMapping(value="inputReport", method=RequestMethod.POST)
+	@ResponseBody
+	public String inputReport(ReportVO vo, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		vo.setFromId(userDetails.getUsername());
+		reportService.inputReport(vo);
+		return "redirect:/chalDetail";
+	}
 	
 	
 	
