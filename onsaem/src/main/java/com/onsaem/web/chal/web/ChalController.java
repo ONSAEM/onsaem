@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -311,13 +312,13 @@ public class ChalController {
 	}
 	
 	//신고
-	@RequestMapping(value="inputReport", method=RequestMethod.POST)
+	@RequestMapping(value="/inputReport", method=RequestMethod.POST)
 	@ResponseBody
-	public String inputReport(ReportVO vo, Authentication authentication) {
+	public String inputReport(@RequestBody ReportVO vo, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		vo.setFromId(userDetails.getUsername());
 		reportService.inputReport(vo);
-		return "redirect:/chalDetail";
+		return "content/challengers/chalDetail";
 	}
 	
 	
