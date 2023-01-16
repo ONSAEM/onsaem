@@ -72,26 +72,15 @@
         				<input type="number" value="donationFee" id="donationFee" name="donationFee" style="display:none;">
         				<input type="hidden" th:value=${chal.chalId} name="chalId">
                         <h3 th:text="${chal.chalName}">Vetgetable’s Package</h3>
-                        <div class="product__details__rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-half-o"></i>
-                        </div>
-                        <div class="product__details__price"><span th:text="${#dates.format(chal.startDate, 'yyyy년 MM월 dd일')}">$50.00</span></div>
+                       <div class="product__details__price"><span th:text="'기부처 : ' + ${chal.ngoName}">$50.00</span></div>
                         <ul>
                             <li><b>시작일</b> <span th:text="${#dates.format(chal.startDate, 'yyyy년 MM월 dd일')}" ></span></li>
                             <li><b>종료일</b> <span th:text="${#dates.format(chal.endDate, 'yyyy년 MM월 dd일')}"> <samp>Free pickup today</samp></span></li>
-                            <li><b>유형</b> <span>0.5 kg</span></li>
+                            <li><b>유형</b> <span th:text="${chal.subClass}">0.5 kg</span></li>
+                            <li><b>참가 요일</b> <span th:text="${chal.frequency}"></span></li>
+                         
                         </ul>
-                        <div class="product__details__quantity">
-                            <div class="quantity">+
-                                <div class="pro-qty">
-                                    <input type="text" value="1">
-                                </div>
-                            </div>
-                        </div>
+                        
                     
                         <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
                         

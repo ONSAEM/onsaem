@@ -20,6 +20,14 @@
 		AND PARTICIPANT_ID = #{participantId} 
 	</select>
 	
+	<!-- 해당 챌린지에 참가했는지 확인 필요 -->
+	<select id="cntParticipant" parameterType="ParticipantVO" resultType="ParticipantVO">
+		SELECT count(*) as cnt
+		FROM PARTICIPANTS
+		WHERE CHAL_ID = #{chalId}
+		AND PARTICIPANT_ID = #{participantId}	
+	</select>
+	
 	<!-- 챌린저스 참가 -->
 	<insert id="inputParticipant" parameterType="ParticipantVO">
 		<selectKey keyProperty="participateId" resultType="string" order="BEFORE">

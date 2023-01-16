@@ -88,4 +88,10 @@ public class CharServiceImpl implements ChalService {
 		return chalMapper.myEndChal(vo);
 	}
 
+	@Override
+	public List<ChalVO> donateRank() {
+		// TODO Auto-generated method stub
+		return chalMapper.donateRank();
+	}
+
 }

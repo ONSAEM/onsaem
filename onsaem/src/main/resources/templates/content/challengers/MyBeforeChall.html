@@ -119,15 +119,16 @@ h1 {
           <path
 							d="M21.21 15.89A10 10 0 118 2.83M22 12A10 10 0 0012 2v10z" />
         </svg>
-				</a> <a href="" class="app-sidebar-link"> <svg
-						xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+				</a> <a href="" class="app-sidebar-link"> 
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
 						viewBox="0 0 24 24" fill="none" stroke="currentColor"
 						stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
 						class="feather feather-calendar">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-          <line x1="16" y1="2" x2="16" y2="6" />
-          <line x1="8" y1="2" x2="8" y2="6" />
-          <line x1="3" y1="10" x2="21" y2="10" /></svg>
+				          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+				          <line x1="16" y1="2" x2="16" y2="6" />
+				          <line x1="8" y1="2" x2="8" y2="6" />
+				          <line x1="3" y1="10" x2="21" y2="10" />
+					</svg>
 				</a> <a href="" class="app-sidebar-link"> <svg
 						class="link-icon feather feather-pie-chart"
 						xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -323,17 +324,15 @@ h1 {
 		})
 
 	function cancelChal(){
-			let content=document.getElementById("content").innerText;
+			let privateDonate=document.getElementById("privateDonate").innerText;
 			console.log(content.value)
-			let img=document.getElementById("input-image").innerText;
-			console.log(img);
-			let imgName= img.substr(12,img.length);
-			console.log(imgName);
+			let startDate=document.getElementById("startDate").innerText;
+			let endDate = document.getElementById("endDate").innerText;
 			let chalId=document.getElementById("chalId").innerText;
 			console.log(chalId)
 			
 			$.ajax({
-	    		url:'/mypage/myCurrentChal',
+	    		url:'/mypage/myBeforeChal',
 	    		method: 'post',
 	    		contentType : 'application/json',
 	    		data: JSON.stringify({content:content,
@@ -341,9 +340,9 @@ h1 {
 	    			chalId:chalId}),
 	    		success : function(result){
 	    			console.log(result);
-	    			alert('인증 첨부 성공❤❤');
+	    			alert('챌린지 취소가 완료되었습니다');
 	    			//오지는 부조장 이재원,,짱짱,,
-	    			location.href="http://localhost/mypage/myCurrentChal";
+	    			location.href="http://localhost/mypage/myBeforeChal";
 	    		},
 	    		error : function(error){
 	    			console.log(error);

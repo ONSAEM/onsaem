@@ -13,6 +13,9 @@ public interface ParticipantService {
 		//참가자 상세 조회
 		ParticipantVO getParticipant(ParticipantVO vo);
 		
+		//참가여부확인
+		ParticipantVO cntParticipant(ParticipantVO vo);
+		
 		//챌린저스 참가
 		Integer inputParticipant(ParticipantVO vo);
 		

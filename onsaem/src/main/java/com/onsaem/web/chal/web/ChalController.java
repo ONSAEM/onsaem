@@ -42,6 +42,9 @@ public class ChalController {
 		String classes = "항시";
 		model.addAttribute("ngoes", ngoService.listNgoClass(classes));
 		model.addAttribute("chals", chalService.getChalAll());
+		
+		//기부금 순위로
+		model.addAttribute("ranks", chalService.donateRank());
 		return "content/challengers/chalMain";
 	}
 	
@@ -54,6 +57,7 @@ public class ChalController {
 		return "content/challengers/chalMain";
 	}
 	
+	//팀별
 	@RequestMapping(value="/chalListTeam",method=RequestMethod.GET)
 	public String chalListTeam(Model model,String value){
 		model.addAttribute("chals", chalService.getChalTeamAll(value));
@@ -62,10 +66,16 @@ public class ChalController {
 			
 	//챌린지 한건 상세보기
 	@RequestMapping(value="/detailChal",method=RequestMethod.GET)
-	public String chalDetail(Model model, MediaVO vo, @RequestParam(value="chalId", required= true)String chalId) {
+	public String chalDetail(Model model, MediaVO vo, @RequestParam(value="chalId", required= true)String chalId, ParticipantVO pvo) {
 		model.addAttribute("chals", chalService.getChal(chalId));
 		vo.setGroupId(chalId);
 		model.addAttribute("photoes", proofService.listMedia(vo));
+		
+		//아이디가 참가했는지 안했는지 확인,,- 수로 보냄
+		pvo.setChalId(chalId);
+		pvo.setParticipantId("hi");
+		//참가안했으면 0, 참가했으면 1
+		model.addAttribute("cnt", partService.cntParticipant(pvo));
 		return "content/challengers/chalDetail";
 	}
 	

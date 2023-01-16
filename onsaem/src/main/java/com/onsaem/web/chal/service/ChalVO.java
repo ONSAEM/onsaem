@@ -34,5 +34,6 @@ public class ChalVO {
 	Integer privateDonate;
 	String paymentId;
 	String paymentMethod;
+	Integer rownum;
 	
 }

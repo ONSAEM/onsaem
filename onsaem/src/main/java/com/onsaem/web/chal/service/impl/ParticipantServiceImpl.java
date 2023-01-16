@@ -58,4 +58,10 @@ public class ParticipantServiceImpl implements ParticipantService {
 		return mapper.inputRefund(vo);
 	}
 
+	@Override
+	public ParticipantVO cntParticipant(ParticipantVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.cntParticipant(vo);
+	}
+
 }
