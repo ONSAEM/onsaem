@@ -28,7 +28,7 @@ public class ClassController {
 	
 	// 강의목록 페이지 이동 (강의목록, 인기강의목록)
 	@RequestMapping(value = "/classList", method = RequestMethod.GET)
-	public String classList(ClassInfoVO vo, Model model, Paging paging) {
+	public String classList(ClassInfoVO vo, Model model, Paging paging,Authentication authentication) {
 		paging.setPageUnit(9);
 		model.addAttribute("classList", classService.getClassList(vo,paging));
 		model.addAttribute("maxPrice", classService.classMaxPrice(vo));
