@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.onsaem.web.common.mapper.MediaMapper;
 import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
 
+@Service
 public class MediaServiceImpl implements MediaService{
 	@Autowired
 	MediaMapper mediaMapper;

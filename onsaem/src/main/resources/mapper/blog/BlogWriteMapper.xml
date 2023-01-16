@@ -10,21 +10,34 @@
  	</select>
  	<!-- 단건 조회 -->
  	<select id="getBlog" resultType="BlogWriteVO" parameterType="String">
-		SELECT *
-		FROM BLOG_WRITES B, CATEGORIES C
+		SELECT  B.WRITE_ID,
+        B.BLOG_ID,
+        B.WRITE_TITLE,
+        B.SUBTITLE,
+        B.CATEGORY_ID,
+        B.PUBLIC_SCOPE,
+        B.BLOG_WRITE,
+        B.CNT,
+        B.LIKE_NUMBER,
+        B.WRITE_DATE,
+        C.CATEGORY_NAME,
+        M.NICKNAME
+		FROM BLOG_WRITES B, CATEGORIES C,MEMBERS M
 		WHERE B.CATEGORY_ID = C.CATEGORY_ID
+        and B.BLOG_ID = M.MEMBER_ID
 		AND WRITE_ID = #{writeId}
  	</select>
  	<!-- 블로그 단건 조회 -->
  	<select id="myBlog" resultType="BlogWriteVO" parameterType="String">
 		SELECT b.WRITE_ID,b.BLOG_ID,b.WRITE_TITLE,b.SUBTITLE,b.CATEGORY_ID,
-    			b.PUBLIC_SCOPE,b.BLOG_WRITE,b.WRITER_NICKNAME,b.CNT,b.LIKE_NUMBER,b.WRITE_DATE,
+    			b.PUBLIC_SCOPE,b.BLOG_WRITE,b.CNT,b.LIKE_NUMBER,b.WRITE_DATE,m.nickname,
     			count(r.reply_id) as replyCnt
-		FROM BLOG_WRITES b, replies r
+		FROM BLOG_WRITES b, replies r, members m
 		WHERE b.write_id = r.group_id(+)
+        and b.blog_id = m.member_id
 		and blog_id=#{blogId}
 		group by b.WRITE_ID,b.BLOG_ID,b.WRITE_TITLE,b.SUBTITLE,b.CATEGORY_ID,
-    			b.PUBLIC_SCOPE,b.BLOG_WRITE,b.WRITER_NICKNAME,b.CNT,b.LIKE_NUMBER,b.WRITE_DATE
+    			b.PUBLIC_SCOPE,b.BLOG_WRITE,b.CNT,b.LIKE_NUMBER,b.WRITE_DATE,m.nickname
  		order by b.write_date DESC
  	</select>
  	<!-- 글 등록 -->
@@ -39,7 +52,6 @@
 								CATEGORY_ID,
 								PUBLIC_SCOPE,
 								BLOG_WRITE,
-								WRITER_NICKNAME,
 								CNT,
 								LIKE_NUMBER,
 								WRITE_DATE )
@@ -50,7 +62,6 @@
 				#{categoryId},
 				#{publicScope},
 				#{blogWrite},
-				#{writerNickname},
 				0,
 				0,
 				current_date)
