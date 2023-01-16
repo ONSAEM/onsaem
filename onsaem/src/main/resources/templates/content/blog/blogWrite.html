@@ -276,8 +276,8 @@
                                         placeholder="온샘은 신고 관리를 철저하게 합니다. 댓글 작성 시, 한번 더 생각해주세요"></textarea>
 
                                     <div class="col-lg-3 col-md-4 col-6 ms-auto">
-                                        <button type="submit" id="replyBtn" class="form-control" th:if="(${session.id}!=null)">등록</button>
-                                        <button type="button" id="replyBtn" class="form-control" th:unless="(${session.id}!=null)" disabled>로그인이 필요합니다 <a th:href="@{/loginPage}">login</a></button>
+                                        <button type="submit" id="replyBtn" class="form-control" sec:authorize="isAuthenticated()">등록</button>
+                                        <button type="button" id="replyBtn" class="form-control" sec:authorize="isAnonymous()" disabled>로그인이 필요합니다 <a th:href="@{/loginPage}">login</a></button>
                                     </div>
                                     <input type="hidden" name="groupId" th:value="${blogWrite.writeId}">
                                 </form>
@@ -403,7 +403,7 @@
 			event.stopPropagation();
 			// 좋아요 디비 저장
 			let bno = "[[${blogWrite.writeId}]]";
-			let id = "[[${session.id}]]";
+			let id = "[[${#authentication.principal.memberId}]]";
 			
 			if(id!=""){ // 로그인 된 상태이면
 				//console.log($(".blogLike").val());
@@ -457,7 +457,7 @@
 				// 댓글 등록
 			$('#replyBtn').on("click", function(){
 				let bno = "[[${blogWrite.writeId}]]";
-				let id = "[[${session.id}]]";
+				let id = "[[${#authentication.principal.memberId}]]";
 				if(id!=null){ // 로그인 된 상태이면
 					$.ajax({
 						url: '/blog/myblog/blogWrite/replyInsert',
