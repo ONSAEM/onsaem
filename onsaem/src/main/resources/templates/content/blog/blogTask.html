@@ -1189,15 +1189,15 @@ background: #42a18d;
 							
 						       <div class="inputfield">
 						          <label>블로그 주소<span class="request"></span></label>
-						          <input type="text" name="memberId" class="input">
+						          <input type="text" name="blogURL" class="input" readonly value="http://localhost/blog/myblog/userId="+[[${blogInfos.blogId}]]>
 						       </div>  
 						        <div class="inputfield">
 						          <label>블로그 이름<span class="request"></span></label>
-						          <input type="password" name="password" class="input">
+						          <input type="text" name="blogName" class="input">
 						       </div>  
 						       <div class="inputfield">
 						          <label>소개글<span class="request"></span></label>
-						          <input type="password" name="pwCheck" class="input">
+						          <input type="introduction" name="introduction" class="input">
 						       </div>
 						       
 						       <div class="inputfield">
@@ -1280,10 +1280,10 @@ background: #42a18d;
 			$("#pfile").on('change',function(){
 			  var fileName = $("#pfile").val();
 			  $(".profilefile").val(fileName);
-			  readURL(this);
+			  changeProfileURL(this);
 			});
 		
-		function readURL(obj) {
+		function changeProfileURL(obj) {
             let reader = new FileReader();
             if(!obj.files.length) {
                 return;
@@ -1298,10 +1298,10 @@ background: #42a18d;
 				$("#hfile").on('change',function(){
 				  var fileName = $("#hfile").val();
 				  $(".headerfile").val(fileName);
-				  readURL(this);
+				  changeHeaderURL(this);
 				});
 			
-			function readURL(obj) {
+			function changeHeaderURL(obj) {
 		        let reader = new FileReader();
 		        if(!obj.files.length) {
 		            return;
