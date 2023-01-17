@@ -33,7 +33,7 @@
 						<ul class="dropdown-menu dropdown-menu-light"
 							aria-labelledby="navbarLightDropdownMenuLink">
 							<li><a class="dropdown-item" href="/shop">Shop List</a></li>
-							<li><a class="dropdown-item" href="/myOrder">내주문목록</a></li>
+							<li><a class="dropdown-item" href="/myOrder" sec:authorize="isAuthenticated()">>내주문목록</a></li>
 							<li><a class="dropdown-item" href="/shopCart">Shopping
 									Cart</a></li>
 							<li><a class="dropdown-item" href="/check">Check Out</a></li>
