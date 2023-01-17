@@ -21,9 +21,9 @@ public class BlogServiceImpl implements BlogService {
 	}
 
 	@Override
-	public BlogVO task(String blogId) {
+	public BlogVO getBlogInfo(String blogId) {
 		// 단건 조회
-		return blogMapper.task(blogId);
+		return blogMapper.getBlogInfo(blogId);
 	}
 
 }

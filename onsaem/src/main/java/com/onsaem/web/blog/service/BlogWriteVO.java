@@ -17,7 +17,7 @@ public class BlogWriteVO {
 	String categoryId;
 	String publicScope;
 	String blogWrite;
-	String writerNickname;
+	String nickname;
 	String categoryName;
 	int cnt;
 	int likeNumber;

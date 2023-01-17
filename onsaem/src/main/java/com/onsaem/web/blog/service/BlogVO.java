@@ -11,4 +11,5 @@ public class BlogVO {
 	String blogName;
 	String introduction;
 	String blogUrl;
+	String nickname;
 }

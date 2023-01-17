@@ -9,8 +9,14 @@
  		from blogs
  	</select>
  	<!-- 단건 조회 -->
- 	<select id="task" resultType="BlogVO" parameterType="String">
- 	select * from blogs
-	where blog_id=#{blogId}
+ 	<select id="getBlogInfo" resultType="BlogVO" parameterType="String">
+	 	select  B.BLOG_ID,
+                B.BLOG_NAME,
+                B.INTRODUCTION,
+                B.BLOG_URL,
+                M.nickname
+        from blogs B,members M
+        where B.blog_id = M.member_id
+		and blog_id=#{blogId}
 	</select>
  </mapper>
