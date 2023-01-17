@@ -140,9 +140,12 @@ public class ProductController {
 
 	// 상품등록
 	@RequestMapping(value = "/addProduct", method = RequestMethod.POST)
-	public String addProduct(Model model, ProductVO vo, OptionVO ovo,Authentication authentication, @RequestParam("uploadfile")MultipartFile[] uploadfile) {
+	public String addProduct(Model model, ProductVO vo, OptionVO ovo,Authentication authentication, List<MultipartFile> uploadFile) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();	
-		System.out.println("============================="+uploadfile);
+		for(int i=0;i<uploadFile.size();i++) {
+			System.out.println("============================="+uploadFile.get(i));
+		}
+		
 		
 		vo.setMemberId(userDetails.getUsername());
 		proService.addProduct(vo);			

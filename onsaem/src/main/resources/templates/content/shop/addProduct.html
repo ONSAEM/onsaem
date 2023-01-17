@@ -298,8 +298,8 @@
 					<div class="filebox">
 						<label style="width: 10%;" class="filelabel" onclick="addPart()">+
 						</label> <input class="inputfile" placeholder="상품이미지" readonly
-							name="uploadfile"> <label for="file" class="filelabel">사진등록</label>
-						<input type="file" id="file">
+							name="uploadfile"> <label for="file" class="filelabel"
+							name="uploadFile">사진등록</label> <input type="file" id="file">
 					</div>
 				</div>
 				<div class="inputfield">
@@ -329,11 +329,13 @@
 						</select>
 					</div>
 				</div>
-				<div class="inputfield">
-					<label>옵션<span class="request">*</span></label> <input type="text"
-						class="input" name="optionContent"><input type="button"
-						value="+" class="checkBtn">
-				</div>
+				<div class="options">
+					<div class="inputfield">
+						<label>옵션<span class="request">*</span></label> <input type="text"
+							class="input" name="optionContent"><input type="button"
+							value="+" class="checkBtn" onclick="addOption()">
+					</div>
+				</div><br>
 				<div class="inputfield">
 					<label>상품상세내용<span class="request">*</span></label> <input
 						type="text" class="input" name="productName">
@@ -481,17 +483,27 @@
 		let addImgNo=1;
 		
 		//상품추가버튼
-		function addPart() {
-			
-		    let filetemplate=`<div class="filebox">
+		function addPart() {			
+		    let filetemplate=`<div class="imgFile">
+				<div class="filebox">
 				<label style="width: 10%;" class="filelabel" onclick="addPart()">+
-				</label> <input class="inputfile" placeholder="상품이미지" readonly
-					name="uploadfile"> <label for="file" class="filelabel">사진등록</label>
-				<input type="file" id="file" name="`+addImgNo+`">
-			</div>`;
+				</label> <input class="inputfile" placeholder="추가이미지" readonly
+					name="uploadfile"> <label for="file" class="filelabel" name="uploadFile">사진등록</label>
+				<input type="file" id="file">
+			</div>
+		</div>`;
 			document.querySelector(".imgFile").innerHTML+=filetemplate;
-			
-
+			addImgNo++
+		}
+		
+		//옵션추가버튼
+		function addOption(){
+			let addOption=`<div class="inputfield">
+				<label>옵션<span class="request">*</span></label> <input type="text"
+				class="input" name="optionContent"><input type="button"
+				value="+" class="checkBtn" onclick="addOption()">
+		</div>`;
+		document.querySelector(".options").innerHTML+=addOption;
 		}
 	</script>
 	<script
