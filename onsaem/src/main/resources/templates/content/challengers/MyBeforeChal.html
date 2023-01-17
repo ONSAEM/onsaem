@@ -219,11 +219,6 @@ h1 {
 									<p th:text="'챌린지 종료일 : '+${#dates.format(chal.endDate, 'MM월 dd일')}" id="endDate"></p>
 									<p th:text="'나의 기부금 : '+ ${chal.privateDonate}" id="privateDonate"></p>
 									<div th:if="${user.bankAccount == null}">
-										<select name="bank">
-								        	<option value="" >==은행 선택==</option>
-								        	<option th:each="bank : ${banks}" th:value=${bank.bankId}
-								                th:text="${bank.bankName}" id="bank"></option>        	
-								        </select>
 										<label>계좌 번호 : </label><input type="text" id="refundAccount">
 									</div>
 									<p th:if="${user.bankAccount != null}" th:text="'환불 계좌 : '+ ${user.bankAccount}" id="refundAccount"></p>
@@ -331,21 +326,18 @@ h1 {
 		})
 
 	function cancelChal(data){
-			/* let privateDonate=document.getElementById("privateDonate").innerText;
-			
-			let startDate=document.getElementById("startDate").innerText;
-			let endDate = document.getElementById("endDate").innerText;
-			let chalId = document.getElementById("chalId").innerText; */
-			console.log(data);
-			
-			
-			/* $.ajax({
+			let paymentId = data.paymentId;
+			let refundMethod = data.paymentMethod;
+			let groupId = data.chalId;
+			let refundAccount = document.getElementById("refundAccount").value;
+
+			 $.ajax({
 	    		url:'/mypage/myBeforeChal',
 	    		method: 'post',
 	    		contentType : 'application/json',
-	    		data: JSON.stringify({content:content,
-	    			fileName:imgName,
-	    			groupId:chalId,
+	    		data: JSON.stringify({paymentId:paymentId,
+	    			refundMethod:refundMethod,
+	    			groupId:groupId,
 	    			refundAccount : refundAccount}),
 	    		success : function(result){
 	    			console.log(result);
@@ -356,7 +348,7 @@ h1 {
 	    		error : function(error){
 	    			console.log(error);
 	    		}
-	    	})  */
+	    	}) 
 		}
 
 	</script>
