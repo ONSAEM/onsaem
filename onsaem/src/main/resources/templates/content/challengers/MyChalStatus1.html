@@ -66,10 +66,10 @@
 						viewBox="0 0 24 24" fill="none" stroke="currentColor"
 						stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
 						class="feather feather-calendar">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-          <line x1="16" y1="2" x2="16" y2="6" />
-          <line x1="8" y1="2" x2="8" y2="6" />
-          <line x1="3" y1="10" x2="21" y2="10" /></svg>
+					          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+					          <line x1="16" y1="2" x2="16" y2="6" />
+					          <line x1="8" y1="2" x2="8" y2="6" />
+					          <line x1="3" y1="10" x2="21" y2="10" /></svg>
 				</a> <a href="" class="app-sidebar-link"> <svg
 						class="link-icon feather feather-pie-chart"
 						xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -119,10 +119,10 @@
 								viewBox="0 0 24 24" fill="none" stroke="currentColor"
 								stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
 								class="feather feather-grid">
-              <rect x="3" y="3" width="7" height="7" />
-              <rect x="14" y="3" width="7" height="7" />
-              <rect x="14" y="14" width="7" height="7" />
-              <rect x="3" y="14" width="7" height="7" /></svg>
+						              <rect x="3" y="3" width="7" height="7" />
+						              <rect x="14" y="3" width="7" height="7" />
+						              <rect x="14" y="14" width="7" height="7" />
+						              <rect x="3" y="14" width="7" height="7" /></svg>
 						</button>
 					</div>
 				</div>
@@ -139,7 +139,7 @@
 
 			<div class="profile-user-settings">
 
-				<h1 class="profile-user-name">janedoe_</h1>
+				<h1 class="profile-user-name" th:text="${chal.chalName}">janedoe_</h1>
 
 				<button class="btn profile-edit-btn">Edit Profile</button>
 
@@ -148,10 +148,9 @@
 			</div>
 
 			<div class="profile-stats">
-
 				<ul>
-					<li><span class="profile-stat-count">164</span> posts</li>
-					<li><span class="profile-stat-count">188</span> followers</li>
+					<li>시작일 <span class="profile-stat-count" th:text="${#dates.format(chal.startDate, 'MM월 dd일')}" id="startDate" >164</span></li>
+					<li>종료일 <span class="profile-stat-count" th:text="${#dates.format(chal.endDate, 'MM월 dd일')}" id="endDate" th:value="${chal.endDate}">188</span> followers</li>
 					<li><span class="profile-stat-count">206</span> following</li>
 				</ul>
 
@@ -159,7 +158,7 @@
 
 			<div class="profile-bio">
 
-				<p><span class="profile-real-name">Jane Doe</span> Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️</p>
+				<p>챌린지 <span class="profile-real-name" th:text="${chal.chalName}">Jane Doe</span>가 종료일까지 <span class="profile-real-name" th:text="${dday}">Jane Doe</span>일 남았어요. 남은 날들도 화이팅!</p>
 
 			</div>
 
@@ -449,28 +448,40 @@
 			  });
 			});
 		
+		
 		//도넛차트
 		 google.charts.load("current", {packages:["corechart"]});
 	      google.charts.setOnLoadCallback(drawChart);
 	      function drawChart() {
 	        var data = google.visualization.arrayToDataTable([
-	          ['Task', 'Hours per Day'],
-	          ['Work',     11],
-	          ['Eat',      2],
-	          ['Commute',  2],
-	          ['Watch TV', 2],
-	          ['Sleep',    7]
+	          ['Task', 'percent'],
+	          ['Work',     50],
+	          ['no', 50]
 	        ]);
 	
 	        var options = {
-	          title: 'My Daily Activities',
+	          title: '나의 인증 현황',
 	          pieHole: 0.4,
+	          colors: ['pink', '#d3362d']
 	        };
 	
 	        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
 	        chart.draw(data, options);
 	      }
-
+	      
+	      	let good = Number("[[${cntGood}]]");
+	     	let bad = Number("[[${cntBad}]]"); 
+	     	let total = Number("[[${total}]]");
+	     	let success = (good/total)*100;
+	     	let expectedSuccess;
+	     	//예상 달성률은 total분모로 good더하고,,bad빼고,, 남은dday넣으면 되나?
+	     	//예상 포인트 예상 달성률의 1퍼
+	     	//현재 확보한 포인트..?
+	     	//예상 포인트 달성률,,- if구문 쓰기..아마도..?
+	     	
+	     	console.log(success);
+	      
+	     	
 		</script>
     	
 			<script th:src="@{/shoptemplate/js/main.js}"></script>

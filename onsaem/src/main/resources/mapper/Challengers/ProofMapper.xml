@@ -13,6 +13,12 @@
 		VALUES(#{proofId}, #{chalId}, #{proofWriter},
 		#{content}, CURRENT_DATE, #{condition})
 	</insert>
+	
+	<select id="listProofAll" resultType="proofVO">
+		SELECT *
+		FROM PROOFS
+		WHERE CHAL_ID = #{chal_id}
+	</select>
 
 	<!--인증샷 안보이게 하는거 -->
 	<update id="hideProof" parameterType="ProofVO">
@@ -123,7 +129,7 @@
 	</select>
 	
 	<!-- 조건에 맞는 proof 행 갯수 count하기  -->
-	<select id="countProof" parameterType="ProofVO">
+	<select id="countProof" parameterType="ProofVO" resultType="Integer">
 		SELECT COUNT(*) AS CNT
 		FROM PROOFS
 		WHERE CHAL_ID = #{chalId}
