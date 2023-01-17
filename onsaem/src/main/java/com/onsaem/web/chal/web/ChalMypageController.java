@@ -1,6 +1,8 @@
 package com.onsaem.web.chal.web;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -176,27 +178,39 @@ public class ChalMypageController {
 //		HttpSession session=request.getSession();
 //		//세션에서 가져온 로그인 된 id값
 //		String id = (String)session.getAttribute("id");
+		chalId="CH1";
 //		//챌린저스 한건 정보
-//		model.addAttribute("chal",chalService.getChal(chalId));
-//		
+		model.addAttribute("chal",chalService.getChal(chalId));
+		
+		ChalVO cvo = chalService.getChal(chalId);
+		Date end = cvo.getEndDate();
+		Date start = cvo.getStartDate();
+		Date today = new Date();
+		long dday = (today.getTime() - end.getTime())/(24*60*60*1000)+1;
+		model.addAttribute("dday", dday);
+		long days = (end.getTime() - start.getTime())/(24*60*60*1000)+1;
+
+		model.addAttribute("total", days);
+		
+		//		
 //		//해당 챌린지에 대해 내가 입력한 모든 인증샷 싹다 가져오기 - chalId, memberid
 //		vo.setGroupId(chalId);
 //		vo.setProofWriter(id);
 //		model.addAttribute("myPhotoes", proofService.getMyShotsForOne(vo));
 //		
 //		//Proofs 테이블에서 count(*) 해야함 - 조건이 성공인거, 작성자 아이디, 챌린지 아이디 필요
-//		pvo.setChalId(chalId);
-//		pvo.setProofWriter(id);
-//		pvo.setCondition("성공");
-//		
-//		model.addAttribute("cntGood", proofService.countProof(pvo));
-//		
+		pvo.setChalId(chalId);
+		pvo.setProofWriter("hodu");
+		pvo.setCondition("정상");
+		
+		model.addAttribute("cntGood", proofService.countProof(pvo));
+		
 //		//Proofs 테이블에서 count(*) 해야함 - 조건이 성공인거, 작성자 아이디, 챌린지 아이디 필요
-//		pvo.setChalId(chalId);
-//		pvo.setProofWriter(id);
-//		pvo.setCondition("실패");
-//		
-//		model.addAttribute("cntBad", proofService.countProof(pvo));
+		pvo.setChalId(chalId);
+		pvo.setProofWriter("hodu");
+		pvo.setCondition("실패");
+		
+		model.addAttribute("cntBad", proofService.countProof(pvo));
 		
 		return "content/challengers/MyChalStatus1";
 	}
@@ -204,11 +218,11 @@ public class ChalMypageController {
 	
 	//얘 마이페이지의 - 2번째 페이지, value 파일명 다고치삼
 	@RequestMapping(value="/myChalStatus2", method=RequestMethod.GET)
-	public String myChalStatus2(Model model) {
+	public String myChalStatus2(Model model, @RequestParam(value="chalId")String chalId) {
 		//한 챌린지에 대한 모든 사람들의 사진을 가져오기
 		
 		//한 챌린지에 대한 모든 사람들의 인증글 가져오기
-		
+		model.addAttribute("proofs", proofService.listProofAll(chalId));
 		return "content/challengers/MyChalStatus2";
 	}
 	
