@@ -24,6 +24,7 @@ public class MemberController {
 	@Autowired
 	MemberService memberService;
 	
+	
 	// 로그인페이지 이동
 	@RequestMapping(value = "/loginPage", method = RequestMethod.GET)
 	public String loginPage(String excep, Model model) {
@@ -40,8 +41,7 @@ public class MemberController {
 	// 이메일 인증
 	@RequestMapping(value = "/authMail", method = RequestMethod.POST)
 	@ResponseBody
-	public String authMail(@RequestParam(value = "fileList", required = false) List<MediaVO> fileList, String email) {
-		
-		return memberService.sendAuthMail(email, fileList);
+	public String authMail(String email) {
+		return memberService.sendAuthMail(email);
 	}
 }
