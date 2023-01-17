@@ -39,6 +39,13 @@
 		DELETE REPLIES
 		WHERE REPLY_ID = #{replyId}
 	</delete>
+	
+	<!--한 인증글에 대한 댓글들 -->
+	<select id="listReply" resultType="RepliesVO">
+		SELECT * 
+		FROM REPLIES
+		WHERE GROUP_ID = #{GROUPID}
+	</select>
 
 	<!--좋아요 -->
 	<insert id="inputLike" parameterType="LikeVO">
@@ -51,6 +58,8 @@
 		values(#{replyId}, #{content}, #{groupId}, #{groups}, #{writerId},
 		CURRENT_DATE);
 	</insert>
+	
+	
 
 	<!--좋아요 취소 -->
 	<delete id="delLike" parameterType="string">
@@ -61,7 +70,7 @@
 
 	<!-- 좋아요 리스트 뽑기 -->
 	<select id="listLike" parameterType="LikeVO" resultType="LikeVO">
-		SELECT
+		SELECT *
 		FROM LIKES
 		WHERE GROUPS = #{groups}
 		AND GROUP_ID = #{groupId}
@@ -102,14 +111,6 @@
 		WHERE MEDIA_ID = #{mediaId}
 	</select>
 
-	<!-- 사진 한건 보기 -->
-	<select id="getMediaOption" parameterType="MediaVO"
-		resultType="MediaVO">
-		SELECT M.FILE_ROUTE AS FILEROUTE, M.MEDIA_NAME AS MEDIANAME
-		FROM MEDIA M JOIN CHALLENGES C
-		ON M.GROUP_ID = C.CHAL_ID
-		WHERE M.SUB_GROUP = #{subGroup}';
-	</select>
 	
 	<!-- 한 챌린지에 대해 내가 입력한 모든 인증샷 싹다 가져오기 -->
 	<select id="getMyShotsForOne" parameterType="MediaVO" resultType="MediaVO">
@@ -160,5 +161,14 @@
 			AND PROOF_WRITER = #{proofWriter}
 			AND WRITE_DATE = CURRENT_DATE
 	</select>
+	
+	<!-- proofId로 1건 조회 -->
+	<select id="getProof" resultType="ProofVO">
+		SELECT * 
+		FROM PROOFS
+		WHERE PROOF_ID = #{proofId}
+	</select>
 
+
+	
 </mapper>

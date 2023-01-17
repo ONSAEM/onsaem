@@ -15,7 +15,7 @@ public interface ProofMapper {
 	//챌린지별 전체 보기 - 조인써야된다, 수정필요
 	List<ProofVO> listProofAll(String chalId);
 	
-	//상세보기 - 조인시발
+	//상세보기 
 	ProofVO getProof(String proofId);
 	
 	//여유되면 하는거 - 같은챌린지의 한 참가자가 인증샷 다 보기 - 조인해야됨, 근데 안할거같아
@@ -30,6 +30,9 @@ public interface ProofMapper {
 	
 	//댓삭
 	Integer delReply(String replyId); 
+	
+	//댓글보기
+	List<RepliesVO> listReply(String groupId);
 	
 	//좋아요
 	Integer inputLike(LikeVO vo);

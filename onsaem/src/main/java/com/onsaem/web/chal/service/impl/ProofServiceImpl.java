@@ -140,5 +140,11 @@ public class ProofServiceImpl implements ProofService {
 		return proofMapper.checkProof(vo);
 	}
 
+	@Override
+	public List<RepliesVO> listReply(String groupId) {
+		// TODO Auto-generated method stub
+		return proofMapper.listReply(groupId);
+	}
+
 
 }

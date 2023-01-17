@@ -203,7 +203,52 @@ public class ChalMypageController {
 	
 	//얘 마이페이지의 - 2번째 페이지, value 파일명 다고치삼
 	@RequestMapping(value="/myChalStatus2", method=RequestMethod.GET)
-	public String test() {
+	public String myChalStatus2(Model model) {
+		//한 챌린지에 대한 모든 사람들의 사진을 가져오기
+		
+		//한 챌린지에 대한 모든 사람들의 인증글 가져오기
+		
+		return "content/challengers/MyChalStatus2";
+	}
+	
+	//마이페이지 2번쨰 페이지의 모달창내용 ㅎㅎ
+	@RequestMapping(value="/proofDetail", method=RequestMethod.GET)
+	public String proofDetail(Model model) {
+		//게시글에 대한 인증샷 1개 가져오기
+			
+		//게시글 한개 내용 가져오기
+		//model.addAttribute("proof", proofService.de)
+		
+		//좋아요 가져오기
+		model.addAttribute("replies", proofService.listReply(null));
+			
+		return "content/challengers/MyChalStatus2";
+	}
+	
+	@RequestMapping(value="/addLike", method=RequestMethod.POST)
+	public String addLike(Model model) {
+		//좋아요 넣기
+		
+		//좋아요 조회해서 가져와야할듯,,
+		
+		return "content/challengers/MyChalStatus2";
+	}
+	
+	@RequestMapping(value="/delLike", method=RequestMethod.POST)
+	public String delLike(Model model) {
+		//좋아요 삭제
+		
+		//좋아요 조회해서 가져와야할듯,,
+		
+		return "content/challengers/MyChalStatus2";
+	}
+	
+	@RequestMapping(value="/inputReply", method=RequestMethod.POST)
+	public String inputReply(Model model) {
+		//좋아요 삭제
+		
+		//좋아요 조회해서 가져와야할듯,,
+		
 		return "content/challengers/MyChalStatus2";
 	}
 	
