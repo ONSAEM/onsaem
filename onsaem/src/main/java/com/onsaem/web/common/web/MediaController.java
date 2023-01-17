@@ -34,13 +34,14 @@ public class MediaController {
 	
 	@RequestMapping(value = "/mediaTest", method = RequestMethod.POST)
 	@ResponseBody
-	public List<MediaVO>  mediaTest(@RequestParam("uploadfile")MultipartFile[] uploadfile,@RequestParam("groupId") String groupId,@RequestParam("groups")  String groups) throws IllegalStateException, IOException{    
+	public List<MediaVO>  mediaTest(@RequestParam("uploadfile")MultipartFile[] uploadfile,@RequestParam("groupId") String groupId,@RequestParam("groups") String groups,@RequestParam(value = "subGroup", required = false) String subGroup) throws IllegalStateException, IOException{    
 	  List<MediaVO> list= new ArrayList<MediaVO>();
-	  System.out.println(uploadfile);
-	  System.out.println(groupId);
-	  System.out.println(groups);
+	  MediaVO vo = new MediaVO();
+	  vo.setGroupId(groupId);
+	  vo.setGroups(groups);
+	  vo.setSubGroup(subGroup);
 	  //파일 업로드하는 기능 부르기+DB에 저장하기/첨부파일 테이블에 저장할 때 쓰임
-	  list = mediaService.uploadMedia(uploadfile, groupId, groups);
+	  list = mediaService.uploadMedia(uploadfile,vo);
 	  return list;
 	}
 	

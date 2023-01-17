@@ -6,8 +6,8 @@
 <selectKey keyProperty="mediaId" resultType="String" order="BEFORE">
 SELECT 'M'||LPAD(MEDIA_SEQ.NEXTVAL,3,0) FROM DUAL
 </selectKey>
- INSERT INTO MEDIA (MEDIA_ID, GROUP_ID, GROUPS, FILE_NAME, FILE_ROUTE, MEDIA_NAME, MEDIA_ORDER)
-    VALUES (#{mediaId},#{groupId},#{groups},#{fileName},#{fileRoute},#{mediaName},#{mediaOrder})
+ INSERT INTO MEDIA (MEDIA_ID, GROUP_ID, GROUPS, SUB_GROUP, FILE_NAME, FILE_ROUTE, MEDIA_NAME, MEDIA_ORDER)
+    VALUES (#{mediaId},#{groupId},#{groups},#{subGroup},#{fileName},#{fileRoute},#{mediaName},#{mediaOrder})
 </insert>
 
 <select id="getMedia" resultType="MediaVO">
