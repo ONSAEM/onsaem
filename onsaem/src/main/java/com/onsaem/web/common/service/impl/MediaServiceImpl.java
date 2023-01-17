@@ -28,7 +28,7 @@ public class MediaServiceImpl implements MediaService{
     private String uploadPath;
 	
 	@Override
-	public List<MediaVO> uploadMedia(MultipartFile[] uploadfile, String groupId, String groups) throws IllegalStateException, IOException {
+	public List<MediaVO> uploadMedia(MultipartFile[] uploadfile,MediaVO media) throws IllegalStateException, IOException {
 		 List<MediaVO> list = new ArrayList<MediaVO>();
 	      
 	      //파일 경로위치에 물리적으로 저장하기
@@ -75,8 +75,9 @@ public class MediaServiceImpl implements MediaService{
 	          vo.setFileName(list.get(i).getFileName());
 	          vo.setFileRoute(list.get(i).getFileRoute());
 	          vo.setMediaName(list.get(i).getUuid()+"_"+list.get(i).getFileName());
-	          vo.setGroupId(groupId); //test용, 게시글 번호
-	          vo.setGroups(groups);//test용, board에 넣음\
+	          vo.setGroupId(media.getGroupId());
+	          vo.setGroups(media.getGroups());
+	          vo.setSubGroup(media.getSubGroup());
 	          mediaMapper.insertMedia(vo);
 	       }
 	      return list;
