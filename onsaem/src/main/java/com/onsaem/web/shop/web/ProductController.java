@@ -1,11 +1,14 @@
 package com.onsaem.web.shop.web;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.onsaem.web.common.service.LikeVO;
+import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.shop.service.CartService;
@@ -26,6 +30,8 @@ import com.onsaem.web.shop.service.OptionVO;
 import com.onsaem.web.shop.service.ProductService;
 import com.onsaem.web.shop.service.ProductVO;
 
+import groovyjarjarantlr4.v4.runtime.misc.Nullable;
+
 @Controller
 @CrossOrigin(origins = "*")
 public class ProductController {
@@ -33,6 +39,8 @@ public class ProductController {
 	ProductService proService;
 	@Autowired
 	CartService cartService;
+	@Autowired
+	MediaService mediaService;
 
 	CartVO cartVo = new CartVO();
 	LikeVO likeVo = new LikeVO();
@@ -42,15 +50,14 @@ public class ProductController {
 	@RequestMapping(value = "/shop", method = RequestMethod.GET)
 	public String shopMain(Model model, @RequestParam(value = "data", required = false) String data,
 			Authentication authentication) {
-		System.out.println("======================="+authentication);
-		if(authentication!=null) {
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		cartVo.setMemberId(userDetails.getUsername());
-		likeVo.setMemberId(userDetails.getUsername());
-		model.addAttribute("cartList", cartService.cartList(cartVo)); // 장바구니 수량가져오기 위한 리스트
-		model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
-		}		
-		
+		if (authentication != null) {
+			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			cartVo.setMemberId(userDetails.getUsername());
+			likeVo.setMemberId(userDetails.getUsername());
+			model.addAttribute("cartList", cartService.cartList(cartVo)); // 장바구니 수량가져오기 위한 리스트
+			model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
+		}
+
 		if (data != null && data.equals("popularity")) {
 			model.addAttribute("productList", proService.popList());
 			return "content/shop/shopMain";
@@ -123,35 +130,55 @@ public class ProductController {
 		return "redirect:/shop";
 	}
 
-	// 상품등록페이지로 이동
-	@RequestMapping(value = "/addProductPage", method = RequestMethod.GET)
-	public String addProductPage(Model model, @RequestParam(value = "data", required = false) String data) {
-		model.addAttribute("categoryList", proService.categoryList());
-		return "content/shop/addProduct";
-	}
-
 	// 판매자 페이지로 이동
 	@RequestMapping(value = "/sellerMain", method = RequestMethod.GET)
 	public String seller(Model model, @RequestParam(value = "data", required = false) String data,
 			HttpServletRequest request) {
-		
+
 		return "content/shop/sellerMain";
+	}
+
+	// 상품등록페이지로 이동
+	@RequestMapping(value = "/addProductPage", method = RequestMethod.GET)
+	public String addProductPage(Model model) {
+		model.addAttribute("categoryList", proService.categoryList());
+		return "content/shop/addProduct";
 	}
 
 	// 상품등록
 	@RequestMapping(value = "/addProduct", method = RequestMethod.POST)
-	public String addProduct(Model model, ProductVO vo, OptionVO ovo,Authentication authentication, List<MultipartFile> uploadFile) {
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();	
-		for(int i=0;i<uploadFile.size();i++) {
-			System.out.println("============================="+uploadFile.get(i));
-		}
-		
+	public String addProduct(Model model, @Nullable ProductVO vo, OptionVO ovo, Authentication authentication,
+			@RequestParam(value = "uploadFile", required = false) MultipartFile[] uploadFile)
+			throws IllegalStateException, IOException {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		
 		vo.setMemberId(userDetails.getUsername());
-		proService.addProduct(vo);			
-		ovo.setProductId(vo.getProductId()); 
-		proService.addOption(ovo);
-		return "content/shop/addProduct";
+		proService.addProduct(vo);
+		ovo.setProductId(vo.getProductId());
+		
+		//옵션목록 넣기
+		String[] array = ovo.getOptionContent().split(",");
+		for (int i = 0; i < array.length; i++) {		
+			ovo.setOptionContent(array[i]);
+			proService.addOption(ovo);
+		}		
+		
+		MediaVO mvo = new MediaVO();
+		mvo.setGroupId(vo.getProductId());
+		mvo.setGroups("쇼핑몰");		
+		
+		//사진구분해서 넣기
+		for (int i = 0; i < uploadFile.length; i++) {
+			if (uploadFile[i] == uploadFile[0]) {
+				mvo.setSubGroup("대표이미지");
+				mediaService.uploadMedia(uploadFile, mvo);
+			} else {
+				mvo.setSubGroup("추가이미지");
+				mediaService.uploadMedia(uploadFile, mvo);
+			}
+		}		
+
+		return "redirect:/addProductPage";
 	}
 
 	// 상품신고
@@ -174,8 +201,8 @@ public class ProductController {
 
 	// 버튼찜클릭 삭제
 	@RequestMapping(value = "/delMyLike", method = RequestMethod.POST)
-	public String delMyLike(Model model, @RequestBody ProductVO vo, Authentication authentication) {	
-		proService.delMyLike(vo);	
+	public String delMyLike(Model model, @RequestBody ProductVO vo, Authentication authentication) {
+		proService.delMyLike(vo);
 		return "content/shop/shopLike";
 	}
 }

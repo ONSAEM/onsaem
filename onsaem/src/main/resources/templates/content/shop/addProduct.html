@@ -27,6 +27,7 @@
 </th:block>
 
 <head>
+
 <style type="text/css">
 .wrapper {
 	max-width: 900px;
@@ -264,6 +265,46 @@
 	overflow: hidden;
 	border: 0;
 }
+
+.naturefile {
+	width: 50%;
+	outline: none;
+	border: 1px solid #d5dbd9;
+	font-size: 15px;
+	padding: 8px 10px;
+	border-radius: 3px;
+	transition: all 0.3s ease;
+	cursor: default;
+}
+
+.addfile {
+	width: 50%;
+	outline: none;
+	border: 1px solid #d5dbd9;
+	font-size: 15px;
+	padding: 8px 10px;
+	border-radius: 3px;
+	transition: all 0.3s ease;
+	cursor: default;
+}
+
+#addfile {
+	position: absolute;
+	width: 0;
+	height: 0;
+	padding: 0;
+	overflow: hidden;
+	border: 0;;
+}
+
+.filebox #naturefile {
+	position: absolute;
+	width: 0;
+	height: 0;
+	padding: 0;
+	overflow: hidden;
+	border: 0;
+}
 </style>
 </head>
 <!-- Content -->
@@ -287,7 +328,8 @@
 	<!-- Breadcrumb Section End -->
 
 	<br>
-	<form action="/addProduct" method="post">
+	<form method="post" action="/addProduct" name="uploadForm"
+		enctype="multipart/form-data">
 		<div class="wrapper">
 			<div class="form">
 				<div class="inputfield">
@@ -297,9 +339,9 @@
 				<div class="imgFile">
 					<div class="filebox">
 						<label style="width: 10%;" class="filelabel" onclick="addPart()">+
-						</label> <input class="inputfile" placeholder="상품이미지" readonly
-							name="uploadfile"> <label for="file" class="filelabel"
-							name="uploadFile">사진등록</label> <input type="file" id="file">
+						</label> <input class="inputfile" placeholder="상품이미지" readonly> <label
+							for="file" class="filelabel">사진등록</label> <input type="file"
+							id="file" name="uploadFile">
 					</div>
 				</div>
 				<div class="inputfield">
@@ -325,7 +367,9 @@
 						<select name="category">
 							<option value="">::카테고리::</option>
 							<option th:each="category:${categoryList}"
-								th:value="${category.category}" th:text="${category.category}">Male</option>
+								th:value="${category.optionContent}"
+								th:text="${category.optionContent}"></option>
+
 						</select>
 					</div>
 				</div>
@@ -335,13 +379,10 @@
 							class="input" name="optionContent"><input type="button"
 							value="+" class="checkBtn" onclick="addOption()">
 					</div>
-				</div><br>
-				<div class="inputfield">
-					<label>상품상세내용<span class="request">*</span></label> <input
-						type="text" class="input" name="productName">
 				</div>
+				<br>
 				<div class="inputfield">
-					<label>우편번호<span class="request">*</span></label> <input
+					<label>반송주소<span class="request">*</span></label> <input
 						type="text" id="sample6_postcode" class="input" name="sellerAddr"><input
 						type="button" onclick="sample6_execDaumPostcode()" value="주소검색"
 						class="checkBtn">
@@ -363,14 +404,14 @@
 						type="text" class="input" name="productInfo">
 				</div>
 				<div class="filebox">
-					<label style="width: 20%;"> </label> <input class="inputfile"
-						placeholder="친환경인증증서" readonly name="natureImg"> <label
-						for="file" class="filelabel">사진등록</label>
+					<label style="width: 20%;"></label> <input class="naturefile"
+						placeholder="친환경인증증서" readonly> <label for="naturefile"
+						class="filelabel">사진등록</label> <input type="file" id="naturefile">
 				</div>
 				<div class="inputfield">
 					<input type="submit" value="등록신청" class="btn"
-						style="background-color: #66C;"><input type="reset"
-						value="취소" class="btn">
+						style="background-color: #66C;" onclick="submitProduct()"><input
+						type="reset" value="취소" class="btn">
 				</div>
 			</div>
 		</div>
@@ -390,7 +431,8 @@
 		<script th:src="@{/shoptemplate/js/main.js}"></script>
 	</th:block>
 
-	<script type="text/javascript">
+	<script type="text/javascript">	
+	//주소API
 		function sample6_execDaumPostcode() {
 			new daum.Postcode(
 					{
@@ -448,65 +490,72 @@
 		//상품미리보기
 		$("#file").on('change', function() {
 			var fileName = $("#file").val();
-			$(".inputfile").val(fileName);
+			$(".inputfile").val(fileName);			
 			readURL(this);
 		});
-
-		function readURL(obj) {
-			let reader = new FileReader();
-			if (!obj.files.length) {
-				return;
-			}
-			reader.readAsDataURL(obj.files[0]);
-			reader.onload = function(e) {
-				$('#preview-image').attr('src', e.target.result);
-			}
-		}
-
-		$("#file").on('change', function() {
-			var fileName = $("#file").val();
-			$(".inputfile").val(fileName);
-			readURL(this);
-		});
-
-		function readURL(obj) {
-			let reader = new FileReader();
-			if (!obj.files.length) {
-				return;
-			}
-			reader.readAsDataURL(obj.files[0]);
-			reader.onload = function(e) {
-				$('#preview-image').attr('src', e.target.result);
-			}
-		}
 		
-		let addImgNo=1;
+		$("#naturefile").on('change', function() {
+			var fileName = $("#naturefile").val();
+			$(".naturefile").val(fileName);
+			readURL(this);
+		});
+		
+		$("#addfile").on('change', function() {
+			var fileName = $("#addfile").val();
+			$(".addfile").val(fileName);
+			readURL(this);
+		});
+
+		function readURL(obj) {
+			console.log(obj)
+			let reader = new FileReader();
+			if (!obj.files.length) {
+				return;
+			}
+			reader.readAsDataURL(obj.files[0]);
+			reader.onload = function(e) {
+				console.log( e.target.result)
+				$('#preview-image').attr('src', e.target.result);
+			}
+		}		
 		
 		//상품추가버튼
 		function addPart() {			
-		    let filetemplate=`<div class="imgFile">
-				<div class="filebox">
-				<label style="width: 10%;" class="filelabel" onclick="addPart()">+
-				</label> <input class="inputfile" placeholder="추가이미지" readonly
-					name="uploadfile"> <label for="file" class="filelabel" name="uploadFile">사진등록</label>
-				<input type="file" id="file">
-			</div>
-		</div>`;
+		     let filetemplate=`<div class="filebox" id="addFileBox">
+				<label style="width: 10%;" class="filelabel" onclick="delPart()">X
+				</label> <input class="addfile" placeholder="추가이미지" readonly> <label
+					for="addfile" class="filelabel">사진등록</label> <input type="file"
+					id="addfile" name="uploadFile">
+			</div>`; 						
+		
 			document.querySelector(".imgFile").innerHTML+=filetemplate;
-			addImgNo++
 		}
+		
+		//상품추가이미지 삭제
+		function delPart(){
+			document.querySelector("#addFileBox").remove();
+		}		
 		
 		//옵션추가버튼
 		function addOption(){
-			let addOption=`<div class="inputfield">
-				<label>옵션<span class="request">*</span></label> <input type="text"
-				class="input" name="optionContent"><input type="button"
-				value="+" class="checkBtn" onclick="addOption()">
+			let addOption=`<div class="inputfield" id="addOption">
+				<label>옵션</label> <input type="text"
+				class="input" name="optionContent" placeholder="추가옵션"><input type="button"
+				value="X" class="checkBtn" onclick="delOption()">
 		</div>`;
 		document.querySelector(".options").innerHTML+=addOption;
 		}
+		
+		//추가옵션 삭제
+		function delOption(){
+			document.querySelector("#addOption").remove();
+		}
+		
 	</script>
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.3.js"
+		integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+		crossorigin="anonymous"></script>
 
 </div>

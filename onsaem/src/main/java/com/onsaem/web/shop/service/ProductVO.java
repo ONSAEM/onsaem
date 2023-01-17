@@ -13,10 +13,10 @@ public class ProductVO {
 	String productId;	//상품코드
 	String productName;	//상품명
 	String productDetail;	//상세설명
-	int price;	//판매가
+	Integer price;	//판매가
 	double star;	//별점
-	int amount;	//재고량
-	int deliveryFee;	//배송비	
+	Integer amount;	//재고량
+	Integer deliveryFee;	//배송비	
 	String optionId;	//옵션
 	String category;	//카테고리
 	String natureId;	//친환경인증증서코드
@@ -36,4 +36,8 @@ public class ProductVO {
 	String groups;
 	Date insertDate;
 	String likeId;
+	
+
+	String optionContent;
+	String topOptionId;
 }
