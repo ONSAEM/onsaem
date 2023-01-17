@@ -13,8 +13,7 @@
 		P.PRICE AS PRICE,
 		P.STAR AS STAR,
 		P.AMOUNT AS AMOUNT,
-		P.DELIVERY_FEE AS DELIVERY_FEE,
-		P.OPTIONS AS OPTIONS,
+		P.DELIVERY_FEE AS DELIVERY_FEE,		
 		P.CATEGORY AS CATEGORY,
 		P.PRODUCT_STATUS AS
 		PRODUCT_STATUS,
@@ -45,8 +44,7 @@
 		P.PRICE AS PRICE,
 		P.STAR AS STAR,
 		P.AMOUNT AS AMOUNT,
-		P.DELIVERY_FEE AS DELIVERY_FEE,
-		P.OPTIONS AS OPTIONS,
+		P.DELIVERY_FEE AS DELIVERY_FEE,		
 		P.CATEGORY AS CATEGORY,
 		P.PRODUCT_STATUS AS
 		PRODUCT_STATUS,
@@ -76,8 +74,7 @@
 		P.PRICE AS PRICE,
 		P.STAR AS STAR,
 		P.AMOUNT AS AMOUNT,
-		P.DELIVERY_FEE AS DELIVERY_FEE,
-		P.OPTIONS AS OPTIONS,
+		P.DELIVERY_FEE AS DELIVERY_FEE,		
 		P.CATEGORY AS CATEGORY,
 		P.PRODUCT_STATUS AS
 		PRODUCT_STATUS,
@@ -108,9 +105,7 @@
 		P.PRICE AS PRICE,
 		P.STAR AS STAR,
 		P.AMOUNT AS AMOUNT,
-		P.DELIVERY_FEE AS DELIVERY_FEE,
-		P.OPTIONS AS
-		OPTIONS,
+		P.DELIVERY_FEE AS DELIVERY_FEE,		
 		P.CATEGORY AS CATEGORY,
 		P.PRODUCT_STATUS AS
 		PRODUCT_STATUS,
@@ -159,8 +154,10 @@
 		L.GROUPS,
 		L.INSERT_DATE,
 		L.LIKE_ID,M.FILE_ROUTE,M.MEDIA_NAME
-		FROM LIKES L,MEDIA M,PRODUCTS P
-		WHERE L.MEMBER_ID=#{memberId} AND M.SUB_GROUP='대표이미지' AND L.GROUPS='쇼핑몰'
+		FROM LIKES L,MEDIA
+		M,PRODUCTS P
+		WHERE L.MEMBER_ID=#{memberId} AND M.SUB_GROUP='대표이미지' AND
+		L.GROUPS='쇼핑몰'
 		AND
 		M.GROUP_ID=L.GROUP_ID AND L.GROUP_ID=P.PRODUCT_ID
 	</select>
@@ -176,8 +173,7 @@
 		P.PRICE AS PRICE,
 		P.STAR AS STAR,
 		P.AMOUNT AS AMOUNT,
-		P.DELIVERY_FEE AS DELIVERY_FEE,
-		P.OPTIONS AS OPTIONS,
+		P.DELIVERY_FEE AS DELIVERY_FEE,		
 		P.CATEGORY AS CATEGORY,
 		P.PRODUCT_STATUS AS
 		PRODUCT_STATUS,
@@ -222,6 +218,9 @@
 	<!-- 상품등록 -->
 	<insert id="addProduct"
 		parameterType="com.onsaem.web.shop.service.ProductVO">
+		<selectKey resultType="string" keyProperty="productId" order="BEFORE">			
+			SELECT 'PR'||PRODUCT_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
 		INSERT INTO
 		PRODUCTS(PRODUCT_ID,
 		PRODUCT_NAME,
@@ -230,14 +229,14 @@
 		STAR,
 		AMOUNT,
 		DELIVERY_FEE,
-		OPTIONS,
 		CATEGORY,
 		PRODUCT_STATUS,
 		REGISTER_DATE,
 		MEMBER_ID,
-		PRODUCT_INFO)
-		VALUES('PR'||PRODUCT_SEQ.NEXTVAL,#{productName},#{productDetail}
-		,#{price},0,#{amount},#{deliveryFee},'OP'||OP_SEQ.NEXTVAL,#{category},'승인대기',CURRENT_DATE,#{memberId},#{productInfo})
+		PRODUCT_INFO,
+		SELLER_ADDR)
+		VALUES(#{productId},#{productName},#{productDetail}
+		,#{price},0,#{amount},#{deliveryFee},#{category},'승인대기',CURRENT_DATE,#{memberId},#{productInfo},#{sellerAddr})
 	</insert>
 
 	<!-- 상품이미지등록 -->
@@ -287,4 +286,10 @@
 		delete from likes
 		where like_id=#{likeId}
 	</delete>
+	
+	<!-- 상품 옵션 저장 -->
+	<insert id="addOption" parameterType="com.onsaem.web.shop.service.OptionVO">
+		INSERT INTO OPTIONS
+		VALUES('OP'||OPTION_SEQ.NEXTVAL,#{productId},#{optionContent},#{topOptionId})
+	</insert>
 </mapper>

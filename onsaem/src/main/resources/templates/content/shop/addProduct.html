@@ -13,6 +13,7 @@
 
 <title>Ogani | Template</title>
 
+
 <!-- Google Font -->
 <link
 	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
@@ -25,11 +26,251 @@
 		type="text/css">
 </th:block>
 
+<head>
+<style type="text/css">
+.wrapper {
+	max-width: 900px;
+	width: 100%;
+	background: #fff;
+	margin: 50px auto;
+	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.125);
+	padding: 30px;
+}
 
+.wrapper .title {
+	font-size: 24px;
+	font-weight: 700;
+	margin-bottom: 25px;
+	color: #5bc1ac;
+	text-transform: uppercase;
+	text-align: center;
+}
 
+.wrapper .form {
+	width: 100%;
+}
+
+.wrapper .form .inputfield {
+	margin-bottom: 15px;
+	display: flex;
+	align-items: center;
+}
+
+.wrapper .form .inputfield label {
+	width: 20%;
+	color: #757575;
+	font-size: 14px;
+}
+
+.wrapper .form .inputfield .request {
+	color: red;
+	font-size: 20px;
+}
+
+.wrapper .form .inputfield .input, .wrapper .form .inputfield .textarea
+	{
+	width: 50%;
+	outline: none;
+	border: 1px solid #d5dbd9;
+	font-size: 15px;
+	padding: 8px 10px;
+	border-radius: 3px;
+	transition: all 0.3s ease;
+}
+
+.wrapper .form .inputfield .textarea {
+	width: 100%;
+	height: 125px;
+	resize: none;
+}
+
+.wrapper .form .inputfield .custom_select {
+	position: relative;
+	height: 37px;
+}
+
+.wrapper .form .inputfield .custom_select:before {
+	content: "";
+	position: absolute;
+	top: 12px;
+	right: 10px;
+	border: 8px solid;
+	border-color: #d5dbd9 transparent transparent transparent;
+	pointer-events: none;
+}
+
+.wrapper .form .inputfield .custom_select select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	outline: none;
+	width: 100%;
+	height: 100%;
+	border: 0px;
+	padding: 8px 10px;
+	font-size: 15px;
+	border: 1px solid #d5dbd9;
+	border-radius: 3px;
+}
+
+.wrapper .form .emailCk {
+	display: none;
+}
+
+.wrapper .form .inputfield .input:focus, .wrapper .form .inputfield .textarea:focus,
+	.wrapper .form .inputfield .custom_select select:focus {
+	border: 1px solid #fec107;
+}
+
+.wrapper .form .inputfield p {
+	font-size: 14px;
+	color: #757575;
+}
+
+.wrapper .form .inputfield .check {
+	width: 15px;
+	height: 15px;
+	position: relative;
+	display: block;
+	cursor: pointer;
+}
+
+.wrapper .form .inputfield .check input[type="checkbox"] {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+}
+
+.wrapper .form .inputfield .check .checkmark {
+	width: 15px;
+	height: 15px;
+	border: 1px solid #5bc1ac;
+	display: block;
+	position: relative;
+}
+
+.wrapper .form .inputfield .check .checkmark:before {
+	content: "";
+	position: absolute;
+	top: 1px;
+	left: 2px;
+	width: 5px;
+	height: 2px;
+	border: 2px solid;
+	border-color: transparent transparent #fff #fff;
+	transform: rotate(-45deg);
+	display: none;
+}
+
+.wrapper .form .inputfield .check input[type="checkbox"]:checked ~
+	.checkmark {
+	background: #5bc1ac;
+}
+
+.wrapper .form .inputfield .check input[type="checkbox"]:checked ~
+	.checkmark:before {
+	display: block;
+}
+
+.wrapper .form .inputfield .btn, .wrapper .form .inputfield  .checkBtn {
+	margin: 0px auto;
+	padding: 8px 10px;
+	font-size: 15px;
+	border: 0px;
+	background: #5bc1ac;
+	color: #fff;
+	cursor: pointer;
+	border-radius: 3px;
+	outline: none;
+}
+
+.wrapper .form .inputfield .btn {
+	width: 100%;
+}
+
+.form .inputfield .checkBtn {
+	width: 20%;
+}
+
+.wrapper .form .inputfield .btn:hover, .wrapper .form .inputfield  .checkBtn:hover
+	{
+	background: #42a18d;
+}
+
+.wrapper .form .inputfield:last-child {
+	margin-bottom: 0;
+}
+
+@media ( max-width :420px) {
+	.wrapper .form .inputfield {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.wrapper .form .inputfield label {
+		margin-bottom: 5px;
+	}
+	.wrapper .form .inputfield.terms {
+		flex-direction: row;
+	}
+}
+
+.filebox {
+	margin-bottom: 15px;
+	display: flex;
+	align-items: center;
+}
+
+.filebox .inputfile {
+	width: 50%;
+	outline: none;
+	border: 1px solid #d5dbd9;
+	font-size: 15px;
+	padding: 8px 10px;
+	border-radius: 3px;
+	transition: all 0.3s ease;
+	cursor: default;
+}
+
+.inputfield #preview-image {
+	width: 300px;
+	height: 300px;
+	margin: 0px auto;
+}
+
+.filebox .filelabel {
+	width: 20%;
+	margin: 0px auto;
+	padding: 8px 10px;
+	font-size: 15px;
+	border: 0px;
+	background: #5bc1ac;
+	color: #fff;
+	cursor: pointer;
+	border-radius: 3px;
+	outline: none;
+	text-align: center;
+}
+
+.filebox .filelabel:hover {
+	background: #42a18d;
+}
+
+.filebox #file {
+	position: absolute;
+	width: 0;
+	height: 0;
+	padding: 0;
+	overflow: hidden;
+	border: 0;
+}
+</style>
+</head>
 <!-- Content -->
 
 <div layout:fragment="content">
+
+
 	<!-- Breadcrumb Section Begin -->
 	<section class="breadcrumb-section set-bg"
 		th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
@@ -37,77 +278,223 @@
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<div class="breadcrumb__text">
-						<h2>내 주문목록</h2>
+						<h2>상품등록</h2>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 	<!-- Breadcrumb Section End -->
-	<form action="/addProduct" method="post" enctype="multipart/form-data">
-		<h3>상품 등록</h3>
-		<label for="productName" id="productName">상품명</label><br> <input
-			type="text" id="productName" name="productName">
-		<div>
-			<label for="productDetail">상품설명</label>
-			<textarea rows="5" cols="20" placeholder="상품에 대한 간단한 설명"
-				id="productDetail" value="contents" name="productDetail"></textarea>
-		</div>
-		<p>
-			가격: <input id="price" value=5000 name="price"></input>
-		</p>
-		<p>
-			재고량: <input id="amount" value=5000 name="amount"></input>
-		</p>
-		<p>
-			배송비: <input id="deliveryFee" value=5000 name="deliveryFee"></input>
-		</p>
-		<div>
-			<p>
-				상품옵션1: <input class="option" value=5000 name="options"></input>
-				상품옵션2: <input class="option" value=5000></input> 상품옵션3: <input
-					class="option" value=5000></input> 상품옵션4: <input class="option"
-					value=5000></input>
-			</p>
-		</div>
-		<label for="category">카테고리</label> <select name="category">
-			<option value="">==카테고리 선택==</option>
-			<option th:each="category:${categoryList}"
-				th:value="${category.category}" th:text="${category.category}"></option>
-		</select> <br> <label for="proofEx">친환경인증증서</label> <input type="file"
-			id="proofEx" name="uploadFile">
 
-		<form name="mediaFrm">
-			<div class="inputfield">
-				<img id="preview-image"
-					src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
-			</div>
-			<div class="filebox">
-				<label style="width: 20%;"></label> <input class="inputfile"
-					placeholder="프로필사진" readonly> <label for="file"
-					class="filelabel">사진등록</label> <input type="file" id="file"
-					name="uploadfile" multiple="multiple">
-			</div>
-			<input type="hidden" name="groupId" value="test"> <input
-				type="hidden" name="groups" value="테스트용이미지">
-			<div class="inputfield">
-				<input type="button" value="등록" class="btn sendMedia">
-			</div>
-		</form>
+	<br>
+	<form action="/addProduct" method="post">
+		<div class="wrapper">
+			<div class="form">
+				<div class="inputfield">
+					<img id="preview-image"
+						src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
+				</div>
+				<div class="imgFile">
+					<div class="filebox">
+						<label style="width: 10%;" class="filelabel" onclick="addPart()">+
+						</label> <input class="inputfile" placeholder="상품이미지" readonly
+							name="uploadfile"> <label for="file" class="filelabel">사진등록</label>
+						<input type="file" id="file">
+					</div>
+				</div>
+				<div class="inputfield">
+					<label>상품명<span class="request">*</span></label> <input type="text"
+						name="productName" class="input">
+				</div>
+				<div class="inputfield">
+					<label>상품설명<span class="request">*</span></label> <input
+						type="text" name="productDetail" class="input">
+				</div>
+				<div class="inputfield">
+					<label>판매가<span class="request">*</span></label> <input type="text"
+						name="price" class="input">
+				</div>
 
-		<div>
-			<label for="contents">상품상세설명</label>
-			<textarea rows="5" cols="20" placeholder="상품에 대한 상세한 설명"
-				id="contents" name="productInfo"></textarea>
+				<div class="inputfield">
+					<label>재고량<span class="request">*</span></label> <input type="text"
+						name="amount" placeholder="500" class="input">
+				</div>
+				<div class="inputfield">
+					<label>카테고리<span class="request">*</span></label>
+					<div class="custom_select">
+						<select name="category">
+							<option value="">::카테고리::</option>
+							<option th:each="category:${categoryList}"
+								th:value="${category.category}" th:text="${category.category}">Male</option>
+						</select>
+					</div>
+				</div>
+				<div class="inputfield">
+					<label>옵션<span class="request">*</span></label> <input type="text"
+						class="input" name="optionContent"><input type="button"
+						value="+" class="checkBtn">
+				</div>
+				<div class="inputfield">
+					<label>상품상세내용<span class="request">*</span></label> <input
+						type="text" class="input" name="productName">
+				</div>
+				<div class="inputfield">
+					<label>우편번호<span class="request">*</span></label> <input
+						type="text" id="sample6_postcode" class="input" name="sellerAddr"><input
+						type="button" onclick="sample6_execDaumPostcode()" value="주소검색"
+						class="checkBtn">
+				</div>
+				<div class="inputfield">
+					<label>주소<span class="request">*</span></label> <input type="text"
+						id="sample6_address" class="input" name="sellerAddr">
+				</div>
+				<div class="inputfield">
+					<label>상세주소</label> <input type="text" id="sample6_detailAddress"
+						class="input" name="sellerAddr">
+				</div>
+				<div class="inputfield">
+					<label>배송비<span class="request">*</span></label> <input type="text"
+						class="input" name="deliveryFee">
+				</div>
+				<div class="inputfield">
+					<label>상품상세내용<span class="request">*</span></label> <input
+						type="text" class="input" name="productInfo">
+				</div>
+				<div class="filebox">
+					<label style="width: 20%;"> </label> <input class="inputfile"
+						placeholder="친환경인증증서" readonly name="natureImg"> <label
+						for="file" class="filelabel">사진등록</label>
+				</div>
+				<div class="inputfield">
+					<input type="submit" value="등록신청" class="btn"
+						style="background-color: #66C;"><input type="reset"
+						value="취소" class="btn">
+				</div>
+			</div>
 		</div>
-		<button type="submit">제출</button>
-		<button>취소</button>
 	</form>
 
 
-	<th:block layout:fragment="script">
 
+	<input type="hidden" id="sample6_postcode" placeholder="우편번호"
+		name="postalCode"> <input type="hidden"
+		onclick="sample6_execDaumPostcode()" value="우편번호 찾기"> <br>
+	<input type="hidden" id="sample6_address" placeholder="주소" name="addr">
+	<br> <input type="hidden" id="sample6_extraAddress"
+		placeholder="참고항목"><input type="hidden"
+		id="sample6_detailAddress" placeholder="상세주소" name="detailAddr">
+
+	<th:block layout:fragment="script">
 		<script th:src="@{/shoptemplate/js/main.js}"></script>
 	</th:block>
+
+	<script type="text/javascript">
+		function sample6_execDaumPostcode() {
+			new daum.Postcode(
+					{
+						oncomplete : function(data) {
+							// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+							// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+							// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+							var addr = ''; // 주소 변수
+							var extraAddr = ''; // 참고항목 변수
+
+							//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+							if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+								addr = data.roadAddress;
+							} else { // 사용자가 지번 주소를 선택했을 경우(J)
+								addr = data.jibunAddress;
+							}
+
+							// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+							if (data.userSelectedType === 'R') {
+								// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+								// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+								if (data.bname !== ''
+										&& /[동|로|가]$/g.test(data.bname)) {
+									extraAddr += data.bname;
+								}
+								// 건물명이 있고, 공동주택일 경우 추가한다.
+								if (data.buildingName !== ''
+										&& data.apartment === 'Y') {
+									extraAddr += (extraAddr !== '' ? ', '
+											+ data.buildingName
+											: data.buildingName);
+								}
+								// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+								if (extraAddr !== '') {
+									extraAddr = ' (' + extraAddr + ')';
+								}
+								// 조합된 참고항목을 해당 필드에 넣는다.
+								document.getElementById("sample6_extraAddress").value = extraAddr;
+
+							} else {
+								document.getElementById("sample6_extraAddress").value = '';
+							}
+
+							// 우편번호와 주소 정보를 해당 필드에 넣는다.
+							document.getElementById('sample6_postcode').value = data.zonecode;
+							document.getElementById("sample6_address").value = addr;
+							// 커서를 상세주소 필드로 이동한다.
+							document.getElementById("sample6_detailAddress")
+									.focus();
+						}
+					}).open();
+		};
+
+		//상품미리보기
+		$("#file").on('change', function() {
+			var fileName = $("#file").val();
+			$(".inputfile").val(fileName);
+			readURL(this);
+		});
+
+		function readURL(obj) {
+			let reader = new FileReader();
+			if (!obj.files.length) {
+				return;
+			}
+			reader.readAsDataURL(obj.files[0]);
+			reader.onload = function(e) {
+				$('#preview-image').attr('src', e.target.result);
+			}
+		}
+
+		$("#file").on('change', function() {
+			var fileName = $("#file").val();
+			$(".inputfile").val(fileName);
+			readURL(this);
+		});
+
+		function readURL(obj) {
+			let reader = new FileReader();
+			if (!obj.files.length) {
+				return;
+			}
+			reader.readAsDataURL(obj.files[0]);
+			reader.onload = function(e) {
+				$('#preview-image').attr('src', e.target.result);
+			}
+		}
+		
+		let addImgNo=1;
+		
+		//상품추가버튼
+		function addPart() {
+			
+		    let filetemplate=`<div class="filebox">
+				<label style="width: 10%;" class="filelabel" onclick="addPart()">+
+				</label> <input class="inputfile" placeholder="상품이미지" readonly
+					name="uploadfile"> <label for="file" class="filelabel">사진등록</label>
+				<input type="file" id="file" name="`+addImgNo+`">
+			</div>`;
+			document.querySelector(".imgFile").innerHTML+=filetemplate;
+			
+
+		}
+	</script>
+	<script
+		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 </div>
-</html>

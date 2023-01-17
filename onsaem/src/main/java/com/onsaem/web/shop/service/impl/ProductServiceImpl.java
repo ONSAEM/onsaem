@@ -10,6 +10,7 @@ import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.shop.mapper.ProductMapper;
+import com.onsaem.web.shop.service.OptionVO;
 import com.onsaem.web.shop.service.ProductService;
 import com.onsaem.web.shop.service.ProductVO;
 
@@ -112,6 +113,12 @@ public class ProductServiceImpl implements ProductService{
 	public int delMyLike(ProductVO vo) {
 		// 나의찜삭제
 		return proMapper.delMyLike(vo);
+	}
+
+	@Override
+	public int addOption(OptionVO ovo) {
+		// 옵션들 저장
+		return proMapper.addOption(ovo);
 	}
 
 	
