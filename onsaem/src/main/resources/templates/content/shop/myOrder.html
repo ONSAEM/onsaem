@@ -53,53 +53,23 @@
 					<div class="shoping__cart__table">
 						<table>
 							<thead>
-								<tr>
-									<th><input type="checkbox" th:onclick="checkBoxAll(this)"></input></th>
-									<th>상품이미지</th>
-									<th class="shoping__product">상품명</th>
-									<th>가격</th>
-									<th>옵션</th>
-									<th>수량</th>
-									<th>총가격</th>
-									<th></th>
+								<tr>									
+									<th><button>전체</button> </th>
+									<th ><button>배송중</button></th>
+									<th><button>배송완료</button></th>									
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="cart:${myCartList}">
-									<td><input type="checkbox" name="checkBox"
-										th:onchange="saveList([[${cart}]])"></input></td>
-									<td class="shoping__cart__item" style="width:389px"><img
-										th:src="@{{fileRoute}{mediaName}/
-									(fileRoute=${cart.fileRoute},mediaName=${cart.mediaName})}"
-										alt="" ></td>
-									<td><h5 th:text="${cart.productName}" id="productName">Fresh
-											Garden Vegetable</h5></td>
-									<td class="shoping__cart__price" id="cartPrice"
-										th:text="${cart.cartPrice}+원">$39.00</td>
-									<td th:text="${cartOption}">옵션</td>
-									<td class="shoping__cart__quantity">
-										<div class="quantity">
-											<div class="pro-qty" th:onclick="changeAmount()">
-												<input type="text" id="cartAmount"
-													th:value="${cart.cartAmount}">
-											</div>
-										</div>
-									</td>
-									<td class="shoping__cart__total" id="totalPrice"
-										th:text="${cart.cartPrice}*${cart.cartAmount}+원">$39.99</td>
-									<td class="shoping__cart__item__close" value=${cart.productId}
-										th:onclick="delCart([[${cart}]])"><span
-										class="icon_close"></span></td>
-
+								<tr th:each="order:${myOrderList}">
+									<td>주문일자 [[${order.orderDate}]]<br>[[${order.fileRoute}]]
+									<img alt="이미지 없음" th:src="|/fileView/${order.fileRoute}|"> </td>
+									<td>배송상태<br>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
-			</div>
-			<button th:onclick="selectDel()">선택삭제</button>
-			&nbsp
-			<button th:onclick="allDel([[${myCartList}]])">전체삭제</button>
+			</div>			
 			<div class="row">
 
 				<div class="col-lg-6">
