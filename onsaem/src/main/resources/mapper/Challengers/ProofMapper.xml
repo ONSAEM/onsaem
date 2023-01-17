@@ -15,9 +15,12 @@
 	</insert>
 	
 	<select id="listProofAll" resultType="proofVO">
-		SELECT *
-		FROM PROOFS
-		WHERE CHAL_ID = #{chal_id}
+		SELECT P.PROOF_ID, P.WRITE_DATE, M.FILE_NAME AS FILENAME, M.FILE_ROUTE AS FILEROUTE, M.MEDIA_NAME AS MEDIANAME 
+		FROM PROOFS P  JOIN MEDIA M
+		ON P.PROOF_ID = M.GROUP_ID
+		WHERE P.CHAL_ID = #{chalId}
+		AND P.CONDITION = '정상'
+		ORDER BY P.WRITE_DATE DESC
 	</select>
 
 	<!--인증샷 안보이게 하는거 -->
@@ -68,10 +71,10 @@
 	
 
 	<!--좋아요 취소 -->
-	<delete id="delLike" parameterType="string">
+	<delete id="delLike" parameterType="LikeVO">
 		DELETE FROM LIKES
-		WHERE
-		LIKE_ID = #{likeId}
+		WHERE GROUP_ID=#{groupId}
+		AND MEMBER_ID = #{memberId}		
 	</delete>
 
 	<!-- 좋아요 리스트 뽑기 -->
@@ -170,9 +173,16 @@
 	
 	<!-- proofId로 1건 조회 -->
 	<select id="getProof" resultType="ProofVO">
-		SELECT * 
-		FROM PROOFS
-		WHERE PROOF_ID = #{proofId}
+		SELECT P.PROOF_ID, P.WRITE_DATE, M.FILE_NAME AS FILENAME, M.FILE_ROUTE AS FILEROUTE, M.MEDIA_NAME AS MEDIANAME 
+		FROM PROOFS P  JOIN MEDIA M
+		ON P.PROOF_ID = M.GROUP_ID
+		WHERE P.PROOF_ID = #{chalId}
+	</select>
+	
+	<select id="cntChalLike" resultType="likeVO">
+		SELECT COUNT(*) AS CNT
+ 		FROM LIKES
+ 		WHERE GROUP_ID = #{groupId}
 	</select>
 
 

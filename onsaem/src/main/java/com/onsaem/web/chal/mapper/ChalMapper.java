@@ -50,4 +50,7 @@ public interface ChalMapper {
 	List<ChalVO> beforeChals();
 	// 챌린지 조회 - 완료
 	List<ChalVO> endChals();
+	
+	//마이페이지 관리자용 영수증 업데이트
+	Integer updateRecipt(ChalVO vo);
 }

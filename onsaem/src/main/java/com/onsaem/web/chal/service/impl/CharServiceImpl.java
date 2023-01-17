@@ -112,4 +112,10 @@ public class CharServiceImpl implements ChalService {
 		return chalMapper.endChals();
 	}
 
+	@Override
+	public Integer updateRecipt(ChalVO vo) {
+		// TODO Auto-generated method stub
+		return chalMapper.updateRecipt(vo);
+	}
+
 }

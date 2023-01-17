@@ -3,6 +3,7 @@ package com.onsaem.web.chal.web;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,7 @@ import com.onsaem.web.chal.service.BankService;
 import com.onsaem.web.chal.service.ChalService;
 import com.onsaem.web.chal.service.ChalVO;
 import com.onsaem.web.chal.service.MediaService;
+import com.onsaem.web.chal.service.NgoService;
 import com.onsaem.web.chal.service.ParticipantService;
 import com.onsaem.web.chal.service.ParticipantVO;
 import com.onsaem.web.chal.service.ProofService;
@@ -33,6 +35,7 @@ import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.PaymentVO;
 import com.onsaem.web.common.service.RefundVO;
+import com.onsaem.web.common.service.RepliesVO;
 import com.onsaem.web.member.service.MemberService;
 
 @Controller
@@ -45,6 +48,7 @@ public class ChalMypageController {
 	@Autowired ParticipantService partService;
 	@Autowired MemberService memService;
 	@Autowired BankService bankService;
+	@Autowired NgoService ngoService;
 
 	
 	//권한 - 일반회원의 챌린저스 마이페이지 첫화면, 진행중 챌린지 띄우깅
@@ -140,7 +144,7 @@ public class ChalMypageController {
 	//마이페이지 시작전 챌린지 모음 - 취소하기
 	@RequestMapping(value="/myBeforeChal",method=RequestMethod.POST)
 	@ResponseBody
-	public String CabcelChal(@RequestBody RefundVO rvo,ParticipantVO pvo, PaymentVO yvo, Authentication authentication) {
+	public String CancelChal(@RequestBody RefundVO rvo,ParticipantVO pvo, PaymentVO yvo, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
 		//환불테이블에 추가
@@ -164,12 +168,12 @@ public class ChalMypageController {
 		
 	//권한 - 일반회원의 챌린저스 마이페이지- 완료된 챌린지 모음
 	@RequestMapping(value="/myEndChal",method=RequestMethod.GET)
-	public String myEndChalList(Model model,@RequestParam(value="userId", required=false)String userId,ChalVO vo) {
-		vo.setMemberId(userId);
-		model.addAttribute("chalList", chalService.myEndChal(vo));
+	public String myEndChalList(Model model,ChalVO vo, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		vo.setParticipantId(userDetails.getUsername());
+		model.addAttribute("chals", chalService.myEndChal(vo));
 		
-		//미디어가져오기 필요 if문 사용 필요~ 
-		return "content/challengers/MyCurrentChal";
+		return "content/challengers/MyEndChal2";
 	}
 	
 	//마이페이지의 나의 인증현황
@@ -218,90 +222,84 @@ public class ChalMypageController {
 	
 	//얘 마이페이지의 - 2번째 페이지, value 파일명 다고치삼
 	@RequestMapping(value="/myChalStatus2", method=RequestMethod.GET)
-	public String myChalStatus2(Model model, @RequestParam(value="chalId")String chalId) {
+	public String myChalStatus2(Model model, @RequestParam(value="chalId", required=false)String chalId) {
 		//한 챌린지에 대한 모든 사람들의 사진을 가져오기
-		
+		chalId = "CH1";
 		//한 챌린지에 대한 모든 사람들의 인증글 가져오기
 		model.addAttribute("proofs", proofService.listProofAll(chalId));
 		return "content/challengers/MyChalStatus2";
 	}
 	
 	//마이페이지 2번쨰 페이지의 모달창내용 ㅎㅎ
-	@RequestMapping(value="/proofDetail", method=RequestMethod.GET)
-	public String proofDetail(Model model, @RequestParam(value="chalId")String chalId){
-		//게시글에 대한 인증샷 1개 가져오기
-			
-		//게시글 한개 내용 가져오기
-		model.addAttribute("proof", proofService.getProof(chalId));
-		
-		//댓글 리스트
-		model.addAttribute("replies", proofService.listReply(chalId));
-		
-		LikeVO vo = new LikeVO();
-		vo.setGroupId(chalId);
-		vo.setGroups("챌린저스");
-		//좋아효용 가져오기
-		model.addAttribute("likes", proofService.listLike(vo));
-			
-		return "content/challengers/MyChalStatus2";
+	@RequestMapping(value="/proofDetail", method=RequestMethod.POST)
+	public String proofDetail(Model model, String proofId){		
+		/*
+		 * //게시글 한개 내용 가져오기, 인증샷 model.addAttribute("proof",
+		 * proofService.getProof(proofId));
+		 * 
+		 * //댓글 리스트 model.addAttribute("replies", proofService.listReply(proofId));
+		 * 
+		 * LikeVO vo = new LikeVO(); vo.setGroupId(proofId); //좋아효용 가져오기
+		 * model.addAttribute("likes", proofService.cntChalLike(vo));
+		 */
+		 return "알아서 잘하길 바란다 내일의 나야  화이팅 " ;
+		 
 	}
 	
-	@RequestMapping(value="/addLike", method=RequestMethod.POST)
-	public String addLike(Model model) {
+	@RequestMapping(value="/addChalLike", method=RequestMethod.POST)
+	@ResponseBody
+	public Integer addChalLike(LikeVO vo, Authentication authentication) {
 		//좋아요 넣기
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		String id = userDetails.getUsername();
+		vo.setMemberId(id);
 		
-		//좋아요 조회해서 가져와야할듯,,
-		
-		return "content/challengers/MyChalStatus2";
+		proofService.inputLike(vo);
+		//좋아요 갯수
+		proofService.cntChalLike(vo);
+		return proofService.cntChalLike(vo);
 	}
 	
 	@RequestMapping(value="/delLike", method=RequestMethod.POST)
-	public String delLike(Model model) {
+	@ResponseBody
+	public Integer delChalLike(LikeVO vo, Authentication authentication) {
+		
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		String id = userDetails.getUsername();
+		vo.setMemberId(id);
 		//좋아요 삭제
-		
+		proofService.delLike(vo);
 		//좋아요 조회해서 가져와야할듯,,
-		
-		return "content/challengers/MyChalStatus2";
+		proofService.cntChalLike(vo);
+		return proofService.cntChalLike(vo);
 	}
 	
+	//수정필요 댓글 작성 ㅎㅎ
 	@RequestMapping(value="/inputReply", method=RequestMethod.POST)
-	public String inputReply(Model model) {
-		//좋아요 삭제
+	@ResponseBody
+	public String inputReply(@RequestBody RepliesVO vo) {
+		proofService.inputReply(vo);
 		
-		//좋아요 조회해서 가져와야할듯,,
-		
+		//댓글 리스트 가져오기? //댓글한건? 멀 가져와야될까?
 		return "content/challengers/MyChalStatus2";
 	}
 	
-	
-	//관리자의챌린저스 마이페이지 중 완료챌린저스 목록을 보기
-	@RequestMapping(value="/adminEndChal", method=RequestMethod.GET)
-	public String adminEndChal(Model model, @RequestParam(value="chalId", required=false)String chalId, MediaVO vo) {
-		// 모든 완료된 챌린지를 가져오기
-		//챌린저스 한건 정보
-		model.addAttribute("chal",chalService.getChal(chalId));
+	//내가 신청한 ngo목록 보기,,안하면 안되나~? ㅎㅎ
+	@RequestMapping(value="/myApplyNgo", method=RequestMethod.GET)
+	public String myApplyNgo(Model model) {
+		//로그인 아이디 불러오기
 		
-		//썸네일 줍줍
-		vo.setGroupId(chalId);
-		model.addAttribute("pics", proofService.listMedia(vo));
+		//내가 신청한 ngo리스트를 가져오기
+		String id = "hodu"; //나중에 세션으로 갈아끼우기
 		
-		//한 챌린지의 모든 인증 샷 가져오기
+		if(ngoService.myApplies(id).size()==0) {
+			model.addAttribute("msg", "신청하신 목록이 없습니다.");
+		}else {
+			model.addAttribute("ngoes", ngoService.myApplies(id));
+		}
 		
-		
-		return "content/challengers/adminEndChal";
+		return "content/challengers/MyApplyNgo";
 	}
 	
-	
-	//관리자의챌린저스 마이페이지 중 완료챌린저스 목록을 보기
-	@RequestMapping(value="/adminEndChal", method=RequestMethod.POST)
-	public String inputRecipt(MediaVO vo) {
-		//media테이블에 input을 한다 - subclass를 기부정산서라고 지정하기
-		
-		//challenges테이블에 컬럼을 수정하기
-		
-		return "content/challengers/adminEndChal";
-	}
-	
-	
-	
+
 }

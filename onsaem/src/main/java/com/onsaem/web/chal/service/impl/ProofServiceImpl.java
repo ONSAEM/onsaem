@@ -66,9 +66,9 @@ public class ProofServiceImpl implements ProofService {
 	}
 
 	@Override
-	public Integer delLike(String likeId) {
+	public Integer delLike(LikeVO vo) {
 		// TODO Auto-generated method stub
-		return proofMapper.delLike(likeId);
+		return proofMapper.delLike(vo);
 	}
 	
 
@@ -144,6 +144,12 @@ public class ProofServiceImpl implements ProofService {
 	public List<RepliesVO> listReply(String groupId) {
 		// TODO Auto-generated method stub
 		return proofMapper.listReply(groupId);
+	}
+
+	@Override
+	public Integer cntChalLike(LikeVO vo) {
+		// TODO Auto-generated method stub
+		return proofMapper.cntChalLike(vo);
 	}
 
 
