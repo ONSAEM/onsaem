@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.onsaem.web.common.mapper.MediaMapper;
 import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
 
@@ -23,6 +25,9 @@ public class MediaController {
 	
 	@Autowired
 	MediaService mediaService;
+	
+	@Autowired
+	MediaMapper mediaMapper;
 	
 	@Value("${part.upload.path}")
 	private String uploadPath;
@@ -40,7 +45,8 @@ public class MediaController {
 	}
 	
 	@RequestMapping(value = "/mediaTest", method = RequestMethod.GET)
-	public String mediaTest(){    
+	public String mediaTest(Model model){ 
+		model.addAttribute("media", mediaMapper.getMedia());
 	  return "content/test/mediaTest";
 	}
 
