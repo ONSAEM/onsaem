@@ -44,5 +44,30 @@
 		and M.BLOG_ID = B.MEMBER_ID
 		and moment_id = #{momentId}
  	</select>
- 	
+ 	<!-- 모먼트 등록 -->
+ 	<!-- 글 등록 -->
+ 	<insert id="momentInsert" parameterType="MomentsVO">
+ 		<selectKey keyProperty="momentId" resultType="String" order="BEFORE">
+ 			select 'MT'||lpad(moment_seq.nextval,3,0) from dual
+ 		</selectKey>
+ 		INSERT INTO MOMENTS(MOMENT_ID,
+                    BLOG_ID,
+                    ADD_URL,
+                    UPLOAD_START,
+                    UPLOAD_END,
+                    PUBLIC_SCOPE,
+                    LIKE_NUMBER,
+                    MOMENT_WRITE,
+                    WRITE_DATE)
+		VALUES (#{momentId},
+				#{blogId},
+				#{addUrl},
+				current_date,
+				#{uploadEnd},
+				#{publicScope}, 
+				0, 
+				#{momentWrite},
+				current_date)
+ 	</insert>
+
  </mapper>

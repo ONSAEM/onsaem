@@ -508,7 +508,7 @@
 					<div class="modal-body row">
 						<div class="col-md-6 modal-image sticky-top">
 							<h3>상세 내용</h3>
-							<textarea cols="58" rows="20" placeholder="500자 미만으로 입력해주세요"></textarea>
+							<textarea id="momentWrite" cols="58" rows="20" placeholder="500자 미만으로 입력해주세요"></textarea>
 						</div>
 						<div class="col-md-6 p-3">
 							
@@ -520,7 +520,7 @@
 							    <input type="date" id="date" placeholder="Select a date" data-datepicker-events="{date: '2020-07-12T12:00', name: 'Business Lunch Zürich', type: 'holiday'}" required/>
 							  	<br>
 								<h3>공개범위</h3>
-								<select name="publicScope"> <!-- 공개범위 부분 나중에 value 수정 필요 -->
+								<select name="publicScope" id="scope"> <!-- 공개범위 부분 나중에 value 수정 필요 -->
 									<option value="public">전체공개</option>
 									<option value="partial" selected>일부공개</option>
 									<option value="private">비공개</option>
@@ -530,18 +530,18 @@
 							</div>
 
 							<div class="d-flex flex-row comment-row mt-2">
+								<form action="" id="momentFrm">
 								<div class="p-2">
-									<!-- 이미지 미리보기 -->
+									이미지 미리보기
 									<div class="image-container">
 									    <img style="width: 500px;" id="preview-image" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
-									    <input style="display: block;" type="file" id="input-image">
+									    <input style="display: block;" type="file" name="uploadfile" multiple="multiple" id="input-image">
 									</div>
-									
 								</div>
-								<div class="comment-text active w-100">
-									
-								</div>
+								</form>
 							</div>
+							<input type="hidden" id="getblogId" th:value="${blogInfo.blogId}">
+							<button type="button" id="mmtInsertBtn"> 등록 </button>
 						</div>
 					</div>
 				</div>
@@ -563,13 +563,37 @@
 
 		<!-- moment -->
 		<script type="text/javascript">
-			// moment 모달창 띄우기
+			// moment 모달
 			
-			//moment 등록 버튼
-			function createMmt(data) { // 만약 모먼트에 저장된 데이터가 4개 이상이면 사용할 수 없도록 표시	 				
-				console.log(data);
-			}
-			//moment 등록버튼을 누르면 모달창이 뜨도록하고, 입력된 값을 DB로 보내기
+			//moment 등록버튼을 누르면, 입력된 값을 DB로 보내기
+			$("#mmtInsertBtn").on("click", function(){
+				let data = new FormData($('#momentFrm')[0]); //아이디가 momentFrm을 가져온다.
+				
+				data.append("momentWrite", $('#momentWrite').val());
+				data.append("addUrl", $('#insertUrl').val());
+				data.append("uploadEnd", $('#date').val());
+				data.append("publicScope",$('#scope').val());  //컨트롤러에 가져갈 내용을 담는다.
+				
+				console.log(data.get("uploadfile"));
+				
+				$.ajax({
+					url : '/blog/insertMoment',
+					enctype: 'multipart/form-data',
+					method : 'POST',
+					processData: false,
+					contentType: false,
+					data : data,
+					dataType:'json',
+					success : function(result) {
+						alert('성공');
+						location.href='/blog/myblog?userId='+'[(${#authentication.principal.memberId})]';
+					},
+					error : function(error) {
+						console.log(error);
+						alert('실패');
+					}
+				})
+			})
 			
 			// moment 모달 상세보기 모먼트번호 보내기
 			$(".mmtpage-content").children("#modalBtn").each(function(){ 
@@ -599,6 +623,8 @@
 				
 				
 			})
+			
+			
 			//이미지 미리보기
 			function readImage(input) {
 			    // 인풋 태그에 파일이 있는 경우
@@ -620,6 +646,9 @@
 			inputImage.addEventListener("change", e => {
 			    readImage(e.target)
 			})
+			
+			
+			//
 			
 		</script>
 	</div>

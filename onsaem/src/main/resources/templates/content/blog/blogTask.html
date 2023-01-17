@@ -1189,15 +1189,15 @@ background: #42a18d;
 							
 						       <div class="inputfield">
 						          <label>블로그 주소<span class="request"></span></label>
-						          <input type="text" name="blogURL" class="input" readonly value="http://localhost/blog/myblog/userId="+[[${blogInfos.blogId}]]>
+						          <input type="text" name="blogURL" class="input" readonly th:value="'http://localhost/blog/myblog/userId='+${blogInfos.blogId}">
 						       </div>  
 						        <div class="inputfield">
 						          <label>블로그 이름<span class="request"></span></label>
-						          <input type="text" name="blogName" class="input">
+						          <input type="text" name="blogName" class="input" th:value="${blogInfos.blogName}">
 						       </div>  
 						       <div class="inputfield">
 						          <label>소개글<span class="request"></span></label>
-						          <input type="introduction" name="introduction" class="input">
+						          <input type="text" name="introduction" class="input" th:value="${blogInfos.introduction}">
 						       </div>
 						       
 						       <div class="inputfield">
