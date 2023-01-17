@@ -20,4 +20,9 @@ public class OrderVO {
 	String deliveryId;	//배송코드
 	
 	String fileRoute;
+	
+	int detailAmount;
+	String detailOption;
+	String productName;
+	int price;
 }

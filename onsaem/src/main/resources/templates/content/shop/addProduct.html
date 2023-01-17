@@ -4,20 +4,46 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/layout}">
 
-<!-- index.html 고유 CSS 추가 -->
-<th:block layout:fragment="css">
-	<!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
-</th:block>
-<!-- index.html 고유 스크립트 추가 -->
-<th:block layout:fragment="script">
-	<!--    <script th:src="@{/js/page/home.js}"></script>-->
-</th:block>
 
+<meta charset="UTF-8">
+<meta name="description" content="Ogani Template">
+<meta name="keywords" content="Ogani, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Ogani | Template</title>
+
+<!-- Google Font -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
+	rel="stylesheet">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
+		type="text/css">
+</th:block>
 
 
 
 <!-- Content -->
+
 <div layout:fragment="content">
+	<!-- Breadcrumb Section Begin -->
+	<section class="breadcrumb-section set-bg"
+		th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<div class="breadcrumb__text">
+						<h2>내 주문목록</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Breadcrumb Section End -->
 	<form action="/addProduct" method="post" enctype="multipart/form-data">
 		<h3>상품 등록</h3>
 		<label for="productName" id="productName">상품명</label><br> <input
@@ -49,9 +75,9 @@
 			<option th:each="category:${categoryList}"
 				th:value="${category.category}" th:text="${category.category}"></option>
 		</select> <br> <label for="proofEx">친환경인증증서</label> <input type="file"
-			id="proofEx" name="uploadFile"> 
-		
-			<form name="mediaFrm">
+			id="proofEx" name="uploadFile">
+
+		<form name="mediaFrm">
 			<div class="inputfield">
 				<img id="preview-image"
 					src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
@@ -79,8 +105,9 @@
 	</form>
 
 
-	<script>
-		
-	</script>
+	<th:block layout:fragment="script">
+
+		<script th:src="@{/shoptemplate/js/main.js}"></script>
+	</th:block>
 </div>
 </html>

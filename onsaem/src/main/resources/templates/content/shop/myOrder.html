@@ -37,7 +37,7 @@
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<div class="breadcrumb__text">
-						<h2>내 주문목록</h2>					
+						<h2>내 주문목록</h2>
 					</div>
 				</div>
 			</div>
@@ -53,97 +53,46 @@
 					<div class="shoping__cart__table">
 						<table>
 							<thead>
-								<tr>									
-									<th><button>전체</button> </th>
-									<th ><button>배송중</button></th>
-									<th><button>배송완료</button></th>									
+								<tr>
+									<th><button>전체</button></th>
+									<th><button>배송중</button></th>
+									<th><button>배송완료</button></th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr th:each="order:${myOrderList}">
-									<td>주문일자 [[${order.orderDate}]]<br>[[${order.fileRoute}]]
-									<img alt="이미지 없음" th:src="|/fileView/${order.fileRoute}|"> </td>
-									<td>배송상태<br>상품명 [[${order.]]
+									<td>주문일자 [[${order.orderDate}]]<br> <img
+										id="preview-image" th:src="'/fileView/'+${order.fileRoute}">
+									</td>
+									<td>배송상태<br>
+									<br>상품명 [[${order.productName}]] 옵션
+										[[${order.detailOption}]] <br>
+									<br>상품가격 [[${order.price}]]원 수량 [[${order.detailAmount}]]
+									</td>
+									<td>
+										<button>배송조회</button>
+										<br>
+									<br>
+										<button>교환/반품</button>
+										<br>
+									<br>
+										<button>리뷰작성</button>
+									</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
 				</div>
-			</div>			
-			<div class="row">
-
-				<div class="col-lg-6">
-					<div class="shoping__checkout">
-						<h5>장바구니 내역</h5>
-						<ul>
-							<li>총상품가격 <span>$454.98</span></li>
-							<li>배송비 <span>$454.98</span></li>
-							<li>총가격 <span>$454.98</span></li>
-						</ul>
-						<a href="#" class="primary-btn">구매하기</a>
-					</div>
-				</div>
-			</div>
-
+			</div>		
 		</div>
 		<!-- JS -->
 		<th:block layout:fragment="script">
-		
+
 			<script th:src="@{/shoptemplate/js/main.js}"></script>
 		</th:block>
 	</section>
 
-	<script type="text/javascript">
-		
-		//장바구니삭제
-		function delCart(data){
-			console.log(data.productId);	
-			let productId=data.productId;
-			let cartOption=data.cartOption;
-			let cartAmount=data.cartAmount;
-			
-			 fetch('/delCart',{
-					headers: {
-					    "Content-Type": "application/json",
-					  },
-					method:"post",
-					body: JSON.stringify({
-						productId: productId,
-						cartOption: cartOption,
-						cartAmount:cartAmount						
-					  })
-					})
-			  .then((response) => console.log('삭제되었습니다.'))
-			  .then((data)=>location.reload()) 
-		}
-		//전체체크박스 클릭
-		function checkBoxAll(checkBoxAll){
-			let checkboxes=document.getElementsByName('checkBox');			
-			checkboxes.forEach((checkbox) => {
-			    checkbox.checked = checkBoxAll.checked;
-			  })
-		}
-		
-		let carts=[];
-		//선택된 상품데이터 저장
-		function saveList(cart){			
-			carts.push(cart);
-		}
-		
-		//선택된 장바구니삭제
-		function selectDel(){
-			console.log(carts)
-			carts.forEach((cart)=>{
-				delCart(cart);
-			})
-		}
-		//전체 장바구니 삭제
-		function allDel(cartList){
-			console.log(cartList)
-			cartList.forEach((cart)=>{
-				delCart(cart)
-			}) 
-		}
+	<script type="text/javascript">		
 	</script>
-	<!-- Shoping Cart Section End -->
+	
 </div>
