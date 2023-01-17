@@ -13,6 +13,9 @@
 	<!--    <script th:src="@{/js/page/home.js}"></script>-->
 </th:block>
 
+
+
+
 <!-- Content -->
 <div layout:fragment="content">
 	<form action="/addProduct" method="post" enctype="multipart/form-data">
@@ -43,15 +46,29 @@
 		</div>
 		<label for="category">카테고리</label> <select name="category">
 			<option value="">==카테고리 선택==</option>
-			<option th:each="category:${categoryList}" th:value="${category.category}" th:text="${category.category}"></option>
+			<option th:each="category:${categoryList}"
+				th:value="${category.category}" th:text="${category.category}"></option>
 		</select> <br> <label for="proofEx">친환경인증증서</label> <input type="file"
-			id="proofEx" name="uploadFile"> <br> <label
-			for="proofEx">대표이미지</label> <input type="file" id="proofEx"
-			name="uploadFile"> <br> <label for="proofEx">추가이미지1</label>
-		<input type="file" id="proofEx" name="uploadFile"> <br> <label
-			for="proofEx">추가이미지2</label> <input type="file" id="proofEx"
-			name="uploadFile"> <br> <label for="proofEx">추가이미지3</label>
-		<input type="file" id="proofEx" name="uploadFile"> <br>
+			id="proofEx" name="uploadFile"> 
+		
+			<form name="mediaFrm">
+			<div class="inputfield">
+				<img id="preview-image"
+					src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
+			</div>
+			<div class="filebox">
+				<label style="width: 20%;"></label> <input class="inputfile"
+					placeholder="프로필사진" readonly> <label for="file"
+					class="filelabel">사진등록</label> <input type="file" id="file"
+					name="uploadfile" multiple="multiple">
+			</div>
+			<input type="hidden" name="groupId" value="test"> <input
+				type="hidden" name="groups" value="테스트용이미지">
+			<div class="inputfield">
+				<input type="button" value="등록" class="btn sendMedia">
+			</div>
+		</form>
+
 		<div>
 			<label for="contents">상품상세설명</label>
 			<textarea rows="5" cols="20" placeholder="상품에 대한 상세한 설명"

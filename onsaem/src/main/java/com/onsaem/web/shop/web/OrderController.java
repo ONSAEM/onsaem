@@ -1,5 +1,6 @@
 package com.onsaem.web.shop.web;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.onsaem.web.member.service.MemberVO;
 import com.onsaem.web.shop.service.CartService;
 import com.onsaem.web.shop.service.OrderService;
+import com.onsaem.web.shop.service.OrderVO;
 import com.onsaem.web.shop.service.ProductService;
 import com.onsaem.web.shop.service.ProductVO;
 
@@ -25,6 +27,8 @@ public class OrderController {
 	CartService cartService;
 	@Autowired
 	OrderService orderService;
+	
+	OrderVO orderVO=new OrderVO();
 
 	// 주문결제페이지이동
 	@RequestMapping(value = "/buyProduct", method = RequestMethod.GET)
@@ -40,7 +44,9 @@ public class OrderController {
 	// 나의 주문목록
 	@RequestMapping(value = "/myOrder", method = RequestMethod.GET)
 	public String myOrder(Model model, ProductVO vo, Authentication authentication) {
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();		
+		orderVO.setMemberId(userDetails.getUsername());		
+		model.addAttribute("myOrderList",orderService.myOrderList(orderVO));
 		
 		return "content/shop/myOrder";
 	}
