@@ -18,9 +18,9 @@ public class BlogController {
 	
 	// 블로그 관리 페이지로 이동
 	@RequestMapping(value="/myblog/blogTask", method=RequestMethod.GET)
-	public String task(Model model, String blogId) {
-		model.addAttribute("blogTask", blogService.task(blogId));
-		System.out.println(model.getAttribute("blogTask"));
+	public String getBlogInfo(Model model, String blogId) {
+		model.addAttribute("blogInfos", blogService.getBlogInfo(blogId));
+		System.out.println(model.getAttribute("blogInfos"));
 		return "content/blog/blogTask";
 	}
 	

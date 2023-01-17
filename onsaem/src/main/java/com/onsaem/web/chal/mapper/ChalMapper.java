@@ -43,4 +43,11 @@ public interface ChalMapper {
 	
 	//기부금 3등까지
 	List<ChalVO> donateRank();
+	
+	//챌린지 조회 - 진행중
+	List<ChalVO> currentChals();
+	//챌린지 조회 - 모집중
+	List<ChalVO> beforeChals();
+	// 챌린지 조회 - 완료
+	List<ChalVO> endChals();
 }

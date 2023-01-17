@@ -52,6 +52,8 @@ public class BlogWriteController {
 		mVo.setBlogId(userId);
 		model.addAttribute("moments", momentService.getMomentList(mVo));
 		// getBlog를 써서 유저아이디 받아오고, getbloginfo라고 이름 지어주기
+		model.addAttribute("blogInfo", blogService.getBlogInfo(userId));
+		System.out.println(model.getAttribute("blogInfo"));
 		return "content/blog/myblog";
 	}
 	

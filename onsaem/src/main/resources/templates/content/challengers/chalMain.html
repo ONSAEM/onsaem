@@ -111,9 +111,9 @@
 							<div class="sidebar__item">
 								<h4>Department</h4>
 								<ul>
-									<li><a href="#">모집 중 챌린지</a></li>
-									<li><a href="#">진행 중 챌린지</a></li>
-									<li><a href="#">종료 챌린지</a></li>
+									<li><a href="/chalDepart?data=모집중">모집 중 챌린지</a></li>
+									<li><a href="chalDepart?data=진행중">진행 중 챌린지</a></li>
+									<li><a href="chalDepart?data=완료">종료 챌린지</a></li>
 								</ul>
 							</div>
 							<div class="sidebar__item">
@@ -179,16 +179,16 @@
 								<div class="col-lg-4 col-md-5">
 									<div class="filter__sort">
 										<span>Sort By</span> 
-										<select>
-											<option value="">All</option>
-											<option th:each="ngo : ${ngoes}" th:value="${ngo.ngoName}" name="ngoName" th:text="${ngo.ngoName}"  onclick=location.href="http://localhost/chalListOption?ngoName=${ngo.ngoName}"></option>
+										<select id="changeOption" th:onchange="changeOption(this.value)">
+											<option value="All">All</option>
+											<option  th:each="ngo:${ngoes}" th:value="${ngo.ngoName}" name="ngoName" th:text="${ngo.ngoName}" ></option>
 										</select>
 									</div>
 								</div>
 								<div class="col-lg-4 col-md-4">
 									<div class="filter__found">
 										<h6>
-											<span>16</span> Products found
+											<span th:text="${#lists.size(chals)}">16</span> Products found
 										</h6>
 									</div>
 								</div>
@@ -242,5 +242,15 @@
 			<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/main.js}"></script>
 		</th:block>
+		<Script type="text/javascript">
+			function changeOption(data){
+				console.log(data);
+				if(data == 'All'){
+					location.href="http://localhost/chalList";
+				}else{
+					location.href ="http://localhost/chalListOption?ngoName="+data;
+				}	
+			}
+		</Script>
 </div>
 </html>
