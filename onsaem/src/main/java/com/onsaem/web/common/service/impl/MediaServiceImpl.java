@@ -2,11 +2,16 @@ package com.onsaem.web.common.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +24,9 @@ public class MediaServiceImpl implements MediaService{
 	@Autowired
 	MediaMapper mediaMapper;
 	
+	@Value("${part.upload.path}") 
+    private String uploadPath;
+	
 	@Override
 	public List<MediaVO> uploadMedia(MultipartFile[] uploadfile, String groupId, String groups) throws IllegalStateException, IOException {
 		 List<MediaVO> list = new ArrayList<MediaVO>();
@@ -26,14 +34,37 @@ public class MediaServiceImpl implements MediaService{
 	      //파일 경로위치에 물리적으로 저장하기
 	      for(MultipartFile file : uploadfile) {
 	         if(!file.isEmpty()) {
-	        	MediaVO vo = new MediaVO(UUID.randomUUID().toString(),
-	        			file.getOriginalFilename(),
-	        			file.getContentType());
-	            list.add(vo);
-	                        
-	            File newFileName = new File(vo.getUuid()+"_"+vo.getFileName());
+	        	MediaVO vo = new MediaVO();
+	        	vo.setUuid(UUID.randomUUID().toString());
+	        	vo.setFileName(file.getOriginalFilename());
+	        	vo.setMediaType(file.getContentType());
 	            
-	            file.transferTo(newFileName);
+	           
+	        	String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+	            
+	            String folderPath = str.replace("/", File.separator);
+	            
+	            //make folder ==================
+	            File uploadPathFolder = new File(uploadPath, folderPath);
+	            //File newFile= new File(dir,"파일명");
+	            //->부모 디렉토리를 파라미터로 인스턴스 생성
+	            
+	            if(uploadPathFolder.exists() == false){
+	            	uploadPathFolder.mkdirs();
+	                //만약 uploadPathFolder가 존재하지않는다면 makeDirectory하라는 의미
+	                //mkdir(): 디렉토리에 상위 디렉토리가 존재하지 않을경우에는 생성이 불가능한 함수
+	    			//mkdirs(): 디렉토리의 상위 디렉토리가 존재하지 않을 경우에는 상위 디렉토리까지 모두 생성하는 함수
+	               }
+
+	            String saveName = uploadPath + File.separator + folderPath +File.separator + vo.getUuid() + "_" + vo.getFileName();
+	            
+	            Path savePath = Paths.get(saveName);
+	            
+	            file.transferTo(savePath);
+	            
+	            vo.setFileRoute((savePath).toString());
+	            vo.setMediaName(vo.getUuid() + "_" + vo.getFileName());
+	            list.add(vo);
 	         }
 	      }
 	      
@@ -42,6 +73,7 @@ public class MediaServiceImpl implements MediaService{
 	    	  MediaVO vo= new MediaVO();
 	          vo.setMediaOrder(i);
 	          vo.setFileName(list.get(i).getFileName());
+	          vo.setFileRoute(list.get(i).getFileRoute());
 	          vo.setMediaName(list.get(i).getUuid()+"_"+list.get(i).getFileName());
 	          vo.setGroupId(groupId); //test용, 게시글 번호
 	          vo.setGroups(groups);//test용, board에 넣음\

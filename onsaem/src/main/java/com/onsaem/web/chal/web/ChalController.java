@@ -179,7 +179,7 @@ public class ChalController {
 				mvo.setGroupId(vo.getChalId());
 				mvo.setFileName(originName);
 				//경로?주소?지정
-				mvo.setFileRoute(realFolder);
+//				mvo.setFileRoute(realFolder);
 				
 				mvo.setSubGroup("챌린저스");
 				System.out.println(mvo);
