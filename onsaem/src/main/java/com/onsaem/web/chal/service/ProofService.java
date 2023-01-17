@@ -27,7 +27,10 @@ public interface ProofService {
 		Integer inputReply(RepliesVO vo);
 		
 		//댓삭
-		Integer delReply(String replyId); 
+		Integer delReply(String replyId);
+		
+		//댓글보기
+		List<RepliesVO> listReply(String groupId);
 		
 		//좋아요
 		Integer inputLike(LikeVO vo);
