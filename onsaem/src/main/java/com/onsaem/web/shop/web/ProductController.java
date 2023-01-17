@@ -22,6 +22,7 @@ import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.shop.service.CartService;
 import com.onsaem.web.shop.service.CartVO;
+import com.onsaem.web.shop.service.OptionVO;
 import com.onsaem.web.shop.service.ProductService;
 import com.onsaem.web.shop.service.ProductVO;
 
@@ -133,22 +134,20 @@ public class ProductController {
 	@RequestMapping(value = "/sellerMain", method = RequestMethod.GET)
 	public String seller(Model model, @RequestParam(value = "data", required = false) String data,
 			HttpServletRequest request) {
+		
 		return "content/shop/sellerMain";
 	}
 
 	// 상품등록
 	@RequestMapping(value = "/addProduct", method = RequestMethod.POST)
-	public String addProduct(Model model, ProductVO vo, Authentication authentication, List<MultipartFile> uploadFile) {
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		proVo.setMemberId(userDetails.getUsername());
-		proService.addProduct(vo);
-		MediaVO mediaVo = new MediaVO();
-		mediaVo.setGroupId(proVo.getProductId());
-		for (int i = 0; i < uploadFile.size(); i++) {
-			String originName = uploadFile.get(i).getOriginalFilename();
-			mediaVo.setFileName(originName);
-			proService.addMedia(mediaVo);
-		}
+	public String addProduct(Model model, ProductVO vo, OptionVO ovo,Authentication authentication, @RequestParam("uploadfile")MultipartFile[] uploadfile) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();	
+		System.out.println("============================="+uploadfile);
+		
+		vo.setMemberId(userDetails.getUsername());
+		proService.addProduct(vo);			
+		ovo.setProductId(vo.getProductId()); 
+		proService.addOption(ovo);
 		return "content/shop/addProduct";
 	}
 

@@ -55,4 +55,7 @@ public interface ProductService {
 	
 	//나의찜삭제
 	int delMyLike(ProductVO vo);
+	
+	//옵션들 저장
+	int addOption(OptionVO ovo);
 }

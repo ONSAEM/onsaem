@@ -6,6 +6,7 @@ import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.common.service.ReviewVO;
+import com.onsaem.web.shop.service.OptionVO;
 import com.onsaem.web.shop.service.ProductVO;
 
 public interface ProductMapper {
@@ -56,5 +57,8 @@ public interface ProductMapper {
 
 	// 나의찜삭제
 	int delMyLike(ProductVO vo);
+	
+	//옵션들 저장
+		int addOption(OptionVO ovo);
 
 }
