@@ -23,243 +23,254 @@
 		type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
 		type="text/css">
-		<link rel="stylesheet" th:href="@{/css/login.css}"
-		type="text/css">
+	<link rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
 </th:block>
 <head>
 <meta charset="UTF-8">
 <title>Login</title>
 <style type="text/css">
-
-.wrapper{
-  max-width: 900px;
-  width: 100%;
-  background: #fff;
-  margin: 50px auto;
-  box-shadow: 2px 2px 4px rgba(0,0,0,0.125);
-  padding: 30px;
+.wrapper {
+	max-width: 900px;
+	width: 100%;
+	background: #fff;
+	margin: 50px auto;
+	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.125);
+	padding: 30px;
 }
 
-.wrapper .title{
-  font-size: 24px;
-  font-weight: 700;
-  margin-bottom: 25px;
-  color: #5bc1ac;
-  text-transform: uppercase;
-  text-align: center;
+.wrapper .title {
+	font-size: 24px;
+	font-weight: 700;
+	margin-bottom: 25px;
+	color: #5bc1ac;
+	text-transform: uppercase;
+	text-align: center;
 }
 
-.wrapper .form{
-  width: 100%;
+.wrapper .form {
+	width: 100%;
 }
 
-.wrapper .form .inputfield{
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
+.wrapper .form .inputfield {
+	margin-bottom: 15px;
+	display: flex;
+	align-items: center;
 }
 
-.wrapper .form .inputfield label{
-   width: 20%;
-   color: #757575;
-  font-size: 14px;
+.wrapper .form .inputfield label {
+	width: 20%;
+	color: #757575;
+	font-size: 14px;
 }
 
-.wrapper .form .inputfield .request{
+.wrapper .form .inputfield .request {
 	color: red;
- 	font-size: 20px;
+	font-size: 20px;
 }
 
-.wrapper .form .inputfield .input,
-.wrapper .form .inputfield .textarea{
-  width:  50%;
-  outline: none;
-  border: 1px solid #d5dbd9;
-  font-size: 15px;
-  padding: 8px 10px;
-  border-radius: 3px;
-  transition: all 0.3s ease;
+.wrapper .form .inputfield .input, .wrapper .form .inputfield .textarea
+	{
+	width: 50%;
+	outline: none;
+	border: 1px solid #d5dbd9;
+	font-size: 15px;
+	padding: 8px 10px;
+	border-radius: 3px;
+	transition: all 0.3s ease;
 }
 
-.wrapper .form .inputfield .textarea{
-  width: 100%;
-  height: 125px;
-  resize: none;
+.wrapper .form .inputfield .textarea {
+	width: 100%;
+	height: 125px;
+	resize: none;
 }
 
-.wrapper .form .inputfield .custom_select{
-  position: relative;
-  height: 37px;
+.wrapper .form .inputfield .custom_select {
+	position: relative;
+	height: 37px;
 }
 
-.wrapper .form .inputfield .custom_select:before{
-  content: "";
-  position: absolute;
-  top: 12px;
-  right: 10px;
-  border: 8px solid;
-  border-color: #d5dbd9 transparent transparent transparent;
-  pointer-events: none;
+.wrapper .form .inputfield .custom_select:before {
+	content: "";
+	position: absolute;
+	top: 12px;
+	right: 10px;
+	border: 8px solid;
+	border-color: #d5dbd9 transparent transparent transparent;
+	pointer-events: none;
 }
 
-.wrapper .form .inputfield .custom_select select{
-  -webkit-appearance: none;
-  -moz-appearance:   none;
-  appearance:        none;
-  outline: none;
-  width: 100%;
-  height: 100%;
-  border: 0px;
-  padding: 8px 10px;
-  font-size: 15px;
-  border: 1px solid #d5dbd9;
-  border-radius: 3px;
+.wrapper .form .inputfield .custom_select select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	outline: none;
+	width: 100%;
+	height: 100%;
+	border: 0px;
+	padding: 8px 10px;
+	font-size: 15px;
+	border: 1px solid #d5dbd9;
+	border-radius: 3px;
 }
-.wrapper .form .emailCk{
+
+.wrapper .form .emailCk {
 	display: none;
 }
 
-.wrapper .form .inputfield .input:focus,
-.wrapper .form .inputfield .textarea:focus,
-.wrapper .form .inputfield .custom_select select:focus{
-  border: 1px solid #fec107;
+.wrapper .form .inputfield .input:focus, .wrapper .form .inputfield .textarea:focus,
+	.wrapper .form .inputfield .custom_select select:focus {
+	border: 1px solid #fec107;
 }
 
-.wrapper .form .inputfield p{
-   font-size: 14px;
-   color: #757575;
-}
-.wrapper .form .inputfield .check{
-  width: 15px;
-  height: 15px;
-  position: relative;
-  display: block;
-  cursor: pointer;
-}
-.wrapper .form .inputfield .check input[type="checkbox"]{
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-}
-.wrapper .form .inputfield .check .checkmark{
-  width: 15px;
-  height: 15px;
-  border: 1px solid #5bc1ac;
-  display: block;
-  position: relative;
-}
-.wrapper .form .inputfield .check .checkmark:before{
-  content: "";
-  position: absolute;
-  top: 1px;
-  left: 2px;
-  width: 5px;
-  height: 2px;
-  border: 2px solid;
-  border-color: transparent transparent #fff #fff;
-  transform: rotate(-45deg);
-  display: none;
-}
-.wrapper .form .inputfield .check input[type="checkbox"]:checked ~ .checkmark{
-  background: #5bc1ac;
+.wrapper .form .inputfield p {
+	font-size: 14px;
+	color: #757575;
 }
 
-.wrapper .form .inputfield .check input[type="checkbox"]:checked ~ .checkmark:before{
-  display: block;
+.wrapper .form .inputfield .check {
+	width: 15px;
+	height: 15px;
+	position: relative;
+	display: block;
+	cursor: pointer;
 }
 
-.wrapper .form .inputfield .btn,.wrapper .form .inputfield  .checkBtn{
-  margin: 0px auto;
-  padding: 8px 10px;
-  font-size: 15px; 
-  border: 0px;
-  background:  #5bc1ac;
-  color: #fff;
-  cursor: pointer;
-  border-radius: 3px;
-  outline: none;
+.wrapper .form .inputfield .check input[type="checkbox"] {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
 }
 
-.wrapper .form .inputfield .btn{
-  width: 100%;
+.wrapper .form .inputfield .check .checkmark {
+	width: 15px;
+	height: 15px;
+	border: 1px solid #5bc1ac;
+	display: block;
+	position: relative;
 }
-.form .inputfield .checkBtn{
+
+.wrapper .form .inputfield .check .checkmark:before {
+	content: "";
+	position: absolute;
+	top: 1px;
+	left: 2px;
+	width: 5px;
+	height: 2px;
+	border: 2px solid;
+	border-color: transparent transparent #fff #fff;
+	transform: rotate(-45deg);
+	display: none;
+}
+
+.wrapper .form .inputfield .check input[type="checkbox"]:checked ~
+	.checkmark {
+	background: #5bc1ac;
+}
+
+.wrapper .form .inputfield .check input[type="checkbox"]:checked ~
+	.checkmark:before {
+	display: block;
+}
+
+.wrapper .form .inputfield .btn, .wrapper .form .inputfield  .checkBtn {
+	margin: 0px auto;
+	padding: 8px 10px;
+	font-size: 15px;
+	border: 0px;
+	background: #5bc1ac;
+	color: #fff;
+	cursor: pointer;
+	border-radius: 3px;
+	outline: none;
+}
+
+.wrapper .form .inputfield .btn {
+	width: 100%;
+}
+
+.form .inputfield .checkBtn {
 	width: 20%;
 }
 
-.wrapper .form .inputfield .btn:hover,.wrapper .form .inputfield  .checkBtn:hover{
-  background: #42a18d;
+.wrapper .form .inputfield .btn:hover, .wrapper .form .inputfield  .checkBtn:hover
+	{
+	background: #42a18d;
 }
 
-.wrapper .form .inputfield:last-child{
-  margin-bottom: 0;
+.wrapper .form .inputfield:last-child {
+	margin-bottom: 0;
 }
 
-@media (max-width:420px) {
-  .wrapper .form .inputfield{
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .wrapper .form .inputfield label{
-    margin-bottom: 5px;
-  }
-  .wrapper .form .inputfield.terms{
-    flex-direction: row;
-  }
+@media ( max-width :420px) {
+	.wrapper .form .inputfield {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.wrapper .form .inputfield label {
+		margin-bottom: 5px;
+	}
+	.wrapper .form .inputfield.terms {
+		flex-direction: row;
+	}
 }
 
-.filebox{
-margin-bottom: 15px;
-    display: flex;
-    align-items: center;
+.filebox {
+	margin-bottom: 15px;
+	display: flex;
+	align-items: center;
 }
-.filebox .inputfile{
-  width:  50%;
-  outline: none;
-  border: 1px solid #d5dbd9;
-  font-size: 15px;
-  padding: 8px 10px;
-  border-radius: 3px;
-  transition: all 0.3s ease;
-  cursor:default;
+
+.filebox .inputfile {
+	width: 50%;
+	outline: none;
+	border: 1px solid #d5dbd9;
+	font-size: 15px;
+	padding: 8px 10px;
+	border-radius: 3px;
+	transition: all 0.3s ease;
+	cursor: default;
 }
-.inputfield #preview-image{
-	width: 300px; 
-	height:300px; 
+
+.inputfield #preview-image {
+	width: 300px;
+	height: 300px;
 	margin: 0px auto;
 }
+
 .filebox .filelabel {
-  width: 20%;
-  margin: 0px auto;
-  padding: 8px 10px;
-  font-size: 15px; 
-  border: 0px;
-  background:  #5bc1ac;
-  color: #fff;
-  cursor: pointer;
-  border-radius: 3px;
-  outline: none;
-  text-align: center;
+	width: 20%;
+	margin: 0px auto;
+	padding: 8px 10px;
+	font-size: 15px;
+	border: 0px;
+	background: #5bc1ac;
+	color: #fff;
+	cursor: pointer;
+	border-radius: 3px;
+	outline: none;
+	text-align: center;
 }
-.filebox .filelabel:hover{
-background: #42a18d;
+
+.filebox .filelabel:hover {
+	background: #42a18d;
 }
 
 .filebox #file {
-    position: absolute;
-    width: 0;
-    height: 0;
-    padding: 0;
-    overflow: hidden;
-    border: 0;
+	position: absolute;
+	width: 0;
+	height: 0;
+	padding: 0;
+	overflow: hidden;
+	border: 0;
 }
 </style>
 </head>
-<body>	
+<body>
 	<div layout:fragment="content">
 
-	<!-- Breadcrumb Section Begin -->
+		<!-- Breadcrumb Section Begin -->
 		<section class="breadcrumb-section set-bg"
 			th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
 			<div class="container">
@@ -274,88 +285,89 @@ background: #42a18d;
 		</section>
 		<!-- Breadcrumb Section End -->
 		<br>
-	<div class="wrapper">
-    <div class="title">
-      Registration Form
-    </div>
-    <div class="form">
-    <div class="inputfield">
-    <img id="preview-image" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
-	</div>
-	<div class="filebox">
-	<label style="width: 20%;"></label>
-    <input class="inputfile" placeholder="프로필사진" readonly>
-    <label for="file" class="filelabel">사진등록</label> 
-    <input type="file" id=file>
-	</div>
-       <div class="inputfield">
-          <label>아이디<span class="request">*</span></label>
-          <input type="text" name="memberId" class="input"><input type="button" value="중복체크" class="checkBtn">
-       </div>  
-        <div class="inputfield">
-          <label>비밀번호<span class="request">*</span></label>
-          <input type="password" name="password" class="input">
-       </div>  
-       <div class="inputfield">
-          <label>비밀번호 확인<span class="request">*</span></label>
-          <input type="password" name="pwCheck" class="input">
-       </div>  
-      <div class="inputfield">
-          <label>닉네임</label>
-          <input type="text" name="pwCheck" class="input">
-       </div> 
-        <div class="inputfield">
-          <label>이메일<span class="request">*</span></label>
-          <input type="email" class="input"><input type="button" value="이메일인증" class="checkBtn">
-       </div> 
-       <div class="inputfield emailCk">
-          <label>이메일 인증</label>
-          <input type="email" class="input"><input type="button" value="이메일인증" class="checkBtn">
-       </div> 
-        <div class="inputfield">
-          <label>연락처<span class="request">*</span></label>
-          <input type="text" class="input">
-       </div> 
-      <div class="inputfield">
-          <label>우편번호<span class="request">*</span></label>
-          <input type="text" id="sample6_postcode" class="input"><input type="button" onclick="sample6_execDaumPostcode()" value="주소검색" class="checkBtn">
-       </div> 
-      <div class="inputfield">
-          <label>주소<span class="request">*</span></label>
-          <input type="text" id="sample6_address" class="input">
-       </div>
-       <div class="inputfield">
-          <label>상세주소</label>
-          <input type="text" id="sample6_detailAddress" class="input">
-       </div> 
-       <div class="inputfield">
-          <label>환불계좌</label>
-          <div class="custom_select">
-            <select name="bank">
-              <option value="">::은행선택::</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
-          </div>
-       </div> 
-        <div class="inputfield">
-          <label></label>
-          <input type="text" name="password" class="input">
-       </div> 
-      <div class="inputfield terms">
-          <label class="check">
-            <input type="checkbox">
-            <span class="checkmark"></span>
-          </label>
-          <p>회원가입 동의</p>
-       </div> 
-      <div class="inputfield">
-        <input type="submit" value="회원가입" class="btn">
-      </div>
-    </div>
-</div>
+		<div class="wrapper">
+			<div class="title">Registration Form</div>
+			<div class="form">
+				<div class="inputfield">
+					<img id="preview-image"
+						src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
+				</div>
+				<div class="filebox">
+					<label style="width: 20%;"></label> <input class="inputfile"
+						placeholder="프로필사진" readonly> <label for="file"
+						class="filelabel">사진등록</label> <input type="file" id=file>
+				</div>
+				<div class="inputfield">
+					<label>아이디<span class="request">*</span></label> <input type="text"
+						name="memberId" class="input"><input type="button"
+						value="중복체크" class="checkBtn">
+				</div>
+				<div class="inputfield">
+					<label>비밀번호<span class="request">*</span></label> <input
+						type="password" name="password" class="input">
+				</div>
+				<div class="inputfield">
+					<label>비밀번호 확인<span class="request">*</span></label> <input
+						type="password" name="pwCheck" class="input">
+				</div>
+				<div class="inputfield">
+					<label>닉네임</label> <input type="text" name="pwCheck" class="input">
+				</div>
+				<div class="inputfield">
+					<label>이메일<span class="request">*</span></label> <input
+						type="email" class="input"><input type="button"
+						value="이메일인증" class="checkBtn checkEmail">
+				</div>
+				<div class="inputfield emailCk">
+					<label>이메일 인증</label> <input type="email" class="input"><input
+						type="button" value="인증" class="checkBtn">
+				</div>
+				<div class="inputfield">
+					<label>연락처<span class="request">*</span></label> <input type="text"
+						class="input">
+				</div>
+				<div class="inputfield">
+					<label>우편번호<span class="request">*</span></label> <input
+						type="text" id="sample6_postcode" class="input"><input
+						type="button" onclick="sample6_execDaumPostcode()" value="주소검색"
+						class="checkBtn">
+				</div>
+				<div class="inputfield">
+					<label>주소<span class="request">*</span></label> <input type="text"
+						id="sample6_address" class="input">
+				</div>
+				<div class="inputfield">
+					<label>상세주소</label> <input type="text" id="sample6_detailAddress"
+						class="input">
+				</div>
+				<div class="inputfield">
+					<label>환불계좌</label>
+					<div class="custom_select">
+						<select name="bank">
+							<option value="">::은행선택::</option>
+							<option value="male">Male</option>
+							<option value="female">Female</option>
+						</select>
+					</div>
+				</div>
+				<div class="inputfield">
+					<label></label> <input type="text" name="password" class="input">
+				</div>
+				<div class="inputfield terms">
+					<label class="check"> <input type="checkbox"> <span
+						class="checkmark"></span>
+					</label>
+					<p>회원가입 동의</p>
+				</div>
+				<div class="inputfield">
+					<input type="submit" value="회원가입" class="btn">
+				</div>
+			</div>
+		</div>
+
+		<script type="text/javascript">
 	
-	<script type="text/javascript">
+		// 이미지 미리보기
 		$("#file").on('change',function(){
 		  var fileName = $("#file").val();
 		  $(".inputfile").val(fileName);
@@ -372,6 +384,26 @@ background: #42a18d;
                 $('#preview-image').attr('src', e.target.result);
             }
         }
+		
+		// 이메일 인증
+		$('.checkEmail').on('click',function(){
+			console.log('확인');
+			let email = $(this).parentsUntil('.form').find('input').val();
+			console.log(email);
+			$.ajax({
+				url : '/authMail',
+				method : 'POST',
+				data : {"email" : email},
+				contentType: 'application/x-www-form-urlencoded',
+				success : function(result) {
+					alert(result);
+				},
+				error : function(error) {
+					console.log(error);
+					alert('실패');
+				}
+			})
+		})
 		
 		// 우편번호 찾기
 		  function sample6_execDaumPostcode() {
@@ -415,10 +447,11 @@ background: #42a18d;
         }).open();
     }
 	</script>
-	
-	<!-- JS -->
+
+		<!-- JS -->
 		<th:block layout:fragment="script">
-			<script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
+			<script
+				th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
 			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
@@ -429,6 +462,6 @@ background: #42a18d;
 			<script th:src="@{/shoptemplate/js/main.js}"></script>
 		</th:block>
 	</div>
-	
+
 </body>
 </html>
