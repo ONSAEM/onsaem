@@ -27,6 +27,7 @@ import com.onsaem.web.chal.service.ParticipantService;
 import com.onsaem.web.chal.service.ParticipantVO;
 import com.onsaem.web.chal.service.ProofService;
 import com.onsaem.web.chal.service.ProofVO;
+import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.PaymentVO;
 import com.onsaem.web.common.service.RefundVO;
@@ -213,14 +214,20 @@ public class ChalMypageController {
 	
 	//마이페이지 2번쨰 페이지의 모달창내용 ㅎㅎ
 	@RequestMapping(value="/proofDetail", method=RequestMethod.GET)
-	public String proofDetail(Model model) {
+	public String proofDetail(Model model, @RequestParam(value="chalId")String chalId){
 		//게시글에 대한 인증샷 1개 가져오기
 			
 		//게시글 한개 내용 가져오기
-		//model.addAttribute("proof", proofService.de)
+		model.addAttribute("proof", proofService.getProof(chalId));
 		
-		//좋아요 가져오기
-		model.addAttribute("replies", proofService.listReply(null));
+		//댓글 리스트
+		model.addAttribute("replies", proofService.listReply(chalId));
+		
+		LikeVO vo = new LikeVO();
+		vo.setGroupId(chalId);
+		vo.setGroups("챌린저스");
+		//좋아효용 가져오기
+		model.addAttribute("likes", proofService.listLike(vo));
 			
 		return "content/challengers/MyChalStatus2";
 	}
