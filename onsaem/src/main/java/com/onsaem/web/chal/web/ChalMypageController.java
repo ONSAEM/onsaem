@@ -234,11 +234,14 @@ public class ChalMypageController {
 	//마이페이지 2번쨰 페이지의 모달창내용 ㅎㅎ
 	@RequestMapping(value="/proofDetail", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> proofDetail(Model model, @RequestBody String proofId){		
+	public Map<String, Object> proofDetail(String proofId){
+		
 		 Map<String, Object> map = new HashMap<String, Object>();
-		  //게시글 한개 내용 가져오기, 인증샷 model.addAttribute("proof",
-		 map.put("brd",proofService.getProof(proofId));
 		 
+		  //게시글 한개 내용 가져오기, 인증샷 model.addAttribute("proof",
+		 System.out.println(proofId);
+		 map.put("brd",proofService.getProof(proofId));
+		 System.out.println("//////////////////////"+proofService.getProof(proofId));
 		 //댓글 리스트 
 		 map.put("repllies",proofService.listReply(proofId));
 		//좋아효용 가져오기
@@ -246,6 +249,7 @@ public class ChalMypageController {
 		  vo.setGroupId(proofId); 
 		 map.put("likeCnt", proofService.cntChalLike(vo));
 		
+		 
 		 return map ;
 		 
 	}
@@ -281,11 +285,19 @@ public class ChalMypageController {
 	//수정필요 댓글 작성 ㅎㅎ
 	@RequestMapping(value="/inputReply", method=RequestMethod.POST)
 	@ResponseBody
-	public String inputReply(@RequestBody RepliesVO vo) {
+	public List<RepliesVO> inputReply(@RequestBody RepliesVO vo,Authentication authentication) {
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		String id = userDetails.getUsername();
+		vo.setWriterId(id);
+		System.out.println(vo.getGroupId());
+		
 		proofService.inputReply(vo);
 		
-		//댓글 리스트 가져오기? //댓글한건? 멀 가져와야될까?
-		return "content/challengers/MyChalStatus2";
+		
+		//댓글 리스트 가져오기? 
+		List<RepliesVO> list = proofService.listReply(vo.getGroupId());
+
+		return list;
 	}
 	
 	//내가 신청한 ngo목록 보기,,안하면 안되나~? ㅎㅎ
@@ -304,6 +316,7 @@ public class ChalMypageController {
 		
 		return "content/challengers/MyApplyNgo";
 	}
+	
 	
 
 }
