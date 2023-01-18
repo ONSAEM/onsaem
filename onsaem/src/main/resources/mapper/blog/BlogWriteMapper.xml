@@ -127,7 +127,7 @@
 		]]>
  	</select>
  	
- 	<!-- 댓글 신고 등록 -->
+ 	<!-- 신고 등록 -->
 	<insert id="addBan"
 		parameterType="com.onsaem.web.common.service.ReportVO">
 		INSERT INTO REPORTS

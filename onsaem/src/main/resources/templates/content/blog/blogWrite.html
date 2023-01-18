@@ -213,7 +213,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-8 col-md-7 order-md-1 order-1">
+				<div class="col-lg-8 col-md-7 order-md-1 order-1"> <!--------------------------신고!!!!! -->
+					<i type="button" class="fa-solid fa-triangle-exclamation openBtn" style="float:right;"
+					th:value1="${blogWrite.writeId}" th:value2="${blogWrite.blogId}">신고하기</i>
 					<div class="blog__details__text">
 						<img th:src="@{/shoptemplate/img/blog/details/details-pic.jpg}"
 							alt=""> [(${blogWrite.blogWrite})]
@@ -275,7 +277,7 @@
                                         <p class="mb-0">[[${reply.content}]]</p>
 
                                         <div class="d-flex mt-2">
-                                            <a type="button" class="author-comment-link me-3 openBtn" id="replyIdVal" th:value="${reply.replyId}"><span style="color:red;">신고</span></a>
+                                            <a type="button" class="author-comment-link me-3 openBtn" id="replyIdVal" th:value1="${reply.replyId}" th:value2="${reply.writerId}"><span style="color:red;">신고</span></a>
 
                                             <a href="#" class="author-comment-link">댓글달기</a>
                                         </div>
@@ -400,8 +402,8 @@
 					th:onclick="checkOnlyone(this)" value="욕설 및 비하 발언">욕설 및 비하 발언<span id="1"></span><br> 
 				<input type="checkbox" value="저작권,명예훼손 등 기타 권리 침해" id="ban2" name="reason"
 					th:onclick="checkOnlyone(this)">저작권,명예훼손 등 기타 권리 침해<span id="2"></span><br> 
-				<input type="checkbox" value="불건전한 댓글 등록" name="reason"
-					id="ban3" th:onclick="checkOnlyone(this)"> 불건전한 댓글 등록 <span id="3"></span><br>
+				<input type="checkbox" value="불건전한 글 등록" name="reason"
+					id="ban3" th:onclick="checkOnlyone(this)"> 불건전한 글 등록 <span id="3"></span><br>
 				<input type="checkbox" value="광고,홍보성 내용" name="reason"
 					id="ban4" th:onclick="checkOnlyone(this)"> 광고,홍보성 내용 <span id="4"></span><br> 
 				<input type="checkbox" value="기타" name="reason" id="ban5" th:onclick="checkOnlyone(this)"> 기타 <span id="5"></span><br>
@@ -428,6 +430,8 @@
 	<script type="text/javascript">
 	
 		let likeTF = $('.blogLike').val(); // input hidden value값으로 likeCount(like 테이블에 값이 있는지 조회)를 주고, 그 value를 가져옴
+		let contentId='';
+		let writerId='';
 		
 		var timeline1 = gsap.timeline({ repeatDelay: 0.7, paused: true}); //하트 효과
 		timeline1.to(".heartbutton", {duration: 0.7, width: 50, ease: Back.easeIn}) 
@@ -509,6 +513,10 @@
 			});
 				// 	좋아요 끝
 			
+				
+				
+				
+				
 				// 댓글 등록
 			$('#replyBtn').on("click", function(){
 				let bno = "[[${blogWrite.writeId}]]";
@@ -534,7 +542,7 @@
 			});
 			
 				
-			//상품신고모달창 생성
+			//신고모달창 생성
 			const openButton = document.querySelector(".openBtn");
 			const modal = document.querySelector(".modal");
 			const closeButton = modal.querySelector(".closeBtn");
@@ -567,7 +575,8 @@
 			}
 			
 			//신고제출
-			function banSubmit(){			
+			function banSubmit(){
+				console.log(contentId,writerId);
 				let reasonLength = document.getElementsByName("reason").length;  
    				for (var i=0; i<reasonLength; i++) {
         			if (document.getElementsByName("reason")[i].checked == true) {
@@ -575,44 +584,45 @@
             			var reason=document.getElementsByName("reason")[i].value
         			}
 				}
+   				
+   				
    				console.log(document.getElementById("detailReason").value);
    				let detailReason=document.getElementById("detailReason").value; //상세 이유
    				let fromId="[[${#authentication.principal.memberId}]]"; //신고 한 사람
-				let groupId=document.getElementById("replyIdVal").getAttribute("value"); // 신고한 댓글 번호
-				let toId=document.getElementById("writerIdText").innerHTML;//신고 당한 사람 
-				console.log(fromId, groupId,toId, reason);
+				//console.log(fromId, groupId,toId, reason);
 				
 					$.ajax({
 						url: '/blog/addBan',
 						method: 'post',
 						contentType: 'application/x-www-form-urlencoded',
-						data: {"groupId":groupId,
-							   "toId":toId,
+						data: {"groupId":contentId,
+							   "toId":writerId,
 							   "reason":reason,
 							   "detailReason":detailReason},
 						success: function (result) {
 					         console.log(result);
 					    	 alert("신고 완료");
+					    	 
 						},
 					      error: function (error) {
 					         console.log(error);
 					      }
 					})
-//    				fetch('http://localhost/addBan',{
-//    					headers: {
-//    					    "Content-Type": "application/json",
-//    					},
-//    					method:"post",
-//    					body: JSON.stringify({
-//    						reason: reason,
-//    						detailReason: detailReason,
-//    						fromId:fromId,
-//    						groupId:groupId
-//    					  })
-//    					})
-// 				  .then((response) => alert('신고처리 되었습니다.'))
-// 				  .then((data)=>location.href="http://localhost/shop")	
+					
 			}
+			
+			// 그룹 아이디랑 신고받을 사람 아이디 받는 함수
+				$('.openBtn').on("click",function(){
+					contentId = $(this).attr('value1');
+					writerId = $(this).attr('value2');
+					console.log(contentId);
+					console.log(writerId);
+					banSubmit(contentId,writerId);
+				})
+			
+			
+			
+			
 	</script>
 	
 </div>
