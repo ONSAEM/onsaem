@@ -33,14 +33,12 @@
 
 	<!-- 댓글 달기 ! -->
 	<insert id="inputReply" parameterType="RepliesVO">
-		<selectKey keyProperty="replyId" resultType="string">
-			SELECT
-			'CRP'||to_char(c_reply_seq.NEXTVAL) FROM DUAL
+		<selectKey keyProperty="replyId" resultType="string" order="BEFORE">
+			SELECT 'RP'||LPAD(REPLY_SEQ.NEXTVAL,3,0) FROM DUAL
 		</selectKey>
 		INSERT INTO
 		REPLIES(REPLY_ID,CONTENT,GROUP_ID,GROUPS,WRITER_ID,REPLY_DATE)
-		VALUES(#{replyId}, #{content}, #{groupId}, #{groups}, #{writerId},
-		CURRENT_DATE);
+		VALUES(#{replyId}, #{content}, #{groupId}, '챌린저스', #{writerId}, CURRENT_DATE)
 	</insert>
 
 	<!-- 댓삭 -->
@@ -173,10 +171,10 @@
 	
 	<!-- proofId로 1건 조회 -->
 	<select id="getProof" resultType="ProofVO">
-		SELECT P.PROOF_ID, P.WRITE_DATE, M.FILE_NAME AS FILENAME, M.FILE_ROUTE AS FILEROUTE, M.MEDIA_NAME AS MEDIANAME 
+		SELECT P.PROOF_ID, P.CONTENT, P.WRITE_DATE, M.FILE_NAME, M.FILE_ROUTE, M.MEDIA_NAME , P.PROOF_WRITER
 		FROM PROOFS P  JOIN MEDIA M
 		ON P.PROOF_ID = M.GROUP_ID
-		WHERE P.PROOF_ID = #{chalId}
+		WHERE P.PROOF_ID = #{proofId}
 	</select>
 	
 	<select id="cntChalLike" resultType="Integer">
