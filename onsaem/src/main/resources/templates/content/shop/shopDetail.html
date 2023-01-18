@@ -151,7 +151,7 @@ h1 {
 							</div>
 							<select class="options" onchange="optionEvent(this.value)">
 								<option value='' selected>-- 옵션 --</option>
-								<option value='친환경'>친환경</option>
+								<option value='친환경' th:each="option:${optionList}" th:text="${option.optionContent}">친환경</option>
 							</select> <a th:onclick="cartEvent(this)" class="primary-btn" sec:authorize="isAuthenticated()">장바구니 담기</a>
 							<button th:onclick="changeHeart(this)" style="border: solid 0px;"
 								class="change-heart" sec:authorize="isAuthenticated()">♡</button>

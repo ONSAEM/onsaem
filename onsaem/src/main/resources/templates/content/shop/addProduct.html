@@ -406,7 +406,7 @@
 				<div class="filebox">
 					<label style="width: 20%;"></label> <input class="naturefile"
 						placeholder="친환경인증증서" readonly> <label for="naturefile"
-						class="filelabel">사진등록</label> <input type="file" id="naturefile" name="naturefile">
+						class="filelabel">사진등록</label> <input type="file" id="naturefile" name="natureFile">
 				</div>
 				<div class="inputfield">
 					<input type="submit" value="등록신청" class="btn"
@@ -550,6 +550,11 @@
 		//추가옵션 삭제
 		function delOption(){
 			document.querySelector("#addOption").remove();
+		}
+		
+		//상품제출 알람
+		function submitProduct(){
+			alert("등록 신청되었습니다.")
 		}
 		
 	</script>

@@ -308,4 +308,11 @@
 		INSERT INTO OPTIONS
 		VALUES('OP'||OPTION_SEQ.NEXTVAL,#{productId},#{optionContent},#{topOptionId})
 	</insert>
+	
+	<!-- 상품옵션리스트 -->
+	<select id="optionList" resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT O.OPTION_CONTENT 
+		FROM OPTIONS O, PRODUCTS P 
+		WHERE O.PRODUCT_ID=#{data}
+	</select>
 </mapper>

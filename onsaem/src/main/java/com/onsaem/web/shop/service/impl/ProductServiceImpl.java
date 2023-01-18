@@ -121,6 +121,12 @@ public class ProductServiceImpl implements ProductService{
 		return proMapper.addOption(ovo);
 	}
 
+	@Override
+	public List<ProductVO> optionList(String data) {
+		// 옵션들 가져오기
+		return proMapper.optionList(data);
+	}
+
 	
 	
 }
