@@ -127,6 +127,17 @@
 		]]>
  	</select>
  	
+ 	<!-- 댓글 신고 등록 -->
+	<insert id="addBan"
+		parameterType="com.onsaem.web.common.service.ReportVO">
+		INSERT INTO REPORTS
+		VALUES('R'||LPAD(REPORT_SEQ.NEXTVAL,3,0),#{fromId},#{toId},CURRENT_DATE,#{reason}
+		,#{detailReason},'신고대기','블로그',#{groupId})
+	</insert>
+ 	
+ 	
+ 	
+ 	
  	<!-- 내 블로그 제목 검색 (보류)-->
  	<select id="searchWrite" resultType="blogWriteVO" parameterType="String">
  		select *

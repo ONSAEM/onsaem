@@ -2,11 +2,11 @@ package com.onsaem.web.blog.mapper;
 
 import java.util.List;
 
-import com.onsaem.web.blog.service.BlogMediaVO;
-import com.onsaem.web.blog.service.BlogReportVO;
+
 import com.onsaem.web.blog.service.BlogWriteVO;
 import com.onsaem.web.blog.service.CategoriesVO;
 import com.onsaem.web.common.service.LikeVO;
+import com.onsaem.web.common.service.ReportVO;
 
 public interface BlogWriteMapper {
 	// 블로그 글 전체 조회
@@ -17,8 +17,7 @@ public interface BlogWriteMapper {
 	public BlogWriteVO getBlog(String writeId);
 	// 블로그 글 작성
 	int blogInsert(BlogWriteVO blogWriteVO);
-	// 블로그 미디어 첨부
-	int mediaInsert(BlogMediaVO mediaVO);
+
 	// 블로그 글 수정
 	int blogUpdate(BlogWriteVO blogWriteVO);
 	// 블로그 글 삭제
@@ -42,5 +41,5 @@ public interface BlogWriteMapper {
 	public List<BlogWriteVO> searchWrite(String blogId, String data);
 	
 	// 신고
-	int reportInsert(BlogReportVO blogReportVO);
+	int addBan(ReportVO reportVO);
 }
