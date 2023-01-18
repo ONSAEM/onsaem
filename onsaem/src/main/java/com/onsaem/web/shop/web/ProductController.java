@@ -210,4 +210,10 @@ public class ProductController {
 		proService.delMyLike(vo);
 		return "content/shop/shopLike";
 	}
+	
+	//대쉬보드 페이지이동	
+	@RequestMapping(value = "/dashBoard", method = RequestMethod.GET)
+	public String DashBoard(Model model, Authentication authentication) {		
+		return "content/test/dashBoardTest";
+	}
 }

@@ -28,7 +28,7 @@
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
 		type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
-		type="text/css">		
+		type="text/css">
 </th:block>
 
 
@@ -62,8 +62,8 @@
 							<i class="fa fa-bars"></i> <span>All departments</span>
 						</div>
 						<ul>
-						<li><a href="http://localhost/category?data=야채">야채</a></li>
-						<li><a href="http://localhost/category?data=과일">과일</a></li>
+							<li><a href="http://localhost/category?data=야채">야채</a></li>
+							<li><a href="http://localhost/category?data=과일">과일</a></li>
 							<li><a href="#">Fresh Meat</a></li>
 							<li><a href="#">Vegetables</a></li>
 							<li><a href="#">Fruit & Nut Gifts</a></li>
@@ -83,18 +83,23 @@
 								<input type="text" placeholder="What do yo u need?" name="data">
 								<button type="submit" class="site-btn">SEARCH</button>
 							</form>
-							
+
 						</div>
 						<div class="header__cart">
-						<div class="sidebar__item__size">
-								<label for="large" th:onclick="location.href='/sellerMain'"> 판매자 <input type="radio" id="large">
+							<div class="sidebar__item__size">
+								<label for="large" th:onclick="location.href='/sellerMain'">
+									판매자 <input type="radio" id="large">
 								</label>
 							</div>
 							<ul>
-								<li><a href="/likeList"><i class="fa fa-heart" sec:authorize="isAuthenticated()"></i> <span
-										th:text="${#lists.size(likeList)}"  sec:authorize="isAuthenticated()">1</span></a></li>
-								<li><a th:href="@{/shopCart}"><i class="fa fa-shopping-bag" sec:authorize="isAuthenticated()"></i> <span
-										th:text="${#lists.size(cartList)}"  sec:authorize="isAuthenticated()">3</span></a></li>
+								<li><a href="/likeList"><i class="fa fa-heart"
+										sec:authorize="isAuthenticated()"></i> <span
+										th:text="${#lists.size(likeList)}"
+										sec:authorize="isAuthenticated()">1</span></a></li>
+								<li><a th:href="@{/shopCart}"><i
+										class="fa fa-shopping-bag" sec:authorize="isAuthenticated()"></i>
+										<span th:text="${#lists.size(cartList)}"
+										sec:authorize="isAuthenticated()">3</span></a></li>
 							</ul>
 						</div>
 					</div>
@@ -116,7 +121,7 @@
 							<ul>
 								<li><a href="http://localhost/category?data=야채">야채</a></li>
 								<li><a href="http://localhost/category?data=과일">과일</a></li>
-							</ul>							
+							</ul>
 						</div>
 						<div class="sidebar__item">
 							<h4>가격</h4>
@@ -283,7 +288,7 @@
 										<option value="new"
 											th:selected="${#strings.equals(param.data, 'new')}">최신순</option>
 										<option value="popularity"
-											th:selected="${#strings.equals(param.data, 'popularity')}">인기순</option>					
+											th:selected="${#strings.equals(param.data, 'popularity')}">인기순</option>
 									</select>
 								</div>
 							</div>
@@ -312,7 +317,8 @@
 									<ul class="product__item__pic__hover">
 										<li><a th:href="@{/likeAdd(data=${product.productId})}"
 											th:onclick="likeEvent()"><i class="fa fa-heart"></i></a></li>
-										<li><a th:href="@{/cartAdd(productId=${product.productId})}"
+										<li><a
+											th:href="@{/cartAdd(productId=${product.productId})}"
 											th:onclick="cartEvent()"><i class="fa fa-shopping-cart"></i></a></li>
 									</ul>
 								</div>
@@ -347,9 +353,9 @@
 		<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
 		<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
 		<script th:src="@{/shoptemplate/js/main.js}"></script>
-		
+
 		<script type="text/javascript">
-		let id='[[${session.id}]]';
+			let id = '[[${session.id}]]';
 			function changeList(data) {
 				console.log(data);
 				if (data == 'new') {
@@ -365,8 +371,8 @@
 				alert("찜목록에 추가되었습니다.")
 			}
 
-			function cartEvent() {				
-				alert("장바구니에 추가되었습니다.");											
+			function cartEvent() {
+				alert("장바구니에 추가되었습니다.");
 			}
 		</script>
 	</th:block>
