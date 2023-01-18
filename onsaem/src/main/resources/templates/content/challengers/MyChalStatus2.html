@@ -223,7 +223,7 @@
 
 		<div class="gallery">
 
-			<div class="gallery-item openDetail" tabindex="0">
+			<div class="gallery-item openDetail" tabindex="0" th:each="proof:${proofs}" th:onclick="displayModal([[${proof}]])">
 
 				<img src="https://images.unsplash.com/photo-1511765224389-37f0e77cf0eb?w=500&h=500&fit=crop" class="gallery-image">
 
@@ -518,17 +518,37 @@
 			
 			
 		//모달창 생성
-	      document.querySelectorAll(".openDetail").forEach((openDetail) => {
+	     /*  document.querySelectorAll(".openDetail").forEach((openDetail) => {
 	         console.log(openDetail);
-	         openDetail.addEventListener("click", displayModal);
 	         
-	      })
+	         
+	      }) */
+	      
+	     /*  openDetail.addEventListener("click", displayModal); */
 	      const modal = document.querySelector(".modal");
 	      const closeButton = modal.querySelector(".closeBtn");
 	      const modalBackground = modal.querySelector(".modal__background");
 
-	      function displayModal() {
+	      function displayModal(data) {
+	    	  console.log(data)
+	    	  let proofId = data.proofId;
+	    	  console.log(proofId);
+	    	  
+		       //ajax 호출 
+		       		$.ajax({
+		      			url: '/mypage/proofDetail',
+					      method: 'POST',
+					      contentType: 'application/json',
+					      data: JSON.stringify({proofId:proofId}),
+					      success: function (result) {
+					    	  console.log(result);
+					      },
+					      error: function (error) {
+					         console.log(error);
+					      }
+		      		}) 
 	         modal.classList.toggle("hidden");
+	       
 	      }
 
 	      

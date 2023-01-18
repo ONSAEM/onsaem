@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -232,17 +233,20 @@ public class ChalMypageController {
 	
 	//마이페이지 2번쨰 페이지의 모달창내용 ㅎㅎ
 	@RequestMapping(value="/proofDetail", method=RequestMethod.POST)
-	public String proofDetail(Model model, String proofId){		
-		/*
-		 * //게시글 한개 내용 가져오기, 인증샷 model.addAttribute("proof",
-		 * proofService.getProof(proofId));
-		 * 
-		 * //댓글 리스트 model.addAttribute("replies", proofService.listReply(proofId));
-		 * 
-		 * LikeVO vo = new LikeVO(); vo.setGroupId(proofId); //좋아효용 가져오기
-		 * model.addAttribute("likes", proofService.cntChalLike(vo));
-		 */
-		 return "알아서 잘하길 바란다 내일의 나야  화이팅 " ;
+	@ResponseBody
+	public Map<String, Object> proofDetail(Model model, @RequestBody String proofId){		
+		 Map<String, Object> map = new HashMap<String, Object>();
+		  //게시글 한개 내용 가져오기, 인증샷 model.addAttribute("proof",
+		 map.put("brd",proofService.getProof(proofId));
+		 
+		 //댓글 리스트 
+		 map.put("repllies",proofService.listReply(proofId));
+		//좋아효용 가져오기
+		  LikeVO vo = new LikeVO(); 
+		  vo.setGroupId(proofId); 
+		 map.put("likeCnt", proofService.cntChalLike(vo));
+		
+		 return map ;
 		 
 	}
 	
