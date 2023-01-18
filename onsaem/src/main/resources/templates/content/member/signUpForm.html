@@ -389,24 +389,24 @@
 		$('.checkId').on('click',function(){
 			let id = $(this).parentsUntil('.form').find('input');
 			console.log($(id).val());
-			console.log($(document).find('.inputfield').eq(2).next());
+			console.log($(id).parentsUntil('.form').next().prop('tagName'));
 			$.ajax({
-				url : '/getMember',
+				url : '/checkId',
 				method : 'POST',
 				data : {"memberId" : $(id).val()},
 				contentType: 'application/x-www-form-urlencoded',
 				success : function(result) {
-					if(result){
+					if(result.data){
 						console.log("아이디중복");
-						// if($(document).find('.form').children()[3].tagName == 'P'){
-						// 	$(document).find('.form').children()[3].remove();
-						// }
+						if($(id).parentsUntil('.form').next().prop('tagName') == 'P'){
+							$(id).parentsUntil('.form').next().remove();
+						}
 						$(id).parentsUntil('.form').after($('<p/>').text("이미 있는 아이디입니다. 다른 아이디를 입력해주세요").css("margin-left","20%"));
 					}else{
 						console.log("아이디중복아님");
-						// if($(document).find('.form').children()[3].tagName == 'P'){
-						// 	$(document).find('.form').children()[3].remove();
-						// }
+						if($(id).parentsUntil('.form').next().prop('tagName') == 'P'){
+							$(id).parentsUntil('.form').next().remove();;
+						}
 						$(id).parentsUntil('.form').after($('<p/>').text("사용할 수 있는 아이디입니다").css("margin-left","20%"));
 					}
 				},

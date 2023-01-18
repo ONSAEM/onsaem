@@ -4,6 +4,7 @@
 package com.onsaem.web.common.web;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,8 +18,8 @@ public class CommonController {
 		return "content/main";
 	}
 
-	@RequestMapping(value = "/error", method = RequestMethod.GET)
-	public String errorPage() {
-		return "content/common/404";
+	@RequestMapping(value="/errorPage", method = RequestMethod.GET)
+	public String errorPage(Model model) {
+		return "content/error/404";
 	}
 }
