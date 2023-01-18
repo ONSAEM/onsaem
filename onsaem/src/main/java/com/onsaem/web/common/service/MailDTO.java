@@ -14,6 +14,7 @@ public class MailDTO {
 	private String from;
     private String[] address;
     private String[] ccAddress;
+    private String subject;
     private String title;
     private String content;
     private String template;

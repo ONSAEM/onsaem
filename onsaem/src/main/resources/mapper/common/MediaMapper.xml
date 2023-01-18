@@ -12,6 +12,6 @@ SELECT 'M'||LPAD(MEDIA_SEQ.NEXTVAL,3,0) FROM DUAL
 
 <select id="getMedia" resultType="MediaVO">
 select * from MEDIA
-where FILE_NAME = 'M000.jpg'	
+where FILE_NAME = '괭이.jpg'	
 </select>
 </mapper>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+</head>
+
+<body style="background-color: #ffffff;
+font-family: 'Metropolis', sans-serif;">
+    <main style="display: block;">
+        <section class="donate-section" style="background-image: url('cid:backgroundImage');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        position: relative;
+        padding-top: 150px;
+        padding-bottom: 150px;display: block;"  role="img" aria-label="image">>
+            <div class="section-overlay" style="    background: rgba(0, 0, 0, 0.35);
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            width: 100%;
+            height: 100%;box-sizing: border-box;"></div>
+            <div class="container" style="position: relative;--bs-gutter-x: 1.5rem;
+            --bs-gutter-y: 0;
+            width: 100%;
+            padding-right: calc(var(--bs-gutter-x) * .5);
+            padding-left: calc(var(--bs-gutter-x) * .5);
+            margin-right: auto;
+            margin-left: auto;max-width: 720px;box-sizing: border-box;">
+                <div class="row" style="--bs-gutter-x: 1.5rem;
+                --bs-gutter-y: 0;
+                display: flex;
+                flex-wrap: wrap;
+                margin-top: calc(-1 * var(--bs-gutter-y));
+                margin-right: calc(-.5 * var(--bs-gutter-x));
+                margin-left: calc(-.5 * var(--bs-gutter-x));">
+                    <div class="col-lg-6 col-12 mx-auto" style="margin-right: auto !important;
+                    margin-left: auto !important;flex: 0 0 auto;
+    width: 100%;max-width: 100%;
+    padding-right: calc(1.5rem * .5);
+    padding-left: calc(1.5rem * .5);
+    margin-top: 0;box-sizing: border-box;">
+                        <form class="custom-form donate-form" action="#" method="get" role="form" style="background: #ffffff;
+                        border-radius: 20px;
+                        position: relative;
+                        overflow: hidden;padding: 35px;margin-top: 0em;box-sizing: border-box;">
+                            <h3 class="mb-4" style="margin-bottom: 1.5rem !important;font-weight: 600;
+                            letter-spacing: -1px;color: #5bc1ac;line-height: 1.2;font-size: 32px;margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;margin-top: 0;">ONSAEM</h3>
+
+                            <div class="row" style="--bs-gutter-x: 1.5rem;
+                            --bs-gutter-y: 0;
+                            display: flex;
+                            flex-wrap: wrap;
+                            margin-top: calc(-1 * var(--bs-gutter-y));
+                            margin-right: calc(-.5 * var(--bs-gutter-x));
+                            margin-left: calc(-.5 * var(--bs-gutter-x));">
+                                <div class="col-lg-12 col-12" style="max-width: 100%;
+                                padding-right: calc(1.5rem * .5);
+                                padding-left: calc(1.5rem * .5);
+                                margin-top: 0;">
+                                    <h5 class="mb-3" th:text=${title} style="margin-bottom: 1rem !important;font-size: 20px;color: #000000;font-weight: 600;
+                                    letter-spacing: -1px;line-height: 1.2;    margin-block-start: 1.67em;
+    margin-block-end: 1.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px; margin-top: 0;">제목</h5>
+                                    <p th:text=${content} style="color: #717275;
+                                    font-size: 16px;
+                                    font-weight: 300;margin-top: 0;
+    margin-bottom: 1rem;    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;">내용</p>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>

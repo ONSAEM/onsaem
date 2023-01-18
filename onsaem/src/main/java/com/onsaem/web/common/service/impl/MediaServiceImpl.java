@@ -62,7 +62,7 @@ public class MediaServiceImpl implements MediaService{
 	            
 	            file.transferTo(savePath);
 	            
-	            vo.setFileRoute(folderPath +File.separator + vo.getUuid() + "_" + vo.getFileName());
+	            vo.setFileRoute(folderPath + "/" + vo.getUuid() + "_" + vo.getFileName());
 	            vo.setMediaName(vo.getUuid() + "_" + vo.getFileName());
 	            list.add(vo);
 	         }

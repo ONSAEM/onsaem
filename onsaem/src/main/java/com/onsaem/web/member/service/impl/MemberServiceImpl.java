@@ -38,10 +38,11 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 		String[] emList = new String[1];
 		emList[0]=email;
 		dto.setAddress(emList);
-		dto.setTitle("이메일 체크");
+		dto.setSubject("이메일 인증번호 발급");
+		dto.setTitle("이메일 인증");
 		dto.setFrom("onseam");
 		dto.setContent("호경바보");
-		dto.setTemplate("mailTest");
+		dto.setTemplate("mail");
 
 		if(mailService.sendMail(dto,null)) {
 			return "success";
