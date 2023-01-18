@@ -21,6 +21,7 @@ import com.onsaem.web.blog.service.MomentService;
 import com.onsaem.web.blog.service.MomentsVO;
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.RepliesVO;
+import com.onsaem.web.common.service.ReportVO;
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -120,6 +121,17 @@ public class BlogWriteController {
 		blogWriteService.delBlogLike(vo);
 		
 		return blogWriteService.cntBlogLike(vo);
+	}
+	
+	// 댓글 신고
+	@RequestMapping(value = "/addBan", method = RequestMethod.POST)
+	@ResponseBody
+	public ReportVO addBan(ReportVO vo,Authentication authentication) {
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		String id = userDetails.getUsername();
+		vo.setFromId(id);
+		blogWriteService.addBan(vo);
+		return vo;
 	}
 	
 	// 내 블로그 제목 검색

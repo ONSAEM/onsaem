@@ -2,8 +2,6 @@ package com.onsaem.web.blog.mapper;
 
 import java.util.List;
 
-import com.onsaem.web.blog.service.BlogReplyVO;
-import com.onsaem.web.blog.service.BlogReportVO;
 import com.onsaem.web.common.service.RepliesVO;
 
 public interface BlogReplyMapper {

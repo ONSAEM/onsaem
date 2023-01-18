@@ -6,12 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.onsaem.web.blog.mapper.BlogWriteMapper;
-import com.onsaem.web.blog.service.BlogMediaVO;
-import com.onsaem.web.blog.service.BlogReportVO;
 import com.onsaem.web.blog.service.BlogWriteService;
 import com.onsaem.web.blog.service.BlogWriteVO;
 import com.onsaem.web.blog.service.CategoriesVO;
 import com.onsaem.web.common.service.LikeVO;
+import com.onsaem.web.common.service.ReportVO;
 
 @Service
 public class BlogWriteServiceImpl implements BlogWriteService {
@@ -42,12 +41,6 @@ public class BlogWriteServiceImpl implements BlogWriteService {
 	}
 
 	@Override
-	public int mediaInsert(BlogMediaVO mediaVO) {
-		// 미디어 첨부
-		return 0;
-	}
-
-	@Override
 	public int blogUpdate(BlogWriteVO blogWriteVO) {
 		// 글 수정
 		return blogWriteMapper.blogUpdate(blogWriteVO);
@@ -69,12 +62,6 @@ public class BlogWriteServiceImpl implements BlogWriteService {
 	public int delBlogLike(LikeVO likeVO) {
 		// 좋아요 취소
 		return blogWriteMapper.delBlogLike(likeVO);
-	}
-
-	@Override
-	public int reportInsert(BlogReportVO blogReportVO) {
-		// 신고
-		return 0;
 	}
 
 	@Override
@@ -105,6 +92,12 @@ public class BlogWriteServiceImpl implements BlogWriteService {
 	public List<BlogWriteVO> searchWrite(String blogId, String data) {
 		// 해당 유저의 검색 목록 조회
 		return blogWriteMapper.searchWrite(blogId, data);
+	}
+
+	@Override
+	public int addBan(ReportVO reportVO) {
+		// 신고
+		return blogWriteMapper.addBan(reportVO);
 	}
 
 	
