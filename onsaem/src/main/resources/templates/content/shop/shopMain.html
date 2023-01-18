@@ -313,7 +313,8 @@
 							<div class="product__item">
 								<div class="product__item__pic set-bg"
 									th:data-setbg="@{{fileRoute}{mediaName}/
-									(fileRoute=${product.fileRoute},mediaName=${product.mediaName})}">
+									(fileRoute=${product.fileRoute},mediaName=${product.mediaName})}"
+									th:onclick="productDetail([[${product.productId}]])">
 									<ul class="product__item__pic__hover">
 										<li><a th:href="@{/likeAdd(data=${product.productId})}"
 											th:onclick="likeEvent()"><i class="fa fa-heart"></i></a></li>
@@ -324,7 +325,7 @@
 								</div>
 								<div class="product__item__text">
 									<h6>
-										<a th:href="@{/shopDetail(data=${product.productId})}"
+										<a th:onclick="productDetail([[${product.productId}]])"
 											th:text=${product.productName}>Crab Pool Security</a>
 									</h6>
 									<h5 th:text="${product.price}+원">$30.00</h5>
@@ -373,7 +374,34 @@
 
 			function cartEvent() {
 				alert("장바구니에 추가되었습니다.");
+			}			
+			
+			//최근본상품 세션저장
+			function productDetail(data){
+				if(sessionStorage.getItem('productId')!=null){					
+					sessionStorage.setItem('productId',sessionStorage.getItem('productId')+data+",");	
+				}else{
+					sessionStorage.setItem('productId',data+",");
+				}					
+				location.href='/shopDetail?data='+data						
 			}
+			
+			window.onload = function(){
+				//최근본상품 세션 전달
+				let watch =sessionStorage.getItem('productId').split(',');
+				console.log(watch)
+				fetch('/watchProduct',{
+   					headers: {
+   					    "Content-Type": "application/json",
+   					  },
+   					method:"post",
+   					body: JSON.stringify({
+   						watch: watch
+   					  })
+   					})
+				  .then((response) => console.log("success"))	
+		    }
+			
 		</script>
 	</th:block>
 

@@ -386,15 +386,14 @@ h1 {
 				}
 				
 				//주문결제페이지이동
-				function buyProduct(data){				
+				function buyProduct(data){					
 					let productId=data[0].productId;
 					let cartAmount=document.querySelector(".proAmount").value;
 					let cartOption=document.querySelector(".options").value;
-					location.href='/buyProduct?productId='+productId+'&amount='+cartAmount+'&option='+cartOption;
-					
-										 
-			
+					location.href='/buyProduct?productId='+productId+'&amount='+cartAmount+'&option='+cartOption;			
 				}
+				
+				
 			</script>
 	</th:block>
 </div>
