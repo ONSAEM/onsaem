@@ -23,6 +23,7 @@
 		<![CDATA[
 		and rownum <=4
 		]]>
+		order by upload_start DESC
  	</select>
  	<!-- 한 블로거의 모먼트 단건 조회 -->
  	<select id="getMoment" resultType="MomentsVO" parameterType="String">

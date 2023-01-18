@@ -351,6 +351,10 @@
 				type="button" th:each="moment : ${moments}" id="modalBtn">
 					<input type="hidden" id="mmtId" th:value="${moment.momentId}">
 					<div class="mmtcard" th:style="'background-image:url('+ @{${moment.fileRoute}} + @{${moment.mediaName}} + ');'">
+						<!-- 교수님 도와주세요!!!!!!!!!!!!!!! 사진이 안뜹니다!!!!!!!!!! -->
+<!-- 						<div class="mmtcard inputfield" id="preview-image" -->
+<!-- 						th:style="'background: url('+@{'C:\onsaem_media\'+${moment.fileRoute}}+');'"> -->
+						
 						<div class="mmtcontent">
 							<h2 class="mmttitle">@[[${moment.blogId}]]</h2>
 							<p class="mmtcopy">[[${moment.momentWrite}]]</p>
