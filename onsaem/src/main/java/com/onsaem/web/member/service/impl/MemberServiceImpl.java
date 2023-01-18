@@ -1,17 +1,14 @@
 package com.onsaem.web.member.service.impl;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.onsaem.web.common.service.MailService;
 import com.onsaem.web.common.service.MailDTO;
-import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.member.mapper.MemberMapper;
 import com.onsaem.web.member.service.MemberService;
 import com.onsaem.web.member.service.MemberVO;
@@ -36,14 +33,17 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 	}
 
 	@Override
-	public String sendAuthMail(String email, List<MediaVO> fileList) {
-		MailDTO vo = new MailDTO();
-//		vo.setSubject("이메일 체크");
-//		vo.setContent("<h1>이메일</h1><br><p>이거 보내지면 성공</p>");
-//		vo.setToEmail(email);
-//		vo.setToName("호경쓰");
-		
-		if(mailService.sendMail(vo, fileList)) {
+	public String sendAuthMail(String email) {
+		MailDTO dto = new MailDTO();
+		String[] emList = new String[1];
+		emList[0]=email;
+		dto.setAddress(emList);
+		dto.setTitle("이메일 체크");
+		dto.setFrom("onseam");
+		dto.setContent("호경바보");
+		dto.setTemplate("mailTest");
+
+		if(mailService.sendMail(dto,null)) {
 			return "success";
 		}else {
 			return "fail";
