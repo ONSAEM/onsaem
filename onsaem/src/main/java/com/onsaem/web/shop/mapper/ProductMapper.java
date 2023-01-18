@@ -57,8 +57,11 @@ public interface ProductMapper {
 
 	// 나의찜삭제
 	int delMyLike(ProductVO vo);
-	
-	//옵션들 저장
+
+	// 옵션들 저장
 	int addOption(OptionVO ovo);
+
+	// 옵션들 가져오기
+	List<ProductVO> optionList(String data);
 
 }

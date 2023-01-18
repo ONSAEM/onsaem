@@ -49,7 +49,8 @@ public class ProductController {
 	// 쇼핑몰페이지이동,최신순,인기순 목록나열
 	@RequestMapping(value = "/shop", method = RequestMethod.GET)
 	public String shopMain(Model model, @RequestParam(value = "data", required = false) String data,
-			Authentication authentication) {
+			Authentication authentication,HttpServletRequest request) {
+		HttpSession session=request.getSession();
 		if (authentication != null) {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 			cartVo.setMemberId(userDetails.getUsername());
@@ -57,7 +58,8 @@ public class ProductController {
 			model.addAttribute("cartList", cartService.cartList(cartVo)); // 장바구니 수량가져오기 위한 리스트
 			model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
 		}
-
+		session.getAttribute("productId");
+		System.out.println("================================="+session.getAttribute("productId"));
 		if (data != null && data.equals("popularity")) {
 			model.addAttribute("productList", proService.popList());
 			return "content/shop/shopMain";
@@ -69,11 +71,14 @@ public class ProductController {
 
 	// 상세설명페이지이동
 	@RequestMapping(value = "/shopDetail", method = RequestMethod.GET)
-	public String shopSelect(Model model, @RequestParam(value = "data", required = false) String data) {
+	public String shopSelect(Model model, @RequestParam(value = "data", required = false) String data,HttpServletRequest request) {
+		HttpSession session=request.getSession();
+		session.setAttribute("productId", data);
 		model.addAttribute("productList", proService.selectPro(data));// 상품데이터가져오기
 		model.addAttribute("imgList", proService.addImg(data));// 추가이미지가져오기
 		model.addAttribute("natureImg", proService.natureImg(data));// 친환경이미지가져오기
 		model.addAttribute("reviewList", proService.reviewList(data));// 상품리뷰리스트가져오기
+		model.addAttribute("optionList", proService.optionList(data));//옵션가져오기
 		return "content/shop/shopDetail";
 	}
 
@@ -211,9 +216,5 @@ public class ProductController {
 		return "content/shop/shopLike";
 	}
 	
-	//대쉬보드 페이지이동	
-	@RequestMapping(value = "/dashBoard", method = RequestMethod.GET)
-	public String DashBoard(Model model, Authentication authentication) {		
-		return "content/test/dashBoardTest";
-	}
+	
 }

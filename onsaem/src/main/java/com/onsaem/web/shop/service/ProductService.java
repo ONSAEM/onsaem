@@ -58,4 +58,7 @@ public interface ProductService {
 	
 	//옵션들 저장
 	int addOption(OptionVO ovo);
+	
+	//옵션들 가져오기
+	List<ProductVO> optionList(String data);
 }
