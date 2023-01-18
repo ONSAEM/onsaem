@@ -1,20 +1,16 @@
 package com.onsaem.web.member.web;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.member.service.MemberService;
+import com.onsaem.web.member.service.MemberVO;
 
 
 @Controller
@@ -38,6 +34,13 @@ public class MemberController {
 		return "content/member/signUpForm";
 	}
 		
+	// 회원단건조회
+	@RequestMapping(value = "/getMember", method = RequestMethod.POST)
+	@ResponseBody
+	public MemberVO getMember(String memberId) {
+		return memberService.getMember(memberId);
+	}
+	
 	// 이메일 인증
 	@RequestMapping(value = "/authMail", method = RequestMethod.POST)
 	@ResponseBody

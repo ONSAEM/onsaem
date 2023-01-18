@@ -300,7 +300,7 @@
 				<div class="inputfield">
 					<label>아이디<span class="request">*</span></label> <input type="text"
 						name="memberId" class="input"><input type="button"
-						value="중복체크" class="checkBtn">
+						value="중복체크" class="checkBtn checkId">
 				</div>
 				<div class="inputfield">
 					<label>비밀번호<span class="request">*</span></label> <input
@@ -385,16 +385,47 @@
             }
         }
 		
+		// 아이디중복체크
+		$('.checkId').on('click',function(){
+			let id = $(this).parentsUntil('.form').find('input');
+			console.log($(id).val());
+			console.log($(document).find('.inputfield').eq(2).next());
+			$.ajax({
+				url : '/getMember',
+				method : 'POST',
+				data : {"memberId" : $(id).val()},
+				contentType: 'application/x-www-form-urlencoded',
+				success : function(result) {
+					if(result){
+						console.log("아이디중복");
+						// if($(document).find('.form').children()[3].tagName == 'P'){
+						// 	$(document).find('.form').children()[3].remove();
+						// }
+						$(id).parentsUntil('.form').after($('<p/>').text("이미 있는 아이디입니다. 다른 아이디를 입력해주세요").css("margin-left","20%"));
+					}else{
+						console.log("아이디중복아님");
+						// if($(document).find('.form').children()[3].tagName == 'P'){
+						// 	$(document).find('.form').children()[3].remove();
+						// }
+						$(id).parentsUntil('.form').after($('<p/>').text("사용할 수 있는 아이디입니다").css("margin-left","20%"));
+					}
+				},
+				error : function(error) {
+					console.log(error);
+					alert('실패');
+				}
+			})
+		})
+		
 		// 이메일 인증
 		$('.checkEmail').on('click',function(){
-			console.log('확인');
 			let email = $(this).parentsUntil('.form').find('input').val();
 			console.log(email);
 			$.ajax({
 				url : '/authMail',
 				method : 'POST',
 				data : {"email" : email},
-				contentType: 'application/x-www-form-urlencoded',
+				contentType: 'application/x-www-form-urlencoded;',
 				success : function(result) {
 					alert(result);
 				},
@@ -404,6 +435,7 @@
 				}
 			})
 		})
+		
 		
 		// 우편번호 찾기
 		  function sample6_execDaumPostcode() {
