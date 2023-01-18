@@ -17,7 +17,7 @@ public class CommonController {
 		return "content/main";
 	}
 
-	@RequestMapping(value = "/errorPage", method = RequestMethod.GET)
+	@RequestMapping(value = "/error", method = RequestMethod.GET)
 	public String errorPage() {
 		return "content/common/404";
 	}
