@@ -14,4 +14,6 @@ public class LikeVO {
 	String groups;
 	Date insertDate;
 	String count;
+	
+	Integer cnt;
 }

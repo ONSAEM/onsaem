@@ -48,6 +48,12 @@ public class NgoServiceImpl implements NgoService {
 		// TODO Auto-generated method stub
 		return ngoMapper.delNgo(ngoId);
 	}
+
+	@Override
+	public List<NgoVO> myApplies(String writerId) {
+		// TODO Auto-generated method stub
+		return ngoMapper.myApplies(writerId);
+	}
 	
 	
 	

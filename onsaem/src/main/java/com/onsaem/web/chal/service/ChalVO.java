@@ -25,6 +25,7 @@ public class ChalVO {
 	Integer donationFee; //기부금 - 총액
 	String memberId; //글쓴이ID
 	Integer teamFee; //팀전고정기부금 - 개인할당
+	String receipt; //기부 영수증 있는지 없는지 유무ㅎㅎ
 
 	
 	
@@ -35,5 +36,7 @@ public class ChalVO {
 	String paymentId;
 	String paymentMethod;
 	Integer rownum;
+	String result;
+	String resultPoint;
 	
 }

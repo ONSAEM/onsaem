@@ -465,8 +465,14 @@
                            <input style="display: block;" type="file" id="input-image"
                               name="uploadFile">
                            <p id="chalId"></p>
-                           <textarea id="content" name="content"></textarea>
-                           <button type="button" th:onclick="inputProof()">인증하기</button>
+                           <table>
+                           		<tr>
+                           			<th>댓쓴이</th>
+                           			<td>댓글내용</td>
+                           		</tr>
+                           </table>
+                           <input type="text" id="content" name="content">
+                           <button type="button" th:onclick="inputReply">댓글쓰기</button>
                            <button type="button" class="closeBtn">닫기</button>
                         </div>
                      
@@ -529,6 +535,8 @@
 	      closeButton.addEventListener("click", displayModal)
 	      modalBackground.addEventListener("click", displayModal);
 	      //=----모달창관련 스크립트 끝
+	      
+	      
 		</script>
 	</div>
 	<!-- index.html 고유 스크립트 추가 -->

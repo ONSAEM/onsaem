@@ -38,7 +38,7 @@ public interface ProofMapper {
 	Integer inputLike(LikeVO vo);
 	
 	//좋아요 취소
-	Integer delLike(String likeId);
+	Integer delLike(LikeVO vo);
 	
 	//좋아요 리스트 뽑기
 	List<LikeVO> listLike(LikeVO vo);
@@ -73,6 +73,9 @@ public interface ProofMapper {
 	
 	//인증샷있는지 확인하는 메소드 ㅋㅋ 없으면 0개로 뜨게끔 함 멋진나 ㅎㅎ
 	Integer checkProof(ProofVO vo);
+	
+	//좋아요 갯수 세기 ㅎㅎ
+	Integer cntChalLike(LikeVO vo);
 
 
 }

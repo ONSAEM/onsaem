@@ -18,4 +18,6 @@ public class ProofVO {
 	//
 	Integer cnt;
 	String fileName;
+	String fileRoute;
+	String mediaName;
 }

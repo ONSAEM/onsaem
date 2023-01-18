@@ -51,4 +51,12 @@
 		where NGO_ID = #{ngoId}  
 	</select>
 	
+	<!-- 내가 신청한 ngo목록 가져오기 -->
+	<select id="myApplies" resultType="NgoVO" parameterType="string">
+		SELECT *
+		FROM NGOES
+		WHERE WRITER_ID = #{writerId}
+		ORDER BY NGO_ID DESC
+	</select>
+	
 </mapper>

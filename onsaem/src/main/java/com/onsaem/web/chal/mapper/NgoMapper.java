@@ -24,4 +24,7 @@ public interface NgoMapper {
 	
 	//안쓸거같긴함 - ngo삭제 - 
 	Integer delNgo(String ngoId);
+	
+	//내가 신청한 ngo목록들,,별다만,,별걸 다 만든다는뜻,,
+	List<NgoVO> myApplies(String writerId);
 }
