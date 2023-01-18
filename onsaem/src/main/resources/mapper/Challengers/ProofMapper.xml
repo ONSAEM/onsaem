@@ -56,14 +56,12 @@
 
 	<!--좋아요 -->
 	<insert id="inputLike" parameterType="LikeVO">
-		<selectKey keyProperty="likeId" resultType="string">
-			SELECT
-			'CLIKE'||to_char(c_like_seq.NEXTVAL) FROM DUAL
+		<selectKey keyProperty="likeId" resultType="string" order="BEFORE">
+			SELECT 'LK'||LPAD(LK_SEQ.NEXTVAL,3,0) FROM DUAL
 		</selectKey>
-		Insert into
-		likes(like_id,member_id,GROUP_ID,GROUPS,WRITER_ID,REPLY_DATE)
-		values(#{replyId}, #{content}, #{groupId}, #{groups}, #{writerId},
-		CURRENT_DATE);
+		INSERT INTO
+		LIKES(LIKE_ID,MEMBER_ID,GROUP_ID,GROUPS,INSERT_DATE)
+		VALUES(#{likeId}, #{memberId}, #{groupId}, '챌린저스', CURRENT_DATE)
 	</insert>
 	
 	
@@ -76,10 +74,10 @@
 	</delete>
 
 	<!-- 좋아요 리스트 뽑기 -->
-	<select id="listLike" parameterType="LikeVO" resultType="LikeVO">
-		SELECT *
+	<select id="checkLike" parameterType="LikeVO" resultType="Integer">
+		SELECT count(*) CNT
 		FROM LIKES
-		WHERE GROUPS = #{groups}
+		WHERE member_id = #{memberId}
 		AND GROUP_ID = #{groupId}
 	</select>
 

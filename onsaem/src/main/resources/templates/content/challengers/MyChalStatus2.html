@@ -269,7 +269,7 @@
                            		<tbody class="replies">
                            		</tbody>
                            </table>
-                           <span>좋아요 <p id="cnt"></p></span>
+                           <span><p id="redHeart" th:onclick="delLike()">❤</p><p id="whiteHeart" th:onclick="addLike()">🤍</p>좋아요 <p id="cnt"></p></span>
                            <input type="text" id="content" name="content">
                            <button type="button" th:onclick="inputReply()">댓글쓰기</button>
                            <button type="button" class="closeBtn">닫기</button>
@@ -347,6 +347,7 @@
 					    	  console.log(result.repllies);
 					    	  console.log(result.brd.content);
 					    	  console.log(result.brd.proofWriter);
+					    	  
 					    	$('.replies').html("");
 					    	  let list = result.repllies;
 					    	  console.log(list.writerId);
@@ -359,8 +360,19 @@
 					    	  $(".replies").append(str);
 
 					    	 $("#cnt").text(result.likeCnt);
+					    	 //인증글 내용 넣기
 					    	  document.querySelector("#contents").innerText=result.brd.content;
+					    	 //글쓴이 넣기
 					    	  document.querySelector("#writer").innerText=result.brd.proofWriter;
+					    	 //좋아요 여부 확인
+					    	 let check = result.checkLike;
+					    	 if(check == 0){
+					    		 $("#whiteHeart").show();
+					    		 $("#redHeart").hide();
+					    	 }else{
+					    		 $("#redHeart").show();
+					    		 $("#whiteHeart").hide();	 
+					    	 }
 					    	  
 					      },
 					      error: function (error) {
@@ -377,6 +389,7 @@
 	      modalBackground.addEventListener("click", displayModal);
 	      //=----모달창관련 스크립트 끝
 	      
+	      //댓글 달기
 	      function inputReply(){
 	    	let content = $('#content').val();
 	    	let id = document.querySelector('#theId').value;
@@ -404,9 +417,65 @@
 			    }
 	    		
 	    	})
-		      	
-					
-
+		      						
+	      }
+	      
+	      //좋아요 하기
+	      function addLike(){
+	    	  let groupId = document.querySelector('#theId').value;
+	    	  console.log(groupId);
+	    	  
+	    	  $.ajax({
+	    		  url : '/mypage/addChalLike',
+	    		  method : 'POST',
+	    		  data : {groupId : groupId},
+	    		  success:function(result){
+	    			  console.log(result);
+	    			  //좋아요 갯수 변경
+	    			  $("#cnt").text(result.likeCnt);
+	    			  //하트 변경
+	    			  let check = result.checkLike;
+				    	 if(check == 0){
+				    		 $("#whiteHeart").show();
+				    		 $("#redHeart").hide();
+				    	 }else{
+				    		 $("#redHeart").show();
+				    		 $("#whiteHeart").hide();	 
+				    	 } 
+	    		  },
+	    		  error : function(){
+	    			  console.log(error);
+	    		  }
+	    	  })
+	      }
+	      //좋아요 삭제 ㅎㅎ
+	      function delLike(){
+	    	  let groupId = document.querySelector('#theId').value;
+	    	  console.log(groupId);
+	    	  
+	    	  $.ajax({
+	    		  url : '/mypage/delChalLike',
+	    		  method : 'POST',
+	    		  data : {groupId : groupId},
+	    		  success:function(result){
+	    			  console.log(result);
+	    			  //좋아요 갯수 변경
+	    			  $("#cnt").text(result.likeCnt);
+	    			  //하트 변경
+	    			  let check = result.checkLike;
+				    	 if(check == 0){
+				    		 $("#whiteHeart").show();
+				    		 $("#redHeart").hide();
+				    	 }else{
+				    		 $("#redHeart").show();
+				    		 $("#whiteHeart").hide();	 
+				    	 } 
+	    		  },
+	    		  error : function(){
+	    			  console.log(error);
+	    		  }
+	    	  })
+	    	  
 	      }
 	      
 		</script>

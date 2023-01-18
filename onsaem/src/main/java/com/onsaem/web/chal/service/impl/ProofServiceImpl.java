@@ -73,9 +73,9 @@ public class ProofServiceImpl implements ProofService {
 	
 
 	@Override
-	public List<LikeVO> listLike(LikeVO vo) {
+	public Integer checkLike(LikeVO vo) {
 		// TODO Auto-generated method stub
-		return proofMapper.listLike(vo);
+		return proofMapper.checkLike(vo);
 	}
 
 	@Override
