@@ -179,7 +179,7 @@
 		WHERE P.PROOF_ID = #{chalId}
 	</select>
 	
-	<select id="cntChalLike" resultType="likeVO">
+	<select id="cntChalLike" resultType="Integer">
 		SELECT COUNT(*) AS CNT
  		FROM LIKES
  		WHERE GROUP_ID = #{groupId}
