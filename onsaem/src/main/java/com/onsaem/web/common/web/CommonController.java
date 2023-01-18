@@ -16,4 +16,9 @@ public class CommonController {
 	public String empList() {
 		return "content/main";
 	}
+
+	@RequestMapping(value = "/errorPage", method = RequestMethod.GET)
+	public String errorPage() {
+		return "content/common/404";
+	}
 }

@@ -1,0 +1,38 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<!--siderFragment 선언-->
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+
+</head>
+<div th:fragment="siderFragment">
+	<div class="side-wrapper">
+		<sidebar>
+		<div class="side_logo">logo</div>
+		<div class="side_avatar">
+			<div class="avatar__img">
+				<img class="side_img" src="https://picsum.photos/70" alt="avatar">
+			</div>
+			<div class="avatar__name">John Smith</div>
+		</div>
+		<nav class="side_menu">
+			<a class="side_menu__item" href="#"> <i class="side_menu__icon fa fa-home"></i>
+				<span class="side_menu__text">overview</span>
+			</a> <a class="side_menu__item" href="#"> <i
+				class="side_menu__icon fa fa-envelope"></i> <span class="side_menu__text">messages</span>
+			</a> <a class="side_menu__item" href="#"> <i class="side_menu__icon fa fa-list"></i>
+				<span class="side_menu__text">workout</span>
+			</a> <a class="side_menu__item side_menu__item--active" href="#"> <i
+				class="side_menu__icon fa fa-calendar"></i> <span class="side_menu__text">calendar</span>
+			</a> <a class="side_menu__item" href="#"> <i
+				class="side_menu__icon fa fa-bar-chart"></i> <span class="side_menu__text">goals</span>
+			</a> <a class="side_menu__item" href="#"> <i
+				class="side_menu__icon fa fa-trophy"></i> <span class="side_menu__text">achivements</span>
+			</a> <a class="side_menu__item" href="#"> <i
+				class="side_menu__icon fa fa-sliders"></i> <span class="side_menu__text">measurements</span>
+			</a>
+		</nav>
+		</sidebar>
+	</div>
+</div>
+</html>
