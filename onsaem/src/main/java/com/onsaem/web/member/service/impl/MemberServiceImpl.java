@@ -40,7 +40,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 		dto.setAddress(emList);
 		dto.setTitle("이메일 체크");
 		dto.setFrom("onseam");
-		dto.setContent("메일 성공 축하축하");
+		dto.setContent("호경바보");
 		dto.setTemplate("mailTest");
 
 		if(mailService.sendMail(dto,null)) {

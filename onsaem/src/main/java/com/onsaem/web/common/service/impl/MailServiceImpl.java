@@ -57,7 +57,7 @@ public class MailServiceImpl implements MailService{
 	        
 	      //템플릿에 전달할 데이터 설정
 	        HashMap<String, String> emailValues = new HashMap<>();
-	    	emailValues.put("name", "jimin");
+	    	emailValues.put("name", mailDto.getContent());
 	    	
 	        Context context = new Context();
 	        emailValues.forEach((key, value)->{
