@@ -148,35 +148,40 @@ public class ProductController {
 	// 상품등록
 	@RequestMapping(value = "/addProduct", method = RequestMethod.POST)
 	public String addProduct(Model model, @Nullable ProductVO vo, OptionVO ovo, Authentication authentication,
-			@RequestParam(value = "uploadFile", required = false) MultipartFile[] uploadFile)
+			 MultipartFile[] uploadFile,
+			 MultipartFile[] natureFile)
 			throws IllegalStateException, IOException {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		
+
 		vo.setMemberId(userDetails.getUsername());
 		proService.addProduct(vo);
 		ovo.setProductId(vo.getProductId());
-		
-		//옵션목록 넣기
+
+		// 옵션목록 넣기
 		String[] array = ovo.getOptionContent().split(",");
-		for (int i = 0; i < array.length; i++) {		
+		for (int i = 0; i < array.length; i++) {
 			ovo.setOptionContent(array[i]);
 			proService.addOption(ovo);
-		}		
-		
+		}
+
 		MediaVO mvo = new MediaVO();
 		mvo.setGroupId(vo.getProductId());
-		mvo.setGroups("쇼핑몰");		
+		mvo.setGroups("쇼핑몰");
 		
-		//사진구분해서 넣기
-		for (int i = 0; i < uploadFile.length; i++) {
-			if (uploadFile[i] == uploadFile[0]) {
+		// 사진구분해서 넣기		
+		for(int i=0;i<uploadFile.length;i++) {
+			if(i==0) {
 				mvo.setSubGroup("대표이미지");
-				mediaService.uploadMedia(uploadFile, mvo);
-			} else {
+			}else {
 				mvo.setSubGroup("추가이미지");
-				mediaService.uploadMedia(uploadFile, mvo);
-			}
+			}			
+			MultipartFile[] upload= {uploadFile[i]};
+			mediaService.uploadMedia(upload, mvo);
 		}		
+
+		// 친환경인증증서 넣기
+		mvo.setSubGroup("친환경인증증서");
+		mediaService.uploadMedia(natureFile, mvo);
 
 		return "redirect:/addProductPage";
 	}

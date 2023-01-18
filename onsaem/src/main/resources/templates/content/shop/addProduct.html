@@ -336,13 +336,13 @@
 					<img id="preview-image"
 						src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
 				</div>
-				<div class="imgFile">
-					<div class="filebox">
-						<label style="width: 10%;" class="filelabel" onclick="addPart()">+
-						</label> <input class="inputfile" placeholder="상품이미지" readonly> <label
-							for="file" class="filelabel">사진등록</label> <input type="file"
-							id="file" name="uploadFile">
-					</div>
+				<div class="imgFile" >
+				<div class="filebox">
+					<label style="width: 10%;" class="filelabel" onclick="addPart()">+
+					</label> <input class="inputfile" placeholder="상품이미지" readonly> <label
+						for="file" class="filelabel">사진등록</label> <input type="file"
+						id="file" name="uploadFile">
+				</div>
 				</div>
 				<div class="inputfield">
 					<label>상품명<span class="request">*</span></label> <input type="text"
@@ -406,7 +406,7 @@
 				<div class="filebox">
 					<label style="width: 20%;"></label> <input class="naturefile"
 						placeholder="친환경인증증서" readonly> <label for="naturefile"
-						class="filelabel">사진등록</label> <input type="file" id="naturefile">
+						class="filelabel">사진등록</label> <input type="file" id="naturefile" name="naturefile">
 				</div>
 				<div class="inputfield">
 					<input type="submit" value="등록신청" class="btn"
@@ -490,7 +490,7 @@
 		//상품미리보기
 		$("#file").on('change', function() {
 			var fileName = $("#file").val();
-			$(".inputfile").val(fileName);			
+			$(".inputfile").val(fileName);	
 			readURL(this);
 		});
 		
@@ -498,23 +498,24 @@
 			var fileName = $("#naturefile").val();
 			$(".naturefile").val(fileName);
 			readURL(this);
-		});
+		});		
 		
-		$("#addfile").on('change', function() {
-			var fileName = $("#addfile").val();
-			$(".addfile").val(fileName);
-			readURL(this);
-		});
+	
+		
+		 $(".imgFile").on('change',".addImg", function(ev) {
+			console.log(ev);
+			var fileName = ev.target.value;
+			$(ev.target).prev().prev().val(fileName);			
+			readURL(ev.target);
+		}); 
 
-		function readURL(obj) {
-			console.log(obj)
+		function readURL(obj) {			
 			let reader = new FileReader();
 			if (!obj.files.length) {
 				return;
 			}
 			reader.readAsDataURL(obj.files[0]);
-			reader.onload = function(e) {
-				console.log( e.target.result)
+			reader.onload = function(e) {				
 				$('#preview-image').attr('src', e.target.result);
 			}
 		}		
@@ -525,10 +526,10 @@
 				<label style="width: 10%;" class="filelabel" onclick="delPart()">X
 				</label> <input class="addfile" placeholder="추가이미지" readonly> <label
 					for="addfile" class="filelabel">사진등록</label> <input type="file"
-					id="addfile" name="uploadFile">
+					 class="addImg" id="addfile" name="uploadFile">
 			</div>`; 						
 		
-			document.querySelector(".imgFile").innerHTML+=filetemplate;
+			$(".imgFile").append(filetemplate);
 		}
 		
 		//상품추가이미지 삭제
@@ -543,7 +544,7 @@
 				class="input" name="optionContent" placeholder="추가옵션"><input type="button"
 				value="X" class="checkBtn" onclick="delOption()">
 		</div>`;
-		document.querySelector(".options").innerHTML+=addOption;
+		$(".options").append(addOption);
 		}
 		
 		//추가옵션 삭제
