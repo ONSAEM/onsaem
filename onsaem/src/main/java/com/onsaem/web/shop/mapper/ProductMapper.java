@@ -59,6 +59,6 @@ public interface ProductMapper {
 	int delMyLike(ProductVO vo);
 	
 	//옵션들 저장
-		int addOption(OptionVO ovo);
+	int addOption(OptionVO ovo);
 
 }
