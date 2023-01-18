@@ -39,9 +39,7 @@ public class MailServiceImpl implements MailService{
     		MimeMessageHelper helper = new MimeMessageHelper(message, true);
 			
 	        //메일 제목 설정
-	        helper.setSubject(mailDto.getTitle());   
-	        
-	        helper.setText(mailDto.getContent(), false);
+	        helper.setSubject(mailDto.getSubject());   
 	        
 	        helper.setFrom(mailDto.getFrom());
 	        
@@ -57,8 +55,8 @@ public class MailServiceImpl implements MailService{
 	        
 	      //템플릿에 전달할 데이터 설정
 	        HashMap<String, String> emailValues = new HashMap<>();
-	    	emailValues.put("name", mailDto.getContent());
-	    	
+	    	emailValues.put("title", mailDto.getTitle());
+	    	emailValues.put("content", mailDto.getContent());
 	        Context context = new Context();
 	        emailValues.forEach((key, value)->{
 	            context.setVariable(key, value);
@@ -69,13 +67,7 @@ public class MailServiceImpl implements MailService{
 	        helper.setText(html, true);
 	        
 	        //템플릿에 들어가는 이미지 cid로 삽입
-	        helper.addInline("image1", new ClassPathResource("static/test/image-1.jpeg"));
-	        helper.addInline("image2", new ClassPathResource("static/test/image-2.png"));
-	        helper.addInline("image3", new ClassPathResource("static/test/image-3.jpeg"));
-	        helper.addInline("image4", new ClassPathResource("static/test/image-4.jpeg"));
-	        helper.addInline("image5", new ClassPathResource("static/test/image-5.png"));
-	        helper.addInline("image6", new ClassPathResource("static/test/image-6.png"));
-	        helper.addInline("image7", new ClassPathResource("static/test/image-7.png"));
+	        helper.addInline("backgroundImage", new ClassPathResource("static/test/mail.jpg"));
 	        
 	        
 	        //수신자 개별 전송       
