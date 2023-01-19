@@ -3,6 +3,7 @@ package com.onsaem.web.blog.mapper;
 import java.util.List;
 
 import com.onsaem.web.blog.service.BlogVO;
+import com.onsaem.web.common.service.LikeVO;
 
 public interface BlogMapper {
 	// 블로그 관리
@@ -21,7 +22,12 @@ public interface BlogMapper {
 	
 	// 유입 키워드 조회
 	
-	// 구독
+	// 구독 조회
+	public String subCount(LikeVO likeVO);
+	// 구독 추가
+	int addSub(LikeVO likeVO);
+	// 구독 삭제
+	int delSub(LikeVO likeVO);
 	// 전체 조회
 		
 	// 삭제

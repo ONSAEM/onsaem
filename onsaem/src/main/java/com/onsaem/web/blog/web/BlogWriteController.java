@@ -45,7 +45,10 @@ public class BlogWriteController {
 	
 	// 내 블로그로 이동
 	@RequestMapping(value = "/myblog", method = RequestMethod.GET)
-	public String myblog(Model model, String userId, CategoriesVO vo, MomentsVO mVo, BlogVO bVo) {
+	public String myblog(Model model, String userId, CategoriesVO vo, MomentsVO mVo, BlogVO bVo, LikeVO lVo,Authentication authentication) {
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		String id = userDetails.getUsername();
+		
 		model.addAttribute("myblog", blogWriteService.myBlog(userId));	
 		vo.setBlogId(userId);
 		model.addAttribute("category", blogWriteService.cateList(vo));
@@ -55,6 +58,11 @@ public class BlogWriteController {
 		// getBlog를 써서 유저아이디 받아오고, getbloginfo라고 이름 지어주기
 		model.addAttribute("blogInfo", blogService.getBlogInfo(userId));
 		System.out.println(model.getAttribute("blogInfo"));
+		
+		lVo.setGroupId(userId); // 구독 당한 사람
+		lVo.setMemberId(id); // 구독 한 사람
+		model.addAttribute("subCount", blogService.subCount(lVo));
+		System.out.println(model.getAttribute("subCount"));
 		return "content/blog/myblog";
 	}
 	

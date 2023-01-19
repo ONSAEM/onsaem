@@ -5,18 +5,52 @@
  <mapper namespace="com.onsaem.web.blog.mapper.BlogMapper">
  	<!-- 블로그 전체 조회 -->
  	<select id="taskList" resultType="BlogVO" parameterType="BlogVO">
- 		select * 
- 		from blogs
+ 		SELECT * 
+ 		FROM BLOGS
  	</select>
  	<!-- 단건 조회 -->
  	<select id="getBlogInfo" resultType="BlogVO" parameterType="String">
-	 	select  B.BLOG_ID,
+	 	SELECT  B.BLOG_ID,
                 B.BLOG_NAME,
                 B.INTRODUCTION,
                 B.BLOG_URL,
-                M.nickname
-        from blogs B,members M
-        where B.blog_id = M.member_id
-		and blog_id=#{blogId}
+                M.NICKNAME
+        FROM BLOGS B,MEMBERS M
+        WHERE B.BLOG_ID = M.MEMBER_ID
+		AND BLOG_ID=#{blogId}
 	</select>
+	
+	
+	<!-- 구독 조회 -->
+	<select id="subCount" resultType="String" parameterType="String">
+		SELECT CASE WHEN COUNT(*) != 0 THEN 'T' ELSE 'F' END AS SUB_COUNT
+		FROM LIKES
+		WHERE GROUP_ID= #{groupId} 
+		AND MEMBER_ID = #{memberId} 
+	</select>
+	
+	<!-- 구독 추가 -->
+	<insert id="addSub" parameterType="LikeVO">
+		<selectKey keyProperty="likeId" resultType="String" order="BEFORE">
+ 			SELECT 'LK'||LPAD(LK_SEQ.NEXTVAL,3,0) FROM DUAL
+ 		</selectKey>
+ 		INSERT INTO LIKES(LIKE_ID,
+					 MEMBER_ID,
+					 GROUP_ID,
+					 GROUPS,
+					 INSERT_DATE)
+		VALUES (#{likeId}, <!-- 시퀀스 -->
+				#{memberId}, <!-- 구독 당한 사람의 아이디 -->
+				#{groupId}, <!-- 구독한 사람의 아이디 -->
+				'구독',
+				current_date)
+	</insert>
+	
+	<!-- 구독 삭제 -->
+	<delete id="delSub" parameterType="String">
+		DELETE FROM LIKES
+		WHERE
+		GROUP_ID=#{groupId}
+		AND MEMBER_ID=#{memberId}
+	</delete>
  </mapper>

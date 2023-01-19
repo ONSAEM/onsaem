@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.onsaem.web.blog.mapper.BlogMapper;
 import com.onsaem.web.blog.service.BlogService;
 import com.onsaem.web.blog.service.BlogVO;
+import com.onsaem.web.common.service.LikeVO;
 
 @Service
 public class BlogServiceImpl implements BlogService {
@@ -24,6 +25,24 @@ public class BlogServiceImpl implements BlogService {
 	public BlogVO getBlogInfo(String blogId) {
 		// 단건 조회
 		return blogMapper.getBlogInfo(blogId);
+	}
+
+	@Override
+	public String subCount(LikeVO likeVO) {
+		// 구독 조회
+		return blogMapper.subCount(likeVO);
+	}
+
+	@Override
+	public int addSub(LikeVO likeVO) {
+		// 구독 추가
+		return blogMapper.addSub(likeVO);
+	}
+
+	@Override
+	public int delSub(LikeVO likeVO) {
+		// 구독 삭제
+		return blogMapper.delSub(likeVO);
 	}
 
 }
