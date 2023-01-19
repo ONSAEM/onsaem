@@ -19,6 +19,7 @@ public interface BlogWriteService {
 		int blogUpdate(BlogWriteVO blogWriteVO);
 		// 블로그 글 삭제
 		int blogDelete(BlogWriteVO blogWriteVO);
+		
 		// 좋아요 조회
 		public String likeCount(LikeVO likeVO);
 		// 좋아요 등록

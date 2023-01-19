@@ -576,6 +576,7 @@
 			
 			//신고제출
 			function banSubmit(){
+				let bno = "[[${blogWrite.writeId}]]";
 				console.log(contentId,writerId);
 				let reasonLength = document.getElementsByName("reason").length;  
    				for (var i=0; i<reasonLength; i++) {
@@ -602,11 +603,10 @@
 						success: function (result) {
 					         console.log(result);
 					    	 alert("신고 완료");
-					    	 
+					    	 location.href='/blog/myblog/blogWrite?bno='+bno;
 						},
 					      error: function (error) {
 					         console.log(error);
-					         location.href="/errorPage";
 					      }
 					})
 					

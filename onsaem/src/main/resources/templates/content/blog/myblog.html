@@ -379,7 +379,7 @@
 								    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/profile-sample5.jpg" alt="profile-sample5" class="profile" />
 								    <h2>[[${blogInfo.nickname}]]<span>@[[${blogInfo.blogId}]]</span></h2>
 								    <p>[[${blogInfo.introduction}]]</p>
-								    <a href="#" class="follow">구독</a>
+								    <a class="follow" type="button" th:value=${subCount}>구독</a>
 								    <a th:href="@{/blog/myblog/blogTask(blogId=${blogInfo.blogId})}" class="info">블로그 관리 ⚙</a> <!-- 로그인한 아이디와 블로그 주인이 같으면 보이게 -->
 								  </figcaption>
 								</figure>
@@ -567,6 +567,11 @@
 
 		<!-- moment -->
 		<script type="text/javascript">
+			let subTF = $('.follow').attr('value');
+			let blogId = $('#getblogId').val();
+			let id="[[${#authentication.principal.memberId}]]";
+			console.log(blogId);
+		
 			// moment 모달
 			
 			//moment 등록버튼을 누르면, 입력된 값을 DB로 보내기
@@ -636,7 +641,7 @@
 				console.log('확인');
 			    readImage(e.target);
 			})
-			//이미지 미리보기
+			// 이미지 미리보기
 			function readImage(input) {
 			    // 인풋 태그에 파일이 있는 경우
 			    if(input.files && input.files[0]) {
@@ -656,8 +661,62 @@
 			    }
 			}
 			
-			//
+			// 구독
+			if(subTF == 'T'){ // 만약 값이 있다면
+				$(".follow").css({'background-color':'#2980b9','color':'white','border-color':'white'});
+			}else{
+				$(".follow").css({'background-color':'','color':'#2980b9','border-color':'#2980b9'});
+			}
 			
+			
+			//구독 저장
+			$(".follow").on("click", function(){
+				if(id!=""){
+					if(subTF =='F'){ // 구독하지 않았다면~
+						$(this).css({'background-color':'#2980b9','color':'white','border-color':'white'});
+						
+						$.ajax({
+							url: '/blog/addSub',
+							method: 'post',
+							contentType: 'application/x-www-form-urlencoded',
+							data: {"groupId":blogId},
+							success: function(result){
+								console.log(result);
+								alert("구독 완료");
+								
+								subTF = 'T';
+							},
+							error: function(error){
+								console.log(error);
+							}
+						})
+					
+				}else{
+				//구독 취소
+		 				$(this).css({'background-color':'','color':'#2980b9','border-color':'#2980b9'});
+						
+		 				$.ajax({
+		 					url: '/blog/delSub',
+		 					method: 'post',
+		 					contentType: 'application/x-www-form-urlencoded',
+							data: {"groupId":blogId},
+							success: function(result){
+								console.log(result);
+								alert("구독 취소");
+								
+								subTF = 'F';
+							},
+							error: function(error){
+								console.log(error);
+							}
+		 				});
+				}
+			}else{
+					alert('로그인이 필요합니다');
+				}
+			});
+			
+		
 		</script>
 	</div>
 </body>
