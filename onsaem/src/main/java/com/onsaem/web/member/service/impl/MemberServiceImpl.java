@@ -16,20 +16,20 @@ import com.onsaem.web.member.service.MemberVO;
 @Service
 public class MemberServiceImpl implements MemberService, UserDetailsService {
 	
-	@Autowired MemberMapper loginMapper; 
+	@Autowired MemberMapper memberMapper; 
 	
 	@Autowired MailService mailService;
 	
 	@Override
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
 		
-		return loginMapper.getMember(memberId);
+		return memberMapper.getMember(memberId);
 	}
 
 	@Override
-	public MemberVO getMember(String memberId) {
+	public MemberVO checkId(String memberId) {
 
-		return loginMapper.getMember(memberId);
+		return memberMapper.checkId(memberId);
 	}
 
 	@Override
@@ -49,5 +49,11 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 		}else {
 			return "fail";
 		}
+	}
+
+	@Override
+	public MemberVO getMember(String memberId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

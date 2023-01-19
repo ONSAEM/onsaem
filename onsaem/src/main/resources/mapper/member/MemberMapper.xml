@@ -10,5 +10,18 @@
 		WHERE MEMBER_ID = #{memberId}
 	</select>
 	
+	<!-- 아이디체크 -->
+	<select id="checkId" resultType="MemberVO"
+		parameterType="String">
+		SELECT MEMBER_ID
+		FROM MEMBERS
+		WHERE MEMBER_ID = #{memberId}
+
+		UNION ALL
+
+		SELECT MEMBER_ID
+		FROM APPLY_MEMBERS
+		WHERE MEMBER_ID = #{memberId}
+	</select>
 	
 </mapper>
