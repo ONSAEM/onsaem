@@ -234,7 +234,10 @@ public class ChalMypageController {
 	//마이페이지 2번쨰 페이지의 모달창내용 ㅎㅎ
 	@RequestMapping(value="/proofDetail", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> proofDetail(String proofId){
+	public Map<String, Object> proofDetail(String proofId, Authentication authentication){
+		//아이디
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		String user = userDetails.getUsername();
 		
 		 Map<String, Object> map = new HashMap<String, Object>();
 		 
@@ -248,7 +251,12 @@ public class ChalMypageController {
 		  LikeVO vo = new LikeVO(); 
 		  vo.setGroupId(proofId); 
 		 map.put("likeCnt", proofService.cntChalLike(vo));
-		
+		 //좋아요 했는지 여부 확인
+		 
+		 LikeVO vo2 = new LikeVO();
+		 vo2.setGroupId(proofId);
+		 vo2.setMemberId(user);
+		map.put("checkLike",proofService.checkLike(vo2));
 		 
 		 return map ;
 		 
@@ -256,33 +264,45 @@ public class ChalMypageController {
 	
 	@RequestMapping(value="/addChalLike", method=RequestMethod.POST)
 	@ResponseBody
-	public Integer addChalLike(LikeVO vo, Authentication authentication) {
+	public Map<String,Object> addChalLike(String groupId, Authentication authentication) {
+		 Map<String, Object> map = new HashMap<String, Object>();
+		 LikeVO vo = new LikeVO();
 		//좋아요 넣기
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		String id = userDetails.getUsername();
-		vo.setMemberId(id);
-		
+		String user = userDetails.getUsername();
+		vo.setGroupId(groupId);
+		vo.setMemberId(user);
 		proofService.inputLike(vo);
+		
 		//좋아요 갯수
-		proofService.cntChalLike(vo);
-		return proofService.cntChalLike(vo);
+		map.put("likeCnt", proofService.cntChalLike(vo));
+		
+		//좋아요 여부 확인
+		map.put("checkLike",proofService.checkLike(vo));
+		return map;
 	}
 	
-	@RequestMapping(value="/delLike", method=RequestMethod.POST)
+	@RequestMapping(value="/delChalLike", method=RequestMethod.POST)
 	@ResponseBody
-	public Integer delChalLike(LikeVO vo, Authentication authentication) {
-		
+	public Map<String, Object> delChalLike(String groupId, Authentication authentication) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		 LikeVO vo = new LikeVO();
+		 
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		String id = userDetails.getUsername();
-		vo.setMemberId(id);
+		String user = userDetails.getUsername();
+		vo.setMemberId(user);
+		vo.setGroupId(groupId);
 		//좋아요 삭제
 		proofService.delLike(vo);
-		//좋아요 조회해서 가져와야할듯,,
-		proofService.cntChalLike(vo);
-		return proofService.cntChalLike(vo);
+		//좋아요 갯수
+		map.put("likeCnt", proofService.cntChalLike(vo));
+				
+		//좋아요 여부 확인
+		map.put("checkLike",proofService.checkLike(vo));
+		return map;
 	}
 	
-	//수정필요 댓글 작성 ㅎㅎ
+	//댓글 작성 ㅎㅎ
 	@RequestMapping(value="/inputReply", method=RequestMethod.POST)
 	@ResponseBody
 	public List<RepliesVO> inputReply(@RequestBody RepliesVO vo,Authentication authentication) {

@@ -38,8 +38,8 @@ public interface ProofService {
 		//좋아요 취소
 		Integer delLike(LikeVO vo);
 		
-		//좋아요 리스트 뽑기
-		List<LikeVO> listLike(LikeVO vo);
+		//좋아요 했는지안했는지 확인용
+		Integer checkLike(LikeVO vo);
 		
 		//사진등록
 		Integer inputMedia(MediaVO vo);
