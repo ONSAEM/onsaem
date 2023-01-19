@@ -127,6 +127,12 @@ public class ProductServiceImpl implements ProductService{
 		return proMapper.optionList(data);
 	}
 
+	@Override
+	public int addReview(ReviewVO vo) {
+		// 리뷰작성
+		return proMapper.addReview(vo);
+	}
+
 	
 	
 }

@@ -273,7 +273,8 @@
 	<insert id="addBan"
 		parameterType="com.onsaem.web.common.service.ReportVO">
 		INSERT INTO REPORTS
-		VALUES('RP'||REPORT_SEQ.NEXTVAL,#{fromId},#{toId},CURRENT_DATE,#{reason}
+		VALUES('R'||LPAD(REPORT_SEQ.NEXTVAL,3,0),#{fromId},(SELECT MEMBER_ID
+		FROM PRODUCTS WHERE PRODUCT_ID=#{groupId}),CURRENT_DATE,#{reason}
 		,#{detailReason},'신고대기','쇼핑몰',#{groupId})
 	</insert>
 
@@ -308,11 +309,20 @@
 		INSERT INTO OPTIONS
 		VALUES('OP'||OPTION_SEQ.NEXTVAL,#{productId},#{optionContent},#{topOptionId})
 	</insert>
-	
+
 	<!-- 상품옵션리스트 -->
-	<select id="optionList" resultType="com.onsaem.web.shop.service.ProductVO">
-		SELECT O.OPTION_CONTENT 
-		FROM OPTIONS O, PRODUCTS P 
-		WHERE O.PRODUCT_ID=#{data}
+	<select id="optionList"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT O.OPTION_CONTENT
+		FROM OPTIONS O, PRODUCTS P
+		WHERE
+		O.PRODUCT_ID=#{data} and p.product_id=o.product_id
 	</select>
+
+	<!-- 리뷰작성 -->
+	<insert id="addReview"
+		parameterType="com.onsaem.web.common.service.ReviewVO">
+		INSERT INTO REVIEWS
+		VALUES('RV'||LPAD(REVIEW_SEQ.NEXTVAL,3,0),#{reviewContent},#{reviewStar},#{writerId},CURRENT_DATE,#{groupId},'쇼핑몰')
+	</insert>
 </mapper>

@@ -64,4 +64,7 @@ public interface ProductMapper {
 	// 옵션들 가져오기
 	List<ProductVO> optionList(String data);
 
+	// 리뷰작성
+	int addReview(ReviewVO vo);
+
 }
