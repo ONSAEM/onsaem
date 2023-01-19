@@ -17,6 +17,6 @@ public class MailDTO {
     private String subject;
     private String title;
     private String content;
-    private String template;
+    private String template = "mail";
     private List<MediaVO> attachFileList = new ArrayList<>();
 }

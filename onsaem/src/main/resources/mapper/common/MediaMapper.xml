@@ -14,4 +14,8 @@ SELECT 'M'||LPAD(MEDIA_SEQ.NEXTVAL,3,0) FROM DUAL
 select * from MEDIA
 where FILE_NAME = '괭이.jpg'	
 </select>
+<select id="getvideo" resultType="MediaVO">
+select * from MEDIA
+where FILE_NAME = 'ì__í_¬ - 67358.mp4'	
+</select>
 </mapper>
