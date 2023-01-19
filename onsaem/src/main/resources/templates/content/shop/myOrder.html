@@ -27,6 +27,7 @@
 
 <head>
 <style type="text/css">
+/* 교환환불모달창 */
 button {
 	all: unset;
 	background-color: mediumslateblue;
@@ -76,6 +77,59 @@ h1 {
 .hidden {
 	display: none;
 }
+
+/* 리뷰모달창 */
+.black-bg {
+	display: none;
+	width: 100%;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 5;
+	padding: 30px;
+}
+
+.white-bg {
+	background: white;
+	border-radius: 5px;
+	padding: 30px;
+}
+
+/* 별점 */
+#myform fieldset {
+	display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+	border: 0; /* 필드셋 테두리 제거 */
+}
+
+#myform input[type=radio] {
+	display: none; /* 라디오박스 감춤 */
+}
+
+#myform label {
+	font-size: 3em; /* 이모지 크기 */
+	color: transparent; /* 기존 이모지 컬러 제거 */
+	text-shadow: 0 0 0 #f0f0f0; /* 새 이모지 색상 부여 */
+}
+
+#myform label:hover {
+	text-shadow: 0 0 0 #a00; /* 마우스 호버 */
+}
+
+#myform label:hover ~ label {
+	text-shadow: 0 0 0 #a00; /* 마우스 호버 뒤에오는 이모지들 */
+}
+
+#myform fieldset {
+	display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+	direction: rtl; /* 이모지 순서 반전 */
+	border: 0; /* 필드셋 테두리 제거 */
+}
+
+#myform input[type=radio]:checked ~ label {
+	text-shadow: 0 0 0 #a00; /* 마우스 클릭 체크 */
+}
 </style>
 </head>
 
@@ -121,16 +175,50 @@ h1 {
 										[[${order.price}]]원 수량 [[${order.detailAmount}]]
 									</td>
 									<td>
+									
 										<button>배송조회</button> <br> <br>
 										<button class="openBtn">교환/반품</button> <br> <br>
-										<button class="openReviwBtn">리뷰작성</button>
+										<button class="modals">리뷰작성</button>
+									</td>
+									<!-- 리뷰 모달창 -->
+									<td>
+										<div class="black-bg">
+											<div class="white-bg">
+												<h4>리뷰작성</h4>
+												<br> 별점<br>
+												<form name="myform" id="myform" method="post"
+													action="./save">
+													<fieldset>
+														<label for="rate1">⭐</label><input type="radio"
+															name="rating" value="5" id="rate1"> <label
+															for="rate2">⭐</label><input type="radio" name="rating"
+															value="4" id="rate2"> <label for="rate3">⭐</label><input
+															type="radio" name="rating" value="3" id="rate3">
+														<label for="rate4">⭐</label><input type="radio"
+															name="rating" value="2" id="rate4"> <label
+															for="rate5">⭐</label><input type="radio" name="rating"
+															value="1" id="rate5">
+
+													</fieldset>
+												</form>
+												상세리뷰<br>
+												<textarea rows="10" cols="40" id="reviewContent"></textarea>
+												<div>
+													<button class="btn btn-danger"
+														th:onclick="submitReview([[${order.productId}]])">작성</button>
+													<button class="btn btn-danger" id="close" >닫기</button>
+												</div>
+											</div>
+										</div>
 									</td>
 								</tr>
 							</tbody>
 						</table>
+
 					</div>
 				</div>
 			</div>
+
 
 			<!-- 교환/환불 모달창 -->
 			<div class="modal hidden">
@@ -185,62 +273,66 @@ h1 {
 					</div>
 				</div>
 			</div>
+
+			<script type="text/javascript">		
+			// 페이징 만들기
+			function makePageing(page){
+				if(page.totalRecord == 0){
+					return;
+				}
+				let pagination = $("<div/>").addClass("pagination p1");
+				let ul = $("<ul/>");
+				if(page.startPage > 1){
+					$(ul).append($("<li/>").html("&laquo;").css("font-size","30px").on("click",function(){newClassList(page.startPage-page.pageSize)}));
+				}
+				for(let i = page.startPage; i <= page.endPage; i++){
+					if(page.page == i){
+						$(ul).append($("<li/>").text(i).css("background-color","#2ecc71").css("border-radius","100%").css("color","#fff"));
+					}else {
+						$(ul).append($("<li/>").text(i).attr("id","pageNum").on("click",function(){newClassList($(this).text());}));
+					}
+				}
+				if(page.endPage < page.lastPage){
+					$(ul).append($("<li/>").html("&raquo;").css("font-size","30px").on("click",function(){newClassList(page.startPage+page.pageSize)}));
+				}
+				pagination.append(ul);
+				return pagination;
+			}
 			
-			<!-- 교환/환불 모달창 -->
-			<div class="modal hidden">
-				<div class="modal__background"></div>
-				<div class="modal__content">
-					<h3>교환/반품</h3>
-					<div class="modalText">
-						<p>사유선택</p>
-						<input type="checkbox" name="reason" id="ban1"
-							th:onclick="checkOnlyone(this)" value="단순 변심">단순 변심 <span
-							id="1"></span><br> <input type="checkbox" value="배송문제"
-							id="ban2" name="reason" th:onclick="checkOnlyone(this)">
-						배송문제<span id="2"></span> <br> <input type="checkbox"
-							value="상품문제" name="reason" id="ban3"
-							th:onclick="checkOnlyone(this)"> 상품문제 <span id="3"></span><br>
-						<input type="checkbox" value="기타" name="reason" id="ban4"
-							th:onclick="checkOnlyone(this)"> 기타 <span id="4"></span>
-						<br> <br>
-						<p>해결방법</p>
-						<input type="checkbox">교환 <input type="checkbox">반품
-						<br> <br> <br>
-						<p>회수정보</p>
-						<div>
-							<div class="inputfield">
-								<label>반송주소<span class="request">*</span></label> <input
-									type="text" id="sample6_postcode" class="input"
-									name="sellerAddr"><input type="button"
-									onclick="sample6_execDaumPostcode()" value="주소검색"
-									class="checkBtn">
-
-							</div>
-							<br>
-							<div class="inputfield">
-								<label>주소<span class="request">*</span></label> <input
-									type="text" id="sample6_address" class="input"
-									name="sellerAddr">
-							</div>
-							<br>
-							<div class="inputfield">
-								<label>상세주소</label> <input type="text"
-									id="sample6_detailAddress" class="input" name="sellerAddr">
-							</div>
-						</div>
-						<br>
-
-						<p>
-							회수시 요청사항<br>
-							<textarea rows="" cols=""></textarea>
-							<br>
-							<button th:onclick="submitBtn()">신청하기</button>
-							<button class="closeBtn">닫기</button>
-					</div>
-				</div>
-			</div>
-
-			<script type="text/javascript">
+			//리뷰제출
+			function submitReview(data){
+				let groupId=data;
+				let reviewContent=$('#reviewContent').val();
+				let reviewStar=$('input[name="rating"]:checked').val();
+				$.ajax({
+				    type : 'post',           // 타입 (get, post, put 등등)
+				    url : '/addReview',           // 요청할 서버url				   
+				    headers : {              // Http header
+				      "Content-Type" : "application/json",
+				      "X-HTTP-Method-Override" : "POST"
+				    },				    
+				    data : JSON.stringify({  // 보낼 데이터 (Object , String, Array)
+				      "groupId" : groupId,
+				      "reviewContent" : reviewContent,
+				      "reviewStar" : reviewStar
+				    }),
+				    success : function(result) { // 결과 성공 콜백함수
+				        alert("리뷰가 작성되었습니다.")
+				    },
+				    error : function(request, status, error) { // 결과 에러 콜백함수
+				        console.log(error)
+				    }
+				})
+			}
+			
+			
+			//리뷰 모달창 생성
+			  $(".modals").click(function () {
+			        $(".black-bg").fadeIn();
+			      }); //로그인버튼을 누르면 모달창 생성 
+			      $(".btn-danger").click(function () {
+			        $(".black-bg").fadeOut(); //닫기를 누르면 모달창 사라짐
+			      });
 			
 				
 			
@@ -252,6 +344,7 @@ h1 {
 						.querySelector(".modal__background");
 
 				function displayModal() {
+					console.log(this);					
 					modal.classList.toggle("hidden");
 				}
 

@@ -18,7 +18,7 @@ public class OrderVO {
 	String recivReq;	//요청사항
 	int deliveryFee;	//배송비
 	String deliveryId;	//배송코드
-	
+	String productId;
 	String fileRoute;
 	
 	int detailAmount;

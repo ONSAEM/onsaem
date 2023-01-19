@@ -388,18 +388,35 @@
 			
 			window.onload = function(){
 				//최근본상품 세션 전달
-				let watch =sessionStorage.getItem('productId').split(',');
-				console.log(watch)
-				fetch('/watchProduct',{
+				let watch =sessionStorage.getItem('productId').split(',');				
+			
+				let data5=watch[watch.length];
+				let data4=watch[watch.length-1];
+				let data3=watch[watch.length-2];
+				let data2=watch[watch.length-3];
+				let data1=watch[watch.length-4];
+				console.log(data5)
+				console.log(data4)
+				console.log(data3)
+				console.log(data2)
+				console.log(data1)
+				
+				
+				
+				  fetch('/watchProduct',{
    					headers: {
    					    "Content-Type": "application/json",
    					  },
    					method:"post",
    					body: JSON.stringify({
-   						watch: watch
+   						data5: data5,
+   						data4: data4,
+   						data3: data3,
+   						data2: data2,
+   						data1: data1
    					  })
    					})
-				  .then((response) => console.log("success"))	
+				  .then((response) => console.log("success"))	  
 		    }
 			
 		</script>
