@@ -29,7 +29,7 @@
 <!-- index.html 고유 스크립트 추가 -->
 <th:block layout:fragment="script">
     <!--    <script th:src="@{/js/page/home.js}"></script>-->
-	<script type="text/javascript" th:src="@{/libs/smarteditor/js/service/HuskyEZCreator.js}"></script>
+	<script type="text/javascript" th:src="@{/smarteditor/js/HuskyEZCreator.js}"></script>
 </th:block>
 
 
@@ -73,13 +73,20 @@
 	<script>
 		let path = '[[${#request.contextPath}]]'; //절대경로
 		console.log(path);
-		var oEditors = [];
-		nhn.husky.EZCreator.createInIFrame({
-			oAppRef: oEditors,
-			elPlaceHolder: "ir1",
-			sSkinURI: "/libs/smarteditor/SmartEditor2Skin.html",
-			fCreator: "createSEditor2"
-		});
+		let oEditors = [];
+		
+		smartEditor = function() {
+			nhn.husky.EZCreator.createInIFrame({
+				oAppRef: oEditors,
+				elPlaceHolder: "ir1",
+				sSkinURI: "/smarteditor/SmartEditor2Skin.html",
+				fCreator: "createSEditor2"
+			});
+		}
+		
+		$(document).ready(function() {
+		      smartEditor()
+		    })
 		
 // 		작성한 내용 콘솔에 찍기
 		$(".btn").on("click", function() {
@@ -103,6 +110,9 @@
 			   })
 		});
 		
+		function editer(fileUrl){
+			oEditors.getById["ir1"].exec("PASTE_HTML",[`<video src='${fileUrl}' controls></video>`]);
+		}
 	</script>
 	<!-- JS -->
 		<th:block layout:fragment="script">
