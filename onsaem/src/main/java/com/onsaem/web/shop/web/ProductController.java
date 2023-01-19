@@ -1,14 +1,16 @@
 package com.onsaem.web.shop.web;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.onsaem.web.common.service.LikeVO;
@@ -49,17 +52,14 @@ public class ProductController {
 	// 쇼핑몰페이지이동,최신순,인기순 목록나열
 	@RequestMapping(value = "/shop", method = RequestMethod.GET)
 	public String shopMain(Model model, @RequestParam(value = "data", required = false) String data,
-			Authentication authentication,HttpServletRequest request) {
-		HttpSession session=request.getSession();
+			Authentication authentication) {		
 		if (authentication != null) {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 			cartVo.setMemberId(userDetails.getUsername());
 			likeVo.setMemberId(userDetails.getUsername());
 			model.addAttribute("cartList", cartService.cartList(cartVo)); // 장바구니 수량가져오기 위한 리스트
 			model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
-		}
-		session.getAttribute("productId");
-		System.out.println("================================="+session.getAttribute("productId"));
+		}		
 		if (data != null && data.equals("popularity")) {
 			model.addAttribute("productList", proService.popList());
 			return "content/shop/shopMain";
@@ -71,9 +71,7 @@ public class ProductController {
 
 	// 상세설명페이지이동
 	@RequestMapping(value = "/shopDetail", method = RequestMethod.GET)
-	public String shopSelect(Model model, @RequestParam(value = "data", required = false) String data,HttpServletRequest request) {
-		HttpSession session=request.getSession();
-		session.setAttribute("productId", data);
+	public String shopSelect(Model model, @RequestParam(value = "data", required = false) String data) {		
 		model.addAttribute("productList", proService.selectPro(data));// 상품데이터가져오기
 		model.addAttribute("imgList", proService.addImg(data));// 추가이미지가져오기
 		model.addAttribute("natureImg", proService.natureImg(data));// 친환경이미지가져오기
@@ -145,8 +143,12 @@ public class ProductController {
 
 	// 상품등록페이지로 이동
 	@RequestMapping(value = "/addProductPage", method = RequestMethod.GET)
-	public String addProductPage(Model model) {
+	public String addProductPage(Model model,HttpServletRequest request) {
 		model.addAttribute("categoryList", proService.categoryList());
+		
+		
+	
+		
 		return "content/shop/addProduct";
 	}
 
@@ -216,5 +218,12 @@ public class ProductController {
 		return "content/shop/shopLike";
 	}
 	
-	
+	// 최근본상품
+		@RequestMapping(value = "/watchProduct", method = RequestMethod.POST)
+		@ResponseBody
+		public String watchProduct(Model model, @RequestBody String[] watch, Authentication authentication) {
+			
+			
+			return "content/shop/shopLike";
+		}
 }
