@@ -1,7 +1,21 @@
 package com.onsaem.web.blog.web;
 
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -35,6 +49,9 @@ public class BlogWriteController {
 	MomentService momentService;
 	@Autowired
 	BlogService blogService;
+	
+	@Value("${part.upload.path}") 
+    private String uploadPath;
 	
 	// 블로그 메인으로 이동 (조회)
 	@RequestMapping(value = "/blogMain", method = RequestMethod.GET)
@@ -103,8 +120,7 @@ public class BlogWriteController {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		String id = userDetails.getUsername();
 		vo.setBlogId(id);
-		//MemberVO vo2 = (MemberVO)session.getAttribute("member"); // 아이디로 닉네임 찾아오게 글 등록 시, 매퍼에서 멤버 테이블과 조인하기(닉네임 필요)
-		//vo.setWriterNickname(vo2.getNickname());
+		
 		model.addAttribute("blogInsert", blogWriteService.blogInsert(vo));
 		return vo;
 	}
@@ -141,6 +157,100 @@ public class BlogWriteController {
 		blogWriteService.addBan(vo);
 		return vo;
 	}
+	
+	// 네이버 에디터 멀티 이미지 등록
+	@RequestMapping(value="/multiImageUploader", method=RequestMethod.POST)
+	public void multiImageUploader(HttpServletRequest request, HttpServletResponse response){
+		try {
+			//파일정보
+			String sFileInfo = "";
+			//파일명을 받는다 - 일반 원본파일명
+			String sFilename = request.getHeader("file-name");
+			//파일 확장자
+			String sFilenameExt = sFilename.substring(sFilename.lastIndexOf(".")+1);
+			//확장자를소문자로 변경
+			sFilenameExt = sFilenameExt.toLowerCase();
+				
+			//이미지 검증 배열변수
+			String[] allowFileArr = {"jpg","png","bmp","gif","mp4"};
+
+			//확장자 체크
+			int nCnt = 0;
+			for(int i=0; i<allowFileArr.length; i++) {
+				if(sFilenameExt.equals(allowFileArr[i])){
+					nCnt++;
+				}
+			}
+
+			//이미지가 아니라면
+			if(nCnt == 0) {
+				PrintWriter print = response.getWriter();
+				print.print("NOTALLOW_"+sFilename);
+				print.flush();
+				print.close();
+			} else {
+				//디렉토리 설정 및 업로드	
+				
+				//파일경로
+				File file = new File(uploadPath);
+				
+				if(!file.exists()) {
+					file.mkdirs();
+				}
+				
+				String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+	            
+	            String folderPath = str.replace("/", File.separator);
+	            
+	            //make folder ==================
+	            File uploadPathFolder = new File(uploadPath, folderPath);
+	            //File newFile= new File(dir,"파일명");
+	            //->부모 디렉토리를 파라미터로 인스턴스 생성
+	            
+	            if(uploadPathFolder.exists() == false){
+	            	uploadPathFolder.mkdirs();
+	                //만약 uploadPathFolder가 존재하지않는다면 makeDirectory하라는 의미
+	                //mkdir(): 디렉토리에 상위 디렉토리가 존재하지 않을경우에는 생성이 불가능한 함수
+	    			//mkdirs(): 디렉토리의 상위 디렉토리가 존재하지 않을 경우에는 상위 디렉토리까지 모두 생성하는 함수
+	               }
+				
+				String sRealFileNm = "";
+//				SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+//				String today= formatter.format(new java.util.Date());
+				sRealFileNm = UUID.randomUUID().toString() + sFilename.substring(sFilename.lastIndexOf("."));
+				String rlFileNm = uploadPath + '/'+folderPath+'/' +sRealFileNm;
+				
+				///////////////// 서버에 파일쓰기 ///////////////// 
+				InputStream inputStream = request.getInputStream();
+				OutputStream outputStream=new FileOutputStream(rlFileNm);
+				int numRead;
+				byte bytes[] = new byte[Integer.parseInt(request.getHeader("file-size"))];
+				while((numRead = inputStream.read(bytes,0,bytes.length)) != -1){
+					outputStream.write(bytes,0,numRead);
+				}
+				if(inputStream != null) {
+					inputStream.close();
+				}
+				outputStream.flush();
+				outputStream.close();
+				
+				///////////////// 이미지 /////////////////
+				// 정보 출력
+				sFileInfo += "&bNewLine=true";
+				// img 태그의 title 속성을 원본파일명으로 적용시켜주기 위함
+				sFileInfo += "&sFileName="+ sFilename;
+				sFileInfo += "&sFileURL="+"/fileView/"+folderPath+'/'+sRealFileNm;
+				System.out.println(sRealFileNm);
+				PrintWriter printWriter = response.getWriter();
+				printWriter.print(sFileInfo);
+				printWriter.flush();
+				printWriter.close();
+			}	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	// 내 블로그 제목 검색
 //	@RequestMapping(value = "/myblog/searchWrite", method = RequestMethod.POST)

@@ -431,6 +431,7 @@
 								th:each="blog : ${myblog}">
 								<div class="blog__item">
 									<div class="blog__item__pic">
+										<input type="hidden" id="thumbnail" th:value = "${blog.blogWrite}" > <!-- 썸네일 -->
 										<img th:src="@{/shoptemplate/img/blog/blog-2.jpg}" alt="">
 									</div>
 									<div class="blog__item__text">
@@ -571,7 +572,12 @@
 			let blogId = $('#getblogId').val();
 			let id="[[${#authentication.principal.memberId}]]";
 			console.log(blogId);
-		
+			// 썸네일
+			let str = $('#thumbnail').val();
+			console.log(str);
+			let strResult = str.substring(str.lastIndexOf('src="')+1);
+			console.log(strResult);
+			
 			// moment 모달
 			
 			//moment 등록버튼을 누르면, 입력된 값을 DB로 보내기
@@ -715,8 +721,10 @@
 					alert('로그인이 필요합니다');
 				}
 			});
+				
 			
-		
+			
+			
 		</script>
 	</div>
 </body>
