@@ -1,6 +1,7 @@
 package com.onsaem.web.chal.web;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +42,7 @@ public class ChalController {
 	@Autowired ProofService proofService;
 	@Autowired ParticipantService partService;
 	@Autowired ReportService reportService;
+	@Autowired com.onsaem.web.common.service.MediaService mediaService;
 	
 	//챌린지 전체 리스트 확인
 	@RequestMapping(value="/chalList",method=RequestMethod.GET)
@@ -106,6 +108,11 @@ public class ChalController {
 		vo.setGroupId(chalId);
 		model.addAttribute("photoes", proofService.listMedia(vo));
 		
+		//썸네일가져오기
+		model.addAttribute("thumbnail", chalService.thumnail(chalId));
+		//인증샷예시 가져오기
+		model.addAttribute("proofEx", chalService.proofEx(chalId));
+		
 		//아이디가 참가했는지 안했는지 확인,,- 수로 보냄
 		pvo.setChalId(chalId);
 		pvo.setParticipantId(userDetails.getUsername());
@@ -141,13 +148,16 @@ public class ChalController {
 	
 	//챌린지 등록 - 개인전
 	@RequestMapping(value="/inputNormalChal", method=RequestMethod.POST)
-	public String insertNormalChal(HttpServletRequest req,ChalVO vo, MediaVO mvo, ParticipantVO pvo, List<MultipartFile> uploadFile, Authentication authentication) {
+	public String insertNormalChal(HttpServletRequest req,ChalVO vo, ParticipantVO pvo
+			,  MultipartFile[] uploadFile, MultipartFile[] natureFile, Authentication authentication) throws IllegalStateException, IOException {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
 		//Challengers테이블에 삽입
-		vo.setMemberId("podo");
+		vo.setMemberId(userDetails.getUsername());
 		vo.setSubClass("개인");
+		vo.setClasses("등록");
 		vo.setTeamFee(0);
+		vo.setReceipt(null);
 		chalService.inputChal(vo);
 		
 		//Participant에 챌린저스 개최자 등록
@@ -161,37 +171,28 @@ public class ChalController {
 		partService.inputParticipant(pvo);
 		
 		
-		//사진 등록
-		//session = req.getSession();
-		String realFolder = "/challengers/img/";
-        File dir = new File(realFolder);
-        if (!dir.isDirectory()) {
-            dir.mkdirs();
-        }
-		
-		
-		//넘어온 파일 리스트로 저장
-		//List<MultipartFile> files = mhsq.getFiles("uploadFile");
-			for(int i=0; i<uploadFile.size(); i++) {
-				//원래 파일 이름 
-				String originName = uploadFile.get(i).getOriginalFilename();
-				//groupId 지정  - chal 글번호루,,
-				mvo.setGroupId(vo.getChalId());
-				mvo.setFileName(originName);
-				//경로?주소?지정
-//				mvo.setFileRoute(realFolder);
-				
-				mvo.setSubGroup("챌린저스");
-				System.out.println(mvo);
-				proofService.inputMedia(mvo);
-				
-			}
+        //사진 업로드
+		MediaVO mvo = new MediaVO();
+		mvo.setGroupId(vo.getChalId());
+		mvo.setGroups("챌린저스");
+        for(int i=0;i<uploadFile.length;i++) {
+			if(i==0) {
+				mvo.setSubGroup("인증예시");
+			}else {
+				mvo.setSubGroup("썸네일");
+			}			
+			MultipartFile[] upload= {uploadFile[i]};
+			mediaService.uploadMedia(upload, mvo);
+		}		
+			
+			
 		return "redirect:/chalList";
 	}
 	
 	//챌린지 등록 - 팀전
 	@RequestMapping(value="/inputTeamChal", method=RequestMethod.POST)
-	public String insertTeamChal(HttpServletRequest req, ChalVO vo, MediaVO mvo, ParticipantVO pvo, List<MultipartFile> uploadFile, Authentication authentication) {
+	public String insertTeamChal(HttpServletRequest req, ChalVO vo,ParticipantVO pvo
+			, MultipartFile[] uploadFile, Authentication authentication) throws IllegalStateException, IOException {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
 
@@ -199,6 +200,7 @@ public class ChalController {
 		vo.setMemberId(userDetails.getUsername());
 		vo.setSubClass("팀");
 		vo.setDonationFee(vo.getTeamFee());
+		vo.setReceipt(null);
 		chalService.inputChal(vo);
 		
 		//Participant에 챌린저스 개최자 등록
@@ -212,31 +214,20 @@ public class ChalController {
 		partService.inputParticipant(pvo);
 		
 		
-		//사진 등록
-		//session = req.getSession();
-		String realFolder = "/challengers/img/";
-        File dir = new File(realFolder);
-        if (!dir.isDirectory()) {
-            dir.mkdirs();
-        }
-		
-		
-		//넘어온 파일 리스트로 저장
-		//List<MultipartFile> files = mhsq.getFiles("uploadFile");
-			for(int i=0; i<uploadFile.size(); i++) {
-				//원래 파일 이름 
-				String originName = uploadFile.get(i).getOriginalFilename();
-				//groupId 지정  - chal 글번호루,,
+		//사진 업로드
+				MediaVO mvo = new MediaVO();
 				mvo.setGroupId(vo.getChalId());
-				mvo.setFileName(originName);
-				//경로?주소?지정
-				mvo.setFileRoute(realFolder);
-				
-				mvo.setSubGroup("챌린저스");
-				System.out.println(mvo);
-				proofService.inputMedia(mvo);
-				
-			}
+				mvo.setGroups("챌린저스");
+		        for(int i=0;i<uploadFile.length;i++) {
+					if(i==0) {
+						mvo.setSubGroup("인증예시");
+					}else {
+						mvo.setSubGroup("썸네일");
+					}			
+					MultipartFile[] upload= {uploadFile[i]};
+					mediaService.uploadMedia(upload, mvo);
+				}		
+					
 		return "redirect:/chalList";
 	}
 	
@@ -326,7 +317,7 @@ public class ChalController {
 	//기부처 등록
 	@RequestMapping(value="/inputNgo", method=RequestMethod.POST)
 	@ResponseBody //ajax
-	public String inputNgoPg(NgoVO vo, Model model) {
+	public String inputNgoPg(NgoVO vo,MultipartFile[] uploadFile, Model model ) throws IllegalStateException, IOException {
 		model.addAttribute("banks", bankService.listBank());
 		System.out.println("========================"+vo);
 		//html페이지에서 받아오지 못하는 변수들 설정
@@ -334,6 +325,20 @@ public class ChalController {
 		vo.setCondition("신청");
 		vo.setWriterId("jjinbbang");
 		ngoService.inputNgo(vo);
+		
+		//사진 업로드
+		MediaVO mvo = new MediaVO();
+		mvo.setGroupId(vo.getNgoId());
+		mvo.setGroups("기부처");
+        for(int i=0;i<uploadFile.length;i++) {
+			if(i==0) {
+				mvo.setSubGroup("고유번호증");
+			}else {
+				mvo.setSubGroup("");
+			}			
+			MultipartFile[] upload= {uploadFile[i]};
+			mediaService.uploadMedia(upload, mvo);
+		}		
 		return "content/challengers/inputNGO";
 	}
 	

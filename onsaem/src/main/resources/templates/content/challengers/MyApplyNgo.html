@@ -56,6 +56,86 @@ h1 {
 .hidden {
 	display: none;
 }
+
+/* 표 */
+	table {
+	  border: 1px #a39485 solid;
+	  font-size: .9em;
+	  box-shadow: 0 2px 5px rgba(0,0,0,.25);
+	  width: 800px;
+	  border-collapse: collapse;
+	  border-radius: 5px;
+	  overflow: hidden;
+	}
+	
+	th {
+	  text-align: left;
+	}
+	  
+	thead {
+	  font-weight: bold;
+	  color: #fff;
+	  background: #73685d;
+	}
+	  
+	 td, th {
+	  padding: 1em .5em;
+	  vertical-align: middle;
+	}
+	  
+	 td {
+	  border-bottom: 1px solid rgba(0,0,0,.1);
+	  background: #fff;
+	}
+	
+	a {
+	  color: #73685d;
+	}
+	  
+	 @media all and (max-width: 768px) {
+	    
+	  table, thead, tbody, th, td, tr {
+	    display: block;
+	  }
+	  
+	  th {
+	    text-align: right;
+	  }
+	  
+	  table {
+	    position: relative; 
+	    padding-bottom: 0;
+	    border: none;
+	    box-shadow: 0 0 10px rgba(0,0,0,.2);
+	  }
+	  
+	  thead {
+	    float: left;
+	    white-space: nowrap;
+	  }
+	  
+	  tbody {
+	    overflow-x: auto;
+	    overflow-y: hidden;
+	    position: relative;
+	    white-space: nowrap;
+	  }
+	  
+	  tr {
+	    display: inline-block;
+	    vertical-align: top;
+	  }
+	  
+	  th {
+	    border-bottom: 1px solid #a39485;
+	  }
+	  
+	  td {
+	    border-bottom: 1px solid #e5e5e5;
+	  }
+	  
+	  
+	  }
 </style>
 </head>
 
@@ -187,42 +267,50 @@ h1 {
 				</div>
 				<div class="project-boxes jsGridView">
 					<!-- 한개 -->
-					 <div class="project-box-wrapper" th:each="chal:${chals}">
-						<div class="project-box" style="background-color: #fee4cb;">
-							<div class="project-box-header"></div>
-							<div class="project-box-content-header">
-								<p class="box-content-header" th:text="${chal.chalName}">Web
-									Designing</p>
-								<p class="box-content-subheader" th:text="${chal.subClass}+'전'">Prototyping</p>
-								<input type="hidden" th:name="chalId" th:value="${chal.chalId}" id="chalId">
-							</div>
-							<p
-								th:text="${#dates.format(chal.startDate, 'MM월 dd일')} + ' ~ ' + ${#dates.format(chal.endDate, 'MM월 dd일')}"></p>
-							<div class="project-box-footer">
-								<div class="participants">
-									<button class="openBtn">취소하기</button>
-								</div>
-								<div class="days-left" style="color: #ff942e;">2 Days Left</div>
-							</div>
+					 <div class="project-box-wrapper" >
+					 		<table>
+							    <thead>
+							    <tr>
+							        <th>신청번호</th>
+							        <th>기부처 명</th>
+							        <th>신청 상태</th>
+							    </tr>
+							    </thead>
+							    <tbody>
+							    <tr th:each="ngo:${ngoes}">
+								   	<td th:text="${ngo.ngoId}"></td>
+									<td th:text="${ngo.ngoName}" th:onclick="displayModal([[${ngo}]])"></td>
+									<td th:text="${ngo.condition}"></td>
+							    </tr>
+							    </tbody>
+							</table>
+						<div class="project-box">
+							
 
 						</div>
 
-					<!-- 모달창
+						<!--모달창  --> 
 						<div class="modal hidden">
 							<div class="modal__background"></div>
 							<div class="modal__content">
 
-								<h3>챌린지 참가 취소하기</h3>
+								
 								<div class="modalText">
+									<h4>기부 신청서</h4>
+									<label>기부처 명 : </label><input type="text" id="ngoName" name="ngoName" readOnly>
+									<br>
+									<label for="ngoNo">사업자 등록번호</label>
+									<input type="number" id="ngoNo" name="ngoNo">
+									<br>
 									
 									
-									<button type="button" class="closeBtn">닫기</button>
+								<button type="button" class="closeBtn">닫기</button>
 								</div>
 							
 							</div>
 						</div>
-						모달창 끛
-					</div> -->
+						<!--모달창 끛  -->
+					</div> 
 				</div>
 			</div>
 		</div>
@@ -284,7 +372,9 @@ h1 {
 		const closeButton = modal.querySelector(".closeBtn");
 		const modalBackground = modal.querySelector(".modal__background");
 
-		function displayModal() {
+		function displayModal(data) {
+			console.log(data);
+			$('#ngoName').val(data.ngoName);
 			modal.classList.toggle("hidden");
 		}
 

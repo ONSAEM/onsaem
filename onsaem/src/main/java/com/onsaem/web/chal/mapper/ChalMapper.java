@@ -53,4 +53,9 @@ public interface ChalMapper {
 	
 	//마이페이지 관리자용 영수증 업데이트
 	Integer updateRecipt(ChalVO vo);
-}
+	
+	//썸네일 가져오기
+	MediaVO thumnail(String groupId);
+	//인증예시 가져오기
+	MediaVO proofEx(String groupId);
+}	

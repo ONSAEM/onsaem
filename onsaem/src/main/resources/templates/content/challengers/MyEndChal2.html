@@ -20,9 +20,9 @@
 	}
 	.close-modal{color:white; float:right; font-size:28px; font-weight:bold; }
 	.close-modal:hover,.close-modal:focus{color:#000; text-decoration:none; cursor:pointer; }
-	.modal-header{padding:2px 16px; background-color:#5cb85c; color:white; }
+	.modal-header{padding:2px 16px; margin: 0, auto;}
 	.modal-body{padding:2px 16px; }
-	.modal-footer{padding:2px 16px; background-color:#5cb85c; color:white; }
+	.modal-footer{padding:2px 16px; }
 	button {
    all: unset;
    background-color: pink;
@@ -187,10 +187,10 @@
                         th:text="${#dates.format(chal.startDate, 'MM월 dd일')} + ' ~ ' + ${#dates.format(chal.endDate, 'MM월 dd일')}"></p>
                      <div class="project-box-footer">
                         <div class="participants">
-							<button th:if="${chal.receipt} !=null" class="modal-custom-button" href="#myModal1" th:value="${chal.chalId}">기부영수증 ⭕</button>
-							<button th:if="${chal.receipt} == null" class="modal-custom-button" >기부영수증 ❌</button>
-							<button th:if="${chal.resultPoint} !=null" class="modal-custom-button" href="#myModal2" t>포인트 확인</button>
-							<button th:if="${chal.resultPoint} ==null" class="modal-custom-button" >포인트 미정산</button>
+							<button th:if="${chal.receipt} !=null" class="modal-custom-button" href="#myModal1" th:value="${chal.chalId}" name="영수증">기부영수증 ⭕</button>
+							<button th:if="${chal.receipt} == null" class="modal-custom-button" href="#myModal1" th:value="${chal.chalId}" name="영수증">기부영수증 ❌</button>
+							<button th:if="${chal.resultPoint} !=null" class="modal-custom-button" href="#myModal2" name="포인트">포인트 확인</button>
+							<button th:if="${chal.resultPoint} ==null" class="modal-custom-button" name="포인트">포인트 미정산</button>
                         </div>
                      </div>
 
@@ -207,14 +207,14 @@
 						    <div class="modal-content">
 						        <div class="modal-header">
 						            <span class="close-modal">×</span>
-						            <h2>Modal Header</h2>
+						            <h5>기부 영수증</h5>
 						        </div>
 						        <div class="modal-body">
-						            <p>Some text in the Modal Body</p>
-						            <p>Some other text...1</p>
+						            <p></p>
+						            <p>이미지 영역</p>
 						        </div>
 						        <div class="modal-footer">
-						            <h3>Modal Footer</h3>
+						        <h5>기부에 참여해 주셔서 감사합니다!</h5>
 						        </div>
 						    </div>
 						
@@ -228,11 +228,27 @@
 						    <div class="modal-content">
 						        <div class="modal-header">
 						            <span class="close-modal">×</span>
-						            <h2>Modal Header</h2>
+						            <h2>포인트 정산 내역</h2>
 						        </div>
 						        <div class="modal-body">
-						            <p>Some text in the Modal Body</p>
-						            <p>Some other text...2</p>
+						        	<div id="private">
+							            <span><p>챌린지 명 :</p><p>이름</p></span>
+							            <span><p>참가 아이디 :</p><p>이름</p></span>
+							            <span><p>팀전/개인전 :</p><p>개인전</p></span>
+							            <span><p>기부금 :</p><p>결과</p></span>
+							            <span><p>달성률 :</p><p>결과</p></span>
+							            <span><p>결과 :</p><p>결과</p></span>						            
+							            <span><p>정산 포인트 :</p><p>결과</p></span>
+						            </div>
+						            <div id="team">
+							            <span><p>챌린지 명 :</p><p>이름</p></span>
+							            <span><p>참가 아이디 :</p><p>이름</p></span>
+							            <span><p>팀전/개인전 :</p><p>팀전</p></span>
+							            <span><p>기부금 :</p><p>결과</p></span>
+							            <span><p>우리팀 달성률 :</p><p>결과</p><p>상대팀 달성률 :</p><p>결과</p></span>
+							            <span><p>결과 :</p><p>결과</p></span>						            
+							            <span><p>정산 포인트 :</p><p>결과</p></span>
+						            </div>
 						        </div>
 						        <div class="modal-footer">
 						            <h3>Modal Footer</h3>
@@ -307,10 +323,39 @@
 		        e.preventDefault();
 		        modal = document.querySelector(e.target.getAttribute("href"));
 		        modal.style.display = "block";
-		        console.log("hi");
-		        
-		        
-		    }
+		        //console.log(e.target.name);
+		        let name = e.target.name;
+		        let groupId = e.target.value;
+		        if(name == '영수증'){
+		        	console.log("영수증");
+		        	//영수증 불러오기 이미지파일,,
+		        	$.ajax({
+		        		url:'/mypage/seeRecepit',
+		        		method : 'POST',
+		        		data : {groupId, groupId},
+		        		success : function(result){
+		        			console.log(result);
+		        		},
+		        		error : function(error){
+		        			console.log(error);
+		        		}
+		        		
+		        	})
+		        }else{
+		        	console.log("포인트");
+		        	//포인트랑,,,참가율 계산위해,,뭔갈 불러와야한다..
+		        	$.ajax({
+		        		url:'/mypage/checkPoint',
+		        		method : 'POST',
+		        		data : {groupId, groupId},
+		        		success : function(result){
+		        			console.log(result);
+		        		},
+		        		error : function(error){
+		        			console.log(error);
+		        		}
+		        })   
+		        }// end of else
 		    
 		    spans[i].onclick = function () {
 		        for (var index in modals) {
@@ -330,28 +375,7 @@
 
       //=----모달창관련 스크립트 끝
       
-     
-
-   function seeReceipt(data){
-        
-        /*  $.ajax({
-             url:'/mypage/myCurrentChal',
-             method: 'post',
-             contentType : 'application/json',
-             data: JSON.stringify({content:content,
-                fileName:imgName,
-                chalId:chalId}),
-             success : function(result){
-                console.log(result);
-                alert('인증 첨부 성공❤❤');
-                location.href="http://localhost/mypage/myCurrentChal";
-             },
-             error : function(error){
-                console.log(error);
-             }
-          })  */
-      }
-
+		}
    </script>
 </div>
 </html>

@@ -46,7 +46,7 @@
 <div layout:fragment="content">
 	<div>
 		<h3>기부처 신청</h3>
-		<form action="/inputNgo" method="post" name="myfrm">
+		<form action="/inputNgo" method="post" name="myfrm" enctype="multipart/form-data">
 			
 			<label for="ngoName" id="ngoName">기부처 명</label>
 			<input type="text"  id="ngoName" name="ngoName">
@@ -57,7 +57,7 @@
 			<br>
 			
 			<label>고유번호증 첨부</label>
-			<input type="file" id="photo">
+			<input type="file" id="uploadFile">
 			<br>
 			
 			<input type="text" id="sample6_postcode" placeholder="우편번호" name="postalCode">

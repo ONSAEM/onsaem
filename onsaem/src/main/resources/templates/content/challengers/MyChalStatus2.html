@@ -250,13 +250,15 @@
 			</div>
 
 		</div>
-		
+
 		 <!-- 모달창 -->
                   <div class="modal hidden">
                      <div class="modal__background"></div>
                      <div class="modal__content">
                         <div class="modalText">
-                        	<p id="writer"></p>
+                        	<span><p id="writer"></p></span>
+                        	<button id="on" onclick="openFrm()" style="display: on;">신고</button>
+                        	<button id="hide" onclick="offFrm()" style="display : none;">신고</button>	
                         	<input type="hidden" id="theId">
                            <img style="width: 500px;" id="preview-image"
                               src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
@@ -274,11 +276,27 @@
                            <button type="button" th:onclick="inputReply()">댓글쓰기</button>
                            <button type="button" class="closeBtn">닫기</button>
                         </div>
+                        
+                        <!-- 신고폼 -->
+                        <form id="reportFrm" style="display : none;">
+                        	<input type="hidden" id="theId">
+                           	<select id="reason">
+                           		<option value="">==신고 사유 고르기==</option>
+                           		<option value="악성댓글">악성댓글</option>
+                           		<option value="주제와관련없는인증">주제와 관련 없는 인증</option>
+                           	</select>
+                           	<label>신고대상</label><input type="text" id="toId" placeholder="신고대상의 아이디">
+                           	<textarea id="detailReason" placeholder="상세 사유를 작성해주세요"></textarea>
+                           <button type="button" th:onclick="inputReport()">신고</button>
+                           <button type="button" class="closeBtn" onclick="offFrm()">닫기</button>
+                          </form>
                      
                      </div>
                      
                   </div>
                   <!-- 모달창 끛-->
+                  
+             
 		
 		<script type="text/javascript">
 		/* document.addEventListener('DOMContentLoaded', function () {
@@ -476,6 +494,48 @@
 	    		  }
 	    	  })
 	    	  
+	      }
+	      
+	      //신고하기 폼 열기
+	      function openFrm(){
+	    	  $("#hide").show();
+	    	  $("#on").hide();
+	    	  $("#reportFrm").show();
+	    	  
+	      }
+	      
+	      //신고하기 폼닫기
+	      function offFrm(){
+	    	  $("#on").show();
+	    	  $("#hide").hide();
+	    	  $("#reportFrm").hide();
+	      }
+	      
+	      //신고하기
+	      function inputReport(){
+	    	  let toId = $("#toId").val();
+	    	  let groupId = document.querySelector('#theId').value;
+	    	  let reason = $("#reason").val();
+			  let detailReason = $("#detailReason").val();
+	    	  console.log(groupId);
+	    	  
+	    	 	$.ajax({
+	    		  url : '/mypage/inputReport',
+	    		  method : 'POST',
+	    		  contentType: 'application/json',
+				  data: JSON.stringify({reason:reason, toId : toId, detailReason:detailReason}),
+				  success:function(result){
+					  alert(result.msg);
+					  $("#detailReason").val(""); //초기화
+					  $("#reason").val(""); //초기화
+					  $("#toId").val("");
+					  
+				  }, 
+	    		 error : function(error){
+	    			 console.log(error);
+	    		 }
+	    		  
+	    	  }) 
 	      }
 	      
 		</script>

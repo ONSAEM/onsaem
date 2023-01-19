@@ -6,7 +6,7 @@
 	<!-- 신고하기 -->
 	<insert id="inputReport" parameterType="ReportVO">
 		<selectKey keyProperty="reportId" resultType="string" order="BEFORE">
-			SELECT 'RP'||TO_CHAR(REPORT_SEQ.NEXTVAL) FROM DUAL
+			SELECT 'R'||LPAD(REPORT_SEQ.NEXTVAL,3,0) FROM DUAL
 		</selectKey>
 		INsert into Reports
 		values(#{reportId}, #{fromId}, #{toId}, CURRENT_DATE, #{reason}, #{detailReason}, '신고대기', '챌린저스', #{groupId})
