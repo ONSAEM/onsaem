@@ -114,8 +114,7 @@
                     <div class="product__details__pic">
                         <div class="product__details__pic__item">
                             <img class="product__details__pic__item--large"
-                                th:src="@{{fileRoute}{mediaName}/
-									(fileRoute=${photoes.get(0).fileRoute},mediaName=${photoes.get(0).mediaName})}" style="width:500px;height:500px;">
+                                th:src="'/fileView/'+${thumbnail.fileRoute}" style="width:500px;height:500px;">
                         </div>
                         
                     </div>
@@ -165,7 +164,7 @@
                                 
                                 <div class="product__details__tab__desc">
                                     <h6>인증샷 예시</h6>
-                                    <img th:src="@{{fileRoute}{mediaName}/(fileRoute=${photoes.get(1).fileRoute},mediaName=${photoes.get(1).mediaName})}" class="rounded float-start" >
+                                    <img th:src="'/fileView/'+${proofEx.fileRoute}" class="rounded float-start" style="width:300px;height:300px;">
                                     <p th:text="${chal.proofContent}">인증 샷 예시</p>
                                 </div>
                                 

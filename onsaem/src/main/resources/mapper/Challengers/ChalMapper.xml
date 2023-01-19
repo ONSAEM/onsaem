@@ -111,7 +111,7 @@
 		WHERE CHAL_ID = #{chalId}
 	</select>
 
-	<!-- 챌리저스 팀전 별전체조회 수정 필요 필요 필요 필요 필요 필ㄷ요 -->
+	<!-- 챌리저스 등록 -->
 	<insert id="inputChal" parameterType="ChalVO">
 		<selectKey keyProperty="chalId" resultType="string" order="BEFORE">
 			SELECT
@@ -120,7 +120,7 @@
 		INSERT into CHALLENGES
 		VALUES(#{chalId}, #{classes}, #{subClass}, #{frequency}, #{ngoName}, #{startDate},
 		#{endDate}, #{contents}, #{proofContent},
-		#{donationFee}, #{memberId}, #{teamFee}, #{chalName})
+		#{donationFee}, #{memberId}, #{teamFee}, #{chalName}, #{receipt})
 	</insert>
 
 	<!-- 수정 -->
@@ -166,5 +166,21 @@
 		SET RECEIPT = #{receipt}
 		WHERE CHAL_ID = #{chalId}
 	</update>
+	
+	<!-- 썸네일만 가져오기 -->
+	<select id="thumnail" resultType="MediaVO">
+		SELECT * 
+		FROM MEDIA
+		WHERE GROUP_ID = #{GROUPID}
+		AND SUB_GROUP = '썸네일'
+	</select>
+	
+	<!-- 인증샷 예시만 가져오기 -->
+	<select id="proofEx" resultType="MediaVO">
+		SELECT * 
+		FROM MEDIA
+		WHERE GROUP_ID = #{GROUPID}
+		AND SUB_GROUP = '인증예시'	
+	</select>
 
 </mapper>

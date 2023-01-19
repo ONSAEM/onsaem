@@ -152,7 +152,7 @@
 									<div class="col-lg-4" th:each="rank :${ranks}">
 										<div class="product__discount__item" >
 											<div class="product__discount__item__pic set-bg"
-												th:data-setbg="@{{fileRoute}{mediaName}/(fileRoute=${rank.fileRoute},mediaName=${rank.mediaName})}">
+												th:src="'/fileView/'+${rank.fileRoute}">
 												<div class="product__discount__percent">👼</div>
 												<ul class="product__item__pic__hover">
 													<li><a href="#"><i class="fa fa-heart"></i></a></li>
@@ -203,8 +203,7 @@
 							<div class="col-lg-4 col-md-6 col-sm-6" th:each="chal : ${chals}">
 								<div class="product__item">
 									<div class="product__item__pic set-bg"
-										th:data-setbg="@{{fileRoute}{mediaName}/
-									(fileRoute=${chal.fileRoute},mediaName=${chal.mediaName})}">
+										th:src="'/fileView/'+${chal.fileRoute}">
 										<ul class="product__item__pic__hover">
 											<li><a href="#"><i class="fa fa-heart"></i></a></li>
 											<li><a href="#"><i class="fa fa-retweet"></i></a></li>

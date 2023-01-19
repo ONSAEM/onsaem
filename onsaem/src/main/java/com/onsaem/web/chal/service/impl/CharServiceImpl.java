@@ -118,4 +118,16 @@ public class CharServiceImpl implements ChalService {
 		return chalMapper.updateRecipt(vo);
 	}
 
+	@Override
+	public MediaVO thumnail(String groupId) {
+		// TODO Auto-generated method stub
+		return chalMapper.thumnail(groupId);
+	}
+
+	@Override
+	public MediaVO proofEx(String groupId) {
+		// TODO Auto-generated method stub
+		return chalMapper.proofEx(groupId);
+	}
+
 }

@@ -175,6 +175,7 @@
 		WHERE P.PROOF_ID = #{proofId}
 	</select>
 	
+	<!-- 좋아요 갯수  -->
 	<select id="cntChalLike" resultType="Integer">
 		SELECT COUNT(*) AS CNT
  		FROM LIKES

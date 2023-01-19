@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.onsaem.web.chal.mapper.ReportMapper;
 import com.onsaem.web.chal.service.BankService;
 import com.onsaem.web.chal.service.ChalService;
 import com.onsaem.web.chal.service.ChalVO;
@@ -32,11 +33,13 @@ import com.onsaem.web.chal.service.ParticipantService;
 import com.onsaem.web.chal.service.ParticipantVO;
 import com.onsaem.web.chal.service.ProofService;
 import com.onsaem.web.chal.service.ProofVO;
+import com.onsaem.web.chal.service.ReportService;
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.PaymentVO;
 import com.onsaem.web.common.service.RefundVO;
 import com.onsaem.web.common.service.RepliesVO;
+import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.member.service.MemberService;
 
 @Controller
@@ -50,6 +53,7 @@ public class ChalMypageController {
 	@Autowired MemberService memService;
 	@Autowired BankService bankService;
 	@Autowired NgoService ngoService;
+	@Autowired ReportService reportService;
 
 	
 	//권한 - 일반회원의 챌린저스 마이페이지 첫화면, 진행중 챌린지 띄우깅
@@ -221,7 +225,7 @@ public class ChalMypageController {
 	}
 	
 	
-	//얘 마이페이지의 - 2번째 페이지, value 파일명 다고치삼
+	//얘 마이페이지의 - 2번째 페이지
 	@RequestMapping(value="/myChalStatus2", method=RequestMethod.GET)
 	public String myChalStatus2(Model model, @RequestParam(value="chalId", required=false)String chalId) {
 		//한 챌린지에 대한 모든 사람들의 사진을 가져오기
@@ -262,6 +266,7 @@ public class ChalMypageController {
 		 
 	}
 	
+	//좋아용
 	@RequestMapping(value="/addChalLike", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> addChalLike(String groupId, Authentication authentication) {
@@ -282,6 +287,7 @@ public class ChalMypageController {
 		return map;
 	}
 	
+	//좋아요 취소
 	@RequestMapping(value="/delChalLike", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> delChalLike(String groupId, Authentication authentication) {
@@ -336,6 +342,55 @@ public class ChalMypageController {
 		
 		return "content/challengers/MyApplyNgo";
 	}
+	
+	//영수증 보기
+	@RequestMapping(value="/seeRecepit", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> seeRecepit(String groupId,Authentication authentication){
+		Map<String,Object>map = new HashMap<String,Object>();
+		//아이디
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		String user = userDetails.getUsername();
+		
+		//subgroup이 기부영수증이고, groupId를 이용해서 영수증 찾기
+		
+		return map;
+	}
+	
+	//나의 포인트 확인
+	@RequestMapping(value="checkPoint", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> checkPoint(String groupId,Authentication authentication){
+		Map<String,Object>map = new HashMap<String,Object>();
+		
+		//아이디
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		String user = userDetails.getUsername();
+		
+		//subgroup이 기부영수증이고, groupId를 이용해서 영수증 찾기
+		
+		return map;
+	}
+	
+	//신고
+	@RequestMapping(value="inputReport", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> inputChalReport(@RequestBody ReportVO vo,Authentication authentication) {
+		Map<String,Object> map = new HashMap<>();
+		
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		String user = userDetails.getUsername();
+		
+		vo.setFromId(user);
+		String msg ="신고 완료되었습니다.";
+		reportService.inputReport(vo);
+		map.put("msg", msg);
+		
+		
+		return map;
+	}
+	
+	
 	
 	
 

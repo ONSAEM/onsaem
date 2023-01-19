@@ -2,6 +2,8 @@ package com.onsaem.web.chal.service;
 
 import java.util.List;
 
+import com.onsaem.web.common.service.MediaVO;
+
 public interface ChalService {
 	//챌리저스 전체조회
 	List<ChalVO> getChalAll();
@@ -50,6 +52,11 @@ public interface ChalService {
 	
 	//마이페이지 관리자용 영수증 업데이트
 	Integer updateRecipt(ChalVO vo);
+	
+	//썸네일 가져오기
+	MediaVO thumnail(String groupId);
+	//인증예시 가져오기
+	MediaVO proofEx(String groupId);
 	
 	
 }
