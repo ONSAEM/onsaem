@@ -48,6 +48,7 @@ public class MediaController {
 	@RequestMapping(value = "/mediaTest", method = RequestMethod.GET)
 	public String mediaTest(Model model){ 
 		model.addAttribute("media", mediaMapper.getMedia());
+		model.addAttribute("video", mediaMapper.getvideo());
 	  return "content/test/mediaTest";
 	}
 

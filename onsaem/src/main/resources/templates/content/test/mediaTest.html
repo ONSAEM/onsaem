@@ -308,7 +308,8 @@
 				</form>
 				<div class="inputfield">
 				<!-- 	이미지불러오기 -->
-					<img id="preview-image" th:src="'/fileView/'+${media.fileRoute}">
+					<img id="preview-image" th:src="'/fileView/'+${media.fileRoute}"><br>
+					<video  th:src="'/fileView/'+${video.fileRoute}"  controls style="width: 500px"></video>
 				</div>
 			</div>
 		</div>
