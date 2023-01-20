@@ -325,4 +325,11 @@
 		INSERT INTO REVIEWS
 		VALUES('RV'||LPAD(REVIEW_SEQ.NEXTVAL,3,0),#{reviewContent},#{reviewStar},#{writerId},CURRENT_DATE,#{groupId},'쇼핑몰')
 	</insert>
+
+	<!-- 판매자 상품 리스트 -->
+	<select id="sellerList"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT * FROM PRODUCTS
+		WHERE MEMBER_ID=#{data}
+	</select>
 </mapper>

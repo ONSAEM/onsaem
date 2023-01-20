@@ -1,14 +1,6 @@
 package com.onsaem.web.shop.web;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -26,10 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
-import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.common.service.ReviewVO;
-import com.onsaem.web.course.service.ClassInfoVO;
 import com.onsaem.web.shop.service.CartService;
 import com.onsaem.web.shop.service.CartVO;
 import com.onsaem.web.shop.service.OptionVO;
@@ -136,21 +126,7 @@ public class ProductController {
 		return "redirect:/shop";
 	}
 
-	// 판매자 페이지로 이동
-	@RequestMapping(value = "/sellerMain", method = RequestMethod.GET)
-	public String seller(Model model, @RequestParam(value = "data", required = false) String data,
-			HttpServletRequest request) {
-
-		return "content/shop/sellerMain";
-	}
-
-	// 상품등록페이지로 이동
-	@RequestMapping(value = "/addProductPage", method = RequestMethod.GET)
-	public String addProductPage(Model model, HttpServletRequest request) {
-		model.addAttribute("categoryList", proService.categoryList());
-
-		return "content/shop/addProduct";
-	}
+	
 
 	// 상품등록
 	@RequestMapping(value = "/addProduct", method = RequestMethod.POST)
@@ -233,6 +209,7 @@ public class ProductController {
 		proService.addReview(vo);
 		return "content/shop/shopLike";
 	}
+	
 	
 
 }

@@ -305,13 +305,104 @@
 	overflow: hidden;
 	border: 0;
 }
+
+/* 사이드바 */
+.menu {
+	float: left;
+	overflow: hidden;
+	width: 200px;
+	background-color: #04B4AE;
+	color: #fff;
+	transition: all 0.5s ease;
+	border-radius: 20px;
+	padding: 10px;
+	box-sizing: border-box;
+	margin-left: 600px;
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
+.menu a, .menu>label {
+	padding: 10px;
+	cursor: pointer;
+	color: #fff;
+	text-decoration: none;
+}
+
+label {
+	display: none;
+}
+
+.menu a:hover {
+	color: #000;
+}
+
+.menu ul li:hover, .menu>label:hover {
+	background-color: #fff;
+	color: #000;
+	border-radius: 10px;
+}
+
+#expand-menu {
+	display: none;
+}
+
+#expand-menu:checked ~ ul {
+	display: block;
+	height: auto;
+}
+
+.menu ::before {
+	font-family: 'Material Icons';
+	font-size: 1.5em;
+	float: left;
+	clear: left;
+}
+
+.menu label::before {
+	content: '\e5d2';
+}
+
+.menu li:nth-child(1) a::before {
+	content: '\f02e';
+}
+
+.menu li:nth-child(2) a::before {
+	content: '\e8d6';
+}
+
+.menu li:nth-child(3) a::before {
+	content: '\e88a';
+}
+
+.menu li:nth-child(4) a::before {
+	content: '\e8cc';
+}
+
+.menu li:nth-child(5) a::before {
+	content: '\e87d';
+}
+
+.menu li:nth-child(6) a::before {
+	content: '\e8b8';
+}
+
+@media screen and (max-width:1023px) {
+	.menu {
+		width: 60px;
+	}
+}
+
+@media screen and (max-width:560px) {
+	.menu #expand-menu:not(:checked) ~ ul {
+		display: none;
+	}
+}
 </style>
 </head>
 <!-- Content -->
 
 <div layout:fragment="content">
-
-
 	<!-- Breadcrumb Section Begin -->
 	<section class="breadcrumb-section set-bg"
 		th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
@@ -326,6 +417,17 @@
 		</div>
 	</section>
 	<!-- Breadcrumb Section End -->
+	
+	<!-- 사이드바 -->
+	<div class="menu">
+		<input type="checkbox" id="expand-menu" name="expand-menu">		<ul>
+			<li><a href="/sellerMain" class="item"><div>판매자상품관리</div></a></li>
+			<li><a href="#" class="item"><div>판매자주문관리</div></a></li>
+			<li><a href="#" class="item"><div>판매자교환/취소관리</div></a></li>
+			<li><a href="#" class="item"><div>판매자리뷰/문의관리</div></a></li>
+			<li><a href="/addProductPage" class="item"><div>상품등록하기</div></a></li>
+		</ul>		
+	</div>
 
 	<br>
 	<form method="post" action="/addProduct" name="uploadForm"

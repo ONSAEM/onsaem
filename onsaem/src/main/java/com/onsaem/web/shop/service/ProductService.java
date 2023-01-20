@@ -64,4 +64,7 @@ public interface ProductService {
 	
 	//리뷰작성
 	int addReview(ReviewVO vo);
+	
+	//판매자 상품 가져오기
+	List<ProductVO> sellerList(String data);
 }
