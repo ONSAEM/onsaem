@@ -58,4 +58,7 @@ public interface ChalMapper {
 	MediaVO thumnail(String groupId);
 	//인증예시 가져오기
 	MediaVO proofEx(String groupId);
+	
+	//관리자용
+	List<ChalVO> AdminEndChals(String subClass);
 }	
