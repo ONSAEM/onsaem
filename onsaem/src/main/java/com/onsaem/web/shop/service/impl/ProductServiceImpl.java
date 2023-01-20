@@ -133,6 +133,12 @@ public class ProductServiceImpl implements ProductService{
 		return proMapper.addReview(vo);
 	}
 
+	@Override
+	public List<ProductVO> sellerList(String data) {
+		// 판매자 상품 리스트
+		return proMapper.sellerList(data);
+	}
+
 	
 	
 }

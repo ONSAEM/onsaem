@@ -7,16 +7,115 @@
 <title>shop main</title>
 
 <!-- Google Font -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
-	rel="stylesheet">
+
 
 <!-- Css  -->
 <th:block layout:fragment="css">
-
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
-		type="text/css">		
+		type="text/css">
 </th:block>
+
+<head>
+<link
+	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
+	rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<style type="text/css">
+.menu {
+	float: left;
+	overflow: hidden;
+	width: 200px;
+	background-color: #04B4AE;
+	color: #fff;
+	transition: all 0.5s ease;
+	border-radius: 20px;
+	padding: 10px;
+	box-sizing: border-box;
+	margin-left: 550px;
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
+.menu a, .menu>label {
+	padding: 10px;
+	cursor: pointer;
+	color: #fff;
+	text-decoration: none;
+}
+
+label {
+	display: none;
+}
+
+.menu a:hover {
+	color: #000;
+}
+
+.menu ul li:hover, .menu>label:hover {
+	background-color: #fff;
+	color: #000;
+	border-radius: 10px;
+}
+
+#expand-menu {
+	display: none;
+}
+
+#expand-menu:checked ~ ul {
+	display: block;
+	height: auto;
+}
+
+.menu ::before {
+	font-family: 'Material Icons';
+	font-size: 1.5em;
+	float: left;
+	clear: left;
+}
+
+.menu label::before {
+	content: '\e5d2';
+}
+
+.menu li:nth-child(1) a::before {
+	content: '\e88a';
+}
+
+.menu li:nth-child(2) a::before {
+	content: '\e8cc';
+}
+
+.menu li:nth-child(3) a::before {
+	content: '\e8d6';
+}
+
+.menu li:nth-child(4) a::before {
+	content: '\f02e';
+}
+
+.menu li:nth-child(5) a::before {
+	content: '\e87d';
+}
+
+.menu li:nth-child(6) a::before {
+	content: '\e8b8';
+}
+
+@media screen and (max-width:1023px) {
+	.menu {
+		width: 60px;
+	}
+}
+
+@media screen and (max-width:560px) {
+	.menu #expand-menu:not(:checked) ~ ul {
+		display: none;
+	}
+}
+</style>
+</head>
+
 
 
 <!-- Content -->
@@ -29,19 +128,78 @@
 				<div class="col-lg-12 text-center">
 					<div class="breadcrumb__text">
 						<h2>판매자</h2>
-						<div class="breadcrumb__option">
-							<a href="./index.html">Home</a> <span>Shop</span>
-						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		</section>
-		
+	</section>
+
+
+	<!-- 사이드바 -->
+	<div class="menu">
+		<input type="checkbox" id="expand-menu" name="expand-menu">		<ul>
+			<li><a href="/sellerMain" class="item"><div>판매자상품관리</div></a></li>
+			<li><a href="#" class="item"><div>판매자주문관리</div></a></li>
+			<li><a href="#" class="item"><div>판매자교환/취소관리</div></a></li>
+			<li><a href="#" class="item"><div>판매자리뷰/문의관리</div></a></li>
+			<li><a href="/addProductPage" class="item"><div>상품등록하기</div></a></li>
+		</ul>		
+	</div>
 	
-		
-		<th:block layout:fragment="script">
-	
-		<script th:src="@{/shoptemplate/js/main.js}"></script>
-		</th:block>
+	<!-- 테이블 -->
+	<section class="shoping-cart spad">
+
+		<div class="container">
+			
+			<div class="row">
+				<div class="col-lg-12">
+				<h3 style="display:inline-block">판매자 상품목록</h3>
+				
+			<h2 style="margin-left:20px; display:inline-block"><i class="fa-solid fa-house" style="text-align:center"><h5>전체</h5></i></h2> 
+			<h2 style="margin-left:20px; display:inline-block"><i class="fa-solid fa-hourglass-start" style="text-align:center"><h5>판매대기</h5></i></h2> 
+			<h2 style="margin-left:20px; display:inline-block"><i class="fa-solid fa-cart-shopping" style="text-align:center"><h5>판매중</h5></i></h2>
+			<h2 style="margin-left:20px; display:inline-block"><i class="fa-solid fa-circle-stop" style="text-align:center"><h5>품절</h5></i></h2><br>
+			<h2 style="margin-left:20px; display:inline-block"><i class="fa-solid fa-cart-shopping" style="text-align:center"><h5>승인대기</h5></i></h2>
+			<h2 style="margin-left:20px; display:inline-block"><i class="fa-solid fa-cart-shopping" style="text-align:center"><h5>판매중지</h5></i></h2>
+			<h2 style="margin-left:20px; display:inline-block"><i class="fa-solid fa-cart-shopping" style="text-align:center"><h5>판매정지</h5></i></h2>
+			
+					<div class="shoping__cart__table">
+					<br>
+						<table>
+							<thead>
+								<tr>									
+									<th class="shoping__product">상품명</th>
+									<th>품목</th>
+									<th>가격</th>
+									<th>총재고량</th>
+									<th>품절여부</th>
+									<th>판매상태</th>
+									<th>등록일자</th>
+									<th>총누적판매량</th>									
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="sell:${sellerList}">
+									<td>[[${sell.productName}]]</td>
+									<td>[[${sell.category}]]</td>
+									<td>[[${sell.price}]]</td>
+									<td>[[${sell.amount}]]</td>
+									<td><input type="checkbox"> </td>
+									<td>[[${sell.productStatus}]]</td>
+									<td>[[${sell.registerDate}]]</td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
 		</div>
+	</section>
+	
+	
+	<th:block layout:fragment="script">
+		<script th:src="@{/shoptemplate/js/main.js}"></script>
+	</th:block>
+</div>
+</html>
