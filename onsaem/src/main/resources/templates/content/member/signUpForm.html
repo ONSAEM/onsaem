@@ -47,6 +47,10 @@
 			align-items: center;
 		}
 
+		.wrapper .form .emailCk {
+			display: none;
+		}
+
 		.wrapper .form .inputfield label {
 			width: 20%;
 			color: #757575;
@@ -104,10 +108,6 @@
 			border-radius: 3px;
 		}
 
-		.wrapper .form .emailCk {
-			display: none;
-		}
-
 		.wrapper .form .inputfield .input:focus,
 		.wrapper .form .inputfield .textarea:focus,
 		.wrapper .form .inputfield .custom_select select:focus {
@@ -117,6 +117,7 @@
 		.wrapper .form .inputfield p {
 			font-size: 14px;
 			color: #757575;
+			margin: 0px 10px 6px;
 		}
 
 		.wrapper .form .inputfield .check {
@@ -146,9 +147,9 @@
 			content: "";
 			position: absolute;
 			top: 1px;
-			left: 2px;
-			width: 5px;
-			height: 2px;
+			left: 0px;
+			width: 14px;
+			height: 7px;
 			border: 2px solid;
 			border-color: transparent transparent #fff #fff;
 			transform: rotate(-45deg);
@@ -279,19 +280,20 @@
 		<br>
 		<div class="wrapper">
 			<div class="title">Registration Form</div>
-			<div class="form">
+			<form name="signupFrm" class="form">
 				<div class="inputfield">
 					<img id="preview-image" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
 				</div>
 				<div class="filebox">
 					<label style="width: 20%;"></label> <input class="inputfile" placeholder="프로필사진" readonly> <label
-						for="file" class="filelabel">사진등록</label> <input type="file" id=file>
+						for="file" class="filelabel">사진등록</label> <input name="profileFile" type="file" id=file accept=".gif, .jpg, .png, .bmp">
 				</div>
 				<div class="inputfield">
 					<label>아이디<span class="request">*</span></label> <input type="text" name="memberId"
-						class="input" placeholder="5~16자 영문,숫자만 사용"><input type="button" value="중복체크" class="checkBtn checkId">
+						class="input"><input type="button" value="중복체크" class="checkBtn checkId">
 					<input type="hidden" value="false" id="checkId">
 				</div>
+				<p style="margin-left:20%">5~15자 영문,숫자만 사용</p>
 				<div class="inputfield">
 					<label>비밀번호<span class="request">*</span></label> <input type="password" name="password"
 						class="input">
@@ -306,41 +308,42 @@
 					<label>닉네임</label> <input type="text" name="nickname" class="input">
 				</div>
 				<div class="inputfield">
-					<label>이메일<span class="request">*</span></label> <input type="email" name="email" class="input"><input
-						type="button" value="이메일인증" class="checkBtn checkEmail">
+					<label>이메일<span class="request">*</span></label> <input type="email" name="email"
+						class="input"><input type="button" value="이메일인증" class="checkBtn checkEmail">
 				</div>
 				<div class="inputfield emailCk">
-					<label>이메일 인증</label> <input type="email" name="emailCk" class="input"><input type="button" value="인증"
-						class="checkBtn">
-						<input type="hidden" value="false" id="emailCk">
+					<label>이메일 인증<span class="request">*</span></label> <input type="email" name="emailCk"
+						class="input"><input type="button" value="인증" class="checkBtn">
+					<input type="hidden" value="false" id="emailCk">
 				</div>
 				<div class="inputfield">
-					<label>연락처<span class="request">*</span></label> <input type="tel" class="input" placeholder="'-'포함">
+					<label>연락처<span class="request">*</span></label> <input type="tel" class="input" name="phone"
+						placeholder="'-'포함"><input type="hidden" value="false" id="phone">
 				</div>
 				<div class="inputfield">
-					<label>우편번호<span class="request">*</span></label> <input type="text" id="sample6_postcode"
+					<label>우편번호<span class="request">*</span></label> <input type="text" name="postalCode" id="sample6_postcode"
 						class="input"><input type="button" onclick="sample6_execDaumPostcode()" value="주소검색"
 						class="checkBtn">
 				</div>
 				<div class="inputfield">
-					<label>주소<span class="request">*</span></label> <input type="text" id="sample6_address"
+					<label>주소<span class="request">*</span></label> <input type="text" name="addr" id="sample6_address"
 						class="input">
 				</div>
 				<div class="inputfield">
-					<label>상세주소</label> <input type="text" id="sample6_detailAddress" class="input">
+					<label>상세주소<span class="request">*</span></label> <input type="text" name="detailAddr" id="sample6_detailAddress"
+						class="input">
 				</div>
 				<div class="inputfield">
 					<label>환불계좌</label>
 					<div class="custom_select">
 						<select name="bank">
 							<option value="">::은행선택::</option>
-							<option value="male">Male</option>
-							<option value="female">Female</option>
+							<option th:each="bank : ${bankList}" th:value=${bank.CODE_ID} th:text="bank.CODE_NAME"></option>
 						</select>
 					</div>
 				</div>
 				<div class="inputfield">
-					<label></label> <input type="text" name="password" class="input">
+					<label></label> <input type="text" name="bankAccount" class="input">
 				</div>
 				<div class="inputfield terms">
 					<label class="check"> <input type="checkbox"> <span class="checkmark"></span>
@@ -350,13 +353,12 @@
 				<div class="inputfield">
 					<input type="submit" value="회원가입" class="btn">
 				</div>
-			</div>
+			</form>
 		</div>
 
 		<script type="text/javascript">
-		
 			let emailCk = '';
-		
+
 			// 이미지 미리보기
 			$("#file").on('change', function () {
 				let fileName = $("#file").val();
@@ -375,10 +377,32 @@
 				}
 			}
 
+			// 아이디 입력창 변화 확인
+			$('input[name=memberId]').on('change', function () {
+				if ($(this).parentsUntil('.form').next().prop('tagName') == 'P') {
+					$(this).parentsUntil('.form').next().remove();
+				}
+				$(this).parentsUntil('.form').after($('<p/>').text("5~15자 영문,숫자만 사용").css(
+					"margin-left", "20%"));
+				$('#checkId').val('false');
+				return;
+			})
+
 			// 아이디중복체크
 			$('.checkId').on('click', function () {
-				let idtag = $(this).parentsUntil('.form').find('input');
-				let id = $(idtag).val()
+				let idtag = $(this).parentsUntil('.form').find('input[name=memberId]');
+				let id = $(idtag).val().toLowerCase();
+				let str = /^(?=.*?[a-z])(?=.*?[0-9]).{5,15}$/;
+				if (!str.test(id)) {
+					console.log(false)
+					if ($(idtag).parentsUntil('.form').next().prop('tagName') == 'P') {
+						$(idtag).parentsUntil('.form').next().remove();
+					}
+					$(idtag).parentsUntil('.form').after($('<p/>').text("5~15자 영문,숫자만 사용해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('#checkId').val('false');
+					return;
+				}
 				$.ajax({
 					url: '/checkId',
 					method: 'GET',
@@ -392,7 +416,8 @@
 						}
 						if (result) {
 							$(idtag).parentsUntil('.form').after($('<p/>').text(
-								"이미 있는 아이디입니다. 다른 아이디를 입력해주세요").css("margin-left", "20%"));
+								"이미 있는 아이디입니다. 다른 아이디를 입력해주세요").css("margin-left", "20%").css(
+								"color", "#f20000"));
 							$('#checkId').val('false');
 						} else {
 							$(idtag).parentsUntil('.form').after($('<p/>').text("사용할 수 있는 아이디입니다").css(
@@ -407,10 +432,30 @@
 				})
 			})
 
+
+			// 비밀번호 입력창 변화 확인
+			$('input[name=password]').on('change', function () {
+				if ($(this).parentsUntil('.form').next().prop('tagName') == 'P') {
+					$(this).parentsUntil('.form').next().remove();
+				}
+				$(this).parentsUntil('.form').after($('<p/>').text("8~16자 영문,숫자,특수문자 사용").css(
+					"margin-left", "20%"));
+				$('#pwCheck').val('false');
+				return;
+			})
+
 			// 비밀번호 확인
 			$('input[name=pwCheck]').on('change', function () {
 				let pw = $('input[name=password]').val();
 				let pwCheck = $('input[name=pwCheck]').val();
+				let str = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,16}$/;
+				if (!str.test(pw)) {
+					console.log(false)
+					$(this).parentsUntil('.form').after($('<p/>').text("8~16자 영문,숫자,특수문자 사용해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('#pwCheck').val('false');
+					return;
+				}
 				if ($(this).parentsUntil('.form').next().prop('tagName') == 'P') {
 					$(this).parentsUntil('.form').next().remove();
 				}
@@ -420,16 +465,36 @@
 				} else {
 					$('#pwCheck').val('false');
 					$(this).parentsUntil('.form').after($('<p/>').text("비밀번호가 일치하지않습니다. 다시입력해주세요").css("margin-left",
-						"20%"));
+						"20%").css("color", "#f20000"));
 				}
 			});
+
+			// 이메일 입력창 변화 확인
+			$('input[name=password]').on('change', function () {
+				if ($(this).parentsUntil('.form').next().prop('tagName') == 'P') {
+					$(this).parentsUntil('.form').next().remove();
+				}
+				$('#pwCheck').val('false');
+				return;
+			})
 
 			// 이메일 인증
 			$('.checkEmail').on('click', function () {
 				let email = $(this).parentsUntil('.form').find('input').eq(0).val();
-				console.log(email);
-				$(this).parentsUntil('.form').after($('<p/>').text("이메일을 확인해주세요. 인증번호 발급은 5분정도 소요됩니다.").css("margin-left","20%"));
-				$('.emailCk').css("display", "block");
+				let str =
+					/(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/;
+				if ($(this).parentsUntil('.form').next().prop('tagName') == 'P') {
+					$(this).parentsUntil('.form').next().remove();
+				}
+				if (!str.test(email)) {
+					$(this).parentsUntil('.form').after($('<p/>').text("올바른 이메일을 입력해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('#emailCk').val('false');
+					return;
+				}
+				$(this).parentsUntil('.form').after($('<p/>').text("이메일을 확인해주세요. 인증번호 발급은 5분정도 소요됩니다.").css(
+					"margin-left", "20%"));
+				$('.emailCk').css("display", "flex");
 				$.ajax({
 					url: '/authMail',
 					method: 'POST',
@@ -438,9 +503,9 @@
 					},
 					contentType: 'application/x-www-form-urlencoded;',
 					success: function (result) {
-						if(result == 'fail'){
+						if (result == 'fail') {
 							alert('메일보내기를 실패했습니다. 다시시도해주세요');
-						}else{
+						} else {
 							emailCk = result;
 						}
 					},
@@ -450,7 +515,7 @@
 					}
 				})
 			})
-			
+
 			// 이미지 인증번호 입력
 			$('.emailCk').find('input[type=button]').on('click', function () {
 				let ckString = $('input[name=emailCk]').val();
@@ -459,13 +524,31 @@
 				}
 				if (emailCk == ckString) {
 					$('#emailCk').val('true');
-					$('.emailCk').after($('<p/>').text("이메일 인증이 ").css("margin-left", "20%"));
+					$('.emailCk').after($('<p/>').text("이메일 인증이 완료되었습니다").css("margin-left", "20%"));
 				} else {
 					$('#emailCk').val('false');
 					$('.emailCk').after($('<p/>').text("인증번호가 틀립니다. 다시입력해주세요").css("margin-left",
-						"20%"));
+						"20%").css("color", "#f20000"));
 				}
 			});
+
+			// 연락처 확인
+			$('input[name=phone]').on('change', function () {
+				let tel = $(this).val();
+				let str = /^\d{2,3}-\d{3,4}-\d{4}$/;
+				if ($(this).parentsUntil('.form').next().prop('tagName') == 'P') {
+					$(this).parentsUntil('.form').next().remove();
+				}
+				if (!str.test(tel)) {
+					$(this).parentsUntil('.form').after($('<p/>').text("올바른 연락처를 입력해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+						$('#phone').val('false');
+					return;
+				} else {
+					$('#phone').val('true');
+				}
+				return;
+			})
 
 			// 우편번호 찾기
 			function sample6_execDaumPostcode() {
@@ -508,6 +591,9 @@
 					}
 				}).open();
 			}
+
+			// 회원가입
+
 		</script>
 
 		<!-- JS -->

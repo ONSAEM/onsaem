@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.onsaem.web.common.service.CommonService;
 import com.onsaem.web.member.service.MemberService;
 import com.onsaem.web.member.service.MemberVO;
 
@@ -17,6 +18,9 @@ public class MemberController {
 
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	CommonService commonService;
 
 	// 로그인페이지 이동
 	@RequestMapping(value = "/loginPage", method = RequestMethod.GET)
@@ -27,7 +31,9 @@ public class MemberController {
 
 	// 회원가입페이지 이동
 	@RequestMapping(value = "/SignUpPage", method = RequestMethod.GET)
-	public String SignUpPage() {
+	public String SignUpPage(Model model) {
+		model.addAttribute("bankList",commonService.getBankList());
+		System.out.println(model.getAttribute("bankList"));
 		return "content/member/signUpForm";
 	}
 

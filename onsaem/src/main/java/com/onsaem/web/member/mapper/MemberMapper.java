@@ -9,4 +9,5 @@ public interface MemberMapper {
 
 	// 아이디 체크
 	public MemberVO checkId(String memberId);
+
 }

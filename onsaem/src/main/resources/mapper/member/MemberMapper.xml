@@ -23,5 +23,4 @@
 		FROM APPLY_MEMBERS
 		WHERE MEMBER_ID = #{memberId}
 	</select>
-	
 </mapper>
