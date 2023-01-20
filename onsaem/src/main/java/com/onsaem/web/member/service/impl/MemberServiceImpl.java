@@ -1,6 +1,5 @@
 package com.onsaem.web.member.service.impl;
 
-
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +62,8 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 
 	@Override
 	public MemberVO getMember(String memberId) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return memberMapper.getMember(memberId);
 	}
+
 }

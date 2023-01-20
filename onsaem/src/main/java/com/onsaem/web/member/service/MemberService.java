@@ -10,4 +10,5 @@ public interface MemberService {
 
 	// 이메일 인증
 	public String sendAuthMail(String email);
+
 }
