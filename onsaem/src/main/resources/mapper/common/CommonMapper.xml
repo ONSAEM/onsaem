@@ -3,7 +3,7 @@
 <mapper namespace="com.onsaem.web.common.mapper.CommonMapper">
 	
 	<select id="getBankList" resultType="HashMap">
-		SELECT CODE_ID AS codeId, CODE_NAME AS codeName
+		SELECT CODE_ID, CODE_NAME
 		FROM COMMONS
 		WHERE TOP_CODE = 'BK'
 	</select>

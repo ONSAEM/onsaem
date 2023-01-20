@@ -1,14 +1,19 @@
 package com.onsaem.web.member.service.impl;
 
+import java.io.IOException;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.onsaem.web.common.service.MailService;
+import com.onsaem.web.common.service.MediaService;
+import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.MailDTO;
 import com.onsaem.web.member.mapper.MemberMapper;
 import com.onsaem.web.member.service.MemberService;
@@ -16,14 +21,19 @@ import com.onsaem.web.member.service.MemberVO;
 
 @Service
 public class MemberServiceImpl implements MemberService, UserDetailsService {
+
+	@Autowired
+	MemberMapper memberMapper;
+
+	@Autowired
+	MailService mailService;
 	
-	@Autowired MemberMapper memberMapper; 
-	
-	@Autowired MailService mailService;
-	
+	@Autowired
+	MediaService mediaService;
+
 	@Override
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
-		
+
 		return memberMapper.getMember(memberId);
 	}
 
@@ -37,25 +47,23 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 	public String sendAuthMail(String email) {
 		MailDTO dto = new MailDTO();
 		String[] emList = new String[1];
-		emList[0]=email;
+		emList[0] = email;
 		dto.setAddress(emList);
 		dto.setSubject("[온샘] 이메일 인증번호 발급");
 		dto.setTitle("회원가입 이메일 인증");
 		dto.setFrom("onseam");
 		int leftLimit = 48; // numeral '0'
-	    int rightLimit = 122; // letter 'z'
-	    int targetStringLength = 10;
-	    Random random = new Random();
-	    String generatedString = random.ints(leftLimit, rightLimit + 1)
-	                                   .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-	                                   .limit(targetStringLength)
-	                                   .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-	                                   .toString();
-		dto.setContent("인증번호 : "+generatedString);
+		int rightLimit = 122; // letter 'z'
+		int targetStringLength = 10;
+		Random random = new Random();
+		String generatedString = random.ints(leftLimit, rightLimit + 1)
+				.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
+				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+		dto.setContent("인증번호 : " + generatedString);
 
-		if(mailService.sendMail(dto,null)) {
+		if (mailService.sendMail(dto, null)) {
 			return generatedString;
-		}else {
+		} else {
 			return "fail";
 		}
 	}
@@ -64,6 +72,28 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 	public MemberVO getMember(String memberId) {
 
 		return memberMapper.getMember(memberId);
+	}
+
+	@Override
+	public String insertMember(MultipartFile[] profileFile, MemberVO member) throws IllegalStateException, IOException {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+		member.setPassword(encoder.encode(member.getPassword()));
+		if (member.getBank() == null || member.getBankAccount() == null) {
+			member.setBank(null);
+			member.setBankAccount(null);
+		}
+		if(member.getNickname() == null) {
+			member.setNickname(member.getMemberId());
+		}
+		memberMapper.insertMember(member);
+		if (profileFile != null) {
+			MediaVO vo = new MediaVO();
+			vo.setGroupId(member.getMemberId());
+			vo.setGroups("회원");
+			vo.setSubGroup("프로필이미지");
+			mediaService.uploadMedia(profileFile, vo);
+		}
+		return null;
 	}
 
 }

@@ -23,4 +23,9 @@
 		FROM APPLY_MEMBERS
 		WHERE MEMBER_ID = #{memberId}
 	</select>
+	
+	<insert id="insertMember" parameterType="MemberVO">
+	INSERT INTO MEMBERS (MEMBER_ID, PASSWORD, NAME, NICKNAME, EMAIL, PHONE, POSTAL_CODE, ADDR, DETAIL_ADDR, BANK, BANK_ACCOUNT, ROLE)
+	VALUES(#{memberId}, #{password}, #{name}, #{nickname}, #{email}, #{phone}, #{postalCode}, #{addr}, #{detailAddr}, #{bank}, #{bankAccount}, 'ROLE_USER')
+	</insert>
 </mapper>

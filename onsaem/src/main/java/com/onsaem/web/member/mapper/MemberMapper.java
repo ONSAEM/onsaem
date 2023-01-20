@@ -1,5 +1,6 @@
 package com.onsaem.web.member.mapper;
 
+
 import com.onsaem.web.member.service.MemberVO;
 
 public interface MemberMapper {
@@ -9,5 +10,7 @@ public interface MemberMapper {
 
 	// 아이디 체크
 	public MemberVO checkId(String memberId);
-
+	
+	// 회원등록
+	public int insertMember(MemberVO member);
 }
