@@ -130,4 +130,10 @@ public class CharServiceImpl implements ChalService {
 		return chalMapper.proofEx(groupId);
 	}
 
+	@Override
+	public List<ChalVO> AdminEndChals(String subClass) {
+		// TODO Auto-generated method stub
+		return chalMapper.AdminEndChals(subClass);
+	}
+
 }
