@@ -1,0 +1,188 @@
+.modal-wrapper {
+	width: 100%;
+	background: #fff;
+	margin: 5% auto;
+}
+
+.modal-wrapper .title {
+	font-size: 24px;
+	font-weight: 700;
+	margin-bottom: 25px;
+	color: #5bc1ac;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.modal-wrapper .form {
+	width: 100%;
+}
+
+.modal-wrapper .form .inputfield {
+	margin-bottom: 15px;
+	display: flex;
+	align-items: center;
+}
+
+.modal-wrapper .form .emailCk {
+	display: none;
+}
+
+.modal-wrapper .form .inputfield label {
+	width: 10%;
+	color: #757575;
+	font-size: 14px;
+	text-align: end;
+	margin: auto;
+}
+
+.modal-wrapper .form .inputfield .request {
+	color: red;
+	font-size: 20px;
+}
+
+.modal-wrapper .form .inputfield .input, .modal-wrapper .form .inputfield .textarea
+	{
+	width: 60%;
+	outline: none;
+	border: 1px solid #d5dbd9;
+	font-size: 15px;
+	padding: 8px 10px;
+	border-radius: 3px;
+	transition: all 0.3s ease;
+	margin: auto;
+}
+
+.modal-wrapper .form .inputfield .textarea {
+	width: 100%;
+	height: 125px;
+	resize: none;
+}
+
+.modal-wrapper .form .inputfield .custom_select {
+	position: relative;
+	height: 37px;
+}
+
+.modal-wrapper .form .inputfield .custom_select:before {
+	content: "";
+	position: absolute;
+	top: 12px;
+	right: 10px;
+	border: 8px solid;
+	border-color: #d5dbd9 transparent transparent transparent;
+	pointer-events: none;
+}
+
+.modal-wrapper .form .inputfield .custom_select select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	outline: none;
+	width: 100%;
+	height: 100%;
+	border: 0px;
+	padding: 8px 10px;
+	font-size: 15px;
+	border: 1px solid #d5dbd9;
+	border-radius: 3px;
+}
+
+.modal-wrapper .form .inputfield .input:focus, .modal-wrapper .form .inputfield .textarea:focus,
+	.modal-wrapper .form .inputfield .custom_select select:focus {
+	border: 1px solid #fec107;
+}
+
+.modal-wrapper .form .inputfield p {
+	font-size: 14px;
+	color: #757575;
+	margin: 0px 10px 6px;
+}
+
+.modal-wrapper .form .inputfield .check {
+	width: 15px;
+	height: 15px;
+	position: relative;
+	display: block;
+	cursor: pointer;
+}
+
+.modal-wrapper .form .inputfield .check input[type="checkbox"] {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+}
+
+.modal-wrapper .form .inputfield .check .checkmark {
+	width: 15px;
+	height: 15px;
+	border: 1px solid #5bc1ac;
+	display: block;
+	position: relative;
+}
+
+.modal-wrapper .form .inputfield .check .checkmark:before {
+	content: "";
+	position: absolute;
+	top: 1px;
+	left: 0px;
+	width: 14px;
+	height: 7px;
+	border: 2px solid;
+	border-color: transparent transparent #fff #fff;
+	transform: rotate(-45deg);
+	display: none;
+}
+
+.modal-wrapper .form .inputfield .check input[type="checkbox"]:checked 
+	 ~.checkmark {
+	background: #5bc1ac;
+}
+
+.modal-wrapper .form .inputfield .check input[type="checkbox"]:checked 
+	 ~.checkmark:before {
+	display: block;
+}
+
+.modal-wrapper .form .inputfield .btn, .modal-wrapper .form .inputfield .checkBtn
+	{
+	margin: auto;
+	padding: 8px 10px;
+	font-size: 15px;
+	border: 0px;
+	background: #5bc1ac;
+	color: #fff;
+	cursor: pointer;
+	border-radius: 3px;
+	outline: none;
+}
+
+.modal-wrapper .form .inputfield .btn {
+	width: 100%;
+}
+
+.form .inputfield .checkBtn {
+	width: 20%;
+}
+
+.modal-wrapper .form .inputfield .btn:hover, .modal-wrapper .form .inputfield .checkBtn:hover
+	{
+	background: #42a18d;
+}
+
+.modal-wrapper .form .inputfield:last-child {
+	margin-bottom: 0;
+}
+
+@media ( max-width :420px) {
+	.modal-wrapper .form .inputfield {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.modal-wrapper .form .inputfield label {
+		margin-bottom: 5px;
+	}
+	.modal-wrapper .form .inputfield.terms {
+		flex-direction: row;
+	}
+}

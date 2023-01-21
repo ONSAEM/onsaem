@@ -24,6 +24,13 @@
 		WHERE MEMBER_ID = #{memberId}
 	</select>
 	
+	<!-- 이메일로 회원조회 -->
+	<select id="searchEmail" resultType="int" parameterType="String">
+		SELECT COUNT(*) FROM MEMBERS
+		WHERE EMAIL = #{email}
+	</select>
+	
+	<!-- 회원등록 -->
 	<insert id="insertMember" parameterType="MemberVO">
 	INSERT INTO MEMBERS (MEMBER_ID, PASSWORD, NAME, NICKNAME, EMAIL, PHONE, POSTAL_CODE, ADDR, DETAIL_ADDR, BANK, BANK_ACCOUNT, ROLE)
 	VALUES(#{memberId}, #{password}, #{name}, #{nickname}, #{email}, #{phone}, #{postalCode}, #{addr}, #{detailAddr}, #{bank}, #{bankAccount}, 'ROLE_USER')

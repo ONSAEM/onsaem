@@ -27,7 +27,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 
 	@Autowired
 	MailService mailService;
-	
+
 	@Autowired
 	MediaService mediaService;
 
@@ -41,6 +41,15 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 	public MemberVO checkId(String memberId) {
 
 		return memberMapper.checkId(memberId);
+	}
+
+	@Override
+	public String searchEmail(String email) {
+		if (memberMapper.searchEmail(email) == 0) {
+			return "false";
+		} else {
+			return "true";
+		}
 	}
 
 	@Override
@@ -82,7 +91,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 			member.setBank(null);
 			member.setBankAccount(null);
 		}
-		if(member.getNickname() == null) {
+		if (member.getNickname() == null) {
 			member.setNickname(member.getMemberId());
 		}
 		memberMapper.insertMember(member);
@@ -94,6 +103,30 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 			mediaService.uploadMedia(profileFile, vo);
 		}
 		return null;
+	}
+
+	@Override
+	public String sendIdMail(String email) {
+		MailDTO dto = new MailDTO();
+		String[] emList = new String[1];
+		emList[0] = email;
+		dto.setAddress(emList);
+		dto.setSubject("[온샘] 아이디 찾기 관련");
+		dto.setTitle("아이디 정보");
+		dto.setFrom("onseam");
+		MemberVO vo = memberMapper.idEmail(email);
+		dto.setContent("회원 아이디는 " + vo.getMemberId() + " 입니다");
+
+		if (mailService.sendMail(dto, null)) {
+			return "seccss";
+		} else {
+			return "fail";
+		}
+	}
+
+	@Override
+	public int updateMember(MemberVO member) {
+		return 0;
 	}
 
 }

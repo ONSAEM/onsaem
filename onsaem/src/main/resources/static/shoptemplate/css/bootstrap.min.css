@@ -6476,6 +6476,10 @@ a.close.disabled {
     overflow-y: auto
 }
 
+.modal-open .show {
+    align-items: center;
+}
+
 .modal {
     position: fixed;
     top: 0;
@@ -6490,7 +6494,7 @@ a.close.disabled {
 
 .modal-dialog {
     position: relative;
-    width: auto;
+    width: 50%;
     margin: .5rem;
     pointer-events: none
 }
@@ -6611,7 +6615,6 @@ a.close.disabled {
     -ms-flex-pack: justify;
     justify-content: space-between;
     padding: 1rem 1rem;
-    border-bottom: 1px solid #dee2e6;
     border-top-left-radius: calc(.3rem - 1px);
     border-top-right-radius: calc(.3rem - 1px)
 }
@@ -6643,9 +6646,9 @@ a.close.disabled {
     -ms-flex-pack: end;
     justify-content: flex-end;
     padding: .75rem;
-    border-top: 1px solid #dee2e6;
     border-bottom-right-radius: calc(.3rem - 1px);
-    border-bottom-left-radius: calc(.3rem - 1px)
+    border-bottom-left-radius: calc(.3rem - 1px);
+    height: 1em;
 }
 
 .modal-footer>* {
@@ -6663,7 +6666,7 @@ a.close.disabled {
 @media (min-width:576px) {
     .modal-dialog {
         max-width: 500px;
-        margin: 1.75rem auto
+        margin: auto;
     }
 
     .modal-dialog-scrollable {

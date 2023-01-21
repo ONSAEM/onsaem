@@ -12,253 +12,11 @@
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
 </th:block>
 
 <head>
 	<meta charset="UTF-8">
-	<title>Login</title>
-	<style type="text/css">
-		.wrapper {
-			max-width: 900px;
-			width: 100%;
-			background: #fff;
-			margin: 50px auto;
-			box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.125);
-			padding: 30px;
-		}
-
-		.wrapper .title {
-			font-size: 24px;
-			font-weight: 700;
-			margin-bottom: 25px;
-			color: #5bc1ac;
-			text-transform: uppercase;
-			text-align: center;
-		}
-
-		.wrapper .form {
-			width: 100%;
-		}
-
-		.wrapper .form .inputfield {
-			margin-bottom: 15px;
-			display: flex;
-			align-items: center;
-		}
-
-		.wrapper .form .emailCk {
-			display: none;
-		}
-
-		.wrapper .form .inputfield label {
-			width: 20%;
-			color: #757575;
-			font-size: 14px;
-		}
-
-		.wrapper .form .inputfield .request {
-			color: red;
-			font-size: 20px;
-		}
-
-		.wrapper .form .inputfield .input,
-		.wrapper .form .inputfield .textarea {
-			width: 50%;
-			outline: none;
-			border: 1px solid #d5dbd9;
-			font-size: 15px;
-			padding: 8px 10px;
-			border-radius: 3px;
-			transition: all 0.3s ease;
-		}
-
-		.wrapper .form .inputfield .textarea {
-			width: 100%;
-			height: 125px;
-			resize: none;
-		}
-
-		.wrapper .form .inputfield .custom_select {
-			position: relative;
-			height: 37px;
-		}
-
-		.wrapper .form .inputfield .custom_select:before {
-			content: "";
-			position: absolute;
-			top: 12px;
-			right: 10px;
-			border: 8px solid;
-			border-color: #d5dbd9 transparent transparent transparent;
-			pointer-events: none;
-		}
-
-		.wrapper .form .inputfield .custom_select select {
-			-webkit-appearance: none;
-			-moz-appearance: none;
-			appearance: none;
-			outline: none;
-			width: 100%;
-			height: 100%;
-			border: 0px;
-			padding: 8px 10px;
-			font-size: 15px;
-			border: 1px solid #d5dbd9;
-			border-radius: 3px;
-		}
-
-		.wrapper .form .inputfield .input:focus,
-		.wrapper .form .inputfield .textarea:focus,
-		.wrapper .form .inputfield .custom_select select:focus {
-			border: 1px solid #fec107;
-		}
-
-		.wrapper .form .inputfield p {
-			font-size: 14px;
-			color: #757575;
-			margin: 0px 10px 6px;
-		}
-
-		.wrapper .form .inputfield .check {
-			width: 15px;
-			height: 15px;
-			position: relative;
-			display: block;
-			cursor: pointer;
-		}
-
-		.wrapper .form .inputfield .check input[type="checkbox"] {
-			position: absolute;
-			top: 0;
-			left: 0;
-			opacity: 0;
-		}
-
-		.wrapper .form .inputfield .check .checkmark {
-			width: 15px;
-			height: 15px;
-			border: 1px solid #5bc1ac;
-			display: block;
-			position: relative;
-		}
-
-		.wrapper .form .inputfield .check .checkmark:before {
-			content: "";
-			position: absolute;
-			top: 1px;
-			left: 0px;
-			width: 14px;
-			height: 7px;
-			border: 2px solid;
-			border-color: transparent transparent #fff #fff;
-			transform: rotate(-45deg);
-			display: none;
-		}
-
-		.wrapper .form .inputfield .check input[type="checkbox"]:checked~.checkmark {
-			background: #5bc1ac;
-		}
-
-		.wrapper .form .inputfield .check input[type="checkbox"]:checked~.checkmark:before {
-			display: block;
-		}
-
-		.wrapper .form .inputfield .btn,
-		.wrapper .form .inputfield .checkBtn {
-			margin: 0px auto;
-			padding: 8px 10px;
-			font-size: 15px;
-			border: 0px;
-			background: #5bc1ac;
-			color: #fff;
-			cursor: pointer;
-			border-radius: 3px;
-			outline: none;
-		}
-
-		.wrapper .form .inputfield .btn {
-			width: 100%;
-		}
-
-		.form .inputfield .checkBtn {
-			width: 20%;
-		}
-
-		.wrapper .form .inputfield .btn:hover,
-		.wrapper .form .inputfield .checkBtn:hover {
-			background: #42a18d;
-		}
-
-		.wrapper .form .inputfield:last-child {
-			margin-bottom: 0;
-		}
-
-		@media (max-width :420px) {
-			.wrapper .form .inputfield {
-				flex-direction: column;
-				align-items: flex-start;
-			}
-
-			.wrapper .form .inputfield label {
-				margin-bottom: 5px;
-			}
-
-			.wrapper .form .inputfield.terms {
-				flex-direction: row;
-			}
-		}
-
-		.filebox {
-			margin-bottom: 15px;
-			display: flex;
-			align-items: center;
-		}
-
-		.filebox .inputfile {
-			width: 50%;
-			outline: none;
-			border: 1px solid #d5dbd9;
-			font-size: 15px;
-			padding: 8px 10px;
-			border-radius: 3px;
-			transition: all 0.3s ease;
-			cursor: default;
-		}
-
-		.inputfield #preview-image {
-			width: 300px;
-			height: 300px;
-			margin: 0px auto;
-		}
-
-		.filebox .filelabel {
-			width: 20%;
-			margin: 0px auto;
-			padding: 8px 10px;
-			font-size: 15px;
-			border: 0px;
-			background: #5bc1ac;
-			color: #fff;
-			cursor: pointer;
-			border-radius: 3px;
-			outline: none;
-			text-align: center;
-		}
-
-		.filebox .filelabel:hover {
-			background: #42a18d;
-		}
-
-		.filebox #file {
-			position: absolute;
-			width: 0;
-			height: 0;
-			padding: 0;
-			overflow: hidden;
-			border: 0;
-		}
-	</style>
 </head>
 
 <body>
@@ -306,8 +64,7 @@
 					<input type="hidden" value="false" id="pwCheck">
 				</div>
 				<div class="inputfield">
-					<label>이름<span class="request">*</span></label> <input type="email" name="name"
-						class="input">
+					<label>이름<span class="request">*</span></label> <input type="email" name="name" class="input">
 				</div>
 				<div class="inputfield">
 					<label>닉네임</label> <input type="text" name="nickname" class="input">
@@ -475,7 +232,7 @@
 				$('input[name=emailCk]').val("");
 			})
 
-			// 이메일 인증
+			// 이메일 체크
 			$('.checkEmail').on('click', function () {
 				let email = $(this).parentsUntil('.form').find('input').eq(0).val();
 				let str =
@@ -489,9 +246,34 @@
 					$('#emailCk').val('false');
 					return;
 				}
-				$(this).parentsUntil('.form').after($('<p/>').text("이메일을 확인해주세요. 인증번호 발급은 최대 5분정도 소요됩니다.").css(
-					"margin-left", "20%"));
-				$('.emailCk').css("display", "flex");
+				$.ajax({
+					url: '/searchEmail',
+					method: 'GET',
+					data: {
+						"email": email
+					},
+					contentType: 'application/x-www-form-urlencoded;',
+					success: function (result) {
+						if (result == 'true') {
+							$('.checkEmail').parentsUntil('.form').after($('<p/>').text(
+								"이미 있는 이메일입니다. 다른 이메일을 입력해주세요").css(
+								"margin-left", "20%").css("color", "#f20000"));
+								return;
+						} else {
+							$('.checkEmail').parentsUntil('.form').after($('<p/>').text(
+								"이메일을 확인해주세요. 인증번호 발급은 최대 5분정도 소요됩니다.").css(
+								"margin-left", "20%"));
+							$('.emailCk').css("display", "flex");
+							sendAuthMail(email);
+						}
+					},
+					error: function (error) {
+						console.log(error);
+					}
+				})
+			})
+
+			function sendAuthMail(email) {
 				$.ajax({
 					url: '/authMail',
 					method: 'POST',
@@ -508,10 +290,9 @@
 					},
 					error: function (error) {
 						console.log(error);
-						alert('실패');
 					}
 				})
-			})
+			}
 
 			// 이미지 인증번호 입력
 			$('.emailCk').find('input[type=button]').on('click', function () {
@@ -628,8 +409,8 @@
 					return;
 				}
 				if ($('input[name=name]').parentsUntil('.form').next().prop('tagName') == 'P') {
-						$('input[name=name]').parentsUntil('.form').next().remove();
-					}
+					$('input[name=name]').parentsUntil('.form').next().remove();
+				}
 				if (!$('input[name=name]').val()) {
 					$('input[name=name]').parentsUntil('.form').after($('<p/>').text("이름을 입력해주세요").css(
 						"margin-left", "20%").css("color", "#f20000"));
@@ -673,8 +454,8 @@
 					return;
 				}
 				if ($('input[name=postalCode]').parentsUntil('.form').next().prop('tagName') == 'P') {
-						$('input[name=postalCode]').parentsUntil('.form').next().remove();
-					}
+					$('input[name=postalCode]').parentsUntil('.form').next().remove();
+				}
 				if (!$('input[name=postalCode]').val()) {
 					$('input[name=postalCode]').parentsUntil('.form').after($('<p/>').text("우편번호를 입력해주세요").css(
 						"margin-left", "20%").css("color", "#f20000"));
@@ -682,8 +463,8 @@
 					return;
 				}
 				if ($('input[name=addr]').parentsUntil('.form').next().prop('tagName') == 'P') {
-						$('input[name=addr]').parentsUntil('.form').next().remove();
-					}
+					$('input[name=addr]').parentsUntil('.form').next().remove();
+				}
 				if (!$('input[name=addr]').val()) {
 					$('input[name=addr]').parentsUntil('.form').after($('<p/>').text("주소를 입력해주세요").css(
 						"margin-left", "20%").css("color", "#f20000"));
@@ -691,8 +472,8 @@
 					return;
 				}
 				if ($('input[name=detailAddr]').parentsUntil('.form').next().prop('tagName') == 'P') {
-						$('input[name=detailAddr]').parentsUntil('.form').next().remove();
-					}
+					$('input[name=detailAddr]').parentsUntil('.form').next().remove();
+				}
 				if (!$('input[name=detailAddr]').val()) {
 					$('input[name=detailAddr]').parentsUntil('.form').after($('<p/>').text("상세주소를 입력해주세요").css(
 						"margin-left", "20%").css("color", "#f20000"));
@@ -700,10 +481,11 @@
 					return;
 				}
 				if ($('input[type=checkbox]').parentsUntil('.form').next().eq(1).prop('tagName') == 'P') {
-						$('input[type=checkbox]').parentsUntil('.form').next().eq(1).remove();
-					}
+					$('input[type=checkbox]').parentsUntil('.form').next().eq(1).remove();
+				}
 				if (!$('input[type=checkbox]').is(':checked')) {
-					$('input[type=checkbox]').parentsUntil('.form').eq(1).after($('<p/>').text("회원가입에 동의해주세요").css("color", "#f20000"));
+					$('input[type=checkbox]').parentsUntil('.form').eq(1).after($('<p/>').text("회원가입에 동의해주세요").css(
+						"color", "#f20000"));
 					return;
 				}
 				addMember();
@@ -713,17 +495,17 @@
 			function addMember() {
 				let data = new FormData($('form')[0]);
 				$.ajax({
-					url : '/insertMember',
+					url: '/insertMember',
 					enctype: 'multipart/form-data',
-					method : 'POST',
+					method: 'POST',
 					processData: false,
 					contentType: false,
-					data : data,
-					dataType:'json',
-					success : function(result) {
-						alert(result);
+					data: data,
+					dataType: 'json',
+					success: function (result) {
+						location.href = "/signUpcompleted"
 					},
-					error : function(error) {
+					error: function (error) {
 						console.log(error);
 						alert('실패');
 					}
