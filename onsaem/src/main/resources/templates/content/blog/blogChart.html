@@ -1045,88 +1045,6 @@ background: #42a18d;
     overflow: hidden;
     border: 0;
 }
-
-
-/* 체크박스 */
-.containerCheck {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
-
-.control-group {
-  display: inline-block;
-  vertical-align: top;
-  background: #FFFFFF;
-  text-align: left;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-  padding: 50px;
-  width: 500px;
-  height: 500px;
-  margin: 50px;
-}
-.control {
-  display: block;
-  position: relative;
-  padding-left: 30px;
-  margin-bottom: 15px;
-  cursor: pointer;
-  font-size: 18px;
-}
-.control input {
-  position: absolute;
-  z-index: -1;
-  opacity: 0;
-}
-.control__indicator {
-  position: absolute;
-  top: 2px;
-  left: 0;
-  height: 20px;
-  width: 20px;
-  background: #E6E6E6;
-}
-.control:hover input ~ .control__indicator,
-.control input:focus ~ .control__indicator {
-  background: #CCCCCC;
-}
-.control input:checked ~ .control__indicator {
-  background: #2AA1C0;
-}
-.control:hover input:not([disabled]):checked ~ .control__indicator,
-.control input:checked:focus ~ .control__indicator {
-  background: #0E647D;
-}
-.control input:disabled ~ .control__indicator {
-  background: #E6E6E6;
-  opacity: 0.6;
-  pointer-events: none;
-}
-.control__indicator:after {
-  content: '';
-  position: absolute;
-  display: none;
-}
-.control input:checked ~ .control__indicator:after {
-  display: block;
-}
-.control--checkbox .control__indicator:after {
-  left: 8px;
-  top: 4px;
-  width: 3px;
-  height: 8px;
-  border: solid #FFFFFF;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-.control--checkbox input:disabled ~ .control__indicator:after {
-  border-color: #7B7B7B;
-}
-
-
 </style>
 </head>
 <body>
@@ -1176,20 +1094,16 @@ background: #42a18d;
 							class="feather feather-home">
           <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
           <polyline points="9 22 9 12 15 12 15 22" /></svg>
-					</a> 
-					<!-- 차트 -->
-					<a class="app-sidebar-link" id="blogChart"> <svg       
+					</a> <a href="" class="app-sidebar-link"> <svg
 							class="link-icon feather feather-pie-chart"
 							th:xmlns="@{http://www.w3.org/2000/svg}" width="24" height="24"
 							fill="none" stroke="currentColor" stroke-linecap="round"
-							stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" >
+							stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
           <defs />
           <path
 								d="M21.21 15.89A10 10 0 118 2.83M22 12A10 10 0 0012 2v10z" />
         </svg>
-					</a> 
-					<!-- 구독 관리 -->
-					<a class="app-sidebar-link" id="blogSub"> <svg
+					</a> <a href="" class="app-sidebar-link"> <svg
 							xmlns="http://www.w3.org/2000/svg" width="24" height="24"
 							viewBox="0 0 24 24" fill="none" stroke="currentColor"
 							stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -1198,9 +1112,7 @@ background: #42a18d;
           <line x1="16" y1="2" x2="16" y2="6" />
           <line x1="8" y1="2" x2="8" y2="6" />
           <line x1="3" y1="10" x2="21" y2="10" /></svg>
-					</a> 
-					<!-- 카테고리 관리 -->
-					<a class="app-sidebar-link" id="blogCategory"> <svg
+					</a> <a href="" class="app-sidebar-link"> <svg
 							class="link-icon feather feather-settings"
 							xmlns="http://www.w3.org/2000/svg" width="24" height="24"
 							fill="none" stroke="currentColor" stroke-linecap="round"
@@ -1256,113 +1168,15 @@ background: #42a18d;
 							</button>
 						</div>
 					</div>
-					
 					<div class="project-boxes jsGridView">
-						<div class="taskHome">
-						<div class="project-box-wrapper">
 						
-						<!-- 프로필 카드를 넣어보겠습니다 -->
-						<figure class="snip1336"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample69.jpg" alt="sample69" />
-							<figcaption>
-								 <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/profile-sample5.jpg" alt="profile-sample5" class="profile" />
-								 <h2>[[${blogInfos.nickname}]]<span>@[[${blogInfos.blogId}]]</span></h2>
-							</figcaption>
-						</figure>
-						
-						<!-- 끝 -->
-						</div>
-						<!-- 인풋 상자를 넣어보겠습니다 -->
-							<div class="Iwrapper">
-						    
-						    <div class="form">
-							
-						       <div class="inputfield">
-						          <label>블로그 주소<span class="request"></span></label>
-						          <input type="text" name="blogURL" class="input" readonly th:value="'http://localhost/blog/myblog/userId='+${blogInfos.blogId}">
-						       </div>  
-						        <div class="inputfield">
-						          <label>블로그 이름<span class="request"></span></label>
-						          <input type="text" name="blogName" class="input" th:value="${blogInfos.blogName}">
-						       </div>  
-						       <div class="inputfield">
-						          <label>소개글<span class="request"></span></label>
-						          <input type="text" name="introduction" class="input" th:value="${blogInfos.introduction}">
-						       </div>
-						       
-						       <div class="inputfield">
-							    	<img id="Ppreview-image" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
-							   </div>
-								<div class="filebox">
-									<label style="width: 20%;"></label>
-								    <input class="profilefile" placeholder="프로필사진" readonly>
-								    <label for="file" class="filelabel">사진등록</label> 
-								    <input type="file" id=pfile>
-								</div>
-								
-								<div class="inputfield">
-							    	<img id="Hpreview-image" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
-							   </div>
-								<div class="filebox">
-									<label style="width: 20%;"></label>
-								    <input class="headerfile" placeholder="헤더사진" readonly>
-								    <label for="file" class="filelabel">사진등록</label> 
-								    <input type="file" id=hfile>
-								</div>  
-						       
-						      <div class="inputfield">
-						        <input type="submit" value="등록" class="btn">
-      						</div>
-   						 </div>
-						</div>
-						
-						<!-- 인풋 상자 끝 -->
-						</div>
-						
-						<!-- 체크박스 -->
-						<div class="containerCheck" id="cateCheck" style="display:none">
-						  <div class="control-group">
-						  	<button>카테고리 추가</button>
-						  	<button>카테고리 삭제</button>
-						    <h2 style="font-weight: bold; margin-top: 0;margin-bottom: 50px;text-align:center;">카테고리</h2>
-						    <label class="control control--checkbox">First checkbox
-						      <input type="checkbox" checked="checked"/>
-						      <div class="control__indicator"></div>
-						    </label>
-						    <label class="control control--checkbox">Second checkbox
-						      <input type="checkbox"/>
-						      <div class="control__indicator"></div>
-						    </label>
-						    <label class="control control--checkbox">Disabled
-						      <input type="checkbox" disabled="disabled"/>
-						      <div class="control__indicator"></div>
-						    </label>
-						    <label class="control control--checkbox">Disabled & checked
-						      <input type="checkbox" disabled="disabled" checked="checked"/>
-						      <div class="control__indicator"></div>
-						    </label>
-						  </div>
-						  
-						  <div class="control-group">
-						  	<label>카테고리 명<input type="text"></label>
-						    <h2 style="font-weight: bold; margin-top: 0;margin-bottom: 50px;text-align:center;">공개범위</h2>
-						    <div class="select">
-						      <select>
-						        <option>:::공개범위:::</option>
-						        <option>전체공개</option>
-						        <option>일부공개</option>
-						        <option>비공개</option>
-						      </select>
-						      <div class="select__arrow"></div>
-						    </div>
-						</div>
-						<!-- 체크박스 끝 -->
 						
 					</div>
 				</div>
 			</div>
 		</div>
 
-		
+
 
 		<!-- JS -->
 		<th:block layout:fragment="script">
@@ -1445,36 +1259,7 @@ background: #42a18d;
 		
 			
 		// 통계 페이지
-		$('#blogChart').on("click", function(){
-			console.log('통계');
-			$('.taskHome').css("display","none");
-			
-			
-		})
-		
-		// 구독 관리
-		$('#blogSub').on("click", function(){
-			console.log('구독');
-			$('.taskHome').css("display","none");
-			
-		})
-		
-		// 카테고리 관리
-		$('#blogCategory').on("click", function(){
-			console.log($(this).attr('id'));
-			console.log('카테고리');
-			$('.taskHome').css("display","none");
-			
-				$('#cateCheck').css("display","block");
-				$('#cateCheck').append("<button>확인</button>")
-			
-			
-			
-// 			$('.project-boxes').append("<p>새로 추가된  아이템</p>");
-			
-		})
-		
-		
+		$('')
 		</script>
 	</div>
 </body>
