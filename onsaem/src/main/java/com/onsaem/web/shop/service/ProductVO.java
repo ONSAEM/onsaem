@@ -40,4 +40,12 @@ public class ProductVO {
 
 	String optionContent;
 	String topOptionId;
+	
+	//상태별 카운트
+	Integer waitSellProduct;
+	Integer sellingProduct;
+	Integer endProduct;
+	Integer waitProduct;
+	Integer stopProduct;
+	Integer banProduct;
 }

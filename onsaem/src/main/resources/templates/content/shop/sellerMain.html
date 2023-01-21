@@ -137,37 +137,58 @@ label {
 
 	<!-- 사이드바 -->
 	<div class="menu">
-		<input type="checkbox" id="expand-menu" name="expand-menu">		<ul>
+		<input type="checkbox" id="expand-menu" name="expand-menu">
+		<ul>
 			<li><a href="/sellerMain" class="item"><div>판매자상품관리</div></a></li>
 			<li><a href="#" class="item"><div>판매자주문관리</div></a></li>
 			<li><a href="#" class="item"><div>판매자교환/취소관리</div></a></li>
 			<li><a href="#" class="item"><div>판매자리뷰/문의관리</div></a></li>
 			<li><a href="/addProductPage" class="item"><div>상품등록하기</div></a></li>
-		</ul>		
+		</ul>
 	</div>
-	
+
 	<!-- 테이블 -->
 	<section class="shoping-cart spad">
 
 		<div class="container">
-			
+
 			<div class="row">
-				<div class="col-lg-12">
-				<h3 style="display:inline-block">판매자 상품목록</h3>
-				
-			<h2 style="margin-left:20px; display:inline-block"><i class="fa-solid fa-house" style="text-align:center"><h5>전체</h5></i></h2> 
-			<h2 style="margin-left:20px; display:inline-block"><i class="fa-solid fa-hourglass-start" style="text-align:center"><h5>판매대기</h5></i></h2> 
-			<h2 style="margin-left:20px; display:inline-block"><i class="fa-solid fa-cart-shopping" style="text-align:center"><h5>판매중</h5></i></h2>
-			<h2 style="margin-left:20px; display:inline-block"><i class="fa-solid fa-circle-stop" style="text-align:center"><h5>품절</h5></i></h2><br>
-			<h2 style="margin-left:20px; display:inline-block"><i class="fa-solid fa-cart-shopping" style="text-align:center"><h5>승인대기</h5></i></h2>
-			<h2 style="margin-left:20px; display:inline-block"><i class="fa-solid fa-cart-shopping" style="text-align:center"><h5>판매중지</h5></i></h2>
-			<h2 style="margin-left:20px; display:inline-block"><i class="fa-solid fa-cart-shopping" style="text-align:center"><h5>판매정지</h5></i></h2>
-			
-					<div class="shoping__cart__table">
+				<div class="col-lg-12" th:each="count:${countList}">
+					<h3 style="margin-left: 20px; display: inline-block">판매자 상품목록</h3>
 					<br>
+					<br>
+
+					<h2 style="margin-left: 20px; display: inline-block">
+						<i class="fa-solid fa-house" style="text-align: center" onclick="allSell()"><h5>전체[[${#lists.size(sellerList)}]]건</h5></i>
+					</h2>
+					<h2 style="margin-left: 20px; display: inline-block">
+						<i class="fa-solid fa-hourglass-start" style="text-align: center" onclick="waitSell()"><h5>판매대기[[${count.waitSellProduct}]]건</h5></i>
+					</h2>
+					<h2 style="margin-left: 20px; display: inline-block">
+						<i class="fa-solid fa-cart-shopping" style="text-align: center" onclick="selling()"><h5>판매중[[${count.sellingProduct}]]건</h5></i>
+					</h2>
+					<h2 style="margin-left: 20px; display: inline-block">
+						<i class="fa-solid fa-circle-stop" style="text-align: center" onclick="endSell()"><h5>품절[[${count.endProduct}]]건</h5></i>
+					</h2>
+					<br>
+					<h2 style="margin-left: 20px; display: inline-block">
+						<i class="fa-solid fa-cart-shopping" style="text-align: center"
+							onclick="wait()"><h5>승인대기[[${count.waitProduct}]]건</h5></i>
+					</h2>
+					<h2 style="margin-left: 20px; display: inline-block">
+						<i class="fa-solid fa-cart-shopping" style="text-align: center" onclick="stopSell()"><h5>판매중지[[${count.stopProduct}]]건</h5></i>
+					</h2>
+					<h2 style="margin-left: 20px; display: inline-block">
+						<i class="fa-solid fa-cart-shopping" style="text-align: center" onclick="banSell()"><h5>판매정지[[${count.banProduct}]]건</h5></i>
+					</h2>
+					<br>
+					<br>
+
+					<div class="shoping__cart__table">
+						<br>
 						<table>
 							<thead>
-								<tr>									
+								<tr>
 									<th class="shoping__product">상품명</th>
 									<th>품목</th>
 									<th>가격</th>
@@ -175,16 +196,16 @@ label {
 									<th>품절여부</th>
 									<th>판매상태</th>
 									<th>등록일자</th>
-									<th>총누적판매량</th>									
+									<th>총누적판매량</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody id="sellerList">
 								<tr th:each="sell:${sellerList}">
 									<td>[[${sell.productName}]]</td>
 									<td>[[${sell.category}]]</td>
 									<td>[[${sell.price}]]</td>
 									<td>[[${sell.amount}]]</td>
-									<td><input type="checkbox"> </td>
+									<td><input type="checkbox"></td>
 									<td>[[${sell.productStatus}]]</td>
 									<td>[[${sell.registerDate}]]</td>
 									<td></td>
@@ -196,10 +217,216 @@ label {
 			</div>
 		</div>
 	</section>
-	
-	
+
+
 	<th:block layout:fragment="script">
 		<script th:src="@{/shoptemplate/js/main.js}"></script>
 	</th:block>
+
+	<script type="text/javascript">
+	//판매정지
+	function banSell() {		
+		$.ajax({
+			type : 'get', 
+			url : '/banSell', 				
+			headers : { 
+				"Content-Type" : "application/json"					
+			},				
+			success : function(result) {					
+				$("#sellerList").html("");
+				for(let i=0;i<result.length;i++){
+					let list=`<tr>
+						<td>`+result[i].productName+`</td>
+						<td>`+result[i].category+`</td>
+						<td>`+result[i].price+`</td>
+						<td>`+result[i].amount+`</td>
+						<td><input type="checkbox"></td>
+						<td>`+result[i].productStatus+`</td>
+						<td>`+result[i].registerDate+`</td>
+						<td></td>
+					</tr>`;	
+					$("#sellerList").append(list);
+				}					
+			},
+			error : function(error) { 
+				console.log(error)
+			}
+		})
+	}
+	//판매중지
+	function stopSell() {		
+		$.ajax({
+			type : 'get', 
+			url : '/stopSell', 				
+			headers : { 
+				"Content-Type" : "application/json"					
+			},				
+			success : function(result) {					
+				$("#sellerList").html("");
+				for(let i=0;i<result.length;i++){
+					let list=`<tr>
+						<td>`+result[i].productName+`</td>
+						<td>`+result[i].category+`</td>
+						<td>`+result[i].price+`</td>
+						<td>`+result[i].amount+`</td>
+						<td><input type="checkbox"></td>
+						<td>`+result[i].productStatus+`</td>
+						<td>`+result[i].registerDate+`</td>
+						<td></td>
+					</tr>`;	
+					$("#sellerList").append(list);
+				}					
+			},
+			error : function(error) { 
+				console.log(error)
+			}
+		})
+	}
+	//품절
+	function endSell() {		
+		$.ajax({
+			type : 'get', 
+			url : '/endSell', 				
+			headers : { 
+				"Content-Type" : "application/json"					
+			},				
+			success : function(result) {					
+				$("#sellerList").html("");
+				for(let i=0;i<result.length;i++){
+					let list=`<tr>
+						<td>`+result[i].productName+`</td>
+						<td>`+result[i].category+`</td>
+						<td>`+result[i].price+`</td>
+						<td>`+result[i].amount+`</td>
+						<td><input type="checkbox" checked></td>
+						<td>`+result[i].productStatus+`</td>
+						<td>`+result[i].registerDate+`</td>
+						<td></td>
+					</tr>`;	
+					$("#sellerList").append(list);
+				}					
+			},
+			error : function(error) { 
+				console.log(error)
+			}
+		})
+	}
+	//판매중
+	function selling() {		
+		$.ajax({
+			type : 'get', 
+			url : '/selling', 				
+			headers : { 
+				"Content-Type" : "application/json"					
+			},				
+			success : function(result) {					
+				$("#sellerList").html("");
+				for(let i=0;i<result.length;i++){
+					let list=`<tr>
+						<td>`+result[i].productName+`</td>
+						<td>`+result[i].category+`</td>
+						<td>`+result[i].price+`</td>
+						<td>`+result[i].amount+`</td>
+						<td><input type="checkbox"></td>
+						<td>`+result[i].productStatus+`</td>
+						<td>`+result[i].registerDate+`</td>
+						<td></td>
+					</tr>`;	
+					$("#sellerList").append(list);
+				}					
+			},
+			error : function(error) { 
+				console.log(error)
+			}
+		})
+	}
+	//판매대기버튼
+	function waitSell() {		
+		$.ajax({
+			type : 'get', 
+			url : '/waitSell', 				
+			headers : { 
+				"Content-Type" : "application/json"					
+			},				
+			success : function(result) {					
+				$("#sellerList").html("");
+				for(let i=0;i<result.length;i++){
+					let list=`<tr>
+						<td>`+result[i].productName+`</td>
+						<td>`+result[i].category+`</td>
+						<td>`+result[i].price+`</td>
+						<td>`+result[i].amount+`</td>
+						<td><input type="checkbox"></td>
+						<td>`+result[i].productStatus+`</td>
+						<td>`+result[i].registerDate+`</td>
+						<td></td>
+					</tr>`;	
+					$("#sellerList").append(list);
+				}					
+			},
+			error : function(error) { 
+				console.log(error)
+			}
+		})
+	}
+	//전체 상품 버튼
+	function allSell() {			
+		$.ajax({
+			type : 'get', 
+			url : '/sellerAllProduct', 				
+			headers : { 
+				"Content-Type" : "application/json"					
+			},				
+			success : function(result) {					
+				$("#sellerList").html("");
+				for(let i=0;i<result.length;i++){
+					let list=`<tr>
+						<td>`+result[i].productName+`</td>
+						<td>`+result[i].category+`</td>
+						<td>`+result[i].price+`</td>
+						<td>`+result[i].amount+`</td>
+						<td><input type="checkbox"></td>
+						<td>`+result[i].productStatus+`</td>
+						<td>`+result[i].registerDate+`</td>
+						<td></td>
+					</tr>`;	
+					$("#sellerList").append(list);
+				}					
+			},
+			error : function(error) { 
+				console.log(error)
+			}
+		})
+	}
+	//승인대기 상품 버튼
+		function wait() {			
+			$.ajax({
+				type : 'get', 
+				url : '/waitProduct', 				
+				headers : { 
+					"Content-Type" : "application/json"					
+				},				
+				success : function(result) {					
+					$("#sellerList").html("");
+					for(let i=0;i<result.length;i++){
+						let list=`<tr>
+							<td>`+result[i].productName+`</td>
+							<td>`+result[i].category+`</td>
+							<td>`+result[i].price+`</td>
+							<td>`+result[i].amount+`</td>
+							<td><input type="checkbox"></td>
+							<td>`+result[i].productStatus+`</td>
+							<td>`+result[i].registerDate+`</td>
+							<td></td>
+						</tr>`;	
+						$("#sellerList").append(list);
+					}					
+				},
+				error : function(error) { 
+					console.log(error)
+				}
+			})
+		}
+	</script>
 </div>
 </html>
