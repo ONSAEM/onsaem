@@ -9,7 +9,6 @@
 <meta name="keywords" content="Ogani, unica, creative, html">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Ogani | Template</title>
 
 <!-- Css  -->
 <th:block layout:fragment="css">
@@ -575,8 +574,21 @@
 			// 썸네일
 			let str = $('#thumbnail').val();
 			console.log(str);
-			let strResult = str.substring(str.lastIndexOf('src="')+1);
-			console.log(strResult);
+// 			// src 내용물 받아오는
+// 			$(document).ready(
+// 				function getSrc(){
+// 					String imgReg = "(<img[^>]*src\s*=\s*[\"']?([^>\"']+)[\"']?[^>]*>)";
+// 					Pattern pattern = Pattern.compile(imgReg);
+// 					Matcher matcher = pattern.matcher(str);
+// 					while(matcher.find()){
+// 						console.log('src =>'+matcher.group(2).trim());
+// 					}
+// 				}	
+// 			);
+			
+			
+			
+			
 			
 			// moment 모달
 			
@@ -721,7 +733,8 @@
 					alert('로그인이 필요합니다');
 				}
 			});
-				
+			
+			
 			
 			
 			
