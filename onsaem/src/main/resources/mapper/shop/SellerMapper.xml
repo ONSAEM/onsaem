@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onsaem.web.shop.mapper.SellerMapper">
+	<!-- 승인대기 -->
+	<select id="waitList"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT *
+		FROM PRODUCTS
+		WHERE PRODUCT_STATUS='승인대기' AND
+		MEMBER_ID=#{data}
+	</select>
+
+	<!-- 판매대기 -->
+	<select id="waitSell"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT *
+		FROM PRODUCTS
+		WHERE PRODUCT_STATUS='판매대기' AND
+		MEMBER_ID=#{data}
+	</select>
+
+	<!-- 판매중 -->
+	<select id="selling"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT *
+		FROM PRODUCTS
+		WHERE PRODUCT_STATUS='판매중' AND
+		MEMBER_ID=#{data}
+	</select>
+
+	<!-- 품절 -->
+	<select id="endSell"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT *
+		FROM PRODUCTS
+		WHERE PRODUCT_STATUS='품절' AND
+		MEMBER_ID=#{data}
+	</select>
+
+	<!-- 판매중지 -->
+	<select id="stopSell"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT *
+		FROM PRODUCTS
+		WHERE PRODUCT_STATUS='판매중지' AND
+		MEMBER_ID=#{data}
+	</select>
+
+	<!-- 판매정지 -->
+	<select id="banSell"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT *
+		FROM PRODUCTS
+		WHERE PRODUCT_STATUS='판매정지' AND
+		MEMBER_ID=#{data}
+	</select>
+
+	<!-- 판매정지 -->
+	<select id="countList"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT COUNT(CASE WHEN MEMBER_ID=#{data} AND
+		PRODUCT_STATUS='판매대기' THEN 1 END) AS WAIT_SELL_PRODUCT,
+		COUNT(CASE WHEN
+		MEMBER_ID=#{data} AND PRODUCT_STATUS='판매중' THEN 1 END) AS
+		SELLING_PRODUCT,
+		COUNT(CASE WHEN MEMBER_ID=#{data} AND PRODUCT_STATUS='품절'
+		THEN 1 END) AS
+		END_PRODUCT,
+		COUNT(CASE WHEN MEMBER_ID=#{data} AND
+		PRODUCT_STATUS='승인대기' THEN 1 END) AS
+		WAIT_PRODUCT,
+		COUNT(CASE WHEN
+		MEMBER_ID=#{data} AND PRODUCT_STATUS='판매중지' THEN 1 END) AS
+		stop_product,
+		COUNT(CASE WHEN MEMBER_ID=#{data} AND
+		PRODUCT_STATUS='판매정지' THEN 1 END) AS
+		BAN_PRODUCT
+		FROM PRODUCTS
+	</select>
+</mapper>
