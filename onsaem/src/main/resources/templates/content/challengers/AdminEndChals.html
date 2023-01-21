@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-<title>Ogani | Template</title>
+
 
 <!-- Google Font -->
 <link
@@ -38,10 +38,187 @@
 </th:block>
 
 
+<head>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	  
+	<style type="text/css">
+	button {
+	   cursor: pointer;
+	}
+	
+	.btn {
+	   margin-top: 60px;
+	}
+	
+	.modal {
+	   display: flex;
+	   justify-content: center;
+	   align-items: center;
+	   position: fixed;
+	   top: 0;
+	   left: 0;
+	   width: 100%;
+	   height: 100%;
+	}
+	
+	.modal__background {
+	   background-color: rgba(0, 0, 0, 0.6);
+	   width: 100%;
+	   height: 100%;
+	   position: absolute;
+	}
+	
+	.modal__content {
+	   text-align: center;
+	   position: relative;
+	   background-color: white;
+	   border-radius: 10px;
+	   top: 0;
+	   padding: 10px 25px;
+	   width: 20%;
+	}
+	
+	h1 {
+	   margin: 0;
+	   margin-bottom: 13px;
+	}
+	
+	.hidden {
+	   display: none;
+	}
+	</style>
 
+  
+</head>
 <!-- Content -->
 
 	<div layout:fragment="content">
+		<h2>완료 챌린지</h2>
+		<h4>팀전 챌린지</h4>
+			<table>
+				 <thead>
+					<tr>
+						<th>챌린지 번호</th>
+						<th>챌린지 명</th>
+						<th>기부처 명</th>
+						<th>시작 일</th>
+						<th>종료 일</th>
+						<th>개최자</th>
+						<th>총 기부금</th>
+						<th>고정 기부금</th>
+						<th>영수증 첨부</th>
+						<th>포인트 정산</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="team:${teams}">
+						<td th:text="${team.chalId}" id="teamChalId" th:value="${team.chalId}"></td>
+						<td th:text="${team.chalName}"></td>
+						<td th:text="${team.ngoName}" th:onclick="displayModal([[${team}]])"></td>
+						<td th:text="${team.startDate}"></td>
+						<td th:text="${team.endDate}"></td>
+						<td th:text="${team.memberId}"></td>
+						<td th:text="${team.donationFee}"></td>
+						<td th:text="${team.teamFee}"></td>
+						<td th:if="${team.receipt} !=null"><button type="button">첨부 완료</button></td>
+						<td th:if="${team.receipt} ==null"><button type="button" th:onclick="displayModal(this)" id="receipt">첨부 하기</button></td>
+						<td><button type="button">정산 하기</button></td>							
+					</tr>
+				</tbody>
+			</table>
+		<h4>개인 챌린지</h4>
+		<table>
+				 <thead>
+					<tr>
+						<th>챌린지 번호</th>
+						<th>챌린지 명</th>
+						<th>기부처 명</th>
+						<th>시작 일</th>
+						<th>종료 일</th>
+						<th>개최자</th>
+						<th>총 기부금</th>
+						<th>영수증 첨부</th>
+						<th>포인트 정산</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="one:${ones}">
+						<td th:text="${one.chalId}" id="oneChalId"></td>
+						<td th:text="${one.chalName}"></td>
+						<td th:text="${one.ngoName}" th:onclick="displayModal([[${one}]])"></td>
+						<td th:text="${one.startDate}"></td>
+						<td th:text="${one.endDate}"></td>
+						<td th:text="${one.memberId}"></td>
+						<td th:text="${one.donationFee}"></td>
+						<th:block th:if="${one.receipt} !=null">
+							<td><button type="button">첨부 완료</button></td>
+						</th:block>
+						<th:block th:if="${one.receipt} ==null">
+							<td><button type="button">첨부 하기</button></td>
+						</th:block>
+						<td><button type="button">정산 하기</button></td>						
+					</tr>
+				</tbody>
+			</table>
+			
+					<!--모달창  --> 
+						<div class="modal hidden">
+							<div class="modal__background"></div>
+							<div class="modal__content">
+								<div id="receiptFrm">
+									<label>기부영수증 첨부하기</label>
+									<input type="file" id="uploadFile">
+									<button type="button" onclick="inputReceipt()">첨부하기</button>
+									<button type="button" class="closeBtn">닫기</button>
+								</div>
+								<div id ="point">
+									<h2>포인트 정산 어쩌구~</h2>
+								</div>
+							</div>
+						</div>
+						<!--모달창 끝  -->
 	
+	<!-- index.html 고유 스크립트 추가 -->
+	<th:block layout:fragment="script">
+		<script th:src="@{/shoptemplate/js/main.js}"></script>
+	</th:block>
+	<script>
+		//모달창 생성
+		document.querySelectorAll(".openBtn").forEach((openBtn) => {
+			console.log(openBtn);
+			openBtn.addEventListener("click", displayModal);
+			
+		})
+		const modal = document.querySelector(".modal");
+		const closeButton = modal.querySelector(".closeBtn");
+		const modalBackground = modal.querySelector(".modal__background");
+
+		function displayModal(e) {
+			let id = e.id;
+			if(id=='receipt'){
+				console.log("true");
+				let chalId = document.getElementById('teamChalId').innerText;
+				$("#receiptFrm").show();
+				$("#point").hide();
+				modal.classList.toggle("hidden");
+			}else{
+				let chalId = document.getElementById('teamChalId').innerText;
+				$("#receiptFrm").hide();
+				$("#point").show();
+				modal.classList.toggle("hidden");
+			}
+		}
+		closeButton.addEventListener("click", displayModal)
+		modalBackground.addEventListener("click", displayModal);
+		
+		//영수증 첨부
+		function inputReceipt(){
+			$ajax({
+				url: '/mypage/inputReceipt',
+				method : 'POST',
+			})
+		}
+	</script>
 	</div>
 </html>

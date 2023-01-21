@@ -32,7 +32,7 @@ public class ChalAdminController {
 		//종료된 메소드 리스트 ㅎㅎ
 		model.addAttribute("teams", chalService.AdminEndChals("팀"));
 		
-		model.addAttribute("teams", chalService.AdminEndChals("개인"));
+		model.addAttribute("ones", chalService.AdminEndChals("개인"));
 		
 		return "content/challengers/AdminEndChals";
 	}
