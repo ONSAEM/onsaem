@@ -254,7 +254,7 @@
 			
 			for (var i = 0, j = nImageFileCount ; i < nCount ; i++){
 				if (!rFilter.test(files[i].type)) {
-					alert("이미지파일 (jpg,gif,png,bmp)만 업로드 가능합니다.");
+					alert("이미지파일 (jpg,gif,png,bmp,mp4)만 업로드 가능합니다.");
 				} else if(files[i].size > nMaxImageSize){
 					alert("이미지 용량이 10MB를 초과하여 등록할 수 없습니다.");
 				} else {

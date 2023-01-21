@@ -12,253 +12,11 @@
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
 </th:block>
 
 <head>
 	<meta charset="UTF-8">
-	<title>Login</title>
-	<style type="text/css">
-		.wrapper {
-			max-width: 900px;
-			width: 100%;
-			background: #fff;
-			margin: 50px auto;
-			box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.125);
-			padding: 30px;
-		}
-
-		.wrapper .title {
-			font-size: 24px;
-			font-weight: 700;
-			margin-bottom: 25px;
-			color: #5bc1ac;
-			text-transform: uppercase;
-			text-align: center;
-		}
-
-		.wrapper .form {
-			width: 100%;
-		}
-
-		.wrapper .form .inputfield {
-			margin-bottom: 15px;
-			display: flex;
-			align-items: center;
-		}
-
-		.wrapper .form .emailCk {
-			display: none;
-		}
-
-		.wrapper .form .inputfield label {
-			width: 20%;
-			color: #757575;
-			font-size: 14px;
-		}
-
-		.wrapper .form .inputfield .request {
-			color: red;
-			font-size: 20px;
-		}
-
-		.wrapper .form .inputfield .input,
-		.wrapper .form .inputfield .textarea {
-			width: 50%;
-			outline: none;
-			border: 1px solid #d5dbd9;
-			font-size: 15px;
-			padding: 8px 10px;
-			border-radius: 3px;
-			transition: all 0.3s ease;
-		}
-
-		.wrapper .form .inputfield .textarea {
-			width: 100%;
-			height: 125px;
-			resize: none;
-		}
-
-		.wrapper .form .inputfield .custom_select {
-			position: relative;
-			height: 37px;
-		}
-
-		.wrapper .form .inputfield .custom_select:before {
-			content: "";
-			position: absolute;
-			top: 12px;
-			right: 10px;
-			border: 8px solid;
-			border-color: #d5dbd9 transparent transparent transparent;
-			pointer-events: none;
-		}
-
-		.wrapper .form .inputfield .custom_select select {
-			-webkit-appearance: none;
-			-moz-appearance: none;
-			appearance: none;
-			outline: none;
-			width: 100%;
-			height: 100%;
-			border: 0px;
-			padding: 8px 10px;
-			font-size: 15px;
-			border: 1px solid #d5dbd9;
-			border-radius: 3px;
-		}
-
-		.wrapper .form .inputfield .input:focus,
-		.wrapper .form .inputfield .textarea:focus,
-		.wrapper .form .inputfield .custom_select select:focus {
-			border: 1px solid #fec107;
-		}
-
-		.wrapper .form .inputfield p {
-			font-size: 14px;
-			color: #757575;
-			margin: 0px 10px 6px;
-		}
-
-		.wrapper .form .inputfield .check {
-			width: 15px;
-			height: 15px;
-			position: relative;
-			display: block;
-			cursor: pointer;
-		}
-
-		.wrapper .form .inputfield .check input[type="checkbox"] {
-			position: absolute;
-			top: 0;
-			left: 0;
-			opacity: 0;
-		}
-
-		.wrapper .form .inputfield .check .checkmark {
-			width: 15px;
-			height: 15px;
-			border: 1px solid #5bc1ac;
-			display: block;
-			position: relative;
-		}
-
-		.wrapper .form .inputfield .check .checkmark:before {
-			content: "";
-			position: absolute;
-			top: 1px;
-			left: 0px;
-			width: 14px;
-			height: 7px;
-			border: 2px solid;
-			border-color: transparent transparent #fff #fff;
-			transform: rotate(-45deg);
-			display: none;
-		}
-
-		.wrapper .form .inputfield .check input[type="checkbox"]:checked~.checkmark {
-			background: #5bc1ac;
-		}
-
-		.wrapper .form .inputfield .check input[type="checkbox"]:checked~.checkmark:before {
-			display: block;
-		}
-
-		.wrapper .form .inputfield .btn,
-		.wrapper .form .inputfield .checkBtn {
-			margin: 0px auto;
-			padding: 8px 10px;
-			font-size: 15px;
-			border: 0px;
-			background: #5bc1ac;
-			color: #fff;
-			cursor: pointer;
-			border-radius: 3px;
-			outline: none;
-		}
-
-		.wrapper .form .inputfield .btn {
-			width: 100%;
-		}
-
-		.form .inputfield .checkBtn {
-			width: 20%;
-		}
-
-		.wrapper .form .inputfield .btn:hover,
-		.wrapper .form .inputfield .checkBtn:hover {
-			background: #42a18d;
-		}
-
-		.wrapper .form .inputfield:last-child {
-			margin-bottom: 0;
-		}
-
-		@media (max-width :420px) {
-			.wrapper .form .inputfield {
-				flex-direction: column;
-				align-items: flex-start;
-			}
-
-			.wrapper .form .inputfield label {
-				margin-bottom: 5px;
-			}
-
-			.wrapper .form .inputfield.terms {
-				flex-direction: row;
-			}
-		}
-
-		.filebox {
-			margin-bottom: 15px;
-			display: flex;
-			align-items: center;
-		}
-
-		.filebox .inputfile {
-			width: 50%;
-			outline: none;
-			border: 1px solid #d5dbd9;
-			font-size: 15px;
-			padding: 8px 10px;
-			border-radius: 3px;
-			transition: all 0.3s ease;
-			cursor: default;
-		}
-
-		.inputfield #preview-image {
-			width: 300px;
-			height: 300px;
-			margin: 0px auto;
-		}
-
-		.filebox .filelabel {
-			width: 20%;
-			margin: 0px auto;
-			padding: 8px 10px;
-			font-size: 15px;
-			border: 0px;
-			background: #5bc1ac;
-			color: #fff;
-			cursor: pointer;
-			border-radius: 3px;
-			outline: none;
-			text-align: center;
-		}
-
-		.filebox .filelabel:hover {
-			background: #42a18d;
-		}
-
-		.filebox #file {
-			position: absolute;
-			width: 0;
-			height: 0;
-			padding: 0;
-			overflow: hidden;
-			border: 0;
-		}
-	</style>
 </head>
 
 <body>
@@ -286,7 +44,8 @@
 				</div>
 				<div class="filebox">
 					<label style="width: 20%;"></label> <input class="inputfile" placeholder="프로필사진" readonly> <label
-						for="file" class="filelabel">사진등록</label> <input name="profileFile" type="file" id=file accept=".gif, .jpg, .png, .bmp">
+						for="file" class="filelabel">사진등록</label> <input name="profileFile" type="file" id=file
+						accept=".gif, .jpg, .png, .bmp">
 				</div>
 				<div class="inputfield">
 					<label>아이디<span class="request">*</span></label> <input type="text" name="memberId"
@@ -305,6 +64,9 @@
 					<input type="hidden" value="false" id="pwCheck">
 				</div>
 				<div class="inputfield">
+					<label>이름<span class="request">*</span></label> <input type="email" name="name" class="input">
+				</div>
+				<div class="inputfield">
 					<label>닉네임</label> <input type="text" name="nickname" class="input">
 				</div>
 				<div class="inputfield">
@@ -321,24 +83,25 @@
 						placeholder="'-'포함"><input type="hidden" value="false" id="phone">
 				</div>
 				<div class="inputfield">
-					<label>우편번호<span class="request">*</span></label> <input type="text" name="postalCode" id="sample6_postcode"
-						class="input"><input type="button" onclick="sample6_execDaumPostcode()" value="주소검색"
-						class="checkBtn">
+					<label>우편번호<span class="request">*</span></label> <input type="text" name="postalCode"
+						id="sample6_postcode" class="input"><input type="button" onclick="sample6_execDaumPostcode()"
+						value="주소검색" class="checkBtn">
 				</div>
 				<div class="inputfield">
 					<label>주소<span class="request">*</span></label> <input type="text" name="addr" id="sample6_address"
 						class="input">
 				</div>
 				<div class="inputfield">
-					<label>상세주소<span class="request">*</span></label> <input type="text" name="detailAddr" id="sample6_detailAddress"
-						class="input">
+					<label>상세주소<span class="request">*</span></label> <input type="text" name="detailAddr"
+						id="sample6_detailAddress" class="input">
 				</div>
 				<div class="inputfield">
 					<label>환불계좌</label>
 					<div class="custom_select">
 						<select name="bank">
 							<option value="">::은행선택::</option>
-							<option th:each="bank : ${bankList}" th:value=${bank.CODE_ID} th:text="bank.CODE_NAME"></option>
+							<option th:each="bank : ${bankList}" th:value=${bank.CODE_ID} th:text="${bank.CODE_NAME}">
+							</option>
 						</select>
 					</div>
 				</div>
@@ -351,7 +114,7 @@
 					<p>회원가입 동의</p>
 				</div>
 				<div class="inputfield">
-					<input type="submit" value="회원가입" class="btn">
+					<button type="button" class="btn">회원가입</button>
 				</div>
 			</form>
 		</div>
@@ -379,13 +142,7 @@
 
 			// 아이디 입력창 변화 확인
 			$('input[name=memberId]').on('change', function () {
-				if ($(this).parentsUntil('.form').next().prop('tagName') == 'P') {
-					$(this).parentsUntil('.form').next().remove();
-				}
-				$(this).parentsUntil('.form').after($('<p/>').text("5~15자 영문,숫자만 사용").css(
-					"margin-left", "20%"));
 				$('#checkId').val('false');
-				return;
 			})
 
 			// 아이디중복체크
@@ -435,29 +192,22 @@
 
 			// 비밀번호 입력창 변화 확인
 			$('input[name=password]').on('change', function () {
-				if ($(this).parentsUntil('.form').next().prop('tagName') == 'P') {
-					$(this).parentsUntil('.form').next().remove();
-				}
-				$(this).parentsUntil('.form').after($('<p/>').text("8~16자 영문,숫자,특수문자 사용").css(
-					"margin-left", "20%"));
 				$('#pwCheck').val('false');
-				return;
 			})
 
 			// 비밀번호 확인
 			$('input[name=pwCheck]').on('change', function () {
 				let pw = $('input[name=password]').val();
 				let pwCheck = $('input[name=pwCheck]').val();
-				let str = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,16}$/;
-				if (!str.test(pw)) {
-					console.log(false)
+				let str = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,16}$/;
+				if ($(this).parentsUntil('.form').next().prop('tagName') == 'P') {
+					$(this).parentsUntil('.form').next().remove();
+				}
+				if (!str.test(pw.toLowerCase())) {
 					$(this).parentsUntil('.form').after($('<p/>').text("8~16자 영문,숫자,특수문자 사용해주세요").css(
 						"margin-left", "20%").css("color", "#f20000"));
 					$('#pwCheck').val('false');
 					return;
-				}
-				if ($(this).parentsUntil('.form').next().prop('tagName') == 'P') {
-					$(this).parentsUntil('.form').next().remove();
 				}
 				if (pw == pwCheck) {
 					$('#pwCheck').val('true');
@@ -470,15 +220,19 @@
 			});
 
 			// 이메일 입력창 변화 확인
-			$('input[name=password]').on('change', function () {
-				if ($(this).parentsUntil('.form').next().prop('tagName') == 'P') {
-					$(this).parentsUntil('.form').next().remove();
+			$('input[name=email]').on('change', function () {
+				if ($('input[name=email]').parentsUntil('.form').next().prop('tagName') == 'P') {
+					$('input[name=email]').parentsUntil('.form').next().remove();
 				}
-				$('#pwCheck').val('false');
-				return;
+				if ($('input[name=emailCk]').parentsUntil('.form').next().prop('tagName') == 'P') {
+					$('input[name=emailCk]').parentsUntil('.form').next().remove();
+				}
+				$('#emailCk').val('false');
+				$('.emailCk').css("display", "none");
+				$('input[name=emailCk]').val("");
 			})
 
-			// 이메일 인증
+			// 이메일 체크
 			$('.checkEmail').on('click', function () {
 				let email = $(this).parentsUntil('.form').find('input').eq(0).val();
 				let str =
@@ -492,9 +246,34 @@
 					$('#emailCk').val('false');
 					return;
 				}
-				$(this).parentsUntil('.form').after($('<p/>').text("이메일을 확인해주세요. 인증번호 발급은 5분정도 소요됩니다.").css(
-					"margin-left", "20%"));
-				$('.emailCk').css("display", "flex");
+				$.ajax({
+					url: '/searchEmail',
+					method: 'GET',
+					data: {
+						"email": email
+					},
+					contentType: 'application/x-www-form-urlencoded;',
+					success: function (result) {
+						if (result == 'true') {
+							$('.checkEmail').parentsUntil('.form').after($('<p/>').text(
+								"이미 있는 이메일입니다. 다른 이메일을 입력해주세요").css(
+								"margin-left", "20%").css("color", "#f20000"));
+								return;
+						} else {
+							$('.checkEmail').parentsUntil('.form').after($('<p/>').text(
+								"이메일을 확인해주세요. 인증번호 발급은 최대 5분정도 소요됩니다.").css(
+								"margin-left", "20%"));
+							$('.emailCk').css("display", "flex");
+							sendAuthMail(email);
+						}
+					},
+					error: function (error) {
+						console.log(error);
+					}
+				})
+			})
+
+			function sendAuthMail(email) {
 				$.ajax({
 					url: '/authMail',
 					method: 'POST',
@@ -511,10 +290,9 @@
 					},
 					error: function (error) {
 						console.log(error);
-						alert('실패');
 					}
 				})
-			})
+			}
 
 			// 이미지 인증번호 입력
 			$('.emailCk').find('input[type=button]').on('click', function () {
@@ -542,7 +320,7 @@
 				if (!str.test(tel)) {
 					$(this).parentsUntil('.form').after($('<p/>').text("올바른 연락처를 입력해주세요").css(
 						"margin-left", "20%").css("color", "#f20000"));
-						$('#phone').val('false');
+					$('#phone').val('false');
 					return;
 				} else {
 					$('#phone').val('true');
@@ -592,8 +370,147 @@
 				}).open();
 			}
 
-			// 회원가입
+			// 회원가입폼 확인
+			$('.btn').on('click', function () {
+				if (!$('input[name=memberId]').val()) {
+					if ($('input[name=memberId]').parentsUntil('.form').next().prop('tagName') == 'P') {
+						$('input[name=memberId]').parentsUntil('.form').next().remove();
+					}
+					$('input[name=memberId]').parentsUntil('.form').after($('<p/>').text("아이디를 입력해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('input[name=memberId]').focus();
+					return;
+				}
+				if ($('#checkId').val() == 'false') {
+					if ($('#checkId').parentsUntil('.form').next().prop('tagName') == 'P') {
+						$('#checkId').parentsUntil('.form').next().remove();
+					}
+					$('.checkId').parentsUntil('.form').after($('<p/>').text("아이디 중복 확인해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('input[name=memberId]').focus();
+					return;
+				}
+				if (!$('input[name=password]').val()) {
+					if ($('input[name=password]').parentsUntil('.form').next().prop('tagName') == 'P') {
+						$('input[name=password]').parentsUntil('.form').next().remove();
+					}
+					$('input[name=password]').parentsUntil('.form').after($('<p/>').text("비밀번호를 입력해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('input[name=password]').focus();
+					return;
+				}
+				if ($('#pwCheck').val() == 'false') {
+					if ($('#pwCheck').parentsUntil('.form').next().prop('tagName') == 'P') {
+						$('#pwCheck').parentsUntil('.form').next().remove();
+					}
+					$('#pwCheck').parentsUntil('.form').after($('<p/>').text("비밀번호가 일치하지 않습니다").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('input[name=password]').focus();
+					return;
+				}
+				if ($('input[name=name]').parentsUntil('.form').next().prop('tagName') == 'P') {
+					$('input[name=name]').parentsUntil('.form').next().remove();
+				}
+				if (!$('input[name=name]').val()) {
+					$('input[name=name]').parentsUntil('.form').after($('<p/>').text("이름을 입력해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('input[name=name]').focus();
+					return;
+				}
+				if (!$('input[name=email]').val()) {
+					if ($('input[name=email]').parentsUntil('.form').next().prop('tagName') == 'P') {
+						$('input[name=email]').parentsUntil('.form').next().remove();
+					}
+					$('input[name=email]').parentsUntil('.form').after($('<p/>').text("이메일을 입력해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('input[name=email]').focus();
+					return;
+				}
+				if ($('#emailCk').val() == 'false') {
+					if ($('input[name=email]').parentsUntil('.form').next().prop('tagName') == 'P') {
+						$('input[name=email]').parentsUntil('.form').next().remove();
+					}
+					$('input[name=email]').parentsUntil('.form').after($('<p/>').text("이메일 인증을 해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('input[name=email]').focus();
+					return;
+				}
+				if (!$('input[name=phone]').val()) {
+					if ($('input[name=phone]').parentsUntil('.form').next().prop('tagName') == 'P') {
+						$('input[name=phone]').parentsUntil('.form').next().remove();
+					}
+					$('input[name=phone]').parentsUntil('.form').after($('<p/>').text("연락처를 입력해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('input[name=phone]').focus();
+					return;
+				}
+				if ($('#phone').val() == 'false') {
+					if ($('input[name=phone]').parentsUntil('.form').next().prop('tagName') == 'P') {
+						$('input[name=phone]').parentsUntil('.form').next().remove();
+					}
+					$('input[name=phone]').parentsUntil('.form').after($('<p/>').text("올바른 연락처를 입력해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('input[name=phone]').focus();
+					return;
+				}
+				if ($('input[name=postalCode]').parentsUntil('.form').next().prop('tagName') == 'P') {
+					$('input[name=postalCode]').parentsUntil('.form').next().remove();
+				}
+				if (!$('input[name=postalCode]').val()) {
+					$('input[name=postalCode]').parentsUntil('.form').after($('<p/>').text("우편번호를 입력해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('input[name=postalCode]').focus();
+					return;
+				}
+				if ($('input[name=addr]').parentsUntil('.form').next().prop('tagName') == 'P') {
+					$('input[name=addr]').parentsUntil('.form').next().remove();
+				}
+				if (!$('input[name=addr]').val()) {
+					$('input[name=addr]').parentsUntil('.form').after($('<p/>').text("주소를 입력해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('input[name=addr]').focus();
+					return;
+				}
+				if ($('input[name=detailAddr]').parentsUntil('.form').next().prop('tagName') == 'P') {
+					$('input[name=detailAddr]').parentsUntil('.form').next().remove();
+				}
+				if (!$('input[name=detailAddr]').val()) {
+					$('input[name=detailAddr]').parentsUntil('.form').after($('<p/>').text("상세주소를 입력해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('input[name=detailAddr]').focus();
+					return;
+				}
+				if ($('input[type=checkbox]').parentsUntil('.form').next().eq(1).prop('tagName') == 'P') {
+					$('input[type=checkbox]').parentsUntil('.form').next().eq(1).remove();
+				}
+				if (!$('input[type=checkbox]').is(':checked')) {
+					$('input[type=checkbox]').parentsUntil('.form').eq(1).after($('<p/>').text("회원가입에 동의해주세요").css(
+						"color", "#f20000"));
+					return;
+				}
+				addMember();
+			})
 
+			// 회원등록
+			function addMember() {
+				let data = new FormData($('form')[0]);
+				$.ajax({
+					url: '/insertMember',
+					enctype: 'multipart/form-data',
+					method: 'POST',
+					processData: false,
+					contentType: false,
+					data: data,
+					dataType: 'json',
+					success: function (result) {
+						location.href = "/signUpcompleted"
+					},
+					error: function (error) {
+						console.log(error);
+						alert('실패');
+					}
+				})
+			}
 		</script>
 
 		<!-- JS -->

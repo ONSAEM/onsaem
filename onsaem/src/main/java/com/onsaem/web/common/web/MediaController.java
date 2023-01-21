@@ -51,7 +51,7 @@ public class MediaController {
 		model.addAttribute("video", mediaMapper.getvideo());
 	  return "content/test/mediaTest";
 	}
-
+	
 	
 	
 }
