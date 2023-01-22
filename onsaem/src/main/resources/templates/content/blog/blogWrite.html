@@ -215,6 +215,8 @@
 				<div class="col-lg-8 col-md-7 order-md-1 order-1"> <!--------------------------신고!!!!! -->
 					<i type="button" class="fa-solid fa-triangle-exclamation openBtn" style="float:right;"
 					th:value1="${blogWrite.writeId}" th:value2="${blogWrite.blogId}">신고하기</i>
+					<button style="float:right;">수정</button>
+					<button style="float:right;">삭제</button>
 					<div class="blog__details__text">
 						 [(${blogWrite.blogWrite})]
 					</div>
@@ -270,7 +272,7 @@
                                         class="img-fluid avatar-image" alt="">
 
                                     <div class="author-comment-info ms-3">
-                                        <h6 class="mb-1"><span style="font-weight:bold" id="writerIdText">[[${reply.writerId}]]</span> ([[${#dates.format(reply.replyDate, 'YY.MM.DD HH:mm')}]])</h6>
+                                        <h6 class="mb-1"><span style="font-weight:bold" id="writerIdText">[[${reply.writerId}]]</span> <a th:if="${blogWrite.blogId} == ${reply.writerId}" style="color:#5bc1ac;font-weight:bold;">[작성자🍀]</a> ([[${#dates.format(reply.replyDate, 'YY.MM.DD HH:mm')}]])</h6>
 
                                         <p class="mb-0">[[${reply.content}]]</p>
 
@@ -618,10 +620,6 @@
 					console.log(writerId);
 					banSubmit(contentId,writerId);
 				})
-				
-			
-			
-			
 			
 			
 	</script>

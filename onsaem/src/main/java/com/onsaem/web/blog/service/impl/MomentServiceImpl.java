@@ -38,4 +38,10 @@ public class MomentServiceImpl implements MomentService {
 		return momentMapper.momentMediaInsert(mediaVo);
 	}
 
+	@Override
+	public int momentDel(String momentId) {
+		// 모먼트 삭제
+		return momentMapper.momentDel(momentId);
+	}
+
 }

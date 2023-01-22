@@ -17,4 +17,9 @@ public interface BlogService {
 	int addSub(LikeVO likeVO);
 	// 구독 삭제
 	int delSub(LikeVO likeVO);
+	
+	// 나를 구독한 사람들 조회
+	List<LikeVO> subMeList(LikeVO likeVO);
+	// 내가 구독한 사람들 조회
+	List<LikeVO> mySubList(LikeVO likeVO);
 }

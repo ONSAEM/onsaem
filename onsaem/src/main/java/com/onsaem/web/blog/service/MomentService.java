@@ -13,4 +13,6 @@ public interface MomentService {
 	int momentInsert(MomentsVO momentsVO);
 	// 모먼트 사진 등록
 	int momentMediaInsert(MediaVO mediaVo);
+	// 모먼트 삭제
+	int momentDel(String momentId);
 }

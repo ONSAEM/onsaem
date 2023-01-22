@@ -358,6 +358,7 @@
 							<h2 class="mmttitle">@[[${moment.blogId}]]</h2>
 							<p class="mmtcopy">[[${moment.momentWrite}]]</p>
 							<button class="mmtbtn">more</button>
+							<button class="mmtbtn" style="color:red;" th:href="@{/blog/momentDel?(momentId=${moment.momentId})}">delete</button>
 						</div>
 					</div>
 			</a>
@@ -422,6 +423,50 @@
 									</a>
 								</div>
 							</div>
+							<!-- 구독자 목록 -->
+							<div class="blog__sidebar__item">
+								<h4>구독자 목록</h4>
+								<div class="blog__sidebar__recent">
+									<table id="submeTable">
+										<thead>
+											
+											<tr>
+												<th></th>
+												<th class="shoping__product">나를 구독한 사람ID</th>
+											</tr>
+										</thead>
+										<tbody>
+												<th:block th:each="subMe:${subMeList}">
+													<tr>
+													<td class="shoping__cart__item" style="width: 70px;height: 70px;padding:5px 0px;">
+													<img th:src="@{/blog/img/M081.jpg}" alt=""></td>
+													<td><h5 th:text="${subMe.memberId}"></h5></td>
+													</tr>
+												</th:block>
+										</tbody>
+									</table>
+									
+									<table id="mySubTable">
+										<thead>
+											
+											<tr>
+												<th></th>
+												<th class="shoping__product">내가 구독한 사람ID</th>
+											</tr>
+										</thead>
+										<tbody>
+												<th:block th:each="mySub:${mySubList}">
+													<tr>
+													<td class="shoping__cart__item" style="width: 70px;height: 70px;padding:5px 0px;">
+													<img th:src="@{/blog/img/M081.jpg}" alt=""></td>
+													<td><h5 th:text="${mySub.groupId}"></h5></td>
+													</tr>
+												</th:block>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<!-- 구독자 목록 끝 -->
 						</div>
 					</div>
 					<div class="col-lg-8 col-md-7">
