@@ -441,7 +441,7 @@
 	flex: 1;
 }
 
-.project-box {
+.project-box { 
 	-main-color-card: #dbf6fd;
 	border-radius: 30px;
 	padding: 16px;
@@ -727,349 +727,83 @@
 	}
 }
 
-/* 프로필카드 */
-@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,600);
-
-.snip1336 {
-	font-family: 'Roboto', Arial, sans-serif;
-	position: relative;
-	overflow: hidden;
-	margin: 10px;
-	min-width: 230px;
-	max-width: 315px;
-	width: 100%;
-	color: #ffffff;
-	text-align: center;
-	line-height: 1.4em;
-	background-color: #141414;
+/* 체크박스 */
+.containerCheck {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
-.snip1336 * {
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	-webkit-transition: all 0.25s ease;
-	transition: all 0.25s ease;
+.control-group {
+  display: inline-block;
+  vertical-align: top;
+  background: #FFFFFF;
+  text-align: left;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  padding: 50px;
+  width: 500px;
+  height: 500px;
+  margin: 50px;
 }
-
-.snip1336 img {
-	max-width: 100%;
-	vertical-align: top;
-	opacity: 0.85;
+.control {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  font-size: 18px;
 }
-
-.snip1336 figcaption {
-	width: 100%;
-	background-color: #141414;
-	padding: 25px;
-	position: relative;
+.control input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
 }
-
-.snip1336 figcaption:before {
-	position: absolute;
-	content: '';
-	bottom: 100%;
-	left: 0;
-	width: 0;
-	height: 0;
-	border-style: solid;
-	border-width: 55px 0 0 400px;
-	border-color: transparent transparent transparent #141414;
+.control__indicator {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background: #E6E6E6;
 }
-
-.snip1336 figcaption a {
-	padding: 5px;
-	border: 1px solid #ffffff;
-	color: #ffffff;
-	font-size: 0.7em;
-	text-transform: uppercase;
-	margin: 10px 0;
-	display: inline-block;
-	opacity: 0.65;
-	width: 47%;
-	text-align: center;
-	text-decoration: none;
-	font-weight: 600;
-	letter-spacing: 1px;
+.control:hover input ~ .control__indicator,
+.control input:focus ~ .control__indicator {
+  background: #CCCCCC;
 }
-
-.snip1336 figcaption a:hover {
-	opacity: 1;
+.control input:checked ~ .control__indicator {
+  background: #2AA1C0;
 }
-
-.snip1336 .profile {
-	border-radius: 50%;
-	position: absolute;
-	bottom: 100%;
-	left: 78px;
-	z-index: 1;
-	max-width: 162px;
-	opacity: 1;
-	box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+.control:hover input:not([disabled]):checked ~ .control__indicator,
+.control input:checked:focus ~ .control__indicator {
+  background: #0E647D;
 }
-
-.snip1336 .follow {
-	margin-right: 4%;
-	border-color: #2980b9;
-	color: #2980b9;
+.control input:disabled ~ .control__indicator {
+  background: #E6E6E6;
+  opacity: 0.6;
+  pointer-events: none;
 }
-
-.snip1336 h2 {
-	margin: 0 0 5px;
-	font-weight: 300;
-	color: white;
+.control__indicator:after {
+  content: '';
+  position: absolute;
+  display: none;
 }
-
-.snip1336 h2 span {
-	display: block;
-	font-size: 0.5em;
-	color: #2980b9;
+.control input:checked ~ .control__indicator:after {
+  display: block;
 }
-
-.snip1336 p {
-	margin: 0 0 10px;
-	font-size: 0.8em;
-	letter-spacing: 1px;
-	opacity: 0.8;
+.control--checkbox .control__indicator:after {
+  left: 8px;
+  top: 4px;
+  width: 3px;
+  height: 8px;
+  border: solid #FFFFFF;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }
-/* 프로필 카드 끝 */
-
-/* 인풋 상자 */
-.Iwrapper {
-	max-width: 900px;
-	width: 100%;
-	background: #fff;
-	margin: 50px auto;
-	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.125);
-	padding: 30px;
-}
-
-.Iwrapper .title {
-	font-size: 24px;
-	font-weight: 700;
-	margin-bottom: 25px;
-	color: #5bc1ac;
-	text-transform: uppercase;
-	text-align: center;
-}
-
-.Iwrapper .form {
-	width: 100%;
-}
-
-.Iwrapper .form .inputfield {
-	margin-bottom: 15px;
-	display: flex;
-	align-items: center;
-}
-
-.Iwrapper .form .inputfield label {
-	width: 20%;
-	color: #757575;
-	font-size: 14px;
-}
-
-.Iwrapper .form .inputfield .request {
-	color: red;
-	font-size: 20px;
-}
-
-.Iwrapper .form .inputfield .input, .Iwrapper .form .inputfield .textarea
-	{
-	width: 50%;
-	outline: none;
-	border: 1px solid #d5dbd9;
-	font-size: 15px;
-	padding: 8px 10px;
-	border-radius: 3px;
-	transition: all 0.3s ease;
-}
-
-.Iwrapper .form .inputfield .textarea {
-	width: 100%;
-	height: 125px;
-	resize: none;
-}
-
-.Iwrapper .form .inputfield .custom_select {
-	position: relative;
-	height: 37px;
-}
-
-.Iwrapper .form .inputfield .custom_select:before {
-	content: "";
-	position: absolute;
-	top: 12px;
-	right: 10px;
-	border: 8px solid;
-	border-color: #d5dbd9 transparent transparent transparent;
-	pointer-events: none;
-}
-
-.Iwrapper .form .inputfield .custom_select select {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	outline: none;
-	width: 100%;
-	height: 100%;
-	border: 0px;
-	padding: 8px 10px;
-	font-size: 15px;
-	border: 1px solid #d5dbd9;
-	border-radius: 3px;
-}
-
-.Iwrapper .form .emailCk {
-	display: none;
-}
-
-.Iwrapper .form .inputfield .input:focus, .Iwrapper .form .inputfield .textarea:focus,
-	.Iwrapper .form .inputfield .custom_select select:focus {
-	border: 1px solid #fec107;
-}
-
-.Iwrapper .form .inputfield p {
-	font-size: 14px;
-	color: #757575;
-}
-
-.Iwrapper .form .inputfield .check {
-	width: 15px;
-	height: 15px;
-	position: relative;
-	display: block;
-	cursor: pointer;
-}
-
-.Iwrapper .form .inputfield .check input[type="checkbox"] {
-	position: absolute;
-	top: 0;
-	left: 0;
-	opacity: 0;
-}
-
-.Iwrapper .form .inputfield .check .checkmark {
-	width: 15px;
-	height: 15px;
-	border: 1px solid #5bc1ac;
-	display: block;
-	position: relative;
-}
-
-.Iwrapper .form .inputfield .check .checkmark:before {
-	content: "";
-	position: absolute;
-	top: 1px;
-	left: 2px;
-	width: 5px;
-	height: 2px;
-	border: 2px solid;
-	border-color: transparent transparent #fff #fff;
-	transform: rotate(-45deg);
-	display: none;
-}
-
-.Iwrapper .form .inputfield .check input[type="checkbox"]:checked ~
-	.checkmark {
-	background: #5bc1ac;
-}
-
-.Iwrapper .form .inputfield .check input[type="checkbox"]:checked ~
-	.checkmark:before {
-	display: block;
-}
-
-.Iwrapper .form .inputfield .btn, .Iwrapper .form .inputfield  .checkBtn
-	{
-	margin: 0px auto;
-	padding: 8px 10px;
-	font-size: 15px;
-	border: 0px;
-	background: #5bc1ac;
-	color: #fff;
-	cursor: pointer;
-	border-radius: 3px;
-	outline: none;
-}
-
-.Iwrapper .form .inputfield .btn {
-	width: 100%;
-}
-
-.form .inputfield .checkBtn {
-	width: 20%;
-}
-
-.Iwrapper .form .inputfield .btn:hover, .Iwrapper .form .inputfield  .checkBtn:hover
-	{
-	background: #42a18d;
-}
-
-.Iwrapper .form .inputfield:last-child {
-	margin-bottom: 0;
-}
-
-@media ( max-width :420px) {
-	.Iwrapper .form .inputfield {
-		flex-direction: column;
-		align-items: flex-start;
-	}
-	.Iwrapper .form .inputfield label {
-		margin-bottom: 5px;
-	}
-	.Iwrapper .form .inputfield.terms {
-		flex-direction: row;
-	}
-}
-
-.filebox {
-	margin-bottom: 15px;
-	display: flex;
-	align-items: center;
-}
-
-.filebox .inputfile {
-	width: 50%;
-	outline: none;
-	border: 1px solid #d5dbd9;
-	font-size: 15px;
-	padding: 8px 10px;
-	border-radius: 3px;
-	transition: all 0.3s ease;
-	cursor: default;
-}
-
-.inputfield #preview-image {
-	width: 300px;
-	height: 300px;
-	margin: 0px auto;
-}
-
-.filebox .filelabel {
-	width: 20%;
-	margin: 0px auto;
-	padding: 8px 10px;
-	font-size: 15px;
-	border: 0px;
-	background: #5bc1ac;
-	color: #fff;
-	cursor: pointer;
-	border-radius: 3px;
-	outline: none;
-	text-align: center;
-}
-
-.filebox .filelabel:hover {
-	background: #42a18d;
-}
-
-.filebox #file {
-	position: absolute;
-	width: 0;
-	height: 0;
-	padding: 0;
-	overflow: hidden;
-	border: 0;
+.control--checkbox input:disabled ~ .control__indicator:after {
+  border-color: #7B7B7B;
 }
 
 
@@ -1107,10 +841,10 @@
 							class="feather feather-bell">
 					          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
 					          <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-					    </svg>
+					   </svg>
 					</button>
 					<button class="profile-btn">
-						<img src="https://assets.codepen.io/3306515/IMG_2025.jpg" /> <span>[[${blogInfos.nickname}]]</span>
+						<img src="https://assets.codepen.io/3306515/IMG_2025.jpg" /> <span>[[${#authentication.principal.nickname}]]</span>
 						<!-- 닉네임 -->
 					</button>
 				</div>
@@ -1118,13 +852,13 @@
 			<div class="app-content">
 				<div class="app-sidebar">
 					<a class="app-sidebar-link active" th:href="@{/blog/myblog/blogTask(blogId=${#authentication.principal.memberId})}"> 
-						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-								viewBox="0 0 24 24" fill="none" stroke="currentColor"
-								stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-								class="feather feather-home">
-						          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-						          <polyline points="9 22 9 12 15 12 15 22" />
-						</svg>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+							viewBox="0 0 24 24" fill="none" stroke="currentColor"
+							stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+							class="feather feather-home">
+					          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+					          <polyline points="9 22 9 12 15 12 15 22" />
+					</svg>
 					</a>
 					<!-- 차트 -->
 					<a class="app-sidebar-link" id="blogChart" th:href="@{/blog/myblog/blogChart(blogId=${#authentication.principal.memberId})}"> 
@@ -1138,15 +872,15 @@
 					</a>
 					<!-- 구독 관리 -->
 					<a class="app-sidebar-link" id="blogSub" th:href="@{/blog/myblog/blogSubscribe(blogId=${#authentication.principal.memberId})}"> 
-						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-								viewBox="0 0 24 24" fill="none" stroke="currentColor"
-								stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-								class="feather feather-calendar">
-						          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-						          <line x1="16" y1="2" x2="16" y2="6" />
-						          <line x1="8" y1="2" x2="8" y2="6" />
-						          <line x1="3" y1="10" x2="21" y2="10" />
-						</svg>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+							viewBox="0 0 24 24" fill="none" stroke="currentColor"
+							stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+							class="feather feather-calendar">
+					          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+					          <line x1="16" y1="2" x2="16" y2="6" />
+					          <line x1="8" y1="2" x2="8" y2="6" />
+					          <line x1="3" y1="10" x2="21" y2="10" />
+					</svg>
 					</a>
 					<!-- 카테고리 관리 -->
 					<a class="app-sidebar-link" id="blogCategory" th:href="@{/blog/myblog/blogCategory(blogId=${#authentication.principal.memberId})}"> 
@@ -1168,15 +902,16 @@
 					<div class="projects-section-line">
 						<div class="projects-status">
 							<div class="item-status">
-								<span class="status-number">45</span> <span class="status-type">In
-									Progress</span>
+								<span class="status-number">45</span> 
+								<span class="status-type">In Progress</span>
 							</div>
 							<div class="item-status">
-								<span class="status-number">24</span> <span class="status-type">Upcoming</span>
+								<span class="status-number">24</span> 
+								<span class="status-type">Upcoming</span>
 							</div>
 							<div class="item-status">
-								<span class="status-number">62</span> <span class="status-type">Total
-									Projects</span>
+								<span class="status-number">62</span> 
+								<span class="status-type">Total Projects</span>
 							</div>
 						</div>
 						<div class="view-actions">
@@ -1190,7 +925,8 @@
 					              <line x1="8" y1="18" x2="21" y2="18" />
 					              <line x1="3" y1="6" x2="3.01" y2="6" />
 					              <line x1="3" y1="12" x2="3.01" y2="12" />
-					              <line x1="3" y1="18" x2="3.01" y2="18" /></svg>
+					              <line x1="3" y1="18" x2="3.01" y2="18" />
+					            </svg>
 							</button>
 							<button class="view-btn grid-view active" title="Grid View">
 								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -1200,87 +936,50 @@
 						              <rect x="3" y="3" width="7" height="7" />
 						              <rect x="14" y="3" width="7" height="7" />
 						              <rect x="14" y="14" width="7" height="7" />
-						              <rect x="3" y="14" width="7" height="7" /></svg>
+						              <rect x="3" y="14" width="7" height="7" />
+						        </svg>
 							</button>
 						</div>
 					</div>
-
+					
 					<div class="project-boxes jsGridView">
-						<div class="taskHome">
-							<div class="project-box-wrapper">
-
-								<!-- 프로필 카드를 넣어보겠습니다 -->
-								<figure class="snip1336">
-									<img
-										src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample69.jpg"
-										alt="sample69" />
-									<figcaption>
-										<img
-											src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/profile-sample5.jpg"
-											alt="profile-sample5" class="profile" />
-										<h2>
-											[[${blogInfos.nickname}]]<span>@[[${blogInfos.blogId}]]</span>
-										</h2>
-									</figcaption>
-								</figure>
-
-								<!-- 끝 -->
-							</div>
-							<!-- 인풋 상자를 넣어보겠습니다 -->
-							<div class="Iwrapper">
-
-								<div class="form">
-
-									<div class="inputfield">
-										<label>블로그 주소<span class="request"></span></label> <input
-											type="text" name="blogURL" class="input" readonly
-											th:value="'http://localhost/blog/myblog/userId='+${blogInfos.blogId}">
-									</div>
-									<div class="inputfield">
-										<label>블로그 이름<span class="request"></span></label> <input
-											type="text" name="blogName" class="input"
-											th:value="${blogInfos.blogName}">
-									</div>
-									<div class="inputfield">
-										<label>소개글<span class="request"></span></label> <input
-											type="text" name="introduction" class="input"
-											th:value="${blogInfos.introduction}">
-									</div>
-
-									<div class="inputfield">
-										<img id="Ppreview-image"
-											src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
-									</div>
-									<div class="filebox">
-										<label style="width: 20%;"></label> <input class="profilefile"
-											placeholder="프로필사진" readonly> <label for="file"
-											class="filelabel">사진등록</label> <input type="file" id=pfile>
-									</div>
-
-									<div class="inputfield">
-										<img id="Hpreview-image"
-											src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
-									</div>
-									<div class="filebox">
-										<label style="width: 20%;"></label> <input class="headerfile"
-											placeholder="헤더사진" readonly> <label for="file"
-											class="filelabel">사진등록</label> <input type="file" id=hfile>
-									</div>
-
-									<div class="inputfield">
-										<input type="submit" value="등록" class="btn">
-									</div>
-								</div>
-							</div>
-
-							<!-- 인풋 상자 끝 -->
+						<div class="project-box-wrapper">
+						<!-- 체크박스 -->
+						<div class="containerCheck" id="cateCheck">
+						  <div class="control-group">
+						  	<button>카테고리 추가</button>
+						  	<button>카테고리 삭제</button>
+						    <h2 style="font-weight: bold; margin-top: 0;margin-bottom: 50px;text-align:center;">카테고리</h2>
+						    <th:block th:each="cate : ${cateList}">
+							    <label class="control control--checkbox">[[${cate.categoryName}]]
+							      <input type="checkbox"/>
+							      <div class="control__indicator"></div>
+							    </label>
+						    </th:block>
+						  </div>
+						  
+						  <div class="control-group">
+						  	<label>카테고리 명<input type="text"></input></label>
+						    <h2 style="font-weight: bold; margin-top: 0;margin-bottom: 50px;text-align:center;">공개범위</h2>
+						    <div class="select">
+						      <select>
+						        <option>:::공개범위:::</option>
+						        <option>전체공개</option>
+						        <option>일부공개</option>
+						        <option>비공개</option>
+						      </select>
+						      <div class="select__arrow"></div>
+						    </div>
+						    <button>확인</button>
+						</div>
+						<!-- 체크박스 끝 -->
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
-
+		
 
 		<!-- JS -->
 		<th:block layout:fragment="script">
@@ -1323,46 +1022,6 @@
 
 			});
 			
-			
-			//	프로필사진미리보기
-			$("#pfile").on('change',function(){
-			  var fileName = $("#pfile").val();
-			  $(".profilefile").val(fileName);
-			  changeProfileURL(this);
-			});
-		
-		function changeProfileURL(obj) {
-            let reader = new FileReader();
-            if(!obj.files.length) {
-                return;
-            }
-            reader.readAsDataURL(obj.files[0]);
-            reader.onload = function (e) {
-                $('#Ppreview-image').attr('src', e.target.result);
-            }
-        }
-		
-				// 헤더사진미리보기
-				$("#hfile").on('change',function(){
-				  var fileName = $("#hfile").val();
-				  $(".headerfile").val(fileName);
-				  changeHeaderURL(this);
-				});
-			
-			function changeHeaderURL(obj) {
-		        let reader = new FileReader();
-		        if(!obj.files.length) {
-		            return;
-		        }
-		        reader.readAsDataURL(obj.files[0]);
-		        reader.onload = function (e) {
-		            $('#Hpreview-image').attr('src', e.target.result);
-		        }
-		    }
-			
-		})
-		
-		
 		</script>
 	</div>
 </body>

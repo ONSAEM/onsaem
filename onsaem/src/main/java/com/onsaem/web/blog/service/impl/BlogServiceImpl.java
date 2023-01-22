@@ -45,4 +45,16 @@ public class BlogServiceImpl implements BlogService {
 		return blogMapper.delSub(likeVO);
 	}
 
+	@Override
+	public List<LikeVO> subMeList(LikeVO likeVO) {
+		// 나를 구독한 사람들 조회
+		return blogMapper.subMeList(likeVO);
+	}
+
+	@Override
+	public List<LikeVO> mySubList(LikeVO likeVO) {
+		// 내가 구독한 사람들 조회
+		return blogMapper.mySubList(likeVO);
+	}
+
 }

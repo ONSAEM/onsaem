@@ -9,6 +9,7 @@ public interface MomentMapper {
 	// 모먼트 등록
 	public int momentInsert(MomentsVO momentsVO);
 	// 모먼트 삭제
+	int momentDel(String momentId);
 	
 	// 한 블로거의 모먼트 전체 조회(4개만 출력)
 	public List<MomentsVO> getMomentList(MomentsVO momentsVO);
@@ -17,6 +18,8 @@ public interface MomentMapper {
 	// 좋아요 
 	
 	// 모먼트 사진 등록
-		int momentMediaInsert(MediaVO mediaVo);
+	int momentMediaInsert(MediaVO mediaVo);
+		
+	
 	
 }

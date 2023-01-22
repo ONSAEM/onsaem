@@ -28,9 +28,10 @@ public interface BlogMapper {
 	int addSub(LikeVO likeVO);
 	// 구독 삭제
 	int delSub(LikeVO likeVO);
-	// 전체 조회
-		
-	// 삭제
+	// 나를 구독한 사람들 조회
+	List<LikeVO> subMeList(LikeVO likeVO);
+	// 내가 구독한 사람들 조회
+	List<LikeVO> mySubList(LikeVO likeVO);
 	
 	// 카테고리
 	// 전체 조회

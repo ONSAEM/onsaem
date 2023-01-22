@@ -20,6 +20,7 @@
 		from moments M, media A
 		where M.moment_id=A.group_id
 		and M.blog_id=#{blogId}
+		and M.upload_end >= to_char(current_date, 'YYYY/MM/DD')
 		<![CDATA[
 		and rownum <=4
 		]]>
@@ -70,5 +71,12 @@
 				#{momentWrite},
 				current_date)
  	</insert>
+ 	
+ 	<!-- 모먼트 삭제 -->
+ 	<delete id="momentDel" parameterType="String">
+ 		delete 
+		from moments
+		where moment_id=#{momentId}
+ 	</delete>
 
  </mapper>

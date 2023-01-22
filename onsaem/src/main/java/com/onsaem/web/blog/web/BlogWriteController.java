@@ -80,6 +80,10 @@ public class BlogWriteController {
 		lVo.setMemberId(id); // 구독 한 사람
 		model.addAttribute("subCount", blogService.subCount(lVo));
 		System.out.println(model.getAttribute("subCount"));
+		
+		model.addAttribute("subMeList", blogService.subMeList(lVo)); // 나를 구독한
+		model.addAttribute("mySubList", blogService.mySubList(lVo)); // 내가 구독한
+		
 		return "content/blog/myblog";
 	}
 	

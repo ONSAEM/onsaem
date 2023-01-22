@@ -81,4 +81,13 @@ public class MomentController {
 		  momentMap.put("mediaList", list);
 		  return momentMap;
 	}
+	
+	// 모먼트 삭제
+	@RequestMapping(value="/momentDel", method= RequestMethod.GET)
+	@ResponseBody
+	public String momentDel(String momentId) {
+		momentService.momentDel(momentId);
+		
+		return "content/blog/myblog";
+	}
 }
