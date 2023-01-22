@@ -55,7 +55,7 @@
 		MEMBER_ID=#{data}
 	</select>
 
-	<!-- 판매정지 -->
+	<!-- 상태별 갯수 -->
 	<select id="countList"
 		resultType="com.onsaem.web.shop.service.ProductVO">
 		SELECT COUNT(CASE WHEN MEMBER_ID=#{data} AND
@@ -63,18 +63,93 @@
 		COUNT(CASE WHEN
 		MEMBER_ID=#{data} AND PRODUCT_STATUS='판매중' THEN 1 END) AS
 		SELLING_PRODUCT,
-		COUNT(CASE WHEN MEMBER_ID=#{data} AND PRODUCT_STATUS='품절'
+		COUNT(CASE WHEN MEMBER_ID=#{data} AND
+		PRODUCT_STATUS='품절'
 		THEN 1 END) AS
 		END_PRODUCT,
-		COUNT(CASE WHEN MEMBER_ID=#{data} AND
+		COUNT(CASE WHEN
+		MEMBER_ID=#{data} AND
 		PRODUCT_STATUS='승인대기' THEN 1 END) AS
 		WAIT_PRODUCT,
 		COUNT(CASE WHEN
-		MEMBER_ID=#{data} AND PRODUCT_STATUS='판매중지' THEN 1 END) AS
+		MEMBER_ID=#{data} AND
+		PRODUCT_STATUS='판매중지' THEN 1 END) AS
 		stop_product,
-		COUNT(CASE WHEN MEMBER_ID=#{data} AND
+		COUNT(CASE WHEN
+		MEMBER_ID=#{data} AND
 		PRODUCT_STATUS='판매정지' THEN 1 END) AS
 		BAN_PRODUCT
 		FROM PRODUCTS
 	</select>
+
+	<!-- 전체목록조회 -->
+	<select id="arrayProductAll"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT * FROM PRODUCTS WHERE (PRODUCT_ID LIKE
+		'%'||#{productId}||'%' OR
+		PRODUCT_NAME LIKE '%'||#{productName}||'%')
+		AND MEMBER_ID=#{memberId}
+	</select>
+
+	<!-- 상품명 조회 -->
+	<select id="arrayProductName"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT * FROM PRODUCTS WHERE
+		PRODUCT_NAME LIKE
+		'%'||#{productName}||'%'
+		AND MEMBER_ID=#{memberId}
+	</select>
+
+	<!-- 상품번호 조회 -->
+	<select id="arrayProductId"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT * FROM PRODUCTS WHERE
+		PRODUCT_Id LIKE
+		'%'||#{productId}||'%'
+		AND MEMBER_ID=#{memberId}
+	</select>
+
+	<!-- 판매상태별 조회 -->
+	<select id="statusProduct"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT *
+		FROM PRODUCTS
+		WHERE MEMBER_ID=#{data}
+		ORDER BY
+		PRODUCT_STATUS
+	</select>
+
+	<!-- 수량별 조회 -->
+	<select id="amountProduct"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT *
+		FROM PRODUCTS
+		WHERE MEMBER_ID=#{data}
+		ORDER BY AMOUNT
+	</select>
+
+	<!-- 품목별 조회 -->
+	<select id="categoryProduct"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT *
+		FROM PRODUCTS
+		WHERE MEMBER_ID=#{data}
+		ORDER BY
+		CATEGORY
+	</select>
+
+	<!-- 날짜별 조회 -->
+	<select id="dateProduct"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT * FROM PRODUCTS WHERE
+		to_char(REGISTER_DATE,'yyyy-MM-dd')=#{registerDate}
+		AND MEMBER_ID=#{memberId}
+	</select>
+	
+	<!-- 품절처리 -->
+	<update id="endProduct" parameterType="com.onsaem.web.shop.service.ProductVO">
+		UPDATE PRODUCTS 
+		SET PRODUCT_STATUS='품절', AMOUNT=0
+		WHERE PRODUCT_ID=#{productId}		
+	</update>
 </mapper>
