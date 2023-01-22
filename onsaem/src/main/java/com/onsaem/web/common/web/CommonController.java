@@ -22,9 +22,4 @@ public class CommonController {
 	public String errorPage(Model model) {
 		return "content/error/404";
 	}
-	
-	@RequestMapping(value="/newPage", method = RequestMethod.GET)
-	public String newPage(Model model) {
-		return "content/test/newPage";
-	}
 }

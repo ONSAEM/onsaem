@@ -6494,7 +6494,7 @@ a.close.disabled {
 
 .modal-dialog {
     position: relative;
-    width: 50%;
+    width: 55%;
     margin: .5rem;
     pointer-events: none
 }
@@ -6665,7 +6665,6 @@ a.close.disabled {
 
 @media (min-width:576px) {
     .modal-dialog {
-        max-width: 500px;
         margin: auto;
     }
 

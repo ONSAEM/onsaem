@@ -23,8 +23,11 @@ public interface MemberService {
 
 	// 아이디 보내기
 	public String sendIdMail(String email);
-
+	
+	// 비밀번호 변경
+	public String updatePw(MemberVO member);
+	
 	// 회원정보 변경
-	public int updateMember(MemberVO member);
+	public String updateMember(MultipartFile[] profileFile, MemberVO member) throws IllegalStateException, IOException;
 
 }

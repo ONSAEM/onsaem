@@ -70,10 +70,8 @@ public class MemberController {
 	// 회원등록
 	@RequestMapping(value = "/insertMember", method = RequestMethod.POST)
 	@ResponseBody
-	public MemberVO insertMember(MultipartFile[] profileFile, MemberVO member)
-			throws IllegalStateException, IOException {
-		memberService.insertMember(profileFile, member);
-		return member;
+	public String insertMember(MultipartFile[] profileFile, MemberVO member) throws IllegalStateException, IOException {
+		return memberService.insertMember(profileFile, member);
 	}
 
 	// 회원가입완료페이지 이동
@@ -86,14 +84,26 @@ public class MemberController {
 	@RequestMapping(value = "/sendIdMail", method = RequestMethod.POST)
 	@ResponseBody
 	public String sendIdMail(String email) {
-		return memberService.sendAuthMail(email);
+		return memberService.sendIdMail(email);
 	}
-	
+
+	// 비밀번호 변경
+	@RequestMapping(value = "/updatePw", method = RequestMethod.POST)
+	@ResponseBody
+	public String updatePw(MemberVO member){
+		return memberService.updatePw(member);
+	}
+
 	// 회원정보 변경
 	@RequestMapping(value = "/updateMember", method = RequestMethod.POST)
 	@ResponseBody
-	public String updateMember(String email) {
-		return memberService.sendAuthMail(email);
+	public String updateMember(MultipartFile[] profileFile, MemberVO member) throws IllegalStateException, IOException {
+		return memberService.updateMember(profileFile, member);
 	}
-
+	
+	// 마이페이지 메인페이지로 이동
+	@RequestMapping(value = "/myPageMain", method = RequestMethod.GET)
+	public String myPageMain(String email) {
+		return "content/member/myPageMain";
+	}
 }

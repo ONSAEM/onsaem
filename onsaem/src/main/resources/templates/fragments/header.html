@@ -49,8 +49,6 @@
 
 					<li class="nav-item"><a class="nav-link click-scroll"
 						th:href="@{/blog/blogMain}">Blog</a></li>
-						<li class="nav-item"><a class="nav-link click-scroll"
-						th:href="@{/newPage}">New</a></li>
 
 					<li class="nav-item dropdown" sec:authorize="isAuthenticated()"><a
 						class="nav-link click-scroll dropdown-toggle"
@@ -59,7 +57,7 @@
 						th:text="${#authentication.principal.nickname}"></a>
 						<ul class="dropdown-menu dropdown-menu-light"
 							aria-labelledby="navbarLightDropdownMenuLink">
-							<li><a class="dropdown-item" href="#">MY PAGE</a></li>
+							<li><a class="dropdown-item" th:href="@{/myPageMain}">MY PAGE</a></li>
 							<li><a class="dropdown-item"
 								th:href="@{/blog/myblog(userId=${#authentication.principal.memberId})}">MY
 									BLOG</a></li>

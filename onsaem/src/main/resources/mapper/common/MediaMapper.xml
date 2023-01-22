@@ -2,20 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onsaem.web.common.mapper.MediaMapper">
 
-<insert id="insertMedia" parameterType="MediaVO">
-<selectKey keyProperty="mediaId" resultType="String" order="BEFORE">
-SELECT 'M'||LPAD(MEDIA_SEQ.NEXTVAL,3,0) FROM DUAL
-</selectKey>
- INSERT INTO MEDIA (MEDIA_ID, GROUP_ID, GROUPS, SUB_GROUP, FILE_NAME, FILE_ROUTE, MEDIA_NAME, MEDIA_ORDER)
-    VALUES (#{mediaId},#{groupId},#{groups},#{subGroup},#{fileName},#{fileRoute},#{mediaName},#{mediaOrder})
-</insert>
+	<insert id="insertMedia" parameterType="MediaVO">
+		<selectKey keyProperty="mediaId" resultType="String"
+			order="BEFORE">
+			SELECT 'M'||LPAD(MEDIA_SEQ.NEXTVAL,3,0) FROM DUAL
+		</selectKey>
+		INSERT INTO MEDIA (MEDIA_ID, GROUP_ID, GROUPS, SUB_GROUP, FILE_NAME,
+		FILE_ROUTE, MEDIA_NAME, MEDIA_ORDER)
+		VALUES
+		(#{mediaId},#{groupId},#{groups},#{subGroup},#{fileName},#{fileRoute},#{mediaName},#{mediaOrder})
+	</insert>
 
-<select id="getMedia" resultType="MediaVO">
-select * from MEDIA
-where FILE_NAME = '괭이.jpg'	
-</select>
-<select id="getvideo" resultType="MediaVO">
-select * from MEDIA
-where FILE_NAME = 'ì__í_¬ - 67358.mp4'	
-</select>
+	<select id="getMedia" resultType="MediaVO">
+		select * from MEDIA
+		where FILE_NAME = '괭이.jpg'
+	</select>
+	<select id="getvideo" resultType="MediaVO">
+		select * from MEDIA
+		where FILE_NAME = 'ì__í_¬ - 67358.mp4'
+	</select>
+	<update id="stopMedia" parameterType="MediaVO">
+		UPDATE MEDIA
+		SET STATUS = 'false'
+		WHERE GROUP_ID = #{groups}
+		<if test="subGroup">
+			AND SUB_GROUP = #{subGroup}
+		</if>
+	</update>
 </mapper>
