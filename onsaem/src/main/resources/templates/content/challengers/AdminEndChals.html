@@ -122,7 +122,7 @@
 						<td th:text="${team.teamFee}"></td>
 						<td th:if="${team.receipt} !=null"><button type="button">첨부 완료</button></td>
 						<td th:if="${team.receipt} ==null"><button type="button" th:onclick="displayModal(this)" id="receipt">첨부 하기</button></td>
-						<td><button type="button">정산 하기</button></td>							
+						<td><button type="button" th:onclick="displayModal(this)">정산 하기</button></td>							
 					</tr>
 				</tbody>
 			</table>
@@ -167,13 +167,20 @@
 							<div class="modal__background"></div>
 							<div class="modal__content">
 								<div id="receiptFrm">
-									<label>기부영수증 첨부하기</label>
-									<input type="file" id="uploadFile">
-									<button type="button" onclick="inputReceipt()">첨부하기</button>
-									<button type="button" class="closeBtn">닫기</button>
+									<form action="/mypage/inputReceipt" method="post" enctype="multipart/form-data">
+										<label>기부영수증 첨부하기</label>
+										<input type="hidden" id="groupId" name="groupId">
+										<input type="file" id="uploadFile" name="uploadFile">
+										<button type="submit">첨부하기</button>
+										<button type="button" class="closeBtn">닫기</button>
+									</form>
 								</div>
 								<div id ="point">
-									<h2>포인트 정산 어쩌구~</h2>
+									<h4>포인트정산</h4>
+									<input type="hidden" id="groupId" name="groupId">
+									<select id="users">
+										<option>==아이디==</option>
+									</select>
 								</div>
 							</div>
 						</div>
@@ -199,11 +206,32 @@
 			if(id=='receipt'){
 				console.log("true");
 				let chalId = document.getElementById('teamChalId').innerText;
+				$('#groupId').val(chalId);
+				console.log($('#groupId').val());
 				$("#receiptFrm").show();
 				$("#point").hide();
 				modal.classList.toggle("hidden");
 			}else{
 				let chalId = document.getElementById('teamChalId').innerText;
+				console.log(chalId);
+				 $.ajax({
+					url:'/mypage/getParticipant',
+					method : 'POST',
+					data : {chalId, chalId},
+					success : function(result){
+	        			console.log(result.list);
+	        			let list = result.list;
+	        			let options = [];
+	        			let makeOption = $.each(list, function(i){
+	        				options = $("<option value=" + list[i].participantId+ ">"+list[i].participantId+"</option>");
+	        			});
+	        			$('#users').append(options);
+	        			
+	        		},
+	        		error : function(error){
+	        			console.log(error);
+	        		}
+				}) 
 				$("#receiptFrm").hide();
 				$("#point").show();
 				modal.classList.toggle("hidden");
@@ -212,13 +240,44 @@
 		closeButton.addEventListener("click", displayModal)
 		modalBackground.addEventListener("click", displayModal);
 		
-		//영수증 첨부
-		function inputReceipt(){
-			$ajax({
-				url: '/mypage/inputReceipt',
-				method : 'POST',
-			})
-		}
+		
+		//포인트 정산 위해서 선택한 아이디의 정보 다 끌어오깅~
+		$("select[id=users]").change(function(){
+			let chalId = document.getElementById('teamChalId').innerText;
+			console.log(chalId);
+  			console.log($("select[id=users] option:selected").val()); //text값 가져오기
+			let proofWriter = $("select[id=users] option:selected").val();
+  			
+  			$.ajax({
+  				url : '/mypage/getInfo4Point',
+  				method :'POST',
+  				contentType:'application/json',
+  				data : JSON.stringify({chalId:chalId, proofWriter : proofWriter}),
+  				success:function(result){
+  					let total = Number(result.days);
+  					let cnt = Number(result.cnt);
+  					let percent = Math.abs(cnt/total);
+  					console.log(percent);
+  					let donate = Number(result.user.privateDonate);
+  					let point = 0;
+  					if(percent >=0.85){
+  						point = donate*0.005;
+  					}else if(percent==1){
+  						point = donate*0.01;
+  					}else{
+  						point == 0;
+  					}
+  					
+  					let point = donate*0.1;
+  				},
+  				error : function(error){
+  					console.log()
+  				}
+  			})
+  			
+		});
+		
+		
 	</script>
 	</div>
 </html>
