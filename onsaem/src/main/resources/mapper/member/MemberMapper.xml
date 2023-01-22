@@ -1,38 +1,64 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+
 <mapper namespace="com.onsaem.web.member.mapper.MemberMapper">
 
 	<!-- 로그인 아이디, 비밀번호 찾기 -->
-	<select id="getMember" resultType="MemberVO" parameterType="String">
+	<select id="getMember" resultType="MemberVO"
+		parameterType="String">
 		SELECT * FROM MEMBERS
 		WHERE MEMBER_ID = #{memberId}
 	</select>
-	
+
 	<!-- 아이디체크 -->
 	<select id="checkId" resultType="MemberVO"
 		parameterType="String">
 		SELECT MEMBER_ID
 		FROM MEMBERS
-		WHERE MEMBER_ID = #{memberId}
+		WHERE MEMBER_ID =
+		#{memberId}
 
 		UNION ALL
 
 		SELECT MEMBER_ID
 		FROM APPLY_MEMBERS
-		WHERE MEMBER_ID = #{memberId}
+		WHERE MEMBER_ID
+		= #{memberId}
 	</select>
-	
+
 	<!-- 이메일로 회원조회 -->
 	<select id="searchEmail" resultType="int" parameterType="String">
-		SELECT COUNT(*) FROM MEMBERS
+		SELECT
+		COUNT(*) FROM MEMBERS
 		WHERE EMAIL = #{email}
 	</select>
-	
+
 	<!-- 회원등록 -->
 	<insert id="insertMember" parameterType="MemberVO">
-	INSERT INTO MEMBERS (MEMBER_ID, PASSWORD, NAME, NICKNAME, EMAIL, PHONE, POSTAL_CODE, ADDR, DETAIL_ADDR, BANK, BANK_ACCOUNT, ROLE)
-	VALUES(#{memberId}, #{password}, #{name}, #{nickname}, #{email}, #{phone}, #{postalCode}, #{addr}, #{detailAddr}, #{bank}, #{bankAccount}, 'ROLE_USER')
+		INSERT INTO MEMBERS
+		(MEMBER_ID, PASSWORD, NAME, NICKNAME, EMAIL, PHONE,
+		POSTAL_CODE, ADDR,
+		DETAIL_ADDR, BANK, BANK_ACCOUNT, ROLE)
+		VALUES(#{memberId}, #{password},
+		#{name}, #{nickname}, #{email},
+		#{phone}, #{postalCode}, #{addr},
+		#{detailAddr}, #{bank},
+		#{bankAccount}, 'ROLE_USER')
 	</insert>
+
+	<!-- 이메일로 아이디 조회 -->
+	<select id="idEmail" resultType="MemberVO"
+		parameterType="String">
+		SELECT RPAD(SUBSTR(MEMBER_ID,1,3),LENGTH(MEMBER_ID),'*')
+		AS MEMBER_ID FROM MEMBERS
+		WHERE EMAIL = #{email}
+	</select>
+
+	<!-- 비밀번호 변경 -->
+	<update id="updatePw" parameterType="MemberVO">
+		UPDATE MEMBERS
+		SET PASSWORD = #{password}
+		WHERE EMAIL = #{email}
+	</update>
 </mapper>

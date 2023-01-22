@@ -94,7 +94,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 		if (member.getNickname() == null) {
 			member.setNickname(member.getMemberId());
 		}
-		memberMapper.insertMember(member);
+		int result = memberMapper.insertMember(member);
 		if (profileFile != null) {
 			MediaVO vo = new MediaVO();
 			vo.setGroupId(member.getMemberId());
@@ -102,7 +102,11 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 			vo.setSubGroup("프로필이미지");
 			mediaService.uploadMedia(profileFile, vo);
 		}
-		return null;
+		if (result > 0) {
+			return "success";
+		} else {
+			return "fail";
+		}
 	}
 
 	@Override
@@ -125,8 +129,41 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 	}
 
 	@Override
-	public int updateMember(MemberVO member) {
-		return 0;
+	public String updatePw(MemberVO member) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+		member.setPassword(encoder.encode(member.getPassword()));
+		if (memberMapper.updatePw(member) > 0) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
+
+	@Override
+	public String updateMember(MultipartFile[] profileFile, MemberVO member) throws IllegalStateException, IOException {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+		member.setPassword(encoder.encode(member.getPassword()));
+		if (member.getBank() == null || member.getBankAccount() == null) {
+			member.setBank(null);
+			member.setBankAccount(null);
+		}
+		if (member.getNickname() == null) {
+			member.setNickname(member.getMemberId());
+		}
+		int result = memberMapper.insertMember(member);
+		if (profileFile != null) {
+			MediaVO vo = new MediaVO();
+			vo.setGroupId(member.getMemberId());
+			vo.setGroups("회원");
+			vo.setSubGroup("프로필이미지");
+			mediaService.stopMedia(vo);
+			mediaService.uploadMedia(profileFile, vo);
+		}
+		if (result > 0) {
+			return "success";
+		} else {
+			return "fail";
+		}
 	}
 
 }
