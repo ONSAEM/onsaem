@@ -44,7 +44,7 @@ public class SellerController {
 	public String seller(Model model, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		model.addAttribute("sellerList", proService.sellerList(userDetails.getUsername()));
-		model.addAttribute("countList",sellService.countList(userDetails.getUsername()));
+		model.addAttribute("countList", sellService.countList(userDetails.getUsername()));
 		return "content/shop/sellerMain";
 	}
 
@@ -109,5 +109,78 @@ public class SellerController {
 	public List<ProductVO> banSell(Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		return sellService.banSell(userDetails.getUsername());
+	}
+
+	// 전체조회
+	@RequestMapping(value = "/arrayProductAll", method = RequestMethod.POST)
+	@ResponseBody
+	public List<ProductVO> arrayProductAll(Authentication authentication, @RequestBody ProductVO vo) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		vo.setMemberId(userDetails.getUsername());
+		return sellService.arrayProductAll(vo);
+	}
+
+	// 상품명 조회
+	@RequestMapping(value = "/arrayProductName", method = RequestMethod.POST)
+	@ResponseBody
+	public List<ProductVO> arrayProductName(Authentication authentication, @RequestBody ProductVO vo) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		vo.setMemberId(userDetails.getUsername());
+		return sellService.arrayProductName(vo);
+	}
+
+	// 상품번호 조회
+	@RequestMapping(value = "/arrayProductId", method = RequestMethod.POST)
+	@ResponseBody
+	public List<ProductVO> arrayProductId(Authentication authentication, @RequestBody ProductVO vo) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		vo.setMemberId(userDetails.getUsername());
+		return sellService.arrayProductId(vo);
+	}
+
+	// 판매상태별 조회
+	@RequestMapping(value = "/statusProduct", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ProductVO> statusProduct(Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return sellService.statusProduct(userDetails.getUsername());
+	}
+
+	// 수량별 조회
+	@RequestMapping(value = "/amountProduct", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ProductVO> amountProduct(Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return sellService.amountProduct(userDetails.getUsername());
+	}
+
+	// 품목별 조회
+	@RequestMapping(value = "/categoryProduct", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ProductVO> categoryProduct(Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return sellService.categoryProduct(userDetails.getUsername());
+	}
+
+	// 날짜별 조회
+	@RequestMapping(value = "/dateProduct", method = RequestMethod.POST)
+	@ResponseBody
+	public List<ProductVO> dateProduct(Authentication authentication, @RequestBody ProductVO vo) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		vo.setMemberId(userDetails.getUsername());
+		return sellService.dateProduct(vo);
+	}
+
+	// 품절처리
+	@RequestMapping(value = "/endProduct", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer endProduct(@RequestBody ProductVO vo, Authentication authentication) {
+		return sellService.endProduct(vo);
+	}
+
+	// 판매자 주문목록
+	@RequestMapping(value = "/sellerOrder", method = RequestMethod.GET)
+	public String sellerOrder() {
+		return "content/shop/sellerOrder";
 	}
 }

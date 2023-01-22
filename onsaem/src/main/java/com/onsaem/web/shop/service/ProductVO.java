@@ -21,7 +21,8 @@ public class ProductVO {
 	String category;	//카테고리
 	String natureId;	//친환경인증증서코드
 	String productStatus;	//상품상태
-	Date registerDate;	//등록일자
+	
+	String registerDate;	//등록일자
 	String memberId;	//판매자ID
 	String productInfo; //상품 상세설명
 	String sellerAddr; //판매자반품주소

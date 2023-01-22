@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<title>shop main</title>
+
+<!-- Google Font -->
+
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
+		type="text/css">
+</th:block>
+
+<head>
+<link
+	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
+	rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+<style type="text/css">
+.menu {
+	float: left;
+	overflow: hidden;
+	width: 200px;
+	background-color: #04B4AE;
+	color: #fff;
+	transition: all 0.5s ease;
+	border-radius: 20px;
+	padding: 10px;
+	box-sizing: border-box;
+	margin-left: 550px;
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
+.menu a, .menu>label {
+	padding: 10px;
+	cursor: pointer;
+	color: #fff;
+	text-decoration: none;
+}
+
+label {
+	display: none;
+}
+
+.menu a:hover {
+	color: #000;
+}
+
+.menu ul li:hover, .menu>label:hover {
+	background-color: #fff;
+	color: #000;
+	border-radius: 10px;
+}
+
+#expand-menu {
+	display: none;
+}
+
+#expand-menu:checked ~ ul {
+	display: block;
+	height: auto;
+}
+
+.menu ::before {
+	font-family: 'Material Icons';
+	font-size: 1.5em;
+	float: left;
+	clear: left;
+}
+
+.menu label::before {
+	content: '\e5d2';
+}
+
+.menu li:nth-child(1) a::before {
+	content: '\e88a';
+}
+
+.menu li:nth-child(2) a::before {
+	content: '\e8cc';
+}
+
+.menu li:nth-child(3) a::before {
+	content: '\e8d6';
+}
+
+.menu li:nth-child(4) a::before {
+	content: '\f02e';
+}
+
+.menu li:nth-child(5) a::before {
+	content: '\e87d';
+}
+
+.menu li:nth-child(6) a::before {
+	content: '\e8b8';
+}
+
+@media screen and (max-width:1023px) {
+	.menu {
+		width: 60px;
+	}
+}
+
+@media screen and (max-width:560px) {
+	.menu #expand-menu:not(:checked) ~ ul {
+		display: none;
+	}
+}
+</style>
+</head>
+
+
+
+<!-- Content -->
+<div layout:fragment="content">
+	<!-- Breadcrumb Section Begin -->
+	<section class="breadcrumb-section set-bg"
+		th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<div class="breadcrumb__text">
+						<h2>판매자</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<!-- 사이드바 -->
+	<div class="menu">
+		<input type="checkbox" id="expand-menu" name="expand-menu">
+		<ul>
+			<li><a href="/sellerMain" class="item"><div>판매자상품관리</div></a></li>
+			<li><a href="#" class="item"><div>판매자주문관리</div></a></li>
+			<li><a href="#" class="item"><div>판매자교환/취소관리</div></a></li>
+			<li><a href="#" class="item"><div>판매자리뷰/문의관리</div></a></li>
+			<li><a href="/addProductPage" class="item"><div>상품등록하기</div></a></li>
+		</ul>
+	</div>
+
+	<!-- 테이블 -->
+	<section class="shoping-cart spad">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<h3 style="margin-left: 20px; display: inline-block">판매자 주문관리</h3>
+					<br> <br>
+					<div class="shoping__cart__table">
+						<h5 style="margin-left: 20px; display: inline-block">조회기간</h5>
+						&nbsp<input type="date">&nbsp<input type="date"><br>
+						<br>
+						<button style="margin-left: 20px;">오늘</button>
+						&nbsp
+						<button>1주일</button>
+						&nbsp
+						<button>1개월</button>
+						<br> <br>
+						<h5 style="margin-left: 20px; display: inline-block">상세검색</h5>
+						&nbsp <select>
+							<option>전체</option>
+							<option>구매자명</option>
+							<option>구매자ID</option>
+							<option>주문번호</option>
+							<option>상품번호</option>
+						</select> <input type="text">
+						<button>검색</button>
+						&nbsp&nbsp&nbsp&nbsp&nbsp
+						 <select>
+							<option>처리상태</option>
+							<option>교환/반품</option>
+							<option>배송완료</option>
+							<option>배송중</option>
+							<option>주문대기</option>
+							</select>
+						 <br> <br>
+						<table>
+							<thead>
+								<tr>
+									<th class="shoping__product">주문번호</th>
+									<th>상품명</th>
+									<th>상품번호</th>
+									<th>주문일자</th>
+									<th>주문상태</th>
+									<th>구매자명</th>
+									<th>수량</th>
+									<th>옵션</th>									
+								</tr>
+							</thead>
+							<tbody id="sellerList">
+								<tr th:each="sell:${sellerList}">
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td><input type="checkbox"
+										th:onclick="endProduct(this,[[${sell.productId}]])"
+										id="endProduct"></td>
+									<td id="status"></td>
+									<td></td>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<th:block layout:fragment="script">
+		<script th:src="@{/shoptemplate/js/main.js}"></script>
+	</th:block>
+
+	<script type="text/javascript">
+		
+	</script>
+</div>
+</html>

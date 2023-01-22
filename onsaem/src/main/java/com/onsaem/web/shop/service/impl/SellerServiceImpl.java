@@ -56,4 +56,52 @@ public class SellerServiceImpl implements SellerService{
 		return sellMapper.countList(data);
 	}
 
+	@Override
+	public List<ProductVO> arrayProductAll(ProductVO vo) {
+		// 전체 목록조회
+		return sellMapper.arrayProductAll(vo);
+	}
+
+	@Override
+	public List<ProductVO> arrayProductName(ProductVO vo) {
+		// 상품명 조회
+		return sellMapper.arrayProductName(vo);
+	}
+
+	@Override
+	public List<ProductVO> arrayProductId(ProductVO vo) {
+		// 상품번호 조회
+		return sellMapper.arrayProductId(vo);
+	}
+
+	@Override
+	public List<ProductVO> statusProduct(String data) {
+		// 판매상태별 조회
+		return sellMapper.statusProduct(data);
+	}
+
+	@Override
+	public List<ProductVO> amountProduct(String data) {
+		// 재고별 조회
+		return sellMapper.amountProduct(data);
+	}
+
+	@Override
+	public List<ProductVO> categoryProduct(String data) {
+		// 품목별 조회
+		return sellMapper.categoryProduct(data);
+	}
+
+	@Override
+	public List<ProductVO> dateProduct(ProductVO vo) {
+		// 날짜별 조회
+		return sellMapper.dateProduct(vo);
+	}
+
+	@Override
+	public int endProduct(ProductVO vo) {
+		// 품절처리
+		return sellMapper.endProduct(vo);
+	}
+
 }
