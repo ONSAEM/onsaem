@@ -1,8 +1,43 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<html>
-<head>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
 <meta charset="UTF-8">
+<meta name="description" content="Ogani Template">
+<meta name="keywords" content="Ogani, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<!-- Google Font -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
+	rel="stylesheet">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
+		type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
+		type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}"
+		type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
+		type="text/css">
+</th:block>
+
+<div layout:fragment="content">
 <title>챌린저스 팀전 등록</title>
 </head>
 <body>
@@ -47,9 +82,9 @@
         <br>
         
         <label for="startDate">시작일</label>
-        <input name="startDate" type="date">
+        <input name="startDate" type="date" onchange="checkStart()">
 		<label for "endDate">종료일</label>
-        <input name="endDate" type="date">
+        <input name="endDate" type="date" onchange="checkDate()">
         
         <br>
         
@@ -98,6 +133,29 @@
 		betPoint.value = Number(money)*0.01;
 	}
 	
+	function checkStart(){
+		let today = new Date();
+		let start = new Date($('input[name=startDate]').val());
+		if(start < today){
+			alert('오늘 날짜 이후로 선택해 주세요');
+			$('input[name=startDate]').val("");
+		}
+		
+	}
+	
+	function checkDate(){
+		let today = new Date();
+		let start = new Date($('input[name=startDate]').val());
+		let end = new Date($('input[name=endDate]').val());
+		if(start>end){
+			alert('종료일은 시작일 보다 이후여야 합니다 ');
+			$('input[name=endDate]').val("");
+		}else if(end<today){
+			alert('오늘 날짜 이후로 선택해 주세요');
+			$('input[name=endDate]').val("");	
+		}
+		
+	}
 </script>
-</body>
+</div>
 </html>

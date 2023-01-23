@@ -273,6 +273,7 @@ h1 {
 							    <tr>
 							        <th>신청번호</th>
 							        <th>기부처 명</th>
+
 							        <th>신청 상태</th>
 							    </tr>
 							    </thead>
@@ -408,30 +409,6 @@ h1 {
 		    readImage(e.target)
 		})
 
-	function cancelChal(data){
-			let paymentId = data.paymentId;
-			let refundMethod = data.paymentMethod;
-			let groupId = data.chalId;
-			let refundAccount = document.getElementById("refundAccount").value;
-
-			 $.ajax({
-	    		url:'/mypage/myBeforeChal',
-	    		method: 'post',
-	    		contentType : 'application/json',
-	    		data: JSON.stringify({paymentId:paymentId,
-	    			refundMethod:refundMethod,
-	    			groupId:groupId,
-	    			refundAccount : refundAccount}),
-	    		success : function(result){
-	    			console.log(result);
-	    			alert('챌린지 취소가 완료되었습니다');
-	    			location.href="http://localhost/mypage/myBeforeChal";
-	    		},
-	    		error : function(error){
-	    			console.log(error);
-	    		}
-	    	}) 
-		}
 
 	</script>
 </div>

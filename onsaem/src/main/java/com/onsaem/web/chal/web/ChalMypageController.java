@@ -183,13 +183,19 @@ public class ChalMypageController {
 	
 	//마이페이지의 나의 인증현황
 	@RequestMapping(value="/myChalStatus", method=RequestMethod.GET)
-	public String myChalStatus(Model model, @RequestParam(value="chalId", required=false)String chalId, MediaVO vo, ProofVO pvo,HttpServletRequest request) {
-//		HttpSession session=request.getSession();
+	public String myChalStatus(Model model, @RequestParam(value="chalId", required=false)String chalId, MediaVO vo, ProofVO pvo,HttpServletRequest request,Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 //		//세션에서 가져온 로그인 된 id값
-//		String id = (String)session.getAttribute("id");
+		String id = userDetails.getUsername();
 		chalId="CH1";
 //		//챌린저스 한건 정보
 		model.addAttribute("chal",chalService.getChal(chalId));
+		
+		ParticipantVO tvo = new ParticipantVO();
+		tvo.setChalId("CH1");
+		tvo.setParticipantId(id);
+		//참가자 정모
+		model.addAttribute("user", partService.getParticipant(tvo));
 		
 		ChalVO cvo = chalService.getChal(chalId);
 		Date end = cvo.getEndDate();
@@ -202,11 +208,11 @@ public class ChalMypageController {
 		model.addAttribute("total", days);
 		
 		//		
-//		//해당 챌린지에 대해 내가 입력한 모든 인증샷 싹다 가져오기 - chalId, memberid
-//		vo.setGroupId(chalId);
-//		vo.setProofWriter(id);
-//		model.addAttribute("myPhotoes", proofService.getMyShotsForOne(vo));
-//		
+		//해당 챌린지에 대해 내가 입력한 모든 인증샷 싹다 가져오기 - chalId, memberid
+		vo.setGroupId(chalId);
+		vo.setProofWriter("hodu");
+		model.addAttribute("myPhotoes", proofService.getMyShotsForOne(vo));
+		
 //		//Proofs 테이블에서 count(*) 해야함 - 조건이 성공인거, 작성자 아이디, 챌린지 아이디 필요
 		pvo.setChalId(chalId);
 		pvo.setProofWriter("hodu");
