@@ -6,10 +6,11 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,15 +75,18 @@ public class BlogWriteController {
 		model.addAttribute("moments", momentService.getMomentList(mVo));
 		// getBlog를 써서 유저아이디 받아오고, getbloginfo라고 이름 지어주기
 		model.addAttribute("blogInfo", blogService.getBlogInfo(userId));
-		System.out.println(model.getAttribute("blogInfo"));
+		System.out.println("방분한 블로그 정보:"+model.getAttribute("blogInfo"));
 		
 		lVo.setGroupId(userId); // 구독 당한 사람
 		lVo.setMemberId(id); // 구독 한 사람
 		model.addAttribute("subCount", blogService.subCount(lVo));
-		System.out.println(model.getAttribute("subCount"));
+		System.out.println("구독 여부:"+model.getAttribute("subCount"));
 		
 		model.addAttribute("subMeList", blogService.subMeList(lVo)); // 나를 구독한
 		model.addAttribute("mySubList", blogService.mySubList(lVo)); // 내가 구독한
+		
+		model.addAttribute("mmtCnt",momentService.momentCnt(id));
+		System.out.println("현재모먼트 수:"+model.getAttribute("mmtCnt"));
 		
 		return "content/blog/myblog";
 	}
@@ -254,6 +258,23 @@ public class BlogWriteController {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	
+	// 썸네일
+	@RequestMapping(value = "/myblog/thumbnail", method = RequestMethod.POST)
+	@ResponseBody
+	public String getSrc(String source) {
+        // 이미지 태그를 추출하기 위한 정규식.
+        Pattern pattern  =  Pattern.compile("<img[^>]*src=[\\\"']?([^>\\\"']+)[\\\"']?[^>]*>");
+        // 내용 중에서 이미지 태그를 찾아라!
+        Matcher match = pattern.matcher(source);
+        String imgTag = null;
+        if(match.find()){ // 이미지 태그를 찾았다면,,
+            imgTag = match.group(1); // 글 내용 중에 첫번째 이미지 태그를 뽑아옴.
+        }
+        return imgTag;
+    }
 	
 	
 	// 내 블로그 제목 검색

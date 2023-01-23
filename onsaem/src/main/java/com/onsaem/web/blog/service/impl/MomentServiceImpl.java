@@ -44,4 +44,10 @@ public class MomentServiceImpl implements MomentService {
 		return momentMapper.momentDel(momentId);
 	}
 
+	@Override
+	public int momentCnt(String blogId) {
+		// 모먼트 수 조회
+		return momentMapper.momentCnt(blogId);
+	}
+
 }

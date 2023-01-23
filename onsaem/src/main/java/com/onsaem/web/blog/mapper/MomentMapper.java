@@ -19,7 +19,9 @@ public interface MomentMapper {
 	
 	// 모먼트 사진 등록
 	int momentMediaInsert(MediaVO mediaVo);
-		
+	
+	// 모먼트 수 조회
+	int momentCnt(String blogId);
 	
 	
 }

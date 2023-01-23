@@ -15,4 +15,6 @@ public interface MomentService {
 	int momentMediaInsert(MediaVO mediaVo);
 	// 모먼트 삭제
 	int momentDel(String momentId);
+	// 모먼트 수 조회
+	int momentCnt(String blogId);
 }
