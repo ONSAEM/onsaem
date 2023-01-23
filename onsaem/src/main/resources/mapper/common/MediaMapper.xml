@@ -24,7 +24,8 @@
 	<update id="stopMedia" parameterType="MediaVO">
 		UPDATE MEDIA
 		SET STATUS = 'false'
-		WHERE GROUP_ID = #{groups}
+		WHERE GROUP_ID = #{groupId}
+		AND GROUPS = #{groups}
 		<if test="subGroup">
 			AND SUB_GROUP = #{subGroup}
 		</if>

@@ -28,6 +28,6 @@ public interface MemberService {
 	public String updatePw(MemberVO member);
 	
 	// 회원정보 변경
-	public String updateMember(MultipartFile[] profileFile, MemberVO member) throws IllegalStateException, IOException;
+	public MemberVO updateMember(MultipartFile[] profileFile, MemberVO member) throws IllegalStateException, IOException;
 
 }
