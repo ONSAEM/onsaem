@@ -24,6 +24,8 @@
 
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
 		type="text/css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+		rel="stylesheet">
 </th:block>
 
 <head>
@@ -329,9 +331,7 @@
 	text-decoration: none;
 }
 
-label {
-	display: none;
-}
+
 
 .menu a:hover {
 	color: #000;
@@ -417,16 +417,17 @@ label {
 		</div>
 	</section>
 	<!-- Breadcrumb Section End -->
-	
+
 	<!-- 사이드바 -->
 	<div class="menu">
-		<input type="checkbox" id="expand-menu" name="expand-menu">		<ul>
+		<input type="checkbox" id="expand-menu" name="expand-menu">
+		<ul>
 			<li><a href="/sellerMain" class="item"><div>판매자상품관리</div></a></li>
 			<li><a href="#" class="item"><div>판매자주문관리</div></a></li>
 			<li><a href="#" class="item"><div>판매자교환/취소관리</div></a></li>
 			<li><a href="#" class="item"><div>판매자리뷰/문의관리</div></a></li>
 			<li><a href="/addProductPage" class="item"><div>상품등록하기</div></a></li>
-		</ul>		
+		</ul>
 	</div>
 
 	<br>
@@ -438,13 +439,13 @@ label {
 					<img id="preview-image"
 						src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
 				</div>
-				<div class="imgFile" >
-				<div class="filebox">
-					<label style="width: 10%;" class="filelabel" onclick="addPart()">+
-					</label> <input class="inputfile" placeholder="상품이미지" readonly> <label
-						for="file" class="filelabel">사진등록</label> <input type="file"
-						id="file" name="uploadFile">
-				</div>
+				<div class="imgFile">
+					<div class="filebox">
+						<label style="width: 10%;" class="filelabel" onclick="addPart()">+
+						</label> <input class="inputfile" placeholder="상품이미지" readonly> <label
+							for="file" class="filelabel">사진등록</label> <input type="file"
+							id="file" name="uploadFile">
+					</div>
 				</div>
 				<div class="inputfield">
 					<label>상품명<span class="request">*</span></label> <input type="text"
@@ -508,7 +509,8 @@ label {
 				<div class="filebox">
 					<label style="width: 20%;"></label> <input class="naturefile"
 						placeholder="친환경인증증서" readonly> <label for="naturefile"
-						class="filelabel">사진등록</label> <input type="file" id="naturefile" name="natureFile">
+						class="filelabel">사진등록</label> <input type="file" id="naturefile"
+						name="natureFile">
 				</div>
 				<div class="inputfield">
 					<input type="submit" value="등록신청" class="btn"

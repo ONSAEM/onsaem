@@ -2,6 +2,7 @@ package com.onsaem.web.shop.mapper;
 
 import java.util.List;
 
+import com.onsaem.web.shop.service.OrderVO;
 import com.onsaem.web.shop.service.ProductVO;
 
 public interface SellerMapper {
@@ -49,5 +50,35 @@ public interface SellerMapper {
 
 	// 품절처리
 	int endProduct(ProductVO vo);
+
+	// 판매자 주문목록
+	List<OrderVO> orderList(String data);
+
+	// 주문목록 날짜조회
+	List<OrderVO> changeDate(String startDate, String endDate, String id);
+
+	// 오늘 주문조회
+	List<OrderVO> todaySearch(String id);
+
+	// 이번주 주문조회
+	List<OrderVO> weekSearch(String id);
+
+	// 한달 조회
+	List<OrderVO> monthSearch(String id);
+
+	// 전체 주문 조회
+	List<OrderVO> arrayOrderAll(String id, String data);
+
+	// 구매자명 조회
+	List<OrderVO> buyName(String id, String data);
+
+	// 구매자Id 조회
+	List<OrderVO> buyId(String id, String data);
+
+	// 주문번호 조회
+	List<OrderVO> orderNumber(String id, String data);
+
+	// 상품번호 조회
+	List<OrderVO> productId(String id, String data);
 
 }

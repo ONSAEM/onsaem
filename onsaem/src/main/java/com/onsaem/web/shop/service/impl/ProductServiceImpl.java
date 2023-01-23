@@ -139,6 +139,12 @@ public class ProductServiceImpl implements ProductService{
 		return proMapper.sellerList(data);
 	}
 
+	@Override
+	public List<ProductVO> watchProduct(ProductVO vo) {
+		// 최근 본 목록 가져오기
+		return proMapper.watchProduct(vo);
+	}
+
 	
 	
 }

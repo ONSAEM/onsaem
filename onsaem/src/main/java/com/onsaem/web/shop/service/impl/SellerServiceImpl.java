@@ -6,14 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.onsaem.web.shop.mapper.SellerMapper;
+import com.onsaem.web.shop.service.OrderVO;
 import com.onsaem.web.shop.service.ProductVO;
 import com.onsaem.web.shop.service.SellerService;
 
 @Component
-public class SellerServiceImpl implements SellerService{
+public class SellerServiceImpl implements SellerService {
 	@Autowired
 	SellerMapper sellMapper;
-	
+
 	@Override
 	public List<ProductVO> waitList(String data) {
 		// 승인대기
@@ -102,6 +103,66 @@ public class SellerServiceImpl implements SellerService{
 	public int endProduct(ProductVO vo) {
 		// 품절처리
 		return sellMapper.endProduct(vo);
+	}
+
+	@Override
+	public List<OrderVO> orderList(String data) {
+		// 판매자 주문목록
+		return sellMapper.orderList(data);
+	}
+
+	@Override
+	public List<OrderVO> changeDate(String startDate, String endDate, String id) {
+		// 주문목록 날짜조회
+		return sellMapper.changeDate(startDate, endDate, id);
+	}
+
+	@Override
+	public List<OrderVO> todaySearch(String id) {
+		// 오늘주문조회
+		return sellMapper.todaySearch(id);
+	}
+
+	@Override
+	public List<OrderVO> weekSearch(String id) {
+		// 이번주조회
+		return sellMapper.weekSearch(id);
+	}
+
+	@Override
+	public List<OrderVO> monthSearch(String id) {
+		// 한달조회
+		return sellMapper.monthSearch(id);
+	}
+
+	@Override
+	public List<OrderVO> arrayOrderAll(String id, String data) {
+		// 전체 주문조회
+		return sellMapper.arrayOrderAll(id, data);
+	}
+
+	@Override
+	public List<OrderVO> buyName(String id, String data) {
+		// 구매자명조회
+		return sellMapper.buyName(id, data);
+	}
+
+	@Override
+	public List<OrderVO> buyId(String id, String data) {
+		// 구매자ID조회
+		return sellMapper.buyId(id, data);
+	}
+
+	@Override
+	public List<OrderVO> orderNumber(String id, String data) {
+		// 주문번호 조회
+		return sellMapper.orderNumber(id, data);	
+	}
+	
+	@Override
+	public List<OrderVO> productId(String id, String data) {
+		// 상품번호 조회
+		return sellMapper.productId(id, data);	
 	}
 
 }
