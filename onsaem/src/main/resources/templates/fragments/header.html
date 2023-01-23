@@ -19,9 +19,6 @@
 
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav ms-auto">
-	
-					<li class="nav-item"><a class="nav-link click-scroll"
-						th:href="@{/}">Home</a></li>
 
 					<li class="nav-item"><a class="nav-link click-scroll"
 						href="#section_2">Donation</a></li>
@@ -63,6 +60,8 @@
 									BLOG</a></li>
 							<li><a class="dropdown-item" th:href="@{/logout}">LOGOUT</a></li>
 							<li><a class="dropdown-item" th:href="@{/errorPage}">404</a></li>
+							<li><a class="dropdown-item" th:href="@{/class/classMGMT}">MANAGEMENT</a></li>
+							<li><a class="dropdown-item" th:href="@{/testblog}">blogtest</a></li>
 						</ul></li>
 					<li class="nav-item" sec:authorize="isAnonymous()"><a
 						class="nav-link click-scroll" th:href="@{/loginPage}">Login</a></li>

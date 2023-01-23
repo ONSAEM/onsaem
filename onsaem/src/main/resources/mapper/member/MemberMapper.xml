@@ -7,8 +7,20 @@
 	<!-- 로그인 아이디, 비밀번호 찾기 -->
 	<select id="getMember" resultType="MemberVO"
 		parameterType="String">
-		SELECT * FROM MEMBERS
-		WHERE MEMBER_ID = #{memberId}
+		SELECT M.PASSWORD, M.NICKNAME, M.EMAIL, M.PHONE,
+		M.POSTAL_CODE, M.ADDR,
+		M.DETAIL_ADDR, M.BANK_ACCOUNT,
+		M.BUSINESS_NUMBER, M.ROLE, M.POINT,
+		M.MEMBER_ID, M.NAME, F.FILE_NAME,
+		F.FILE_ROUTE, C.CODE_NAME AS BANK
+		FROM MEMBERS M , (select* from MEDIA where STATUS = 'true') F, COMMONS C
+		WHERE M.MEMBER_ID = F.GROUP_ID(+)
+		AND M.BANK = C.CODE_ID(+)
+		AND M.MEMBER_ID = #{memberId}
+		AND M.STATUS != 'false'
+		<![CDATA[
+		AND M.BANDATE < SYSDATE
+		]]>
 	</select>
 
 	<!-- 아이디체크 -->
@@ -58,7 +70,8 @@
 	<!-- 비밀번호 변경 -->
 	<update id="updatePw" parameterType="MemberVO">
 		UPDATE MEMBERS
-		SET PASSWORD = #{password}
+		SET PASSWORD =
+		#{password}
 		WHERE EMAIL = #{email}
 	</update>
 </mapper>

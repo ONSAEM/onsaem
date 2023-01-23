@@ -19,7 +19,12 @@ public class CommonController {
 	}
 
 	@RequestMapping(value="/errorPage", method = RequestMethod.GET)
-	public String errorPage(Model model) {
+	public String errorPage() {
 		return "content/error/404";
+	}
+	
+	@RequestMapping(value="/testblog", method = RequestMethod.GET)
+	public String testblog() {
+		return "content/test/blogtest";
 	}
 }

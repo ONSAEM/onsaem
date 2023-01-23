@@ -39,7 +39,10 @@ public class MemberVO implements UserDetails{
 	private String memberId;
 	private String name;
 	
-
+	// 프로필 이미지
+	private String fileName;
+	private String fileRoute;
+	
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
