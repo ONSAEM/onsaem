@@ -49,4 +49,10 @@ public class ProductVO {
 	Integer waitProduct;
 	Integer stopProduct;
 	Integer banProduct;
+	
+	String session1;
+	String session2;
+	String session3;
+	String session4;
+	String session5;
 }

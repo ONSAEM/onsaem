@@ -69,5 +69,8 @@ public interface ProductMapper {
 
 	// 판매자 상품 가져오기
 	List<ProductVO> sellerList(String data);
+	
+	// 최근 본 목록 가져오기
+	List<ProductVO> watchProduct(ProductVO vo);
 
 }

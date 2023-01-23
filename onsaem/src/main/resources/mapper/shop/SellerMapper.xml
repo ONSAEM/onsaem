@@ -143,13 +143,237 @@
 		resultType="com.onsaem.web.shop.service.ProductVO">
 		SELECT * FROM PRODUCTS WHERE
 		to_char(REGISTER_DATE,'yyyy-MM-dd')=#{registerDate}
-		AND MEMBER_ID=#{memberId}
+		AND
+		MEMBER_ID=#{memberId}
+	</select>
+
+	<!-- 품절처리 -->
+	<update id="endProduct"
+		parameterType="com.onsaem.web.shop.service.ProductVO">
+		UPDATE PRODUCTS
+		SET PRODUCT_STATUS='품절', AMOUNT=0
+		WHERE
+		PRODUCT_ID=#{productId}
+	</update>
+
+	<!-- 판매자 주문목록 -->
+	<select id="orderList"
+		resultType="com.onsaem.web.shop.service.OrderVO">
+		SELECT O.ORDER_ID,
+		O.ORDER_DATE,
+		O.ORDER_STATUS,
+		O.MEMBER_ID,
+		O.RECIV_NAME,
+		O.RECIV_ADDR,
+		O.RECIV_PHONE,
+		O.RECIV_REQ,
+		O.DELIVERY_FEE,
+		O.DELIVERY_ID,
+		O.PRODUCT_ID,OD.DETAIL_AMOUNT,OD.DETAIL_OPTION,P.PRODUCT_NAME FROM
+		ORDER_DETAILS OD,ORDERS O,PRODUCTS P WHERE
+		OD.ORDER_ID=O.ORDER_ID AND
+		P.MEMBER_ID=#{data} AND
+		P.PRODUCT_ID=O.PRODUCT_ID
+	</select>
+
+	<!-- 주문목록 날짜조회 -->
+	<select id="changeDate"
+		resultType="com.onsaem.web.shop.service.OrderVO">
+		SELECT O.ORDER_ID,
+		O.ORDER_DATE,
+		O.ORDER_STATUS,
+		O.MEMBER_ID,
+		O.RECIV_NAME,
+		O.RECIV_ADDR,
+		O.RECIV_PHONE,
+		O.RECIV_REQ,
+		O.DELIVERY_FEE,
+		O.DELIVERY_ID,
+		O.PRODUCT_ID,OD.DETAIL_AMOUNT,OD.DETAIL_OPTION,P.PRODUCT_NAME FROM
+		ORDER_DETAILS OD,ORDERS O,PRODUCTS P WHERE
+		OD.ORDER_ID=O.ORDER_ID AND
+		P.MEMBER_ID=#{id} AND
+		P.PRODUCT_ID=O.PRODUCT_ID AND <![CDATA[
+		TO_CHAR(O.ORDER_DATE,'YYYY-MM-DD')>=#{startDate} AND
+		TO_CHAR(O.ORDER_DATE,'YYYY-MM-DD')<=#{endDate} ]]>
+	</select>
+
+	<!-- 오늘 주문조회 -->
+	<select id="todaySearch"
+		resultType="com.onsaem.web.shop.service.OrderVO">
+		SELECT O.ORDER_ID,
+		O.ORDER_DATE,
+		O.ORDER_STATUS,
+		O.MEMBER_ID,
+		O.RECIV_NAME,
+		O.RECIV_ADDR,
+		O.RECIV_PHONE,
+		O.RECIV_REQ,
+		O.DELIVERY_FEE,
+		O.DELIVERY_ID,
+		O.PRODUCT_ID,OD.DETAIL_AMOUNT,OD.DETAIL_OPTION,P.PRODUCT_NAME FROM
+		ORDER_DETAILS OD,ORDERS O,PRODUCTS P WHERE
+		OD.ORDER_ID=O.ORDER_ID AND
+		P.MEMBER_ID=#{id} AND
+		P.PRODUCT_ID=O.PRODUCT_ID AND
+		TO_CHAR(O.ORDER_DATE,'yyyy-MM-dd')=TO_CHAR(CURRENT_DATE,'yyyy-MM-dd')
+	</select>
+
+	<!-- 이번주 조회 -->
+	<select id="weekSearch"
+		resultType="com.onsaem.web.shop.service.OrderVO">
+		SELECT O.ORDER_ID,
+		O.ORDER_DATE,
+		O.ORDER_STATUS,
+		O.MEMBER_ID,
+		O.RECIV_NAME,
+		O.RECIV_ADDR,
+		O.RECIV_PHONE,
+		O.RECIV_REQ,
+		O.DELIVERY_FEE,
+		O.DELIVERY_ID,
+		O.PRODUCT_ID,OD.DETAIL_AMOUNT,OD.DETAIL_OPTION,P.PRODUCT_NAME FROM
+		ORDER_DETAILS OD,ORDERS O,PRODUCTS P WHERE
+		OD.ORDER_ID=O.ORDER_ID AND
+		P.MEMBER_ID=#{id} AND
+		P.PRODUCT_ID=O.PRODUCT_ID AND <![CDATA[
+		TO_CHAR(O.ORDER_DATE,'yyyy-MM-dd')>=TO_CHAR( CURRENT_DATE-( (SELECT
+		TO_CHAR(CURRENT_DATE,'D') FROM DUAL) -2 )-1, 'yyyy-mm-dd' ) AND
+		TO_CHAR(O.ORDER_DATE,'yyyy-MM-dd')<=TO_CHAR( CURRENT_DATE-( (SELECT
+		TO_CHAR(CURRENT_DATE,'D') FROM DUAL) -2 )+5, 'yyyy-mm-dd' ) ]]>
+	</select>
+
+	<!-- 이번달 조회 -->
+	<select id="monthSearch"
+		resultType="com.onsaem.web.shop.service.OrderVO">
+		SELECT O.ORDER_ID,
+		O.ORDER_DATE,
+		O.ORDER_STATUS,
+		O.MEMBER_ID,
+		O.RECIV_NAME,
+		O.RECIV_ADDR,
+		O.RECIV_PHONE,
+		O.RECIV_REQ,
+		O.DELIVERY_FEE,
+		O.DELIVERY_ID,
+		O.PRODUCT_ID,OD.DETAIL_AMOUNT,OD.DETAIL_OPTION,P.PRODUCT_NAME FROM
+		ORDER_DETAILS OD,ORDERS O,PRODUCTS P WHERE
+		OD.ORDER_ID=O.ORDER_ID AND
+		P.MEMBER_ID=#{id} AND
+		P.PRODUCT_ID=O.PRODUCT_ID AND <![CDATA[
+		TO_CHAR(O.ORDER_DATE,'yyyy-MM-dd')>=TO_CHAR( TRUNC(CURRENT_DATE, 'MM'), 'yyyy-mm-dd' ) AND
+		TO_CHAR(O.ORDER_DATE,'yyyy-MM-dd')<=TO_CHAR( LAST_DAY(CURRENT_DATE), 'yyyy-mm-dd' ) ]]>
+	</select>
+
+	<!-- 전체주문조회 -->
+	<select id="arrayOrderAll"
+		resultType="com.onsaem.web.shop.service.OrderVO">
+		SELECT O.ORDER_ID,
+		O.ORDER_DATE,
+		O.ORDER_STATUS,
+		O.MEMBER_ID,
+		O.RECIV_NAME,
+		O.RECIV_ADDR,
+		O.RECIV_PHONE,
+		O.RECIV_REQ,
+		O.DELIVERY_FEE,
+		O.DELIVERY_ID,
+		O.PRODUCT_ID,OD.DETAIL_AMOUNT,OD.DETAIL_OPTION,P.PRODUCT_NAME FROM
+		ORDER_DETAILS OD,ORDERS O,PRODUCTS P WHERE
+		OD.ORDER_ID=O.ORDER_ID AND
+		P.MEMBER_ID=#{id} AND
+		P.PRODUCT_ID=O.PRODUCT_ID
+		AND (O.RECIV_NAME LIKE
+		'%'||#{data}||'%' OR O.MEMBER_ID LIKE '%'||#{data}||'%' OR O.ORDER_ID
+		LIKE
+		'%'||#{data}||'%' OR O.PRODUCT_ID LIKE '%'||#{data}||'%')
+	</select>
+
+	<!-- 구매자명 -->
+	<select id="buyName"
+		resultType="com.onsaem.web.shop.service.OrderVO">
+		SELECT O.ORDER_ID,
+		O.ORDER_DATE,
+		O.ORDER_STATUS,
+		O.MEMBER_ID,
+		O.RECIV_NAME,
+		O.RECIV_ADDR,
+		O.RECIV_PHONE,
+		O.RECIV_REQ,
+		O.DELIVERY_FEE,
+		O.DELIVERY_ID,
+		O.PRODUCT_ID,OD.DETAIL_AMOUNT,OD.DETAIL_OPTION,P.PRODUCT_NAME FROM
+		ORDER_DETAILS OD,ORDERS O,PRODUCTS P WHERE
+		OD.ORDER_ID=O.ORDER_ID AND
+		P.MEMBER_ID=#{id} AND
+		P.PRODUCT_ID=O.PRODUCT_ID
+		AND (O.RECIV_NAME LIKE
+		'%'||#{data}||'%')
+	</select>
+
+	<!-- 구매자ID 조회 -->
+	<select id="buyId"
+		resultType="com.onsaem.web.shop.service.OrderVO">
+		SELECT O.ORDER_ID,
+		O.ORDER_DATE,
+		O.ORDER_STATUS,
+		O.MEMBER_ID,
+		O.RECIV_NAME,
+		O.RECIV_ADDR,
+		O.RECIV_PHONE,
+		O.RECIV_REQ,
+		O.DELIVERY_FEE,
+		O.DELIVERY_ID,
+		O.PRODUCT_ID,OD.DETAIL_AMOUNT,OD.DETAIL_OPTION,P.PRODUCT_NAME FROM
+		ORDER_DETAILS OD,ORDERS O,PRODUCTS P WHERE
+		OD.ORDER_ID=O.ORDER_ID AND
+		P.MEMBER_ID=#{id} AND
+		P.PRODUCT_ID=O.PRODUCT_ID
+		AND (O.MEMBER_ID LIKE
+		'%'||#{data}||'%')
+	</select>
+
+	<!-- 주문번호조회 -->
+	<select id="orderNumber"
+		resultType="com.onsaem.web.shop.service.OrderVO">
+		SELECT O.ORDER_ID,
+		O.ORDER_DATE,
+		O.ORDER_STATUS,
+		O.MEMBER_ID,
+		O.RECIV_NAME,
+		O.RECIV_ADDR,
+		O.RECIV_PHONE,
+		O.RECIV_REQ,
+		O.DELIVERY_FEE,
+		O.DELIVERY_ID,
+		O.PRODUCT_ID,OD.DETAIL_AMOUNT,OD.DETAIL_OPTION,P.PRODUCT_NAME FROM
+		ORDER_DETAILS OD,ORDERS O,PRODUCTS P WHERE
+		OD.ORDER_ID=O.ORDER_ID AND
+		P.MEMBER_ID=#{id} AND
+		P.PRODUCT_ID=O.PRODUCT_ID
+		AND (O.ORDER_ID
+		LIKE
+		'%'||#{data}||'%')
 	</select>
 	
-	<!-- 품절처리 -->
-	<update id="endProduct" parameterType="com.onsaem.web.shop.service.ProductVO">
-		UPDATE PRODUCTS 
-		SET PRODUCT_STATUS='품절', AMOUNT=0
-		WHERE PRODUCT_ID=#{productId}		
-	</update>
+	<!-- 상품번호조회 -->
+	<select id="productId"
+		resultType="com.onsaem.web.shop.service.OrderVO">
+		SELECT O.ORDER_ID,
+		O.ORDER_DATE,
+		O.ORDER_STATUS,
+		O.MEMBER_ID,
+		O.RECIV_NAME,
+		O.RECIV_ADDR,
+		O.RECIV_PHONE,
+		O.RECIV_REQ,
+		O.DELIVERY_FEE,
+		O.DELIVERY_ID,
+		O.PRODUCT_ID,OD.DETAIL_AMOUNT,OD.DETAIL_OPTION,P.PRODUCT_NAME FROM
+		ORDER_DETAILS OD,ORDERS O,PRODUCTS P WHERE
+		OD.ORDER_ID=O.ORDER_ID AND
+		P.MEMBER_ID=#{id} AND
+		P.PRODUCT_ID=O.PRODUCT_ID
+		AND (O.PRODUCT_ID LIKE '%'||#{data}||'%')
+	</select>
 </mapper>

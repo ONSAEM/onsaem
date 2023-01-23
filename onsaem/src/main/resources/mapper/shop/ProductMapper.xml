@@ -332,4 +332,25 @@
 		SELECT * FROM PRODUCTS
 		WHERE MEMBER_ID=#{data}
 	</select>
+
+	<!-- 최근 본 목록 가져오기 -->
+	<select id="watchProduct"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT P.PRODUCT_ID,
+		P.PRODUCT_NAME,
+		P.PRODUCT_DETAIL,
+		P.PRICE,
+		P.STAR,
+		P.AMOUNT,
+		P.DELIVERY_FEE,
+		P.CATEGORY,
+		P.PRODUCT_STATUS,
+		P.REGISTER_DATE,
+		P.MEMBER_ID,
+		P.PRODUCT_INFO,
+		P.SELLER_ADDR,
+		M.FILE_ROUTE FROM PRODUCTS P,MEDIA M WHERE (P.PRODUCT_ID=M.GROUP_ID AND
+		M.SUB_GROUP='대표이미지') AND (P.PRODUCT_ID=#{session1} OR P.PRODUCT_ID=#{session2} OR
+		P.PRODUCT_ID=#{session3} OR P.PRODUCT_ID=#{session4} OR P.PRODUCT_ID=#{session5})
+	</select>
 </mapper>

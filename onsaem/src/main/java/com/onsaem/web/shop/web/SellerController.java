@@ -9,16 +9,20 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.method.annotation.RequestParamMapMethodArgumentResolver;
 
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.shop.service.CartService;
 import com.onsaem.web.shop.service.CartVO;
+import com.onsaem.web.shop.service.OrderVO;
 import com.onsaem.web.shop.service.ProductService;
 import com.onsaem.web.shop.service.ProductVO;
 import com.onsaem.web.shop.service.SellerService;
@@ -174,13 +178,88 @@ public class SellerController {
 	// 품절처리
 	@RequestMapping(value = "/endProduct", method = RequestMethod.POST)
 	@ResponseBody
-	public Integer endProduct(@RequestBody ProductVO vo, Authentication authentication) {
+	public Integer endProduct(@RequestBody ProductVO vo) {
 		return sellService.endProduct(vo);
 	}
 
 	// 판매자 주문목록
 	@RequestMapping(value = "/sellerOrder", method = RequestMethod.GET)
-	public String sellerOrder() {
+	public String sellerOrder(Model model, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		model.addAttribute("orderList", sellService.orderList(userDetails.getUsername()));
 		return "content/shop/sellerOrder";
+	}
+
+	// 품절처리
+	@RequestMapping(value = "/shop/changeDate", method = RequestMethod.POST)
+	@ResponseBody
+	public List<OrderVO> changeDate(@RequestParam("startDate") String startDate,
+			@RequestParam("endDate") String endDate, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return sellService.changeDate(startDate, endDate, userDetails.getUsername());
+	}
+
+	// 오늘검색
+	@RequestMapping(value = "/shop/todaySearch", method = RequestMethod.POST)
+	@ResponseBody
+	public List<OrderVO> todaySearch(Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return sellService.todaySearch(userDetails.getUsername());
+	}
+
+	// 일주일조회
+	@RequestMapping(value = "/shop/weekSearch", method = RequestMethod.POST)
+	@ResponseBody
+	public List<OrderVO> weekSearch(Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return sellService.weekSearch(userDetails.getUsername());
+	}
+
+	// 한달조회
+	@RequestMapping(value = "/shop/monthSearch", method = RequestMethod.POST)
+	@ResponseBody
+	public List<OrderVO> monthSearch(Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return sellService.monthSearch(userDetails.getUsername());
+	}
+
+	// 전체주문검색
+	@RequestMapping(value = "/arrayOrderAll", method = RequestMethod.POST)
+	@ResponseBody
+	public List<OrderVO> arrayOrderAll(Authentication authentication, @RequestParam("data") String data) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return sellService.arrayOrderAll(userDetails.getUsername(), data);
+	}
+
+	// 구매자명검색
+	@RequestMapping(value = "/shop/buyName", method = RequestMethod.POST)
+	@ResponseBody
+	public List<OrderVO> buyName(Authentication authentication, @RequestParam("data") String data) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return sellService.buyName(userDetails.getUsername(), data);
+	}
+
+	// 구매자ID검색
+	@RequestMapping(value = "/shop/buyId", method = RequestMethod.POST)
+	@ResponseBody
+	public List<OrderVO> buyId(Authentication authentication, @RequestParam("data") String data) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return sellService.buyId(userDetails.getUsername(), data);
+	}
+
+	// 주문번호검색
+	@RequestMapping(value = "/shop/orderNumber", method = RequestMethod.POST)
+	@ResponseBody
+	public List<OrderVO> orderNumber(Authentication authentication, @RequestParam("data") String data) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return sellService.orderNumber(userDetails.getUsername(), data);
+	}
+
+	// 상품번호검색
+	@RequestMapping(value = "/shop/productId", method = RequestMethod.POST)
+	@ResponseBody
+	public List<OrderVO> productId(Authentication authentication, @RequestParam("data") String data) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return sellService.productId(userDetails.getUsername(), data);
 	}
 }

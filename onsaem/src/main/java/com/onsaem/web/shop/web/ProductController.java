@@ -1,6 +1,7 @@
 package com.onsaem.web.shop.web;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -195,9 +196,9 @@ public class ProductController {
 	// 최근본상품
 	@RequestMapping(value = "/watchProduct", method = RequestMethod.POST)
 	@ResponseBody
-	public String watchProduct(Model model, @RequestBody String data5, Authentication authentication) {
-		System.out.println(data5);
-		return "content/shop/shopLike";
+	public List<ProductVO> watchProduct(Model model, @RequestBody ProductVO vo, Authentication authentication) {
+		System.out.println(proService.watchProduct(vo));
+		return proService.watchProduct(vo);
 	}
 
 	// 리뷰작성
@@ -209,7 +210,5 @@ public class ProductController {
 		proService.addReview(vo);
 		return "content/shop/shopLike";
 	}
-	
-	
 
 }

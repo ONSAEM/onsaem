@@ -145,57 +145,10 @@
 								</div>
 							</div>
 						</div>
-						<div class="sidebar__item sidebar__item__color--option">
-							<h4>Colors</h4>
-							<div class="sidebar__item__color sidebar__item__color--white">
-								<label for="white"> White <input type="radio" id="white">
-								</label>
-							</div>
-							<div class="sidebar__item__color sidebar__item__color--gray">
-								<label for="gray"> Gray <input type="radio" id="gray">
-								</label>
-							</div>
-							<div class="sidebar__item__color sidebar__item__color--red">
-								<label for="red"> Red <input type="radio" id="red">
-								</label>
-							</div>
-							<div class="sidebar__item__color sidebar__item__color--black">
-								<label for="black"> Black <input type="radio" id="black">
-								</label>
-							</div>
-							<div class="sidebar__item__color sidebar__item__color--blue">
-								<label for="blue"> Blue <input type="radio" id="blue">
-								</label>
-							</div>
-							<div class="sidebar__item__color sidebar__item__color--green">
-								<label for="green"> Green <input type="radio" id="green">
-								</label>
-							</div>
-						</div>
-						<div class="sidebar__item">
-							<h4>Popular Size</h4>
-							<div class="sidebar__item__size">
-								<label for="large"> Large <input type="radio" id="large">
-								</label>
-							</div>
-							<div class="sidebar__item__size">
-								<label for="medium"> Medium <input type="radio"
-									id="medium">
-								</label>
-							</div>
-							<div class="sidebar__item__size">
-								<label for="small"> Small <input type="radio" id="small">
-								</label>
-							</div>
-							<div class="sidebar__item__size">
-								<label for="tiny"> Tiny <input type="radio" id="tiny">
-								</label>
-							</div>
-						</div>
 						<div class="sidebar__item">
 							<div class="latest-product__text">
 								<h4>최근 본 상품</h4>
-								<div class="latest-product__slider owl-carousel">
+								<div class="latest-product__slider owl-carousel" id="watchList">
 									<div class="latest-prdouct__slider__item">
 										<a href="/shopDetail" class="latest-product__item">
 											<div class="latest-product__item__pic">
@@ -374,51 +327,66 @@
 
 			function cartEvent() {
 				alert("장바구니에 추가되었습니다.");
-			}			
-			
-			//최근본상품 세션저장
-			function productDetail(data){
-				if(sessionStorage.getItem('productId')!=null){					
-					sessionStorage.setItem('productId',sessionStorage.getItem('productId')+data+",");	
-				}else{
-					sessionStorage.setItem('productId',data+",");
-				}					
-				location.href='/shopDetail?data='+data						
 			}
-			
-			window.onload = function(){
+
+			//최근본상품 세션저장
+			function productDetail(data) {
+				if (sessionStorage.getItem('productId') != null) {
+					sessionStorage.setItem('productId', sessionStorage
+							.getItem('productId')
+							+ data + ",");
+				} else {
+					sessionStorage.setItem('productId', data + ",");
+				}
+				location.href = '/shopDetail?data=' + data
+			}
+
+			window.onload = function() {
 				//최근본상품 세션 전달
-				let watch =sessionStorage.getItem('productId').split(',');				
-			
-				let data5=watch[watch.length];
-				let data4=watch[watch.length-1];
-				let data3=watch[watch.length-2];
-				let data2=watch[watch.length-3];
-				let data1=watch[watch.length-4];
-				console.log(data5)
-				console.log(data4)
-				console.log(data3)
-				console.log(data2)
-				console.log(data1)
-				
-				
-				
-				  fetch('/watchProduct',{
-   					headers: {
-   					    "Content-Type": "application/json",
-   					  },
-   					method:"post",
-   					body: JSON.stringify({
-   						data5: data5,
-   						data4: data4,
-   						data3: data3,
-   						data2: data2,
-   						data1: data1
-   					  })
-   					})
-				  .then((response) => console.log("success"))	  
-		    }
-			
+				let watch = sessionStorage.getItem('productId').split(',');
+				let data5 = watch[watch.length];
+				let data4 = watch[watch.length - 1];
+				let data3 = watch[watch.length - 2];
+				let data2 = watch[watch.length - 3];
+				let data1 = watch[watch.length - 4];
+				 $.ajax({
+					type : 'post',
+					url : '/watchProduct',
+					headers : {
+						"Content-Type" : "application/json"
+					},
+					data : JSON.stringify({
+						"session1" : data1,
+						"session2" : data2,
+						"session3" : data3,
+						"session4" : data4,
+						"session5" : data5
+					}),
+					success : function(result) {
+						console.log(result)
+						$("#watchList").html("");
+						for(let i=0; i<result.length;i++){
+							let watchList=`<div class="latest-prdouct__slider__item">
+								<a href="/shopDetail?data=`+result[i].productId+`" class="latest-product__item">
+								<div class="latest-product__item__pic">
+									<img th:src="'/fileView/'`+result[i].fileRoute+`"
+										alt="">
+								</div>
+								<div class="latest-product__item__text">
+									<h6>`+result[i].productName+`</h6>
+									<span>`+result[i].price+`</span>
+								</div>
+							</a>
+						</div>`;	
+						$("#watchList").append(watchList);
+						}
+						
+					},
+					error : function(error) {
+						console.log(error)
+					}
+				}) 
+			}
 		</script>
 	</th:block>
 

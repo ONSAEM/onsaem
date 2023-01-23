@@ -156,32 +156,31 @@ label {
 					<br> <br>
 					<div class="shoping__cart__table">
 						<h5 style="margin-left: 20px; display: inline-block">조회기간</h5>
-						&nbsp<input type="date">&nbsp<input type="date"><br>
+						&nbsp<input type="date" id="startDate">&nbsp<input
+							type="date" onchange="changeDate()" id="endDate"><br>
 						<br>
-						<button style="margin-left: 20px;">오늘</button>
+						<button style="margin-left: 20px;" onclick="todaySearch()">오늘</button>
 						&nbsp
-						<button>1주일</button>
+						<button onclick="weekSearch()">1주일</button>
 						&nbsp
-						<button>1개월</button>
+						<button onclick="monthSearch()">1개월</button>
 						<br> <br>
 						<h5 style="margin-left: 20px; display: inline-block">상세검색</h5>
-						&nbsp <select>
-							<option>전체</option>
-							<option>구매자명</option>
-							<option>구매자ID</option>
-							<option>주문번호</option>
-							<option>상품번호</option>
-						</select> <input type="text">
-						<button>검색</button>
-						&nbsp&nbsp&nbsp&nbsp&nbsp
-						 <select>
+						&nbsp <select id="search">
+							<option value="전체">전체</option>
+							<option value="구매자명">구매자명</option>
+							<option value="구매자ID">구매자ID</option>
+							<option value="주문번호">주문번호</option>
+							<option value="상품번호">상품번호</option>
+						</select> <input type="text" id="data">
+						<button onclick="submitBtn()">검색</button>
+						&nbsp&nbsp&nbsp&nbsp&nbsp <select>
 							<option>처리상태</option>
 							<option>교환/반품</option>
 							<option>배송완료</option>
 							<option>배송중</option>
 							<option>주문대기</option>
-							</select>
-						 <br> <br>
+						</select> <br> <br>
 						<table>
 							<thead>
 								<tr>
@@ -192,22 +191,19 @@ label {
 									<th>주문상태</th>
 									<th>구매자명</th>
 									<th>수량</th>
-									<th>옵션</th>									
+									<th>옵션</th>
 								</tr>
 							</thead>
-							<tbody id="sellerList">
-								<tr th:each="sell:${sellerList}">
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td></td>
-									<td><input type="checkbox"
-										th:onclick="endProduct(this,[[${sell.productId}]])"
-										id="endProduct"></td>
-									<td id="status"></td>
-									<td></td>
-									<td></td>
+							<tbody id="orderList">
+								<tr th:each="order:${orderList}">
+									<td>[[${order.orderId}]]</td>
+									<td>[[${order.productName}]]</td>
+									<td>[[${order.productId}]]</td>
+									<td>[[${order.orderDate}]]</td>
+									<td>[[${order.orderStatus}]]</td>
+									<td>[[${order.recivName}]]</td>
+									<td>[[${order.detailAmount}]]</td>
+									<td>[[${order.detailOption}]]</td>
 								</tr>
 							</tbody>
 						</table>
@@ -223,7 +219,264 @@ label {
 	</th:block>
 
 	<script type="text/javascript">
-		
+	//선택검색
+	//조회
+	function submitBtn() {		
+		if($("#search").val()=="전체"){
+			$.ajax({
+				type : 'post', 
+				url : '/arrayOrderAll?data='+$("#data").val(), 				
+				headers : { 
+					"Content-Type" : "application/json"					
+				},
+				success : function(result) {					
+					$("#orderList").html("");
+					for(let i=0;i<result.length;i++){
+						let list=`<tr>
+							<td>`+result[i].orderId+`</td>
+							<td>`+result[i].productName+`</td>
+							<td>`+result[i].productId+`</td>
+							<td>`+result[i].orderDate+`</td>
+							<td>`+result[i].orderStatus+`</td>
+							<td>`+result[i].recivName+`</td>								
+							<td>`+result[i].detailAmount+`</td>
+							<td>`+result[i].detailOption+`</td>
+						</tr>`;
+						$("#orderList").append(list);
+					}				
+				},
+				error : function(error) { 
+					console.log(error)
+				}
+			})
+		}else if($("#search").val()=="구매자명"){
+			$.ajax({
+				type : 'post', 
+				url : '/shop/buyName?data='+$("#data").val(), 				
+				headers : { 
+					"Content-Type" : "application/json"					
+				},
+				success : function(result) {						
+					$("#orderList").html("");
+					for(let i=0;i<result.length;i++){
+						let list=`<tr>
+							<td>`+result[i].orderId+`</td>
+							<td>`+result[i].productName+`</td>
+							<td>`+result[i].productId+`</td>
+							<td>`+result[i].orderDate+`</td>
+							<td>`+result[i].orderStatus+`</td>
+							<td>`+result[i].recivName+`</td>								
+							<td>`+result[i].detailAmount+`</td>
+							<td>`+result[i].detailOption+`</td>
+						</tr>`;
+						$("#orderList").append(list);
+					}				
+				},
+				error : function(error) { 
+					console.log(error)
+				}
+			})
+		}else if($("#search").val()=="구매자ID"){		
+			$.ajax({
+				type : 'post', 
+				url : '/shop/buyId?data='+$("#data").val(), 				
+				headers : { 
+					"Content-Type" : "application/json"					
+				},
+				success : function(result) {					
+					$("#orderList").html("");
+					for(let i=0;i<result.length;i++){
+						let list=`<tr>
+							<td>`+result[i].orderId+`</td>
+							<td>`+result[i].productName+`</td>
+							<td>`+result[i].productId+`</td>
+							<td>`+result[i].orderDate+`</td>
+							<td>`+result[i].orderStatus+`</td>
+							<td>`+result[i].recivName+`</td>								
+							<td>`+result[i].detailAmount+`</td>
+							<td>`+result[i].detailOption+`</td>
+						</tr>`;
+						$("#orderList").append(list);
+					}				
+				},
+				error : function(error) { 
+					console.log(error)
+				}
+			})		  
+			}else if($("#search").val()=="주문번호"){		
+				$.ajax({
+					type : 'post', 
+					url : '/shop/orderNumber?data='+$("#data").val(), 				
+					headers : { 
+						"Content-Type" : "application/json"					
+					},
+					success : function(result) {					
+						$("#orderList").html("");
+						for(let i=0;i<result.length;i++){
+							let list=`<tr>
+								<td>`+result[i].orderId+`</td>
+								<td>`+result[i].productName+`</td>
+								<td>`+result[i].productId+`</td>
+								<td>`+result[i].orderDate+`</td>
+								<td>`+result[i].orderStatus+`</td>
+								<td>`+result[i].recivName+`</td>								
+								<td>`+result[i].detailAmount+`</td>
+								<td>`+result[i].detailOption+`</td>
+							</tr>`;
+							$("#orderList").append(list);
+						}				
+					},
+					error : function(error) { 
+						console.log(error)
+					}
+					})	  
+				}else{
+					$.ajax({
+						type : 'post', 
+						url : '/shop/productId?data='+$("#data").val(), 				
+						headers : { 
+							"Content-Type" : "application/json"					
+						},
+						success : function(result) {					
+							$("#orderList").html("");
+							for(let i=0;i<result.length;i++){
+								let list=`<tr>
+									<td>`+result[i].orderId+`</td>
+									<td>`+result[i].productName+`</td>
+									<td>`+result[i].productId+`</td>
+									<td>`+result[i].orderDate+`</td>
+									<td>`+result[i].orderStatus+`</td>
+									<td>`+result[i].recivName+`</td>								
+									<td>`+result[i].detailAmount+`</td>
+									<td>`+result[i].detailOption+`</td>
+								</tr>`;
+								$("#orderList").append(list);
+							}				
+						},
+						error : function(error) { 
+							console.log(error)
+						}
+						})
+				}
+	}
+		 
+	//한달조회
+	function monthSearch(){		
+		$.ajax({
+			type : 'post', 
+			url : '/shop/monthSearch', 				
+			headers : { 
+				"Content-Type" : "application/json"					
+			},				
+			success : function(result) {				
+				$("#orderList").html("");
+				for(let i=0;i<result.length;i++){
+					let list=`<tr>
+						<td>`+result[i].orderId+`</td>
+						<td>`+result[i].productName+`</td>
+						<td>`+result[i].productId+`</td>
+						<td>`+result[i].orderDate+`</td>
+						<td>`+result[i].orderStatus+`</td>
+						<td>`+result[i].recivName+`</td>								
+						<td>`+result[i].detailAmount+`</td>
+						<td>`+result[i].detailOption+`</td>
+					</tr>`;
+					$("#orderList").append(list);
+				}
+			},
+			error : function(error) { 
+				console.log(error)
+			}
+		})			
+	}
+	//일주일조회
+	function weekSearch(){		
+		$.ajax({
+			type : 'post', 
+			url : '/shop/weekSearch', 				
+			headers : { 
+				"Content-Type" : "application/json"					
+			},				
+			success : function(result) {				
+				$("#orderList").html("");
+				for(let i=0;i<result.length;i++){
+					let list=`<tr>
+						<td>`+result[i].orderId+`</td>
+						<td>`+result[i].productName+`</td>
+						<td>`+result[i].productId+`</td>
+						<td>`+result[i].orderDate+`</td>
+						<td>`+result[i].orderStatus+`</td>
+						<td>`+result[i].recivName+`</td>								
+						<td>`+result[i].detailAmount+`</td>
+						<td>`+result[i].detailOption+`</td>
+					</tr>`;
+					$("#orderList").append(list);
+				}
+			},
+			error : function(error) { 
+				console.log(error)
+			}
+		})			
+	}
+	//오늘조회
+	function todaySearch(){		
+		$.ajax({
+			type : 'post', 
+			url : '/shop/todaySearch', 				
+			headers : { 
+				"Content-Type" : "application/json"					
+			},				
+			success : function(result) {				
+				$("#orderList").html("");
+				for(let i=0;i<result.length;i++){
+					let list=`<tr>
+						<td>`+result[i].orderId+`</td>
+						<td>`+result[i].productName+`</td>
+						<td>`+result[i].productId+`</td>
+						<td>`+result[i].orderDate+`</td>
+						<td>`+result[i].orderStatus+`</td>
+						<td>`+result[i].recivName+`</td>								
+						<td>`+result[i].detailAmount+`</td>
+						<td>`+result[i].detailOption+`</td>
+					</tr>`;
+					$("#orderList").append(list);
+				}
+			},
+			error : function(error) { 
+				console.log(error)
+			}
+		})			
+	}
+		//조회기간설정
+		function changeDate(){			
+			$.ajax({
+				type : 'post', 
+				url : '/shop/changeDate?startDate='+$("#startDate").val()+'&endDate='+$("#endDate").val(), 				
+				headers : { 
+					"Content-Type" : "application/json"					
+				},				
+				success : function(result) {					
+					console.log(result)
+					$("#orderList").html("");
+					for(let i=0;i<result.length;i++){
+						let list=`<tr>
+							<td>`+result[i].orderId+`</td>
+							<td>`+result[i].productName+`</td>
+							<td>`+result[i].productId+`</td>
+							<td>`+result[i].orderDate+`</td>
+							<td>`+result[i].orderStatus+`</td>
+							<td>`+result[i].recivName+`</td>								
+							<td>`+result[i].detailAmount+`</td>
+							<td>`+result[i].detailOption+`</td>
+						</tr>`;
+						$("#orderList").append(list);
+					}
+				},
+				error : function(error) { 
+					console.log(error)
+				}
+			})			
+		}
 	</script>
 </div>
 </html>
