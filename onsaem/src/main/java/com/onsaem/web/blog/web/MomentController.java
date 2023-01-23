@@ -83,11 +83,11 @@ public class MomentController {
 	}
 	
 	// 모먼트 삭제
-	@RequestMapping(value="/momentDel", method= RequestMethod.GET)
+	@RequestMapping(value="/momentDel", method= RequestMethod.POST)
 	@ResponseBody
 	public String momentDel(String momentId) {
 		momentService.momentDel(momentId);
 		
-		return "content/blog/myblog";
+		return "success";
 	}
 }
