@@ -78,7 +78,7 @@
 	        <label>후원계좌</label>
 	        <select name="bank">
 	        	<option value="" >==은행 선택==</option>
-	        	<option th:each="bank : ${banks}" th:value=${bank.bankId}
+	        	<option th:each="bank : ${banks}" th:value=${bank.bankName}
 	                th:text="${bank.bankName}"></option>        	
 	        </select>
 	        <input type="text" name="bankAccount">
