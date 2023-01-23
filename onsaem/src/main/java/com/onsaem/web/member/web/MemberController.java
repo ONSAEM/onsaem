@@ -90,7 +90,7 @@ public class MemberController {
 	// 비밀번호 변경
 	@RequestMapping(value = "/updatePw", method = RequestMethod.POST)
 	@ResponseBody
-	public String updatePw(MemberVO member){
+	public String updatePw(MemberVO member) {
 		return memberService.updatePw(member);
 	}
 
@@ -100,10 +100,23 @@ public class MemberController {
 	public String updateMember(MultipartFile[] profileFile, MemberVO member) throws IllegalStateException, IOException {
 		return memberService.updateMember(profileFile, member);
 	}
-	
+
 	// 마이페이지 메인페이지로 이동
 	@RequestMapping(value = "/myPageMain", method = RequestMethod.GET)
 	public String myPageMain(String email) {
 		return "content/member/myPageMain";
+	}
+
+	// 마이페이지 회원정보페이지로 이동
+	@RequestMapping(value = "/myInfo", method = RequestMethod.GET)
+	public String myInfoPage(String email) {
+		return "content/member/myInfo";
+	}
+
+	// 마이페이지 정보수정페이지로 이동
+	@RequestMapping(value = "/myinfoModify", method = RequestMethod.GET)
+	public String myinfoModify(String email, Model model) {
+		model.addAttribute("bankList", commonService.getBankList());
+		return "content/member/myinfoModify";
 	}
 }

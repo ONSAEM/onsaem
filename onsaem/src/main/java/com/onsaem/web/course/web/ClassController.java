@@ -63,4 +63,10 @@ public class ClassController {
 //		model.addAttribute("reviewList");
 		return "content/course/classDetail";
 	}
+	
+	// 강의관리 페이지 이동
+		@RequestMapping(value = "/classMGMT", method = RequestMethod.GET)
+		public String courseMGMT(ClassInfoVO vo, Model model) {
+			return "content/course/classMGMT";
+		}
 }
