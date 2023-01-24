@@ -8,13 +8,13 @@
 		<selectKey keyProperty="ngoId" resultType="string" order="BEFORE">
 			SELECT 'NGO'||LPAD(NGO_SEQ.NEXTVAL,3,0) FROM DUAL	
 		</selectKey>
-		INSERT into NGOES 
+		INSERT into NGOES(NGO_ID, NGO_NO, POSTAL_CODE, ADDR, DETAIL_ADDR, EMAIL, PHONE, BANK, BANK_ACCOUNT, CONDITION, NGO_NAME, CLASSES)
 		VALUES(#{ngoId}, #{writerId},#{ngoNo}, #{postalCode}, #{addr}, #{detailAddr}, #{email}, 
 				#{phone}, #{bank}, #{bankAccount}, #{condition},#{ngoName}, #{classes})		
 	</insert>
 	
 	<!-- ngo수정,  - 반려, 승인, 반려후 재신청 등등 -->
-	<update id ="updateNgo" parameterType="NgoVo">
+	<update id ="updateNgo" parameterType="NgoVO">
 		Update NGOES
 		SET NGO_NO = #{ngoNo},
 			POSTAL_CODE = #{postalCode},
@@ -32,9 +32,11 @@
 	
 	<!-- 신청목록 조회 - condition별 조회 -->
 	<select id="listNgo" resultType="NgoVO" parameterType="string">
-		SELECT *
-		FROM NGOES
-		where CONDITION = #{condition} 
+		SELECT N.NGO_ID, N.WRITER_ID, N.POSTAL_CODE, N.ADDR, N.DETAIL_ADDR, N.EMAIL, N.NGO_NO
+		, N.PHONE, N.BANK, N.BANK_ACCOUNT, N.CONDITION, N.NGO_NAME, N.CLASSES, M.FILE_ROUTE
+		FROM NGOES N JOIN MEDIA M
+		ON N.NGO_ID = M.GROUP_ID
+		WHERE N.CONDITION = #{condition}
 	</select>
 	
 	<!-- 신청목록 조회 - 항시 병시별 조회 -->
@@ -57,6 +59,24 @@
 		FROM NGOES
 		WHERE WRITER_ID = #{writerId}
 		ORDER BY NGO_ID DESC
+	</select>
+	
+	<update id="updateCondition" parameterType="NgoVO">
+		UPDATE NGOES
+		SET CONDITION = #{condition}
+		WHERE NGO_ID = #{ngoId}
+	</update>
+	
+	<update id="rejectNgo" parameterType="NgoVO">
+		UPDATE NGOES
+		SET CONDITION = #{condition},
+		REASON = #{reason}
+		WHERE NGO_ID = #{ngoId}
+	</update>
+	
+	<select id ="notApproveList" resultType="NgoVO">
+		SELECT * FROM NGOES
+		WHERE CONDITION NOT IN ('신청', '재반려')
 	</select>
 	
 </mapper>

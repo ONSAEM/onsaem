@@ -22,6 +22,15 @@ public interface NgoService {
 		//안쓸거같긴함 - ngo삭제 - 
 		Integer delNgo(String ngoId);
 		
-		//내가 신청한 ngo목록들,,별다만,,별걸 다 만든다는뜻,,
+		//내가 신청한 ngo목록들,,
 		List<NgoVO> myApplies(String writerId);
+		
+		//ngo 상태 업데이트 - 반려/승인용
+		Integer updateCondition(NgoVO vo);
+		
+		//반려
+		Integer rejectNgo(NgoVO vo);
+		
+		//승인된 목록 이외의 ngo리스트
+		List<NgoVO> notApproveList();
 }

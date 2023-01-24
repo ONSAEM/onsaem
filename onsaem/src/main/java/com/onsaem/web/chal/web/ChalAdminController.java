@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.onsaem.web.chal.service.ChalService;
 import com.onsaem.web.chal.service.ChalVO;
 import com.onsaem.web.chal.service.NgoService;
+import com.onsaem.web.chal.service.NgoVO;
 import com.onsaem.web.chal.service.ParticipantService;
 import com.onsaem.web.chal.service.ParticipantVO;
 import com.onsaem.web.chal.service.ProofService;
@@ -119,7 +120,7 @@ public class ChalAdminController {
 	@RequestMapping(value="/ApplyNgoList", method=RequestMethod.GET)
 	public String applyNgoLIst(Model model) {
 		//승인받지 않은 리스트
-		model.addAttribute("ponNgoes", ngoService.listNgo("신청"));
+		model.addAttribute("ponNgoes", ngoService.notApproveList());
 		
 		//승인 받은 리스트
 		model.addAttribute("ngoes", ngoService.listNgo("승인"));
@@ -127,7 +128,27 @@ public class ChalAdminController {
 		return "content/challengers/AdminNgoList";
 	}
 	
-	//ngo신청 업데이트
+	//ngo신청 승인
+	@RequestMapping(value="/approveNgo", method=RequestMethod.POST)
+	public String approveNgo(@RequestBody NgoVO vo){
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		ngoService.updateCondition(vo);
+		
+		
+		return "redirect:/mypage/ApplyNgoList";
+	}
+	
+	//ngo신청 반려
+	@RequestMapping(value="/rejectNgo", method=RequestMethod.POST)
+	public String rejectNgo(@RequestBody NgoVO vo){
+		Map<String,Object> map = new HashMap<String, Object>();
+		
+		ngoService.rejectNgo(vo);
+		
+
+		return "redirect:/mypage/ApplyNgoList";
+	}
 	
 	
 	

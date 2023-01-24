@@ -316,30 +316,25 @@ public class ChalController {
 	
 	//기부처 등록
 	@RequestMapping(value="/inputNgo", method=RequestMethod.POST)
-	@ResponseBody //ajax
-	public String inputNgoPg(NgoVO vo,MultipartFile[] uploadFile, Model model ) throws IllegalStateException, IOException {
+	public String inputNgoPg(NgoVO vo,MultipartFile[] uploadFile, Model model,  Authentication authentication) throws IllegalStateException, IOException {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		model.addAttribute("banks", bankService.listBank());
 		System.out.println("========================"+vo);
 		//html페이지에서 받아오지 못하는 변수들 설정
 		vo.setClasses("항시");
 		vo.setCondition("신청");
-		vo.setWriterId("jjinbbang");
+		vo.setWriterId(userDetails.getUsername());
 		ngoService.inputNgo(vo);
 		
 		//사진 업로드
 		MediaVO mvo = new MediaVO();
 		mvo.setGroupId(vo.getNgoId());
+		System.out.println(vo.getNgoId());
 		mvo.setGroups("기부처");
-        for(int i=0;i<uploadFile.length;i++) {
-			if(i==0) {
-				mvo.setSubGroup("고유번호증");
-			}else {
-				mvo.setSubGroup("");
-			}			
-			MultipartFile[] upload= {uploadFile[i]};
-			mediaService.uploadMedia(upload, mvo);
-		}		
-		return "content/challengers/inputNGO";
+		mvo.setSubGroup("고유번호증");
+		mediaService.uploadMedia(uploadFile, mvo);
+				
+		return "redirect:/chalList";
 	}
 	
 	//신고

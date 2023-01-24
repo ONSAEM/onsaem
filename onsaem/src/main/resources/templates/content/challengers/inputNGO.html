@@ -57,7 +57,7 @@
 			<br>
 			
 			<label>고유번호증 첨부</label>
-			<input type="file" id="uploadFile">
+			<input type="file" id="uploadFile" name="uploadFile">
 			<br>
 			
 			<input type="text" id="sample6_postcode" placeholder="우편번호" name="postalCode">
@@ -141,22 +141,7 @@
         }).open();
     };
     
-    //등록
-    $(".btn").on("click", function(){
-    	$.ajax({
-    		url:'/inputNgo',
-    		method: 'post',
-    		contentType : 'application/x-www-form-urlencoded',
-    		data: $('form[name="myfrm"]').serialize(),
-    		success : function(result){
-    			console.log(result);
-    			alert('신청완료');
-    		},
-    		error : function(error){
-    			console.log(error);
-    		}
-    	})
-    })
+   
     
 </script>
 <!-- JS -->

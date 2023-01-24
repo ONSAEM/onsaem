@@ -29,6 +29,7 @@ import com.onsaem.web.chal.service.ChalService;
 import com.onsaem.web.chal.service.ChalVO;
 import com.onsaem.web.chal.service.MediaService;
 import com.onsaem.web.chal.service.NgoService;
+import com.onsaem.web.chal.service.NgoVO;
 import com.onsaem.web.chal.service.ParticipantService;
 import com.onsaem.web.chal.service.ParticipantVO;
 import com.onsaem.web.chal.service.ProofService;
@@ -332,13 +333,14 @@ public class ChalMypageController {
 		return list;
 	}
 	
-	//내가 신청한 ngo목록 보기,,안하면 안되나~? ㅎㅎ
+	//내가 신청한 ngo목록 보기,,
 	@RequestMapping(value="/myApplyNgo", method=RequestMethod.GET)
-	public String myApplyNgo(Model model) {
+	public String myApplyNgo(Model model,Authentication authentication) {
 		//로그인 아이디 불러오기
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		String id = userDetails.getUsername();
 		
 		//내가 신청한 ngo리스트를 가져오기
-		String id = "hodu"; //나중에 세션으로 갈아끼우기
 		
 		if(ngoService.myApplies(id).size()==0) {
 			model.addAttribute("msg", "신청하신 목록이 없습니다.");
@@ -347,6 +349,18 @@ public class ChalMypageController {
 		}
 		
 		return "content/challengers/MyApplyNgo";
+	}
+	
+	//ngo 재신청
+	@RequestMapping(value="/reSubmit", method=RequestMethod.POST)
+	public String reSubmit(@RequestBody NgoVO vo, Authentication authentication) {
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		String id = userDetails.getUsername();
+		System.out.println(vo);
+		vo.setClasses("항시");
+		ngoService.updateNgo(vo);
+		return "redirect:/mypage/myApplyNgo";
+		
 	}
 	
 	//영수증 보기

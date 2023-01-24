@@ -21,4 +21,7 @@ public class NgoVO {
 	String condition;
 	String ngoName;
 	String classes; //분류 - 항시 일시 
+	String reason;
+	
+	String fileRoute;
 }
