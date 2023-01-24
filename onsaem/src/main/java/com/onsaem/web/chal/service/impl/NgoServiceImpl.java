@@ -54,6 +54,24 @@ public class NgoServiceImpl implements NgoService {
 		// TODO Auto-generated method stub
 		return ngoMapper.myApplies(writerId);
 	}
+
+	@Override
+	public Integer updateCondition(NgoVO vo) {
+		// TODO Auto-generated method stub
+		return ngoMapper.updateCondition(vo);
+	}
+
+	@Override
+	public Integer rejectNgo(NgoVO vo) {
+		// TODO Auto-generated method stub
+		return ngoMapper.rejectNgo(vo);
+	}
+
+	@Override
+	public List<NgoVO> notApproveList() {
+		// TODO Auto-generated method stub
+		return ngoMapper.notApproveList();
+	}
 	
 	
 	
