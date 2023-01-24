@@ -174,12 +174,12 @@ label {
 							<option value="상품번호">상품번호</option>
 						</select> <input type="text" id="data">
 						<button onclick="submitBtn()">검색</button>
-						&nbsp&nbsp&nbsp&nbsp&nbsp <select>
+						&nbsp&nbsp&nbsp&nbsp&nbsp <select onchange="status()" id="status">
 							<option>처리상태</option>
-							<option>교환/반품</option>
-							<option>배송완료</option>
-							<option>배송중</option>
-							<option>주문대기</option>
+							<option value="교환/반품">교환/반품</option>
+							<option value="배송완료">배송완료</option>
+							<option value="배송중">배송중</option>
+							<option value="주문대기">주문대기</option>
 						</select> <br> <br>
 						<table>
 							<thead>
@@ -219,7 +219,119 @@ label {
 	</th:block>
 
 	<script type="text/javascript">
-	//선택검색
+	//상태별 조회
+	function status() {		
+		if($("#status").val()=="교환/반품"){
+			$.ajax({
+				type : 'post', 
+				url : '/orderExchange', 				
+				headers : { 
+					"Content-Type" : "application/json"					
+				},
+				success : function(result) {					
+					$("#orderList").html("");
+					for(let i=0;i<result.length;i++){
+						let list=`<tr>
+							<td>`+result[i].orderId+`</td>
+							<td>`+result[i].productName+`</td>
+							<td>`+result[i].productId+`</td>
+							<td>`+result[i].orderDate+`</td>
+							<td>`+result[i].orderStatus+`</td>
+							<td>`+result[i].recivName+`</td>								
+							<td>`+result[i].detailAmount+`</td>
+							<td>`+result[i].detailOption+`</td>
+						</tr>`;
+						$("#orderList").append(list);
+					}				
+				},
+				error : function(error) { 
+					console.log(error)
+				}
+			})
+		}else if($("#status").val()=="배송완료"){
+			$.ajax({
+				type : 'post', 
+				url : '/endShipping', 				
+				headers : { 
+					"Content-Type" : "application/json"					
+				},
+				success : function(result) {					
+					$("#orderList").html("");
+					for(let i=0;i<result.length;i++){
+						let list=`<tr>
+							<td>`+result[i].orderId+`</td>
+							<td>`+result[i].productName+`</td>
+							<td>`+result[i].productId+`</td>
+							<td>`+result[i].orderDate+`</td>
+							<td>`+result[i].orderStatus+`</td>
+							<td>`+result[i].recivName+`</td>								
+							<td>`+result[i].detailAmount+`</td>
+							<td>`+result[i].detailOption+`</td>
+						</tr>`;
+						$("#orderList").append(list);
+					}				
+				},
+				error : function(error) { 
+					console.log(error)
+				}
+			})
+		}else if($("#status").val()=="배송중"){		
+			$.ajax({
+				type : 'post', 
+				url : '/shipping', 				
+				headers : { 
+					"Content-Type" : "application/json"					
+				},
+				success : function(result) {					
+					$("#orderList").html("");
+					for(let i=0;i<result.length;i++){
+						let list=`<tr>
+							<td>`+result[i].orderId+`</td>
+							<td>`+result[i].productName+`</td>
+							<td>`+result[i].productId+`</td>
+							<td>`+result[i].orderDate+`</td>
+							<td>`+result[i].orderStatus+`</td>
+							<td>`+result[i].recivName+`</td>								
+							<td>`+result[i].detailAmount+`</td>
+							<td>`+result[i].detailOption+`</td>
+						</tr>`;
+						$("#orderList").append(list);
+					}				
+				},
+				error : function(error) { 
+					console.log(error)
+				}
+			})	  
+			}else {		
+				$.ajax({
+					type : 'post', 
+					url : '/sell/waitOrder', 				
+					headers : { 
+						"Content-Type" : "application/json"					
+					},
+					success : function(result) {					
+						$("#orderList").html("");
+						for(let i=0;i<result.length;i++){
+							let list=`<tr>
+								<td>`+result[i].orderId+`</td>
+								<td>`+result[i].productName+`</td>
+								<td>`+result[i].productId+`</td>
+								<td>`+result[i].orderDate+`</td>
+								<td>`+result[i].orderStatus+`</td>
+								<td>`+result[i].recivName+`</td>								
+								<td>`+result[i].detailAmount+`</td>
+								<td>`+result[i].detailOption+`</td>
+							</tr>`;
+							$("#orderList").append(list);
+						}				
+					},
+					error : function(error) { 
+						console.log(error)
+					}
+				})		  
+			}
+	}
+	
 	//조회
 	function submitBtn() {		
 		if($("#search").val()=="전체"){

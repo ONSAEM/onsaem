@@ -81,4 +81,16 @@ public interface SellerMapper {
 	// 상품번호 조회
 	List<OrderVO> productId(String id, String data);
 
+	// 교환/반품목록 조회
+	List<OrderVO> orderExchange(String id);
+
+	// 배송완료 조회
+	List<OrderVO> endShipping(String id);
+
+	// 배송중 조회
+	List<OrderVO> shipping(String id);
+
+	// 주문대기 조회
+	List<OrderVO> waitOrder(String id);
+
 }
