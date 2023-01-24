@@ -165,4 +165,28 @@ public class SellerServiceImpl implements SellerService {
 		return sellMapper.productId(id, data);	
 	}
 
+	@Override
+	public List<OrderVO> orderExchange(String id) {
+		// 교환 반품목록 조회
+		return sellMapper.orderExchange(id);	
+	}
+	
+	@Override
+	public List<OrderVO> endShipping(String id) {
+		// 배송완료 조회
+		return sellMapper.endShipping(id);	
+	}
+	
+	@Override
+	public List<OrderVO> shipping(String id) {
+		// 배송중 조회
+		return sellMapper.shipping(id);	
+	}
+	
+	@Override
+	public List<OrderVO> waitOrder(String id) {
+		// 주문대기 조회
+		return sellMapper.waitOrder(id);	
+	}
+
 }

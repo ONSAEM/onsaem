@@ -262,4 +262,36 @@ public class SellerController {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		return sellService.productId(userDetails.getUsername(), data);
 	}
+
+	// 교환/반품검색
+	@RequestMapping(value = "/orderExchange", method = RequestMethod.POST)
+	@ResponseBody
+	public List<OrderVO> orderExchange(Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return sellService.orderExchange(userDetails.getUsername());
+	}
+
+	// 배송완료조회
+	@RequestMapping(value = "/endShipping", method = RequestMethod.POST)
+	@ResponseBody
+	public List<OrderVO> endShipping(Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return sellService.endShipping(userDetails.getUsername());
+	}
+	
+	// 배송완료조회
+		@RequestMapping(value = "/shipping", method = RequestMethod.POST)
+		@ResponseBody
+		public List<OrderVO> shipping(Authentication authentication) {
+			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			return sellService.shipping(userDetails.getUsername());
+		}
+		
+		// 배송완료조회
+				@RequestMapping(value = "/sell/waitOrder", method = RequestMethod.POST)
+				@ResponseBody
+				public List<OrderVO> waitOrder(Authentication authentication) {
+					UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+					return sellService.waitOrder(userDetails.getUsername());
+				}
 }
