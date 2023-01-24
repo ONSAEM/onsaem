@@ -4,11 +4,17 @@ import java.io.IOException;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.onsaem.web.common.service.MailService;
@@ -140,7 +146,8 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 	}
 
 	@Override
-	public String updateMember(MultipartFile[] profileFile, MemberVO member) throws IllegalStateException, IOException {
+	public MemberVO updateMember(MultipartFile[] profileFile, MemberVO member)
+			throws IllegalStateException, IOException {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 		member.setPassword(encoder.encode(member.getPassword()));
 		if (member.getBank() == null || member.getBankAccount() == null) {
@@ -150,7 +157,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 		if (member.getNickname() == null) {
 			member.setNickname(member.getMemberId());
 		}
-		int result = memberMapper.insertMember(member);
+		int result = memberMapper.updateMember(member);
 		if (profileFile != null) {
 			MediaVO vo = new MediaVO();
 			vo.setGroupId(member.getMemberId());
@@ -160,10 +167,15 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 			mediaService.uploadMedia(profileFile, vo);
 		}
 		if (result > 0) {
-			return "success";
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			UserDetails newPrincipal = memberMapper.getMember(member.getMemberId());
+			UsernamePasswordAuthenticationToken newAuth = new UsernamePasswordAuthenticationToken(newPrincipal,
+					authentication.getCredentials(), newPrincipal.getAuthorities());
+			newAuth.setDetails(authentication.getDetails());
+			SecurityContextHolder.getContext().setAuthentication(newAuth);
+			return member;
 		} else {
-			return "fail";
+			return null;
 		}
 	}
-
 }

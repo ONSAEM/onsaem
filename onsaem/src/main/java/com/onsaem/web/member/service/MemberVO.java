@@ -30,6 +30,7 @@ public class MemberVO implements UserDetails{
 	private String postalCode;
 	private String addr;
 	private String detailAddr;
+	private String bankCode;
 	private String bank;
 	private String bankAccount;
 	private String businessNumber;

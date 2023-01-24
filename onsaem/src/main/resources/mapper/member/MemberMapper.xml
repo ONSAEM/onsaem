@@ -9,15 +9,17 @@
 		parameterType="String">
 		SELECT M.PASSWORD, M.NICKNAME, M.EMAIL, M.PHONE,
 		M.POSTAL_CODE, M.ADDR,
-		M.DETAIL_ADDR, M.BANK_ACCOUNT,
+		M.DETAIL_ADDR, M.BANK AS BANK_CODE , M.BANK_ACCOUNT,
 		M.BUSINESS_NUMBER, M.ROLE, M.POINT,
 		M.MEMBER_ID, M.NAME, F.FILE_NAME,
 		F.FILE_ROUTE, C.CODE_NAME AS BANK
-		FROM MEMBERS M , (select* from MEDIA where STATUS = 'true') F, COMMONS C
+		FROM MEMBERS M , (select* from MEDIA
+		where STATUS = 'true') F, COMMONS C
 		WHERE M.MEMBER_ID = F.GROUP_ID(+)
 		AND M.BANK = C.CODE_ID(+)
 		AND M.MEMBER_ID = #{memberId}
-		AND M.STATUS != 'false'
+		AND M.STATUS !=
+		'false'
 		<![CDATA[
 		AND M.BANDATE < SYSDATE
 		]]>
@@ -73,5 +75,20 @@
 		SET PASSWORD =
 		#{password}
 		WHERE EMAIL = #{email}
+	</update>
+
+	<update id="updateMember" parameterType="MemberVO">
+		UPDATE MEMBERS
+		SET PASSWORD = #{password},
+		NICKNAME = #{nickname},
+		EMAIL = #{email},
+		PHONE = #{phone},
+		POSTAL_CODE = #{postalCode},
+		ADDR = #{addr},
+		DETAIL_ADDR = #{detailAddr},
+		BANK = #{bank},
+		BANK_ACCOUNT = #{bankAccount},
+		NAME = #{name}
+		WHERE MEMBER_ID = #{memberId}
 	</update>
 </mapper>
