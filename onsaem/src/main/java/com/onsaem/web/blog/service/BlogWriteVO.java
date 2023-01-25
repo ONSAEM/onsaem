@@ -25,4 +25,7 @@ public class BlogWriteVO {
 	Date writeDate;
 	int replyCnt;
 	String fileRoute;
+	
+	Integer first = 1;
+	Integer last = 9;
 }

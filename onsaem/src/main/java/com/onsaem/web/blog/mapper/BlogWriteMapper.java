@@ -1,14 +1,23 @@
 package com.onsaem.web.blog.mapper;
 
 import java.util.List;
-
+import java.util.Map;
 
 import com.onsaem.web.blog.service.BlogWriteVO;
 import com.onsaem.web.blog.service.CategoriesVO;
 import com.onsaem.web.common.service.LikeVO;
+import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.ReportVO;
 
 public interface BlogWriteMapper {
+	
+	// 블로그 전체조회
+	public Map<String, Object> getBlogPageList(BlogWriteVO blogWriteVO, Paging paging);
+	
+	// 블로그 글 갯수 조회
+	public Paging blogCount(BlogWriteVO blogWriteVO);
+	
+	
 	// 블로그 글 전체 조회
 	public List<BlogWriteVO> getBlogList(BlogWriteVO blogWriteVO);
 	// 블로그 단건 조회
@@ -42,4 +51,5 @@ public interface BlogWriteMapper {
 	
 	// 신고
 	int addBan(ReportVO reportVO);
+
 }

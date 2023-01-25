@@ -3,6 +3,57 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
  <mapper namespace="com.onsaem.web.blog.mapper.BlogWriteMapper">
+ 	
+ 	<sql id="condition">
+			<if test="startDate">
+			<![CDATA[
+				AND L.START_DATE >= #{startDate}
+				]]>
+			</if>
+			<if test="endDate">
+			<![CDATA[
+				AND L.END_DATE < #{endDate}
+				]]>
+			</if>
+	</sql>
+ 	
+ 	<!-- 페이징 -->
+ 	<select id="blogCount" resultType="Paging" parameterType="BlogWriteVO">
+		select count(*) as total_record
+		  from blog_writes
+		 where blog_id = #{blogId};
+			<include refid="condition"/>
+	</select>
+	
+	<!-- 블로그 글 페이징 조회 -->
+	<select id="getBlogPageList" resultType="BlogWriteVO"
+		parameterType="BlogWriteVO">
+		SELECT * FROM ( SELECT ROWNUM RN, A.* FROM (
+		SELECT  B.WRITE_ID,
+		        B.BLOG_ID,
+		        B.WRITE_TITLE,
+		        B.SUBTITLE,
+		        B.CATEGORY_ID,
+		        B.PUBLIC_SCOPE,
+		        B.BLOG_WRITE,
+		        B.CNT,
+		        B.LIKE_NUMBER,
+		        B.WRITE_DATE,
+		        C.CATEGORY_NAME,
+		        M.NICKNAME
+		  FROM  BLOG_WRITES B, 
+		        CATEGORIES C,
+		        MEMBERS M
+		 WHERE  B.CATEGORY_ID = C.CATEGORY_ID
+           and  B.BLOG_ID = M.MEMBER_ID
+		   AND  WRITE_ID = #{writeId}
+		   <include refid="condition"/>
+			<![CDATA[
+				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
+			]]>
+	</select>
+	
+ 	
  	<!-- 전체 조회 -->
  	<select id="getBlogList" resultType="BlogWriteVO" parameterType="BlogWriteVO">
  		SELECT *
@@ -11,21 +62,23 @@
  	<!-- 단건 조회 -->
  	<select id="getBlog" resultType="BlogWriteVO" parameterType="String">
 		SELECT  B.WRITE_ID,
-        B.BLOG_ID,
-        B.WRITE_TITLE,
-        B.SUBTITLE,
-        B.CATEGORY_ID,
-        B.PUBLIC_SCOPE,
-        B.BLOG_WRITE,
-        B.CNT,
-        B.LIKE_NUMBER,
-        B.WRITE_DATE,
-        C.CATEGORY_NAME,
-        M.NICKNAME
-		FROM BLOG_WRITES B, CATEGORIES C,MEMBERS M
-		WHERE B.CATEGORY_ID = C.CATEGORY_ID
-        and B.BLOG_ID = M.MEMBER_ID
-		AND WRITE_ID = #{writeId}
+		        B.BLOG_ID,
+		        B.WRITE_TITLE,
+		        B.SUBTITLE,
+		        B.CATEGORY_ID,
+		        B.PUBLIC_SCOPE,
+		        B.BLOG_WRITE,
+		        B.CNT,
+		        B.LIKE_NUMBER,
+		        B.WRITE_DATE,
+		        C.CATEGORY_NAME,
+		        M.NICKNAME
+		  FROM  BLOG_WRITES B, 
+		        CATEGORIES C,
+		        MEMBERS M
+		 WHERE  B.CATEGORY_ID = C.CATEGORY_ID
+           and  B.BLOG_ID = M.MEMBER_ID
+		   AND  WRITE_ID = #{writeId}
  	</select>
  	<!-- 블로그 단건 조회 -->
  	<select id="myBlog" resultType="BlogWriteVO" parameterType="String">

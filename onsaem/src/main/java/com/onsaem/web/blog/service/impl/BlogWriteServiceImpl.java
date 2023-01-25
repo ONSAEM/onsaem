@@ -1,6 +1,8 @@
 package com.onsaem.web.blog.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,12 +12,31 @@ import com.onsaem.web.blog.service.BlogWriteService;
 import com.onsaem.web.blog.service.BlogWriteVO;
 import com.onsaem.web.blog.service.CategoriesVO;
 import com.onsaem.web.common.service.LikeVO;
+import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.ReportVO;
+import com.onsaem.web.course.service.ClassInfoVO;
 
 @Service
 public class BlogWriteServiceImpl implements BlogWriteService {
 	
 	@Autowired BlogWriteMapper blogWriteMapper;
+	
+	
+//	@Override
+//	public Map<String, Object> getBlogPageList(BlogWriteVO blogWriteVO, Paging paging) {
+//		Paging newPaging = blogWriteMapper.blogCount(blogWriteVO);
+//		newPaging.setPageUnit(paging.getPageUnit());
+//		newPaging.setPage(paging.getPage());
+//		newPaging.setTotalRecord(newPaging.getTotalRecord());
+//		blogWriteVO.setFirst(newPaging.getFirst());
+//		blogWriteVO.setLast(newPaging.getLast());
+//		Map<String, Object> result = new HashMap<String, Object>();
+//		result.put("blogList", blogWriteMapper.getBlogPageList(blogWriteVO));
+//		result.put("newPaging", newPaging);
+//		return result;
+//	}
+	
+	
 	@Override
 	public List<BlogWriteVO> getBlogList(BlogWriteVO blogWriteVO) {
 		// 전체 조회
@@ -99,6 +120,7 @@ public class BlogWriteServiceImpl implements BlogWriteService {
 		// 신고
 		return blogWriteMapper.addBan(reportVO);
 	}
+
 
 	
 
