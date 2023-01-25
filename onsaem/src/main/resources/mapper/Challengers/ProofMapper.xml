@@ -94,8 +94,7 @@
 	<!-- 사진 안보이게 하기 //등등 수정 -->
 	<update id="updateMedia" parameterType="MediaVO">
 		UPDATE MEDIA
-		SET SUB_GROUP
-		= #{subGroup}
+		SET SUB_GROUP = #{subGroup}
 		WHERE MEDIA_ID = #{mediaId}
 	</update>
 
@@ -181,7 +180,24 @@
  		FROM LIKES
  		WHERE GROUP_ID = #{groupId}
 	</select>
-
+	
+	<!-- 영수증 조회 -->
+	<select id="getReceipt" resultType="MediaVO">
+		SELECT * 
+		FROM MEDIA
+		WHERE SUB_GROUP = '영수증'
+		AND GROUP_ID = #{GROUPID}
+	</select>
+	
+	<!-- 팀별 정상 인증 갯수 구하기 -->
+	<select id="cntTeamProof" parameterType="ParticipantVO">
+	    SELECT COUNT(*) cnt
+	    FROM PARTICIPANTS P JOIN PROOFS F
+	    ON P.CHAL_ID = F.CHAL_ID
+	    WHERE P.TEAM = #{team}
+	    AND F.CONDITION='정상'
+	    AND P.CHAL_ID =#{chalId}
+	</select>
 
 	
 </mapper>

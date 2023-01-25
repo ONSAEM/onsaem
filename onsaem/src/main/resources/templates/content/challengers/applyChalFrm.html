@@ -66,11 +66,11 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
-                	<form action="/applyChalFrm" method="post">
+                	<form name="applyFrm">
                     <div class="product__details__text" th:each="chal : ${chals}">
                     	<input type="hidden" th:value="${chal.donationFee}" id="currentFee">
         				<input type="number" value="donationFee" id="donationFee" name="donationFee" style="display:none;">
-        				<input type="hidden" th:value=${chal.chalId} name="chalId">
+        				<input type="hidden" th:value=${chal.chalId} name="chalId" id="chalId">
                         <h3 th:text="${chal.chalName}">Vetgetable’s Package</h3>
                        <div class="product__details__price"><span th:text="'기부처 : ' + ${chal.ngoName}">$50.00</span></div>
                         <ul>
@@ -100,12 +100,12 @@
                                     
 										<h2>기부금</h2>
 										<p>작성하신 기부</p>
-										<input id="value" value=5000 name="privateDonate"></input>
+										<input id="value" value=5000 name="privateDonate" onchange="changeMoney()"></input>
         								<p>1000</p>
         								<input type="range" min=1000 max=50000 value=5000 id="privateDonate">
         								<p>50000</p>                              
                                     	<p>결제 조건 및 약관에 동의합니다.</p>
-                                   		<input type="submit" value="참가하기" class="btn">&nbsp;&nbsp;
+                                   		<input type="button" id="paymentBtn" value="참가하기" class="btn">&nbsp;&nbsp;
 										<input type="reset" value="취소" class="btn" onClick="history.go(-1)">
                            
                                 </div>
@@ -128,6 +128,9 @@
 			<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/main.js}"></script>
 			
+			<!-- 결제 api -->
+			
+			<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 		<script>
 			var slider = document.getElementById("privateDonate");
 			var output = document.getElementById("value");
@@ -144,9 +147,86 @@
 			
 			var currentFee = Number(document.getElementById("currentFee").value);
 			
+			let money = currentFee+Number(output.value);
 			donationFee.value = currentFee+Number(output.value);
-			console.log(donationFee);
+			
+			
+			function changeMoney(){
+				money = currentFee+Number(output.value);
+				console.log(money);
+			}
 		
+			//결제 및 테이블 등록 ㅎㅎ 
+			
+			$("#paymentBtn").on("click",function() {
+		      console.log('확인')
+		      let value = $('#value').val();
+		      let chalId = $('#chalId').val();
+		      let userId = '[[${user.memberId}]]';
+		      let userName = '[[${user.name}]]';
+		      let userEmail =  '[[${user.email}]]';
+		      let userAddr ='[[${user.addr}]]';
+		      let userpostalCode ='[[${user.postalCode}]]';
+		      let userTel = '[[${user.phone}]]'; 
+		    
+		      
+		      console.log(userId);
+		      
+		      console.log(value);
+		      IMP.init('imp54500213');
+			      IMP.request_pay({
+			          pg : 'html5_inicis',
+			          pay_method : 'card',
+			          merchant_uid: 'OS_' + new Date().getTime(), // 상점에서 관리하는 주문 번호
+			          name : chalId,
+			          amount : value, // 테스트라서 10원만 결제 ^^;
+			          buyer_email : userEmail, // 구매자 이메일
+			          buyer_name : userName, // 구매자 이름
+			          buyer_tel : userTel, // 구매자 연락처
+			          buyer_addr : userAddr, // 구매자 주소
+			          buyer_postcode : userpostalCode // 구매자 우편번호
+			      }, function(rsp) {
+			          if ( rsp.success ) {
+			             //아래 아작스부터는 본인의 컨트롤이나 구현에 맞게 적절히 사용할것
+			             // 결제성공하고 컨트롤에 넘어가서 DB에 정보저장를 위한 아작스
+			             let data = {"paymentId":rsp.imp_uid,
+			            		 	"price" : value, "paymentMethod" : rsp.pay_method, 
+			            		 	"groupId" : chalId, "donationFee" : money};
+			             $.ajax({
+			               url: '/applyChalFrm',
+			               method: 'POST',
+			               contentType: 'application/json',
+			               data: JSON.stringify(data),
+			               success: function (result) {
+			                // 결제금액이 일치한지, 다른 정보 체크하고 일치하면 DB에 저장하고 데이터를 리턴
+			                   if (result) {
+			                      // data가 있으면 제대로 처리된것
+			                      // 이후 다른 페이지로 넘어갈 컨트롤과 데이어 작성
+			                      var msg = '결제가 완료되었습니다.';
+			                      msg += '\n고유ID : ' + rsp.imp_uid;
+			                      msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+			                      msg += '\결제 금액 : ' + rsp.paid_amount;
+			                      msg += '카드 승인번호 : ' + rsp.apply_num;
+			                      alert(msg);
+			                   } else {
+			                      //[3] 아직 제대로 결제가 되지 않았습니다.
+			                      //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+			                      // 위에 같은 이유로 알림 띄우기
+			                   }
+			               },
+			               error: function (error) {
+			                  console.log(error);
+			                  alert('실패');
+			               }
+			          }); 
+			         } else {
+			              var msg = '결제에 실패하였습니다.';
+			              msg += '에러내용 : ' + rsp.error_msg;
+			              
+			              alert(msg);
+			          }
+			      }); 
+   });
 			
 		</script> 
 		</th:block>

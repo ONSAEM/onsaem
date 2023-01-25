@@ -2,14 +2,19 @@ package com.onsaem.web.chal.mapper;
 
 import java.util.List;
 
+import com.onsaem.web.chal.service.ChalInfoVO;
 import com.onsaem.web.chal.service.ChalVO;
 import com.onsaem.web.chal.service.ParticipantVO;
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.Paging;
 
 public interface ChalMapper {
 	
 	//챌리저스 전체조회
 	List<ChalVO> getChalAll();
+	
+	//강의 갯수 조회
+	public Paging chalCount(ChalVO vo);
 	
 	//조건 전체조회- 기부처
 	List<ChalVO> getChalNgoAll(String ngoName);

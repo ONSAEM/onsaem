@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.onsaem.web.chal.mapper.ProofMapper;
 import com.onsaem.web.chal.service.ChalVO;
+import com.onsaem.web.chal.service.ParticipantVO;
 import com.onsaem.web.chal.service.ProofService;
 import com.onsaem.web.chal.service.ProofVO;
 import com.onsaem.web.common.service.LikeVO;
@@ -150,6 +151,18 @@ public class ProofServiceImpl implements ProofService {
 	public Integer cntChalLike(LikeVO vo) {
 		// TODO Auto-generated method stub
 		return proofMapper.cntChalLike(vo);
+	}
+
+	@Override
+	public MediaVO getReceipt(String groupId) {
+		// TODO Auto-generated method stub
+		return proofMapper.getReceipt(groupId);
+	}
+
+	@Override
+	public Integer cntTeamProof(ParticipantVO vo) {
+		// TODO Auto-generated method stub
+		return proofMapper.cntTeamProof(vo);
 	}
 
 

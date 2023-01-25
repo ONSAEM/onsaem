@@ -1,12 +1,14 @@
 package com.onsaem.web.chal.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.Paging;
 
 public interface ChalService {
 	//챌리저스 전체조회
-	List<ChalVO> getChalAll();
+	List<ChalVO> getChalAll(ChalVO vo, Paging paging);
 	
 	//조건 전체조회- 기부처
 	List<ChalVO> getChalNgoAll(String ngoName);

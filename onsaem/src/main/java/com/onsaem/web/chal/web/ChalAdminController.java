@@ -153,8 +153,7 @@ public class ChalAdminController {
 	@RequestMapping(value="/rejectNgo", method=RequestMethod.POST)
 	@ResponseBody
 	public String rejectNgo(@RequestBody NgoVO vo){
-		Map<String,Object> map = new HashMap<String, Object>();
-		
+			System.out.println("vovovovo"+vo);
 		ngoService.rejectNgo(vo);
 		
 

@@ -32,17 +32,14 @@
 		<selectKey keyProperty="participateId" resultType="string" order="BEFORE">
 			SELECT 'P'||LPAD(part_seq.NEXTVAL,3,0) FROM DUAL	
 		</selectKey>
-		INSERT INTO PARTICIPANTS(PARTICIPATE_ID, CHAL_ID, PRIVATE_DONATE, BET_POINT,PARTICIPANT_ID ) 
-		VALUES(#{participateId}, #{chalId}, #{privateDonate}, #{betPoint}, #{participantId})		
+		INSERT INTO PARTICIPANTS(PARTICIPATE_ID, CHAL_ID, PRIVATE_DONATE, BET_POINT,PARTICIPANT_ID , TEAM) 
+		VALUES(#{participateId}, #{chalId}, #{privateDonate}, #{betPoint}, #{participantId}, #{team})		
 	</insert>
 	
 	<!-- 결제 -->
 	<insert id="inputPayment" parameterType="PaymentVO">
-		<selectKey keyProperty="paymentId" resultType="string" order="BEFORE">
-			SELECT 'PAY'||LPAD(pay_seq.NEXTVAL,3,0) FROM DUAL	
-		</selectKey>
 		INSERT INTO PAYMENTS
-		VALUES(#{paymentId}, #{price}, #{payerId}, #{paymentMethod}, current_date, #{groupId}, '챌린저스') 
+		VALUES(#{paymentId}, #{price}, #{payerId}, #{paymentMethod}, current_date, #{groupId}, '챌린저스', null) 
 	</insert>
 	
 	<!-- 환불테이블에 등록 -->

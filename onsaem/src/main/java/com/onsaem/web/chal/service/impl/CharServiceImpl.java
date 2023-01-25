@@ -1,6 +1,8 @@
 package com.onsaem.web.chal.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -8,10 +10,12 @@ import org.springframework.stereotype.Component;
 import com.onsaem.web.chal.mapper.ChalMapper;
 import com.onsaem.web.chal.mapper.ParticipantMapper;
 import com.onsaem.web.chal.mapper.ProofMapper;
+import com.onsaem.web.chal.service.ChalInfoVO;
 import com.onsaem.web.chal.service.ChalService;
 import com.onsaem.web.chal.service.ChalVO;
 import com.onsaem.web.chal.service.ParticipantVO;
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.Paging;
 
 @Component
 public class CharServiceImpl implements ChalService {
@@ -20,8 +24,12 @@ public class CharServiceImpl implements ChalService {
 	@Autowired ParticipantMapper partMapper;
 
 	@Override
-	public List<ChalVO> getChalAll() {
-		// TODO Auto-generated method stub
+	public List<ChalVO> getChalAll(ChalVO vo, Paging paging) {
+		
+		//paging.setTotalRecord(chalMapper.chalCount(vo));
+		vo.setFirst(paging.getFirst());
+		vo.setLast(paging.getLast());
+
 		return chalMapper.getChalAll();
 	}
 

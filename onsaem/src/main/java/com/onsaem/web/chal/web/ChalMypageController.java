@@ -344,7 +344,7 @@ public class ChalMypageController {
 	//영수증 보기
 	@RequestMapping(value="/seeRecepit", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> seeRecepit(String groupId,Authentication authentication){
+	public MediaVO seeRecepit(String groupId,Authentication authentication){
 		Map<String,Object>map = new HashMap<String,Object>();
 		//아이디
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
@@ -352,7 +352,7 @@ public class ChalMypageController {
 		
 		//subgroup이 기부영수증이고, groupId를 이용해서 영수증 찾기
 		
-		return map;
+		return proofService.getReceipt(groupId);
 	}
 	
 	//나의 포인트 확인
@@ -364,8 +364,42 @@ public class ChalMypageController {
 		//아이디
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		String user = userDetails.getUsername();
+		ParticipantVO vo = new ParticipantVO();
+		vo.setParticipantId(user);
+		vo.setChalId(groupId);
 		
-		//subgroup이 기부영수증이고, groupId를 이용해서 영수증 찾기
+		//성공률 계산할 것
+		//공통 필요 - 총 챌린저스 일수 
+		ChalVO cvo = chalService.getChal(groupId);
+		Date end = cvo.getEndDate();
+		Date start = cvo.getStartDate();
+		Integer check =  cvo.getUsercnt();
+		long days = (end.getTime() - start.getTime())/(24*60*60*1000)+1;
+		map.put("totaldays", days);
+		map.put("totaluser", cvo.getUsercnt());
+
+		if(check==0) {
+			//개인전 일때 성공률 계산
+//			//Proofs 테이블에서 count(*) 해야함 - 조건이 성공인거, 작성자 아이디, 챌린지 아이디 필요
+			ProofVO pvo = new ProofVO();
+			pvo.setChalId(vo.getChalId());
+			pvo.setProofWriter(vo.getParticipantId());
+			pvo.setCondition("정상");
+			map.put("cntGood", proofService.countProof(pvo));
+			
+		}else {
+			//팀전일때 성공률 계산
+			
+			//A팀 성공률 구하기 ㅎㅎ
+			vo.setTeam("A");
+			map.put("cntA", proofService.cntTeamProof(vo));
+			//B팀 성공률 구하기 ~
+			vo.setTeam("B");
+			map.put("cntB", proofService.cntTeamProof(vo));
+		}
+		
+		//나의 포인트 조회
+		map.put("user", partService.getParticipant(vo));
 		
 		return map;
 	}

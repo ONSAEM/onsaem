@@ -120,7 +120,7 @@
 		INSERT into CHALLENGES
 		VALUES(#{chalId}, #{classes}, #{subClass}, #{frequency}, #{ngoName}, #{startDate},
 		#{endDate}, #{contents}, #{proofContent},
-		#{donationFee}, #{memberId}, #{teamFee}, #{chalName}, #{receipt})
+		#{donationFee}, #{memberId}, #{teamFee}, #{chalName}, #{receipt}, #{usercnt})
 	</insert>
 
 	<!-- 수정 -->
@@ -196,4 +196,9 @@
 		ORDER BY C.END_DATE DESC
 	</select>
 
+	<!-- paging용 -->
+	<select id="chalCount" resultType="Paging" parameterType="ChalVO">
+		SELECT  COUNT(CHAL_ID) AS TOTAL_RECORD
+		FROM CHALLENGES
+	</select>
 </mapper>
