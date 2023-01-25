@@ -499,7 +499,7 @@
 										<input type="hidden" class="thumbnail"
 											th:value="${blog.blogWrite}">
 										<!-- 썸네일 -->
-										<img id="thumbImg" src="/fileView/20230123/3757527e-7d96-4e69-9f4b-383a8d157188.jpg">
+										<img id="thumbImg" th:src="${blog.fileRoute}">
 									</div>
 									<div class="blog__item__text">
 										<ul>
@@ -644,33 +644,6 @@
 			console.log(blogId);
 // 			let chImg = $('#thumbImg').attr('src');
 // 			console.log("위치 확인"+chImg);
-			
-			
-			// 썸네일
- 			// src 내용물 받아오는
-			$(document).ready(
-				$('.thumbnail').each(function(idx, item){
-					let source = item.value;
-// 					console.log(source);
-					
-					$.ajax({
-						url: '/blog/myblog/thumbnail',
-						method: 'post',
-						contentType: 'application/x-www-form-urlencoded',
-						data: {"source" : source},
-						success: function(result){
-							console.log("result: "+result);
-								$('#thumbImg').attr('src', result); // 섬네일 안 붙어요!
-						},
-						error: function(error){
-							console.log(error);
-						}
-					})
-				})
-			);
-			
-			
-			
 			
 			
 			// moment 모달
