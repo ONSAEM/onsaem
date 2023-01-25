@@ -24,7 +24,13 @@
 		                     WRITER_ID,
 		                     REPLY_DATE,
 		                     PUBLIC_SCOPE)
-		VALUES(#{replyId}, #{content}, #{groupId}, '블로그', #{writerId}, current_date, 'public')
+		VALUES(#{replyId}, 
+		       #{content}, 
+		       #{groupId}, 
+		       '블로그', 
+		       #{writerId}, 
+		       current_date, 
+		       'public')
  	</insert>
  	
 	<!--  	댓글 수 조회 -->

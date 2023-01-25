@@ -38,7 +38,11 @@ import com.onsaem.web.blog.service.MomentsVO;
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.RepliesVO;
 import com.onsaem.web.common.service.ReportVO;
-
+/**
+ * 
+ * @author 정호경
+ * 사용자의 블로그 글 관련
+ */
 @Controller
 @CrossOrigin(origins = "*")
 @RequestMapping("/blog")
@@ -65,26 +69,30 @@ public class BlogWriteController {
 	// 내 블로그로 이동
 	@RequestMapping(value = "/myblog", method = RequestMethod.GET)
 	public String myblog(Model model, String userId, CategoriesVO vo, MomentsVO mVo, BlogVO bVo, LikeVO lVo,Authentication authentication) {
+		
+		// 내 블로그 전체조회
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		String id = userDetails.getUsername();
-		
 		List<BlogWriteVO> myblog = blogWriteService.myBlog(userId);
-			for(BlogWriteVO blog : myblog) {
-				Pattern pattern  =  Pattern.compile("<img[^>]*src=[\\\"']?([^>\\\"']+)[\\\"']?[^>]*>");
-		        // 내용 중에서 이미지 태그를 찾아라!
-		        Matcher match = pattern.matcher(blog.getBlogWrite());
-		        String imgTag = null;
-		        if(match.find()){ // 이미지 태그를 찾았다면,,
-		            imgTag = match.group(1); // 글 내용 중에 첫번째 이미지 태그를 뽑아옴.
-		            blog.setFileRoute(imgTag);
-		        }
-			}
+
+		// 글 내용중에 첫번째 이미지 주소 받아오기
+		for(BlogWriteVO blog : myblog) {
+			Pattern pattern  =  Pattern.compile("<img[^>]*src=[\\\"']?([^>\\\"']+)[\\\"']?[^>]*>");
+	        // 내용 중에서 이미지 태그를 찾아라!
+	        Matcher match = pattern.matcher(blog.getBlogWrite());
+	        String imgTag = null;
+	        if(match.find()){ // 이미지 태그를 찾았다면,,
+	            imgTag = match.group(1); // 글 내용 중에 첫번째 이미지 태그를 뽑아옴.
+	            blog.setFileRoute(imgTag);
+	        }
+		}
 		model.addAttribute("myblog", myblog);
 		
 		 
 		vo.setBlogId(userId);
 		model.addAttribute("category", blogWriteService.cateList(vo));
 		model.addAttribute("recentWrite", blogWriteService.recentWrite(userId)); // 최신글 조회
+		
 		mVo.setBlogId(userId);
 		model.addAttribute("moments", momentService.getMomentList(mVo));
 		// getBlog를 써서 유저아이디 받아오고, getbloginfo라고 이름 지어주기
@@ -94,9 +102,10 @@ public class BlogWriteController {
 		lVo.setGroupId(userId); // 구독 당한 사람
 		lVo.setMemberId(id); // 구독 한 사람
 		model.addAttribute("subCount", blogService.subCount(lVo));
-		System.out.println("구독 여부:"+model.getAttribute("subCount"));
+		System.out.println("구독 여부:"+model.getAttribute("subCount")); // 지금 로그인 한 사람이 접속한 블로그를 구독 했나? 있으면 T 없으면 F
 		
 		model.addAttribute("subMeList", blogService.subMeList(lVo)); // 나를 구독한
+		lVo.setMemberId(userId);
 		model.addAttribute("mySubList", blogService.mySubList(lVo)); // 내가 구독한
 		
 		model.addAttribute("mmtCnt",momentService.momentCnt(id));
@@ -143,7 +152,7 @@ public class BlogWriteController {
 		String id = userDetails.getUsername();
 		vo.setBlogId(id);
 		
-		model.addAttribute("blogInsert", blogWriteService.blogInsert(vo));
+		blogWriteService.blogInsert(vo);
 		return vo;
 	}
 	

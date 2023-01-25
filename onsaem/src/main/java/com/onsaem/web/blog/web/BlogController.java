@@ -15,6 +15,11 @@ import com.onsaem.web.blog.service.BlogWriteService;
 import com.onsaem.web.blog.service.CategoriesVO;
 import com.onsaem.web.common.service.LikeVO;
 
+/**
+ * 
+ * @author 정호경
+ * 사용자가 블로그 관리 
+ */
 @Controller
 @CrossOrigin(origins = "*")
 @RequestMapping("/blog")
@@ -27,8 +32,8 @@ public class BlogController {
 	// 블로그 관리 페이지로 이동
 	@RequestMapping(value="/myblog/blogTask", method=RequestMethod.GET)
 	public String getBlogInfo(Model model, String blogId) {
-		model.addAttribute("blogInfos", blogService.getBlogInfo(blogId));
-		System.out.println(model.getAttribute("blogInfos"));
+			model.addAttribute("blogInfos", blogService.getBlogInfo(blogId));
+			System.out.println(model.getAttribute("blogInfos"));
 		return "content/blog/blogTask";
 	}
 	// 블로그 통계 페이지로 이동
@@ -49,7 +54,7 @@ public class BlogController {
 	// 블로그 카테고리 관리 페이지로 이동
 	@RequestMapping(value="/myblog/blogCategory", method=RequestMethod.GET)
 	public String getBlogCate(Model model, String blogId, CategoriesVO vo) {
-		vo.setBlogId(blogId);
+		vo.setBlogId(blogId); // 세션에 있는 값이랑 비교해서 본인 여부 확인 필요
 		model.addAttribute("cateList",blogWriteService.cateList(vo));
 		return "content/blog/blogCategory";
 	}

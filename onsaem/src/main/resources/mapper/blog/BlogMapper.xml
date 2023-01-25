@@ -8,16 +8,24 @@
  		SELECT * 
  		FROM BLOGS
  	</select>
+ 	
  	<!-- 단건 조회 -->
  	<select id="getBlogInfo" resultType="BlogVO" parameterType="String">
 	 	SELECT  B.BLOG_ID,
-                B.BLOG_NAME,
-                B.INTRODUCTION,
-                B.BLOG_URL,
-                M.NICKNAME
-        FROM BLOGS B,MEMBERS M
-        WHERE B.BLOG_ID = M.MEMBER_ID
-		AND BLOG_ID=#{blogId}
+		        B.BLOG_NAME,
+		        B.INTRODUCTION,
+		        B.BLOG_URL,
+		        M.NICKNAME,
+		        F.file_route
+		  FROM  BLOGS B,
+		        MEMBERS M, 
+		        (select * 
+		           from MEDIA
+                  where STATUS = 'true' 
+                    and sub_group='프로필이미지') F
+	     WHERE  B.BLOG_ID = M.MEMBER_ID
+		   and  M.member_id = F.group_id(+)
+		   AND  M.member_id= #{memberId}
 	</select>
 	
 	
@@ -49,23 +57,29 @@
 	<!-- 구독 삭제 -->
 	<delete id="delSub" parameterType="String">
 		DELETE FROM LIKES
-		WHERE
-		GROUP_ID=#{groupId}
-		AND MEMBER_ID=#{memberId}
+		 WHERE GROUP_ID = #{groupId}
+		   AND MEMBER_ID = #{memberId}
 	</delete>
 	
 	<!-- 나를 구독한 사람 목록 조회 -->
 	<select id="subMeList" resultType="LikeVO" parameterType="String">
-		select * from likes
-		where groups = '구독'
-		and group_id = #{groupId}
+		select * 
+		  from likes
+		 where groups = '구독'
+		   and group_id = #{groupId}
 	</select>
 	
 	<!-- 내가 구독한 사람 목록 조회 -->
 	<select id="mySubList" resultType="LikeVO" parameterType="String">
-		select * from likes
-		where groups = '구독'
-		and member_id = #{memberId}
+		select * 
+		  from likes
+		 where groups = '구독'
+	   	   and member_id = #{memberId}
 	</select>
 
+
+	<!-- 블로그 정보 등록 -->
+	<update id="taskUpdate" parameterType="String">
+		
+	</update>
  </mapper>

@@ -27,6 +27,7 @@
 		type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
 		type="text/css">
+	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
 </th:block>
 
 <style>
@@ -833,245 +834,6 @@
 }
 /* 프로필 카드 끝 */
 
-/* 인풋 상자 */
-.Iwrapper {
-	max-width: 900px;
-	width: 100%;
-	background: #fff;
-	margin: 50px auto;
-	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.125);
-	padding: 30px;
-}
-
-.Iwrapper .title {
-	font-size: 24px;
-	font-weight: 700;
-	margin-bottom: 25px;
-	color: #5bc1ac;
-	text-transform: uppercase;
-	text-align: center;
-}
-
-.Iwrapper .form {
-	width: 100%;
-}
-
-.Iwrapper .form .inputfield {
-	margin-bottom: 15px;
-	display: flex;
-	align-items: center;
-}
-
-.Iwrapper .form .inputfield label {
-	width: 20%;
-	color: #757575;
-	font-size: 14px;
-}
-
-.Iwrapper .form .inputfield .request {
-	color: red;
-	font-size: 20px;
-}
-
-.Iwrapper .form .inputfield .input, .Iwrapper .form .inputfield .textarea
-	{
-	width: 50%;
-	outline: none;
-	border: 1px solid #d5dbd9;
-	font-size: 15px;
-	padding: 8px 10px;
-	border-radius: 3px;
-	transition: all 0.3s ease;
-}
-
-.Iwrapper .form .inputfield .textarea {
-	width: 100%;
-	height: 125px;
-	resize: none;
-}
-
-.Iwrapper .form .inputfield .custom_select {
-	position: relative;
-	height: 37px;
-}
-
-.Iwrapper .form .inputfield .custom_select:before {
-	content: "";
-	position: absolute;
-	top: 12px;
-	right: 10px;
-	border: 8px solid;
-	border-color: #d5dbd9 transparent transparent transparent;
-	pointer-events: none;
-}
-
-.Iwrapper .form .inputfield .custom_select select {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	outline: none;
-	width: 100%;
-	height: 100%;
-	border: 0px;
-	padding: 8px 10px;
-	font-size: 15px;
-	border: 1px solid #d5dbd9;
-	border-radius: 3px;
-}
-
-.Iwrapper .form .emailCk {
-	display: none;
-}
-
-.Iwrapper .form .inputfield .input:focus, .Iwrapper .form .inputfield .textarea:focus,
-	.Iwrapper .form .inputfield .custom_select select:focus {
-	border: 1px solid #fec107;
-}
-
-.Iwrapper .form .inputfield p {
-	font-size: 14px;
-	color: #757575;
-}
-
-.Iwrapper .form .inputfield .check {
-	width: 15px;
-	height: 15px;
-	position: relative;
-	display: block;
-	cursor: pointer;
-}
-
-.Iwrapper .form .inputfield .check input[type="checkbox"] {
-	position: absolute;
-	top: 0;
-	left: 0;
-	opacity: 0;
-}
-
-.Iwrapper .form .inputfield .check .checkmark {
-	width: 15px;
-	height: 15px;
-	border: 1px solid #5bc1ac;
-	display: block;
-	position: relative;
-}
-
-.Iwrapper .form .inputfield .check .checkmark:before {
-	content: "";
-	position: absolute;
-	top: 1px;
-	left: 2px;
-	width: 5px;
-	height: 2px;
-	border: 2px solid;
-	border-color: transparent transparent #fff #fff;
-	transform: rotate(-45deg);
-	display: none;
-}
-
-.Iwrapper .form .inputfield .check input[type="checkbox"]:checked ~
-	.checkmark {
-	background: #5bc1ac;
-}
-
-.Iwrapper .form .inputfield .check input[type="checkbox"]:checked ~
-	.checkmark:before {
-	display: block;
-}
-
-.Iwrapper .form .inputfield .btn, .Iwrapper .form .inputfield  .checkBtn
-	{
-	margin: 0px auto;
-	padding: 8px 10px;
-	font-size: 15px;
-	border: 0px;
-	background: #5bc1ac;
-	color: #fff;
-	cursor: pointer;
-	border-radius: 3px;
-	outline: none;
-}
-
-.Iwrapper .form .inputfield .btn {
-	width: 100%;
-}
-
-.form .inputfield .checkBtn {
-	width: 20%;
-}
-
-.Iwrapper .form .inputfield .btn:hover, .Iwrapper .form .inputfield  .checkBtn:hover
-	{
-	background: #42a18d;
-}
-
-.Iwrapper .form .inputfield:last-child {
-	margin-bottom: 0;
-}
-
-@media ( max-width :420px) {
-	.Iwrapper .form .inputfield {
-		flex-direction: column;
-		align-items: flex-start;
-	}
-	.Iwrapper .form .inputfield label {
-		margin-bottom: 5px;
-	}
-	.Iwrapper .form .inputfield.terms {
-		flex-direction: row;
-	}
-}
-
-.filebox {
-	margin-bottom: 15px;
-	display: flex;
-	align-items: center;
-}
-
-.filebox .inputfile {
-	width: 50%;
-	outline: none;
-	border: 1px solid #d5dbd9;
-	font-size: 15px;
-	padding: 8px 10px;
-	border-radius: 3px;
-	transition: all 0.3s ease;
-	cursor: default;
-}
-
-.inputfield #preview-image {
-	width: 300px;
-	height: 300px;
-	margin: 0px auto;
-}
-
-.filebox .filelabel {
-	width: 20%;
-	margin: 0px auto;
-	padding: 8px 10px;
-	font-size: 15px;
-	border: 0px;
-	background: #5bc1ac;
-	color: #fff;
-	cursor: pointer;
-	border-radius: 3px;
-	outline: none;
-	text-align: center;
-}
-
-.filebox .filelabel:hover {
-	background: #42a18d;
-}
-
-.filebox #file {
-	position: absolute;
-	width: 0;
-	height: 0;
-	padding: 0;
-	overflow: hidden;
-	border: 0;
-}
-
 
 </style>
 </head>
@@ -1229,7 +991,7 @@
 							<!-- 인풋 상자를 넣어보겠습니다 -->
 							<div class="Iwrapper">
 
-								<div class="form">
+								<div class="form" name="taskFrm">
 
 									<div class="inputfield">
 										<label>블로그 주소<span class="request"></span></label> <input
@@ -1248,27 +1010,17 @@
 									</div>
 
 									<div class="inputfield">
-										<img id="Ppreview-image"
+										<img id="preview-image"
 											src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
 									</div>
 									<div class="filebox">
-										<label style="width: 20%;"></label> <input class="profilefile"
-											placeholder="프로필사진" readonly> <label for="file"
-											class="filelabel">사진등록</label> <input type="file" id=pfile>
-									</div>
-
-									<div class="inputfield">
-										<img id="Hpreview-image"
-											src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
-									</div>
-									<div class="filebox">
-										<label style="width: 20%;"></label> <input class="headerfile"
+										<label style="width: 20%;"></label> <input class="inputfile"
 											placeholder="헤더사진" readonly> <label for="file"
-											class="filelabel">사진등록</label> <input type="file" id=hfile>
+											class="filelabel">사진등록</label> <input type="file" id="file" accept=".gif, .jpg, .png, .bmp">
 									</div>
 
 									<div class="inputfield">
-										<input type="submit" value="등록" class="btn">
+										<input type="submit" value="등록" class="btn" id="taskBtn">
 									</div>
 								</div>
 							</div>
@@ -1323,44 +1075,40 @@
 
 			});
 			
-			
-			//	프로필사진미리보기
-			$("#pfile").on('change',function(){
-			  var fileName = $("#pfile").val();
-			  $(".profilefile").val(fileName);
-			  changeProfileURL(this);
-			});
-		
-		function changeProfileURL(obj) {
-            let reader = new FileReader();
-            if(!obj.files.length) {
-                return;
-            }
-            reader.readAsDataURL(obj.files[0]);
-            reader.onload = function (e) {
-                $('#Ppreview-image').attr('src', e.target.result);
-            }
-        }
 		
 				// 헤더사진미리보기
-				$("#hfile").on('change',function(){
-				  var fileName = $("#hfile").val();
-				  $(".headerfile").val(fileName);
-				  changeHeaderURL(this);
+				$("#file").on('change',function(){
+				  var fileName = $("#file").val();
+				  $(".inputfile").val(fileName);
+				  readURL(this);
 				});
 			
-			function changeHeaderURL(obj) {
+			function readURL(obj) {
 		        let reader = new FileReader();
 		        if(!obj.files.length) {
 		            return;
 		        }
 		        reader.readAsDataURL(obj.files[0]);
 		        reader.onload = function (e) {
-		            $('#Hpreview-image').attr('src', e.target.result);
+		            $('#preview-image').attr('src', e.target.result);
 		        }
 		    }
 			
-		})
+			
+			$("#hfile").on('click',function(){
+				console.log('왜안눌려');
+			})
+			
+			
+			
+			// 블로그 정보 등록
+			$('#taskBtn').on("click", function(){
+				console.log("task");
+				$.ajax({
+					
+				})
+			})
+		
 		
 		
 		</script>
