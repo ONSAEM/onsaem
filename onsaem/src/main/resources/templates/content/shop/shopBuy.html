@@ -72,7 +72,7 @@
 										<p>
 											이름<span>*</span>
 										</p>
-										<input type="text">
+										<input type="text" id="reciveName">
 									</div>
 								</div>
 							</div>
@@ -93,13 +93,13 @@
 								<p>
 									휴대폰 번호<span>*</span>
 								</p>
-								<input type="text" placeholder="- 빼고 작성해주세요">
+								<input type="text" placeholder="- 빼고 작성해주세요" id="phoneNumber">
 							</div>
 							<div class="checkout__input">
 								<p>
 									요청사항<span>*</span>
 								</p>
-								<input type="text">
+								<input type="text" id="requireRecive">
 							</div>
 							<br>
 							<h4>구매정보</h4>
@@ -135,17 +135,16 @@
 								<ul>
 									<li>배송금액 <span>[[${product.deliveryFee}]] 원</span></li>
 									<li th:each="user:${userData}">사용할포인트 <input
-										style="width: 50px; height: 30px"> <span>보유한포인트
-											[[${user.point}]]</span></li>
+										style="width: 50px; height: 30px" oninput="usePoint(this)"
+										id="usePo"> <span id="myPoint">보유한포인트[[${user.point}]]</span></li>
 								</ul>
 								<div class="checkout__order__subtotal">
-									총결제금액 <span>[[${product.deliveryFee+productVO.amount*product.price}]]
-										원</span>
+									총결제금액 <span id="totalPrice">[[${product.deliveryFee+productVO.amount*product.price}]]원</span>
 								</div>
 								<br>
 								<h4>결제방법</h4>
 								<button id="apibtn">결제하기</button>
-								<button class="site-btn">주문하기</button>
+								<button class="site-btn" th:onclick="submitOrder([[${product}]])">주문하기</button>
 							</div>
 						</div>
 					</div>
@@ -164,25 +163,47 @@
 			src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
 		<script type="text/javascript">
-			$(function(){
-				$('#apibtn').click(function(){
+			//주문하기버튼
+			function submitOrder(data){
+			
+				console.log($("#totalPrice").text().split('원')[0])
+				let recivReq=$("#requireRecive").val();
+				let recivPhone=$("#phoneNumber").val();
+				let recivAddr=$("#sample6_address").val()+$("#sample6_extraAddress").val()+","+$("#sample6_detailAddress").val();
+				let recivName=$("#reciveName").val();
+				
+				event.preventDefault();
+				
+				
+			}
+		
+			//포인트 사용
+			function usePoint(data) {				
+				
+					let usePoint = $("#usePo").val();
+					let totalPrice = $("#totalPrice").text().split('원')[0];
+					$("#totalPrice").text(totalPrice - usePoint + "원")
+				
+			}			
+
+			$(function() {
+				$('#apibtn').click(function() {
 					$.ajax({
-						url:'http://localhost/orderPay',
-						dataType:'json',
-						success:function(data){
+						url : 'http://localhost/orderPay',
+						dataType : 'json',
+						success : function(data) {
 							console.log(data)
 							alert("hi");
-							var box= data.next_redirect_pc_url;
+							var box = data.next_redirect_pc_url;
 							window.open(box);
 						},
-						error:function(error){
+						error : function(error) {
 							alert(error);
 						}
 					})
 				})
 			})
-			
-		
+
 			function sample6_execDaumPostcode() {
 				new daum.Postcode(
 						{
@@ -242,5 +263,4 @@
 		</script>
 		<script
 			src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-			
 </div>
