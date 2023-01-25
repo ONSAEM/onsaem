@@ -199,8 +199,8 @@ h1 {
                         th:text="${#dates.format(chal.startDate, 'MM월 dd일')} + ' ~ ' + ${#dates.format(chal.endDate, 'MM월 dd일')}"></p>
                      <div class="project-box-footer">
                         <div class="participants">
-                           <button class="openBtn">인증하기</button>
-                           <button>인증완료</button>
+                           <button class="openBtn" th:if="${chal.day}=0">인증하기</button>
+                           <button th:if="${chal.day}>0">인증완료</button>
                         </div>
                         <div class="days-left" style="color: #ff942e;">2 Days Left</div>
                      </div>

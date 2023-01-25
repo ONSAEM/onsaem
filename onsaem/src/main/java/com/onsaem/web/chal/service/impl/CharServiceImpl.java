@@ -25,11 +25,10 @@ public class CharServiceImpl implements ChalService {
 
 	@Override
 	public List<ChalVO> getChalAll(ChalVO vo, Paging paging) {
-		
-		//paging.setTotalRecord(chalMapper.chalCount(vo));
+		paging.setTotalRecord(chalMapper.chalCount(vo));
+		paging.setPageUnit(9);
 		vo.setFirst(paging.getFirst());
 		vo.setLast(paging.getLast());
-
 		return chalMapper.getChalAll();
 	}
 

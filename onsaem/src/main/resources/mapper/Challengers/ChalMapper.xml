@@ -2,48 +2,73 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onsaem.web.chal.mapper.ChalMapper">
-
+	<sql id="condition">
+		<if test="subClass">
+				 C.SUB_CLASS LIKE '%' || #{subClass} || '%'
+			</if>
+			<if test="ngoName">
+				AND C.ngo_name LIKE '%' || #{ngoName} || '%'
+			</if>
+			
+	</sql>
+	
 	<!-- 챌리저스 전체조회 -->
 	<select id="getChalAll" resultType="ChalVO">
-		SELECT C.CHAL_ID AS CHAL_ID ,
-		C.CLASSES AS CLASSES, C.SUB_CLASS AS SUB_CLASS, C.CHAL_NAME AS
-		CHAL_NAME, C.START_DATE AS START_DATE, C.END_DATE AS END_DATE,
-		M.FILE_ROUTE AS FILE_ROUTE, M.MEDIA_NAME AS MEDIA_NAME
+		SELECT * FROM (SELECT ROWNUM RN, A.* FROM( SELECT C.CHAL_ID,
+		C.CLASSES, C.SUB_CLASS, C.CHAL_NAME, C.START_DATE, C.END_DATE,
+		M.FILE_ROUTE, M.MEDIA_NAME
 		FROM CHALLENGES C JOIN MEDIA M
 		ON C.CHAL_ID = M.GROUP_ID
+        WHERE M.SUB_GROUP = '썸네일'
 		ORDER BY CHAL_ID DESC
+        <![CDATA[
+				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
+			]]>
 	</select>
 
 	<!-- 챌리저스 기부처 별전체조회 -->
 	<select id="getChalNgoAll" resultType="ChalVO"
 		parameterType="String">
-		SELECT C.CHAL_ID AS CHAL_ID ,
-		C.CLASSES AS CLASSES, C.SUB_CLASS AS SUB_CLASS, C.CHAL_NAME AS
-		CHAL_NAME, C.START_DATE AS START_DATE, C.END_DATE AS END_DATE,
-		M.FILE_ROUTE AS FILE_ROUTE, M.MEDIA_NAME AS MEDIA_NAME
+		 SELECT * FROM (SELECT ROWNUM RN, A.* FROM( SELECT C.CHAL_ID,
+		C.CLASSES, C.SUB_CLASS, C.CHAL_NAME, C.START_DATE, C.END_DATE,
+		M.FILE_ROUTE, M.MEDIA_NAME
 		FROM CHALLENGES C JOIN MEDIA M
 		ON C.CHAL_ID = M.GROUP_ID
-		WHERE C.NGO_NAME=#{ngoName}
+        WHERE M.SUB_GROUP = '썸네일'
+        AND C.NGO_NAME=#{ngoName}
+		ORDER BY CHAL_ID DESC
+        <![CDATA[
+				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
+			]]>
 	</select>
 
 	<!-- 챌리저스 팀전 별전체조회 -->
 	<select id="getChalTeamAll" resultType="ChalVO" parameterType="String">
-		SELECT C.CHAL_ID AS CHAL_ID ,
-		C.CLASSES AS CLASSES, C.SUB_CLASS AS SUB_CLASS, C.CHAL_NAME AS
-		CHAL_NAME, C.START_DATE AS START_DATE, C.END_DATE AS END_DATE,
-		M.FILE_ROUTE AS FILE_ROUTE, M.MEDIA_NAME AS MEDIA_NAME
+		 SELECT * FROM (SELECT ROWNUM RN, A.* FROM( SELECT C.CHAL_ID,
+		C.CLASSES, C.SUB_CLASS, C.CHAL_NAME, C.START_DATE, C.END_DATE,
+		M.FILE_ROUTE, M.MEDIA_NAME
 		FROM CHALLENGES C JOIN MEDIA M
 		ON C.CHAL_ID = M.GROUP_ID
-		WHERE C.SUB_CLASS= #{val}
+        WHERE C.SUB_CLASS = #{subClass}
+        AND C.NGO_NAME=#{ngoName}
+		ORDER BY CHAL_ID DESC
+        <![CDATA[
+				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
+			]]>
 	</select>
 	
 	<!-- 마이페이지용 - 현재 진행 중인거 모두 리스트 뽑기 , 회원 권한 -일반회원 -->
 	<select id="myCurentChal" resultType="ChalVO" >
-		SELECT C.CHAL_ID AS CHALID, C.SUB_CLASS AS SUBCLASS, C.FREQUENCY AS FREQUENCY, C.MEMBER_ID AS MEMBERID, C.CHAL_NAME AS CHALNAME, C.START_DATE AS STARTDATE, C.END_DATE AS ENDDATE
-		FROM CHALLENGES C JOIN PARTICIPANTS P
-		ON C.CHAL_ID = P.CHAL_ID
-		WHERE P.PARTICIPANT_ID = #{participantId} 
-			AND CURRENT_DATE BETWEEN C.START_DATE AND C.END_DATE
+		SELECT C.CHAL_ID , C.SUB_CLASS, C.FREQUENCY, C.MEMBER_ID, C.CHAL_NAME, C.START_DATE, C.END_DATE
+            , (SELECT count(*)
+                FROM PROOFS p
+                WHERE CHAL_ID = C.CHAL_ID
+                    AND PROOF_WRITER = P.PARTICIPANT_ID 
+                    and  INSTR( C.FREQUENCY,  to_char(WRITE_DATE, 'dy')) >0) day
+	       FROM CHALLENGES C JOIN PARTICIPANTS P
+	      ON C.CHAL_ID = P.CHAL_ID
+	      WHERE P.PARTICIPANT_ID = #{participantId}
+         AND CURRENT_DATE BETWEEN C.START_DATE AND C.END_DATE;
 		
 	</select>
 	
@@ -71,36 +96,45 @@
 	
 	<!-- 챌린지 조회 용들 ㅎ -->
 	<select id="currentChals" resultType="ChalVO">
-		SELECT C.CHAL_ID AS CHAL_ID ,
-		C.CLASSES AS CLASSES, C.SUB_CLASS AS SUB_CLASS, C.CHAL_NAME AS
-		CHAL_NAME, C.START_DATE AS START_DATE, C.END_DATE AS END_DATE,
-		M.FILE_ROUTE AS FILE_ROUTE, M.MEDIA_NAME AS MEDIA_NAME
+		SELECT * FROM (SELECT ROWNUM RN, A.* FROM( SELECT C.CHAL_ID,
+		C.CLASSES, C.SUB_CLASS, C.CHAL_NAME, C.START_DATE, C.END_DATE,
+		M.FILE_ROUTE, M.MEDIA_NAME
 		FROM CHALLENGES C JOIN MEDIA M
 		ON C.CHAL_ID = M.GROUP_ID
-		WHERE  CURRENT_DATE BETWEEN C.START_DATE AND C.END_DATE
+        WHERE M.SUB_GROUP = '썸네일'
+        AND WHERE  CURRENT_DATE BETWEEN C.START_DATE AND C.END_DATE
 		ORDER BY CHAL_ID DESC
+        <![CDATA[
+				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
+			]]>
 	</select>
 	
 	<select id="beforeChals" resultType="ChalVO">
-		SELECT C.CHAL_ID AS CHAL_ID ,
-		C.CLASSES AS CLASSES, C.SUB_CLASS AS SUB_CLASS, C.CHAL_NAME AS
-		CHAL_NAME, C.START_DATE AS START_DATE, C.END_DATE AS END_DATE,
-		M.FILE_ROUTE AS FILE_ROUTE, M.MEDIA_NAME AS MEDIA_NAME
+		SELECT * from (SELECT ROWNUM RN, A.* from( select C.CHAL_ID,
+		C.CLASSES, C.SUB_CLASS, C.CHAL_NAME, C.START_DATE, C.END_DATE,
+		M.FILE_ROUTE, M.MEDIA_NAME
 		FROM CHALLENGES C JOIN MEDIA M
 		ON C.CHAL_ID = M.GROUP_ID
-		WHERE  C.START_DATE > CURRENT_DATE
+        where m.sub_group = '썸네일'
+        and WHERE  C.START_DATE > CURRENT_DATE
 		ORDER BY CHAL_ID DESC
+        <![CDATA[
+				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
+			]]>
 	</select>
 		
 	<select id="endChals" resultType="ChalVO">
-		SELECT C.CHAL_ID AS CHAL_ID ,
-		C.CLASSES AS CLASSES, C.SUB_CLASS AS SUB_CLASS, C.CHAL_NAME AS
-		CHAL_NAME, C.START_DATE AS START_DATE, C.END_DATE AS END_DATE,
-		M.FILE_ROUTE AS FILE_ROUTE, M.MEDIA_NAME AS MEDIA_NAME
+		SELECT * from (SELECT ROWNUM RN, A.* from( select C.CHAL_ID,
+		C.CLASSES, C.SUB_CLASS, C.CHAL_NAME, C.START_DATE, C.END_DATE,
+		M.FILE_ROUTE, M.MEDIA_NAME
 		FROM CHALLENGES C JOIN MEDIA M
 		ON C.CHAL_ID = M.GROUP_ID
-		WHERE  CURRENT_DATE > C.END_DATE
-		ORDER BY C.END_DATE DESC
+        where m.sub_group = '썸네일'
+        and WHERE CURRENT_DATE > C.END_DATE
+		ORDER BY CHAL_ID DESC
+        <![CDATA[
+				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
+			]]>
 	</select>
 	
 	
@@ -197,8 +231,9 @@
 	</select>
 
 	<!-- paging용 -->
-	<select id="chalCount" resultType="Paging" parameterType="ChalVO">
-		SELECT  COUNT(CHAL_ID) AS TOTAL_RECORD
+	<select id="chalCount"  resultType ="int" parameterType="ChalVO">
+		SELECT  COUNT(CHAL_ID) AS total
 		FROM CHALLENGES
+		<include refid="condition"/>
 	</select>
 </mapper>

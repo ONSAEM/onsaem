@@ -64,16 +64,10 @@ public class ChalAdminController {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		
 		//이미지 첨부
+
 		vo.setGroups("챌린저스");
-        for(int i=0;i<uploadFile.length;i++) {
-			if(i==0) {
-				vo.setSubGroup("영수증");
-			}else {
-				vo.setSubGroup("영수증");
-			}			
-			MultipartFile[] upload= {uploadFile[i]};
-			mediaService.uploadMedia(upload, vo);
-		}		
+		vo.setSubGroup("영수증");
+		mediaService.uploadMedia(uploadFile, vo);
 		
         //챌린저스 테이블 상태 업데이트
 		ChalVO cvo = new ChalVO();
