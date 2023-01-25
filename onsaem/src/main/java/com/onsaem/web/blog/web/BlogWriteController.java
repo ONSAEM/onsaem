@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -67,7 +68,20 @@ public class BlogWriteController {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		String id = userDetails.getUsername();
 		
-		model.addAttribute("myblog", blogWriteService.myBlog(userId));	
+		List<BlogWriteVO> myblog = blogWriteService.myBlog(userId);
+			for(BlogWriteVO blog : myblog) {
+				Pattern pattern  =  Pattern.compile("<img[^>]*src=[\\\"']?([^>\\\"']+)[\\\"']?[^>]*>");
+		        // 내용 중에서 이미지 태그를 찾아라!
+		        Matcher match = pattern.matcher(blog.getBlogWrite());
+		        String imgTag = null;
+		        if(match.find()){ // 이미지 태그를 찾았다면,,
+		            imgTag = match.group(1); // 글 내용 중에 첫번째 이미지 태그를 뽑아옴.
+		            blog.setFileRoute(imgTag);
+		        }
+			}
+		model.addAttribute("myblog", myblog);
+		
+		 
 		vo.setBlogId(userId);
 		model.addAttribute("category", blogWriteService.cateList(vo));
 		model.addAttribute("recentWrite", blogWriteService.recentWrite(userId)); // 최신글 조회
@@ -260,23 +274,6 @@ public class BlogWriteController {
 	}
 	
 	
-	
-	// 썸네일
-	@RequestMapping(value = "/myblog/thumbnail", method = RequestMethod.POST)
-	@ResponseBody
-	public String getSrc(String source) {
-        // 이미지 태그를 추출하기 위한 정규식.
-        Pattern pattern  =  Pattern.compile("<img[^>]*src=[\\\"']?([^>\\\"']+)[\\\"']?[^>]*>");
-        // 내용 중에서 이미지 태그를 찾아라!
-        Matcher match = pattern.matcher(source);
-        String imgTag = null;
-        if(match.find()){ // 이미지 태그를 찾았다면,,
-            imgTag = match.group(1); // 글 내용 중에 첫번째 이미지 태그를 뽑아옴.
-        }
-        return imgTag;
-    }
-	
-	
 	// 내 블로그 제목 검색
 //	@RequestMapping(value = "/myblog/searchWrite", method = RequestMethod.POST)
 //	public String searchWrite(Model model, @RequestParam(value = "data", required = false) String data,
@@ -303,9 +300,11 @@ public class BlogWriteController {
 //		return vo;
 //	}
 //	// 블로그 글 삭제 처리(삭제)
-//	@RequestMapping(value = "/myblog/blogWrite/blogDelete/{userId}/{bno}", method = RequestMethod.GET)
-//	public String blogDelete(Model model, BlogWriteVO vo) {
-//		model.addAttribute("blogDelete", blogWriteService.blogDelete(vo));
-//		return "content/blog/myblog";
-//	}
+	@RequestMapping(value = "/blogDelete", method = RequestMethod.POST)
+	@ResponseBody
+	public String blogDelete(BlogWriteVO vo,String writeId) {
+		vo.setWriteId(writeId);
+		blogWriteService.blogDelete(vo);
+		return "success";
+	}
 }

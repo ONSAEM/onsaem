@@ -24,4 +24,5 @@ public class BlogWriteVO {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date writeDate;
 	int replyCnt;
+	String fileRoute;
 }

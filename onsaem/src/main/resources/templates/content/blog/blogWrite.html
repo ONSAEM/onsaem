@@ -215,8 +215,8 @@
 				<div class="col-lg-8 col-md-7 order-md-1 order-1"> <!--------------------------신고!!!!! -->
 					<i type="button" class="fa-solid fa-triangle-exclamation openBtn" style="float:right;"
 					th:value1="${blogWrite.writeId}" th:value2="${blogWrite.blogId}">신고하기</i>
-					<button style="float:right;">수정</button>
-					<button style="float:right;">삭제</button>
+					<button style="float:right;" id="blogUpdate">수정</button>
+					<button style="float:right;" id="blogDelete" th:value="${blogWrite.writeId}">삭제</button>
 					<div class="blog__details__text">
 						 [(${blogWrite.blogWrite})]
 					</div>
@@ -619,6 +619,27 @@
 					console.log(contentId);
 					console.log(writerId);
 					banSubmit(contentId,writerId);
+				})
+				
+			// 글 삭제
+				$('#blogDelete').on("click", function(){
+					let writeId = $(this).val();
+					console.log(writeId);
+					alert("정말 삭제하시겠습니까?");
+					$.ajax({
+						url: '/blog/blogDelete',
+						method: 'post',
+						contentType: 'application/x-www-form-urlencoded',
+	 					data: {"writeId":writeId},
+	 					success: function(result){
+	 						console.log(result);
+	 						alert("삭제완료");
+	 						location.href='/blog/myblog?userId='+'[(${#authentication.principal.memberId})]';
+	 					},
+	 					error: function(error){
+	 						console.log(error);
+	 					}
+					})
 				})
 			
 			

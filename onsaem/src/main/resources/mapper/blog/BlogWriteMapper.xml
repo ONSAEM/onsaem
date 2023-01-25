@@ -171,8 +171,7 @@
  	<!-- 글 삭제 -->
  	<delete id="blogDelete" parameterType="String">
  		delete from blog_writes
- 		where blog_id = #{blogId}
- 		and write_id = #{wirteId}
+ 		where write_id = #{writeId}
  	</delete>
  	
  	
