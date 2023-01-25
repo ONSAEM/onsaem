@@ -21,14 +21,14 @@ public class BlogReplyController {
 	@Autowired
 	BlogReplyService replyService;
 	
-		// 댓글 등록 처리(등록)
-		@RequestMapping(value = "/myblog/blogWrite/replyInsert", method = RequestMethod.POST)
-		@ResponseBody  //ajax 응답은 responseBody
-		public RepliesVO replyInsert(Model model, RepliesVO vo, Authentication authentication) {
-			UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-			String id = userDetails.getUsername();
-			vo.setWriterId(id);
-			model.addAttribute("replyInsert", replyService.replyInsert(vo));
-			return vo;
-		}
+	// 댓글 등록 처리(등록)
+	@RequestMapping(value = "/myblog/blogWrite/replyInsert", method = RequestMethod.POST)
+	@ResponseBody  //ajax 응답은 responseBody
+	public RepliesVO replyInsert(Model model, RepliesVO vo, Authentication authentication) {
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		String id = userDetails.getUsername();
+		vo.setWriterId(id);
+		replyService.replyInsert(vo);
+		return vo;
+	}
 }

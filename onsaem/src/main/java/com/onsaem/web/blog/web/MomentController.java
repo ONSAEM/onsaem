@@ -25,7 +25,11 @@ import com.onsaem.web.blog.service.MomentService;
 import com.onsaem.web.blog.service.MomentsVO;
 import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
-
+/**
+ * 
+ * @author 정호경
+ * 사용자의 모먼트 관련
+ */
 @Controller
 @CrossOrigin(origins = "*")
 @RequestMapping("/blog")
@@ -50,25 +54,24 @@ public class MomentController {
 	@RequestMapping(value = "/insertMoment", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> insertMoment(@RequestParam("uploadfile")MultipartFile[] uploadfile,
-										    @RequestParam("momentWrite") String momentWrite,
-										    @RequestParam("addUrl") String addUrl,
-										    @RequestParam("uploadEnd") String uploadEnd,
-										    @RequestParam("publicScope") String publicScope,
+										   // @RequestParam("momentWrite") String momentWrite,
+										    MomentsVO momentsVO,
 										    Authentication authentication) throws IllegalStateException, IOException, ParseException{    
+		// 등록
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		MomentsVO momentsVO = new MomentsVO();
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = formatter.parse(uploadEnd);
+		//MomentsVO momentsVO = new MomentsVO();
+//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//		Date date = formatter.parse(uploadEnd);
 		momentsVO.setBlogId(userDetails.getUsername());
-		momentsVO.setUploadEnd(date);
-		momentsVO.setMomentWrite(momentWrite);
-		momentsVO.setAddUrl(addUrl);
-		momentsVO.setPublicScope(publicScope);
+//		momentsVO.setUploadEnd(date);
+//		momentsVO.setMomentWrite(momentWrite);
+//		momentsVO.setAddUrl(addUrl);
+//		momentsVO.setPublicScope(publicScope);
 		
 		momentService.momentInsert(momentsVO);
 		
-		
-		List<MediaVO> list= new ArrayList<MediaVO>();
+		// 사진 등록
+		List<MediaVO> list= null;
 		  MediaVO vo = new MediaVO();
 		  vo.setGroupId(momentsVO.getMomentId());
 		  vo.setGroups("블로그");
@@ -76,6 +79,7 @@ public class MomentController {
 		  //파일 업로드하는 기능 부르기+DB에 저장하기/첨부파일 테이블에 저장할 때 쓰임
 		  list = mediaService.uploadMedia(uploadfile,vo);
 		  
+		  // 결과 전송
 		  Map<String, Object> momentMap = new HashMap<String, Object>();
 		  momentMap.put("moment", momentsVO);
 		  momentMap.put("mediaList", list);
