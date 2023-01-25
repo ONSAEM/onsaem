@@ -189,4 +189,10 @@ public class SellerServiceImpl implements SellerService {
 		return sellMapper.waitOrder(id);	
 	}
 
+	@Override
+	public int sumbitShipping(OrderVO vo) {
+		// 주문상태 변경
+		return sellMapper.sumbitShipping(vo);
+	}
+
 }

@@ -239,43 +239,19 @@ h1 {
 					<h3>교환/반품</h3>
 					<div class="modalText">
 						<p>사유선택</p>
-						<input type="checkbox" name="reason" id="ban1"
+						<input type="checkbox" name="reason" id="ban"
 							th:onclick="checkOnlyone(this)" value="단순 변심">단순 변심 <span
 							id="1"></span><br> <input type="checkbox" value="배송문제"
-							id="ban2" name="reason" th:onclick="checkOnlyone(this)">
+							id="ban" name="reason" th:onclick="checkOnlyone(this)">
 						배송문제<span id="2"></span> <br> <input type="checkbox"
-							value="상품문제" name="reason" id="ban3"
+							value="상품문제" name="reason" id="ban"
 							th:onclick="checkOnlyone(this)"> 상품문제 <span id="3"></span><br>
-						<input type="checkbox" value="기타" name="reason" id="ban4"
+						<input type="checkbox" value="기타" name="reason" id="ban"
 							th:onclick="checkOnlyone(this)"> 기타 <span id="4"></span>
 						<br> <br>
 						<p>해결방법</p>
-						<input type="checkbox">교환 <input type="checkbox">반품
+						<input type="checkbox" name="method" value="교환">교환 <input type="checkbox" name="method" value="반품">반품
 						<br> <br> <br>
-						<p>회수정보</p>
-						<div>
-							<div class="inputfield">
-								<label>반송주소<span class="request">*</span></label> <input
-									type="text" id="sample6_postcode" class="input"
-									name="sellerAddr"><input type="button"
-									onclick="sample6_execDaumPostcode()" value="주소검색"
-									class="checkBtn">
-
-							</div>
-							<br>
-							<div class="inputfield">
-								<label>주소<span class="request">*</span></label> <input
-									type="text" id="sample6_address" class="input"
-									name="sellerAddr">
-							</div>
-							<br>
-							<div class="inputfield">
-								<label>상세주소</label> <input type="text"
-									id="sample6_detailAddress" class="input" name="sellerAddr">
-							</div>
-						</div>
-						<br>
-
 						<p>
 							회수시 요청사항<br>
 							<textarea rows="" cols=""></textarea>
@@ -286,8 +262,24 @@ h1 {
 				</div>
 			</div>
 
-			<script type="text/javascript">		
-			
+			<script type="text/javascript">
+			//교환/환불 신청
+			function submitBtn(){							
+				let reasonLength = document.getElementsByName("reason").length;  
+   				for (var i=0; i<reasonLength; i++) {
+        			if (document.getElementsByName("reason")[i].checked == true) {
+            			console.log(document.getElementsByName("reason")[i].value); 
+            			var reason=document.getElementsByName("reason")[i].value
+        			}
+				}
+   				let methodLength = document.getElementsByName("method").length; 
+   				for (var i=0; i<reasonLength; i++) {
+        			if (document.getElementsByName("method")[i].checked == true) {
+            			console.log(document.getElementsByName("method")[i].value); 
+            			var reason=document.getElementsByName("method")[i].value
+        			}
+				}   				
+			}
 			 
 			//배송조회버튼
 			function shippingSearch(){

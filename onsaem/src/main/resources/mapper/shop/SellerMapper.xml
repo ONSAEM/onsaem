@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onsaem.web.shop.mapper.SellerMapper">	
-
+	<!-- 주문상태 변경 -->
+	<update id="sumbitShipping" parameterType="com.onsaem.web.shop.service.OrderVO">
+		UPDATE ORDERS
+		SET ORDER_STATUS=#{orderStatus}, DELIVERY_ID=#{deliveryId}
+		WHERE ORDER_ID=#{orderId}		
+	</update>
+	
 	<!-- 상태별 갯수 -->
 	<select id="countList"
 		resultType="com.onsaem.web.shop.service.ProductVO">
@@ -81,7 +87,7 @@
 		SELECT *
 		FROM PRODUCTS
 		WHERE MEMBER_ID=#{data}
-		ORDER BY		CATEGORY
+		ORDER BY CATEGORY
 	</select>
 
 	<!-- 날짜별 조회 -->

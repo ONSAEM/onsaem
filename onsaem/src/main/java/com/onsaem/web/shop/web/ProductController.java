@@ -59,6 +59,7 @@ public class ProductController {
 			likeVo.setMemberId(userDetails.getUsername());
 			model.addAttribute("cartList", cartService.cartList(cartVo)); // 장바구니 수량가져오기 위한 리스트
 			model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
+			model.addAttribute("categoryList", proService.categoryList()); //카테고리 리스트
 		}
 		if (data != null && data.equals("popularity")) {
 			model.addAttribute("productList", proService.popList());
@@ -94,6 +95,7 @@ public class ProductController {
 		model.addAttribute("productList", proService.proCategory(data));
 		model.addAttribute("cartList", cartService.cartList(cartVo)); // 장바구니 수량가져오기 위한 리스트
 		model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
+		model.addAttribute("categoryList", proService.categoryList()); //카테고리 리스트
 		return "content/shop/shopMain";
 	}
 
