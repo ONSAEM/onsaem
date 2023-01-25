@@ -13,21 +13,21 @@
 	text-align: center;
 }
 
-.modal-wrapper .form {
+.modal-wrapper .modal-form {
 	width: 100%;
 }
 
-.modal-wrapper .form .inputfield {
+.modal-wrapper .modal-form .inputfield {
 	margin-bottom: 15px;
 	display: flex;
 	align-items: center;
 }
 
-.modal-wrapper .form .emailCk {
+.modal-wrapper .modal-form .emailCk {
 	display: none;
 }
 
-.modal-wrapper .form .inputfield label {
+.modal-wrapper .modal-form .inputfield label {
 	width: 15%;
 	color: #757575;
 	font-size: 14px;
@@ -35,12 +35,12 @@
 	margin: auto;
 }
 
-.modal-wrapper .form .inputfield .request {
+.modal-wrapper .modal-form .inputfield .request {
 	color: red;
 	font-size: 20px;
 }
 
-.modal-wrapper .form .inputfield .input, .modal-wrapper .form .inputfield .textarea
+.modal-wrapper .modal-form .inputfield .input, .modal-wrapper .modal-form .inputfield .textarea
 	{
 	width: 60%;
 	outline: none;
@@ -52,18 +52,18 @@
 	margin: auto;
 }
 
-.modal-wrapper .form .inputfield .textarea {
+.modal-wrapper .modal-form .inputfield .textarea {
 	width: 100%;
 	height: 125px;
 	resize: none;
 }
 
-.modal-wrapper .form .inputfield .custom_select {
+.modal-wrapper .modal-form .inputfield .custom_select {
 	position: relative;
 	height: 37px;
 }
 
-.modal-wrapper .form .inputfield .custom_select:before {
+.modal-wrapper .modal-form .inputfield .custom_select:before {
 	content: "";
 	position: absolute;
 	top: 12px;
@@ -73,7 +73,7 @@
 	pointer-events: none;
 }
 
-.modal-wrapper .form .inputfield .custom_select select {
+.modal-wrapper .modal-form .inputfield .custom_select select {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
@@ -87,18 +87,18 @@
 	border-radius: 3px;
 }
 
-.modal-wrapper .form .inputfield .input:focus, .modal-wrapper .form .inputfield .textarea:focus,
-	.modal-wrapper .form .inputfield .custom_select select:focus {
+.modal-wrapper .modal-form .inputfield .input:focus, .modal-wrapper .modal-form .inputfield .textarea:focus,
+	.modal-wrapper .modal-form .inputfield .custom_select select:focus {
 	border: 1px solid #fec107;
 }
 
-.modal-wrapper .form .inputfield p {
+.modal-wrapper .modal-form .inputfield p {
 	font-size: 14px;
 	color: #757575;
 	margin: 0px 10px 6px;
 }
 
-.modal-wrapper .form .inputfield .check {
+.modal-wrapper .modal-form .inputfield .check {
 	width: 15px;
 	height: 15px;
 	position: relative;
@@ -106,14 +106,14 @@
 	cursor: pointer;
 }
 
-.modal-wrapper .form .inputfield .check input[type="checkbox"] {
+.modal-wrapper .modal-form .inputfield .check input[type="checkbox"] {
 	position: absolute;
 	top: 0;
 	left: 0;
 	opacity: 0;
 }
 
-.modal-wrapper .form .inputfield .check .checkmark {
+.modal-wrapper .modal-form .inputfield .check .checkmark {
 	width: 15px;
 	height: 15px;
 	border: 1px solid #5bc1ac;
@@ -121,7 +121,7 @@
 	position: relative;
 }
 
-.modal-wrapper .form .inputfield .check .checkmark:before {
+.modal-wrapper .modal-form .inputfield .check .checkmark:before {
 	content: "";
 	position: absolute;
 	top: 1px;
@@ -134,17 +134,17 @@
 	display: none;
 }
 
-.modal-wrapper .form .inputfield .check input[type="checkbox"]:checked 
+.modal-wrapper .modal-form .inputfield .check input[type="checkbox"]:checked 
 	 ~.checkmark {
 	background: #5bc1ac;
 }
 
-.modal-wrapper .form .inputfield .check input[type="checkbox"]:checked 
+.modal-wrapper .modal-form .inputfield .check input[type="checkbox"]:checked 
 	 ~.checkmark:before {
 	display: block;
 }
 
-.modal-wrapper .form .inputfield .btn, .modal-wrapper .form .inputfield .checkBtn
+.modal-wrapper .modal-form .inputfield .btn, .modal-wrapper .modal-form .inputfield .checkBtn
 	{
 	margin: auto;
 	padding: 8px 10px;
@@ -157,32 +157,32 @@
 	outline: none;
 }
 
-.modal-wrapper .form .inputfield .btn {
+.modal-wrapper .modal-form .inputfield .btn {
 	width: 100%;
 }
 
-.form .inputfield .checkBtn {
+.modal-form .inputfield .checkBtn {
 	width: 20%;
 }
 
-.modal-wrapper .form .inputfield .btn:hover, .modal-wrapper .form .inputfield .checkBtn:hover
+.modal-wrapper .modal-form .inputfield .btn:hover, .modal-wrapper .modal-form .inputfield .checkBtn:hover
 	{
 	background: #42a18d;
 }
 
-.modal-wrapper .form .inputfield:last-child {
+.modal-wrapper .modal-form .inputfield:last-child {
 	margin-bottom: 0;
 }
 
 @media ( max-width :420px) {
-	.modal-wrapper .form .inputfield {
+	.modal-wrapper .modal-form .inputfield {
 		flex-direction: column;
 		align-items: flex-start;
 	}
-	.modal-wrapper .form .inputfield label {
+	.modal-wrapper .modal-form .inputfield label {
 		margin-bottom: 5px;
 	}
-	.modal-wrapper .form .inputfield.terms {
+	.modal-wrapper .modal-form .inputfield.terms {
 		flex-direction: row;
 	}
 }

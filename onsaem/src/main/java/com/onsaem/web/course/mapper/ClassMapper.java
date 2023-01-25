@@ -2,6 +2,7 @@ package com.onsaem.web.course.mapper;
 
 import java.util.List;
 
+import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.course.service.ClassInfoVO;
@@ -25,6 +26,15 @@ public interface ClassMapper {
 	
 	// 강의 최소금액
 	public int classMinPrice(ClassInfoVO vo);
+	
+	// 강의 좋아요 갯수
+	public int classLikeCount(LikeVO vo);
+	
+	// 강의 좋아요 추가
+	public int addClassLike(LikeVO vo);
+	
+	// 강의 좋아요 삭제
+	public int delClassLike(LikeVO vo);
 	
 	//[위는 완성 아래는 미완성]
 

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.course.mapper.ClassMapper;
@@ -59,6 +60,18 @@ public class ClassServiceImpl implements ClassService{
 	
 		return classMapper.classMinPrice(vo);
 	}
+
+	@Override
+	public int addClassLike(LikeVO vo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int delClassLike(LikeVO vo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 	//[위는 완성 아래는 미완성]
 	
@@ -79,6 +92,8 @@ public class ClassServiceImpl implements ClassService{
 
 		return classMapper.classUpdate(vo);
 	}
+
+
 
 
 

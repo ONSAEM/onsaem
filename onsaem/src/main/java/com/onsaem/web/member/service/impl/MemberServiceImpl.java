@@ -39,8 +39,11 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String memberId) throws UsernameNotFoundException {
-
-		return memberMapper.getMember(memberId);
+		MemberVO vo = memberMapper.getMember(memberId);
+		if (vo == null) {
+			throw new UsernameNotFoundException("X");
+		}
+		return vo;
 	}
 
 	@Override
@@ -108,6 +111,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 			vo.setSubGroup("프로필이미지");
 			mediaService.uploadMedia(profileFile, vo);
 		}
+		memberMapper.inserBlog(member);
 		if (result > 0) {
 			return "success";
 		} else {
@@ -177,5 +181,16 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public String deleteMember(MemberVO member) {
+		if (memberMapper.deleteMember(member) > 0) {
+			SecurityContextHolder.clearContext();
+			return "success";
+		} else {
+			return "fail";
+		}
+
 	}
 }

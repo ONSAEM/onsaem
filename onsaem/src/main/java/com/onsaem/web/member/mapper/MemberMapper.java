@@ -18,10 +18,16 @@ public interface MemberMapper {
 
 	// 회원등록
 	public int insertMember(MemberVO member);
+	
+	// 블로그등록
+	public int inserBlog(MemberVO member);
 
 	// 비밀번호 변경
 	public int updatePw(MemberVO member);
 
 	// 회원정보변경
 	public int updateMember(MemberVO member);
+	
+	// 회원 탈퇴
+	public int deleteMember(MemberVO member);
 }
