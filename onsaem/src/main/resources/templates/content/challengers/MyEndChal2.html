@@ -211,7 +211,7 @@
 						        </div>
 						        <div class="modal-body">
 						            <p></p>
-						            <p>이미지 영역</p>
+						            <img id="receipt">
 						        </div>
 						        <div class="modal-footer">
 						        <h5>기부에 참여해 주셔서 감사합니다!</h5>
@@ -335,6 +335,8 @@
 		        		data : {groupId, groupId},
 		        		success : function(result){
 		        			console.log(result);
+		        			let imgsrc = result.fileRoute;
+		        			$('#receipt').attr("src", '/fileView/'+imgsrc);
 		        		},
 		        		error : function(error){
 		        			console.log(error);

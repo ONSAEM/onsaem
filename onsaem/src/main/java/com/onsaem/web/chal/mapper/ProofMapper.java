@@ -3,6 +3,7 @@ package com.onsaem.web.chal.mapper;
 import java.util.List;
 
 import com.onsaem.web.chal.service.ChalVO;
+import com.onsaem.web.chal.service.ParticipantVO;
 import com.onsaem.web.chal.service.ProofVO;
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
@@ -71,11 +72,17 @@ public interface ProofMapper {
 	//한사람이 참가한 모든 챌린지의 섬네일,,사진,,가져오기 - 진행중ㄷ인챌린지
 	List<MediaVO> myChalThumnails(ChalVO vo);
 	
-	//인증샷있는지 확인하는 메소드 ㅋㅋ 없으면 0개로 뜨게끔 함 멋진나 ㅎㅎ
+	//인증샷있는지 확인하는 메소드 
 	Integer checkProof(ProofVO vo);
 	
 	//좋아요 갯수 세기 ㅎㅎ
 	Integer cntChalLike(LikeVO vo);
+	
+	//영수증 파일 조회
+	MediaVO getReceipt(String groupId);
+	
+	//팀별 인증샷 갯수 구하기 
+	Integer cntTeamProof(ParticipantVO vo);
 
 
 }

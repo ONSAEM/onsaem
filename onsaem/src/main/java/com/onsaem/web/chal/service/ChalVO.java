@@ -40,4 +40,7 @@ public class ChalVO {
 	String result;
 	String resultPoint;
 	
+	Integer first= 1;
+	Integer last = 10;
+	
 }

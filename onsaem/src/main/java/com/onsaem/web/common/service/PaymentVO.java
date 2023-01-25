@@ -18,4 +18,7 @@ public class PaymentVO {
 	String groupId;
 	String groups;
 	String status;
+	
+	//챌린저스에서 사용
+	Integer donationFee;
 }

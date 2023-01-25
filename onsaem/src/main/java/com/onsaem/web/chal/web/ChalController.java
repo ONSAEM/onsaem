@@ -28,8 +28,10 @@ import com.onsaem.web.chal.service.ProofService;
 import com.onsaem.web.chal.service.ReportService;
 import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.PaymentVO;
 import com.onsaem.web.common.service.ReportVO;
+import com.onsaem.web.member.service.MemberService;
 
 /**
  * 
@@ -48,13 +50,14 @@ public class ChalController {
 	@Autowired ParticipantService partService;
 	@Autowired ReportService reportService;
 	@Autowired MediaService mediaService;
+	@Autowired MemberService memberService;
 	
 	//챌린지 전체 리스트 확인
 	@RequestMapping(value="/chalList",method=RequestMethod.GET)
-	public String chalList(Model model) {
+	public String chalList(Model model,ChalVO vo, Paging paging) {
 		String classes = "항시";
 		model.addAttribute("ngoes", ngoService.listNgoClass(classes));
-		model.addAttribute("chals", chalService.getChalAll());
+		model.addAttribute("chals", chalService.getChalAll(vo, paging));
 		
 		//기부금 순위로
 		model.addAttribute("ranks", chalService.donateRank());
@@ -163,6 +166,7 @@ public class ChalController {
 		vo.setClasses("등록");
 		vo.setTeamFee(0);
 		vo.setReceipt(null);
+		vo.setUsercnt(0);
 		chalService.inputChal(vo);
 		
 		//Participant에 챌린저스 개최자 등록
@@ -172,6 +176,7 @@ public class ChalController {
 		pvo.setChalId(vo.getChalId());
 		pvo.setParticipantId(vo.getMemberId());
 		pvo.setPrivateDonate(vo.getDonationFee());
+		pvo.setTeam(null);
 		pvo.setBetPoint(0);
 		partService.inputParticipant(pvo);
 		
@@ -215,6 +220,7 @@ public class ChalController {
 		pvo.setChalId(vo.getChalId());
 		pvo.setParticipantId(vo.getMemberId());
 		pvo.setPrivateDonate(vo.getDonationFee());
+		pvo.setTeam("A");
 		
 		partService.inputParticipant(pvo);
 		
@@ -246,30 +252,36 @@ public class ChalController {
 		model.addAttribute("chals", chalService.getChal(chalId));
 		vo.setGroupId(chalId);
 		model.addAttribute("photoes", proofService.listMedia(vo));
+		model.addAttribute("user", memberService.getMember(userDetails.getUsername()));
 		return "content/challengers/applyChalFrm";
 	}
 	
 	//챌린지 참가 - 개인전 데이터 등록,,ㅎ
 	@RequestMapping(value="/applyChalFrm", method=RequestMethod.POST)
-	public String applyChal(ChalVO vo, ParticipantVO pvo, PaymentVO payvo, Authentication authentication) {
-		//참가자 테이블
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-		pvo.setParticipantId(userDetails.getUsername());
-		pvo.setBetPoint(0);
-		partService.inputParticipant(pvo);
-		//챌린저스 테이블 수정
+	@ResponseBody
+	public String applyChal(@RequestBody PaymentVO payvo,ParticipantVO pvo,ChalVO vo, Authentication authentication) {
 		
-		vo.setChalId(pvo.getChalId());
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		//결제 테이블
+		
+		payvo.setPayerId(userDetails.getUsername());
+		partService.inputPayment(payvo);
+		
+		//참가자 테이블
+		pvo.setParticipantId(userDetails.getUsername());
+		pvo.setChalId(payvo.getGroupId());
+		pvo.setPrivateDonate(payvo.getPrice());
+		pvo.setBetPoint(0);
+		pvo.setTeam(null);
+		partService.inputParticipant(pvo);
+		
+		//챌린저스 테이블 수정
+		vo.setChalId(payvo.getGroupId());
+		vo.setDonationFee(payvo.getDonationFee());
 		chalService.updateDonate(vo);
 		System.out.println("group_id" + pvo.getChalId());
 		
-		//결제 테이블
-		payvo.setGroupId(pvo.getChalId());
-		payvo.setPrice(pvo.getPrivateDonate());
-		payvo.setPayerId(pvo.getParticipantId());
-		payvo.setPaymentMethod("카카오페이");
-		partService.inputPayment(payvo);
+		
 		
 		
 		return "redirect:/chalList";
@@ -289,12 +301,27 @@ public class ChalController {
 	//챌린지 참가 - 팀 등록
 	@RequestMapping(value="/applyChalTeamFrm", method=RequestMethod.POST)
 	public String applyChalTeam(ChalVO vo, ParticipantVO pvo, PaymentVO payvo) {
-		//참가자 테이블
+		//챌린저스 테이블에서 인원수 조회, 참가자 테이블에서 인원수 조회
+		String chalId = vo.getChalId();
+		ChalVO cvo = chalService.getChal(chalId);
+		//챌린저스 총 인원수
+		Integer total = cvo.getUsercnt();
+		//참가인원수
+		Integer cnt = partService.listParticipantAll(chalId).size();
 		
+		//참가인원수가 총인원수의 반 이상이면 B팀으로 설정
+		if(cnt>=(total*0.5)) {
+			pvo.setTeam("B");
+		}else {
+			pvo.setTeam("A");
+		}
+	
+		
+		//참가자 테이블
 		pvo.setParticipantId("hodu");
 		partService.inputParticipant(pvo);
-		//챌린저스 테이블 수정
 		
+		//챌린저스 테이블 수정
 		vo.setChalId(pvo.getChalId());
 		chalService.updateDonate(vo);
 		

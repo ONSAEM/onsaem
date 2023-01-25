@@ -73,5 +73,11 @@ public interface ProofService {
 		
 		//좋아요 갯수 세기 ㅎㅎ
 		Integer cntChalLike(LikeVO vo);
+		
+		//영수증 파일 조회
+		MediaVO getReceipt(String groupId);
+		
+		//팀별 인증샷 갯수 구하기 
+		Integer cntTeamProof(ParticipantVO vo);
 
 }

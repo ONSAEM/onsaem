@@ -17,6 +17,7 @@ public class ParticipantVO {
 	String participantId; //참가회원id
 	String result; //결과 - 승 / 패
 	Integer resultPoint; //결과로 받는 포인트 or 잃는 포인트
+	String team;
 	
 	
 	//조인할 떄 위해서 만든변수들
