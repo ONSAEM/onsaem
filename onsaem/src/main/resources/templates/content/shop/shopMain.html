@@ -332,9 +332,9 @@
 			//최근본상품 세션저장
 			function productDetail(data) {
 				if (sessionStorage.getItem('productId') != null) {
-					sessionStorage.setItem('productId', sessionStorage
-							.getItem('productId')
-							+ data + ",");
+					let sessionProduct=sessionStorage.getItem('productId');
+					sessionProduct=sessionProduct.replace(data+",",'');
+					sessionStorage.setItem('productId', sessionProduct+ data + ",");
 				} else {
 					sessionStorage.setItem('productId', data + ",");
 				}
@@ -344,11 +344,11 @@
 			window.onload = function() {
 				//최근본상품 세션 전달
 				let watch = sessionStorage.getItem('productId').split(',');
-				let data5 = watch[watch.length];
-				let data4 = watch[watch.length - 1];
-				let data3 = watch[watch.length - 2];
-				let data2 = watch[watch.length - 3];
-				let data1 = watch[watch.length - 4];
+				let data5 = watch[watch.length-2];
+				let data4 = watch[watch.length - 3];
+				let data3 = watch[watch.length - 4];
+				let data2 = watch[watch.length - 5];
+				let data1 = watch[watch.length - 6];
 				 $.ajax({
 					type : 'post',
 					url : '/watchProduct',
@@ -378,7 +378,7 @@
 								</div>
 							</a>
 						</div>`;	
-						$("#watchList").append(watchList);
+						$("#watchList").prepend(watchList);
 						}
 						
 					},

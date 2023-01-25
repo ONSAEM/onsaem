@@ -27,6 +27,11 @@ import com.onsaem.web.shop.service.ProductService;
 import com.onsaem.web.shop.service.ProductVO;
 import com.onsaem.web.shop.service.SellerService;
 
+/**
+ * 
+ * @author 이재원 판매자 상품관리
+ *
+ */
 @Controller
 @CrossOrigin(origins = "*")
 public class SellerController {
@@ -45,9 +50,10 @@ public class SellerController {
 
 	// 판매자 페이지로 이동
 	@RequestMapping(value = "/sellerMain", method = RequestMethod.GET)
-	public String seller(Model model, Authentication authentication) {
+	public String seller(Model model, Authentication authentication, ProductVO vo) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		model.addAttribute("sellerList", proService.sellerList(userDetails.getUsername()));
+		vo.setMemberId(userDetails.getUsername());
+		model.addAttribute("sellerList", proService.sellerList(vo));
 		model.addAttribute("countList", sellService.countList(userDetails.getUsername()));
 		return "content/shop/sellerMain";
 	}
@@ -62,57 +68,70 @@ public class SellerController {
 	// 승인대기품목
 	@RequestMapping(value = "/waitProduct", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ProductVO> waitProduct(Authentication authentication) {
+	public List<ProductVO> waitProduct(Authentication authentication, ProductVO vo) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		return sellService.waitList(userDetails.getUsername());
+		vo.setMemberId(userDetails.getUsername());
+		vo.setProductStatus("승인대기");
+		return proService.sellerList(vo);
 	}
 
 	// 전체품목
 	@RequestMapping(value = "/sellerAllProduct", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ProductVO> sellerAllProduct(Authentication authentication) {
+	public List<ProductVO> sellerAllProduct(Authentication authentication, ProductVO vo) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		return proService.sellerList(userDetails.getUsername());
+		vo.setMemberId(userDetails.getUsername());
+		return proService.sellerList(vo);
 	}
 
 	// 판매대기품목
 	@RequestMapping(value = "/waitSell", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ProductVO> waitSell(Authentication authentication) {
+	public List<ProductVO> waitSell(Authentication authentication, ProductVO vo) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		return sellService.waitSell(userDetails.getUsername());
+		vo.setMemberId(userDetails.getUsername());
+		vo.setProductStatus("판매대기");
+		return proService.sellerList(vo);
 	}
 
 	// 판매중
 	@RequestMapping(value = "/selling", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ProductVO> selling(Authentication authentication) {
+	public List<ProductVO> selling(Authentication authentication, ProductVO vo) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		return sellService.selling(userDetails.getUsername());
+		vo.setMemberId(userDetails.getUsername());
+		vo.setProductStatus("판매중");
+		return proService.sellerList(vo);
 	}
 
 	// 품절
 	@RequestMapping(value = "/endSell", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ProductVO> endSell(Authentication authentication) {
+	public List<ProductVO> endSell(Authentication authentication, ProductVO vo) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		return sellService.endSell(userDetails.getUsername());
+		vo.setMemberId(userDetails.getUsername());
+		vo.setProductStatus("품절");
+		return proService.sellerList(vo);
 	}
 
 	// 판매중지
 	@RequestMapping(value = "/stopSell", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ProductVO> stopSell(Authentication authentication) {
+	public List<ProductVO> stopSell(Authentication authentication, ProductVO vo) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		return sellService.stopSell(userDetails.getUsername());
+		vo.setMemberId(userDetails.getUsername());
+		vo.setProductStatus("판매중지");
+		return proService.sellerList(vo);
 	}
 
 	// 판매정지
 	@RequestMapping(value = "/banSell", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ProductVO> banSell(Authentication authentication) {
+	public List<ProductVO> banSell(Authentication authentication, ProductVO vo) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		return sellService.banSell(userDetails.getUsername());
+		vo.setMemberId(userDetails.getUsername());
+		vo.setProductStatus("판매정지");
+		return proService.sellerList(vo);
 	}
 
 	// 전체조회
@@ -278,20 +297,20 @@ public class SellerController {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		return sellService.endShipping(userDetails.getUsername());
 	}
-	
+
 	// 배송완료조회
-		@RequestMapping(value = "/shipping", method = RequestMethod.POST)
-		@ResponseBody
-		public List<OrderVO> shipping(Authentication authentication) {
-			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-			return sellService.shipping(userDetails.getUsername());
-		}
-		
-		// 배송완료조회
-				@RequestMapping(value = "/sell/waitOrder", method = RequestMethod.POST)
-				@ResponseBody
-				public List<OrderVO> waitOrder(Authentication authentication) {
-					UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-					return sellService.waitOrder(userDetails.getUsername());
-				}
+	@RequestMapping(value = "/shipping", method = RequestMethod.POST)
+	@ResponseBody
+	public List<OrderVO> shipping(Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return sellService.shipping(userDetails.getUsername());
+	}
+
+	// 배송완료조회
+	@RequestMapping(value = "/sell/waitOrder", method = RequestMethod.POST)
+	@ResponseBody
+	public List<OrderVO> waitOrder(Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return sellService.waitOrder(userDetails.getUsername());
+	}
 }

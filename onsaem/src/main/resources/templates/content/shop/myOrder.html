@@ -170,13 +170,23 @@ h1 {
 									<td>주문일자 [[${order.orderDate}]]<br> <img
 										id="preview-image" th:src="'/fileView/'+${order.fileRoute}">
 									</td>
-									<td>배송상태<br> <br>상품명 [[${order.productName}]] 옵션
-										[[${order.detailOption}]] <br> <br>상품가격
-										[[${order.price}]]원 수량 [[${order.detailAmount}]]
+									<td>배송상태 [[${order.orderStatus}]]<br> <br>상품명
+										[[${order.productName}]] 옵션 [[${order.detailOption}]] <br>
+										<br>상품가격 [[${order.price}]]원 수량 [[${order.detailAmount}]]
 									</td>
 									<td>
-									
-										<button>배송조회</button> <br> <br>
+										<form action="http://info.sweettracker.co.kr/tracking/5"
+											method="post">
+											<input type="hidden" class="form-control" id="t_key"
+												name="t_key" placeholder="wHiuV3rGs7cAmlcFLjZXiw"
+												value="wHiuV3rGs7cAmlcFLjZXiw"> <input type="hidden"
+												class="form-control" name="t_code" id="t_code"
+												placeholder="04" value="04"> <input type="hidden"
+												class="form-control" name="t_invoice" id="t_invoice"
+												placeholder="운송장 번호" value="570110926163">
+											<button type="submit" class="btn btn-default"
+												style="all: unset; background-color: mediumslateblue; color: white; padding: 5px 25px; border-radius: 10px; cursor: pointer;">배송조회</button>
+										</form> <br> <br>
 										<button class="openBtn">교환/반품</button> <br> <br>
 										<button class="modals">리뷰작성</button>
 									</td>
@@ -206,7 +216,7 @@ h1 {
 												<div>
 													<button class="btn btn-danger"
 														th:onclick="submitReview([[${order.productId}]])">작성</button>
-													<button class="btn btn-danger" id="close" >닫기</button>
+													<button class="btn btn-danger" id="close">닫기</button>
 												</div>
 											</div>
 										</div>
@@ -218,6 +228,8 @@ h1 {
 					</div>
 				</div>
 			</div>
+
+
 
 
 			<!-- 교환/환불 모달창 -->
@@ -275,29 +287,25 @@ h1 {
 			</div>
 
 			<script type="text/javascript">		
-			// 페이징 만들기
-			function makePageing(page){
-				if(page.totalRecord == 0){
-					return;
-				}
-				let pagination = $("<div/>").addClass("pagination p1");
-				let ul = $("<ul/>");
-				if(page.startPage > 1){
-					$(ul).append($("<li/>").html("&laquo;").css("font-size","30px").on("click",function(){newClassList(page.startPage-page.pageSize)}));
-				}
-				for(let i = page.startPage; i <= page.endPage; i++){
-					if(page.page == i){
-						$(ul).append($("<li/>").text(i).css("background-color","#2ecc71").css("border-radius","100%").css("color","#fff"));
-					}else {
-						$(ul).append($("<li/>").text(i).attr("id","pageNum").on("click",function(){newClassList($(this).text());}));
+			
+			 
+			//배송조회버튼
+			function shippingSearch(){
+				$.ajax({
+					type : 'post', 
+					url : "http://info.sweettracker.co.kr/tracking/5", 				
+					headers : { 
+						"Content-Type" : "application/json"					
+					},
+					success : function(result) {					
+						console.log(result);				
+					},
+					error : function(error) { 
+						console.log(error)
 					}
-				}
-				if(page.endPage < page.lastPage){
-					$(ul).append($("<li/>").html("&raquo;").css("font-size","30px").on("click",function(){newClassList(page.startPage+page.pageSize)}));
-				}
-				pagination.append(ul);
-				return pagination;
-			}
+				})
+			}			
+			
 			
 			//리뷰제출
 			function submitReview(data){
@@ -329,9 +337,9 @@ h1 {
 			//리뷰 모달창 생성
 			  $(".modals").click(function () {
 			        $(".black-bg").fadeIn();
-			      }); //로그인버튼을 누르면 모달창 생성 
+			      });  
 			      $(".btn-danger").click(function () {
-			        $(".black-bg").fadeOut(); //닫기를 누르면 모달창 사라짐
+			        $(".black-bg").fadeOut(); 
 			      });
 			
 				

@@ -192,6 +192,7 @@ label {
 									<th>구매자명</th>
 									<th>수량</th>
 									<th>옵션</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody id="orderList">
@@ -200,10 +201,11 @@ label {
 									<td>[[${order.productName}]]</td>
 									<td>[[${order.productId}]]</td>
 									<td>[[${order.orderDate}]]</td>
-									<td>[[${order.orderStatus}]]</td>
+									<td id="orderStatus">[[${order.orderStatus}]]</td>
 									<td>[[${order.recivName}]]</td>
 									<td>[[${order.detailAmount}]]</td>
 									<td>[[${order.detailOption}]]</td>
+									<td id="shippingNumber"></td>
 								</tr>
 							</tbody>
 						</table>
@@ -219,6 +221,9 @@ label {
 	</th:block>
 
 	<script type="text/javascript">
+	window.onload = function(){
+		   $("#orderStatus").text();
+		}
 	//상태별 조회
 	function status() {		
 		if($("#status").val()=="교환/반품"){

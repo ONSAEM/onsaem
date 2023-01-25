@@ -134,9 +134,9 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<ProductVO> sellerList(String data) {
+	public List<ProductVO> sellerList(ProductVO vo) {
 		// 판매자 상품 리스트
-		return proMapper.sellerList(data);
+		return proMapper.sellerList(vo);
 	}
 
 	@Override

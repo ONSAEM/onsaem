@@ -66,7 +66,7 @@ public interface ProductService {
 	int addReview(ReviewVO vo);
 	
 	//판매자 상품 가져오기
-	List<ProductVO> sellerList(String data);
+	List<ProductVO> sellerList(ProductVO vo);
 	
 	//최근 목록 가져오기
 	List<ProductVO> watchProduct(ProductVO vo);
