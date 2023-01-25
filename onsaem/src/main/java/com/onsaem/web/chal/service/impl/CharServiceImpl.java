@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import com.onsaem.web.chal.mapper.ChalMapper;
 import com.onsaem.web.chal.mapper.ParticipantMapper;
 import com.onsaem.web.chal.mapper.ProofMapper;
-import com.onsaem.web.chal.service.ChalInfoVO;
+
 import com.onsaem.web.chal.service.ChalService;
 import com.onsaem.web.chal.service.ChalVO;
 import com.onsaem.web.chal.service.ParticipantVO;
