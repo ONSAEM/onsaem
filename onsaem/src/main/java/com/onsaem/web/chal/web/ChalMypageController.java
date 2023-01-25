@@ -1,6 +1,5 @@
 package com.onsaem.web.chal.web;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,13 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.onsaem.web.chal.mapper.ReportMapper;
 import com.onsaem.web.chal.service.BankService;
 import com.onsaem.web.chal.service.ChalService;
 import com.onsaem.web.chal.service.ChalVO;
-import com.onsaem.web.chal.service.MediaService;
 import com.onsaem.web.chal.service.NgoService;
 import com.onsaem.web.chal.service.NgoVO;
 import com.onsaem.web.chal.service.ParticipantService;
@@ -68,24 +64,6 @@ public class ChalMypageController {
 		//로그인 유저가 참가중인 챌린저들,,,
 		model.addAttribute("chals", chalService.myCurentChal(vo));
 		
-		List<ChalVO> list=chalService.myCurentChal(vo);
-		List<Integer> plist = new ArrayList<>();
-		
-		for(int i=0;i<list.size();i++) {
-			
-			pvo.setChalId(list.get(i).getChalId());
-			pvo.setProofWriter("hodu");
-			Integer n = proofService.checkProof(pvo);
-			plist.add(n);
-			
-		}
-		System.out.println(plist);
-		
-		//썸네일덜 ~ 나중에 디자인 하기 싫으면 걍 뺴고 표로 만들면 됨 ~
-		model.addAttribute("pics", proofService.myChalThumnails(vo));
-		
-		//인증했는지 안했는지 확인용 
-		model.addAttribute("checks", plist);
 		
 		return "content/challengers/MyCurrentChal";
 	}
@@ -157,7 +135,7 @@ public class ChalMypageController {
 		
 		partService.inputRefund(rvo);
 		
-		//participant테이블에서 삭제갈김 - 이것도 update로 해야할지 판단필요
+		//participant테이블에서 삭제 - 이것도 update로 해야할지 판단필요
 		pvo.setChalId(rvo.getGroupId());
 		pvo.setParticipantId(userDetails.getUsername());
 		partService.delParticipant(pvo);
@@ -235,7 +213,7 @@ public class ChalMypageController {
 	//얘 마이페이지의 - 2번째 페이지
 	@RequestMapping(value="/myChalStatus2", method=RequestMethod.GET)
 	public String myChalStatus2(Model model, @RequestParam(value="chalId", required=false)String chalId) {
-		//한 챌린지에 대한 모든 사람들의 사진을 가져오기
+		
 		chalId = "CH1";
 		//한 챌린지에 대한 모든 사람들의 인증글 가져오기
 		model.addAttribute("proofs", proofService.listProofAll(chalId));
@@ -258,12 +236,12 @@ public class ChalMypageController {
 		 System.out.println("//////////////////////"+proofService.getProof(proofId));
 		 //댓글 리스트 
 		 map.put("repllies",proofService.listReply(proofId));
-		//좋아효용 가져오기
+		//좋아요 수
 		  LikeVO vo = new LikeVO(); 
-		  vo.setGroupId(proofId); 
+		  vo.setGroupId(proofId);
 		 map.put("likeCnt", proofService.cntChalLike(vo));
+		
 		 //좋아요 했는지 여부 확인
-		 
 		 LikeVO vo2 = new LikeVO();
 		 vo2.setGroupId(proofId);
 		 vo2.setMemberId(user);
