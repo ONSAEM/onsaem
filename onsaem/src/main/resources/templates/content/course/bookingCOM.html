@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
+</th:block>
+
+<head>
+<meta charset="UTF-8">
+<style>
+.wrapper .form .inputfield {
+	margin-bottom: 15px;
+	display: flex;
+	align-items: flex-end;
+	margin-left: 25%;
+}
+
+.btn-primary {
+	width: 55%;
+	margin: auto;
+	background-color: #5bc1ac;
+	border: none;
+}
+</style>
+</head>
+
+<body>
+	<div layout:fragment="content">
+
+		<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-section set-bg"
+			th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 text-center">
+						<div class="breadcrumb__text">
+							<h2>Onsaem Login</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section End -->
+		<br>
+		<div class="wrapper">
+			<div class="title">예약완료</div>
+				<div class="text-center">
+					<p>예약정보 블라블라</p>
+				</div>
+		</div>
+
+		<!-- JS -->
+		<th:block layout:fragment="script">
+			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/main.js}"></script>
+		</th:block>
+	</div>
+
+</body>
+
+</html>

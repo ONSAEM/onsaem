@@ -1,6 +1,8 @@
 package com.onsaem.web.course.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
@@ -30,29 +32,19 @@ public class ClassController {
 	@RequestMapping(value = "/classList", method = RequestMethod.GET)
 	public String classList(ClassInfoVO vo, Model model, Paging paging,Authentication authentication) {
 		paging.setPageUnit(9);
-		model.addAttribute("classList", classService.getClassList(vo,paging));
+		model.addAttribute("classList", classService.getClassList(vo,paging).get("classList"));
 		model.addAttribute("maxPrice", classService.classMaxPrice(vo));
 		model.addAttribute("minPrice", classService.classMinPrice(vo));
-		model.addAttribute("page", classService.classCount(vo));
+		model.addAttribute("page", classService.getClassList(vo,paging).get("newPaging"));
 		return "content/course/classList";
 	}
 
-	// 강의검색, 페이지, 정렬 처리
+	// 강의검색, 페이지, 정렬 처리(수정예정)
 	@RequestMapping(value = "/classSearch", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ClassInfoVO> classSearch(ClassInfoVO vo, Model model, Paging paging) {
+	public Map<String, Object> classSearch(ClassInfoVO vo, Model model, Paging paging) {
 		paging.setPageUnit(9);
 		return classService.getClassList(vo,paging);
-	}
-	
-	// 새 페이징 가져오기
-	@RequestMapping(value = "/getPaging", method = RequestMethod.GET)
-	@ResponseBody
-	public Paging getPaging(ClassInfoVO vo, Paging paging) {
-		Paging newPaging = classService.classCount(vo);
-		newPaging.setPageUnit(9);
-		newPaging.setPage(paging.getPage());
-		return newPaging;
 	}
 	
 	// 강의상세 페이지 이동 (강의정보, 미디어목록, 후기목록, 문의목록)
@@ -63,6 +55,18 @@ public class ClassController {
 //		model.addAttribute("reviewList");
 		return "content/course/classDetail";
 	}
+	
+	// 예약결제 페이지 이동
+	@RequestMapping(value = "/booking", method = RequestMethod.GET)
+	public String booking(ClassInfoVO vo, Model model) {
+		return "content/course/booking";
+	}
+	
+	// 예약완료 페이지 이동
+		@RequestMapping(value = "/bookingCOM", method = RequestMethod.GET)
+		public String bookingCOM(ClassInfoVO vo, Model model) {
+			return "content/course/bookingCOM";
+		}
 	
 	// 강의관리 페이지 이동
 		@RequestMapping(value = "/classMGMT", method = RequestMethod.GET)

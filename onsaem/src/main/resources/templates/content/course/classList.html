@@ -287,16 +287,23 @@
 									</div>
 								</div>
 							</div>
+							<!-- 처음 페이지 열릴때는 여기서 페이징 생성, 이후 아작스로 결과값 가져올때는 자바스크립트로 생성해서 새로 넣기 -->
+							<!-- 페이징 부분 -->
  						    <div class="pagination p1" th:if="${page.totalRecord != 0}">
 						      <ul>
+						      <!-- 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) << -->	
 						        <li id="prevPaging" th:if="${page.startPage > 1}" style="font-size: 30px;">&laquo;</li>
 						        <th:block th:each="num : ${#numbers.sequence(page.startPage,page.endPage)}">
+						         <!-- 페이지 생성  ex) 1 2 3 4 5-->
 						        	<li id="pageNum" th:if="${page.page != num}" th:text=${num}></li>
+						        	<!-- 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성-->
 						        	<li th:if="${page.page == num}" th:text=${num} style="background-color: #2ecc71;border-radius: 100%;color: #fff;"></li>
 						        </th:block>
+						         <!-- 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >> -->	
 						        <li id="nextPaging" th:if="${page.endPage < page.lastPage}" style="font-size: 30px;">&raquo;</li>
 						      </ul>
-						    </div>					  
+						    </div>
+						    <!-- 페이징 끝 -->			  
 					</div>
 				</div>
 			</div>
@@ -356,43 +363,33 @@
 				newClassList(1);
 			}
 			
-			// 페이징 가져오기
-			function newPaging(classData){
-				$.ajax({
-			      url: '/class/getPaging',
-			      method: 'GET',
-			      contentType: 'application/x-www-form-urlencoded',
-			      data: classData,
-			      success: function (result) {
-					 $(".classList").append(makePageing(result));
-			      },
-			      error: function (error) {
-			         console.log(error);
-			         alert('실패');
-			      }
-			   })
-			}
-			
-			// 페이징 만들기
+			// 페이징 만들기 이건 본인 css나 html에 맞춰서 할것
 			function makePageing(page){
+				// 가져온 결과값이 0개면 리턴
 				if(page.totalRecord == 0){
 					return;
 				}
+				// 페이징을 넣을 div, ul 생성
 				let pagination = $("<div/>").addClass("pagination p1");
 				let ul = $("<ul/>");
+				// 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) <<
 				if(page.startPage > 1){
 					$(ul).append($("<li/>").html("&laquo;").css("font-size","30px").on("click",function(){newClassList(page.startPage-page.pageSize)}));
 				}
+				// 페이지 생성  ex) 1 2 3 4 5
 				for(let i = page.startPage; i <= page.endPage; i++){
 					if(page.page == i){
+						// 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성
 						$(ul).append($("<li/>").text(i).css("background-color","#2ecc71").css("border-radius","100%").css("color","#fff"));
 					}else {
 						$(ul).append($("<li/>").text(i).attr("id","pageNum").on("click",function(){newClassList($(this).text());}));
 					}
 				}
+				// 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >>
 				if(page.endPage < page.lastPage){
 					$(ul).append($("<li/>").html("&raquo;").css("font-size","30px").on("click",function(){newClassList(page.startPage+page.pageSize)}));
 				}
+				// 완성된 페이징을 넣기
 				pagination.append(ul);
 				return pagination;
 			}
@@ -428,10 +425,11 @@
 			      success: function (result) {
 					 $(".row").find(".col-sm-6").detach();
 					 $(".row").find(".pagination").detach();
-					 $(result).each(function(index, item){
+					 $(result["classList"]).each(function(index, item){
 						$(".classList").append(makeList(item));
 					 })
-					 newPaging(data);
+					 // 페이징 새로 생성
+					 $(".classList").append(makePageing(result["newPaging"]));
 			      },
 			      error: function (error) {
 			         console.log(error);

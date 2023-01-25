@@ -1,4 +1,4 @@
-<html lang="ko"	xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <!--headerFragment 선언-->
 <div th:fragment="headerFragment">
 
@@ -30,14 +30,21 @@
 						<ul class="dropdown-menu dropdown-menu-light"
 							aria-labelledby="navbarLightDropdownMenuLink">
 							<li><a class="dropdown-item" href="/shop">상품목록</a></li>
-							<li><a class="dropdown-item" href="/myOrder" sec:authorize="isAuthenticated()">주문목록</a></li>
-							<li><a class="dropdown-item" href="/shopCart">장바구니</a></li>	
-							<li><a class="dropdown-item" href="/likeList">찜</a></li>												
+							<li><a class="dropdown-item" href="/myOrder"
+								sec:authorize="isAuthenticated()">주문목록</a></li>
+							<li><a class="dropdown-item" href="/shopCart">장바구니</a></li>
+							<li><a class="dropdown-item" href="/likeList">찜</a></li>
 						</ul></li>
 
-
-					<li class="nav-item"><a class="nav-link click-scroll"
-						th:href="@{/class/classList}">Class</a></li>
+					<li class="nav-item dropdown"><a
+						class="nav-link click-scroll dropdown-toggle"
+						id="navbarLightDropdownMenuLink" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false">Class</a>
+						<ul class="dropdown-menu dropdown-menu-light"
+							aria-labelledby="navbarLightDropdownMenuLink">
+							<li><a class="dropdown-item" href="/class/classList">강의목록</a></li>
+							<li><a class="dropdown-item" href="/class/booking">예약페이지</a></li>
+						</ul></li>
 
 
 					<li class="nav-item"><a class="nav-link click-scroll"
@@ -54,7 +61,8 @@
 						th:text="${#authentication.principal.nickname}"></a>
 						<ul class="dropdown-menu dropdown-menu-light"
 							aria-labelledby="navbarLightDropdownMenuLink">
-							<li><a class="dropdown-item" th:href="@{/myPageMain}">MY PAGE</a></li>
+							<li><a class="dropdown-item" th:href="@{/myPageMain}">MY
+									PAGE</a></li>
 							<li><a class="dropdown-item"
 								th:href="@{/blog/myblog(userId=${#authentication.principal.memberId})}">MY
 									BLOG</a></li>

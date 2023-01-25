@@ -80,9 +80,9 @@ public class MemberController {
 	}
 
 	// 회원가입완료페이지 이동
-	@RequestMapping(value = "/signUpcompleted", method = RequestMethod.GET)
-	public String signUpcompleted(String email) {
-		return "content/member/signUpcompleted";
+	@RequestMapping(value = "/signUpCOM", method = RequestMethod.GET)
+	public String signUpCOM(String email) {
+		return "content/member/signUpCOM";
 	}
 
 	// 아이디 보내기

@@ -1,5 +1,6 @@
 package com.onsaem.web.course.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,12 +22,17 @@ public class ClassServiceImpl implements ClassService{
 	ClassMapper classMapper;
 
 	@Override
-	public List<ClassInfoVO> getClassList(ClassInfoVO vo, Paging paging) {
-		Paging totalRecord = classMapper.classCount(vo);
-		paging.setTotalRecord(totalRecord.getTotalRecord());
-		vo.setFirst(paging.getFirst());
-		vo.setLast(paging.getLast());
-		return classMapper.getClassList(vo);
+	public Map<String, Object> getClassList(ClassInfoVO vo, Paging paging) {
+		Paging newPaging = classMapper.classCount(vo);
+		newPaging.setPageUnit(paging.getPageUnit());
+		newPaging.setPage(paging.getPage());
+		newPaging.setTotalRecord(newPaging.getTotalRecord());
+		vo.setFirst(newPaging.getFirst());
+		vo.setLast(newPaging.getLast());
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("classList", classMapper.getClassList(vo));
+		result.put("newPaging", newPaging);
+		return result;
 	}
 	
 	@Override
@@ -40,13 +46,6 @@ public class ClassServiceImpl implements ClassService{
 	public List<MediaVO> classMediaList(ClassInfoVO vo) {
 
 		return classMapper.classMediaList(vo);
-	}
-
-
-	@Override
-	public Paging classCount(ClassInfoVO vo) {
-		
-		return classMapper.classCount(vo);
 	}
 	
 	@Override
