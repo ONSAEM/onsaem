@@ -9,8 +9,8 @@
 
 .container {
 	display: flex;
-	overflow: hidden;
 	margin: 0 auto;
+	min-width: 1400px;
 }
 
 .left-side {
@@ -60,7 +60,6 @@
 	flex-grow: 1;
 	display: flex;
 	flex-direction: column;
-	width: 80%;
 	min-width: 1400px;
 }
 

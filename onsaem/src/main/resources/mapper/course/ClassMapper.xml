@@ -90,7 +90,34 @@
 			<include refid="condition"/>
 	</select>
 	
-	
+		<!-- 좋아요 조회 -->
+ 	<select id="classLikeCount" resultType="String" parameterType="String">
+ 		select case when count(*) != 0 then 'Y' else 'F' end as like_count
+		from likes
+		where member_id = #{memberId}
+		and group_id = #{groupId}
+ 	</select>
+ 	
+ 	<!-- 좋아요 추가 -->
+ 	<insert id="addClassLike" parameterType="LikeVO">
+ 		<selectKey keyProperty="likeId" resultType="String" order="BEFORE">
+ 			SELECT 'LK'||LPAD(LK_SEQ.NEXTVAL,3,0) FROM DUAL
+ 		</selectKey>
+ 		INSERT INTO LIKES(LIKE_ID,
+					 MEMBER_ID,
+					 GROUP_ID)
+		VALUES (#{likeId}, <!-- 시퀀스 -->
+				#{memberId}, <!-- 누른 사람의 아이디 -->
+				#{groupId})
+ 	</insert>
+ 	
+ 	<!-- 좋아요 삭제 -->
+ 	<delete id="delClassLike" parameterType="String">
+ 		DELETE FROM LIKES
+		WHERE
+		GROUP_ID=#{groupId}
+		AND MEMBER_ID=#{memberId}
+ 	</delete>
 	
 	
 	<!-- [위는 완성 아래는 미완성] -->

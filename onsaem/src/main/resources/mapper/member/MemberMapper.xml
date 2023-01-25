@@ -61,6 +61,14 @@
 		#{bankAccount}, 'ROLE_USER')
 	</insert>
 
+	<!-- 블로그등록 -->
+	<insert id="inserBlog" parameterType="MemberVO">
+		INSERT INTO BLOGS
+		(BLOG_ID,BLOG_NAME,BLOG_URL)
+		VALUES
+		(#{memberId},#{nickname},'http://localhost/blog/myblog?userId='||#{memberId})
+	</insert>
+
 	<!-- 이메일로 아이디 조회 -->
 	<select id="idEmail" resultType="MemberVO"
 		parameterType="String">
@@ -77,18 +85,31 @@
 		WHERE EMAIL = #{email}
 	</update>
 
+	<!-- 회원정보 변경 -->
 	<update id="updateMember" parameterType="MemberVO">
 		UPDATE MEMBERS
-		SET PASSWORD = #{password},
+		SET
+		PASSWORD = #{password},
 		NICKNAME = #{nickname},
 		EMAIL = #{email},
-		PHONE = #{phone},
+		PHONE =
+		#{phone},
 		POSTAL_CODE = #{postalCode},
 		ADDR = #{addr},
-		DETAIL_ADDR = #{detailAddr},
+		DETAIL_ADDR =
+		#{detailAddr},
 		BANK = #{bank},
 		BANK_ACCOUNT = #{bankAccount},
-		NAME = #{name}
+		NAME =
+		#{name}
+		WHERE MEMBER_ID = #{memberId}
+	</update>
+
+	<!-- 회원탈퇴 DB삭제 X 상태만 변경 -->
+	<update id="deleteMember" parameterType="MemberVO">
+		UPDATE MEMBERS
+		SET STATUS = 'false',
+		BANDATE = (current_date + 30)
 		WHERE MEMBER_ID = #{memberId}
 	</update>
 </mapper>

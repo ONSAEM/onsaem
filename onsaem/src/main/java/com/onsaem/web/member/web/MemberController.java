@@ -32,8 +32,9 @@ public class MemberController {
 
 	// 로그인페이지 이동
 	@RequestMapping(value = "/loginPage", method = RequestMethod.GET)
-	public String loginPage(String excep, Model model) {
-		model.addAttribute("excep", excep);
+	public String loginPage(@RequestParam(value = "error", required = false) String error,@RequestParam(value = "exception", required = false) String exception,Model model) {
+		model.addAttribute("error", error);
+		model.addAttribute("exception", exception);
 		return "content/member/loginForm";
 	}
 
@@ -128,5 +129,12 @@ public class MemberController {
 	public String myinfoModify(String email, Model model) {
 		model.addAttribute("bankList", commonService.getBankList());
 		return "content/member/myinfoModify";
+	}
+	
+	// 회원 탈퇴
+	@RequestMapping(value = "/deleteMember", method = RequestMethod.POST)
+	@ResponseBody
+	public String deleteMember(MemberVO member) {
+		return memberService.deleteMember(member);
 	}
 }

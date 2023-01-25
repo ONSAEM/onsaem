@@ -3,9 +3,66 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/layout}">
+<head>
+<style type="text/css">
+ /* VARIABLES -  START */
+/* COLORS  */
+/* DIMENSIONS */
+/* FONTS */
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap");
+/* VARIABLES - END */
+/* COMMONS - START */
+.flex-center, .wrapper .button-container, .wrapper {
+  justiy-content: center;
+  align-items: center;
+}
 
-<title>shop detail</title>
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
 
+/* COMMONS - END */
+/* STYLES -  START */
+.wrapper {
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+}
+.heartbutton {
+  height: 50px;
+  width: 170px;
+  background-color: #fefefe;
+  border-radius: 5px;
+  padding: 12.5px;
+  cursor: pointer;
+}
+
+.content .icon {
+  font-size: 25px;
+  color: #ea4a87;
+}
+.content .icon.fa {
+  display: none;
+}
+.content .text {
+  font-size: 25px;
+  color: #2f3537;
+}
+.content .text.like {
+  margin-left: 10px;
+}
+.content .text.d {
+  opacity: 0;
+  display: inline-block;
+  transform: translateX(12px);
+}
+.content .text.number {
+  margin-left: 10px;
+  color: #7a7c81;
+}
+
+</style>
+</head>
 <!-- Css  -->
 <th:block layout:fragment="css">
 	<link rel="stylesheet"
@@ -62,24 +119,33 @@
 							<li><b>소요시간</b> <span>[[${class.classTime}]]시간</span></li>
 							<li><b>난이도</b> <span>[[${class.difficulty}]]</span></li>
 						</ul>
-						<a href="#" class="primary-btn">예약하기</a> <a href="#"
-							class="heart-icon"><span class="icon_heart_alt"></span></a>
+						<a href="#" class="primary-btn">예약하기</a>
+						<div class="wrapper">
+							<div class="button-container">
+								<div class="heartbutton">
+									<span class="content"> <i class="icon fa fa-heart"
+										aria-hidden="true"></i> <i class="icon far fa-heart"
+										aria-hidden="true"></i> <span class="text like">Like<span
+											class="text d">d</span></span> <span class="text number"
+										></span>
+									</span> <input type="hidden" class="blogLike" >
+									<!-- 초기값을 F로 두기 -->
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="col-lg-12">
 					<div class="product__details__tab">
 						<ul class="nav nav-tabs" role="tablist">
-							<li class="nav-item"><a class="nav-link active"
-								data-toggle="tab" href="#tabs-1" role="tab" aria-selected="true">Description</a>
+							<li class="nav-item"><a class="nav-link" data-toggle="tab"
+								href="#tabs-1" role="tab" aria-selected="false">Information</a>
 							</li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tabs-2" role="tab" aria-selected="false">Information</a>
+								href="#tabs-2" role="tab" aria-selected="false">Reviews <span>(1)</span></a>
 							</li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
 								href="#tabs-3" role="tab" aria-selected="false">Reviews <span>(1)</span></a>
-							</li>
-							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tabs-4" role="tab" aria-selected="false">Reviews <span>(1)</span></a>
 							</li>
 						</ul>
 						<div class="tab-content">
@@ -104,69 +170,43 @@
 							</div>
 							<div class="tab-pane" id="tabs-2" role="tabpanel">
 								<div class="product__details__tab__desc">
-									<h6>Products Infomation</h6>
-									<p>Vestibulum ac diam sit amet quam vehicula elementum sed
-										sit amet dui. Pellentesque in ipsum id orci porta dapibus.
-										Proin eget tortor risus. Vivamus suscipit tortor eget felis
-										porttitor volutpat. Vestibulum ac diam sit amet quam vehicula
-										elementum sed sit amet dui. Donec rutrum congue leo eget
-										malesuada. Vivamus suscipit tortor eget felis porttitor
-										volutpat. Curabitur arcu erat, accumsan id imperdiet et,
-										porttitor at sem. Praesent sapien massa, convallis a
-										pellentesque nec, egestas non nisi. Vestibulum ac diam sit
-										amet quam vehicula elementum sed sit amet dui. Vestibulum ante
-										ipsum primis in faucibus orci luctus et ultrices posuere
-										cubilia Curae; Donec velit neque, auctor sit amet aliquam vel,
-										ullamcorper sit amet ligula. Proin eget tortor risus.</p>
-									<p>Praesent sapien massa, convallis a pellentesque nec,
-										egestas non nisi. Lorem ipsum dolor sit amet, consectetur
-										adipiscing elit. Mauris blandit aliquet elit, eget tincidunt
-										nibh pulvinar a. Cras ultricies ligula sed magna dictum porta.
-										Cras ultricies ligula sed magna dictum porta. Sed porttitor
-										lectus nibh. Mauris blandit aliquet elit, eget tincidunt nibh
-										pulvinar a.</p>
+									<div class="container">
+										<div class="row">
+
+											<div class="col-lg-7 col-12">
+												<div class="news-block">
+
+													<div class="news-block-info">
+
+
+														<div class="author-comment d-flex mt-3 mb-4">
+															<img
+																src="images/avatar/studio-portrait-emotional-happy-funny.jpg"
+																class="img-fluid avatar-image" alt="">
+
+															<div class="author-comment-info ms-3">
+																<h6 class="mb-1">Jack</h6>
+
+																<p class="mb-0">Kind Heart Charity is the most
+																	supportive organization. This is Bootstrap 5 HTML CSS
+																	template for everyone. Thank you.</p>
+
+																<div class="d-flex mt-2">
+																	<a href="#" class="author-comment-link me-3">Like</a> <a
+																		href="#" class="author-comment-link">Reply</a>
+																</div>
+															</div>
+														</div>
+
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
 								</div>
 							</div>
 							<div class="tab-pane" id="tabs-3" role="tabpanel">
-								<div class="product__details__tab__desc">
-										<div class="container">
-											<div class="row">
-
-												<div class="col-lg-7 col-12">
-													<div class="news-block">
-														
-														<div class="news-block-info">
-															
-
-															<div class="author-comment d-flex mt-3 mb-4">
-																<img
-																	src="images/avatar/studio-portrait-emotional-happy-funny.jpg"
-																	class="img-fluid avatar-image" alt="">
-
-																<div class="author-comment-info ms-3">
-																	<h6 class="mb-1">Jack</h6>
-
-																	<p class="mb-0">Kind Heart Charity is the most
-																		supportive organization. This is Bootstrap 5 HTML CSS
-																		template for everyone. Thank you.</p>
-
-																	<div class="d-flex mt-2">
-																		<a href="#" class="author-comment-link me-3">Like</a>
-
-																		<a href="#" class="author-comment-link">Reply</a>
-																	</div>
-																</div>
-															</div>
-
-														</div>
-													</div>
-												</div>
-
-											</div>
-										</div>
-								</div>
-							</div>
-							<div class="tab-pane" id="tabs-4" role="tabpanel">
 								<div class="product__details__tab__desc">
 									<h6>Products Infomation</h6>
 									<p>문의자리</p>
@@ -181,7 +221,91 @@
 	<!-- Product Details Section End -->
 
 
-
+	<script type="text/javascript">
+	let likeTF = ''; // input hidden value값으로 likeCount(like 테이블에 값이 있는지 조회)를 주고, 그 value를 가져옴
+	let contentId='';
+	let writerId='';
+	
+	var timeline1 = gsap.timeline({ repeatDelay: 0.7, paused: true}); //하트 효과
+	timeline1.to(".heartbutton", {duration: 0.7, width: 50, ease: Back.easeIn}) 
+  			 .to(".like", {duration: 0.2, opacity: 0}, "-=0.7")
+			 .to(".number", {duration: 0.2,opacity: 0, fontSize: 0}, "-=0.7")
+			 .to(".far", {duration: 0.4, display: "none"}, "-=0.5") 
+			 .to(".fa", {duration: 0.1, display: "inline-block"},"-=0.1")
+			 .to(".heartbutton", {duration: 0.7, width: 170})
+			 .to(".like", { opacity: 1},"-=0.5")
+			 .to(".d", {duration: 0.3, opacity: 1, translateX: 0},"-=0.2").to(".number", {duration: 0.2, opacity: 1,text: "[[${cntBlogLike.count}]]", fontSize: 25}, "-=0.1");
+	
+	if(likeTF == 'Y'){ // like 테이블에 값이 있는지 확인하고, 값이 있으면 하트가 눌러진 상태로 표시 되게.
+		timeline("[[${cntBlogLike.count}]]",true);
+	}
+	
+	function timeline(e,tf){
+		if(tf){ //만약 true이면,
+			timeline1.to(".number", {duration: 0.2, opacity: 1,text: e, fontSize: 25}, "-=0.1"); //
+			timeline1.play(); // 버튼 눌림
+		}else{
+			timeline1.progress(0).pause(); // 버튼 초기화
+			$('.number').text(e);
+		}
+	}
+	
+	$(".heartbutton").click(function(){
+		likeTF = $('.wrapper').find('input').val();
+		event.stopPropagation();
+		// 좋아요 디비 저장
+		let bno = "[[${blogWrite.writeId}]]";
+		let id = "[[${#authentication.principal.memberId}]]";
+		
+		if(id!=""){ // 로그인 된 상태이면
+			//console.log($(".blogLike").val());
+		  	if(likeTF=='F'){ // 테이블에 조회된 값이 없으면 db에 저장
+		  			//db에 저장하는 메서드 컨트롤러에 추가
+		  	
+		  			$.ajax({
+					      url: '/blog/addBlogLike',
+					      method: 'post',
+					      contentType: 'application/x-www-form-urlencoded',
+					      data: {"groupId": bno}, // 컨트롤러로 넘겨줄 값. 이 페이지의 글 번호
+					      success: function (result) {
+					         console.log(result.count);
+					         // Y를 F로
+					         
+					       $('.blogLike').val('Y'); // blogLike인 클래스의 값을 불러와서 'Y'로 바꿔준다
+					       timeline(result.count,true);
+					      },
+					      error: function (error) {
+					         console.log(error);
+					      }
+					   })
+		  	
+		  	
+		  	}else{	// db에 삭제
+		  			//db에서 삭제 또는 수정하는 메서드 컨트롤러에 추가
+		  	
+		  			$.ajax({
+					      url: '/blog/delBlogLike',
+					      method: 'post',
+					      contentType: 'application/x-www-form-urlencoded',
+					      data: {"groupId": bno},
+					      success: function (result) {
+					         console.log(result.count);
+					         
+					         // F를 Y로
+					         $('.blogLike').val('F'); // blogLike인 클래스의 값을 불러와서 'F'로 바꿔준다
+					         timeline(result.count,false);
+					      },
+					      error: function (error) {
+					         console.log(error);
+					      }
+					   })
+		  	};
+		}else{ // 로그인 하지 않은 상태이면
+			alert('로그인이 필요합니다');
+		}
+		});
+			// 	좋아요 끝
+	</script>
 	<!-- JS -->
 	<th:block layout:fragment="script">
 		<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>

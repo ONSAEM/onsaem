@@ -29,5 +29,8 @@ public interface MemberService {
 	
 	// 회원정보 변경
 	public MemberVO updateMember(MultipartFile[] profileFile, MemberVO member) throws IllegalStateException, IOException;
+	
+	// 회원 탈퇴
+	public String deleteMember(MemberVO member);
 
 }
