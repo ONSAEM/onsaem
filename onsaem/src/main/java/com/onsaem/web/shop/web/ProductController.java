@@ -29,6 +29,12 @@ import com.onsaem.web.shop.service.ProductVO;
 
 import groovyjarjarantlr4.v4.runtime.misc.Nullable;
 
+/**
+ * 
+ * @author 이재원
+ * 상품관리
+ *
+ */
 @Controller
 @CrossOrigin(origins = "*")
 public class ProductController {
@@ -45,7 +51,7 @@ public class ProductController {
 
 	// 쇼핑몰페이지이동,최신순,인기순 목록나열
 	@RequestMapping(value = "/shop", method = RequestMethod.GET)
-	public String shopMain(Model model, @RequestParam(value = "data", required = false) String data,
+	public String shopMain(Model model, @RequestParam(value = "data", required = false) String data, CartVO cartVo,
 			Authentication authentication) {
 		if (authentication != null) {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -56,11 +62,10 @@ public class ProductController {
 		}
 		if (data != null && data.equals("popularity")) {
 			model.addAttribute("productList", proService.popList());
-			return "content/shop/shopMain";
 		} else {
-			model.addAttribute("productList", proService.proList());
-			return "content/shop/shopMain";
+			model.addAttribute("productList", proService.proList());			
 		}
+		return "content/shop/shopMain";
 	}
 
 	// 상세설명페이지이동
@@ -170,11 +175,11 @@ public class ProductController {
 
 	// 상품신고
 	@RequestMapping(value = "/addBan", method = RequestMethod.POST)
-	public String addBan(Model model, @RequestBody ReportVO vo, Authentication authentication) {
+	@ResponseBody
+	public int addBan(Model model, @RequestBody ReportVO vo, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		vo.setFromId(userDetails.getUsername());
-		proService.addBan(vo);
-		return "redirect:shopDetail";
+		vo.setFromId(userDetails.getUsername());		
+		return proService.addBan(vo);
 	}
 
 	// 리뷰리스트
@@ -188,27 +193,27 @@ public class ProductController {
 
 	// 버튼찜클릭 삭제
 	@RequestMapping(value = "/delMyLike", method = RequestMethod.POST)
-	public String delMyLike(Model model, @RequestBody ProductVO vo, Authentication authentication) {
-		proService.delMyLike(vo);
-		return "content/shop/shopLike";
+	@ResponseBody
+	public int delMyLike(Model model, @RequestBody ProductVO vo, Authentication authentication) {		
+		return proService.delMyLike(vo);
 	}
 
 	// 최근본상품
 	@RequestMapping(value = "/watchProduct", method = RequestMethod.POST)
 	@ResponseBody
 	public List<ProductVO> watchProduct(Model model, @RequestBody ProductVO vo, Authentication authentication) {
+		
 		System.out.println(proService.watchProduct(vo));
 		return proService.watchProduct(vo);
 	}
 
 	// 리뷰작성
 	@RequestMapping(value = "/addReview", method = RequestMethod.POST)
-	public String addReview(Model model, @RequestBody ReviewVO vo, Authentication authentication) {
-		System.out.println(vo);
+	@ResponseBody
+	public int addReview(Model model, @RequestBody ReviewVO vo, Authentication authentication) {		
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		vo.setWriterId(userDetails.getUsername());
-		proService.addReview(vo);
-		return "content/shop/shopLike";
+		vo.setWriterId(userDetails.getUsername());		
+		return proService.addReview(vo);
 	}
 
 }

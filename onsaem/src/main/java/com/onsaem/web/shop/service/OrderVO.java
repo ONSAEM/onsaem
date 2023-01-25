@@ -14,15 +14,17 @@ public class OrderVO {
 	String memberId;	//구매자ID
 	String recivName;	//받는사람이름
 	String recivAddr;	//받는사람주소
-	int recivPhone;	//받는사람연락처
+	Integer recivPhone;	//받는사람연락처
 	String recivReq;	//요청사항
-	int deliveryFee;	//배송비
+	Integer deliveryFee;	//배송비
 	String deliveryId;	//배송코드
 	String productId;
 	String fileRoute;
 	
-	int detailAmount;
+	Integer detailAmount;
 	String detailOption;
 	String productName;
-	int price;
+	Integer price;
+	
+	String orderDetailId;
 }

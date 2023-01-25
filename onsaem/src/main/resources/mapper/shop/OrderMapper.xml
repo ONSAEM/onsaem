@@ -28,12 +28,14 @@
 		P.PRODUCT_NAME,
 		P.PRICE,
 		O.PRODUCT_ID
-		FROM ORDERS O,MEDIA M,ORDER_DETAILS D,PRODUCTS P
+		FROM ORDERS O,MEDIA M,ORDER_DETAILS
+		D,PRODUCTS P
 		WHERE
 		O.MEMBER_ID=#{memberId} AND M.SUB_GROUP='대표이미지' AND
 		O.PRODUCT_ID=M.GROUP_ID
 		AND O.PRODUCT_ID=P.PRODUCT_ID
-		GROUP BY O.ORDER_ID,
+		GROUP BY
+		O.ORDER_ID,
 		O.ORDER_DATE,
 		O.ORDER_STATUS,
 		O.MEMBER_ID,
@@ -50,4 +52,29 @@
 		P.PRICE,
 		O.PRODUCT_ID
 	</select>
+	
+	<!-- 주문하기(일반) -->
+	<insert id="orderProduct"
+		parameterType="com.onsaem.web.shop.service.OrderVO">
+		<selectKey resultType="string" keyProperty="orderId"
+			order="BEFORE">
+			SELECT 'OD'||ORDER_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO ORDERS
+		VALUES(#{orderId},CURRENT_DATE,'주문대기',#{memberId},#{recivName},
+		#{recivAddr},#{recivPhone},#{recivReq},#{deliveryFee},'DV'||DELIVERY_SEQ.NEXTVAL,#{productId})
+	</insert>
+
+	<!-- 주문하기(상세) -->
+	<insert id="orderDetail"
+		parameterType="com.onsaem.web.shop.service.OrderVO">		
+		INSERT INTO ORDER_DETAILS
+		VALUES(#{orderId},#{productId},#{detailAmount},#{detailOption},'ORD'||ORDER_DETAIL_SEQ.NEXTVAL)
+	</insert>
+	
+	<!-- 결제데이터 입력 -->
+	<insert id="insertOrder" parameterType="com.onsaem.web.common.service.PaymentVO">
+		insert into payments
+		values(#{paymentId},#{price},#{payerId},#{paymentMethod},current_date,#{groupId},#{groups},#{status})
+	</insert>
 </mapper>

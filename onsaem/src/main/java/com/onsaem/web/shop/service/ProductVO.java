@@ -55,4 +55,6 @@ public class ProductVO {
 	String session3;
 	String session4;
 	String session5;
+	
+	String orderBySell;
 }
