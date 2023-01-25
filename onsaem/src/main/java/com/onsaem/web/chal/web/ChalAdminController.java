@@ -1,9 +1,11 @@
 package com.onsaem.web.chal.web;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,10 +16,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.onsaem.web.chal.service.ChalService;
 import com.onsaem.web.chal.service.ChalVO;
 import com.onsaem.web.chal.service.NgoService;
@@ -26,16 +26,23 @@ import com.onsaem.web.chal.service.ParticipantService;
 import com.onsaem.web.chal.service.ParticipantVO;
 import com.onsaem.web.chal.service.ProofService;
 import com.onsaem.web.chal.service.ProofVO;
+import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
+
+/**
+ * 작성자 - 박이현 , 
+ * 작성 내용 - 챌린저스 관리자용 페이지
+ */
 
 @Controller
 @CrossOrigin(origins="*")
 @RequestMapping("/mypage")
 public class ChalAdminController {
+	
 	@Autowired ChalService chalService;
 	@Autowired ProofService proofService;
 	@Autowired NgoService ngoService;
-	@Autowired com.onsaem.web.common.service.MediaService mediaService;
+	@Autowired MediaService mediaService;
 	@Autowired ParticipantService partService;
 	
 	//관리자의챌린저스 마이페이지 중 완료챌린저스 목록을 보기
@@ -56,6 +63,7 @@ public class ChalAdminController {
 		//세션에서 가져온 로그인 된 id값 
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		
+		//이미지 첨부
 		vo.setGroups("챌린저스");
         for(int i=0;i<uploadFile.length;i++) {
 			if(i==0) {
@@ -67,6 +75,7 @@ public class ChalAdminController {
 			mediaService.uploadMedia(upload, vo);
 		}		
 		
+        //챌린저스 테이블 상태 업데이트
 		ChalVO cvo = new ChalVO();
 		cvo.setChalId(vo.getGroupId());
 		cvo.setReceipt("첨부완료");
@@ -130,24 +139,26 @@ public class ChalAdminController {
 	
 	//ngo신청 승인
 	@RequestMapping(value="/approveNgo", method=RequestMethod.POST)
+	@ResponseBody
 	public String approveNgo(@RequestBody NgoVO vo){
 		Map<String,Object> map = new HashMap<String, Object>();
 		
 		ngoService.updateCondition(vo);
 		
 		
-		return "redirect:/mypage/ApplyNgoList";
+		return "true"; //Collections.singletonMap("result", "true")  {result:true}
 	}
 	
 	//ngo신청 반려
 	@RequestMapping(value="/rejectNgo", method=RequestMethod.POST)
+	@ResponseBody
 	public String rejectNgo(@RequestBody NgoVO vo){
 		Map<String,Object> map = new HashMap<String, Object>();
 		
 		ngoService.rejectNgo(vo);
 		
 
-		return "redirect:/mypage/ApplyNgoList";
+		return "true";
 	}
 	
 	

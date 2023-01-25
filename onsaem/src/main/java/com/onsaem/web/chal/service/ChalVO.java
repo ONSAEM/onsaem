@@ -25,7 +25,8 @@ public class ChalVO {
 	Integer donationFee; //기부금 - 총액
 	String memberId; //글쓴이ID
 	Integer teamFee; //팀전고정기부금 - 개인할당
-	String receipt; //기부 영수증 있는지 없는지 유무ㅎㅎ
+	String receipt; //기부 영수증 있는지 없는지 유무
+	Integer usercnt; //인원수 - 팀원 한정
 
 	
 	

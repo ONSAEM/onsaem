@@ -1,8 +1,6 @@
 package com.onsaem.web.chal.web;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,21 +16,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.onsaem.web.chal.service.BankService;
 import com.onsaem.web.chal.service.ChalService;
 import com.onsaem.web.chal.service.ChalVO;
-import com.onsaem.web.chal.service.MediaService;
 import com.onsaem.web.chal.service.NgoService;
 import com.onsaem.web.chal.service.NgoVO;
 import com.onsaem.web.chal.service.ParticipantService;
 import com.onsaem.web.chal.service.ParticipantVO;
-import com.onsaem.web.common.service.PaymentVO;
-import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.chal.service.ProofService;
 import com.onsaem.web.chal.service.ReportService;
+import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.PaymentVO;
+import com.onsaem.web.common.service.ReportVO;
+
+/**
+ * 
+ * @author 박이현
+ * 챌린저스 리스트, 상세보기 페이지
+ *
+ */
+
 @Controller
 @CrossOrigin(origins="*")
 public class ChalController {
@@ -42,7 +47,7 @@ public class ChalController {
 	@Autowired ProofService proofService;
 	@Autowired ParticipantService partService;
 	@Autowired ReportService reportService;
-	@Autowired com.onsaem.web.common.service.MediaService mediaService;
+	@Autowired MediaService mediaService;
 	
 	//챌린지 전체 리스트 확인
 	@RequestMapping(value="/chalList",method=RequestMethod.GET)
@@ -123,8 +128,8 @@ public class ChalController {
 	
 	//등록페이지 일단,,
 	@RequestMapping(value="/inputChal",method=RequestMethod.GET)
-	public String inputChal(Model model, Authentication authentication) {
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+	public String inputChal() {
+		
 		return "content/challengers/inputChal";
 	}
 	
@@ -215,18 +220,18 @@ public class ChalController {
 		
 		
 		//사진 업로드
-				MediaVO mvo = new MediaVO();
-				mvo.setGroupId(vo.getChalId());
-				mvo.setGroups("챌린저스");
-		        for(int i=0;i<uploadFile.length;i++) {
-					if(i==0) {
-						mvo.setSubGroup("인증예시");
-					}else {
-						mvo.setSubGroup("썸네일");
-					}			
-					MultipartFile[] upload= {uploadFile[i]};
-					mediaService.uploadMedia(upload, mvo);
-				}		
+		MediaVO mvo = new MediaVO();
+		mvo.setGroupId(vo.getChalId());
+		mvo.setGroups("챌린저스");
+        for(int i=0;i<uploadFile.length;i++) {
+			if(i==0) {
+				mvo.setSubGroup("인증예시");
+			}else {
+				mvo.setSubGroup("썸네일");
+			}			
+			MultipartFile[] upload= {uploadFile[i]};
+			mediaService.uploadMedia(upload, mvo);
+		}		
 					
 		return "redirect:/chalList";
 	}
@@ -248,26 +253,26 @@ public class ChalController {
 	@RequestMapping(value="/applyChalFrm", method=RequestMethod.POST)
 	public String applyChal(ChalVO vo, ParticipantVO pvo, PaymentVO payvo, Authentication authentication) {
 		//참가자 테이블
-				UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-				pvo.setParticipantId(userDetails.getUsername());
-				pvo.setBetPoint(0);
-				partService.inputParticipant(pvo);
-				//챌린저스 테이블 수정
-				
-				vo.setChalId(pvo.getChalId());
-				chalService.updateDonate(vo);
-				System.out.println("group_id" + pvo.getChalId());
-				
-				//결제 테이블
-				payvo.setGroupId(pvo.getChalId());
-				payvo.setPrice(pvo.getPrivateDonate());
-				payvo.setPayerId(pvo.getParticipantId());
-				payvo.setPaymentMethod("카카오페이");
-				partService.inputPayment(payvo);
-				
-				
-				return "redirect:/chalList";
+		pvo.setParticipantId(userDetails.getUsername());
+		pvo.setBetPoint(0);
+		partService.inputParticipant(pvo);
+		//챌린저스 테이블 수정
+		
+		vo.setChalId(pvo.getChalId());
+		chalService.updateDonate(vo);
+		System.out.println("group_id" + pvo.getChalId());
+		
+		//결제 테이블
+		payvo.setGroupId(pvo.getChalId());
+		payvo.setPrice(pvo.getPrivateDonate());
+		payvo.setPayerId(pvo.getParticipantId());
+		payvo.setPaymentMethod("카카오페이");
+		partService.inputPayment(payvo);
+		
+		
+		return "redirect:/chalList";
 	}
 	
 	//챌린지 참가 - 팀전 페이지 이동
