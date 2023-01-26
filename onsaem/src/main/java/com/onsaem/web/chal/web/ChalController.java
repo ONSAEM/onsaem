@@ -55,10 +55,11 @@ public class ChalController {
 	//챌린지 전체 리스트 확인
 	@RequestMapping(value="/chalList",method=RequestMethod.GET)
 	public String chalList(Model model,ChalVO vo, Paging paging) {
+		
 		String classes = "항시";
 		model.addAttribute("ngoes", ngoService.listNgoClass(classes));
 		model.addAttribute("chals", chalService.getChalAll(vo, paging));
-		
+		model.addAttribute("paging", paging);
 		//기부금 순위로
 		model.addAttribute("ranks", chalService.donateRank());
 		return "content/challengers/chalMain";
@@ -131,8 +132,9 @@ public class ChalController {
 	
 	//등록페이지 일단,,
 	@RequestMapping(value="/inputChal",method=RequestMethod.GET)
-	public String inputChal() {
-		
+	public String inputChal(Model model, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		model.addAttribute("user", userDetails.getUsername());
 		return "content/challengers/inputChal";
 	}
 	
@@ -280,16 +282,18 @@ public class ChalController {
 		vo.setDonationFee(payvo.getDonationFee());
 		chalService.updateDonate(vo);
 		System.out.println("group_id" + pvo.getChalId());
-		
-		
-		
-		
+
 		return "redirect:/chalList";
 	}
 	
 	//챌린지 참가 - 팀전 페이지 이동
 	@RequestMapping(value="/applyChalTeamFrm", method=RequestMethod.GET)
-	public String applyChalTeamFrm(@RequestParam(value="chalId", required= true)String chalId, Model model,MediaVO vo) {
+	public String applyChalTeamFrm(@RequestParam(value="chalId", required= true)String chalId, Model model,
+			MediaVO vo, Authentication authentication) {
+		//세선에 저장된 로그인 아이디
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		//로그인 사용자 정보 조회
+		model.addAttribute("user", memberService.getMember(userDetails.getUsername()));
 		System.out.println(chalService.getChal(chalId));
 		model.addAttribute("chals", chalService.getChal(chalId));
 		vo.setGroupId(chalId);
@@ -298,11 +302,18 @@ public class ChalController {
 		return "content/challengers/applyChalTeamFrm";
 	}
 	
-	//챌린지 참가 - 팀 등록
+	//챌린지 참가 - 팀 참가
 	@RequestMapping(value="/applyChalTeamFrm", method=RequestMethod.POST)
-	public String applyChalTeam(ChalVO vo, ParticipantVO pvo, PaymentVO payvo) {
+	@ResponseBody
+	public String applyChalTeam(@RequestBody  PaymentVO payvo, ChalVO vo, ParticipantVO pvo, Authentication authentication) {
+		//세선에 저장된 로그인 아이디
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		//결제 테이블
+		payvo.setPayerId(userDetails.getUsername());
+		partService.inputPayment(payvo);
+		
 		//챌린저스 테이블에서 인원수 조회, 참가자 테이블에서 인원수 조회
-		String chalId = vo.getChalId();
+		String chalId = payvo.getGroupId();
 		ChalVO cvo = chalService.getChal(chalId);
 		//챌린저스 총 인원수
 		Integer total = cvo.getUsercnt();
@@ -315,33 +326,31 @@ public class ChalController {
 		}else {
 			pvo.setTeam("A");
 		}
-	
-		
+
 		//참가자 테이블
-		pvo.setParticipantId("hodu");
+		pvo.setChalId(chalId);
+		pvo.setParticipantId(userDetails.getUsername());
+		pvo.setBetPoint(payvo.getBetPoint());
+		pvo.setPrivateDonate(payvo.getPrice());
+		
 		partService.inputParticipant(pvo);
 		
 		//챌린저스 테이블 수정
-		vo.setChalId(pvo.getChalId());
+		vo.setChalId(chalId);
+		vo.setDonationFee(payvo.getDonationFee());
 		chalService.updateDonate(vo);
-		
-		//결제 테이블
-		System.out.println(pvo.getChalId());
-		payvo.setGroupId(pvo.getChalId());
-		payvo.setPrice(pvo.getPrivateDonate());
-		payvo.setPayerId(pvo.getParticipantId());
-		payvo.setPaymentMethod("카카오페이");
-		partService.inputPayment(payvo);
-		
-		
+
 		return "redirect:/chalList";
 	}
 	
-	//챌린지 취소 
+	
 	
 	//기부처 등록페이지 이동
 	@RequestMapping(value="/inputNgo", method=RequestMethod.GET)
-	public String inputNgo(Model model) {
+	public String inputNgo(Model model, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		
+		model.addAttribute("user", userDetails.getUsername());
 		model.addAttribute("banks", bankService.listBank());
 		return "content/challengers/inputNGO";
 	}

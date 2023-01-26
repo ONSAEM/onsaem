@@ -14,7 +14,7 @@ public interface ChalMapper {
 	List<ChalVO> getChalAll();
 	
 	//강의 갯수 조회
-	public Paging chalCount(ChalVO vo);
+	int chalCount(ChalVO vo);
 	
 	//조건 전체조회- 기부처
 	List<ChalVO> getChalNgoAll(String ngoName);

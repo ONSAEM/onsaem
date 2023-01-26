@@ -21,4 +21,5 @@ public class PaymentVO {
 	
 	//챌린저스에서 사용
 	Integer donationFee;
+	Integer betPoint;
 }

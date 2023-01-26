@@ -1,5 +1,6 @@
 package com.onsaem.web.chal.web;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.onsaem.web.chal.service.BankService;
 import com.onsaem.web.chal.service.ChalService;
@@ -32,6 +34,7 @@ import com.onsaem.web.chal.service.ProofService;
 import com.onsaem.web.chal.service.ProofVO;
 import com.onsaem.web.chal.service.ReportService;
 import com.onsaem.web.common.service.LikeVO;
+import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.PaymentVO;
 import com.onsaem.web.common.service.RefundVO;
@@ -51,16 +54,16 @@ public class ChalMypageController {
 	@Autowired BankService bankService;
 	@Autowired NgoService ngoService;
 	@Autowired ReportService reportService;
+	@Autowired MediaService mediaService;
 
 	
 	//권한 - 일반회원의 챌린저스 마이페이지 첫화면, 진행중 챌린지 띄우깅
 	@RequestMapping(value="/myCurrentChal",method=RequestMethod.GET)
-	public String myCurrentChalList(Model model,ChalVO vo, HttpServletRequest req,ProofVO pvo ) {
-		HttpSession session = req.getSession();
-//		//세션에서 가져온 로그인 된 id값
-		String id = (String)session.getAttribute("id");
+	public String myCurrentChalList(Model model,ChalVO vo, Authentication authentication,ProofVO pvo ) {
+		//세션에서 가져온 로그인 된 id값 
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		
-		vo.setParticipantId("hodu");
+		vo.setParticipantId(userDetails.getUsername());
 		//로그인 유저가 참가중인 챌린저들,,,
 		model.addAttribute("chals", chalService.myCurentChal(vo));
 		
@@ -70,33 +73,29 @@ public class ChalMypageController {
 	
 	//인증샷 넣기 ! 
 	@RequestMapping(value="/myCurrentChal",method=RequestMethod.POST)
-	public String inputProof(@RequestBody ProofVO pvo, HttpServletRequest req) {
-		HttpSession session = req.getSession();
-		MediaVO vo = new MediaVO();
-
-		
-//		//세션에서 가져온 로그인 된 id값
-		String id = (String)session.getAttribute("id");
+	public String inputProof(@RequestBody ProofVO pvo,  MultipartFile[] uploadFile, Authentication authentication) throws IllegalStateException, IOException {
+		//세션에서 가져온 로그인 된 id값 
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		String id = userDetails.getUsername();
 		
 		//인증테이블에 값넣기
-		pvo.setProofWriter("hodu");
+		pvo.setProofWriter(id);
 		pvo.setCondition("정상");
 		proofService.inputProof(pvo);
 		
 		//미디어 테이블에 값넣기
-		String realFolder = "/challengers/img/";
+		MediaVO vo = new MediaVO();
 		
 		vo.setGroupId(pvo.getProofId());
-		vo.setFileName(pvo.getFileName());
-		vo.setFileRoute(realFolder);
 		vo.setSubGroup("챌린저스인증");
-		proofService.inputMedia(vo);
+		mediaService.uploadMedia(uploadFile, vo);
+
 		return "redirect:/mypage/myCurrentChal";
 	}
 	
 	//권한 - 일반회원의 챌린저스 마이페이지 - 시작전 챌린지 모음
 	@RequestMapping(value="/myBeforeChal",method=RequestMethod.GET)
-	public String myBeforeChalList(Model model,ChalVO vo, HttpServletRequest req, Authentication authentication) {
+	public String myBeforeChalList(Model model,ChalVO vo, Authentication authentication) {
 		
 		//세션에서 가져온 로그인 된 id값 
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -144,8 +143,7 @@ public class ChalMypageController {
 		yvo.setPaymentId(rvo.getPaymentId());
 		partService.updateForRefund(yvo);
 		
-		
-		
+
 		return "content/challengers/MyBeforeChal";
 	}
 		

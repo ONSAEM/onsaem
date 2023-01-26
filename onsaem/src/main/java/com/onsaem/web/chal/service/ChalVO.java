@@ -40,7 +40,13 @@ public class ChalVO {
 	String result;
 	String resultPoint;
 	
+	//마이페이지 체크용
+	Integer day;
+	
+	//페이징
 	Integer first= 1;
 	Integer last = 10;
+	
+	
 	
 }

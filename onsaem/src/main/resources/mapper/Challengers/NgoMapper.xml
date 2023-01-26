@@ -43,7 +43,8 @@
 	<select id="listNgoClass" resultType="NgoVO" parameterType="string">
 		SELECT *
 		FROM NGOES
-		where CLASSES = #{classes} 
+		WHERE CLASSES = #{classes}
+		AND CONDITION= '승인'
 	</select>
 	
 	<!-- 한건조회 -->
