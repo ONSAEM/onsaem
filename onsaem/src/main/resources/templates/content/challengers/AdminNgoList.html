@@ -188,6 +188,10 @@
 									<!--모달창 끛  -->
 		
 		<script>
+		//csrf설정
+		 var token = $("meta[name='_csrf']").attr("content");
+		 var header = $("meta[name='_csrf_header']").attr("content");
+		 
 		//모달창 생성
 		document.querySelectorAll(".openBtn").forEach((openBtn) => {
 			console.log(openBtn);
@@ -250,6 +254,11 @@
 			 $.ajax({
 	    		  url : '/mypage/rejectNgo',
 	    		  method : 'POST',
+	    		  beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
+
 	    		  contentType: 'application/json',
 				  data: JSON.stringify({"ngoId":ngoId, "condition" : condition , "reason":reason}),
 				  success:function(result){
@@ -274,6 +283,10 @@
 			 $.ajax({
 		  		  url : '/mypage/approveNgo',
 		  		  method : 'POST',
+			  		 beforeSend : function(xhr)
+		               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+		               xhr.setRequestHeader(header, token);
+		               },
 		  		  contentType: 'application/json',
 				  data: JSON.stringify({ngoId:ngoId, condition : condition}),
 				  success:function(result){

@@ -364,6 +364,11 @@ h1 {
 	</th:block>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript">
+	//csrf설정
+	 var token = $("meta[name='_csrf']").attr("content");
+	 var header = $("meta[name='_csrf_header']").attr("content");
+	 
+	 
 		document.addEventListener('DOMContentLoaded', function() {
 			var modeSwitch = document.querySelector('.mode-switch');
 
@@ -535,6 +540,10 @@ h1 {
 			$.ajax({
 	    		  url : '/mypage/reSubmit',
 	    		  method : 'POST',
+	    		  beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
 	    		  contentType: 'application/json',
 				  data: JSON.stringify({ngoId:ngoId, condition : "재신청" , ngoName : ngoName,
 					  		writerId : writerId, postalCode:postalCode, addr : addr, detailAddr : detailAddr,

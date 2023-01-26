@@ -299,6 +299,10 @@
              
 		
 		<script type="text/javascript">
+		//csrf설정
+		 var token = $("meta[name='_csrf']").attr("content");
+		 var header = $("meta[name='_csrf_header']").attr("content");
+		 
 		/* document.addEventListener('DOMContentLoaded', function () {
 	 		 var modeSwitch = document.querySelector('.mode-switch');
 
@@ -358,6 +362,10 @@
 		       		$.ajax({
 		      			url: '/mypage/proofDetail',
 					      method: 'POST',
+					      beforeSend : function(xhr)
+			               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+			               xhr.setRequestHeader(header, token);
+			               },
 					      //contentType: 'application/plain',
 					      data: {proofId : proofId},
 					      success: function (result) {
@@ -415,6 +423,10 @@
 	    	$.ajax({
 	    		url : '/mypage/inputReply',
 	    		method : 'POST',
+	    		  beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
 	    		contentType: 'application/json',
 			    data: JSON.stringify({content:content, groupId : id}),
 			    success:function(result){
@@ -446,6 +458,10 @@
 	    	  $.ajax({
 	    		  url : '/mypage/addChalLike',
 	    		  method : 'POST',
+	    		  beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
 	    		  data : {groupId : groupId},
 	    		  success:function(result){
 	    			  console.log(result);
@@ -474,6 +490,10 @@
 	    	  $.ajax({
 	    		  url : '/mypage/delChalLike',
 	    		  method : 'POST',
+	    		  beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
 	    		  data : {groupId : groupId},
 	    		  success:function(result){
 	    			  console.log(result);
@@ -522,6 +542,10 @@
 	    	 	$.ajax({
 	    		  url : '/mypage/inputReport',
 	    		  method : 'POST',
+	    		  beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
 	    		  contentType: 'application/json',
 				  data: JSON.stringify({reason:reason, toId : toId, detailReason:detailReason}),
 				  success:function(result){
