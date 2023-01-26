@@ -48,6 +48,13 @@ public class ProductController {
 	CartVO cartVo = new CartVO();
 	LikeVO likeVo = new LikeVO();
 	ProductVO proVo = new ProductVO();
+	
+	//리뷰대댓글가져오기
+	@RequestMapping(value = "/shop/reviewList2", method = RequestMethod.POST)
+	@ResponseBody
+	public List<ReviewVO> reviewList2(ReviewVO vo) {		
+		return proService.reviewList2(vo);
+	}
 
 	// 쇼핑몰페이지이동,최신순,인기순 목록나열
 	@RequestMapping(value = "/shop", method = RequestMethod.GET)
@@ -76,7 +83,7 @@ public class ProductController {
 		model.addAttribute("imgList", proService.addImg(data));// 추가이미지가져오기
 		model.addAttribute("natureImg", proService.natureImg(data));// 친환경이미지가져오기
 		model.addAttribute("reviewList", proService.reviewList(data));// 상품리뷰리스트가져오기
-		model.addAttribute("optionList", proService.optionList(data));// 옵션가져오기
+		model.addAttribute("optionList", proService.optionList(data));// 옵션가져오기		
 		return "content/shop/shopDetail";
 	}
 

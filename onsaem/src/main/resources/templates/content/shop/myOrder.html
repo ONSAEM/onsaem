@@ -186,12 +186,12 @@ h1 {
 												placeholder="운송장 번호" value="570110926163">
 											<button type="submit" class="btn btn-default"
 												style="all: unset; background-color: mediumslateblue; color: white; padding: 5px 25px; border-radius: 10px; cursor: pointer;">배송조회</button>
-										</form> <br> <br>
-										<span th:if="${order.orderStatus=='배송완료'}">										
-										<button th:onclick="displayModal([[${order}]])">교환/반품</button> <br> <br>
-										
-										<button class="modals">리뷰작성</button>
-										</span>
+										</form> <br> <br> <span
+										th:if="${order.orderStatus=='배송완료'}">
+											<button th:onclick="displayModal([[${order}]])">교환/반품</button>
+											<br> <br>
+											<button class="modals">리뷰작성</button>
+									</span>
 									</td>
 									<!-- 리뷰 모달창 -->
 									<td>
@@ -253,8 +253,9 @@ h1 {
 							th:onclick="checkOnlyone(this)"> 기타 <span id="4"></span>
 						<br> <br>
 						<p>해결방법</p>
-						<input type="checkbox" name="method" value="교환">교환 <input type="checkbox" name="method" value="반품">반품
-						<br> <br> <br>
+						<input type="checkbox" name="method" value="교환">교환 <input
+							type="checkbox" name="method" value="반품">반품 <br> <br>
+						<br>
 						<p>
 							회수시 요청사항<br>
 							<textarea rows="" cols="" id="please"></textarea>
@@ -273,22 +274,49 @@ h1 {
 			//교환/환불 신청
 			function submitBtn(){							
 				let reasonLength = document.getElementsByName("reason").length;  
+				let orderStatus;				
    				for (var i=0; i<reasonLength; i++) {
         			if (document.getElementsByName("reason")[i].checked == true) {
             			console.log(document.getElementsByName("reason")[i].value); 
-            			var reason=document.getElementsByName("reason")[i].value
+            			document.getElementsByName("reason")[i].value
         			}
 				}
    				let methodLength = document.getElementsByName("method").length; 
    				for (var i=0; i<methodLength; i++) {
         			if (document.getElementsByName("method")[i].checked == true) {
             			console.log(document.getElementsByName("method")[i].value); 
-            			var reason=document.getElementsByName("method")[i].value
+            			 orderStatus=document.getElementsByName("method")[i].value
         			}
 				}
-   				console.log(document.getElementById("detailReason").value);
-   				console.log($("#please").val());
-   				console.log(modalData)
+   				let subRecivReq=document.getElementById("detailReason").value;    			
+   				let recivReq=$("#please").val();
+   				console.log(modalData.orderId)
+   		 		let orderId=modalData.orderId;
+   				
+   				$.ajax({
+				type : 'post', 
+				url : '/shop/orderExchange', 				
+				headers : { 
+					"Content-Type" : "application/json"					
+				},
+				beforeSend : function(xhr)
+	               {   
+	               xhr.setRequestHeader(header, token);
+	               },
+				data : JSON.stringify({  
+				      "orderStatus" : orderStatus,
+				      "recivReq" : recivReq,
+				      "subRecivReq" : subRecivReq,
+				      "orderId" : orderId,
+				    }),
+				success : function(result) {					
+					alert("교환신청하였습니다.")
+					location.reload();
+				},
+				error : function(error) { 
+					console.log(error)
+				}
+			}) 
 			}
 			 
 			//배송조회버튼

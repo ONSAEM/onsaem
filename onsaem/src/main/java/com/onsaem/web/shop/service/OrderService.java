@@ -20,4 +20,7 @@ public interface OrderService {
 	
 	//결제데이터입력
 	int insertOrder(PaymentVO vo);
+	
+	//교환,환불요청
+	int orderExchange(OrderVO vo);
 }

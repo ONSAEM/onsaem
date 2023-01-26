@@ -18,4 +18,8 @@ public class ReviewVO {
 	Date reviewDate;
 	String groupId;
 	String groups;
+	
+	//쇼핑몰리뷰
+	String productName;
+	String fileRoute;
 }

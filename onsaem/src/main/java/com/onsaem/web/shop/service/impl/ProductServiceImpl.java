@@ -145,6 +145,12 @@ public class ProductServiceImpl implements ProductService{
 		return proMapper.watchProduct(vo);
 	}
 
+	@Override
+	public List<ReviewVO> reviewList2(ReviewVO vo) {
+		// 리뷰 대댓글 가져오기
+		return proMapper.reviewList2(vo);
+	}
+
 	
 	
 }

@@ -46,4 +46,10 @@ public class OrderServiceImpl implements OrderService{
 		return ordMapper.insertOrder(vo);
 	}
 
+	@Override
+	public int orderExchange(OrderVO vo) {
+		// 교환,환불 요청
+		return ordMapper.orderExchange(vo);
+	}
+
 }

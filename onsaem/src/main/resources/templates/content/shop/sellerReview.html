@@ -22,6 +22,56 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
 <style type="text/css">
+button {
+	all: unset;
+	background-color: mediumslateblue;
+	color: white;
+	padding: 5px 25px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.btn {
+	margin-top: 60px;
+}
+
+.modal {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.modal__background {
+	background-color: rgba(0, 0, 0, 0.6);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
+.modal__content {
+	text-align: center;
+	position: relative;
+	background-color: white;
+	border-radius: 10px;
+	top: 0;
+	padding: 10px 25px;
+	width: 20%;
+}
+
+h1 {
+	margin: 0;
+	margin-bottom: 13px;
+}
+
+.hidden {
+	display: none;
+}
+
 .menu {
 	float: left;
 	overflow: hidden;
@@ -142,7 +192,7 @@ label {
 			<li><a href="/sellerMain" class="item"><div>판매자상품관리</div></a></li>
 			<li><a href="/sellerOrder" class="item"><div>판매자주문관리</div></a></li>
 			<li><a href="/sellerExchange" class="item"><div>판매자교환/취소관리</div></a></li>
-			<li><a href="/sellerReview" class="item"><div>판매자리뷰/문의관리</div></a></li>
+			<li><a href="/sellerReview" class="item"><div>판매자리뷰관리</div></a></li>
 			<li><a href="/addProductPage" class="item"><div>상품등록하기</div></a></li>
 		</ul>
 	</div>
@@ -152,31 +202,23 @@ label {
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<h3 style="margin-left: 20px; display: inline-block">판매자 교환/환불관리</h3>
+					<h3 style="margin-left: 20px; display: inline-block">판매자 리뷰관리</h3>
 					<br> <br>
 					<div class="shoping__cart__table">
-						
+
 						<table>
-							<thead>
-								<tr>
-									<th>주문번호</th>
-									<th>반품접수일</th>									
-									<th>상품번호</th>
-									<th>수량</th>
-									<th>가격</th>
-									<th>옵션</th>
-									<th>처리상태</th>
-								</tr>
-							</thead>
-							<tbody id="orderList">
-								<tr th:each="order:${orderList}">
-									<td>[[${order.orderId}]]</td>
-									<td>[[${order.orderDate}]]</td>
-									<td>[[${order.productId}]]</td>
-									<td>[[${order.detailAmount}]]</td>
-									<td>[[${order.price}]]</td>
-									<td>[[${order.detailOption}]]</td>
-									<td>[[${order.orderStatus}]]</td>
+							<tbody>
+								<tr th:each="review:${reviewList}">
+									<td><img alt="" th:src="'/fileView/'+${review.fileRoute}">
+									</td>
+									<td>[[${review.reviewDate}]]<br> <br>[[${review.productName}]]
+									</td>
+									<td>[[${review.writerId}]]</td>
+									<td><i class="fa fa-star"
+										th:each="num:${#numbers.sequence(1,review.reviewStar)}"></i> <i
+										class="fa-solid fa-star-half"
+										th:if="${review.reviewStar%1 >= 0.5}"></i><br> <br>[[${review.reviewContent}]]</td>
+									<td><button th:onclick="displayModal([[${review}]])">리뷰댓글달기</button></td>
 								</tr>
 							</tbody>
 						</table>
@@ -186,10 +228,68 @@ label {
 		</div>
 	</section>
 
+
+	<!-- 판매자 리뷰작성 -->
+	<div class="modal hidden">
+		<div class="modal__background"></div>
+		<div class="modal__content">
+			<h3>리뷰댓글달기</h3>
+			<div class="modalText">
+				<textarea rows="10" cols="40" id="content"></textarea>
+				<br>
+				<button th:onclick="submitBtn()">댓글달기</button>
+				<button class="closeBtn">닫기</button>
+			</div>
+		</div>
+	</div>
+
 	<th:block layout:fragment="script">
 		<script th:src="@{/shoptemplate/js/main.js}"></script>
 	</th:block>
+	<script type="text/javascript">
+		//csrf설정
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
 
+		//리뷰댓글 저장하기
+		function submitBtn() {
+			let groupId = modalData.reviewId;
+			let reviewContent = $("#content").val();
+			$.ajax({
+				type : 'post',
+				url : '/shop/sellerReviewContent',				
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader(header, token);
+				},
+				data : {
+					"groupId" : groupId,
+					"reviewContent" : reviewContent
+				},
+				success : function(result) {
+					alert("댓글 작성하였습니다.")
+					location.reload();
+				},
+				error : function(error) {
+					console.log(error)
+				}
+			})
+		}
+
+		//리뷰작성 모달창 생성
+		const openButton = document.querySelector(".openBtn");
+		const modal = document.querySelector(".modal");
+		const closeButton = modal.querySelector(".closeBtn");
+		const modalBackground = modal.querySelector(".modal__background");
+
+		let modalData;
+		function displayModal(data) {
+			modalData = data;
+			modal.classList.toggle("hidden");
+		}
+
+		closeButton.addEventListener("click", displayModal)
+		modalBackground.addEventListener("click", displayModal);
+	</script>
 
 </div>
 </html>

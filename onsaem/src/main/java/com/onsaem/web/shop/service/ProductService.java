@@ -8,6 +8,9 @@ import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.common.service.ReviewVO;
 
 public interface ProductService {
+	//리뷰 대댓글 가져오기
+	List<ReviewVO> reviewList2(ReviewVO vo);
+	
 	//상품전체목록(최신순)
 	List<ProductVO> proList();
 	

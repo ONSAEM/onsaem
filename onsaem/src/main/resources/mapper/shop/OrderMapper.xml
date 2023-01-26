@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onsaem.web.shop.mapper.OrderMapper">
+	<!-- 교환,환불 요청 -->
+	<update id="orderExchange"
+		parameterType="com.onsaem.web.shop.service.OrderVO">
+		UPDATE ORDERS SET ORDER_STATUS=#{orderStatus},
+		RECIV_REQ=#{recivReq}, SUB_RECIV_REQ=#{subRecivReq}
+		WHERE
+		ORDER_ID=#{orderId}
+	</update>
 	<!-- 구매자 정보가져오기 -->
 	<select id="userData"
 		resultType="com.onsaem.web.member.service.MemberVO">
@@ -33,7 +41,8 @@
 		WHERE
 		O.MEMBER_ID=#{memberId} AND M.SUB_GROUP='대표이미지' AND
 		O.PRODUCT_ID=M.GROUP_ID
-		AND O.PRODUCT_ID=P.PRODUCT_ID
+		AND O.PRODUCT_ID=P.PRODUCT_ID AND
+		O.ORDER_ID=D.ORDER_ID
 		GROUP BY
 		O.ORDER_ID,
 		O.ORDER_DATE,
@@ -51,8 +60,10 @@
 		P.PRODUCT_NAME,
 		P.PRICE,
 		O.PRODUCT_ID
+		ORDER BY
+		O.ORDER_DATE DESC
 	</select>
-	
+
 	<!-- 주문하기(일반) -->
 	<insert id="orderProduct"
 		parameterType="com.onsaem.web.shop.service.OrderVO">
@@ -67,13 +78,14 @@
 
 	<!-- 주문하기(상세) -->
 	<insert id="orderDetail"
-		parameterType="com.onsaem.web.shop.service.OrderVO">		
+		parameterType="com.onsaem.web.shop.service.OrderVO">
 		INSERT INTO ORDER_DETAILS
 		VALUES(#{orderId},#{productId},#{detailAmount},#{detailOption},'ORD'||ORDER_DETAIL_SEQ.NEXTVAL)
 	</insert>
-	
+
 	<!-- 결제데이터 입력 -->
-	<insert id="insertOrder" parameterType="com.onsaem.web.common.service.PaymentVO">
+	<insert id="insertOrder"
+		parameterType="com.onsaem.web.common.service.PaymentVO">
 		insert into payments
 		values(#{paymentId},#{price},#{payerId},#{paymentMethod},current_date,#{groupId},#{groups},#{status})
 	</insert>
