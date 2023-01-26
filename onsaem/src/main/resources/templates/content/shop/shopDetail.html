@@ -301,12 +301,16 @@ h1 {
 		<script th:src="@{/shoptemplate/js/main.js}"></script>
 
 		<script type="text/javascript">
+		//csrf설정
+		 var token = $("meta[name='_csrf']").attr("content");
+		 var header = $("meta[name='_csrf_header']").attr("content");
+
 		//찜선택
 				function changeHeart(data){	
 					const urlParams = new URL(location.href).searchParams;
 					const name = urlParams.get('data');	
 					if(data.innerText=="♡"){						
-						fetch('http://localhost/likeAdd?data='+name)
+						fetch('http://localhost/likeAdd?data='+name)						
 						  .then((response) => console.log('success'))
 						  .then((data) => console.log(data));		
 						data.innerText="♥";				
@@ -323,6 +327,7 @@ h1 {
 					options.value(data);
 				}
 				
+				//장바구니담기
 				function cartEvent(data){
 					let cartAmount=document.querySelector(".proAmount").value;
 					let cartOption=document.querySelector(".options").value;
@@ -378,20 +383,19 @@ h1 {
        				fetch('http://localhost/addBan',{
        					headers: {
        					    "Content-Type": "application/json",
+       					    "X-CSRF-TOKEN":token
        					  },
-       					method:"post",
+       					method:"post",       					
        					body: JSON.stringify({
        						reason: reason,
        						detailReason: detailReason,
        						fromId:fromId,
        						groupId:groupId
        					  })
-       					})
-       				//	.then((response)=>response.text())
+       					})       				
 					  .then((response) => {
 						    alert('신고처리 되었습니다.');
-						    displayModal();})
-					//  .then((data)=>location.href="http://localhost/shop")	
+						    displayModal();})					
 				}
 				
 				//주문결제페이지이동

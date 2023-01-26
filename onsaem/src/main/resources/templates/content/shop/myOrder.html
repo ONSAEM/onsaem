@@ -186,9 +186,12 @@ h1 {
 												placeholder="운송장 번호" value="570110926163">
 											<button type="submit" class="btn btn-default"
 												style="all: unset; background-color: mediumslateblue; color: white; padding: 5px 25px; border-radius: 10px; cursor: pointer;">배송조회</button>
-										</form> <br> <br>										
+										</form> <br> <br>
+										<span th:if="${order.orderStatus=='배송완료'}">										
 										<button th:onclick="displayModal([[${order}]])">교환/반품</button> <br> <br>
+										
 										<button class="modals">리뷰작성</button>
+										</span>
 									</td>
 									<!-- 리뷰 모달창 -->
 									<td>
@@ -263,6 +266,10 @@ h1 {
 			</div>
 
 			<script type="text/javascript">
+			//csrf설정
+			 var token = $("meta[name='_csrf']").attr("content");
+			 var header = $("meta[name='_csrf_header']").attr("content");
+			
 			//교환/환불 신청
 			function submitBtn(){							
 				let reasonLength = document.getElementsByName("reason").length;  
@@ -299,8 +306,7 @@ h1 {
 						console.log(error)
 					}
 				})
-			}			
-			
+			}					
 			
 			//리뷰제출
 			function submitReview(data){
@@ -312,7 +318,11 @@ h1 {
 				    url : '/addReview',          	   
 				    headers : {              
 				      "Content-Type" : "application/json"				      
-				    },				    
+				    },
+				    beforeSend : function(xhr)
+		            {
+		            	xhr.setRequestHeader(header, token);
+		            },
 				    data : JSON.stringify({  
 				      "groupId" : groupId,
 				      "reviewContent" : reviewContent,

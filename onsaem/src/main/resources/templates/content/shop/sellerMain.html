@@ -141,7 +141,7 @@ label {
 		<ul>
 			<li><a href="/sellerMain" class="item"><div>판매자상품관리</div></a></li>
 			<li><a href="/sellerOrder" class="item"><div>판매자주문관리</div></a></li>
-			<li><a href="#" class="item"><div>판매자교환/취소관리</div></a></li>
+			<li><a href="/sellerExchange" class="item"><div>판매자교환/취소관리</div></a></li>
 			<li><a href="#" class="item"><div>판매자리뷰/문의관리</div></a></li>
 			<li><a href="/addProductPage" class="item"><div>상품등록하기</div></a></li>
 		</ul>
@@ -237,6 +237,10 @@ label {
 	</th:block>
 
 	<script type="text/javascript">	
+	//csrf설정
+	 var token = $("meta[name='_csrf']").attr("content");
+	 var header = $("meta[name='_csrf_header']").attr("content");
+	
 	//품절체크박스
 	function endProduct(data,data2) {		
 		if(data.checked==true){			
@@ -246,6 +250,10 @@ label {
 				headers : { 
 					"Content-Type" : "application/json"					
 				},
+				beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
 				data : JSON.stringify({  
 				      "productId" : data2				      
 				    }),
@@ -266,6 +274,10 @@ label {
 				headers : { 
 					"Content-Type" : "application/json"					
 				},
+				beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
 				data : JSON.stringify({  
 				      "registerDate" : data.value				     
 				    }),
@@ -391,6 +403,10 @@ label {
 				headers : { 
 					"Content-Type" : "application/json"					
 				},
+				beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
 				data : JSON.stringify({  
 				      "productId" : $("#search").val(),
 				      "productName" : $("#search").val()
@@ -423,6 +439,10 @@ label {
 				headers : { 
 					"Content-Type" : "application/json"					
 				},
+				beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
 				data : JSON.stringify({  
 				      "productId" : $("#search").val(),
 				      "productName" : $("#search").val()
@@ -455,6 +475,10 @@ label {
 				headers : { 
 					"Content-Type" : "application/json"					
 				},
+				beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
 				data : JSON.stringify({  
 				      "productId" : $("#search").val(),
 				      "productName" : $("#search").val()

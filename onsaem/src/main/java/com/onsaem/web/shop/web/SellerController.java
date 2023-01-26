@@ -47,6 +47,12 @@ public class SellerController {
 	CartVO cartVo = new CartVO();
 	LikeVO likeVo = new LikeVO();
 	ProductVO proVo = new ProductVO();
+	
+	//판매자 교환/환불페이지이동
+	@RequestMapping(value = "/sellerExchange", method = RequestMethod.GET)	
+	public String sellerExchange(Authentication authentication) {		
+		return "content/shop/sellerExchange";	
+	}
 
 	// 주문상태변경
 	@RequestMapping(value = "/shop/sumbitShipping", method = RequestMethod.POST)

@@ -166,6 +166,11 @@
 			src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
 		<script type="text/javascript">
+		//csrf설정
+		 var token = $("meta[name='_csrf']").attr("content");
+		 var header = $("meta[name='_csrf_header']").attr("content");
+
+		
 			//결제API
 			$(".paymentBtn")
 					.on(
@@ -225,6 +230,13 @@
 																	method : 'post',
 																	headers : {
 																		"Content-Type" : "application/json"
+																	},
+																	beforeSend : function(
+																			xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+																		xhr
+																				.setRequestHeader(
+																						header,
+																						token);
 																	},
 																	data : JSON
 																			.stringify(data),
@@ -287,6 +299,10 @@
 					headers : {
 						"Content-Type" : "application/json"
 					},
+					beforeSend : function(xhr)
+		               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+		               xhr.setRequestHeader(header, token);
+		               },
 					data : JSON.stringify({
 						"detailAmount" : detailAmount,
 						"detailOption" : detailOption,
