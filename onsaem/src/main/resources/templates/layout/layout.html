@@ -27,6 +27,9 @@
 <th:block layout:fragment="css"></th:block>
 <!-- content script -->
 <th:block layout:fragment="script"></th:block>
+<!-- csrf 설정 -->
+   <meta name="_csrf" th:content="${_csrf.token}" />
+   <meta name="_csrf_header" th:content="${_csrf.headerName}" />
 </head>
 <body>
 	<!-- header fragment 사용 -->

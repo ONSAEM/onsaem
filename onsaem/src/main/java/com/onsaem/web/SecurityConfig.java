@@ -40,8 +40,8 @@ public class SecurityConfig {
 				.permitAll();
 
 		http.logout().logoutUrl("/logout").logoutSuccessUrl("/").deleteCookies("JSESSIONID", "remember");
-
-		http.csrf().disable();
+//
+//		http.csrf().disable();
 
 		return http.build();
 	}

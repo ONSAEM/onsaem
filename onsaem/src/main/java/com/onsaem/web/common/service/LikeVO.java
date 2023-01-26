@@ -16,4 +16,5 @@ public class LikeVO {
 	String count;
 	
 	Integer cnt;
+	String likeCk;
 }
