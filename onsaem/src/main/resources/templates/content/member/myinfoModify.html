@@ -93,6 +93,8 @@
 
 		<script type="text/javascript">
 			let emailCk = '';
+			let token = $("meta[name='_csrf']").attr("content");
+			let header = $("meta[name='_csrf_header']").attr("content");
 
 			// 이미지 미리보기
 			$("#file").on('change', function () {
@@ -202,6 +204,9 @@
 					data: {
 						"email": email
 					},
+					beforeSend : function(xhr){   
+						  xhr.setRequestHeader(header, token);
+						},
 					contentType: 'application/x-www-form-urlencoded;',
 					success: function (result) {
 						if (result == 'fail') {
@@ -404,6 +409,9 @@
 					processData: false,
 					contentType: false,
 					data: data,
+					beforeSend : function(xhr){   
+						  xhr.setRequestHeader(header, token);
+						},
 					success: function (result) {
 						if(result == "success"){
 							location.href = "/myInfo";

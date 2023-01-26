@@ -109,6 +109,8 @@
 			</div>
 		</div>
 		<script type="text/javascript">
+			let token = $("meta[name='_csrf']").attr("content");
+			let header = $("meta[name='_csrf_header']").attr("content");
 			// 정보수정페이지 이동
 			$('.modifyBtn').on('click', function() {
 				location.href = "/myinfoModify";
@@ -124,6 +126,9 @@
 					contentType : 'application/x-www-form-urlencoded',
 					data : {
 						"memberId" : memberId
+					},
+					beforeSend : function(xhr) {
+						xhr.setRequestHeader(header, token);
 					},
 					success : function(result) {
 						if (result == "success") {
