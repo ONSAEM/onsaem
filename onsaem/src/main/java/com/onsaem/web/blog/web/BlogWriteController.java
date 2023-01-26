@@ -333,4 +333,9 @@ public class BlogWriteController {
 		blogWriteService.blogDelete(vo);
 		return "success";
 	}
+	
+	@RequestMapping(value = "/SmartEditor2Skin", method = RequestMethod.GET)
+	public String SmartEditor() {
+		return "content/blog/SmartEditor2Skin";
+	}
 }

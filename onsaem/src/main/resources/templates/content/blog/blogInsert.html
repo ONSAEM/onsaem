@@ -43,6 +43,7 @@
 		</headers>
 	<h1>글 등록</h1>
 	<form method="post" action="/blog/blogInsert" name="myfrm">
+		<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
 		<ul>
 			<li>글 제목 : <input type="text" name="writeTitle"></li>
 			<li>소제목 : <input type="text" name="subTitle"></li>
@@ -71,6 +72,10 @@
 	
 	<!--  Naver Editor -->
 	<script>
+	//csrf설정
+	 var token = $("meta[name='_csrf']").attr("content");
+	 var header = $("meta[name='_csrf_header']").attr("content");
+	 
 		let path = '[[${#request.contextPath}]]'; //절대경로
 		console.log(path);
 		let oEditors = [];
@@ -99,6 +104,10 @@
 			      method: 'post',
 			      contentType: 'application/x-www-form-urlencoded',
 			      data: $('form[name="myfrm"]').serialize(),
+			      beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
 			      success: function (result) {
 			         console.log(result);
 			         alert('등록 완료');

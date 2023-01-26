@@ -4,25 +4,13 @@
  
  <mapper namespace="com.onsaem.web.blog.mapper.BlogWriteMapper">
  	
- 	<sql id="condition">
-			<if test="startDate">
-			<![CDATA[
-				AND L.START_DATE >= #{startDate}
-				]]>
-			</if>
-			<if test="endDate">
-			<![CDATA[
-				AND L.END_DATE < #{endDate}
-				]]>
-			</if>
-	</sql>
+ 	
  	
  	<!-- 페이징 -->
  	<select id="blogCount" resultType="Paging" parameterType="BlogWriteVO">
 		select count(*) as total_record
 		  from blog_writes
-		 where blog_id = #{blogId};
-			<include refid="condition"/>
+		 where blog_id = #{blogId}
 	</select>
 	
 	<!-- 블로그 글 페이징 조회 -->
@@ -36,7 +24,6 @@
 		 WHERE  b.blog_id = m.member_id
 		   and  blog_id=#{blogId}
  		 order  by b.write_date DESC
-		   <include refid="condition"/>
 			<![CDATA[
 				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
 			]]>

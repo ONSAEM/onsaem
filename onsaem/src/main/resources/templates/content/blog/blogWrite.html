@@ -303,6 +303,7 @@
                                 </div>
 						-->
                                 <form class="custom-form comment-form mt-4" role="form" name="replyFrm">
+                                	<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
                                     <h6 class="mb-3">댓글</h6>
 
                                     <textarea name="content" rows="4" class="form-control" id="comment-message"
@@ -428,6 +429,10 @@
 	
 	<!-- 좋아요버튼 / 디비 저장해야함 -->
 	<script type="text/javascript">
+	//csrf설정
+	 var token = $("meta[name='_csrf']").attr("content");
+	 var header = $("meta[name='_csrf_header']").attr("content");	
+	
 	
 		let likeTF = $('.blogLike').val(); // input hidden value값으로 likeCount(like 테이블에 값이 있는지 조회)를 주고, 그 value를 가져옴
 		let contentId='';
@@ -474,6 +479,10 @@
 						      method: 'post',
 						      contentType: 'application/x-www-form-urlencoded',
 						      data: {"groupId": bno}, // 컨트롤러로 넘겨줄 값. 이 페이지의 글 번호
+						      beforeSend : function(xhr)
+				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				               xhr.setRequestHeader(header, token);
+				               },
 						      success: function (result) {
 						         console.log(result.count);
 						         // Y를 F로
@@ -495,6 +504,10 @@
 						      method: 'post',
 						      contentType: 'application/x-www-form-urlencoded',
 						      data: {"groupId": bno},
+						      beforeSend : function(xhr)
+				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				               xhr.setRequestHeader(header, token);
+				               },
 						      success: function (result) {
 						         console.log(result.count);
 						         
@@ -525,6 +538,10 @@
 					$.ajax({
 						url: '/blog/myblog/blogWrite/replyInsert',
 						method: 'post',
+						beforeSend : function(xhr)
+			               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+			               xhr.setRequestHeader(header, token);
+			               },
 						contentType: 'application/x-www-form-urlencoded',
 						data: $('form[name="replyFrm"]').serialize(),
 						success: function (result) {
@@ -600,6 +617,10 @@
 							   "toId":writerId,
 							   "reason":reason,
 							   "detailReason":detailReason},
+					   beforeSend : function(xhr)
+		               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+		               xhr.setRequestHeader(header, token);
+		               },
 						success: function (result) {
 					         console.log(result);
 					    	 alert("신고 완료");
@@ -631,6 +652,10 @@
 						method: 'post',
 						contentType: 'application/x-www-form-urlencoded',
 	 					data: {"writeId":writeId},
+	 					beforeSend : function(xhr)
+			               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+			               xhr.setRequestHeader(header, token);
+			               },
 	 					success: function(result){
 	 						console.log(result);
 	 						alert("삭제완료");
