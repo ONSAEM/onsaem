@@ -6,6 +6,9 @@ import com.onsaem.web.shop.service.OrderVO;
 import com.onsaem.web.shop.service.ProductVO;
 
 public interface SellerMapper {
+	// 주문상태 변경
+	int sumbitShipping(OrderVO vo);
+
 	// 승인대기품목
 	List<ProductVO> waitList(String data);
 

@@ -3,6 +3,9 @@ package com.onsaem.web.shop.service;
 import java.util.List;
 
 public interface SellerService {
+	//주문상태 변경
+	int sumbitShipping(OrderVO vo);
+	
 	// 승인대기품목
 	List<ProductVO> waitList(String data);
 

@@ -132,7 +132,8 @@ h1 {
 								th:each="num:${#numbers.sequence(1,product.star)}"></i> <i
 								class="fa-solid fa-star-half" th:if="${product.star%1 >= 0.5}"></i>
 							<button class="openBtn" sec:authorize="isAuthenticated()">신고하기</button>
-							<span th:text="'('+${#lists.size(reviewList)}+' reviews)'">(18 reviews)</span>
+							<span th:text="'('+${#lists.size(reviewList)}+' reviews)'">(18
+								reviews)</span>
 						</div>
 						<div class="product__details__price" th:text=${product.price}>$50.00</div>
 						<p th:text=${product.productDetail}>Mauris blandit aliquet
@@ -151,13 +152,17 @@ h1 {
 							</div>
 							<select class="options" onchange="optionEvent(this.value)">
 								<option value='' selected>-- 옵션 --</option>
-								<option th:value="${option.optionContent}" th:each="option:${optionList}" th:text="${option.optionContent}">친환경</option>
-							</select> <a th:onclick="cartEvent(this)" class="primary-btn" sec:authorize="isAuthenticated()">장바구니 담기</a>
+								<option th:value="${option.optionContent}"
+									th:each="option:${optionList}"
+									th:text="${option.optionContent}">친환경</option>
+							</select> <a th:onclick="cartEvent(this)" class="primary-btn"
+								sec:authorize="isAuthenticated()">장바구니 담기</a>
 							<button th:onclick="changeHeart(this)" style="border: solid 0px;"
 								class="change-heart" sec:authorize="isAuthenticated()">♡</button>
 							<br>
 						</div>
-						<a th:onclick="buyProduct([[${productList}]])" class="primary-btn" sec:authorize="isAuthenticated()">구매하기</a>
+						<a th:onclick="buyProduct([[${productList}]])" class="primary-btn"
+							sec:authorize="isAuthenticated()">구매하기</a>
 						<ul>
 							<li><b>Shipping</b> <span>01 day shipping. </span>
 						</ul>
@@ -259,7 +264,7 @@ h1 {
 	<div class="modal hidden">
 		<div class="modal__background"></div>
 		<div class="modal__content">
-			<h3 >신고하기</h3>
+			<h3>신고하기</h3>
 			<div class="modalText">
 				<p>사유선택</p>
 				<input type="checkbox" name="reason" id="ban1"
@@ -296,6 +301,7 @@ h1 {
 		<script th:src="@{/shoptemplate/js/main.js}"></script>
 
 		<script type="text/javascript">
+		//찜선택
 				function changeHeart(data){	
 					const urlParams = new URL(location.href).searchParams;
 					const name = urlParams.get('data');	

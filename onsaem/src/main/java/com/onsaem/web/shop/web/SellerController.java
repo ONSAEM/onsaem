@@ -48,6 +48,16 @@ public class SellerController {
 	LikeVO likeVo = new LikeVO();
 	ProductVO proVo = new ProductVO();
 
+	// 주문상태변경
+	@RequestMapping(value = "/shop/sumbitShipping", method = RequestMethod.POST)
+	@ResponseBody
+	public int sumbitShipping(Authentication authentication, @RequestBody OrderVO vo) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		vo.setMemberId(userDetails.getUsername());
+		vo.setOrderStatus("배송중");
+		return sellService.sumbitShipping(vo);		
+	}
+
 	// 판매자 페이지로 이동
 	@RequestMapping(value = "/sellerMain", method = RequestMethod.GET)
 	public String seller(Model model, Authentication authentication, ProductVO vo) {

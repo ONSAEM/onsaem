@@ -62,14 +62,11 @@
 							<i class="fa fa-bars"></i> <span>All departments</span>
 						</div>
 						<ul>
-							<li><a href="http://localhost/category?data=야채">야채</a></li>
-							<li><a href="http://localhost/category?data=과일">과일</a></li>
-							<li><a href="#">Fresh Meat</a></li>
-							<li><a href="#">Vegetables</a></li>
-							<li><a href="#">Fruit & Nut Gifts</a></li>
-							<li><a href="#">Fresh Berries</a></li>
-							<li><a href="#">Ocean Foods</a></li>
-							<li><a href="#">Butter & Eggs</a></li>
+							<li><a href="/shop">전체</a></li>
+							<li><a
+								th:href="@{/category/(data=${category.optionContent})}"
+								th:each="category:${categoryList}"
+								th:text="${category.optionContent}">Vegetables</a></li>
 						</ul>
 					</div>
 				</div>
@@ -115,14 +112,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-3 col-md-5">
-					<div class="sidebar">
-						<div class="sidebar__item">
-							<h4>Department</h4>
-							<ul>
-								<li><a href="http://localhost/category?data=야채">야채</a></li>
-								<li><a href="http://localhost/category?data=과일">과일</a></li>
-							</ul>
-						</div>
+					<div class="sidebar">						
 						<div class="sidebar__item">
 							<h4>가격</h4>
 							<div class="price-range-wrap" style="text-align: center">
@@ -140,7 +130,7 @@
 										<input type="text" id="minamount" style="text-align: right"><i
 											class="fa-solid fa-minus"
 											style="color: #63bf63; margin: 0px 10px"></i><input
-											type="text" id="maxamount" style="text-align: left">
+											type="text" id="maxamount" style="text-align: left" >
 									</div>
 								</div>
 							</div>
@@ -309,7 +299,10 @@
 		<script th:src="@{/shoptemplate/js/main.js}"></script>
 
 		<script type="text/javascript">
+		
+		
 			let id = '[[${session.id}]]';
+			// 상품 상태별 조회
 			function changeList(data) {
 				console.log(data);
 				if (data == 'new') {
