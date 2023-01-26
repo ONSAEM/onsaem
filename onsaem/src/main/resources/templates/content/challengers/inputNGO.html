@@ -47,7 +47,7 @@
 	<div>
 		<h3>기부처 신청</h3>
 		<form action="/inputNgo" method="post" name="myfrm" enctype="multipart/form-data">
-			
+			<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
 			<label for="ngoName" id="ngoName">기부처 명</label>
 			<input type="text"  id="ngoName" name="ngoName">
 			<br>
@@ -93,6 +93,10 @@
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	
 	<script>
+	//csrf설정
+	 var token = $("meta[name='_csrf']").attr("content");
+	 var header = $("meta[name='_csrf_header']").attr("content");
+	 
     function sample6_execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {

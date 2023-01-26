@@ -43,6 +43,7 @@
 <body>
 	<h3>챌린저스 팀전 등록</h3>
 	<form action="http://localhost/inputTeamChal" method="post" enctype="multipart/form-data">
+	<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
 		<p>챌린지를 만들어 주세요!</p>
 		<label for="chalName" id="chalName">챌린지 제목</label><br>
 		<input type="text"  id="chalName" name="chalName">
@@ -55,15 +56,16 @@
             	<input name="frequency" type="radio" value="월화수목금토일">매일
 				<input name="frequency" type="radio" value="월화수목금">평일 매일
 				<input name="frequency" type="radio" value="토일">주말 매일
-				<select >
+				<input name="frequency" type="radio" value="" id="singleDay">요일 선택
+				<select id="frequency">
 					<option value="">==요일선택==</option>
-					<option value="월" name="frequency">월요일</option>
-					<option value="화" name="frequency">화요일</option>
-					<option value="수" name="frequency">수요일</option>
-					<option value="목" name="frequency">목요일</option>
-					<option value="금" name="frequency">금요일</option>
-					<option value="토" name="frequency">토요일</option>
-					<option value="일" name="frequency">일요일</option>	
+					<option value="월" >월요일</option>
+					<option value="화">화요일</option>
+					<option value="수">수요일</option>
+					<option value="목">목요일</option>
+					<option value="금">금요일</option>
+					<option value="토">토요일</option>
+					<option value="일">일요일</option>	
 				</select>
         </div>
         
@@ -110,11 +112,58 @@
         <input type="file" id ="thumbnail" name="uploadFile" >
         <br>
 		
-		<input type="submit" value="챌린저스 등록" class="btn">&nbsp;&nbsp;
+		<input type="button" id="paymentBtn" value="결제하기" class="btn">
+		<input type="submit" value="챌린저스 등록" class="btn" style="display:none" id="inputChal">&nbsp;&nbsp;
 		<input type="reset" value="취소" class="btn" onClick="history.go(-1)">
 	</form>
 	
+	<!-- 결제 api -->
+	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script>
+	$("#paymentBtn").on("click",function() {
+	    console.log('확인')
+	    let value = $('#value').val();
+
+	    let userId = '[[${user.memberId}]]';
+	    let userName = '[[${user.name}]]';
+	    let userEmail =  '[[${user.email}]]';
+	    let userAddr ='[[${user.addr}]]';
+	    let userpostalCode ='[[${user.postalCode}]]';
+	    let userTel = '[[${user.phone}]]'; 
+	  
+	    
+	    console.log(userId);
+	    
+	    console.log(value);
+	    IMP.init('imp54500213');
+		      IMP.request_pay({
+		          pg : 'html5_inicis',
+		          pay_method : 'card',
+		          merchant_uid: 'OS_' + new Date().getTime(), // 상점에서 관리하는 주문 번호
+		          name : chalId,
+		          amount : value, // 테스트라서 10원만 결제 ^^;
+		          buyer_email : userEmail, // 구매자 이메일
+		          buyer_name : userName, // 구매자 이름
+		          buyer_tel : userTel, // 구매자 연락처
+		          buyer_addr : userAddr, // 구매자 주소
+		          buyer_postcode : userpostalCode // 구매자 우편번호
+		      }, function(rsp) {
+		          if ( rsp.success ) {
+			             //성공시
+			             let data = {"paymentId":rsp.imp_uid,
+			            		 	"price" : value, "paymentMethod" : rsp.pay_method, 
+			            		 	"donationFee" : money};
+			             //성공시 등록 버튼 띄우깅!
+			             $('#inputChal').show();
+			         } else {
+			              var msg = '결제에 실패하였습니다.';
+			              msg += '에러내용 : ' + rsp.error_msg;
+			              
+			              alert(msg);
+			          }
+			      }); 
+});
+
 	var slider = document.getElementById("teamFee");
 	var output = document.getElementById("value");
 	output.innerHTML = slider.value;

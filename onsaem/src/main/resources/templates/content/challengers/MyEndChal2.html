@@ -271,6 +271,10 @@
       <script th:src="@{/shoptemplate/js/main.js}"></script>
    </th:block>
    <script type="text/javascript">
+	//csrf설정
+	 var token = $("meta[name='_csrf']").attr("content");
+	 var header = $("meta[name='_csrf_header']").attr("content");
+	 
       document.addEventListener('DOMContentLoaded', function() {
          var modeSwitch = document.querySelector('.mode-switch');
 
@@ -332,6 +336,10 @@
 		        	$.ajax({
 		        		url:'/mypage/seeRecepit',
 		        		method : 'POST',
+		        		  beforeSend : function(xhr)
+		                  {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+		                  xhr.setRequestHeader(header, token);
+		                  },
 		        		data : {groupId, groupId},
 		        		success : function(result){
 		        			console.log(result);
@@ -349,6 +357,10 @@
 		        	$.ajax({
 		        		url:'/mypage/checkPoint',
 		        		method : 'POST',
+		        		  beforeSend : function(xhr)
+		                  {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+		                  xhr.setRequestHeader(header, token);
+		                  },
 		        		data : {groupId, groupId},
 		        		success : function(result){
 		        			console.log(result);

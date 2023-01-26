@@ -33,15 +33,23 @@ public class CharServiceImpl implements ChalService {
 	}
 
 	@Override
-	public List<ChalVO> getChalNgoAll(String ngoName) {
+	public List<ChalVO> getChalNgoAll(ChalVO vo, Paging paging) {
 		// TODO Auto-generated method stub
-		return chalMapper.getChalNgoAll(ngoName);
+		paging.setPageUnit(9);
+		paging.setTotalRecord(chalMapper.chalCount(vo));
+		vo.setFirst(paging.getFirst());
+		vo.setLast(paging.getLast());
+		return chalMapper.getChalNgoAll(vo);
 	}
 
 	@Override
-	public List<ChalVO> getChalTeamAll(String value) {
+	public List<ChalVO> getChalTeamAll(ChalVO vo, Paging paging) {
 		// TODO Auto-generated method stub
-		return chalMapper.getChalTeamAll(value);
+		paging.setPageUnit(9);
+		paging.setTotalRecord(chalMapper.chalCount(vo));
+		vo.setFirst(paging.getFirst());
+		vo.setLast(paging.getLast());
+		return chalMapper.getChalTeamAll(vo);
 	}
 
 	@Override
@@ -102,21 +110,33 @@ public class CharServiceImpl implements ChalService {
 	}
 
 	@Override
-	public List<ChalVO> currentChals() {
+	public List<ChalVO> currentChals(ChalVO vo, Paging paging) {
 		// TODO Auto-generated method stub
-		return chalMapper.currentChals();
+		paging.setPageUnit(9);
+		paging.setTotalRecord(chalMapper.cntNow(vo));
+		vo.setFirst(paging.getFirst());
+		vo.setLast(paging.getLast());
+		return chalMapper.currentChals(vo);
 	}
 
 	@Override
-	public List<ChalVO> beforeChals() {
+	public List<ChalVO> beforeChals(ChalVO vo, Paging paging) {
 		// TODO Auto-generated method stub
-		return chalMapper.beforeChals();
+		paging.setPageUnit(9);
+		paging.setTotalRecord(chalMapper.cntYet(vo));
+		vo.setFirst(paging.getFirst());
+		vo.setLast(paging.getLast());
+		return chalMapper.beforeChals(vo);
 	}
 
 	@Override
-	public List<ChalVO> endChals() {
+	public List<ChalVO> endChals(ChalVO vo, Paging paging) {
 		// TODO Auto-generated method stub
-		return chalMapper.endChals();
+		paging.setPageUnit(9);
+		paging.setTotalRecord(chalMapper.cntEnd(vo));
+		vo.setFirst(paging.getFirst());
+		vo.setLast(paging.getLast());
+		return chalMapper.endChals(vo);
 	}
 
 	@Override
