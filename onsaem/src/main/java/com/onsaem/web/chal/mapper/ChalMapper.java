@@ -11,7 +11,7 @@ import com.onsaem.web.common.service.Paging;
 public interface ChalMapper {
 	
 	//챌리저스 전체조회
-	List<ChalVO> getChalAll();
+	List<ChalVO> getChalAll(ChalVO vo);
 	
 	//강의 갯수 조회
 	int chalCount(ChalVO vo);

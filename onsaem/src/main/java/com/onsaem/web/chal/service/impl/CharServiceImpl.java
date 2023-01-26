@@ -29,7 +29,7 @@ public class CharServiceImpl implements ChalService {
 		paging.setPageUnit(9);
 		vo.setFirst(paging.getFirst());
 		vo.setLast(paging.getLast());
-		return chalMapper.getChalAll();
+		return chalMapper.getChalAll(vo);
 	}
 
 	@Override
