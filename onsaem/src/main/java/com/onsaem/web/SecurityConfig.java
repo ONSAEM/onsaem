@@ -18,7 +18,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig {
 	
 	@Autowired
@@ -45,6 +44,7 @@ public class SecurityConfig {
 //
 //		http.headers().frameOptions().disable();
 //		http.headers().frameOptions().sameOrigin();
+		
 		
 		return http.build();
 	}

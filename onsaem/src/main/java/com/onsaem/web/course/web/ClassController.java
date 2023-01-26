@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,7 +27,7 @@ public class ClassController {
 
 	// 강의목록 페이지 이동 (강의목록, 인기강의목록)
 	@RequestMapping(value = "/classList", method = RequestMethod.GET)
-	public String classList(ClassInfoVO vo, Model model, Paging paging, Authentication authentication) {
+	public String classList(ClassInfoVO vo, Model model, Paging paging) {
 		paging.setPageUnit(9);
 		model.addAttribute("classList", classService.getClassList(vo, paging).get("classList"));
 		model.addAttribute("maxPrice", classService.classMaxPrice(vo));
@@ -45,10 +46,15 @@ public class ClassController {
 
 	// 강의상세 페이지 이동 (강의정보, 미디어목록, 후기목록, 문의목록)
 	@RequestMapping(value = "/classDetail", method = RequestMethod.GET)
-	public String classDetail(ClassInfoVO vo, Model model) {
+	public String classDetail(ClassInfoVO vo, Model model, Authentication authentication) {
+		if (authentication != null) {
+			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			model.addAttribute("like", classService.LikeCount(vo.getClassId(), userDetails.getUsername()));
+		} else {
+			model.addAttribute("like", classService.LikeCount(vo.getClassId(), null));
+		}
 		model.addAttribute("class", classService.getClass(vo));
 		model.addAttribute("mediaList", classService.classMediaList(vo));
-		model.addAttribute("like", classService.LikeCount(vo.getClassId()));
 //		model.addAttribute("reviewList");
 		return "content/course/classDetail";
 	}
@@ -71,18 +77,17 @@ public class ClassController {
 		return "content/course/classMGMT";
 	}
 
-//	// 강의 좋아요 추가
-//	@RequestMapping(value = "/addClassLike", method = RequestMethod.GET)
-//	@ResponseBody
-//	public Map<String, Object> addClassLike(LikeVO vo) {
-//		return classService.getClassList(vo, paging);
-//	}
-//
-//	// 강의 좋아요 삭제
-//	@RequestMapping(value = "/delClassLike", method = RequestMethod.GET)
-//	@ResponseBody
-//	public Map<String, Object> delClassLike(LikeVO vo) {
-//		paging.setPageUnit(9);
-//		return classService.getClassList(vo, paging);
-//	}
+	// 강의 좋아요 추가
+	@RequestMapping(value = "/addClassLike", method = RequestMethod.GET)
+	@ResponseBody
+	public int addClassLike(LikeVO vo) {
+		return classService.addClassLike(vo);
+	}
+
+	// 강의 좋아요 삭제
+	@RequestMapping(value = "/delClassLike", method = RequestMethod.GET)
+	@ResponseBody
+	public int delClassLike(LikeVO vo) {
+		return classService.delClassLike(vo);
+	}
 }

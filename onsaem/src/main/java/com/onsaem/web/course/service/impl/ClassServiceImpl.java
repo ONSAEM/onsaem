@@ -61,24 +61,27 @@ public class ClassServiceImpl implements ClassService {
 	}
 
 	@Override
-	public LikeVO LikeCount(String groupId) {
+	public LikeVO LikeCount(String groupId, String memberId) {
 		LikeVO result = new LikeVO();
 		result.setGroupId(groupId);
 		result.setCnt(classMapper.LikeCount(result));
-		result.setLikeCk(classMapper.LikeCheck(result));
+		if(memberId!=null) {
+			result.setMemberId(memberId);
+			result.setLikeCk(classMapper.LikeCheck(result));
+		}
 		return result;
 	}
 
 	@Override
 	public int addClassLike(LikeVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		classMapper.addClassLike(vo);
+		return classMapper.LikeCount(vo);
 	}
 
 	@Override
 	public int delClassLike(LikeVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
+		classMapper.delClassLike(vo);
+		return classMapper.LikeCount(vo);
 	}
 
 	// [위는 완성 아래는 미완성]
