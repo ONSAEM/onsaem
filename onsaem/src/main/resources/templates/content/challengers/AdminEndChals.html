@@ -121,8 +121,8 @@
 						<td th:text="${team.donationFee}"></td>
 						<td th:text="${team.teamFee}"></td>
 						<td th:if="${team.receipt} !=null"><button type="button">첨부 완료</button></td>
-						<td th:if="${team.receipt} ==null"><button type="button" th:onclick="displayModal(this)" id="receipt">첨부 하기</button></td>
-						<td><button type="button" th:onclick="displayModal(this)">정산 하기</button></td>							
+						<td th:if="${team.receipt} ==null"><button type="button" th:onclick="displayModal(this)" class="receipt">첨부 하기</button></td>
+						<td><button type="button" th:onclick="displayModal(this)" id="pointTeam">정산 하기</button></td>							
 					</tr>
 				</tbody>
 			</table>
@@ -155,9 +155,9 @@
 							<td><button type="button">첨부 완료</button></td>
 						</th:block>
 						<th:block th:if="${one.receipt} ==null">
-							<td><button type="button">첨부 하기</button></td>
+							<td><button type="button" class="receipt">첨부 하기</button></td>
 						</th:block>
-						<td><button type="button">정산 하기</button></td>						
+						<td><button type="button" id="pointOne">정산 하기</button></td>						
 					</tr>
 				</tbody>
 			</table>
@@ -211,7 +211,8 @@
 
 		function displayModal(e) {
 			let id = e.id;
-			if(id=='receipt'){
+			let cs = e.class;
+			if(cs=='receipt'){
 				console.log("true");
 				let chalId = document.getElementById('teamChalId').innerText;
 				$('#groupId').val(chalId);
@@ -219,7 +220,7 @@
 				$("#receiptFrm").show();
 				$("#point").hide();
 				modal.classList.toggle("hidden");
-			}else{
+			}else if(id == 'pointOne'){
 				let chalId = document.getElementById('teamChalId').innerText;
 				console.log(chalId);
 				 $.ajax({
@@ -243,6 +244,8 @@
 				$("#receiptFrm").hide();
 				$("#point").show();
 				modal.classList.toggle("hidden");
+			}else {
+				//팀전 
 			}
 		}
 		closeButton.addEventListener("click", displayModal)

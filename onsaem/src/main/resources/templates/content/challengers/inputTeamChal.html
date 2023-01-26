@@ -42,7 +42,7 @@
 </head>
 <body>
 	<h3>챌린저스 팀전 등록</h3>
-	<form action="http://localhost/inputTeamChal" method="post" enctype="multipart/form-data">
+	<form action="http://localhost/inputTeamChal" method="post" enctype="multipart/form-data" name="inputFrm">
 	<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
 		<p>챌린지를 만들어 주세요!</p>
 		<label for="chalName" id="chalName">챌린지 제목</label><br>
@@ -79,7 +79,7 @@
         		<label>포인트</label><input name="betPoint" type="number" id="betPoint" readonly>
         </div>
         <label for="ngoName">기부처</label>
-        <select th:field="*{ngoes}" name="ngoName">
+        <select name="ngoName">
         	<option value="">==기부처 선택==</option>
         	<option th:each="ngo : ${ngoes}" th:value="${ngo.ngoId}"
                 th:text="${ngo.ngoName}"></option>        	
@@ -94,7 +94,7 @@
         <br>
         
         <label for="proofContents">인증 방법</label>
-        <textarea rows="5" cols="20" placeholder="예? 오늘 날짜와 걸음수가 적힌 만보기 캡쳐 화면 업로드"></textarea>
+        <textarea rows="5" cols="20" placeholder="예? 오늘 날짜와 걸음수가 적힌 만보기 캡쳐 화면 업로드" name="proofContent"></textarea>
         <ul>
         	<li>챌린지가 시작되면 인증 방법을 수정할 수 없습니다. 신중히 작성해주세요</li>
         	<li>참가자들이 혼란을 겪지 않도록 정확한 기준과 구체적인 인증방법을 적어주세요</li>
@@ -106,24 +106,28 @@
         <br>
         
         <label for="contents">챌린지 소개</label>
-        <textarea rows="5" cols="20" placeholder="예) 매일 1만보 걷고 건강해지기! 오늘부터 같이 해봐요 :)" id="contents" value="contents"></textarea>	
+        <textarea rows="5" cols="20" placeholder="예) 매일 1만보 걷고 건강해지기! 오늘부터 같이 해봐요 :)" id="contents" value="contents" name="contents"></textarea>	
 		<br>
 		 <label for="proofEx">썸네일 첨부</label>
         <input type="file" id ="thumbnail" name="uploadFile" >
         <br>
+        <input type="hidden" name="paymentId">
+		<input type="hidden" name="paymentMethod">
 		
-		<input type="button" id="paymentBtn" value="결제하기" class="btn">
-		<input type="submit" value="챌린저스 등록" class="btn" style="display:none" id="inputChal">&nbsp;&nbsp;
+		<input type="button" id="paymentBtn" value="등록하기" class="btn">
 		<input type="reset" value="취소" class="btn" onClick="history.go(-1)">
 	</form>
 	
 	<!-- 결제 api -->
 	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 <script>
+//csrf설정
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+
 	$("#paymentBtn").on("click",function() {
 	    console.log('확인')
 	    let value = $('#value').val();
-
 	    let userId = '[[${user.memberId}]]';
 	    let userName = '[[${user.name}]]';
 	    let userEmail =  '[[${user.email}]]';
@@ -140,7 +144,7 @@
 		          pg : 'html5_inicis',
 		          pay_method : 'card',
 		          merchant_uid: 'OS_' + new Date().getTime(), // 상점에서 관리하는 주문 번호
-		          name : chalId,
+		          name : userName,
 		          amount : value, // 테스트라서 10원만 결제 ^^;
 		          buyer_email : userEmail, // 구매자 이메일
 		          buyer_name : userName, // 구매자 이름
@@ -150,11 +154,48 @@
 		      }, function(rsp) {
 		          if ( rsp.success ) {
 			             //성공시
-			             let data = {"paymentId":rsp.imp_uid,
-			            		 	"price" : value, "paymentMethod" : rsp.pay_method, 
-			            		 	"donationFee" : money};
+			             let paymentId = rsp.imp_uid;
+			             let paymentMethod = rsp.pay_method;
+			             $('input[name=paymentId]').val(paymentId); 
+			             $('input[name=paymentMethod]').val(paymentMethod); 
+			             
+			             var formData = new FormData(document.inputFrm);
 			             //성공시 등록 버튼 띄우깅!
-			             $('#inputChal').show();
+			             $.ajax({
+				               url: '/inputTeamChal',
+				               enctype: 'multipart/form-data',
+				               method: 'POST',
+				               processData: false,
+							   contentType: false,
+				               beforeSend : function(xhr)
+					               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+					              	 xhr.setRequestHeader(header, token);
+					               },
+				               data: formData,
+				               dataType:'json',
+				               success: function (result) {
+				                // 결제금액이 일치한지, 다른 정보 체크하고 일치하면 DB에 저장하고 데이터를 리턴
+				                   if (result) {
+				                      // data가 있으면 제대로 처리된것
+				                      // 이후 다른 페이지로 넘어갈 컨트롤과 데이어 작성
+				                      var msg = '결제 및 등록이 완료되었습니다.';
+				                      msg += '\n고유ID : ' + rsp.imp_uid;
+				                      msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+				                      msg += '\결제 금액 : ' + rsp.paid_amount;
+				                      msg += '카드 승인번호 : ' + rsp.apply_num;
+				                      alert(msg);
+				                      location.href="/chalList";
+				                   } else {
+				                      //[3] 아직 제대로 결제가 되지 않았습니다.
+				                      //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+				                      // 위에 같은 이유로 알림 띄우기
+				                   }
+				               },
+				               error: function (error) {
+				                  console.log(error);
+				                  alert('실패');
+				               }
+				          });
 			         } else {
 			              var msg = '결제에 실패하였습니다.';
 			              msg += '에러내용 : ' + rsp.error_msg;
@@ -166,16 +207,13 @@
 
 	var slider = document.getElementById("teamFee");
 	var output = document.getElementById("value");
-	output.innerHTML = slider.value;
-	
+	output.innerHTML = slider.value;	
 	slider.oninput = function() {
 	    output.value = this.value;
 	}
-	
 	output.oninput = function() {
 	    slider.value = this.value;
 	}
-	
 	
 	let betPoint = document.getElementById("betPoint");
 	betPoint.value = Number(output.value)*0.01;

@@ -39,7 +39,7 @@
 
 <div layout:fragment="content">
 	<h3>챌린저스 개인전 등록</h3>
-	<form action="/inputNormalChal" method="post" enctype="multipart/form-data">
+	<form action="/inputNormalChal" method="post" enctype="multipart/form-data" name="inputFrm">
 		<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
 		<p>챌린지를 만들어 주세요!</p>
 		<label for="chalName" id="chalName">챌린지 제목</label><br>
@@ -78,7 +78,7 @@
         <br>
         
         <label for="proofContents">인증 방법</label>
-        <textarea rows="5" cols="20" placeholder="예? 오늘 날짜와 걸음수가 적힌 만보기 캡쳐 화면 업로드" name="proofContent"></textarea>
+        <textarea rows="5" cols="20" placeholder="예? 오늘 날짜와 걸음수가 적힌 만보기 캡쳐 화면 업로드" name="proofContent" id="proofContent"></textarea>
         <ul>
         	<li>챌린지가 시작되면 인증 방법을 수정할 수 없습니다. 신중히 작성해주세요</li>
         	<li>참가자들이 혼란을 겪지 않도록 정확한 기준과 구체적인 인증방법을 적어주세요</li>
@@ -86,10 +86,8 @@
         </ul>
         
         
-        	<label for="proofEx">인증샷 예시</label>
-	        <input type="file" name="uploadFile">
-	        
-  
+       	<label for="proofEx">인증샷 예시</label>
+        <input type="file" name="uploadFile" class="uploadFile">
         <br>
         
         <label for="contents">챌린지 소개</label>
@@ -97,23 +95,28 @@
 		<br>
 		
 		
-			<label for="proofEx">썸네일 첨부</label>
-	        <input type="file" name="uploadFile">
-	        
-	        
+		<label for="proofEx">썸네일 첨부</label>
+        <input type="file" name="uploadFile" class="uploadFile">
 	    <br>  
 		<label>기부금</label>
 		<p>마지막으로 기부금을 결제하시면 등록이 완료 됩니다.
 		<br>
-		<input name="donationFee">
-		
+		<input name="donationFee" id="donationFee">
+		<input type="hidden" name="paymentId">
+		<input type="hidden" name="paymentMethod">
         <br>
         	
-		<input type="submit" value="챌린저스 등록" class="btn">&nbsp;&nbsp;
+		<input type="button" value="챌린저스 등록" class="btn" id="insertBtn">&nbsp;&nbsp;
 		<input type="reset" value="취소" class="btn" onClick="history.go(-1)">
 	</form>
 	
+	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+	
 	<script>
+	//csrf설정
+	 var token = $("meta[name='_csrf']").attr("content");
+	 var header = $("meta[name='_csrf_header']").attr("content");
+	
 		function checkStart(){
 			let today = new Date();
 			let start = new Date($('input[name=startDate]').val());
@@ -137,6 +140,93 @@
 			}
 			
 		}
+		
+		//결제 및 post로 값보내기
+		$("#insertBtn").on("click",function(){
+			console.log('확인')
+		      
+		      let userId = '[[${user.memberId}]]';
+		      let userName = '[[${user.name}]]';
+		      let userEmail =  '[[${user.email}]]';
+		      let userAddr ='[[${user.addr}]]';
+		      let userpostalCode ='[[${user.postalCode}]]';
+		      let userTel = '[[${user.phone}]]'; 
+		      //폼에 들어갈 데이터들 줍줍
+		      let frequency =  $('input[name=frequency]').val();
+		      let donationFee = $('#donationFee').val();
+		      let startDate = new Date($('input[name=startDate]').val());
+		      let endDate = new Date($('input[name=endDate]').val());
+		      let contents =$('#contents').val();
+		      let proofContent = $('#proofContent').val();
+		      let chalName = $('input[name=chlName]').val(); 
+
+		      IMP.init('imp54500213');
+			      IMP.request_pay({
+			          pg : 'html5_inicis',
+			          pay_method : 'card',
+			          merchant_uid: 'OS_' + new Date().getTime(), // 상점에서 관리하는 주문 번호
+			          name : userName,
+			          amount : donationFee, // 테스트라서 10원만 결제 ^^;
+			          buyer_email : userEmail, // 구매자 이메일
+			          buyer_name : userName, // 구매자 이름
+			          buyer_tel : userTel, // 구매자 연락처
+			          buyer_addr : userAddr, // 구매자 주소
+			          buyer_postcode : userpostalCode // 구매자 우편번호
+			      }, function(rsp) {
+			          if ( rsp.success ) {
+			             //아래 아작스부터는 본인의 컨트롤이나 구현에 맞게 적절히 사용할것
+			             // 결제성공하고 컨트롤에 넘어가서 DB에 정보저장를 위한 아작스
+			            console.log();
+			             let paymentId = rsp.imp_uid;
+			             let paymentMethod = rsp.pay_method;
+			             $('input[name=paymentId]').val(paymentId); 
+			             $('input[name=paymentMethod]').val(paymentMethod); 
+			             
+			             var formData = new FormData(document.inputFrm);
+			             
+			             $.ajax({
+			               url: '/inputNormalChal',
+			               enctype: 'multipart/form-data',
+			               method: 'POST',
+			               processData: false,
+						   contentType: false,
+			               beforeSend : function(xhr)
+				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				              	 xhr.setRequestHeader(header, token);
+				               },
+			               data: formData,
+			               dataType:'json',
+			               success: function (result) {
+			                // 결제금액이 일치한지, 다른 정보 체크하고 일치하면 DB에 저장하고 데이터를 리턴
+			                   if (result) {
+			                      // data가 있으면 제대로 처리된것
+			                      // 이후 다른 페이지로 넘어갈 컨트롤과 데이어 작성
+			                      var msg = '결제 및 등록이 완료되었습니다.';
+			                      msg += '\n고유ID : ' + rsp.imp_uid;
+			                      msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+			                      msg += '\결제 금액 : ' + rsp.paid_amount;
+			                      msg += '카드 승인번호 : ' + rsp.apply_num;
+			                      alert(msg);
+			                      location.href="/chalList";
+			                   } else {
+			                      //[3] 아직 제대로 결제가 되지 않았습니다.
+			                      //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+			                      // 위에 같은 이유로 알림 띄우기
+			                   }
+			               },
+			               error: function (error) {
+			                  console.log(error);
+			                  alert('실패');
+			               }
+			          }); 
+			         } else {
+			              var msg = '결제에 실패하였습니다.';
+			              msg += '에러내용 : ' + rsp.error_msg;
+			              
+			              alert(msg);
+			          }
+			      }); 
+		})
 	</script>
 </div>
 </html>

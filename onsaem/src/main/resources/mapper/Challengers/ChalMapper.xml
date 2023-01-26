@@ -5,10 +5,10 @@
 	<sql id="condition">
 	 <where>
 		<if test="subClass">
-				 C.SUB_CLASS LIKE '%' || #{subClass} || '%'
+				 SUB_CLASS LIKE '%' || #{subClass} || '%'
 			</if>
 			<if test="ngoName">
-				AND C.NGO_NAME = #{ngoName}
+				AND NGO_NAME = #{ngoName}
 			</if>
 		</where>
 	</sql>
@@ -102,42 +102,49 @@
 	</select>
 	
 	<!-- 챌린지 조회 용들 ㅎ -->
-	<select id="currentChals" resultType="ChalVO">
+	<select id="currentChals" resultType="ChalVO" parameterType="ChalVO">
+		SELECT * FROM (SELECT ROWNUM RN, A.* FROM( 
+		SELECT  C.CHAL_ID,
+				C.CLASSES, 
+				C.SUB_CLASS, 
+				C.CHAL_NAME, 
+				C.START_DATE, 
+				C.END_DATE,
+				M.FILE_ROUTE, 
+				M.MEDIA_NAME
+		  FROM CHALLENGES C 
+		  JOIN MEDIA M
+		    ON C.CHAL_ID = M.GROUP_ID
+         WHERE M.SUB_GROUP = '썸네일'
+         AND CURRENT_DATE BETWEEN C.START_DATE AND C.END_DATE
+		 ORDER BY CHAL_ID DESC
+        <![CDATA[
+				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
+			]]>
+	</select>
+	
+	<select id="beforeChals" resultType="ChalVO" parameterType="ChalVO">
 		SELECT * FROM (SELECT ROWNUM RN, A.* FROM( SELECT C.CHAL_ID,
 		C.CLASSES, C.SUB_CLASS, C.CHAL_NAME, C.START_DATE, C.END_DATE,
 		M.FILE_ROUTE, M.MEDIA_NAME
 		FROM CHALLENGES C JOIN MEDIA M
 		ON C.CHAL_ID = M.GROUP_ID
         WHERE M.SUB_GROUP = '썸네일'
-        AND WHERE  CURRENT_DATE BETWEEN C.START_DATE AND C.END_DATE
-		ORDER BY CHAL_ID DESC
-        <![CDATA[
-				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
-			]]>
-	</select>
-	
-	<select id="beforeChals" resultType="ChalVO">
-		SELECT * from (SELECT ROWNUM RN, A.* from( select C.CHAL_ID,
-		C.CLASSES, C.SUB_CLASS, C.CHAL_NAME, C.START_DATE, C.END_DATE,
-		M.FILE_ROUTE, M.MEDIA_NAME
-		FROM CHALLENGES C JOIN MEDIA M
-		ON C.CHAL_ID = M.GROUP_ID
-        where m.sub_group = '썸네일'
-        and WHERE  C.START_DATE > CURRENT_DATE
+        AND C.START_DATE > CURRENT_DATE
 		ORDER BY CHAL_ID DESC
         <![CDATA[
 				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
 			]]>
 	</select>
 		
-	<select id="endChals" resultType="ChalVO">
-		SELECT * from (SELECT ROWNUM RN, A.* from( select C.CHAL_ID,
+	<select id="endChals" resultType="ChalVO" parameterType="ChalVO">
+		SELECT * FROM (SELECT ROWNUM RN, A.* FROM( SELECT C.CHAL_ID,
 		C.CLASSES, C.SUB_CLASS, C.CHAL_NAME, C.START_DATE, C.END_DATE,
 		M.FILE_ROUTE, M.MEDIA_NAME
 		FROM CHALLENGES C JOIN MEDIA M
 		ON C.CHAL_ID = M.GROUP_ID
-        where m.sub_group = '썸네일'
-        and WHERE CURRENT_DATE > C.END_DATE
+        WHERE M.SUB_GROUP = '썸네일'
+        AND CURRENT_DATE > C.END_DATE
 		ORDER BY CHAL_ID DESC
         <![CDATA[
 				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
@@ -246,19 +253,19 @@
 	<select id="cntNow"  resultType ="int" parameterType="ChalVO">
 		SELECT  COUNT(CHAL_ID) AS total
 		FROM CHALLENGES
-		WHERE  CURRENT_DATE BETWEEN C.START_DATE AND C.END_DATE
+		WHERE  CURRENT_DATE BETWEEN START_DATE AND END_DATE
 	</select>
 	
 	<select id="cntEnd"  resultType ="int" parameterType="ChalVO">
 		SELECT  COUNT(CHAL_ID) AS total
 		FROM CHALLENGES
-		WHERE   CURRENT_DATE > C.START_DATE
+		WHERE   CURRENT_DATE > START_DATE
 	</select>
 	
 	<select id="cntYet"  resultType ="int" parameterType="ChalVO">
 		SELECT  COUNT(CHAL_ID) AS total
 		FROM CHALLENGES
-		WHERE  C.START_DATE > CURRENT_DATE
+		WHERE  START_DATE > CURRENT_DATE
 
 	</select>
 </mapper>
