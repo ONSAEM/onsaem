@@ -355,7 +355,9 @@
     	
 	}
     let resultCount = 0;
+    
     function callAjaxForHTML5 (tempFile, sUploadURL){
+		//jindo.$Ajax.header('X-CSRF-TOKEN',$("meta[name='_csrf']").attr("content"))
     	var oAjax = jindo.$Ajax(sUploadURL, {
 			type: 'xhr',
 			method : "post",
@@ -400,6 +402,7 @@
 		oAjax.header("file-name",encodeURIComponent(tempFile.name));
 		oAjax.header("file-size",tempFile.size);
 		oAjax.header("file-Type",tempFile.type);
+		oAjax.header('X-CSRF-TOKEN',parent.opener.parent.document.querySelector("meta[name='_csrf']").getAttribute("content"))
 		oAjax.request(tempFile);
     }
     
@@ -484,7 +487,7 @@
 	 * Ajax 통신 시 error가 발생할 때 처리하는 함수입니다.
 	 * @return
 	 */
-	function onAjaxError (){
+	function onAjaxError (e){
 		alert("[가이드]사진 업로더할 서버URL셋팅이 필요합니다.-onAjaxError");
 	}
 
