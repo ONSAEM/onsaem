@@ -75,7 +75,7 @@
 	       FROM CHALLENGES C JOIN PARTICIPANTS P
 	      ON C.CHAL_ID = P.CHAL_ID
 	      WHERE P.PARTICIPANT_ID = #{participantId}
-         AND CURRENT_DATE BETWEEN C.START_DATE AND C.END_DATE;
+         AND CURRENT_DATE BETWEEN C.START_DATE AND C.END_DATE
 		
 	</select>
 	
@@ -154,7 +154,20 @@
 	
 	<!-- 단건조회 -->
 	<select id="getChal" resultType="CHALVO" parameterType="string">
-		SELECT *
+		SELECT CHAL_ID, CLASSES
+				, SUB_CLASS
+				, NGO_NAME
+				, START_DATE
+				, END_DATE
+				, CONTENTS
+				, PROOF_CONTENT
+				, DONATION_FEE
+				, MEMBER_ID
+				, TEAM_FEE
+				, CHAL_NAME
+				, RECEIPT
+				, USERCNT
+				, TO_DATE(END_DATE, 'YYYY-MM-DD') - TO_DATE(START_DATE, 'YYYY-MM-DD') AS TOTAL
 		FROM CHALLENGES
 		WHERE CHAL_ID = #{chalId}
 	</select>

@@ -186,7 +186,7 @@
 
 			<div class="profile-user-settings">
 
-				<h1 class="profile-user-name">janedoe_</h1>
+				<h1 class="profile-user-name" th:text="${chal.chalName}">janedoe_</h1>
 
 				<button class="btn profile-edit-btn">Edit Profile</button>
 
@@ -195,10 +195,9 @@
 			</div>
 
 			<div class="profile-stats">
-
 				<ul>
-					<li><span class="profile-stat-count">164</span> posts</li>
-					<li><span class="profile-stat-count">188</span> followers</li>
+					<li>시작일 <span class="profile-stat-count" th:text="${#dates.format(chal.startDate, 'MM월 dd일')}" id="startDate" >164</span></li>
+					<li>종료일 <span class="profile-stat-count" th:text="${#dates.format(chal.endDate, 'MM월 dd일')}" id="endDate" th:value="${chal.endDate}">188</span> followers</li>
 					<li><span class="profile-stat-count">206</span> following</li>
 				</ul>
 
@@ -206,7 +205,7 @@
 
 			<div class="profile-bio">
 
-				<p><span class="profile-real-name">Jane Doe</span> Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️</p>
+				<p>챌린지 <span class="profile-real-name" th:text="${chal.chalName}">Jane Doe</span>가 종료일까지 <span class="profile-real-name" th:text="${dday}">Jane Doe</span>일 남았어요. 남은 날들도 화이팅!</p>
 
 			</div>
 
@@ -225,7 +224,7 @@
 
 			<div class="gallery-item openDetail" tabindex="0" th:each="proof:${proofs}" th:onclick="displayModal([[${proof}]])">
 
-				<img src="https://images.unsplash.com/photo-1511765224389-37f0e77cf0eb?w=500&h=500&fit=crop" class="gallery-image">
+				<img src="'/fileView/'+${proof.fileRoute}" class="gallery-image">
 					<input type="hidden" id="chalId" th:value="${proof.chalId}">
 				<div class="gallery-item-info">
 
@@ -254,14 +253,12 @@
 		 <!-- 모달창 -->
                   <div class="modal hidden">
                      <div class="modal__background"></div>
-                     <div class="modal__content">
-                        <div class="modalText">
+                     <div class="modal__content" id="insta">
+                    
                         	<span><p id="writer"></p></span>
-                        	<button id="on" onclick="openFrm()" style="display: on;">신고</button>
-                        	<button id="hide" onclick="offFrm()" style="display : none;">신고</button>	
+                        	<button id="on" onclick="openFrm()" style="display: on;">신고</button>	
                         	<input type="hidden" id="theId">
-                           <img style="width: 500px;" id="preview-image"
-                              src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
+                           <img style="width: 500px;" id="image">
 		                   <p id="contents"></p>      
                            <table>
                            <thead><tr>
@@ -275,10 +272,11 @@
                            <input type="text" id="content" name="content">
                            <button type="button" th:onclick="inputReply()">댓글쓰기</button>
                            <button type="button" class="closeBtn">닫기</button>
-                        </div>
                         
-                        <!-- 신고폼 -->
-                        <form id="reportFrm" style="display : none;">
+                     </div>
+                     <div id="reportFrm" style="display : none;" class="modal__content">
+                     <!-- 신고폼 -->
+                        <form >
                         	<input type="hidden" id="theId">
                            	<select id="reason">
                            		<option value="">==신고 사유 고르기==</option>
@@ -290,9 +288,7 @@
                            <button type="button" th:onclick="inputReport()">신고</button>
                            <button type="button" class="closeBtn" onclick="offFrm()">닫기</button>
                           </form>
-                     
                      </div>
-                     
                   </div>
                   <!-- 모달창 끛-->
                   
@@ -373,6 +369,7 @@
 					    	  console.log(result.repllies);
 					    	  console.log(result.brd.content);
 					    	  console.log(result.brd.proofWriter);
+					    	  $('#image').attr("src", '/fileView/'+result.brd.fileRoute);
 					    	  
 					    	$('.replies').html("");
 					    	  let list = result.repllies;
@@ -518,7 +515,7 @@
 	      
 	      //신고하기 폼 열기
 	      function openFrm(){
-	    	  $("#hide").show();
+	    	  $("#insta").hide();
 	    	  $("#on").hide();
 	    	  $("#reportFrm").show();
 	    	  
@@ -526,8 +523,8 @@
 	      
 	      //신고하기 폼닫기
 	      function offFrm(){
+	    	  $("#insta").show();
 	    	  $("#on").show();
-	    	  $("#hide").hide();
 	    	  $("#reportFrm").hide();
 	      }
 	      

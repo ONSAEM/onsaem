@@ -115,7 +115,6 @@ public class ChalController {
 	public String chalDetail(Model model, MediaVO vo, @RequestParam(value="chalId", required= true)String chalId, ParticipantVO pvo
 			,Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
 		model.addAttribute("chals", chalService.getChal(chalId));
 		
 		//썸네일가져오기

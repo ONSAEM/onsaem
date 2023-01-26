@@ -48,6 +48,9 @@ public class ChalVO {
 	Integer first= 1;
 	Integer last = 10;
 	
+	//
+	Integer total;
+	
 	
 	
 }

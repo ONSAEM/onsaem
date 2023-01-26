@@ -95,14 +95,22 @@ public class ChalAdminController {
 	@ResponseBody
 	public Map<String, Object> getTeams(String chalId){
 		Map<String, Object> map = new HashMap<String, Object>();
+		ParticipantVO vo = new ParticipantVO();
 		//a팀 정상인증 갯수 구하기
+		vo.setTeam("A");
+		vo.setChalId(chalId);
+		map.put("A", proofService.cntTeamProof(vo));
 		
 		//b팀 정상 인증 갯수 구하기
+		vo.setTeam("B");
+		vo.setChalId(chalId);
+		map.put("B", proofService.cntTeamProof(vo));
 		
 		//총 일수 구하기(enddate- starDate)
+		map.put("totalDay" ,chalService.getChal(chalId).getTotal());
 		
 		//총 챌린저스 인원수 구하기 랫츠고 ㅋ 
-		
+		map.put("totalUser" ,chalService.getChal(chalId).getUsercnt());
 		return map;
 	}
 	
@@ -112,10 +120,7 @@ public class ChalAdminController {
 	public Map<String, Object> getInfo4Point(@RequestBody ProofVO vo){
 		Map<String, Object> map = new HashMap<String, Object>();
 		ChalVO cvo = chalService.getChal(vo.getChalId());
-		Date end = cvo.getEndDate();
-		Date start = cvo.getStartDate();
-		Date today = new Date();
-		long days = (end.getTime() - start.getTime())/(24*60*60*1000)+1;
+		Integer days = cvo.getTotal();
 		map.put("days", days);
 		
 		vo.setCondition("정상");

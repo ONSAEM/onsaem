@@ -66,6 +66,9 @@
 							<li><a class="dropdown-item"
 								th:href="@{/blog/myblog(userId=${#authentication.principal.memberId})}">MY
 									BLOG</a></li>
+							<li><a class="dropdown-item"
+								th:href="@{/mypage/myCurrentChal}">MY
+									PAGE 챌린저스</a></li>
 							<li><form class="logoutFrm" method="post" action="/logout">
 							<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
 							<a class="dropdown-item" id="logout" href="#">LOGOUT</a>
