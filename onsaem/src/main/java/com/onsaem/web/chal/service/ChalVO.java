@@ -39,6 +39,7 @@ public class ChalVO {
 	Integer rownum;
 	String result;
 	String resultPoint;
+	Integer betPoint;
 	
 	//마이페이지 체크용
 	Integer day;

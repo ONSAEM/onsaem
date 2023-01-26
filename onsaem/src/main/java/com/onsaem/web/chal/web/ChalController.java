@@ -117,8 +117,6 @@ public class ChalController {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
 		model.addAttribute("chals", chalService.getChal(chalId));
-		vo.setGroupId(chalId);
-		model.addAttribute("photoes", proofService.listMedia(vo));
 		
 		//썸네일가져오기
 		model.addAttribute("thumbnail", chalService.thumnail(chalId));
@@ -164,8 +162,10 @@ public class ChalController {
 	
 	//챌린지 등록 - 개인전
 	@RequestMapping(value="/inputNormalChal", method=RequestMethod.POST)
-	public String insertNormalChal(HttpServletRequest req,ChalVO vo, ParticipantVO pvo
-			,  MultipartFile[] uploadFile, MultipartFile[] natureFile, Authentication authentication) throws IllegalStateException, IOException {
+	@ResponseBody
+	public String insertNormalChal(ChalVO vo, ParticipantVO pvo
+			,  MultipartFile[] uploadFile, Authentication authentication) throws IllegalStateException, IOException {
+		
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
 		//Challengers테이블에 삽입
@@ -202,13 +202,23 @@ public class ChalController {
 			MultipartFile[] upload= {uploadFile[i]};
 			mediaService.uploadMedia(upload, mvo);
 		}		
+        
+        //결제 테이블
+        PaymentVO yvo = new PaymentVO();
+        yvo.setPrice(vo.getDonationFee());
+        yvo.setGroupId(vo.getChalId());
+        yvo.setPayerId(vo.getMemberId());
+        yvo.setPaymentId(vo.getPaymentId());
+        yvo.setPaymentMethod(vo.getPaymentMethod());
+		partService.inputPayment(yvo);
+	
 			
-			
-		return "redirect:/chalList";
+		return "true";
 	}
 	
 	//챌린지 등록 - 팀전
 	@RequestMapping(value="/inputTeamChal", method=RequestMethod.POST)
+	@ResponseBody
 	public String insertTeamChal(HttpServletRequest req, ChalVO vo,ParticipantVO pvo
 			, MultipartFile[] uploadFile, Authentication authentication) throws IllegalStateException, IOException {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -228,8 +238,8 @@ public class ChalController {
 		pvo.setChalId(vo.getChalId());
 		pvo.setParticipantId(vo.getMemberId());
 		pvo.setPrivateDonate(vo.getDonationFee());
+		pvo.setBetPoint(vo.getBetPoint());
 		pvo.setTeam("A");
-		
 		partService.inputParticipant(pvo);
 		
 		
@@ -245,9 +255,19 @@ public class ChalController {
 			}			
 			MultipartFile[] upload= {uploadFile[i]};
 			mediaService.uploadMedia(upload, mvo);
-		}		
+		}
+        
+      //결제 테이블
+        PaymentVO yvo = new PaymentVO();
+        yvo.setPrice(vo.getDonationFee());
+        yvo.setGroupId(vo.getChalId());
+        yvo.setPayerId(vo.getMemberId());
+        yvo.setPaymentId(vo.getPaymentId());
+        yvo.setPaymentMethod(vo.getPaymentMethod());
+        yvo.setStatus("결제완료");
+		partService.inputPayment(yvo);
 					
-		return "redirect:/chalList";
+		return "true";
 	}
 	
 	
