@@ -3,13 +3,14 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onsaem.web.chal.mapper.ChalMapper">
 	<sql id="condition">
+	 <where>
 		<if test="subClass">
 				 C.SUB_CLASS LIKE '%' || #{subClass} || '%'
 			</if>
 			<if test="ngoName">
-				AND C.ngo_name LIKE '%' || #{ngoName} || '%'
+				AND C.NGO_NAME = #{ngoName}
 			</if>
-			
+		</where>
 	</sql>
 	
 	<!-- 챌리저스 전체조회 -->
@@ -35,7 +36,7 @@
 
 	<!-- 챌리저스 기부처 별전체조회 -->
 	<select id="getChalNgoAll" resultType="ChalVO"
-		parameterType="String">
+		parameterType="ChalVO">
 		 SELECT * FROM (SELECT ROWNUM RN, A.* FROM( SELECT C.CHAL_ID,
 		C.CLASSES, C.SUB_CLASS, C.CHAL_NAME, C.START_DATE, C.END_DATE,
 		M.FILE_ROUTE, M.MEDIA_NAME
@@ -50,14 +51,13 @@
 	</select>
 
 	<!-- 챌리저스 팀전 별전체조회 -->
-	<select id="getChalTeamAll" resultType="ChalVO" parameterType="String">
+	<select id="getChalTeamAll" resultType="ChalVO" parameterType="ChalVO">
 		 SELECT * FROM (SELECT ROWNUM RN, A.* FROM( SELECT C.CHAL_ID,
 		C.CLASSES, C.SUB_CLASS, C.CHAL_NAME, C.START_DATE, C.END_DATE,
 		M.FILE_ROUTE, M.MEDIA_NAME
 		FROM CHALLENGES C JOIN MEDIA M
 		ON C.CHAL_ID = M.GROUP_ID
         WHERE C.SUB_CLASS = #{subClass}
-        AND C.NGO_NAME=#{ngoName}
 		ORDER BY CHAL_ID DESC
         <![CDATA[
 				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
@@ -241,5 +241,24 @@
 		SELECT  COUNT(CHAL_ID) AS total
 		FROM CHALLENGES
 		<include refid="condition"/>
+	</select>
+	
+	<select id="cntNow"  resultType ="int" parameterType="ChalVO">
+		SELECT  COUNT(CHAL_ID) AS total
+		FROM CHALLENGES
+		WHERE  CURRENT_DATE BETWEEN C.START_DATE AND C.END_DATE
+	</select>
+	
+	<select id="cntEnd"  resultType ="int" parameterType="ChalVO">
+		SELECT  COUNT(CHAL_ID) AS total
+		FROM CHALLENGES
+		WHERE   CURRENT_DATE > C.START_DATE
+	</select>
+	
+	<select id="cntYet"  resultType ="int" parameterType="ChalVO">
+		SELECT  COUNT(CHAL_ID) AS total
+		FROM CHALLENGES
+		WHERE  C.START_DATE > CURRENT_DATE
+
 	</select>
 </mapper>

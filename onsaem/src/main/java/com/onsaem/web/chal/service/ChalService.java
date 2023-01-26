@@ -11,10 +11,10 @@ public interface ChalService {
 	List<ChalVO> getChalAll(ChalVO vo, Paging paging);
 	
 	//조건 전체조회- 기부처
-	List<ChalVO> getChalNgoAll(String ngoName);
+	List<ChalVO> getChalNgoAll(ChalVO vo, Paging paging);
 	
 	//조건 전체조회 - 팀전/개인전
-	List<ChalVO> getChalTeamAll(String value);
+	List<ChalVO> getChalTeamAll(ChalVO vo, Paging paging);
 	
 	//Mypage - 일반회원의 진행중인 모든 챌린지
 	List<ChalVO> myCurentChal(ChalVO vo);
@@ -46,11 +46,11 @@ public interface ChalService {
 	//신고
 	
 	//챌린지 조회 - 진행중
-	List<ChalVO> currentChals();
+	List<ChalVO> currentChals(ChalVO vo, Paging paging);
 	//챌린지 조회 - 모집중
-	List<ChalVO> beforeChals();
+	List<ChalVO> beforeChals(ChalVO vo, Paging paging);
 	// 챌린지 조회 - 완료
-	List<ChalVO> endChals();
+	List<ChalVO> endChals(ChalVO vo, Paging paging);
 	
 	//마이페이지 관리자용 영수증 업데이트
 	Integer updateRecipt(ChalVO vo);

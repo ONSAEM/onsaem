@@ -67,10 +67,11 @@ public class ChalController {
 	
 	//챌린지 조건 리스트 보기 - ngo별 
 	@RequestMapping(value="/chalListOption",method=RequestMethod.GET)
-	public String chalListNgo(Model model,@RequestParam(value="ngoName", required=false)String ngoName){
+	public String chalListNgo(Model model,@RequestParam(value="ngoName", required=false)String ngoName, ChalVO vo,  Paging paging){
 		String classes = "항시";
 		model.addAttribute("ngoes", ngoService.listNgoClass(classes));
-		model.addAttribute("chals", chalService.getChalNgoAll(ngoName));
+		vo.setNgoName(ngoName);
+		model.addAttribute("chals", chalService.getChalNgoAll(vo, paging));
 		
 		//기부금 순위로
 		model.addAttribute("ranks", chalService.donateRank());
@@ -79,28 +80,30 @@ public class ChalController {
 	
 	//팀별
 	@RequestMapping(value="/chalDepart",method=RequestMethod.GET)
-	public String chalListTeam(Model model,@RequestParam(value="data", required=false)String data){
+	public String chalListTeam(Model model,@RequestParam(value="data", required=false)String data,  Paging paging){
 		System.out.println(data);
-		
+		ChalVO vo = new ChalVO();
 		switch(data) {
 			case "팀" :
-				model.addAttribute("chals",chalService.getChalTeamAll(data));
+				vo.setSubClass(data);
+				model.addAttribute("chals",chalService.getChalTeamAll(vo, paging));
 				model.addAttribute("ranks", chalService.donateRank());
 				break;
 			case "개인" :
-				model.addAttribute("chals", chalService.getChalTeamAll(data));
+				vo.setSubClass(data);
+				model.addAttribute("chals", chalService.getChalTeamAll(vo, paging));
 				model.addAttribute("ranks", chalService.donateRank());
 				break;
 			case "모집중" :
-				model.addAttribute("chals", chalService.beforeChals());
+				model.addAttribute("chals", chalService.beforeChals(vo, paging));
 				model.addAttribute("ranks", chalService.donateRank());
 				break;
 			case "진행중" :
-				model.addAttribute("chals", chalService.currentChals());
+				model.addAttribute("chals", chalService.currentChals(vo, paging));
 				model.addAttribute("ranks", chalService.donateRank());
 				break;
 			case "완료" :
-				model.addAttribute("chals", chalService.endChals());
+				model.addAttribute("chals", chalService.endChals(vo, paging));
 				model.addAttribute("ranks", chalService.donateRank());
 				break;
 		}
@@ -142,6 +145,7 @@ public class ChalController {
 	@RequestMapping(value="/inputNormalChal",method=RequestMethod.GET)
 	public String inputChalNormal(Model model, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		model.addAttribute("user", memberService.getMember(userDetails.getUsername()));
 		String classes = "항시";
 		model.addAttribute("ngoes", ngoService.listNgoClass(classes));
 		
@@ -150,7 +154,9 @@ public class ChalController {
 	
 	//팀전 등록 페이지 이동
 	@RequestMapping(value="/inputTeamChal",method=RequestMethod.GET)
-	public String inputChalTeam(Model model) {
+	public String inputChalTeam(Model model, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		model.addAttribute("user", memberService.getMember(userDetails.getUsername()));
 		String classes = "항시";
 		model.addAttribute("ngoes", ngoService.listNgoClass(classes));
 		return "content/challengers/inputTeamChal";
