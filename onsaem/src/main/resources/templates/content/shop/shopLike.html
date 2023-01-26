@@ -119,6 +119,8 @@
 	</section>
 
 	<script type="text/javascript">
+	 var token = $("meta[name='_csrf']").attr("content");
+	 var header = $("meta[name='_csrf_header']").attr("content");
 		
 		//찜삭제
 		function delLike(data){
@@ -126,6 +128,7 @@
 			 fetch('/delMyLike',{
 					headers: {
 					    "Content-Type": "application/json",
+					    "X-CSRF-TOKEN":token
 					  },
 					method:"post",
 					body: JSON.stringify({
