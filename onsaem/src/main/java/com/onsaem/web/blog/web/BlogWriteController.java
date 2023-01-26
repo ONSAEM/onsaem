@@ -73,7 +73,7 @@ public class BlogWriteController {
 	@RequestMapping(value = "/blogSearch", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> blogSearch(BlogWriteVO vo,Paging paging) {
-		paging.setPageUnit(9);
+		paging.setPageUnit(6);
 		Map<String, Object> map = blogWriteService.getBlogPageList(vo,paging);
 		List<BlogWriteVO> list = (List<BlogWriteVO>)map.get("blogList");
 		
@@ -137,12 +137,19 @@ public class BlogWriteController {
 	// 블로그 글 상세 페이지로 이동(단건조회)
 	@RequestMapping(value = "/myblog/blogWrite", method = RequestMethod.GET)
 	public String blogWrite(Model model, String bno,BlogWriteVO bVo, LikeVO vo, RepliesVO rVo, CategoriesVO cVo,Authentication authentication) {
-		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		String id = userDetails.getUsername();
+		
+		if(authentication != null) {
+			UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+			String id = userDetails.getUsername();
+			vo.setMemberId(id);
+			cVo.setBlogId(id);
+		}
+		
+		
 		
 		model.addAttribute("blogWrite", blogWriteService.getBlog(bno)); // 블로그 단건 조회
 		
-		vo.setMemberId(id);
+		
 		vo.setGroupId(bno);
 		model.addAttribute("likeCount", blogWriteService.likeCount(vo)); // 좋아요 조회
 		model.addAttribute("cntBlogLike", blogWriteService.cntBlogLike(vo)); // 좋아요 수
@@ -151,7 +158,7 @@ public class BlogWriteController {
 		model.addAttribute("replyCnt", replyService.replyCnt(rVo)); // 댓글 수
 		model.addAttribute("replyList", replyService.replyList(bno)); // 댓글 조회
 
-		cVo.setBlogId(id);
+		
 		model.addAttribute("category", blogWriteService.cateList(cVo) ); // 카테고리 조회
 		
 		return "content/blog/blogWrite";
