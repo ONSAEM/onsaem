@@ -186,8 +186,8 @@ h1 {
 												placeholder="운송장 번호" value="570110926163">
 											<button type="submit" class="btn btn-default"
 												style="all: unset; background-color: mediumslateblue; color: white; padding: 5px 25px; border-radius: 10px; cursor: pointer;">배송조회</button>
-										</form> <br> <br>
-										<button class="openBtn">교환/반품</button> <br> <br>
+										</form> <br> <br>										
+										<button th:onclick="displayModal([[${order}]])">교환/반품</button> <br> <br>
 										<button class="modals">리뷰작성</button>
 									</td>
 									<!-- 리뷰 모달창 -->
@@ -254,7 +254,7 @@ h1 {
 						<br> <br> <br>
 						<p>
 							회수시 요청사항<br>
-							<textarea rows="" cols=""></textarea>
+							<textarea rows="" cols="" id="please"></textarea>
 							<br>
 							<button th:onclick="submitBtn()">신청하기</button>
 							<button class="closeBtn">닫기</button>
@@ -273,12 +273,15 @@ h1 {
         			}
 				}
    				let methodLength = document.getElementsByName("method").length; 
-   				for (var i=0; i<reasonLength; i++) {
+   				for (var i=0; i<methodLength; i++) {
         			if (document.getElementsByName("method")[i].checked == true) {
             			console.log(document.getElementsByName("method")[i].value); 
             			var reason=document.getElementsByName("method")[i].value
         			}
-				}   				
+				}
+   				console.log(document.getElementById("detailReason").value);
+   				console.log($("#please").val());
+   				console.log(modalData)
 			}
 			 
 			//배송조회버튼
@@ -301,25 +304,24 @@ h1 {
 			
 			//리뷰제출
 			function submitReview(data){
-				let groupId=data;
+				let groupId=data;				
 				let reviewContent=$('#reviewContent').val();
 				let reviewStar=$('input[name="rating"]:checked').val();
 				$.ajax({
-				    type : 'post',           // 타입 (get, post, put 등등)
-				    url : '/addReview',           // 요청할 서버url				   
-				    headers : {              // Http header
-				      "Content-Type" : "application/json",
-				      "X-HTTP-Method-Override" : "POST"
+				    type : 'post',           
+				    url : '/addReview',          	   
+				    headers : {              
+				      "Content-Type" : "application/json"				      
 				    },				    
-				    data : JSON.stringify({  // 보낼 데이터 (Object , String, Array)
+				    data : JSON.stringify({  
 				      "groupId" : groupId,
 				      "reviewContent" : reviewContent,
 				      "reviewStar" : reviewStar
 				    }),
-				    success : function(result) { // 결과 성공 콜백함수
+				    success : function(result) { 
 				        alert("리뷰가 작성되었습니다.")
 				    },
-				    error : function(request, status, error) { // 결과 에러 콜백함수
+				    error : function(request, status, error) { 
 				        console.log(error)
 				    }
 				})
@@ -342,13 +344,14 @@ h1 {
 				const closeButton = modal.querySelector(".closeBtn");
 				const modalBackground = modal
 						.querySelector(".modal__background");
-
-				function displayModal() {
-					console.log(this);					
+				
+				let modalData;
+				function displayModal(data) {
+					modalData=data;				
 					modal.classList.toggle("hidden");
 				}
 
-				openButton.addEventListener("click", displayModal);
+				
 				closeButton.addEventListener("click", displayModal)
 				modalBackground.addEventListener("click", displayModal);
 				

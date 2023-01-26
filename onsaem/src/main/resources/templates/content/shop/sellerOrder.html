@@ -249,123 +249,58 @@ label {
 	let shippingData;
 	function shippingNum(data,data2){		
 		shippingData=data2;
-		let shippingNum=`<td>주문대기<div><button>송장번호입력</button><br><input type="text" id="shippingNum"><br><button onclick="submitShipping()" >발송완료</button></div></td>`;
+		let shippingNum=`<td>주문대기<div>
+		<button>송장번호입력</button><br><input type="text" id="shippingNum"><br><button onclick="submitShipping()" >발송완료</button></div></td>`;
 		data.parentElement.innerHTML=shippingNum;		
 	}
 	
 	//상태별 조회
 	function status() {		
-		if($("#status").val()=="교환/반품"){
-			$.ajax({
-				type : 'post', 
-				url : '/orderExchange', 				
-				headers : { 
-					"Content-Type" : "application/json"					
-				},
-				success : function(result) {					
-					$("#orderList").html("");
-					for(let i=0;i<result.length;i++){
-						let list=`<tr>
-							<td>`+result[i].orderId+`</td>
-							<td>`+result[i].productName+`</td>
-							<td>`+result[i].productId+`</td>
-							<td>`+result[i].orderDate+`</td>
-							<td>`+result[i].orderStatus+`</td>
-							<td>`+result[i].recivName+`</td>								
-							<td>`+result[i].detailAmount+`</td>
-							<td>`+result[i].detailOption+`</td>
-						</tr>`;
-						$("#orderList").append(list);
-					}				
-				},
-				error : function(error) { 
-					console.log(error)
-				}
-			})
+		if($("#status").val()=="교환/반품"){			
+			searchList('/orderExchange')
 		}else if($("#status").val()=="배송완료"){
-			$.ajax({
-				type : 'post', 
-				url : '/endShipping', 				
-				headers : { 
-					"Content-Type" : "application/json"					
-				},
-				success : function(result) {					
-					$("#orderList").html("");
-					for(let i=0;i<result.length;i++){
-						let list=`<tr>
-							<td>`+result[i].orderId+`</td>
-							<td>`+result[i].productName+`</td>
-							<td>`+result[i].productId+`</td>
-							<td>`+result[i].orderDate+`</td>
-							<td>`+result[i].orderStatus+`</td>
-							<td>`+result[i].recivName+`</td>								
-							<td>`+result[i].detailAmount+`</td>
-							<td>`+result[i].detailOption+`</td>
-						</tr>`;
-						$("#orderList").append(list);
-					}				
-				},
-				error : function(error) { 
-					console.log(error)
-				}
-			})
+			searchList('/endShipping');
 		}else if($("#status").val()=="배송중"){		
-			$.ajax({
-				type : 'post', 
-				url : '/shipping', 				
-				headers : { 
-					"Content-Type" : "application/json"					
-				},
-				success : function(result) {					
-					$("#orderList").html("");
-					for(let i=0;i<result.length;i++){
-						let list=`<tr>
-							<td>`+result[i].orderId+`</td>
-							<td>`+result[i].productName+`</td>
-							<td>`+result[i].productId+`</td>
-							<td>`+result[i].orderDate+`</td>
-							<td>`+result[i].orderStatus+`</td>
-							<td>`+result[i].recivName+`</td>								
-							<td>`+result[i].detailAmount+`</td>
-							<td>`+result[i].detailOption+`</td>
-						</tr>`;
-						$("#orderList").append(list);
-					}				
-				},
-				error : function(error) { 
-					console.log(error)
-				}
-			})	  
-			}else {		
-				$.ajax({
-					type : 'post', 
-					url : '/sell/waitOrder', 				
-					headers : { 
-						"Content-Type" : "application/json"					
-					},
-					success : function(result) {					
-						$("#orderList").html("");
-						for(let i=0;i<result.length;i++){
-							let list=`<tr>
-								<td>`+result[i].orderId+`</td>
-								<td>`+result[i].productName+`</td>
-								<td>`+result[i].productId+`</td>
-								<td>`+result[i].orderDate+`</td>
-								<td>`+result[i].orderStatus+`</td>
-								<td>`+result[i].recivName+`</td>								
-								<td>`+result[i].detailAmount+`</td>
-								<td>`+result[i].detailOption+`</td>
-							</tr>`;
-							$("#orderList").append(list);
-						}				
-					},
-					error : function(error) { 
-						console.log(error)
-					}
-				})		  
-			}
+			searchList('/shipping');				
+		}else {		
+			searchList("/sell/waitOrder");	  
+		}
 	}
 	
+	//상태값 보내기
+	function searchList(url){
+		$.ajax({
+			type : 'post', 
+			url : url, 				
+			headers : { 
+				"Content-Type" : "application/json"					
+			},
+			success : function(result) {					
+				$("#orderList").html("");
+				for(let i=0;i<result.length;i++){
+					let status=result[i].orderStatus;
+					if(result[i].orderStatus=='주문대기'){
+						status=`result[i].orderStatus<button>송장번호입력</button>`
+					}
+					let list=`<tr>
+						<td>${result[i].orderId}</td>
+						<td>${result[i].productName}</td>
+						<td>${result[i].productId}</td>
+						<td>${result[i].orderDate}</td>
+						<td>${result[i].orderStatus} ${result[i].orderStatus=='주문대기'? `<button>송장번호입력</button>`: ''}</td>
+						<td>${result[i].recivName}</td>								
+						<td>${result[i].detailAmount}</td>
+						<td>${result[i].detailOption}</td>
+					</tr>`;
+					$("#orderList").append(list);
+				}				
+			},
+			error : function(error) { 
+				console.log(error)
+			}
+		})
+	}
+
 	//조회
 	function submitBtn() {		
 		if($("#search").val()=="전체"){
