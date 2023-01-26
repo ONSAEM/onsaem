@@ -1,11 +1,17 @@
 package com.onsaem.web.blog.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.onsaem.web.common.service.LikeVO;
+import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.ReportVO;
 
 public interface BlogWriteService {
+		
+//		// 블로그 전체조회
+//		public Map<String, Object> getBlogPageList(BlogWriteVO blogWriteVO, Paging paging);
+		
 		// 블로그 글 전체 조회
 		public List<BlogWriteVO> getBlogList(BlogWriteVO blogWriteVO);
 		// 블로그 단건 조회

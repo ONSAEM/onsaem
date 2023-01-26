@@ -56,5 +56,7 @@ public class BlogServiceImpl implements BlogService {
 		// 내가 구독한 사람들 조회
 		return blogMapper.mySubList(likeVO);
 	}
-
+	
+	
+	
 }

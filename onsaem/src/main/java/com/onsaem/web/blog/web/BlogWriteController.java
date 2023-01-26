@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,8 +37,10 @@ import com.onsaem.web.blog.service.CategoriesVO;
 import com.onsaem.web.blog.service.MomentService;
 import com.onsaem.web.blog.service.MomentsVO;
 import com.onsaem.web.common.service.LikeVO;
+import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.RepliesVO;
 import com.onsaem.web.common.service.ReportVO;
+import com.onsaem.web.course.service.ClassInfoVO;
 /**
  * 
  * @author 정호경
@@ -65,6 +68,15 @@ public class BlogWriteController {
 		model.addAttribute("blogList", blogWriteService.getBlogList(null));
 		return "content/blog/blogMain";
 	}
+	
+	// 블로그 페이징
+//		@RequestMapping(value = "/blogSearch", method = RequestMethod.GET)
+//		@ResponseBody
+//		public Map<String, Object> classSearch(BlogWriteVO vo, Model model, Paging paging) {
+//			paging.setPageUnit(9);
+//			return blogWriteService.getBlogPageList(vo,paging);
+//		}
+	
 	
 	// 내 블로그로 이동
 	@RequestMapping(value = "/myblog", method = RequestMethod.GET)
