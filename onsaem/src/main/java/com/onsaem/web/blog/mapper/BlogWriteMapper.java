@@ -12,7 +12,7 @@ import com.onsaem.web.common.service.ReportVO;
 public interface BlogWriteMapper {
 	
 	// 블로그 전체조회
-	public Map<String, Object> getBlogPageList(BlogWriteVO blogWriteVO, Paging paging, String blogId);
+	public List<BlogWriteVO> getBlogPageList(BlogWriteVO blogWriteVO, Paging paging);
 	
 	// 블로그 글 갯수 조회
 	public Paging blogCount(BlogWriteVO blogWriteVO);
