@@ -72,28 +72,13 @@ public class BlogWriteController {
 	// 블로그 페이징
 	@RequestMapping(value = "/blogSearch", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> blogSearch(BlogWriteVO vo, Model model, Paging paging, String blogId) {
+	public Map<String, Object> blogSearch(BlogWriteVO vo,Paging paging) {
 		paging.setPageUnit(9);
-		return blogWriteService.getBlogPageList(vo,paging,blogId);
-	}
-	
-	
-	// 내 블로그로 이동
-	@RequestMapping(value = "/myblog", method = RequestMethod.GET)
-	public String myblog(Model model, String userId, CategoriesVO vo, 
-						 MomentsVO mVo, BlogVO bVo, LikeVO lVo,Authentication authentication, 
-					 	 Paging paging,BlogWriteVO bwVo) {
-		// 페이징
-		paging.setPageUnit(9);
-		model.addAttribute("page", blogWriteService.getBlogPageList(bwVo,paging, userId).get("newPaging"));
+		Map<String, Object> map = blogWriteService.getBlogPageList(vo,paging);
+		List<BlogWriteVO> list = (List<BlogWriteVO>)map.get("blogList");
 		
-		// 내 블로그 전체조회
-		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		String id = userDetails.getUsername();
-		List<BlogWriteVO> myblog = blogWriteService.myBlog(userId);
-
 		// 글 내용중에 첫번째 이미지 주소 받아오기
-		for(BlogWriteVO blog : myblog) {
+		for(BlogWriteVO blog : list) {
 			Pattern pattern  =  Pattern.compile("<img[^>]*src=[\\\"']?([^>\\\"']+)[\\\"']?[^>]*>");
 	        // 내용 중에서 이미지 태그를 찾아라!
 	        Matcher match = pattern.matcher(blog.getBlogWrite());
@@ -103,9 +88,27 @@ public class BlogWriteController {
 	            blog.setFileRoute(imgTag);
 	        }
 		}
-		model.addAttribute("myblog", myblog);
 		
-		 
+		return map;
+	}
+	
+	
+	// 내 블로그로 이동
+	@RequestMapping(value = "/myblog", method = RequestMethod.GET)
+	public String myblog(Model model, String userId, CategoriesVO vo, 
+						 MomentsVO mVo, BlogVO bVo, LikeVO lVo,Authentication authentication, 
+					 	BlogWriteVO bwVo) {
+
+		
+		// 내 블로그 전체조회
+		if(authentication != null) {
+			UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+			String id = userDetails.getUsername();
+			lVo.setMemberId(id);
+			model.addAttribute("mmtCnt",momentService.momentCnt(id));
+		}
+		
+ 
 		vo.setBlogId(userId);
 		model.addAttribute("category", blogWriteService.cateList(vo));
 		model.addAttribute("recentWrite", blogWriteService.recentWrite(userId)); // 최신글 조회
@@ -117,7 +120,7 @@ public class BlogWriteController {
 		System.out.println("방분한 블로그 정보:"+model.getAttribute("blogInfo"));
 		
 		lVo.setGroupId(userId); // 구독 당한 사람
-		lVo.setMemberId(id); // 구독 한 사람
+		 // 구독 한 사람
 		model.addAttribute("subCount", blogService.subCount(lVo));
 		System.out.println("구독 여부:"+model.getAttribute("subCount")); // 지금 로그인 한 사람이 접속한 블로그를 구독 했나? 있으면 T 없으면 F
 		
@@ -125,7 +128,7 @@ public class BlogWriteController {
 		lVo.setMemberId(userId);
 		model.addAttribute("mySubList", blogService.mySubList(lVo)); // 내가 구독한
 		
-		model.addAttribute("mmtCnt",momentService.momentCnt(id));
+		
 		System.out.println("현재모먼트 수:"+model.getAttribute("mmtCnt"));
 		
 		return "content/blog/myblog";

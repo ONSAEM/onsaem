@@ -320,6 +320,25 @@
 	letter-spacing: 1px;
 	opacity: 0.8;
 }
+
+/* GENERAL STYLES */
+.pagination ul {
+	margin: auto;
+	padding: 0;
+	list-style: none;
+}
+
+/* ONE */
+.p1 li {
+	font-size: 14px;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	padding: 0;
+	text-align: center;
+	float: left;
+	cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -400,11 +419,11 @@
 									</h2>
 									<p>[[${blogInfo.introduction}]]</p>
 									<a class="follow" type="button" th:value=${subCount}>구독</a>
-									<a  th:unless="${#authentication.principal.memberId == blogInfo.blogId}"
+									<a  th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
 										style="display:none"
 										th:href="@{/blog/myblog/blogTask(blogId=${blogInfo.blogId})}"
 										class="info">블로그 관리 ⚙</a> 
-									<a  th:if="${#authentication.principal.memberId == blogInfo.blogId}"
+									<a  th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
 										th:href="@{/blog/myblog/blogTask(blogId=${blogInfo.blogId})}"
 										class="info">블로그 관리 ⚙</a>
 									<!-- 로그인한 아이디와 블로그 주인이 같으면 보이게 -->
@@ -502,56 +521,42 @@
 					</div>
 					<div class="col-lg-8 col-md-7">
 						<div class="row blogList">
-							<div class="col-lg-6 col-md-6 col-sm-6"
-								th:each="blog : ${myblog}">
-								<div class="blog__item">
-									<div class="blog__item__pic">
-										<input type="hidden" class="thumbnail"
-											th:value="${blog.blogWrite}">
-										<!-- 썸네일 -->
-										<img id="thumbImg" th:src="${blog.fileRoute}">
-									</div>
-									<div class="blog__item__text">
-										<ul>
-											<li><i class="fa fa-calendar-o"
-												th:text="${#dates.format(blog.writeDate, 'YYYY-MM-DD')}"></i></li>
-											<li><i class="fa fa-comment-o"
-												th:text="${blog.replyCnt}"></i></li>
-										</ul>
-										<h5>
-											<a th:href="@{/blog/myblog/blogWrite(bno=${blog.writeId})}"
-												th:text="${blog.writeTitle}"></a>
-										</h5>
-										<p th:text="${blog.subTitle}" />
-										<a th:href="@{/blog/myblog/blogWrite(bno=${blog.writeId})}"
-											class="blog__btn">READ MORE <span class="arrow_right"></span></a>
-									</div>
-								</div>
-							</div>
-
-							<!-- 처음 페이지 열릴때는 여기서 페이징 생성, 이후 아작스로 결과값 가져올때는 자바스크립트로 생성해서 새로 넣기 -->
-							<!-- 페이징 부분 -->
-<!--  						    <div class="pagination p1" th:if="${page.totalRecord != 0}"> -->
-<!-- 						      <ul> -->
-<!-- 						      페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) <<	 -->
-<!-- 						        <li id="prevPaging" th:if="${page.startPage > 1}" style="font-size: 30px;">&laquo;</li> -->
-<!-- 						        <th:block th:each="num : ${#numbers.sequence(page.startPage,page.endPage)}"> -->
-<!-- 						         페이지 생성  ex) 1 2 3 4 5 -->
-<!-- 						        	<li id="pageNum" th:if="${page.page != num}" th:text=${num}></li> -->
-<!-- 						        	현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성 -->
-<!-- 						        	<li th:if="${page.page == num}" th:text=${num} style="background-color: #2ecc71;border-radius: 100%;color: #fff;"></li> -->
-<!-- 						        </th:block> -->
-<!-- 						         페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >>	 -->
-<!-- 						        <li id="nextPaging" th:if="${page.endPage < page.lastPage}" style="font-size: 30px;">&raquo;</li> -->
-<!-- 						      </ul> -->
-<!-- 						    </div> -->
-						    <!-- 페이징 끝 -->
+						
+							
 						</div>
 					</div>
+					
+					
+					
 				</div>
 			</div>
 		</section>
 		<!-- Blog Section End -->
+
+<div class="template" style="display:none">
+	<div class="col-lg-6 col-md-6 col-sm-6">
+		<div class="blog__item">
+			<div class="blog__item__pic">
+				<input type="hidden" class="thumbnail">
+				<!-- 썸네일 -->
+				<img id="thumbImg">
+			</div>
+			<div class="blog__item__text">
+				<ul>
+					<li><i class="fa fa-calendar-o"
+						></i></li>
+					<li><i class="fa fa-comment-o"
+						></i></li>
+				</ul>
+				<h5>
+					<a></a>
+				</h5>
+				<p  />
+				<a class="blog__btn">READ MORE <span class="arrow_right"></span></a>
+			</div>
+		</div>
+	</div>
+</div>
 
 		<!-- 모달창 조회 -->
 		<div class="modal fade" id="exampleModal" tabindex="-1"
@@ -665,11 +670,11 @@
 			
 			let subTF = $('.follow').attr('value');
 			let blogId = $('#getblogId').val();
-			let id="[[${#authentication.principal.memberId}]]";
+			
 			console.log(blogId);
 // 			let chImg = $('#thumbImg').attr('src');
 // 			console.log("위치 확인"+chImg);
-			let listClone = $(".blogList").find(".col-md-6").first().clone(true);
+			let listClone = $(".template").find(".col-md-6").first();
 			let nowData = {};
 			
 			// moment 모달
@@ -699,7 +704,7 @@
 					dataType:'json',
 					success : function(result) {
 						alert('성공');
-						location.href='/blog/myblog?userId='+'[(${#authentication.principal.memberId})]';
+						location.href="'/blog/myblog?userId='+'[(${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''})]'";
 					},
 					error : function(error) {
 						console.log(error);
@@ -780,6 +785,7 @@
 			
 			//구독 저장
 			$(".follow").on("click", function(){
+				let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
 				if(id!=""){
 					if(subTF =='F'){ // 구독하지 않았다면~
 						$(this).css({'background-color':'#2980b9','color':'white','border-color':'white'});
@@ -853,7 +859,7 @@
 	 					success: function(result){
 	 						console.log(result);
 	 						alert("삭제완료");
-	 						location.href='/blog/myblog?userId='+'[(${#authentication.principal.memberId})]';
+	 						location.href="'/blog/myblog?userId='+'[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]'";
 	 					},
 	 					error: function(error){
 	 						console.log(error);
@@ -864,19 +870,11 @@
 			
 			
 			// 페이지 이동
-			$(".blogList").find("#pageNum").on("click",function(){
-				newBlogList($(this).text());
+			$(".blogList").on("click","#pageNum",function(e){
+				newBlogList($(e.target).text());
 			});
 
-			// 다음 페이징 목록 이동
-			$(".blogList").find("#nextPaging").on("click",function(){
-				newBlogList("[[${page.startPage+page.pageSize}]]");
-			});
-
-			// 이전 페이징 목록 이동
-			$(".blogList").find("#prevPaging").on("click",function(){
-				newBlogList("[[${page.startPage-page.pageSize}]]");
-			});
+		
 			
 			
 			// 페이징 만들기 이건 본인 css나 html에 맞춰서 할것
@@ -916,7 +914,7 @@
 				let makeClone = $(listClone).clone();
 				$(makeClone).find(".blog__item__pic").find("input[type=hidden].thumbnail").val(item.blogWrite);
 				$(makeClone).find(".blog__item__pic").find("img").attr("src",item.fileRoute);
-				$(makeClone).find(".blog__item__text").find("i.fa-calendar-o").text("#dates.format("+item.writeDate+", 'YYYY-MM-DD')");
+				$(makeClone).find(".blog__item__text").find("i.fa-calendar-o").text(item.writeDate.substr(0,10));
 				$(makeClone).find(".blog__item__text").find("i.fa-comment-o").text(item.replyCnt);
 				$(makeClone).find(".blog__item__text").find("a:eq(0)").attr("href","/blog/myblog/blogWrite?bno="+item.writeId).text(item.writeTitle);
 				$(makeClone).find(".blog__item__text").find("p").text(item.subTitle);
@@ -935,7 +933,8 @@
 		        	url: '/blog/blogSearch',
 			      method: 'GET',
 			      contentType: 'application/x-www-form-urlencoded',
-			      data: {blogId : blogId},
+			      data: {blogId : blogId,
+			    	  	 page: page},
 			      success: function (result) {
 					 $(".row").find(".col-sm-6").detach();
 					 $(".row").find(".pagination").detach();
@@ -952,9 +951,8 @@
 		        })
 			}
 			
-			
-			
-			
+ 			// 마이블로그 들어오자마자 1페이지로 보여주기
+			newBlogList(1);
 		</script>
 	</div>
 </body>

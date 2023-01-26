@@ -22,10 +22,10 @@
     			(select count(r.reply_id)from replies r WHERE b.write_id = r.group_id )as replyCnt
 		  FROM  BLOG_WRITES b, members m
 		 WHERE  b.blog_id = m.member_id
-		   and  blog_id=#{blogId}
+		   and  blog_id=#{blogWriteVO.blogId}
  		 order  by b.write_date DESC
 			<![CDATA[
-				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
+				)A WHERE ROWNUM <= #{paging.last} ) WHERE RN >= #{paging.first}
 			]]>
 	</select>
 	
