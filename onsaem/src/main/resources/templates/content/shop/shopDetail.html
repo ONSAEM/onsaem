@@ -218,7 +218,8 @@ h1 {
 												<div class="row">
 													<div class="author-comment d-flex mt-3 mb-4"
 														th:each=" review : ${reviewList}">
-														<img
+														<input type="hidden" th:value="${review.reviewId}"
+															id="reviewList"> <img
 															th:src="@{/images/avatar/studio-portrait-emotional-happy-funny.jpg}"
 															class="img-fluid avatar-image" alt="">
 
@@ -236,6 +237,7 @@ h1 {
 															<div class="d-flex mt-2">
 																<button href="#" class="openBtn">신고</button>
 															</div>
+
 														</div>
 													</div>
 												</div>
@@ -305,6 +307,29 @@ h1 {
 		 var token = $("meta[name='_csrf']").attr("content");
 		 var header = $("meta[name='_csrf_header']").attr("content");
 
+		window.onload = function(){		
+			let groupId=$("#reviewList").val()
+			 $.ajax({
+					type : 'post', 
+					url : '/shop/reviewList2',				
+					beforeSend : function(xhr)
+			           {
+			            xhr.setRequestHeader(header, token);
+			           },
+					data : {  
+					      "groupId" : groupId					      		      
+					    },
+					success : function(result) {					
+						console.log(result)
+						console.log($("#reviewList").length)
+					},
+					error : function(error) { 
+						console.log(error)
+					}
+				}) 
+ 		}
+		
+		 
 		//찜선택
 				function changeHeart(data){	
 					const urlParams = new URL(location.href).searchParams;

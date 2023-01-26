@@ -10,6 +10,9 @@ import com.onsaem.web.shop.service.OptionVO;
 import com.onsaem.web.shop.service.ProductVO;
 
 public interface ProductMapper {
+	// 리뷰 대댓글 가져오기
+	List<ReviewVO> reviewList2(ReviewVO vo);
+
 	// 상품전체조회
 	List<ProductVO> proList();
 
@@ -69,7 +72,7 @@ public interface ProductMapper {
 
 	// 판매자 상품 가져오기
 	List<ProductVO> sellerList(ProductVO vo);
-	
+
 	// 최근 본 목록 가져오기
 	List<ProductVO> watchProduct(ProductVO vo);
 

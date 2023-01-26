@@ -1,13 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.onsaem.web.shop.mapper.SellerMapper">	
+<mapper namespace="com.onsaem.web.shop.mapper.SellerMapper">
+	<!-- 댓글단 리뷰 조회하기 -->
+
+	<!-- 판매자 리뷰 댓글 달기 -->
+	<insert id="sellerReviewContent"
+		parameterType="com.onsaem.web.common.service.ReviewVO">
+		INSERT INTO REVIEWS
+		VALUES('RV'||LPAD(REVIEW_SEQ.NEXTVAL,3,0),#{reviewContent},0,#{writerId},CURRENT_DATE,#{groupId},#{groups})
+	</insert>
+
+	<!-- 판매자 리뷰 리스트 가져오기 -->
+	<select id="sellerReview"
+		resultType="com.onsaem.web.common.service.ReviewVO">
+		SELECT
+		R.REVIEW_ID,R.REVIEW_CONTENT,R.REVIEW_STAR,R.WRITER_ID,R.REVIEW_DATE
+		,P.PRODUCT_NAME,M.FILE_ROUTE
+		FROM REVIEWS R,PRODUCTS P ,MEDIA M
+		WHERE
+		P.MEMBER_ID=#{data} AND P.PRODUCT_ID=R.GROUP_ID AND
+		P.PRODUCT_ID=M.GROUP_ID AND M.SUB_GROUP='대표이미지'
+	</select>
+
+
 	<!-- 주문상태 변경 -->
-	<update id="sumbitShipping" parameterType="com.onsaem.web.shop.service.OrderVO">
+	<update id="sumbitShipping"
+		parameterType="com.onsaem.web.shop.service.OrderVO">
 		UPDATE ORDERS
-		SET ORDER_STATUS=#{orderStatus}, DELIVERY_ID=#{deliveryId}
-		WHERE ORDER_ID=#{orderId}		
+		SET ORDER_STATUS=#{orderStatus},
+		DELIVERY_ID=#{deliveryId}, ORDER_DATE=CURRENT_DATE
+		WHERE
+		ORDER_ID=#{orderId}
 	</update>
-	
+
 	<!-- 상태별 갯수 -->
 	<select id="countList"
 		resultType="com.onsaem.web.shop.service.ProductVO">
@@ -68,8 +93,9 @@
 		SELECT *
 		FROM PRODUCTS
 		WHERE MEMBER_ID=#{data}
-		ORDER BY 		${PRODUCT_STATUS}
-		
+		ORDER BY
+		${PRODUCT_STATUS}
+
 	</select>
 
 	<!-- 수량별 조회 -->
@@ -87,7 +113,8 @@
 		SELECT *
 		FROM PRODUCTS
 		WHERE MEMBER_ID=#{data}
-		ORDER BY CATEGORY
+		ORDER BY
+		CATEGORY
 	</select>
 
 	<!-- 날짜별 조회 -->
@@ -307,7 +334,7 @@
 		LIKE
 		'%'||#{data}||'%')
 	</select>
-	
+
 	<!-- 상품번호조회 -->
 	<select id="productId"
 		resultType="com.onsaem.web.shop.service.OrderVO">
@@ -326,9 +353,10 @@
 		OD.ORDER_ID=O.ORDER_ID AND
 		P.MEMBER_ID=#{id} AND
 		P.PRODUCT_ID=O.PRODUCT_ID
-		AND (O.PRODUCT_ID LIKE '%'||#{data}||'%')
+		AND (O.PRODUCT_ID LIKE
+		'%'||#{data}||'%')
 	</select>
-	
+
 	<!-- 교환/반품 조회 -->
 	<select id="orderExchange"
 		resultType="com.onsaem.web.shop.service.OrderVO">
@@ -342,14 +370,17 @@
 		O.RECIV_REQ,
 		O.DELIVERY_FEE,
 		O.DELIVERY_ID,
-		O.PRODUCT_ID,OD.DETAIL_AMOUNT,OD.DETAIL_OPTION,P.PRODUCT_NAME FROM
+		O.PRODUCT_ID,OD.DETAIL_AMOUNT,OD.DETAIL_OPTION,P.PRODUCT_NAME,P.PRICE
+		FROM
 		ORDER_DETAILS OD,ORDERS O,PRODUCTS P WHERE
-		OD.ORDER_ID=O.ORDER_ID AND
+		OD.ORDER_ID=O.ORDER_ID
+		AND
 		P.MEMBER_ID=#{id} AND
 		P.PRODUCT_ID=O.PRODUCT_ID
-		AND O.ORDER_STATUS='교환/반품'
+		AND
+		(O.ORDER_STATUS='교환' OR O.ORDER_STATUS='반품')
 	</select>
-	
+
 	<!-- 배송완료 조회 -->
 	<select id="endShipping"
 		resultType="com.onsaem.web.shop.service.OrderVO">
@@ -368,9 +399,10 @@
 		OD.ORDER_ID=O.ORDER_ID AND
 		P.MEMBER_ID=#{id} AND
 		P.PRODUCT_ID=O.PRODUCT_ID
-		AND O.ORDER_STATUS='배송완료'
+		AND
+		O.ORDER_STATUS='배송완료'
 	</select>
-	
+
 	<!-- 배송중 조회 -->
 	<select id="shipping"
 		resultType="com.onsaem.web.shop.service.OrderVO">
@@ -391,7 +423,7 @@
 		P.PRODUCT_ID=O.PRODUCT_ID
 		AND O.ORDER_STATUS='배송중'
 	</select>
-	
+
 	<!-- 배송중 조회 -->
 	<select id="waitOrder"
 		resultType="com.onsaem.web.shop.service.OrderVO">
@@ -410,6 +442,7 @@
 		OD.ORDER_ID=O.ORDER_ID AND
 		P.MEMBER_ID=#{id} AND
 		P.PRODUCT_ID=O.PRODUCT_ID
-		AND O.ORDER_STATUS='주문대기'
+		AND
+		O.ORDER_STATUS='주문대기'
 	</select>
 </mapper>

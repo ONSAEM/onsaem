@@ -82,4 +82,11 @@ public class OrderController {
 		vo.setPayerId(userDetails.getUsername());		
 		return orderService.insertOrder(vo);
 	}
+	
+	//교환,환불요청
+	@RequestMapping(value = "/shop/orderExchange", method = RequestMethod.POST)
+	@ResponseBody
+	public int orderExchange(@RequestBody OrderVO vo) {				
+		return orderService.orderExchange(vo);
+	}
 }

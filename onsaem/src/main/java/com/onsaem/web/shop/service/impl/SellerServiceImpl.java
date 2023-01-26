@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.shop.mapper.SellerMapper;
 import com.onsaem.web.shop.service.OrderVO;
 import com.onsaem.web.shop.service.ProductVO;
@@ -193,6 +194,18 @@ public class SellerServiceImpl implements SellerService {
 	public int sumbitShipping(OrderVO vo) {
 		// 주문상태 변경
 		return sellMapper.sumbitShipping(vo);
+	}
+
+	@Override
+	public List<ReviewVO> sellerReview(String data) {
+		// 판매자 리뷰리스트 가져오기
+		return sellMapper.sellerReview(data);		
+	}
+
+	@Override
+	public int sellerReviewContent(ReviewVO vo) {
+		// 판매자 리뷰댓글달기
+		return sellMapper.sellerReviewContent(vo);
 	}
 
 }

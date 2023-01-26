@@ -2,7 +2,15 @@ package com.onsaem.web.shop.service;
 
 import java.util.List;
 
+import com.onsaem.web.common.service.ReviewVO;
+
 public interface SellerService {
+	//판매자 리뷰댓글 달기
+	int sellerReviewContent(ReviewVO vo);
+	
+	//판매자 리뷰리스트 가져오기
+	List<ReviewVO> sellerReview(String data);
+	
 	//주문상태 변경
 	int sumbitShipping(OrderVO vo);
 	

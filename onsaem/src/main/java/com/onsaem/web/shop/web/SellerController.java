@@ -20,6 +20,7 @@ import org.springframework.web.method.annotation.RequestParamMapMethodArgumentRe
 
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaService;
+import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.shop.service.CartService;
 import com.onsaem.web.shop.service.CartVO;
 import com.onsaem.web.shop.service.OrderVO;
@@ -47,11 +48,31 @@ public class SellerController {
 	CartVO cartVo = new CartVO();
 	LikeVO likeVo = new LikeVO();
 	ProductVO proVo = new ProductVO();
-	
-	//판매자 교환/환불페이지이동
-	@RequestMapping(value = "/sellerExchange", method = RequestMethod.GET)	
-	public String sellerExchange(Authentication authentication) {		
-		return "content/shop/sellerExchange";	
+	// 판매자 리뷰댓글달기
+	@RequestMapping(value = "/shop/sellerReviewContent", method = RequestMethod.POST)
+	@ResponseBody
+	public int sellerReviewContent(Authentication authentication, ReviewVO vo) {
+		System.out.println(vo);
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		vo.setWriterId(userDetails.getUsername());
+		vo.setGroups("쇼핑몰");		
+		return sellService.sellerReviewContent(vo);
+	}
+
+	// 판매자 리뷰페이지이동
+	@RequestMapping(value = "/sellerReview", method = RequestMethod.GET)
+	public String sellerReview(Authentication authentication, Model model) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		model.addAttribute("reviewList", sellService.sellerReview(userDetails.getUsername()));
+		return "content/shop/sellerReview";
+	}
+
+	// 판매자 교환/환불페이지이동
+	@RequestMapping(value = "/sellerExchange", method = RequestMethod.GET)
+	public String sellerExchange(Authentication authentication, Model model) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		model.addAttribute("orderList", sellService.orderExchange(userDetails.getUsername()));
+		return "content/shop/sellerExchange";
 	}
 
 	// 주문상태변경
@@ -61,7 +82,7 @@ public class SellerController {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		vo.setMemberId(userDetails.getUsername());
 		vo.setOrderStatus("배송중");
-		return sellService.sumbitShipping(vo);		
+		return sellService.sumbitShipping(vo);
 	}
 
 	// 판매자 페이지로 이동

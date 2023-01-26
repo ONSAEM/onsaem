@@ -2,10 +2,17 @@ package com.onsaem.web.shop.mapper;
 
 import java.util.List;
 
+import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.shop.service.OrderVO;
 import com.onsaem.web.shop.service.ProductVO;
 
 public interface SellerMapper {
+	// 판매자 리뷰댓글 달기
+	int sellerReviewContent(ReviewVO vo);
+
+	// 판매자 리뷰리스트 가져오기
+	List<ReviewVO> sellerReview(String data);
+
 	// 주문상태 변경
 	int sumbitShipping(OrderVO vo);
 
