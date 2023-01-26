@@ -911,7 +911,7 @@
 		        	url: '/blog/blogSearch',
 			      method: 'GET',
 			      contentType: 'application/x-www-form-urlencoded',
-			      data: data,
+			      data: {blogId : blogId},
 			      success: function (result) {
 					 $(".row").find(".col-sm-6").detach();
 					 $(".row").find(".pagination").detach();

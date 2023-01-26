@@ -70,17 +70,22 @@ public class BlogWriteController {
 	}
 	
 	// 블로그 페이징
-//		@RequestMapping(value = "/blogSearch", method = RequestMethod.GET)
-//		@ResponseBody
-//		public Map<String, Object> classSearch(BlogWriteVO vo, Model model, Paging paging) {
-//			paging.setPageUnit(9);
-//			return blogWriteService.getBlogPageList(vo,paging);
-//		}
+	@RequestMapping(value = "/blogSearch", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> blogSearch(BlogWriteVO vo, Model model, Paging paging, String blogId) {
+		paging.setPageUnit(9);
+		return blogWriteService.getBlogPageList(vo,paging,blogId);
+	}
 	
 	
 	// 내 블로그로 이동
 	@RequestMapping(value = "/myblog", method = RequestMethod.GET)
-	public String myblog(Model model, String userId, CategoriesVO vo, MomentsVO mVo, BlogVO bVo, LikeVO lVo,Authentication authentication) {
+	public String myblog(Model model, String userId, CategoriesVO vo, 
+						 MomentsVO mVo, BlogVO bVo, LikeVO lVo,Authentication authentication, 
+					 	 Paging paging,BlogWriteVO bwVo) {
+		// 페이징
+		paging.setPageUnit(9);
+		model.addAttribute("page", blogWriteService.getBlogPageList(bwVo,paging, userId).get("newPaging"));
 		
 		// 내 블로그 전체조회
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
