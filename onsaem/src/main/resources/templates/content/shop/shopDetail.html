@@ -219,7 +219,7 @@ h1 {
 													<div class="author-comment d-flex mt-3 mb-4"
 														th:each=" review : ${reviewList}">
 														<input type="hidden" th:value="${review.reviewId}"
-															id="reviewList"> <img
+															id="reviewList" class="reviewList"> <img
 															th:src="@{/images/avatar/studio-portrait-emotional-happy-funny.jpg}"
 															class="img-fluid avatar-image" alt="">
 
@@ -320,8 +320,14 @@ h1 {
 					      "groupId" : groupId					      		      
 					    },
 					success : function(result) {					
-						console.log(result)
-						console.log($("#reviewList").length)
+						console.log(result[0].groupId)
+						console.log($(".reviewList").val())
+						for(let i=0;i<$(".reviewList").length;i++){
+							
+							if($(".reviewList").val()==result[0].groupId){
+								console.log("hi")
+							}
+						}
 					},
 					error : function(error) { 
 						console.log(error)
