@@ -25,7 +25,7 @@ public interface ClassService {
 	public int classMinPrice(ClassInfoVO vo);
 	
 	// 강의 좋아요 체크
-	public LikeVO LikeCount(String groupId);
+	public LikeVO LikeCount(String groupId, String memberId);
 	
 	// 강의 좋아요 추가
 	public int addClassLike(LikeVO vo);

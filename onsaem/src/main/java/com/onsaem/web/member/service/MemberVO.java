@@ -22,7 +22,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberVO implements UserDetails{
-	private static final long serialVersionUID = 5879879557890014067L;
 	private String password;
 	private String nickname;
 	private String email;

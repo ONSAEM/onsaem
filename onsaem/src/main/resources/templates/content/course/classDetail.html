@@ -135,7 +135,7 @@
 										aria-hidden="true"></i> <span class="text like">Like<span
 											class="text d">d</span></span> <span class="text number"
 										th:text="${like.cnt}"></span>
-									</span> <input type="hidden" class="blogLike" th:value=${like.likeCk}>
+									</span> <input type="hidden" class="ClassLike" th:value=${like.likeCk}>
 								</div>
 							</div>
 						</div>
@@ -228,13 +228,10 @@
 
 
 	<script type="text/javascript">
-		let likeTF = '[[${like.likeCk}]]'; // input hidden value값으로 likeCount(like 테이블에 값이 있는지 조회)를 주고, 그 value를 가져옴
-		let contentId = '';
-		let writerId = '';
+		let likeTF = '[[${like.likeCk}]]';
 		let token = $("meta[name='_csrf']").attr("content");
 		let header = $("meta[name='_csrf_header']").attr("content");
 
-		console.log('[[${like.likeCk}]]');
 		var timeline1 = gsap.timeline({
 			repeatDelay : 0.7,
 			paused : true
@@ -290,69 +287,75 @@
 				$('.number').text(e);
 			}
 		}
-
+	
+		function test(){
+		}
+		
 		$(".heartbutton").click(function() {
-			likeTF = $('.wrapper').find('input').val();
+			likeTF = $('.wrapper').find('input').val()
 			event.stopPropagation();
 			// 좋아요 디비 저장
 			let groupId = "[[${class.classId}]]";
-			let id = "[[${#authentication.principal.memberId}]]";
+			let id = '[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}]]';
+			console.log(id);
+	if(id == ''){
+		console.log('널');
+	}
+			
+// 			if (id != "") { // 로그인 된 상태이면
+// 				if (likeTF == 'F') { // 테이블에 조회된 값이 없으면 db에 저장
+// 					//db에 저장하는 메서드 컨트롤러에 추가
+// 					$.ajax({
+// 						url : '/class/addBlogLike',
+// 						method : 'post',
+// 						contentType : 'application/x-www-form-urlencoded',
+// 						data : {
+// 							"groupId" : bno
+// 						}, // 컨트롤러로 넘겨줄 값. 이 페이지의 글 번호
+// 						beforeSend : function(xhr) {
+// 							xhr.setRequestHeader(header, token);
+// 						},
+// 						success : function(result) {
+// 							console.log(result.count);
+// 							// Y를 F로
 
-			if (id != "") { // 로그인 된 상태이면
-				if (likeTF == 'F') { // 테이블에 조회된 값이 없으면 db에 저장
-					//db에 저장하는 메서드 컨트롤러에 추가
+// 							$('.ClassLike').val('Y'); // blogLike인 클래스의 값을 불러와서 'Y'로 바꿔준다
+// 							timeline(result.count, true);
+// 						},
+// 						error : function(error) {
+// 							console.log(error);
+// 						}
+// 					})
 
-					$.ajax({
-						url : '/class/addBlogLike',
-						method : 'post',
-						contentType : 'application/x-www-form-urlencoded',
-						data : {
-							"groupId" : bno
-						}, // 컨트롤러로 넘겨줄 값. 이 페이지의 글 번호
-						beforeSend : function(xhr) {
-							xhr.setRequestHeader(header, token);
-						},
-						success : function(result) {
-							console.log(result.count);
-							// Y를 F로
+// 				} else { // db에 삭제
+// 					//db에서 삭제 또는 수정하는 메서드 컨트롤러에 추가
 
-							$('.blogLike').val('Y'); // blogLike인 클래스의 값을 불러와서 'Y'로 바꿔준다
-							timeline(result.count, true);
-						},
-						error : function(error) {
-							console.log(error);
-						}
-					})
+// 					$.ajax({
+// 						url : '/class/delBlogLike',
+// 						method : 'post',
+// 						contentType : 'application/x-www-form-urlencoded',
+// 						data : {
+// 							"groupId" : bno
+// 						},
+// 						beforeSend : function(xhr) {
+// 							xhr.setRequestHeader(header, token);
+// 						},
+// 						success : function(result) {
+// 							console.log(result.count);
 
-				} else { // db에 삭제
-					//db에서 삭제 또는 수정하는 메서드 컨트롤러에 추가
-
-					$.ajax({
-						url : '/class/delBlogLike',
-						method : 'post',
-						contentType : 'application/x-www-form-urlencoded',
-						data : {
-							"groupId" : bno
-						},
-						beforeSend : function(xhr){   
-						  xhr.setRequestHeader(header, token);
-						},
-						success : function(result) {
-							console.log(result.count);
-
-							// F를 Y로
-							$('.blogLike').val('F'); // blogLike인 클래스의 값을 불러와서 'F'로 바꿔준다
-							timeline(result.count, false);
-						},
-						error : function(error) {
-							console.log(error);
-						}
-					})
-				}
-				;
-			} else { // 로그인 하지 않은 상태이면
-				alert('로그인이 필요합니다');
-			}
+// 							// F를 Y로
+// 							$('.ClassLike').val('F'); // blogLike인 클래스의 값을 불러와서 'F'로 바꿔준다
+// 							timeline(result.count, false);
+// 						},
+// 						error : function(error) {
+// 							console.log(error);
+// 						}
+// 					})
+// 				}
+// 				;
+// 			} else { // 로그인 하지 않은 상태이면
+// 				alert('로그인이 필요합니다');
+// 			}
 		});
 		// 	좋아요 끝
 	</script>
