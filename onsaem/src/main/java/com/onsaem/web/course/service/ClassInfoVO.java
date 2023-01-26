@@ -24,7 +24,9 @@ public class ClassInfoVO {
 	String difficulty;
 	String classAddr;
 	double star;
-	int  reviewCount;
+	int reviewCount;
+	int queCount;
+	
 	
 	// 강의 이미지
 	String fileName;
