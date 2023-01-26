@@ -79,7 +79,7 @@ public class ChalAdminController {
 		return "redirect:/mypage/AdminEndChals";
 	}
 	
-	//해당 챌린지 참가 인원 리스트 뽑기
+	//챌린저스 개인전 포인트 적립 - 해당 챌린지 참가 인원 리스트 뽑기
 	@RequestMapping(value="/getParticipant", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getParticipant(String chalId){
@@ -90,7 +90,23 @@ public class ChalAdminController {
 		return map;
 	}
 	
-	//선택한 아이디의 인증정보 뽑기
+	//챌린저스 팀전 각 팀 정보 뽑기 ㅎ 
+	@RequestMapping(value="getTeams", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getTeams(String chalId){
+		Map<String, Object> map = new HashMap<String, Object>();
+		//a팀 정상인증 갯수 구하기
+		
+		//b팀 정상 인증 갯수 구하기
+		
+		//총 일수 구하기(enddate- starDate)
+		
+		//총 챌린저스 인원수 구하기 랫츠고 ㅋ 
+		
+		return map;
+	}
+	
+	//개인전 포인트 정산 - 선택한 아이디의 인증정보 뽑기
 	@RequestMapping(value="getInfo4Point", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getInfo4Point(@RequestBody ProofVO vo){
@@ -113,7 +129,10 @@ public class ChalAdminController {
 		return map;
 	}
 	
-	//포인트 적립 
+	//개인전 - 포인트 적립 
+	
+	
+	//팀전 포인트 적립
 	
 	//신고 리스트 띄우기
 	

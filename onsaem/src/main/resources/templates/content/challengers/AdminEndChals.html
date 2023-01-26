@@ -214,7 +214,7 @@
 			let cs = e.class;
 			if(cs=='receipt'){
 				console.log("true");
-				let chalId = document.getElementById('teamChalId').innerText;
+				let chalId = document.getElementById('oneChalId').innerText;
 				$('#groupId').val(chalId);
 				console.log($('#groupId').val());
 				$("#receiptFrm").show();
@@ -245,7 +245,29 @@
 				$("#point").show();
 				modal.classList.toggle("hidden");
 			}else {
-				//팀전 
+				let chalId = document.getElementById('teamChalId').innerText;
+				console.log(chalId);
+				//팀전 포인트 계산 위해서 
+				//a팀 정보, b팀 정보 가져오는 아작스필요
+				 $.ajax({
+						url:'/mypage/getTeams',
+						method : 'POST',
+						data : {chalId, chalId},
+						success : function(result){
+		        			console.log(result.list);
+		        			let list = result.list;
+		        			let options = [];
+		        			let makeOption = $.each(list, function(i){
+		        				options = $("<option value=" + list[i].participantId+ ">"+list[i].participantId+"</option>");
+		        			});
+		        			$('#users').append(options);
+		        			
+		        		},
+		        		error : function(error){
+		        			console.log(error);
+		        		}
+					}) 
+				
 			}
 		}
 		closeButton.addEventListener("click", displayModal)
