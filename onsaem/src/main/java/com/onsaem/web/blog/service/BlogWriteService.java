@@ -10,7 +10,7 @@ import com.onsaem.web.common.service.ReportVO;
 public interface BlogWriteService {
 		
 //		// 블로그 전체조회
-//		public Map<String, Object> getBlogPageList(BlogWriteVO blogWriteVO, Paging paging);
+		public Map<String, Object> getBlogPageList(BlogWriteVO blogWriteVO, Paging paging, String blogId);
 		
 		// 블로그 글 전체 조회
 		public List<BlogWriteVO> getBlogList(BlogWriteVO blogWriteVO);

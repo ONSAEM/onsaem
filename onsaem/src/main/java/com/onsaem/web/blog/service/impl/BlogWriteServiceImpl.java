@@ -22,19 +22,19 @@ public class BlogWriteServiceImpl implements BlogWriteService {
 	@Autowired BlogWriteMapper blogWriteMapper;
 	
 	
-//	@Override
-//	public Map<String, Object> getBlogPageList(BlogWriteVO blogWriteVO, Paging paging) {
-//		Paging newPaging = blogWriteMapper.blogCount(blogWriteVO);
-//		newPaging.setPageUnit(paging.getPageUnit());
-//		newPaging.setPage(paging.getPage());
-//		newPaging.setTotalRecord(newPaging.getTotalRecord());
-//		blogWriteVO.setFirst(newPaging.getFirst());
-//		blogWriteVO.setLast(newPaging.getLast());
-//		Map<String, Object> result = new HashMap<String, Object>();
-//		result.put("blogList", blogWriteMapper.getBlogPageList(blogWriteVO));
-//		result.put("newPaging", newPaging);
-//		return result;
-//	}
+	@Override
+	public Map<String, Object> getBlogPageList(BlogWriteVO blogWriteVO, Paging paging, String blogId) {
+		Paging newPaging = blogWriteMapper.blogCount(blogWriteVO);
+		newPaging.setPageUnit(paging.getPageUnit());
+		newPaging.setPage(paging.getPage());
+		newPaging.setTotalRecord(newPaging.getTotalRecord());
+		blogWriteVO.setFirst(newPaging.getFirst());
+		blogWriteVO.setLast(newPaging.getLast());
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("blogList", blogWriteMapper.myBlog(blogId));
+		result.put("newPaging", newPaging);
+		return result;
+	}
 	
 	
 	@Override
