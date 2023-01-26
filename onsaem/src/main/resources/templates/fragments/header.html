@@ -66,7 +66,10 @@
 							<li><a class="dropdown-item"
 								th:href="@{/blog/myblog(userId=${#authentication.principal.memberId})}">MY
 									BLOG</a></li>
-							<li><a class="dropdown-item" th:href="@{/logout}">LOGOUT</a></li>
+							<li><form class="logoutFrm" method="post" action="/logout">
+							<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
+							<a class="dropdown-item" id="logout" href="#">LOGOUT</a>
+							</form></li>
 							<li><a class="dropdown-item" th:href="@{/errorPage}">404</a></li>
 							<li><a class="dropdown-item" th:href="@{/class/classMGMT}">MANAGEMENT</a></li>
 							<li><a class="dropdown-item" th:href="@{/testblog}">blogtest</a></li>

@@ -79,8 +79,11 @@
 						class="input">
 				</div>
 				<div th:if="${error}" style="text-align: center">
-					<p id="valid" style="color: red; font-size: 13px;" th:text="${exception}"></p>
+					<p id="valid" style="color: red; font-size: 13px;"
+						th:text="${exception}"></p>
 				</div>
+				<input type="hidden" id="token" th:name="${_csrf.parameterName}"
+					th:value="${_csrf.token}" />
 				<!-- Submit button -->
 				<button type="submit" class="btn btn-primary btn-block mb-4">로그인</button>
 				<!-- Register buttons -->
@@ -214,6 +217,8 @@
 		</div>
 
 		<script>
+			let token = $("meta[name='_csrf']").attr("content");
+			let header = $("meta[name='_csrf_header']").attr("content");
 			let emailCk = '';
 			// 아이디 찾기
 			$('.findId').on(
@@ -289,6 +294,9 @@
 					data : {
 						"email" : email
 					},
+					beforeSend : function(xhr) { 
+						xhr.setRequestHeader(header, token);
+					},
 					contentType : 'application/x-www-form-urlencoded;',
 					success : function(result) {
 						if (result == 'false') {
@@ -329,6 +337,9 @@
 					method : 'POST',
 					data : {
 						"email" : email
+					},
+					beforeSend : function(xhr) { 
+						xhr.setRequestHeader(header, token);
 					},
 					contentType : 'application/x-www-form-urlencoded;',
 					success : function(result) {
@@ -449,6 +460,9 @@
 							processData : false,
 							contentType : false,
 							data : data,
+							beforeSend : function(xhr) { 
+								xhr.setRequestHeader(header, token);
+							},
 							dataType : 'text',
 							success : function(result) {
 								if (result == "success") {

@@ -207,6 +207,8 @@
 		</section>
 		<!-- Checkout Section End -->
 		<script type="text/javascript">
+		let token = $("meta[name='_csrf']").attr("content");
+		let header = $("meta[name='_csrf_header']").attr("content");
 		// 클릭시 결제
 	$(".paymentBtn").on("click",function() {
 		console.log('확인')
@@ -230,6 +232,9 @@
 		    	$.ajax({
 			      url: '/class/insertBooking',
 			      method: 'POST',
+			      beforeSend : function(xhr){   
+			    	  xhr.setRequestHeader(header, token);
+			    	},
 			      contentType: 'application/x-www-form-urlencoded',
 			      data: data,
 			      success: function (result) {
