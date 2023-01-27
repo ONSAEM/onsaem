@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.onsaem.web.blog.service.BlogService;
+import com.onsaem.web.blog.service.BlogVO;
 import com.onsaem.web.blog.service.BlogWriteService;
 import com.onsaem.web.blog.service.CategoriesVO;
 import com.onsaem.web.common.service.LikeVO;
@@ -82,4 +84,11 @@ public class BlogController {
 	
 	// 블로그 정보 수정
 	// 일단 사진 다 넣고 있으면 status를 false로 바꾸고, 없으면 그냥 true로 넣어주기~
+	@RequestMapping(value = "/updateInfo", method=RequestMethod.POST)
+	@ResponseBody
+	public String updateInfo(MultipartFile[] profileFile, BlogVO vo) {
+//		BlogVO result = 
+		return null;
+	}
+	
 }

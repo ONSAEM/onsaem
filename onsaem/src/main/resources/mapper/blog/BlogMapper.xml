@@ -80,6 +80,8 @@
 
 	<!-- 블로그 정보 등록 -->
 	<update id="taskUpdate" parameterType="String">
-		
+		update blogs set blog_name = #{blogName},
+		               introduction = #{introduction} 
+		 where blog_id = #{blogId}
 	</update>
  </mapper>
