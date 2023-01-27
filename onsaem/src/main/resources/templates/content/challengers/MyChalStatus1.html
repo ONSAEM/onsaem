@@ -13,11 +13,62 @@
 
 </th:block>
 <head>
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-	.app-content{
+		.app-content{
 	width: 70%;
     margin: auto;
 	}
+	button {
+   all: unset;
+   background-color: mediumslateblue;
+   color: white;
+   padding: 5px 25px;
+   border-radius: 10px;
+   cursor: pointer;
+	}
+	
+	.btn {
+	   margin-top: 60px;
+	}
+	
+	.modal {
+	   display: flex;
+	   justify-content: center;
+	   align-items: center;
+	   position: fixed;
+	   top: 0;
+	   left: 0;
+	   width: 100%;
+	   height: 100%;
+	}
+	
+	.modal__background {
+	   background-color: rgba(0, 0, 0, 0.6);
+	   width: 100%;
+	   height: 100%;
+	   position: absolute;
+	}
+	
+	.modal__content {
+	   text-align: center;
+	   position: relative;
+	   background-color: white;
+	   border-radius: 10px;
+	   top: 0;
+	   padding: 10px 25px;
+	   width: 20%;
+	}
+	
+	h1 {
+	   margin: 0;
+	   margin-bottom: 13px;
+	}
+	
+	.hidden {
+	   display: none;
+	}
+	
 </style>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
@@ -114,7 +165,7 @@
 						              <line x1="3" y1="18" x2="3.01" y2="18" />
 						     </svg>
 						</button>
-						<button class="view-btn grid-view active" title="Grid View">
+						<button class="view-btn grid-view active" title="Grid View" onclick="move()">
 							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
 								viewBox="0 0 24 24" fill="none" stroke="currentColor"
 								stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -168,13 +219,9 @@
 	</div>
 	<!-- End of container -->
 
-
-		<!-- 도넛차트 -->
-		    <div id="donutchart" style="width: 900px; height: 500px;"> </div>
+		<!-- 도넛차트 -->		
+		 <canvas id="chDonut1"></canvas>
 		
-	
-	
-	
 	<div class="container">
 		<span><p>성공 횟수 : [[${cntGood}]] 회</p>
 		<p>실패 횟수 : [[${cntBad}]] 회</p>
@@ -185,9 +232,10 @@
 		
 		<div class="gallery">
 
-			<div class="gallery-item" tabindex="0" th:each="myphoto : ${myPhotoes}" >
+			<div class="gallery-item" tabindex="0" th:each="myphoto : ${myPhotoes}" th:onclick="displayModal([[${myphoto}]])">
 
 				<img src="'/fileView/'+${myphoto.fileRoute}" class="gallery-image">
+				<input type="hidden" id="chalId" th:value="${myphoto.proofId}">
 				<div class="gallery-item-info">
 
 					<ul>
@@ -210,11 +258,51 @@
 
 	</div>	    
 
-				</div>
+</div>
 			</div>
 
 		</div>
-		
+		<!-- 모달창 -->
+       <div class="modal hidden">
+          <div class="modal__background"></div>
+          <div class="modal__content" id="insta">
+         
+             	<span><p id="writer"></p></span>
+             	<button id="on" onclick="openFrm()" style="display: on;">신고</button>	
+             	<input type="hidden" id="theId">
+                <img style="width: 500px;" id="image">
+          		<p id="contents"></p>      
+                <table>
+                <thead><tr>
+                			<th>댓쓴이</th>
+                			<td>댓글내용</td>
+                		</tr></thead>
+                		<tbody class="replies">
+                		</tbody>
+                </table>
+                <span><p id="redHeart" th:onclick="delLike()">❤</p><p id="whiteHeart" th:onclick="addLike()">🤍</p>좋아요 <p id="cnt"></p></span>
+                <input type="text" id="content" name="content">
+                <button type="button" th:onclick="inputReply()">댓글쓰기</button>
+                <button type="button" class="closeBtn">닫기</button>
+             
+          </div>
+          <div id="reportFrm" style="display : none;" class="modal__content">
+          <!-- 신고폼 -->
+             <form >
+             	<input type="hidden" id="theId">
+                	<select id="reason">
+                		<option value="">==신고 사유 고르기==</option>
+                		<option value="악성댓글">악성댓글</option>
+                		<option value="주제와관련없는인증">주제와 관련 없는 인증</option>
+                	</select>
+                	<label>신고대상</label><input type="text" id="toId" placeholder="신고대상의 아이디">
+                	<textarea id="detailReason" placeholder="상세 사유를 작성해주세요"></textarea>
+                <button type="button" th:onclick="inputReport()">신고</button>
+                <button type="button" class="closeBtn" onclick="offFrm()">닫기</button>
+               </form>
+          </div>
+       </div>
+       <!-- 모달창 끛-->
 		
 		
 	</div>
@@ -223,6 +311,10 @@
 		<!--    <script th:src="@{/js/page/home.js}"></script>-->
 		</th:block>
 		<script type="text/javascript">
+		//csrf설정
+		 var token = $("meta[name='_csrf']").attr("content");
+		 var header = $("meta[name='_csrf_header']").attr("content");
+		 
 		document.addEventListener('DOMContentLoaded', function () {
 	 		 var modeSwitch = document.querySelector('.mode-switch');
 
@@ -259,26 +351,35 @@
 			});
 		
 		
-		//도넛차트
-		 google.charts.load("current", {packages:["corechart"]});
-	      google.charts.setOnLoadCallback(drawChart);
-	      function drawChart() {
-	        var data = google.visualization.arrayToDataTable([
-	          ['Task', 'percent'],
-	          ['Work',     50],
-	          ['no', 50]
-	        ]);
-	
-	        var options = {
-	          title: '나의 인증 현황',
-	          pieHole: 0.4,
-	          colors: ['pink', '#d3362d']
-	        };
-	
-	        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-	        chart.draw(data, options);
-	      }
+		//차트
+		var colors = ['#b4a7d6','#eae5e1','#333333','#c3e6cb','#dc3545','#6c757d'];
+		var donutOptions = {
+			  cutoutPercentage: 85, 
+			  legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
+			};
+			
+			// donut 1
+			var chDonutData1 = {
+			    labels: ['평균달성률'],
+			    datasets: [
+			      {
+			        backgroundColor: colors.slice(0,2),
+			        borderWidth: 0,
+			        data: [74, 11]
+			      }
+			    ]
+			};
+			
+			var chDonut1 = document.getElementById("chDonut1");
+			if (chDonut1) {
+			  new Chart(chDonut1, {
+			      type: 'doughnut',
+			      data: chDonutData1,
+			      options: donutOptions
+			  });
+			}
 	      	
+			//성공률 계산위해
 	      	let privateDonation = Number("[[${user.privateDonate}]]");
 	      	console.log(privateDonation);
 	      	let good = Number("[[${cntGood}]]");
@@ -308,7 +409,228 @@
 	     	
 	     	console.log(success);
 	      
-	     	
+	     	//모달창
+	     	const modal = document.querySelector(".modal");
+	      const closeButton = modal.querySelector(".closeBtn");
+	      const modalBackground = modal.querySelector(".modal__background");
+
+	      function displayModal(data) {
+	    	  console.log(data)
+	    	  let proofId = data.proofId;
+	    	  $('#theId').val(data.proofId);
+	    	  console.log(proofId,'=======');
+	    	 
+	    	  $(".replies").val();
+		       //ajax 호출 
+		       		$.ajax({
+		      			url: '/mypage/proofDetail',
+					      method: 'POST',
+					      beforeSend : function(xhr)
+			               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+			               xhr.setRequestHeader(header, token);
+			               },
+					      //contentType: 'application/plain',
+					      data: {proofId : proofId},
+					      success: function (result) {
+					    	  console.log(result);
+					    	  console.log(result.repllies);
+					    	  console.log(result.brd.content);
+					    	  console.log(result.brd.proofWriter);
+					    	  $('#image').attr("src", '/fileView/'+result.brd.fileRoute);
+					    	  
+					    	$('.replies').html("");
+					    	  let list = result.repllies;
+					    	  console.log(list.writerId);
+					    	  let brd = result.brd;
+					    	  var str = '<TR>';
+					    	  let tbl =  $.each(list , function(i){
+					    		  str += '<TD>' + list[i].writerId + '</TD><TD>' + list[i].content+'</TD><TD>'+list[i].replyDate+ '</TD>';
+					                  str += '</TR>';
+					             });
+					    	  $(".replies").append(str);
+
+					    	 $("#cnt").text(result.likeCnt);
+					    	 //인증글 내용 넣기
+					    	  document.querySelector("#contents").innerText=result.brd.content;
+					    	 //글쓴이 넣기
+					    	  document.querySelector("#writer").innerText=result.brd.proofWriter;
+					    	 //좋아요 여부 확인
+					    	 let check = result.checkLike;
+					    	 if(check == 0){
+					    		 $("#whiteHeart").show();
+					    		 $("#redHeart").hide();
+					    	 }else{
+					    		 $("#redHeart").show();
+					    		 $("#whiteHeart").hide();	 
+					    	 }
+					    	  
+					      },
+					      error: function (error) {
+					         console.log(error);
+					      }
+		      		})
+		      		
+	         modal.classList.toggle("hidden");
+	       
+	      }
+
+	      
+	      closeButton.addEventListener("click", displayModal)
+	      modalBackground.addEventListener("click", displayModal);
+	      //=----모달창관련 스크립트 끝
+	      
+	      //댓글 달기
+	      function inputReply(){
+	    	let content = $('#content').val();
+	    	let id = document.querySelector('#theId').value;
+	    	//아쟉스 아자자
+	    	$.ajax({
+	    		url : '/mypage/inputReply',
+	    		method : 'POST',
+	    		  beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
+	    		contentType: 'application/json',
+			    data: JSON.stringify({content:content, groupId : id}),
+			    success:function(result){
+			    	console.log(result);
+			    	$('.replies').html("");
+			    	  let list = result;
+			    	  console.log(list.writerId);
+			    	  let brd = result.brd;
+			    	  var str = '<TR>';
+			    	  let tbl =  $.each(list , function(i){
+			                  str += '<TD>' + list[i].writerId + '</TD><TD>' + list[i].content+'</TD><TD>'+list[i].replyDate+ '</TD>';
+			                  str += '</TR>';
+			             });
+			    	  $(".replies").append(str);
+			    },
+			    error : function(error){
+			    	console.log(error);
+			    }
+	    		
+	    	})
+		      						
+	      }
+	      
+	      //좋아요 하기
+	      function addLike(){
+	    	  let groupId = document.querySelector('#theId').value;
+	    	  console.log(groupId);
+	    	  
+	    	  $.ajax({
+	    		  url : '/mypage/addChalLike',
+	    		  method : 'POST',
+	    		  beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
+	    		  data : {groupId : groupId},
+	    		  success:function(result){
+	    			  console.log(result);
+	    			  //좋아요 갯수 변경
+	    			  $("#cnt").text(result.likeCnt);
+	    			  //하트 변경
+	    			  let check = result.checkLike;
+				    	 if(check == 0){
+				    		 $("#whiteHeart").show();
+				    		 $("#redHeart").hide();
+				    	 }else{
+				    		 $("#redHeart").show();
+				    		 $("#whiteHeart").hide();	 
+				    	 } 
+	    		  },
+	    		  error : function(){
+	    			  console.log(error);
+	    		  }
+	    	  })
+	      }
+	      //좋아요 삭제 ㅎㅎ
+	      function delLike(){
+	    	  let groupId = document.querySelector('#theId').value;
+	    	  console.log(groupId);
+	    	  
+	    	  $.ajax({
+	    		  url : '/mypage/delChalLike',
+	    		  method : 'POST',
+	    		  beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
+	    		  data : {groupId : groupId},
+	    		  success:function(result){
+	    			  console.log(result);
+	    			  //좋아요 갯수 변경
+	    			  $("#cnt").text(result.likeCnt);
+	    			  //하트 변경
+	    			  let check = result.checkLike;
+				    	 if(check == 0){
+				    		 $("#whiteHeart").show();
+				    		 $("#redHeart").hide();
+				    	 }else{
+				    		 $("#redHeart").show();
+				    		 $("#whiteHeart").hide();	 
+				    	 } 
+	    		  },
+	    		  error : function(){
+	    			  console.log(error);
+	    		  }
+	    	  })
+	    	  
+	      }
+	      
+	      //신고하기 폼 열기
+	      function openFrm(){
+	    	  $("#insta").hide();
+	    	  $("#on").hide();
+	    	  $("#reportFrm").show();
+	    	  
+	      }
+	      
+	      //신고하기 폼닫기
+	      function offFrm(){
+	    	  $("#insta").show();
+	    	  $("#on").show();
+	    	  $("#reportFrm").hide();
+	      }
+	      
+	      //신고하기
+	      function inputReport(){
+	    	  let toId = $("#toId").val();
+	    	  let groupId = document.querySelector('#theId').value;
+	    	  let reason = $("#reason").val();
+			  let detailReason = $("#detailReason").val();
+	    	  console.log(groupId);
+	    	  
+	    	 	$.ajax({
+	    		  url : '/mypage/inputReport',
+	    		  method : 'POST',
+	    		  beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
+	    		  contentType: 'application/json',
+				  data: JSON.stringify({reason:reason, toId : toId, detailReason:detailReason}),
+				  success:function(result){
+					  alert(result.msg);
+					  $("#detailReason").val(""); //초기화
+					  $("#reason").val(""); //초기화
+					  $("#toId").val("");
+					  
+				  }, 
+	    		 error : function(error){
+	    			 console.log(error);
+	    		 }
+	    		  
+	    	  }) 
+	      }
+	      
+	      //페이지 이동 - 남들 인증샷, 같은 참가자 인증샷 보는 곳으루 ㅎ 랫츠고 !
+	      function move(){
+	    	  let chalId = '[[${chal.chalId}]]';
+	    	  location.href="/mypage/myChalStatus2?chalId="+chalId;
+	      }
 		</script>
     	
 			<script th:src="@{/shoptemplate/js/main.js}"></script>

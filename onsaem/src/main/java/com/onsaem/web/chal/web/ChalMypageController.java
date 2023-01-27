@@ -211,7 +211,7 @@ public class ChalMypageController {
 	//얘 마이페이지의 - 2번째 페이지
 	@RequestMapping(value="/myChalStatus2", method=RequestMethod.GET)
 	public String myChalStatus2(Model model, @RequestParam(value="chalId", required=false)String chalId) {
-		
+		model.addAttribute("chal",chalService.getChal(chalId));
 		chalId = "CH1";
 		//한 챌린지에 대한 모든 사람들의 인증글 가져오기
 		model.addAttribute("proofs", proofService.listProofAll(chalId));

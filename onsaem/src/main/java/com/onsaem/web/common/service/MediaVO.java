@@ -19,4 +19,5 @@ public class MediaVO {
 	
 	//챌린저스에 변수 추가
 	String proofWriter;
+	String proofId;
 }

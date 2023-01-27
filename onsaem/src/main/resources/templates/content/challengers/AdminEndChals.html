@@ -40,6 +40,7 @@
 
 <head>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	  
 	<style type="text/css">
 	button {
@@ -86,9 +87,8 @@
 	.hidden {
 	   display: none;
 	}
-	</style>
+</style>
 
-  
 </head>
 <!-- Content -->
 
@@ -121,8 +121,8 @@
 						<td th:text="${team.donationFee}"></td>
 						<td th:text="${team.teamFee}"></td>
 						<td th:if="${team.receipt} !=null"><button type="button">첨부 완료</button></td>
-						<td th:if="${team.receipt} ==null"><button type="button" th:onclick="displayModal(this)" class="receipt">첨부 하기</button></td>
-						<td><button type="button" th:onclick="displayModal(this)" id="pointTeam">정산 하기</button></td>							
+						<td th:if="${team.receipt} ==null"><button type="button" onclick="displayModal(this)" id="receiptTeam" >첨부 하기</button></td>
+						<td><button type="button" th:onclick="displayModal(this)" id="pointTeam" >정산 하기</button></td>							
 					</tr>
 				</tbody>
 			</table>
@@ -155,9 +155,9 @@
 							<td><button type="button">첨부 완료</button></td>
 						</th:block>
 						<th:block th:if="${one.receipt} ==null">
-							<td><button type="button" class="receipt">첨부 하기</button></td>
+							<td><button type="button" id="receiptOne" th:onclick="displayModal(this)">첨부 하기</button></td>
 						</th:block>
-						<td><button type="button" id="pointOne">정산 하기</button></td>						
+						<td><button type="button" id="pointOne" th:onclick="displayModal(this)" >정산 하기</button></td>						
 					</tr>
 				</tbody>
 			</table>
@@ -165,9 +165,10 @@
 					<!--모달창  --> 
 						<div class="modal hidden">
 							<div class="modal__background"></div>
-							<div class="modal__content">
-								<div id="receiptFrm">
+							
+								<div id="receiptFrm" class="modal__content">
 									<form action="/mypage/inputReceipt" method="post" enctype="multipart/form-data">
+										<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
 										<label>기부영수증 첨부하기</label>
 										<input type="hidden" id="groupId" name="groupId">
 										<input type="file" id="uploadFile" name="uploadFile">
@@ -175,22 +176,31 @@
 										<button type="button" class="closeBtn">닫기</button>
 									</form>
 								</div>
-								<div id ="point">
+								<div id ="point" class="modal__content">
 									<h4>포인트정산</h4>
 									<input type="hidden" id="groupId" name="groupId">
 									<select id="users">
 										<option>==아이디==</option>
 									</select>
+									<canvas id="chDonut3"></canvas> 
+									<button type="button" class="closeBtn">닫기</button>
 								</div>
 								
-								<div id ="teamPoint">
+								<div id ="teamPoint" class="modal__content">
 									<h4>포인트정산</h4>
 									<input type="hidden" id="groupId" name="groupId">
-									<select id="users">
-										<option>==아이디==</option>
+									<select id="teamChoose">
+										<option>==팀==</option>
+										<option>A팀</option>
+										<option>B팀</option>
 									</select>
+									<div class="col py-2">
+									     <canvas id="chDonut1"></canvas>
+									     <canvas id="chDonut2"></canvas>   
+									 </div>
+									<button type="button" class="closeBtn">닫기</button>
 								</div>
-							</div>
+						
 						</div>
 						<!--모달창 끝  -->
 	
@@ -199,55 +209,191 @@
 		<script th:src="@{/shoptemplate/js/main.js}"></script>
 	</th:block>
 	<script>
+	//csrf설정
+	 var token = $("meta[name='_csrf']").attr("content");
+	 var header = $("meta[name='_csrf_header']").attr("content");
+	 
+	//차트
+		var colors = ['#b4a7d6','#eae5e1','#333333','#c3e6cb','#dc3545','#6c757d'];
+		var donutOptions = {
+			  cutoutPercentage: 85, 
+			  legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
+			};
+			
+			// donut 1
+			var chDonutData1 = {
+			    labels: ['A팀 평균달성률'],
+			    datasets: [
+			      {
+			        backgroundColor: colors.slice(0,2),
+			        borderWidth: 0,
+			        data: [74, 11]
+			      }
+			    ]
+			};
+			
+			var chDonut1 = document.getElementById("chDonut1");
+			if (chDonut1) {
+			  new Chart(chDonut1, {
+			      type: 'doughnut',
+			      data: chDonutData1,
+			      options: donutOptions
+			  });
+			}
+			
+			// donut 2
+			var chDonutData2 = {
+			    labels: ['B팀 평균달성률'],
+			    datasets: [
+			      {
+			        backgroundColor: colors.slice(0,2),
+			        borderWidth: 0,
+			        data: [40, 45]
+			      }
+			    ]
+			};
+			var chDonut2 = document.getElementById("chDonut2");
+			if (chDonut2) {
+			  new Chart(chDonut2, {
+			      type: 'doughnut',
+			      data: chDonutData2,
+			      options: donutOptions
+			  });
+			}
+			
+			// donut 3
+			var chDonutData3 = {
+			    labels: ['평균달성률'],
+			    datasets: [
+			      {
+			        backgroundColor: colors.slice(0,2),
+			        borderWidth: 0,
+			        data: [74, 11]
+			      }
+			    ]
+			};
+			
+			var chDonut3 = document.getElementById("chDonut3");
+			if (chDonut3) {
+			  new Chart(chDonut3, {
+			      type: 'doughnut',
+			      data: chDonutData3,
+			      options: donutOptions
+			  });
+			}
+			
 		//모달창 생성
 		document.querySelectorAll(".openBtn").forEach((openBtn) => {
 			console.log(openBtn);
 			openBtn.addEventListener("click", displayModal);
 			
 		})
+		
 		const modal = document.querySelector(".modal");
 		const closeButton = modal.querySelector(".closeBtn");
 		const modalBackground = modal.querySelector(".modal__background");
-
+		
+		//chalId 정의
+		let chalId;
 		function displayModal(e) {
 			let id = e.id;
-			let cs = e.class;
-			if(cs=='receipt'){
-				console.log("true");
-				let chalId = document.getElementById('teamChalId').innerText;
-				$('#groupId').val(chalId);
-				console.log($('#groupId').val());
-				$("#receiptFrm").show();
-				$("#point").hide();
-				modal.classList.toggle("hidden");
-			}else if(id == 'pointOne'){
-				let chalId = document.getElementById('teamChalId').innerText;
-				console.log(chalId);
-				 $.ajax({
-					url:'/mypage/getParticipant',
-					method : 'POST',
-					data : {chalId, chalId},
-					success : function(result){
-	        			console.log(result.list);
-	        			let list = result.list;
-	        			let options = [];
-	        			let makeOption = $.each(list, function(i){
-	        				options = $("<option value=" + list[i].participantId+ ">"+list[i].participantId+"</option>");
-	        			});
-	        			$('#users').append(options);
-	        			
-	        		},
-	        		error : function(error){
-	        			console.log(error);
-	        		}
-				}) 
-				$("#receiptFrm").hide();
-				$("#point").show();
-				modal.classList.toggle("hidden");
-			}else {
-				//팀전 
+			console.log(id);
+			switch(id){
+				case "receiptTeam" :
+					console.log("팀영수증");
+					chalId = $('#teamChalId').text();
+					$('#groupId').val(chalId);
+					console.log($('#groupId').val());
+					
+					$("#receiptFrm").show();
+					$("#point").hide();
+					$("#teamPoint").hide();
+					
+					modal.classList.toggle("hidden");
+					
+					break;
+				case "pointTeam" :
+					console.log("팀 포인트정산");
+					chalId = $('#teamChalId').text();
+					$('#groupId').val(chalId);
+					//팀전 포인트 계산 위해서 
+					//a팀 정보, b팀 정보 가져오는 아작스필요
+					/*  $.ajax({
+							url:'/mypage/getTeams',
+							method : 'POST',
+							data : {chalId, chalId},
+							beforeSend : function(xhr)
+				               {   
+				               xhr.setRequestHeader(header, token);
+				               },
+							success : function(result){
+			        			console.log(result.list);
+			        			let list = result.list;
+			        			let options = [];
+			        			let makeOption = $.each(list, function(i){
+			        				options = $("<option value=" + list[i].participantId+ ">"+list[i].participantId+"</option>");
+			        			});
+			        			$('#users').append(options);
+			        			
+			        		},
+			        		error : function(error){
+			        			console.log(error);
+			        		}
+						}) */
+						$("#receiptFrm").hide();
+						$("#point").hide();
+						$("#teamPoint").show();	
+						
+						modal.classList.toggle("hidden");
+					break;
+				case "receiptOne" :
+					console.log("개인전 영수증");
+					
+					chalId = $('#oneChalId').text();
+					$('#groupId').val(chalId);
+			
+					$("#receiptFrm").show();
+					$("#point").hide();
+					$("#teamPoint").hide();
+					
+					modal.classList.toggle("hidden");
+					break;
+				case "pointOne" :
+					chalId = $('#oneChalId').text();
+					$('#groupId').val(chalId);
+					
+					console.log("개인전 포인트정산");
+					 $.ajax({
+							url:'/mypage/getParticipant',
+							method : 'POST',
+							data : {chalId, chalId},
+							beforeSend : function(xhr)
+				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				               xhr.setRequestHeader(header, token);
+				               },
+							success : function(result){
+			        			console.log(result.list);
+			        			let list = result.list;
+			        			let options = [];
+			        			let makeOption = $.each(list, function(i){
+			        				options = $("<option value=" + list[i].participantId+ ">"+list[i].participantId+"</option>");
+			        			});
+			        			$('#users').append(options);
+			        			
+			        		},
+			        		error : function(error){
+			        			console.log(error);
+			        		}
+						}) 
+						$("#receiptFrm").hide();
+						$("#point").show();
+						$("#teamPoint").hide();
+						
+						modal.classList.toggle("hidden");
+					break;
 			}
-		}
+			
+		};
 		closeButton.addEventListener("click", displayModal)
 		modalBackground.addEventListener("click", displayModal);
 		
@@ -264,6 +410,10 @@
   				method :'POST',
   				contentType:'application/json',
   				data : JSON.stringify({chalId:chalId, proofWriter : proofWriter}),
+  				beforeSend : function(xhr)
+                {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+                xhr.setRequestHeader(header, token);
+                },
   				success:function(result){
   					let total = Number(result.days);
   					let cnt = Number(result.cnt);
@@ -279,7 +429,7 @@
   						point == 0;
   					}
   					
-  					let point = donate*0.1;
+  					point = donate*0.1;
   				},
   				error : function(error){
   					console.log()
