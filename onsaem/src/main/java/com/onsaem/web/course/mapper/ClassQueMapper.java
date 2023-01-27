@@ -5,7 +5,7 @@ import java.util.List;
 import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.QuestionVO;
 
-public interface ClassQMapper {
+public interface ClassQueMapper {
 	// 문의 전체조회
 	public List<QuestionVO> getQuestionList(QuestionVO vo);
 

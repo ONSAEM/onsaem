@@ -55,14 +55,14 @@ public class ClassReviewServiceImpl implements ClassReviewService {
 
 	@Override
 	public ReviewVO getReview(ReviewVO vo) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
-	public Paging reviewCount(ReviewVO vo) {
-		// TODO Auto-generated method stub
-		return null;
+	public int reviewCount(ReviewVO vo) {
+		
+		return classReviewMapper.reviewCount(vo).getTotalRecord();
 	}
 
 }
