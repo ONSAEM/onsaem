@@ -288,7 +288,7 @@
 		<div class="wrapper">
 			<div class="title">사진등록 테스트</div>
 			<div class="form">
-				<form name="mediaFrm">
+				<form name="mediaFrm" class="form">
 					<div class="inputfield">
 						<img id="preview-image"
 							src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
@@ -299,9 +299,9 @@
 							for="file" class="filelabel">사진등록</label> <input type="file"
 							id="file" name="uploadfile" multiple="multiple">
 					</div>
-					<input type="hidden" name="groupId" value="RV006"> 
-					<input type="hidden" name="groups" value="강의">
-				<!-- 	<input type="hidden" name="subGroup" value="테스트서브그룹"> -->
+					<input type="hidden" name="groupId" value="CH091"> 
+					<input type="hidden" name="groups" value="챌린저스">
+					<input type="hidden" name="subGroup" value="썸네일"> 
 				<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
 					<div class="inputfield">
 						<input type="button" value="등록" class="btn sendMedia">
@@ -329,7 +329,7 @@
 			}
 
 			$(".sendMedia").on('click', function() {
-				var data = new FormData($('form')[0]);
+				var data = new FormData($('form[name="mediaFrm"]')[0]);
 				console.log(data);
 				$.ajax({
 					url : '/mediaTest',

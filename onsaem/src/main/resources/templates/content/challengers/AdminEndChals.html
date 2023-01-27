@@ -182,7 +182,7 @@
 									<select id="users">
 										<option>==아이디==</option>
 									</select>
-									<canvas id="chDonut3"></canvas> 
+									<canvas id="userChart"></canvas> 
 									<button type="button" class="closeBtn">닫기</button>
 								</div>
 								
@@ -241,8 +241,8 @@
 		let chalId;
 		let Asize;
 		let Bsize;
-		function displayModal(e) {
-			let id = e.id;
+		function displayModal(obj) {
+			let id = obj.id;
 			console.log(id);
 			switch(id){
 				case "receiptTeam" :
@@ -260,9 +260,10 @@
 					break;
 				case "pointTeam" :
 					console.log("팀 포인트정산");
-					chalId = $('#teamChalId').text();
+					chalId = $(obj).closest("tr").find('#teamChalId').text();
 					$('#groupId').val(chalId);
 					groupId = $('#groupId').val();
+					console.log(groupId);
 					//팀전 포인트 계산 위해서 
 					//a팀 정보, b팀 정보 가져오는 아작스필요
 					  $.ajax({
@@ -355,8 +356,7 @@
 					break;
 				case "receiptOne" :
 					console.log("개인전 영수증");
-					
-					chalId = $('#oneChalId').text();
+					chalId = $(obj).closest("tr").find('#oneChalId').text();
 					$('#groupId').val(chalId);
 			
 					$("#receiptFrm").show();
@@ -366,21 +366,23 @@
 					modal.classList.toggle("hidden");
 					break;
 				case "pointOne" :
-					chalId = $('#oneChalId').text();
-					$('#groupId').val(chalId);
+					let oneId = $(obj).closest("tr").find('#oneChalId').text();
+					$('#groupId').val(oneId);
+					groupId = $('#groupId').val(); 
+					console.log(groupId);
 					
 					console.log("개인전 포인트정산");
 					 $.ajax({
 							url:'/mypage/getParticipant',
 							method : 'POST',
-							data : {chalId, chalId},
+							data : {"chalId": groupId},
 							beforeSend : function(xhr)
 				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
 				               xhr.setRequestHeader(header, token);
 				               },
 							success : function(result){
-			        			console.log(result.list);
-			        			let list = result.list;
+			        			console.log(result);
+			        			let list = result;
 			        			let options = [];
 			        			let makeOption = $.each(list, function(i){
 			        				options = $("<option value=" + list[i].participantId+ ">"+list[i].participantId+"</option>");
@@ -406,8 +408,9 @@
 		
 		
 		//포인트 정산 위해서 선택한 아이디의 정보 다 끌어오깅~
-		$("select[id=users]").change(function(){
-			let chalId = document.getElementById('teamChalId').innerText;
+		$("select[id=users]").change(function(obj){
+			console.log(obj);
+			let chalId = $('#groupId').val();
 			console.log(chalId);
   			console.log($("select[id=users] option:selected").val()); //text값 가져오기
 			let proofWriter = $("select[id=users] option:selected").val();
@@ -434,9 +437,11 @@
   						point = donate*0.01;
   					}else{
   						point == 0;
-  					}
+  					}	
   					
-  					point = donate*0.1;
+  					//차트 렛츠고
+  					
+  					
   				},
   				error : function(error){
   					console.log()
