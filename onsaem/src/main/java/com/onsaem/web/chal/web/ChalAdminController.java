@@ -92,7 +92,7 @@ public class ChalAdminController {
 	}
 	
 	//챌린저스 팀전 각 팀 정보 뽑기 ㅎ 
-	@RequestMapping(value="getTeams", method=RequestMethod.POST)
+	@RequestMapping(value="/getTeams", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getTeams(String chalId){
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -122,7 +122,7 @@ public class ChalAdminController {
 	}
 	
 	//개인전 포인트 정산 - 선택한 아이디의 인증정보 뽑기
-	@RequestMapping(value="getInfo4Point", method=RequestMethod.POST)
+	@RequestMapping(value="/getInfo4Point", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getInfo4Point(@RequestBody ProofVO vo){
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -141,7 +141,16 @@ public class ChalAdminController {
 		return map;
 	}
 	
-	//개인전 - 포인트 적립 
+	//개인전 - 포인트 적립
+	@RequestMapping(value="/inputPoint", method=RequestMethod.POST)
+	@ResponseBody
+	public String inputPoint(@RequestBody ParticipantVO vo) {
+		//참가자테이블 result, resultPoint 업데이트
+		
+		//member테이블 업데이트
+		
+		return "true";
+	}
 	
 	
 	//팀전 포인트 적립

@@ -182,7 +182,10 @@
 									<select id="users">
 										<option>==아이디==</option>
 									</select>
+									<!-- 본인 기부금 띄우기  -->
+									<!-- 정산 포인트 띄우기 -->
 									<canvas id="userChart"></canvas> 
+									<button type="button" onclick="pointInput()">닫기</button>
 									<button type="button" class="closeBtn">닫기</button>
 								</div>
 								
@@ -437,29 +440,30 @@
   						point = donate*0.01;
   					}else{
   						point == 0;
-  					}	
+  					}
+  					let pp = percent*100;
   					
   					//차트 렛츠고//
-	                let list = new Array();
+	                let oneList = new Array();
   					user= $("select[id=users] option:selected").val();
   					let theLabel = user+ " 평균달성률";
-	        		//Blist.push(Bpercent);
-	        		//Blist.push(100-Bpercent);
+	        		oneList.push(pp);
+	        		oneLlist.push(100-pp);
 	               var Bdata = {
 	                        labels: theLabel,
 	                        datasets: [{
 	                              backgroundColor: ['#b4a7d6','#eae5e1'],
-	                              data : Blist
+	                              data : oneList
 	                        }],
 	                        options : {
 	                              title : {
 	                              display : true,
-	                              text: 'B팀 달성률'
+	                              text: theLabel
 	                              }
 	                        }
 	                  }
-	               var ctx2 = document.getElementById('userchart').getContext('2d');
-	                 new Chart(ctx2, {
+	               var ctx3 = document.getElementById('userchart').getContext('2d');
+	                 new Chart(ctx3, {
 	                          type: 'doughnut',
 	                         data: Bdata
 	                 });
@@ -505,6 +509,30 @@
 			
 			 $.ajax({
   				url : '/mypage/sharePoint',
+  				method :'POST',
+  				contentType:'application/json',
+  				data : JSON.stringify({"thatPoint":thatPoint, "chalId" : groupId, "winner" : winner, "loser" : loser }),
+  				beforeSend : function(xhr)
+				                {   
+				                xhr.setRequestHeader(header, token);
+				                },
+  				success:function(result){
+  					alert("정산 완료 되었습니다.");
+  					location.href ="/mypage/AdminEndChals";
+  				},
+  				error : function(error){
+  					console.log()
+  				}
+  			}) 
+			
+		}
+		
+		//개인전 포인트 정산
+		function pointInput(){
+			let groupid = $('#groupId').val();
+			
+			$.ajax({
+  				url : '/mypage/inputPoint',
   				method :'POST',
   				contentType:'application/json',
   				data : JSON.stringify({"thatPoint":thatPoint, "chalId" : groupId, "winner" : winner, "loser" : loser }),
