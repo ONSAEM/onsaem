@@ -63,5 +63,8 @@ public interface ChalService {
 	//관리자용
 	List<ChalVO> AdminEndChals(String subClass);
 	
+	//관리자용 member테이블 팀전 챌린저스 포인트 업데이트
+	Integer updateMemberPoint(ParticipantVO vo);
+	
 	
 }

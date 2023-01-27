@@ -53,12 +53,13 @@ public class ChalAdminController {
 		
 		model.addAttribute("ones", chalService.AdminEndChals("개인"));
 		
+		//정산됫는지 확인하는 메소드 필요
+		
 		return "content/challengers/AdminEndChals";
 	}
 	
 	//기부 증서 넣기
 	@RequestMapping(value="/inputReceipt", method=RequestMethod.POST)
-	@ResponseBody
 	public String inputReceipt(MediaVO vo,Authentication authentication,  MultipartFile[] uploadFile) throws IllegalStateException, IOException {
 		//세션에서 가져온 로그인 된 id값 
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -76,7 +77,7 @@ public class ChalAdminController {
 		chalService.updateRecipt(cvo);
 		
 		
-		return "redirect:/mypage/AdminEndChals";
+		return "redirect:/AdminEndChals";
 	}
 	
 	//챌린저스 개인전 포인트 적립 - 해당 챌린지 참가 인원 리스트 뽑기
@@ -84,8 +85,10 @@ public class ChalAdminController {
 	@ResponseBody
 	public Map<String, Object> getParticipant(String chalId){
 		Map<String, Object> map = new HashMap<String, Object>();
+		ParticipantVO vo = new ParticipantVO();
+		vo.setChalId(chalId);
 		//해당 챌린지 참가자 리스트 뽑기
-		map.put("list", partService.listParticipantAll(chalId));
+		map.put("list", partService.listParticipantAll(vo));
 		
 		return map;
 	}
@@ -101,16 +104,22 @@ public class ChalAdminController {
 		vo.setChalId(chalId);
 		map.put("A", proofService.cntTeamProof(vo));
 		
+		//A팀 인원수
+		map.put("Asize", partService.listParticipantAll(vo).size());
+				
 		//b팀 정상 인증 갯수 구하기
 		vo.setTeam("B");
 		vo.setChalId(chalId);
 		map.put("B", proofService.cntTeamProof(vo));
 		
-		//총 일수 구하기(enddate- starDate)
-		map.put("totalDay" ,chalService.getChal(chalId).getTotal());
+		//b팀인원수
+		map.put("Bsize", partService.listParticipantAll(vo).size());
 		
-		//총 챌린저스 인원수 구하기 랫츠고 ㅋ 
-		map.put("totalUser" ,chalService.getChal(chalId).getUsercnt());
+		//총 일수 구하기, 총 기부비 정보
+		map.put("totalInfo" ,chalService.getChal(chalId));
+		
+		
+		
 		return map;
 	}
 	
@@ -138,6 +147,34 @@ public class ChalAdminController {
 	
 	
 	//팀전 포인트 적립
+	@RequestMapping(value="sharePoint", method=RequestMethod.POST)
+	@ResponseBody
+	public String sharePoint(@RequestBody ParticipantVO vo){
+		
+		String winner = vo.getWinner();
+		String loser = vo.getLoser();
+		Integer thatPoint = vo.getThatPoint();
+		String chalId = vo.getChalId();
+		
+		ParticipantVO pvo = new ParticipantVO();
+		//승팀 포인트 정산
+		pvo.setChalId(chalId);
+		pvo.setTeam(winner);
+		pvo.setThatPoint(thatPoint);
+		partService.updateResultPoint(pvo);
+		chalService.updateMemberPoint(pvo);
+		
+		//패팀 포인트 정산
+		Integer losePoint = vo.getThatPoint()*-1;
+		System.out.println(losePoint);
+		pvo.setChalId(chalId);
+		pvo.setTeam(loser);
+		pvo.setThatPoint(losePoint);
+		partService.updateResultPoint(pvo);
+		chalService.updateMemberPoint(pvo);
+		
+		return "true";
+	}
 	
 	//신고 리스트 띄우기
 	

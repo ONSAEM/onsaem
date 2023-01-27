@@ -187,17 +187,22 @@
 								</div>
 								
 								<div id ="teamPoint" class="modal__content">
-									<h4>포인트정산</h4>
+									<h5>포인트정산</h5>
 									<input type="hidden" id="groupId" name="groupId">
+									<div style="float: left; width: 50%; padding:1px; "><p>총 기부금</p></div><div style="float: left; width: 50%; padding:1px;"><p id="donationFee"/></div>
+									<div style="float: left; width: 50%; padding:1px;"><p>총 내기 포인트</p></div><div style="float: left; width: 50%; padding:1px;"><p id="sumBetPoint"/></div>
 									<select id="teamChoose">
-										<option>==팀==</option>
-										<option>A팀</option>
-										<option>B팀</option>
+										<option>==우승팀 고르기==</option>
+										<option value="A">A팀</option>
+										<option value="B">B팀</option>
 									</select>
-									<div class="col py-2">
-									     <canvas id="chDonut1"></canvas>
-									     <canvas id="chDonut2"></canvas>   
-									 </div>
+									<div style="float: right; width: 50%; padding:10px;">
+							            <canvas id="Achart"></canvas>
+							        </div>
+							        <div style="float: right; width: 50%; padding:10px;">
+							            <canvas id="Bchart"></canvas>
+							         </div>
+									<button type="button" onclick="teamPointInput()">정산</button>
 									<button type="button" class="closeBtn">닫기</button>
 								</div>
 						
@@ -220,68 +225,6 @@
 			  legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
 			};
 			
-			// donut 1
-			var chDonutData1 = {
-			    labels: ['A팀 평균달성률'],
-			    datasets: [
-			      {
-			        backgroundColor: colors.slice(0,2),
-			        borderWidth: 0,
-			        data: [74, 11]
-			      }
-			    ]
-			};
-			
-			var chDonut1 = document.getElementById("chDonut1");
-			if (chDonut1) {
-			  new Chart(chDonut1, {
-			      type: 'doughnut',
-			      data: chDonutData1,
-			      options: donutOptions
-			  });
-			}
-			
-			// donut 2
-			var chDonutData2 = {
-			    labels: ['B팀 평균달성률'],
-			    datasets: [
-			      {
-			        backgroundColor: colors.slice(0,2),
-			        borderWidth: 0,
-			        data: [40, 45]
-			      }
-			    ]
-			};
-			var chDonut2 = document.getElementById("chDonut2");
-			if (chDonut2) {
-			  new Chart(chDonut2, {
-			      type: 'doughnut',
-			      data: chDonutData2,
-			      options: donutOptions
-			  });
-			}
-			
-			// donut 3
-			var chDonutData3 = {
-			    labels: ['평균달성률'],
-			    datasets: [
-			      {
-			        backgroundColor: colors.slice(0,2),
-			        borderWidth: 0,
-			        data: [74, 11]
-			      }
-			    ]
-			};
-			
-			var chDonut3 = document.getElementById("chDonut3");
-			if (chDonut3) {
-			  new Chart(chDonut3, {
-			      type: 'doughnut',
-			      data: chDonutData3,
-			      options: donutOptions
-			  });
-			}
-			
 		//모달창 생성
 		document.querySelectorAll(".openBtn").forEach((openBtn) => {
 			console.log(openBtn);
@@ -293,8 +236,11 @@
 		const closeButton = modal.querySelector(".closeBtn");
 		const modalBackground = modal.querySelector(".modal__background");
 		
+		
 		//chalId 정의
 		let chalId;
+		let Asize;
+		let Bsize;
 		function displayModal(e) {
 			let id = e.id;
 			console.log(id);
@@ -316,30 +262,91 @@
 					console.log("팀 포인트정산");
 					chalId = $('#teamChalId').text();
 					$('#groupId').val(chalId);
+					groupId = $('#groupId').val();
 					//팀전 포인트 계산 위해서 
 					//a팀 정보, b팀 정보 가져오는 아작스필요
-					/*  $.ajax({
+					  $.ajax({
 							url:'/mypage/getTeams',
 							method : 'POST',
-							data : {chalId, chalId},
+							data : {chalId, groupId},
 							beforeSend : function(xhr)
 				               {   
 				               xhr.setRequestHeader(header, token);
 				               },
 							success : function(result){
-			        			console.log(result.list);
-			        			let list = result.list;
-			        			let options = [];
-			        			let makeOption = $.each(list, function(i){
-			        				options = $("<option value=" + list[i].participantId+ ">"+list[i].participantId+"</option>");
-			        			});
-			        			$('#users').append(options);
-			        			
-			        		},
-			        		error : function(error){
-			        			console.log(error);
-			        		}
-						}) */
+			        			console.log(result);
+			        		//전체 모금
+			        		let donationFee = result.totalInfo.donationFee;
+			        		let betPoints = Number(donationFee)*0.01;      		
+			        		$('#donationFee').text(donationFee);
+			        		$('#sumBetPoint').text(betPoints);
+			        		//팀별 인원수
+			        		Asize = Number(result.Asize);
+			        		Bsize = Number(result.Bsize);
+			        		console.log(Asize);
+			        		//팀별 정상 인증 갯수
+			        		let Acnt = Number(result.A);
+			        		let Bcnt = Number(result.B);
+			        		console.log(Acnt);
+			        		//팀별 100%일시 총 전체 인증수  
+			        		let Aall = Math.abs(Number(result.totalInfo.total))*Asize;
+			        		let Ball = Math.abs(Number(result.totalInfo.total))*Bsize;
+			        		console.log(Aall);
+			        		//팀별 평균 성취율
+			        		let Apercent = 25;
+			        			//(Acnt/Bcnt)*100;
+			        		let Bpercent = 80;//(Bcnt/Ball)*100;
+			        		console.log(Apercent);
+			        		//A차트 만들기
+			        		let Alist = new Array();
+			        		Alist.push(Apercent);
+			        		Alist.push(100-Apercent);
+			        		var Adata = {
+			                        labels: ['A팀 평균달성률'],
+			                        datasets: [{
+			                              backgroundColor: ['#b4a7d6','#eae5e1'],
+			                              data : Alist
+			                        }],
+			                        options : {
+			                              title : {
+			                              display : true,
+			                              text: 'A팀 달성률'
+			                              }
+			                        }
+			                  };
+			        		 var ctx1 = document.getElementById('Achart').getContext('2d');
+			                 new Chart(ctx1, {
+			                          type: 'doughnut',
+			                         data: Adata
+			                 });
+			            
+			        		
+			        		//B차트 만들기 렛츠고 
+			                let Blist = new Array();
+			        		Blist.push(Bpercent);
+			        		Blist.push(100-Bpercent);
+			               var Bdata = {
+			                        labels: ['B팀 평균달성률'],
+			                        datasets: [{
+			                              backgroundColor: ['#b4a7d6','#eae5e1'],
+			                              data : Blist
+			                        }],
+			                        options : {
+			                              title : {
+			                              display : true,
+			                              text: 'B팀 달성률'
+			                              }
+			                        }
+			                  }
+			               var ctx2 = document.getElementById('Bchart').getContext('2d');
+			                 new Chart(ctx2, {
+			                          type: 'doughnut',
+			                         data: Bdata
+			                 });
+						},error : function(error){
+		        			console.log(error);
+		        		}
+						}) 
 						$("#receiptFrm").hide();
 						$("#point").hide();
 						$("#teamPoint").show();	
@@ -438,7 +445,55 @@
   			
 		});
 		
+		let winner;
+		let loser;
+		//select값 가져오기
+		$("select[id=teamChoose]").change(function(){
+		  //console.log($(this).val()); //value값 가져오기
+		  winner = $(this).val();
+		  //eq() => 인덱스 요소에 해당되는거 찾기
+		  loser = $('#teamChoose option:not(:selected)').eq(1).val();
+		});
 		
+		//팀 포인트 정산
+		function teamPointInput(){
+			let groupid = $('#groupId').val();
+			//분모 mom - 개별 팀 인원수
+			let mom = 0;
+			console.log(winner);
+			console.log(loser);
+			if(winner == 'A'){
+				mom = Asize;
+				console.log(mom);
+			}else {
+				mom = Bsize;
+			}
+			mom = 10;
+			let sumPoint = Number($('#sumBetPoint').text());
+			sumPoint = 500;
+			console.log(sumPoint/mom);
+			//분배받을 포인트 , 승팀 은 + 패팀은 -
+			let thatPoint = sumPoint/mom;
+			
+			 $.ajax({
+  				url : '/mypage/sharePoint',
+  				method :'POST',
+  				contentType:'application/json',
+  				data : JSON.stringify({"thatPoint":thatPoint, "chalId" : groupId, "winner" : winner, "loser" : loser }),
+  				beforeSend : function(xhr)
+				                {   
+				                xhr.setRequestHeader(header, token);
+				                },
+  				success:function(result){
+  					alert("정산 완료 되었습니다.");
+  					location.href ="/mypage/AdminEndChals";
+  				},
+  				error : function(error){
+  					console.log()
+  				}
+  			}) 
+			
+		}
 	</script>
 	</div>
 </html>

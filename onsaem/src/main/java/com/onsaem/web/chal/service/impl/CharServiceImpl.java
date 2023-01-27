@@ -163,4 +163,10 @@ public class CharServiceImpl implements ChalService {
 		return chalMapper.AdminEndChals(subClass);
 	}
 
+	@Override
+	public Integer updateMemberPoint(ParticipantVO vo) {
+		// TODO Auto-generated method stub
+		return chalMapper.updateMemberPoint(vo);
+	}
+
 }
