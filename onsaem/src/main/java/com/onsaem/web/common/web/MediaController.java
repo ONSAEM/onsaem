@@ -34,7 +34,7 @@ public class MediaController {
 	
 	@RequestMapping(value = "/mediaTest", method = RequestMethod.POST)
 	@ResponseBody
-	public List<MediaVO>  mediaTest(@RequestParam("uploadfile")MultipartFile[] uploadfile,@RequestParam("groupId") String groupId,@RequestParam("groups") String groups,@RequestParam(value = "subGroup", required = false) String subGroup) throws IllegalStateException, IOException{    
+	public List<MediaVO>  mediaTest(MultipartFile[] uploadfile, String groupId, String groups, String subGroup) throws IllegalStateException, IOException{    
 	  List<MediaVO> list= new ArrayList<MediaVO>();
 	  MediaVO vo = new MediaVO();
 	  vo.setGroupId(groupId);
@@ -45,10 +45,9 @@ public class MediaController {
 	  return list;
 	}
 	
+	// 미디어 테스트 작동 안함(연결매퍼 다른곳에 쓰여짐)(삭제예정)
 	@RequestMapping(value = "/mediaTest", method = RequestMethod.GET)
-	public String mediaTest(Model model){ 
-		model.addAttribute("media", mediaMapper.getMedia());
-		model.addAttribute("video", mediaMapper.getvideo());
+	public String mediaTest(){
 	  return "content/test/mediaTest";
 	}
 	

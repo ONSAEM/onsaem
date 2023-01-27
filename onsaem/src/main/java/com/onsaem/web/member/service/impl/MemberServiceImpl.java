@@ -153,6 +153,7 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 	public MemberVO updateMember(MultipartFile[] profileFile, MemberVO member)
 			throws IllegalStateException, IOException {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+		System.out.println(member.getPassword());
 		member.setPassword(encoder.encode(member.getPassword()));
 		if (member.getBank() == null || member.getBankAccount() == null) {
 			member.setBank(null);

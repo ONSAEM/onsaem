@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.onsaem.web.course.mapper.ClassReviewMapper">
+	<!-- 리뷰 전체조회 -->
+	<select id="getReviewList" resultType="ReviewVO"
+		parameterType="ReviewVO">
+		SELECT * FROM ( SELECT ROWNUM RN, A.* FROM (
+		SELECT *
+		FROM REVIEWS
+		WHERE GROUP_ID = #{groupId}
+		<choose>
+			<when test="'OD0'.equals(orderId)"> ORDER BY REVIEW_DATE DESC </when>
+			<when test="'OD1'.equals(orderId)"> ORDER BY REVIEW_STAR DESC </when>
+			<when test="'OD2'.equals(orderId)"> ORDER BY REVIEW_STAR  </when>
+		</choose>
+			<![CDATA[
+				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
+			]]>
+	</select>
+	<!-- 리뷰 단건조회 -->
+	<select id="getReview" resultType="ReviewVO"
+		parameterType="ReviewVO">
+		SELECT *
+		FROM REVIEWS
+		WHERE REVIEW_ID = #{reviewId}
+	</select>
+
+	<!-- 리뷰 갯수 -->
+	<select id="reviewCount" resultType="Paging">
+		SELECT COUNT(*) AS TOTALRECORD
+		FROM REVIEWS
+		WHERE GROUP_ID = #{groupId}
+	</select>
+</mapper>

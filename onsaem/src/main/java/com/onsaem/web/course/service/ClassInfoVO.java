@@ -10,41 +10,41 @@ import lombok.Data;
 public class ClassInfoVO {
 	
 	// 강의 정보
-	String classId;
-	String className;
-	int price;
-	int classTime;
-	String explanation;
-	String status;
-	String classGroup;
-	String memberId;
+	private String classId;
+	private String className;
+	private int price;
+	private int classTime;
+	private String explanation;
+	private String status;
+	private String classGroup;
+	private String memberId;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH24:MI:SS")
-	Date classDate;
-	String returnReason;
-	String difficulty;
-	String classAddr;
-	double star;
-	int reviewCount;
-	int queCount;
+	private Date classDate;
+	private String returnReason;
+	private String difficulty;
+	private String classAddr;
+	private double star;
+	private int reviewCount;
+	private int queCount;
 	
 	
 	// 강의 이미지
-	String fileName;
-	String fileRoute;
-	String mediaName;
+	private String fileName;
+	private String fileRoute;
+	private String mediaName;
 	
 	//검색
-	int maxPrice;
-	int minPrice;
+	private int maxPrice;
+	private int minPrice;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	Date startDate;
+	private Date startDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	Date endDate;
-	String orderId = "OD0";
+	private Date endDate;
+	private String orderId = "OD0";
 	
 	//페이징
-	Integer first = 1;
-	Integer last = 9;
+	private Integer first = 1;
+	private Integer last = 9;
 
 	
 }
