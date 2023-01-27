@@ -73,7 +73,7 @@
 		</selectKey>
 		INSERT INTO ORDERS
 		VALUES(#{orderId},CURRENT_DATE,'주문대기',#{memberId},#{recivName},
-		#{recivAddr},#{recivPhone},#{recivReq},#{deliveryFee},'DV'||DELIVERY_SEQ.NEXTVAL,#{productId})
+		#{recivAddr},#{recivPhone},#{recivReq},#{deliveryFee},'DV'||DELIVERY_SEQ.NEXTVAL,#{productId},null)
 	</insert>
 
 	<!-- 주문하기(상세) -->

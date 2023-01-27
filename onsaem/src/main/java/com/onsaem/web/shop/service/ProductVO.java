@@ -57,4 +57,7 @@ public class ProductVO {
 	String session5;
 	
 	String orderBySell;
+	Integer cnt;
+	
+	
 }

@@ -22,4 +22,5 @@ public class ReviewVO {
 	//쇼핑몰리뷰
 	String productName;
 	String fileRoute;
+	Integer level; //리뷰 대댓글 구분
 }
