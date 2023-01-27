@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -83,14 +84,11 @@ public class ChalAdminController {
 	//챌린저스 개인전 포인트 적립 - 해당 챌린지 참가 인원 리스트 뽑기
 	@RequestMapping(value="/getParticipant", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> getParticipant(String chalId){
-		Map<String, Object> map = new HashMap<String, Object>();
+	public List<ParticipantVO> getParticipant(String chalId){
 		ParticipantVO vo = new ParticipantVO();
 		vo.setChalId(chalId);
-		//해당 챌린지 참가자 리스트 뽑기
-		map.put("list", partService.listParticipantAll(vo));
 		
-		return map;
+		return partService.listParticipantAll(vo);
 	}
 	
 	//챌린저스 팀전 각 팀 정보 뽑기 ㅎ 
@@ -161,6 +159,7 @@ public class ChalAdminController {
 		pvo.setChalId(chalId);
 		pvo.setTeam(winner);
 		pvo.setThatPoint(thatPoint);
+		pvo.setResult("승리");
 		partService.updateResultPoint(pvo);
 		chalService.updateMemberPoint(pvo);
 		
@@ -169,6 +168,7 @@ public class ChalAdminController {
 		System.out.println(losePoint);
 		pvo.setChalId(chalId);
 		pvo.setTeam(loser);
+		pvo.setResult("패배");
 		pvo.setThatPoint(losePoint);
 		partService.updateResultPoint(pvo);
 		chalService.updateMemberPoint(pvo);
