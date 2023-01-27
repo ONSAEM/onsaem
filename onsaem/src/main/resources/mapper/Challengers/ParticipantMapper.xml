@@ -2,16 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onsaem.web.chal.mapper.ParticipantMapper">
-	
+	<sql id="condition">
+		<if test="team">
+			AND TEAM = #{team}
+		</if>
+	</sql>
 	
 	<!--  참가자 리스트 조회 -->
-	<select id="listParticipantAll" resultType="ParticipantVO" parameterType="string">
+	<select id="listParticipantAll" resultType="ParticipantVO" parameterType="ParticipantVO">
 		SELECT *
 		FROM PARTICIPANTS
-		WHERE CHAL_ID = #{chalId} 
+		WHERE CHAL_ID = #{chalId}
+		<include refid="condition"/> 
 	</select>
 	
-	<!--  참가자가 참가 -->
+	<!--  참가자 1명 조회 ㅎ -->
 	<select id="getParticipant" resultType="ParticipantVO" parameterType="ParticipantVO">
 		SELECT *
 		FROM PARTICIPANTS
@@ -64,6 +69,15 @@
 		WHERE CHAL_ID = #{chalId}
 		AND PARTICIPANT_ID = #{participantId}
 	</delete>
+	
+	<!-- 팀전 챌린저스 종료 후 참가자 테이블 resultPOint 업데이트 하는거 -->
+	<update id = "updateResultPoint" parameterType = "ParticipantVO">
+		UPDATE PARTICIPANTS
+		SET RESULT_POINT = RESULT_POINT + #{thatPoint},
+		RESULT = #{result}
+		WHERE TEAM = #{team}
+		AND CHAL_ID = #{chalId}
+	</update>
 	
 	
 	

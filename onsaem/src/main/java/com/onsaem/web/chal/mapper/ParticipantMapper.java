@@ -9,7 +9,7 @@ import com.onsaem.web.common.service.RefundVO;
 public interface ParticipantMapper {
 	
 	//참가자 조회 - 챌린저스 한개에 대한 
-	List<ParticipantVO> listParticipantAll(String chalId);
+	List<ParticipantVO> listParticipantAll(ParticipantVO vo);
 	
 	
 	//참가자 상세 조회
@@ -32,6 +32,9 @@ public interface ParticipantMapper {
 	
 	//참가 취소 시 결제테이블 수정
 	Integer updateForRefund(PaymentVO vo);
+	
+	//참가자 테이블 result_point 업데이트
+	Integer updateResultPoint(ParticipantVO vo);
 	
 	
 }

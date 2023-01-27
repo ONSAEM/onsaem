@@ -190,7 +190,7 @@
 	</select>
 	
 	<!-- 팀별 정상 인증 갯수 구하기 -->
-	<select id="cntTeamProof" parameterType="ParticipantVO">
+	<select id="cntTeamProof" parameterType="ParticipantVO" resultType="Integer">
 	    SELECT COUNT(*) cnt
 	    FROM PARTICIPANTS P JOIN PROOFS F
 	    ON P.CHAL_ID = F.CHAL_ID

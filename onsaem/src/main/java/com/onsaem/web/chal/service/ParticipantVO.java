@@ -30,4 +30,9 @@ public class ParticipantVO {
 	Date endDate;
 	String frequency;
 	Integer cnt;
+	
+	//챌린저스 포인트 정산위해서
+	Integer thatPoint;
+	String loser;
+	String winner;
 }
