@@ -59,24 +59,22 @@
 				<div class="col-lg-3">
 					<div class="hero__categories">
 						<div class="hero__categories__all">
-							<i class="fa fa-bars"></i> <span>All departments</span>
+							<i class="fa fa-bars"></i> <span style="text-align:center">카테고리</span>
 						</div>
 						<ul>
 							<li><a href="/shop">전체</a></li>
-							<li><a
-								th:href="@{/category/(data=${category.optionContent})}"
-								th:each="category:${categoryList}"
-								th:text="${category.optionContent}">Vegetables</a></li>
+							<li th:each="category:${categoryList}"><a
+								th:href="@{/category/(data=${category.optionContent})}"								
+								th:text="${category.optionContent}"></a></li>
+								
 						</ul>
 					</div>
 				</div>
 				<div class="col-lg-9">
 					<div class="hero__search">
 						<div class="hero__search__form">
-							<form action="http://localhost/searchProduct" method="post">
-								<div class="hero__search__categories">
-									All Categories <span class="arrow_carrot-down"></span>
-								</div>
+							<form action="/searchProduct" method="post">
+								<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 								
 								<input type="text" placeholder="What do yo u need?" name="data">
 								<button type="submit" class="site-btn">SEARCH</button>
 							</form>
@@ -157,7 +155,7 @@
 											th:data-setbg="@{/shoptemplate/img/product/discount/pd-1.jpg}">
 											<div class="product__discount__percent">-20%</div>
 											<ul class="product__item__pic__hover">
-												<li><a href="#"><i class="fa fa-heart"></i></a></li>												
+												<li><a href="#"><i class="fa fa-heart"></i></a></li>
 												<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
 											</ul>
 										</div>
@@ -233,12 +231,19 @@
 									th:data-setbg="@{/fileView/{fileRoute}/
 									(fileRoute=${product.fileRoute})}"
 									th:onclick="productDetail([[${product.productId}]])">
-									<ul class="product__item__pic__hover">
+									<ul class="product__item__pic__hover"
+										sec:authorize="isAuthenticated()">
 										<li><a th:href="@{/likeAdd(data=${product.productId})}"
 											th:onclick="likeEvent()"><i class="fa fa-heart"></i></a></li>
 										<li><a
 											th:href="@{/cartAdd(productId=${product.productId})}"
 											th:onclick="cartEvent()"><i class="fa fa-shopping-cart"></i></a></li>
+									</ul>
+									<ul class="product__item__pic__hover"
+										sec:authorize="isAnonymous()">
+										<li><a href="/loginPage" th:onclick="noLogin()"><i class="fa fa-heart"></i></a></li>
+										<li><a href="/loginPage" th:onclick="noLogin()"><i
+												class="fa fa-shopping-cart"></i></a></li>
 									</ul>
 								</div>
 								<div class="product__item__text">
@@ -277,6 +282,11 @@
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
 		 
+		//로그인 안했을때 함수실행
+		function noLogin(){
+			alert("로그인 후 사용 가능합니다.")					
+		}
+		
 		 window.onload = function() {
 				//주간베스트 목록
 				$.ajax({

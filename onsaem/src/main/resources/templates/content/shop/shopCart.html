@@ -86,8 +86,8 @@
 									<td><input type="checkbox" name="checkBox"
 										th:onchange="saveList([[${cart}]])"></input></td>
 									<td class="shoping__cart__item" style="width:389px"><img
-										th:src="@{{fileRoute}{mediaName}/
-									(fileRoute=${cart.fileRoute},mediaName=${cart.mediaName})}"
+										th:src="@{/fileView/{fileRoute}/
+									(fileRoute=${cart.fileRoute})}"
 										alt="" ></td>
 									<td><h5 th:text="${cart.productName}" id="productName">Fresh
 											Garden Vegetable</h5></td>
