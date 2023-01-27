@@ -13,5 +13,5 @@ public interface ClassReviewService {
 	public ReviewVO getReview(ReviewVO vo);
 
 	// 리뷰 갯수 조회
-	public Paging reviewCount(ReviewVO vo);
+	public int reviewCount(ReviewVO vo);
 }

@@ -11,15 +11,15 @@ import com.onsaem.web.common.service.QuestionVO;
 import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.Paging;
-import com.onsaem.web.course.mapper.ClassQMapper;
+import com.onsaem.web.course.mapper.ClassQueMapper;
 import com.onsaem.web.course.service.ClassInfoVO;
-import com.onsaem.web.course.service.ClassQService;
+import com.onsaem.web.course.service.ClassQueService;
 
 @Service
-public class ClassQServiceImpl implements ClassQService{
+public class ClassQueServiceImpl implements ClassQueService{
 	
 	@Autowired
-	ClassQMapper classQMapper;
+	ClassQueMapper classQMapper;
 	
 	@Override
 	public Map<String, Object> getQuestionList(QuestionVO qvo, Paging paging) {
@@ -41,9 +41,9 @@ public class ClassQServiceImpl implements ClassQService{
 	}
 
 	@Override
-	public Paging questionCount(QuestionVO vo) {
+	public int questionCount(QuestionVO vo) {
 		
-		return null;
+		return classQMapper.questionCount(vo).getTotalRecord();
 	}
 
 }

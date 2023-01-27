@@ -1,5 +1,5 @@
 package com.onsaem.web.course.web;
 
-public class ClassQController {
+public class ClassQueController {
 
 }
