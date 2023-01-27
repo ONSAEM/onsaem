@@ -439,7 +439,30 @@
   						point == 0;
   					}	
   					
-  					//차트 렛츠고
+  					//차트 렛츠고//
+	                let list = new Array();
+  					user= $("select[id=users] option:selected").val();
+  					let theLabel = user+ " 평균달성률";
+	        		//Blist.push(Bpercent);
+	        		//Blist.push(100-Bpercent);
+	               var Bdata = {
+	                        labels: theLabel,
+	                        datasets: [{
+	                              backgroundColor: ['#b4a7d6','#eae5e1'],
+	                              data : Blist
+	                        }],
+	                        options : {
+	                              title : {
+	                              display : true,
+	                              text: 'B팀 달성률'
+	                              }
+	                        }
+	                  }
+	               var ctx2 = document.getElementById('userchart').getContext('2d');
+	                 new Chart(ctx2, {
+	                          type: 'doughnut',
+	                         data: Bdata
+	                 });
   					
   					
   				},
