@@ -991,8 +991,8 @@
 							<!-- 인풋 상자를 넣어보겠습니다 -->
 							<div class="Iwrapper">
 
-								<div class="form" name="taskFrm">
-
+								<form class="form" name="taskFrm">
+										<input type="hidden" th:value="${blogInfos.blogId}">
 									<div class="inputfield">
 										<label>블로그 주소<span class="request"></span></label> <input
 											type="text" name="blogURL" class="input" readonly
@@ -1016,13 +1016,13 @@
 									<div class="filebox">
 										<label style="width: 20%;"></label> <input class="inputfile"
 											placeholder="헤더사진" readonly> <label for="file"
-											class="filelabel">사진등록</label> <input type="file" id="file" accept=".gif, .jpg, .png, .bmp">
+											class="filelabel">사진등록</label> <input name="headerFile" type="file" id="file" accept=".gif, .jpg, .png, .bmp">
 									</div>
 
 									<div class="inputfield">
 										<input type="submit" value="등록" class="btn" id="taskBtn">
 									</div>
-								</div>
+								</form>
 							</div>
 
 							<!-- 인풋 상자 끝 -->
@@ -1047,6 +1047,11 @@
 		</th:block>
 
 		<script>
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		
+		
+		
 			document.addEventListener('DOMContentLoaded', function() {
 				var modeSwitch = document.querySelector('.mode-switch');
 
@@ -1099,20 +1104,35 @@
 			// 블로그 정보 등록
 			$('#taskBtn').on("click", function(){
 				console.log("task");
+				let data = new FormData($('form[name="taskFrm"]')[0]);
+ 				
+				if(!$('input[name="headerFile"]').val()){
+					data.delete('headerFile');
+				}
+				
+				console.log(data.get('blogName'));
+				
 				$.ajax({
 					url: '/blog/updateInfo',
-					method: 'post',
-				     contentType: 'application/x-www-form-urlencoded',
-				     data: {},
+					enctype: 'multipart/form-data',
+					method: 'POST',
+					processData: false,
+				    contentType: false,
+				    data: data,
 				     beforeSend : function(xhr)
 		               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
 		               xhr.setRequestHeader(header, token);
 		               },
-				     success:{
-				    	 
+				     success:function(result){
+				    	 console.log(result);
+				    	 if(result == "success"){
+				    		 alert("수정완료");
+				    	 }else{
+				    		 alert("수정실패");
+				    	 }
 				     },
-				     error:{
-				    	 
+				     error:function(error){
+				    	 console.log(error);
 				     }
 					
 				})
