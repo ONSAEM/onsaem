@@ -79,4 +79,7 @@ public class BlogController {
 		blogService.delSub(vo);
 		return vo;
 	}
+	
+	// 블로그 정보 수정
+	// 일단 사진 다 넣고 있으면 status를 false로 바꾸고, 없으면 그냥 true로 넣어주기~
 }
