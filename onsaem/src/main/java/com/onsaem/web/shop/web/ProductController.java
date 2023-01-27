@@ -109,11 +109,14 @@ public class ProductController {
 	@RequestMapping(value = "/category", method = RequestMethod.GET)
 	public String shopCategory(Model model, @RequestParam(value = "data", required = false) String data,
 			Authentication authentication) {
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		cartVo.setMemberId(userDetails.getUsername());
-		model.addAttribute("productList", proService.proCategory(data));
-		model.addAttribute("cartList", cartService.cartList(cartVo)); // 장바구니 수량가져오기 위한 리스트
-		model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
+		if(authentication!=null) {
+			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			cartVo.setMemberId(userDetails.getUsername());
+			likeVo.setMemberId(userDetails.getUsername());
+			model.addAttribute("cartList", cartService.cartList(cartVo)); // 장바구니 수량가져오기 위한 리스트
+			model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
+		}		
+		model.addAttribute("productList", proService.proCategory(data));		
 		model.addAttribute("categoryList", proService.categoryList()); //카테고리 리스트
 		return "content/shop/shopMain";
 	}
@@ -154,9 +157,7 @@ public class ProductController {
 		likeVo.setGroupId(data);
 		proService.likeDel(likeVo);
 		return "redirect:/shop";
-	}
-
-	
+	}	
 
 	// 상품등록
 	@RequestMapping(value = "/addProduct", method = RequestMethod.POST)

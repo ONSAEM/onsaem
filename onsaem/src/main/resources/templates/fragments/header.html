@@ -32,8 +32,20 @@
 							<li><a class="dropdown-item" href="/shop">상품목록</a></li>
 							<li><a class="dropdown-item" href="/myOrder"
 								sec:authorize="isAuthenticated()">주문목록</a></li>
-							<li><a class="dropdown-item" href="/shopCart">장바구니</a></li>
-							<li><a class="dropdown-item" href="/likeList">찜</a></li>
+							<li><a class="dropdown-item"
+								href="javascript:location.reload()"
+								sec:authorize="isAnonymous()" onclick="noLogin()">주문목록</a></li>
+							<li><a class="dropdown-item" href="/shopCart"
+								sec:authorize="isAuthenticated()">장바구니</a></li>
+							<li><a class="dropdown-item"
+								href="javascript:location.reload()"
+								sec:authorize="isAnonymous()" onclick="noLogin()">장바구니</a></li>
+							<li><a class="dropdown-item" href="/likeList"
+								sec:authorize="isAuthenticated()">찜</a></li>
+							<li><a class="dropdown-item"
+								href="javascript:location.reload()"
+								sec:authorize="isAnonymous()" onclick="noLogin()">찜</a></li>
+							<li><a class="dropdown-item" href="/sellerMain">판매자</a></li>
 						</ul></li>
 
 					<li class="nav-item dropdown"><a
@@ -67,12 +79,12 @@
 								th:href="@{/blog/myblog(userId=${#authentication.principal.memberId})}">MY
 									BLOG</a></li>
 							<li><a class="dropdown-item"
-								th:href="@{/mypage/myCurrentChal}">MY
-									PAGE 챌린저스</a></li>
+								th:href="@{/mypage/myCurrentChal}">MY PAGE 챌린저스</a></li>
 							<li><form class="logoutFrm" method="post" action="/logout">
-							<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
-							<a class="dropdown-item" id="logout" href="#">LOGOUT</a>
-							</form></li>
+									<input type="hidden" id="token"
+										th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+									<a class="dropdown-item" id="logout" href="#">LOGOUT</a>
+								</form></li>
 							<li><a class="dropdown-item" th:href="@{/errorPage}">404</a></li>
 							<li><a class="dropdown-item" th:href="@{/class/classMGMT}">MANAGEMENT</a></li>
 							<li><a class="dropdown-item" th:href="@{/testblog}">blogtest</a></li>
@@ -87,5 +99,11 @@
 		</div>
 	</nav>
 
+	<script type="text/javascript">
+		//로그인 안했을때 알람발생
+		function noLogin() {
+			alert("로그인 후 이용가능 합니다.")
+		}
+	</script>
 </div>
 </html>
