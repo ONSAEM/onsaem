@@ -40,7 +40,6 @@
 		WHERE GROUP_ID = #{groupId}
 	</select>
 	
-	<!-- 대댓글 등록 -->
 	
 	
  </mapper>

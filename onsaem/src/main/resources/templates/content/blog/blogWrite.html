@@ -277,9 +277,22 @@
                                         <p class="mb-0">[[${reply.content}]]</p>
 
                                         <div class="d-flex mt-2">
+                                            <a type="button" class="author-comment-link rereplyBtn">댓글달기</a>
+                                            <!-- 대댓글 -->
+                                            <form class="custom-form comment-form mt-4" role="form" name="rereplyFrm" style="display:none;" id="rereplyFrm">
+			                                	<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
+			                                    <textarea name="reContent" rows="4" class="form-control rereplyBox" id="comment-message"
+			                                        placeholder="온샘은 신고 관리를 철저하게 합니다. 댓글 작성 시, 한번 더 생각해주세요"></textarea>
+			
+			                                    	<div class="col-lg-3 col-md-4 col-6 ms-auto">
+			<!--                                         <button type="button" id="replyBtn" class="form-control" th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}" disabled>로그인이 필요합니다 <a th:href="@{/loginPage}">login</a></button> -->
+			                                        	<button type="submit" class="form-control rereplyInsert" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}">등록</button>
+			                                    	</div>
+			                                    <input type="hidden" name="groupId" th:value="${reply.replyId}">
+			                                </form>
+                                            <!-- 대댓글 끝 -->
+											<a type="button" class="author-comment-link me-3"><span style="color:red;">삭제</span></a>
                                             <a type="button" class="author-comment-link me-3 openBtn" id="replyIdVal" th:value1="${reply.replyId}" th:value2="${reply.writerId}"><span style="color:red;">신고</span></a>
-
-                                            <a href="#" class="author-comment-link">댓글달기</a>
                                         </div>
                                     </div>
                      </div>
@@ -310,8 +323,8 @@
                                         placeholder="온샘은 신고 관리를 철저하게 합니다. 댓글 작성 시, 한번 더 생각해주세요"></textarea>
 
                                     <div class="col-lg-3 col-md-4 col-6 ms-auto">
-                                        <button type="submit" id="replyBtn" class="form-control" sec:authorize="isAuthenticated()">등록</button>
-                                        <button type="button" id="replyBtn" class="form-control" sec:authorize="isAnonymous()" disabled>로그인이 필요합니다 <a th:href="@{/loginPage}">login</a></button>
+<!--                                         <button type="button" id="replyBtn" class="form-control" th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}" disabled>로그인이 필요합니다 <a th:href="@{/loginPage}">login</a></button> -->
+                                        <button type="submit" id="replyBtn" class="form-control" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}">등록</button>
                                     </div>
                                     <input type="hidden" name="groupId" th:value="${blogWrite.writeId}">
                                 </form>
@@ -467,7 +480,7 @@
 			event.stopPropagation();
 			// 좋아요 디비 저장
 			let bno = "[[${blogWrite.writeId}]]";
-			let id = "[[${#authentication.principal.memberId}]]";
+			let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
 			
 			if(id!=""){ // 로그인 된 상태이면
 				//console.log($(".blogLike").val());
@@ -533,7 +546,7 @@
 				// 댓글 등록
 			$('#replyBtn').on("click", function(){
 				let bno = "[[${blogWrite.writeId}]]";
-				let id = "[[${#authentication.principal.memberId}]]";
+				let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
 				if(id!=null){ // 로그인 된 상태이면
 					$.ajax({
 						url: '/blog/myblog/blogWrite/replyInsert',
@@ -557,6 +570,41 @@
 					alert('로그인이 필요합니다.');
 				}
 			});
+				
+				
+			// 대댓글 등록
+			$('.rereplyBtn').on("click", function(){ // 댓글 달기 버튼을 누르면 댓글 쓰는 칸 보이게
+				console.log("대댓글");
+				$('.rereplyFrm').toggle('active'); // 댓글 쓰는 칸 열기
+				
+				$('.rereplyInsert').on('click', function(){
+					let bno = "[[${blogWrite.writeId}]]";
+					let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
+					if(id!=null){ // 로그인 된 상태이면
+						$.ajax({
+							url: '/blog/myblog/blogWrite/replyInsert',
+							method: 'post',
+							beforeSend : function(xhr)
+				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				               xhr.setRequestHeader(header, token);
+				               },
+							contentType: 'application/x-www-form-urlencoded',
+							data: $('form[name="rereplyFrm"]').serialize(),
+							success: function (result) {
+						         console.log(result);
+						         location.href='/blog/myblog/blogWrite?bno='+bno;	// 이거 빼고 어디에 뭐 넣어라~ 이런식으로
+						    	 
+							},
+						      error: function (error) {
+						         console.log(error);
+						      }
+						});
+					}else{
+						alert('로그인이 필요합니다.');
+					}
+				})
+			})
+				
 			
 				
 			//신고모달창 생성
@@ -606,7 +654,7 @@
    				
    				console.log(document.getElementById("detailReason").value);
    				let detailReason=document.getElementById("detailReason").value; //상세 이유
-   				let fromId="[[${#authentication.principal.memberId}]]"; //신고 한 사람
+   				let fromId="[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]"; //신고 한 사람
 				//console.log(fromId, groupId,toId, reason);
 				
 					$.ajax({
@@ -659,7 +707,7 @@
 	 					success: function(result){
 	 						console.log(result);
 	 						alert("삭제완료");
-	 						location.href='/blog/myblog?userId='+'[(${#authentication.principal.memberId})]';
+	 						location.href='/blog/myblog?userId='+'[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]';
 	 					},
 	 					error: function(error){
 	 						console.log(error);
