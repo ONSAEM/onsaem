@@ -36,9 +36,9 @@ public class ParticipantServiceImpl implements ParticipantService {
 
 
 	@Override
-	public List<ParticipantVO> listParticipantAll(String chalId) {
+	public List<ParticipantVO> listParticipantAll(ParticipantVO vo) {
 		// TODO Auto-generated method stub
-		return mapper.listParticipantAll(chalId);
+		return mapper.listParticipantAll(vo);
 	}
 
 	@Override
@@ -64,6 +64,12 @@ public class ParticipantServiceImpl implements ParticipantService {
 	public Integer updateForRefund(PaymentVO vo) {
 		// TODO Auto-generated method stub
 		return mapper.updateForRefund(vo);
+	}
+
+	@Override
+	public Integer updateResultPoint(ParticipantVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.updateResultPoint(vo);
 	}
 
 }

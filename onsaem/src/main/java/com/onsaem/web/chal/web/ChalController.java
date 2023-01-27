@@ -342,8 +342,11 @@ public class ChalController {
 		ChalVO cvo = chalService.getChal(chalId);
 		//챌린저스 총 인원수
 		Integer total = cvo.getUsercnt();
+		
 		//참가인원수
-		Integer cnt = partService.listParticipantAll(chalId).size();
+		ParticipantVO tvo = new ParticipantVO();
+		tvo.setChalId(chalId);
+		Integer cnt = partService.listParticipantAll(tvo).size();
 		
 		//참가인원수가 총인원수의 반 이상이면 B팀으로 설정
 		if(cnt>=(total*0.5)) {

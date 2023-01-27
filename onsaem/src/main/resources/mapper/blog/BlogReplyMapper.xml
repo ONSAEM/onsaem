@@ -6,10 +6,15 @@
 	
 	<!-- 댓글 조회 -->
  	<select id="replyList" resultType="RepliesVO" parameterType="String">
- 		SELECT * 
- 		FROM REPLIES 
- 		WHERE GROUP_ID = #{groupId}
- 		ORDER BY REPLY_ID
+ 		select   r.*,
+         		 level, 
+         		 case when group_id like 'BW%' 
+         		 then reply_id else group_id 
+         		 end cate
+  		from   replies r
+ 		START WITH group_id = #{groupId}
+		CONNECT BY PRIOR reply_id = group_id
+		order by cate desc,level, reply_date
  	</select>
  	
 	<!-- 댓글 등록 -->
@@ -36,8 +41,15 @@
 	<!--  	댓글 수 조회 -->
 	<select id="replyCnt" resultType="RepliesVO" parameterType="String">
 		SELECT COUNT(*) AS replyCnt
-		FROM REPLIES
-		WHERE GROUP_ID = #{groupId}
+		FROM (select   r.*,
+         		 level, 
+         		 case when group_id like 'BW%' 
+         		 then reply_id else group_id 
+         		 end cate
+  		from   replies r
+ 		START WITH group_id = #{groupId}
+		CONNECT BY PRIOR reply_id = group_id
+		order by cate desc,level, reply_date)
 	</select>
 	
 	

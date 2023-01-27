@@ -8,8 +8,11 @@ import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.common.service.ReviewVO;
 
 public interface ProductService {
-	//리뷰 대댓글 가져오기
-	List<ReviewVO> reviewList2(ReviewVO vo);
+	//주간 베스트 데이터 가져오기
+	List<ProductVO> selectProduct(String best1,String best2,String best3,String best4,String best5);
+	
+	//주간 베스트
+	List<ProductVO> weekBest();	
 	
 	//상품전체목록(최신순)
 	List<ProductVO> proList();

@@ -146,9 +146,15 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<ReviewVO> reviewList2(ReviewVO vo) {
-		// 리뷰 대댓글 가져오기
-		return proMapper.reviewList2(vo);
+	public List<ProductVO> weekBest() {
+		// 주간베스트
+		return proMapper.weekBest();
+	}
+
+	@Override
+	public List<ProductVO> selectProduct(String best1,String best2,String best3,String best4,String best5) {
+		// 주간베스트 데이터 가져오기
+		return proMapper.selectProduct(best1,best2,best3,best4,best5);
 	}
 
 	

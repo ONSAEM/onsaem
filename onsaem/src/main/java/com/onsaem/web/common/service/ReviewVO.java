@@ -24,11 +24,14 @@ public class ReviewVO {
 	//쇼핑몰리뷰
 	String productName;
 	String fileRoute;
-	
+  
+  Integer level; //리뷰 대댓글 구분
+
 	private MediaVO profile;
 	private MediaVO reviewMedia;
 	private List<MediaVO> reviewMediaList;
 	private String orderId = "OD0";
+  
 	// 페이징
 	private Integer first = 1;
 	private Integer last = 9;

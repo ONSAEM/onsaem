@@ -1,10 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onsaem.web.shop.mapper.ProductMapper">
+	<!-- 주간베스트 데이터 가져오기 -->
+	<select id="selectProduct"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		select P.PRODUCT_ID,
+		P.PRODUCT_NAME,
+		P.PRODUCT_DETAIL,
+		P.PRICE ,
+		P.STAR,
+		P.AMOUNT,
+		P.DELIVERY_FEE,
+		P.CATEGORY,
+		P.PRODUCT_STATUS,
+		P.REGISTER_DATE,
+		P.MEMBER_ID,		
+		M.FILE_ROUTE from products p,media m where m.group_id=p.product_id and m.sub_group='대표이미지' and (p.product_id=#{best1} or
+		p.product_id=#{best2} or p.product_id=#{best3} or p.product_id=#{best4} or
+		p.product_id=#{best5})
+	</select>
+
+	<!-- 주간베스트 목록 -->
+	<select id="weekBest"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT product_id
+		, COUNT(*) AS cnt
+		FROM orders
+		where <![CDATA[TO_CHAR(ORDER_DATE,'yyyy-MM-dd')>=TO_CHAR( CURRENT_DATE-( (SELECT
+	TO_CHAR(CURRENT_DATE,'D') FROM DUAL) -2 )-1, 'yyyy-mm-dd' ) AND
+	TO_CHAR(ORDER_DATE,'yyyy-MM-dd')<=TO_CHAR( CURRENT_DATE-( (SELECT
+	TO_CHAR(CURRENT_DATE,'D') FROM DUAL) -2 )+5, 'yyyy-mm-dd' )]]>
+		GROUP BY product_id
+		order by cnt desc
+	</select>
+
+
 	<!-- 리뷰 대댓글가져오기 -->
-	<select id="reviewList2" resultType="com.onsaem.web.common.service.ReviewVO">
+	<select id="reviewList2"
+		resultType="com.onsaem.web.common.service.ReviewVO">
 		SELECT * FROM REVIEWS WHERE GROUP_ID =#{groupId}
-	</select>	
+	</select>
 
 	<!-- 상품전체조회 -->
 	<select id="proList"
@@ -296,8 +331,16 @@
 	<!-- 상품리뷰리스트 -->
 	<select id="reviewList"
 		resultType="com.onsaem.web.common.service.ReviewVO">
-		SELECT * FROM REVIEWS
-		WHERE GROUP_ID=#{data}
+		SELECT R.*,
+		LEVEL,
+		CASE WHEN GROUP_ID LIKE 'PR%' THEN
+		REVIEW_ID ELSE GROUP_ID END CATE
+		FROM REVIEWS R
+		START WITH GROUP_ID =
+		#{data}
+		CONNECT BY PRIOR REVIEW_ID = GROUP_ID
+		ORDER BY CATE DESC,LEVEL,
+		REVIEW_DATE
 	</select>
 
 	<!-- 나의찜삭제 -->
@@ -333,27 +376,30 @@
 	<!-- 최근 본 목록 가져오기 -->
 	<select id="watchProduct"
 		resultType="com.onsaem.web.shop.service.ProductVO">
-		SELECT  P.PRODUCT_ID,
-				P.PRODUCT_NAME,
-				P.PRODUCT_DETAIL,
-				P.PRICE,
-				P.STAR,
-				P.AMOUNT,
-				P.DELIVERY_FEE,
-				P.CATEGORY,
-				P.PRODUCT_STATUS,
-				P.REGISTER_DATE,
-				P.MEMBER_ID,
-				P.PRODUCT_INFO,
-				P.SELLER_ADDR,
-				M.FILE_ROUTE 
-		FROM  PRODUCTS P,MEDIA M 
-	   WHERE  (P.PRODUCT_ID=M.GROUP_ID
-	     AND  M.SUB_GROUP='대표이미지') 
-	     AND P.PRODUCT_ID in (#{session1} ,#{session2},#{session3} ,#{session4},#{session5})
+		SELECT P.PRODUCT_ID,
+		P.PRODUCT_NAME,
+		P.PRODUCT_DETAIL,
+		P.PRICE,
+		P.STAR,
+		P.AMOUNT,
+		P.DELIVERY_FEE,
+		P.CATEGORY,
+		P.PRODUCT_STATUS,
+		P.REGISTER_DATE,
+		P.MEMBER_ID,
+		P.PRODUCT_INFO,
+		P.SELLER_ADDR,
+		M.FILE_ROUTE
+		FROM PRODUCTS P,MEDIA M
+		WHERE (P.PRODUCT_ID=M.GROUP_ID
+		AND
+		M.SUB_GROUP='대표이미지')
+		AND P.PRODUCT_ID in (#{session1}
+		,#{session2},#{session3}
+		,#{session4},#{session5})
 	</select>
-	
-		<!-- 판매자 상품 리스트 -->
+
+	<!-- 판매자 상품 리스트 -->
 	<select id="sellerList"
 		resultType="com.onsaem.web.shop.service.ProductVO">
 		SELECT * FROM PRODUCTS
@@ -362,5 +408,5 @@
 			and product_status=#{productStatus}
 		</if>
 	</select>
-	
+
 </mapper>

@@ -49,12 +49,24 @@ public class ProductController {
 	LikeVO likeVo = new LikeVO();
 	ProductVO proVo = new ProductVO();
 	
-	//리뷰대댓글가져오기
-	@RequestMapping(value = "/shop/reviewList2", method = RequestMethod.POST)
+	//주간베스트 데이터 가져오기
+	@RequestMapping(value = "/shop/weekBestProduct", method = RequestMethod.POST)
 	@ResponseBody
-	public List<ReviewVO> reviewList2(ReviewVO vo) {		
-		return proService.reviewList2(vo);
+	public List<ProductVO> weekBestProduct(@RequestBody List<ProductVO>  vo) {		
+		String best1=vo.get(0).getProductId();
+		String best2=vo.get(1).getProductId();
+		String best3=vo.get(2).getProductId();
+		String best4=vo.get(3).getProductId();
+		String best5=vo.get(4).getProductId();		
+		return proService.selectProduct(best1,best2,best3,best4,best5); 
 	}
+	
+	//주간베스트
+	@RequestMapping(value = "/shop/weekBest", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ProductVO> weekBest() {				
+		return proService.weekBest();
+	}	
 
 	// 쇼핑몰페이지이동,최신순,인기순 목록나열
 	@RequestMapping(value = "/shop", method = RequestMethod.GET)

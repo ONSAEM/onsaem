@@ -16,4 +16,6 @@ public class RepliesVO {
 	Date replyDate;
 	int replyCnt;
 	String publicScope;
+	
+	int level;
 }

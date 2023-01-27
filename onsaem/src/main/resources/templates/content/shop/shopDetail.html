@@ -115,8 +115,8 @@ h1 {
 					<div class="product__details__pic">
 						<div class="product__details__pic__item">
 							<img class="product__details__pic__item--large"
-								th:src="@{{fileRoute}{mediaName}/
-									(fileRoute=${product.fileRoute},mediaName=${product.mediaName})}"
+								th:src="@{/fileView/{fileRoute}/
+									(fileRoute=${product.fileRoute})}"
 								alt="">
 						</div>
 
@@ -188,10 +188,10 @@ h1 {
 								<div class="product__details__tab__desc">
 									<div class="product__details__pic__slider owl-carousel">
 										<img th:each="img:${imgList}"
-											th:data-imgbigurl="@{{fileRoute}{mediaName}/
-									(fileRoute=${img.fileRoute},mediaName=${img.mediaName})}"
-											th:src="@{{fileRoute}{mediaName}/
-									(fileRoute=${img.fileRoute},mediaName=${img.mediaName})}"
+											th:data-imgbigurl="@{/fileView/{fileRoute}/
+									(fileRoute=${img.fileRoute})}"
+											th:src="@{/fileView/{fileRoute}/
+									(fileRoute=${img.fileRoute})}"
 											alt="">
 									</div>
 									<br>
@@ -218,26 +218,43 @@ h1 {
 												<div class="row">
 													<div class="author-comment d-flex mt-3 mb-4"
 														th:each=" review : ${reviewList}">
-														<input type="hidden" th:value="${review.reviewId}"
-															id="reviewList" class="reviewList"> <img
-															th:src="@{/images/avatar/studio-portrait-emotional-happy-funny.jpg}"
-															class="img-fluid avatar-image" alt="">
 
-														<div class="author-comment-info ms-3">
-															<h6 class="mb-1">
-																<span style="font-weight: bold">[[${review.writerId}]]</span>
-																([[${#dates.format(review.reviewDate, 'YY.MM.DD
-																HH:mm')}]])
-															</h6>
-															<p class="mb-0">[[${review.reviewContent}]]</p>
-															<i class="fa fa-star"
-																th:each="num:${#numbers.sequence(1,review.reviewStar)}"></i>
-															<i class="fa-solid fa-star-half"
-																th:if="${review.reviewStar%1 >= 0.5}"></i>
-															<div class="d-flex mt-2">
-																<button href="#" class="openBtn">신고</button>
+														<div th:if="${review.level}==1">
+															<img
+																th:src="@{/images/avatar/studio-portrait-emotional-happy-funny.jpg}"
+																class="img-fluid avatar-image" alt="">
+															<div class="author-comment-info ms-3">
+																<h6 class="mb-1">
+																	<span style="font-weight: bold">[[${review.writerId}]]</span>
+																	([[${#dates.format(review.reviewDate, 'YY.MM.DD
+																	HH:mm')}]])
+																</h6>
+																<p class="mb-0">[[${review.reviewContent}]]</p>
+																<i class="fa fa-star"
+																	th:each="num:${#numbers.sequence(1,review.reviewStar)}"></i>
+																<i class="fa-solid fa-star-half"
+																	th:if="${review.reviewStar%1 >= 0.5}"></i>
+																<div class="d-flex mt-2">
+																	<button href="#" class="openBtn">신고</button>
+																</div>
 															</div>
 
+														</div>
+
+														<div th:unless="${review.level}==1"
+															style="margin-left: 100px">
+
+															<img
+																th:src="@{/images/avatar/studio-portrait-emotional-happy-funny.jpg}"
+																class="img-fluid avatar-image" alt=""> 판매자
+															<div class="author-comment-info ms-3">
+																<h6 class="mb-1">
+																	<span style="font-weight: bold">[[${review.writerId}]]</span>
+																	([[${#dates.format(review.reviewDate, 'YY.MM.DD
+																	HH:mm')}]])
+																</h6>
+																<p class="mb-0">[[${review.reviewContent}]]</p>
+															</div>
 														</div>
 													</div>
 												</div>
@@ -307,33 +324,7 @@ h1 {
 		 var token = $("meta[name='_csrf']").attr("content");
 		 var header = $("meta[name='_csrf_header']").attr("content");
 
-		window.onload = function(){		
-			let groupId=$("#reviewList").val()
-			 $.ajax({
-					type : 'post', 
-					url : '/shop/reviewList2',				
-					beforeSend : function(xhr)
-			           {
-			            xhr.setRequestHeader(header, token);
-			           },
-					data : {  
-					      "groupId" : groupId					      		      
-					    },
-					success : function(result) {					
-						console.log(result[0].groupId)
-						console.log($(".reviewList").val())
-						for(let i=0;i<$(".reviewList").length;i++){
-							
-							if($(".reviewList").val()==result[0].groupId){
-								console.log("hi")
-							}
-						}
-					},
-					error : function(error) { 
-						console.log(error)
-					}
-				}) 
- 		}
+
 		
 		 
 		//찜선택
