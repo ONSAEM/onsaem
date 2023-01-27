@@ -703,7 +703,7 @@
 					dataType:'json',
 					success : function(result) {
 						alert('성공');
-						location.href="'/blog/myblog?userId='+'[(${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''})]'";
+						location.href="/blog/myblog?userId=[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
 					},
 					error : function(error) {
 						console.log(error);
@@ -858,7 +858,7 @@
 	 					success: function(result){
 	 						console.log(result);
 	 						alert("삭제완료");
-	 						location.href="'/blog/myblog?userId='+'[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]'";
+	 						location.href="/blog/myblog?userId=[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
 	 					},
 	 					error: function(error){
 	 						console.log(error);

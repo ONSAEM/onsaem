@@ -267,54 +267,66 @@
 			<section class="news-section section-padding">
             <div class="container">
                 <div class="row">
-                	<div class="author-comment d-flex mt-3 mb-4" th:each=" reply : ${replyList}">
-                                    <img th:src="@{/images/avatar/studio-portrait-emotional-happy-funny.jpg}"
-                                        class="img-fluid avatar-image" alt="">
+                	<div class="rere">
+                	<div th:each=" reply : ${replyList}">
+                		<div th:if="${reply.level} == 1">
+		                	<div class="author-comment d-flex mt-3 mb-4">
+                                 <img th:src="@{/images/avatar/studio-portrait-emotional-happy-funny.jpg}"
+                                     class="img-fluid avatar-image" alt="">
 
-                                    <div class="author-comment-info ms-3">
-                                        <h6 class="mb-1"><span style="font-weight:bold" id="writerIdText">[[${reply.writerId}]]</span> <a th:if="${blogWrite.blogId} == ${reply.writerId}" style="color:#5bc1ac;font-weight:bold;">[작성자🍀]</a> ([[${#dates.format(reply.replyDate, 'YY.MM.DD HH:mm')}]])</h6>
+                                 <div class="author-comment-info ms-3">
+                                     <h6 class="mb-1"><span style="font-weight:bold" id="writerIdText">[[${reply.writerId}]]</span> <a th:if="${blogWrite.blogId} == ${reply.writerId}" style="color:#5bc1ac;font-weight:bold;">[작성자🍀]</a> ([[${#dates.format(reply.replyDate, 'YY.MM.DD HH:mm')}]])</h6>
 
-                                        <p class="mb-0">[[${reply.content}]]</p>
+                                     <p class="mb-0">[[${reply.content}]]</p>
 
-                                        <div class="d-flex mt-2">
-                                            <a type="button" class="author-comment-link rereplyBtn">댓글달기</a>
-                                            <!-- 대댓글 -->
-                                            <form class="custom-form comment-form mt-4" role="form" name="rereplyFrm" style="display:none;" id="rereplyFrm">
-			                                	<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
-			                                    <textarea name="reContent" rows="4" class="form-control rereplyBox" id="comment-message"
-			                                        placeholder="온샘은 신고 관리를 철저하게 합니다. 댓글 작성 시, 한번 더 생각해주세요"></textarea>
-			
-			                                    	<div class="col-lg-3 col-md-4 col-6 ms-auto">
-			<!--                                         <button type="button" id="replyBtn" class="form-control" th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}" disabled>로그인이 필요합니다 <a th:href="@{/loginPage}">login</a></button> -->
-			                                        	<button type="submit" class="form-control rereplyInsert" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}">등록</button>
-			                                    	</div>
-			                                    <input type="hidden" name="groupId" th:value="${reply.replyId}">
-			                                </form>
-                                            <!-- 대댓글 끝 -->
-											<a type="button" class="author-comment-link me-3"><span style="color:red;">삭제</span></a>
-                                            <a type="button" class="author-comment-link me-3 openBtn" id="replyIdVal" th:value1="${reply.replyId}" th:value2="${reply.writerId}"><span style="color:red;">신고</span></a>
-                                        </div>
-                                    </div>
+                                     <div class="d-flex mt-2">
+                                         <a type="button" class="author-comment-link rereplyBtn">댓글달기</a>
+                                          <!-- 대댓글 -->
+                                          <form class="custom-form comment-form mt-4 rereplyFrm" role="form" name="rereplyFrm" style="display:none;">
+	                                	<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
+	                                    <textarea name="content" rows="4" class="form-control rereplyBox" id="comment-message"
+	                                        placeholder="온샘은 신고 관리를 철저하게 합니다. 댓글 작성 시, 한번 더 생각해주세요"></textarea>
+	
+	                                    	<div class="col-lg-3 col-md-4 col-6 ms-auto">
+<!-- 			                                        <button type="button" id="replyBtn" class="form-control" sec:authorize="isAnonymous()" disabled>로그인이 필요합니다 <a th:href="@{/loginPage}">login</a></button> -->
+	                                        	<button type="button" class="form-control rereplyInsert" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}">등록</button>
+	                                    	</div>
+	                                    <input type="hidden" name="groupId" th:value="${reply.replyId}">
+	                                </form>
+                                          <!-- 대댓글 끝 -->
+								<a type="button" class="author-comment-link me-3"><span style="color:red;">삭제</span></a>
+                                         <a type="button" class="author-comment-link me-3 openBtn" id="replyIdVal" th:value1="${reply.replyId}" th:value2="${reply.writerId}"><span style="color:red;">신고</span></a>
+                                     </div>
+                                 </div>
+	                     </div>
                      </div>
-						<!-- 대댓글 
+                     <!-- 대댓글 리스트 -->
+                     <div th:unless="${reply.level} == 1">
+                     		<div class="rereTemplate">	
                                 <div class="author-comment d-flex ms-5 ps-3">
                                     <img th:src="@{/images/avatar/pretty-blonde-woman-wearing-white-t-shirt.jpg}"
                                         class="img-fluid avatar-image" alt="">
 
                                     <div class="author-comment-info ms-3">
-                                        <h6 class="mb-1">Daisy</h6>
+                                        <h6 class="mb-1">
+                                        <span style="font-weight:bold" id="writerIdText">[[${reply.writerId}]]</span> 
+                                        <a th:if="${blogWrite.blogId} == ${reply.writerId}" style="color:#5bc1ac;font-weight:bold;">[작성자🍀]</a> 
+                                        ([[${#dates.format(reply.replyDate, 'YY.MM.DD HH:mm')}]])</h6>
 
-                                        <p class="mb-0">Sed leo nisl, posuere at molestie ac, suscipit auctor mauris.
-                                            Etiam quis metus elementum, tempor risus vel, condimentum orci</p>
+                                        <p class="mb-0">[[${reply.content}]]</p>
 
                                         <div class="d-flex mt-2">
                                             <a href="#" class="author-comment-link me-3">신고</a>
-
-                                            <a href="#" class="author-comment-link">댓글달기</a>
+                                            <a type="button" class="author-comment-link me-3"><span style="color:red;">삭제</span></a>
                                         </div>
                                     </div>
                                 </div>
-						-->
+                            </div>
+                    </div>      
+					<!--  대댓글 끝 -->
+					
+					</div>
+				</div>
                                 <form class="custom-form comment-form mt-4" role="form" name="replyFrm">
                                 	<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
                                     <h6 class="mb-3">댓글</h6>
@@ -324,7 +336,7 @@
 
                                     <div class="col-lg-3 col-md-4 col-6 ms-auto">
 <!--                                         <button type="button" id="replyBtn" class="form-control" th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}" disabled>로그인이 필요합니다 <a th:href="@{/loginPage}">login</a></button> -->
-                                        <button type="submit" id="replyBtn" class="form-control" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}">등록</button>
+                                        <button type="button" id="replyBtn" class="form-control" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}">등록</button>
                                     </div>
                                     <input type="hidden" name="groupId" th:value="${blogWrite.writeId}">
                                 </form>
@@ -573,40 +585,50 @@
 				
 				
 			// 대댓글 등록
-			$('.rereplyBtn').on("click", function(){ // 댓글 달기 버튼을 누르면 댓글 쓰는 칸 보이게
-				console.log("대댓글");
-				$('.rereplyFrm').toggle('active'); // 댓글 쓰는 칸 열기
-				
-				$('.rereplyInsert').on('click', function(){
-					let bno = "[[${blogWrite.writeId}]]";
-					let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
-					if(id!=null){ // 로그인 된 상태이면
-						$.ajax({
-							url: '/blog/myblog/blogWrite/replyInsert',
-							method: 'post',
-							beforeSend : function(xhr)
-				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-				               xhr.setRequestHeader(header, token);
-				               },
-							contentType: 'application/x-www-form-urlencoded',
-							data: $('form[name="rereplyFrm"]').serialize(),
-							success: function (result) {
-						         console.log(result);
-						         location.href='/blog/myblog/blogWrite?bno='+bno;	// 이거 빼고 어디에 뭐 넣어라~ 이런식으로
-						    	 
-							},
-						      error: function (error) {
-						         console.log(error);
-						      }
-						});
-					}else{
-						alert('로그인이 필요합니다.');
-					}
+			$('.rereplyBtn').each(function(){
+				$(this).on("click", function(){ // 댓글 달기 버튼을 누르면 댓글 쓰는 칸 보이게
+					console.log("대댓글");
+					$(this).next().toggle('active'); // 댓글 쓰는 칸 열기
+					$(this).next().find('.rereplyInsert').on('click', function(e){
+						let bno = "[[${blogWrite.writeId}]]";
+						let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
+						
+						if(id!=null){ // 로그인 된 상태이면
+							$.ajax({
+								url: '/blog/myblog/blogWrite/replyInsert',
+								method: 'post',
+								beforeSend : function(xhr)
+					               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+					               xhr.setRequestHeader(header, token);
+					               },
+								contentType: 'application/x-www-form-urlencoded',
+								data: $(e.target).closest('form').serialize(),
+								success: function (result) {
+							         console.log(result);
+ 							         location.href='/blog/myblog/blogWrite?bno='+bno;	// 이거 빼고 어디에 뭐 넣어라~ 이런식으로
+							    	 
+								},
+							      error: function (error) {
+							         console.log(error);
+							      }
+							});
+						}else{
+							alert('로그인이 필요합니다.');
+						}
+					})
 				})
 			})
-				
 			
-				
+			// 대댓글 리스트 생성
+			let listClone = $('.rereTemplate').find('author-comment').first();
+			function makeRereList(item){
+				let makeClone = $(listClone).clone();
+				$(makeClone).find('span').text(item.writerId);
+				$(makeClone).find('mb-1').text(item.replyDate);
+				$(makeClone).find('p').text(item.content);
+			}
+			
+			
 			//신고모달창 생성
 			const openButton = document.querySelector(".openBtn");
 			const modal = document.querySelector(".modal");
@@ -707,7 +729,7 @@
 	 					success: function(result){
 	 						console.log(result);
 	 						alert("삭제완료");
-	 						location.href='/blog/myblog?userId='+'[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]';
+	 						location.href="'/blog/myblog?userId='+'[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]'";
 	 					},
 	 					error: function(error){
 	 						console.log(error);

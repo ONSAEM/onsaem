@@ -28,7 +28,9 @@ public class BlogReplyController {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		String id = userDetails.getUsername();
 		vo.setWriterId(id);
+		System.out.println("vo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+vo);
 		replyService.replyInsert(vo);
+		
 		return vo;
 	}
 }

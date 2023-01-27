@@ -1095,16 +1095,25 @@
 		    }
 			
 			
-			$("#hfile").on('click',function(){
-				console.log('왜안눌려');
-			})
-			
-			
 			
 			// 블로그 정보 등록
 			$('#taskBtn').on("click", function(){
 				console.log("task");
 				$.ajax({
+					url: '/blog/updateInfo',
+					method: 'post',
+				     contentType: 'application/x-www-form-urlencoded',
+				     data: {},
+				     beforeSend : function(xhr)
+		               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+		               xhr.setRequestHeader(header, token);
+		               },
+				     success:{
+				    	 
+				     },
+				     error:{
+				    	 
+				     }
 					
 				})
 			})
