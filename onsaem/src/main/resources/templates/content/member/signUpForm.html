@@ -519,7 +519,7 @@
 
 			// 회원등록
 			function addMember() {
-				let data = new FormData($('form')[0]);
+				let data = new FormData($('.form')[0]);
 				if(!$('input[name="profileFile"]').val()){
 					data.delete('profileFile');
 				}

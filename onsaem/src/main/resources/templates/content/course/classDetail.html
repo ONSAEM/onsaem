@@ -185,22 +185,27 @@
 													<div class="news-block-info">
 
 
-														<div class="author-comment d-flex mt-3 mb-4">
-															<img
-																src="images/avatar/studio-portrait-emotional-happy-funny.jpg"
-																class="img-fluid avatar-image" alt="">
+														<div class="author-comment d-flex mt-3 mb-4"
+															th:each="review : ${review.reviewList}" th:id="${review.reviewId}">
+															<img th:if="${review.profile != null}"
+																th:src="@{'/fileView/'+${review.profile.fileRoute}}"
+																class="img-fluid avatar-image"> <img
+																th:unless="${review.profile != null}"
+																th:src="@{/images/defaulltProfile.png}"
+																class="img-fluid avatar-image">
 
 															<div class="author-comment-info ms-3">
-																<h6 class="mb-1">Jack</h6>
-
-																<p class="mb-0">Kind Heart Charity is the most
-																	supportive organization. This is Bootstrap 5 HTML CSS
-																	template for everyone. Thank you.</p>
-
-																<div class="d-flex mt-2">
-																	<a href="#" class="author-comment-link me-3">Like</a> <a
-																		href="#" class="author-comment-link">Reply</a>
-																</div>
+																<h6 class="mb-1" th:text="${review.nickname}"></h6>
+																<i class="fa-solid fa-star"
+																	th:if="${review.reviewStar != 0}"
+																	th:each="num:${#numbers.sequence(1,review.reviewStar)}"
+																	style="color: #ffe949"></i><i
+																	class="fa-solid fa-star-half"
+																	th:if="${review.reviewStar%1 >= 0.5}"
+																	style="color: #ffe949"></i> <img
+																	th:if="${review.reviewMedia != null}"
+																	th:src="@{'/fileView/'+${review.reviewMedia.fileRoute}}">
+																<p class="mb-0" th:text="${review.reviewContent}"></p>
 															</div>
 														</div>
 
@@ -213,10 +218,25 @@
 								</div>
 							</div>
 							<div class="tab-pane" id="tabs-3" role="tabpanel">
-								<div class="product__details__tab__desc">
-									<h6>Products Infomation</h6>
-									<p>문의자리</p>
-								</div>
+								<div class="container">
+										<div class="row">
+
+											<div class="col-lg-7 col-12">
+												<div class="news-block">
+
+													<div class="news-block-info">
+
+														<div class="author-comment d-flex mt-3 mb-4"
+															th:each="review : ${review.reviewList}">
+															<div class="author-comment-info ms-3">
+																<h6 class="mb-1" th:text="${review.nickname}"></h6>
+																<p class="mb-0" th:text="${review.reviewContent}"></p>
+															</div>
+														</div>
+
+													</div>
+												</div>
+											</div>
 							</div>
 						</div>
 					</div>
@@ -287,76 +307,78 @@
 				$('.number').text(e);
 			}
 		}
-	
-		function test(){
+
+		function test() {
 		}
-		
-		$(".heartbutton").click(function() {
-			likeTF = $('.wrapper').find('input').val()
-			event.stopPropagation();
-			// 좋아요 디비 저장
-			let groupId = "[[${class.classId}]]";
-			let id = '[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}]]';
-			console.log(id);
-	if(id == ''){
-		console.log('널');
-	}
-			
-// 			if (id != "") { // 로그인 된 상태이면
-// 				if (likeTF == 'F') { // 테이블에 조회된 값이 없으면 db에 저장
-// 					//db에 저장하는 메서드 컨트롤러에 추가
-// 					$.ajax({
-// 						url : '/class/addBlogLike',
-// 						method : 'post',
-// 						contentType : 'application/x-www-form-urlencoded',
-// 						data : {
-// 							"groupId" : bno
-// 						}, // 컨트롤러로 넘겨줄 값. 이 페이지의 글 번호
-// 						beforeSend : function(xhr) {
-// 							xhr.setRequestHeader(header, token);
-// 						},
-// 						success : function(result) {
-// 							console.log(result.count);
-// 							// Y를 F로
 
-// 							$('.ClassLike').val('Y'); // blogLike인 클래스의 값을 불러와서 'Y'로 바꿔준다
-// 							timeline(result.count, true);
-// 						},
-// 						error : function(error) {
-// 							console.log(error);
-// 						}
-// 					})
+		$(".heartbutton")
+				.click(
+						function() {
+							likeTF = $('.wrapper').find('input').val()
+							event.stopPropagation();
+							// 좋아요 디비 저장
+							let groupId = "[[${class.classId}]]";
+							let memberId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}]]";
+							let data = {
+								"groupId" : groupId,
+								"memberId" : memberId,
+								"groups" : "CL"
+							}
+							if (memberId != "") { // 로그인 된 상태이면
+								if (likeTF == 'F') { // 테이블에 조회된 값이 없으면 db에 저장
+									//db에 저장하는 메서드 컨트롤러에 추가
+									$
+											.ajax({
+												url : '/class/addClassLike',
+												method : 'post',
+												contentType : 'application/x-www-form-urlencoded',
+												data : data, // 컨트롤러로 넘겨줄 값. 이 페이지의 글 번호
+												beforeSend : function(xhr) {
+													xhr.setRequestHeader(
+															header, token);
+												},
+												success : function(result) {
+													console.log(result);
+													// Y를 F로
 
-// 				} else { // db에 삭제
-// 					//db에서 삭제 또는 수정하는 메서드 컨트롤러에 추가
+													$('.ClassLike').val('Y'); // blogLike인 클래스의 값을 불러와서 'Y'로 바꿔준다
+													timeline(result, true);
+												},
+												error : function(error) {
+													console.log(error);
+												}
+											})
 
-// 					$.ajax({
-// 						url : '/class/delBlogLike',
-// 						method : 'post',
-// 						contentType : 'application/x-www-form-urlencoded',
-// 						data : {
-// 							"groupId" : bno
-// 						},
-// 						beforeSend : function(xhr) {
-// 							xhr.setRequestHeader(header, token);
-// 						},
-// 						success : function(result) {
-// 							console.log(result.count);
+								} else { // db에 삭제
+									//db에서 삭제 또는 수정하는 메서드 컨트롤러에 추가
 
-// 							// F를 Y로
-// 							$('.ClassLike').val('F'); // blogLike인 클래스의 값을 불러와서 'F'로 바꿔준다
-// 							timeline(result.count, false);
-// 						},
-// 						error : function(error) {
-// 							console.log(error);
-// 						}
-// 					})
-// 				}
-// 				;
-// 			} else { // 로그인 하지 않은 상태이면
-// 				alert('로그인이 필요합니다');
-// 			}
-		});
+									$
+											.ajax({
+												url : '/class/delClassLike',
+												method : 'post',
+												contentType : 'application/x-www-form-urlencoded',
+												data : data,
+												beforeSend : function(xhr) {
+													xhr.setRequestHeader(
+															header, token);
+												},
+												success : function(result) {
+													console.log(result);
+
+													// F를 Y로
+													$('.ClassLike').val('F'); // blogLike인 클래스의 값을 불러와서 'F'로 바꿔준다
+													timeline(result, false);
+												},
+												error : function(error) {
+													console.log(error);
+												}
+											})
+								}
+								;
+							} else { // 로그인 하지 않은 상태이면
+								alert('로그인이 필요합니다');
+							}
+						});
 		// 	좋아요 끝
 	</script>
 	<!-- JS -->

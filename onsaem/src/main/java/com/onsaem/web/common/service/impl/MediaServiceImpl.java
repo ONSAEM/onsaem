@@ -89,4 +89,16 @@ public class MediaServiceImpl implements MediaService{
 		return mediaMapper.stopMedia(vo);
 	}
 
+	@Override
+	public MediaVO getMedia(MediaVO vo) {
+		
+		return mediaMapper.getMedia(vo);
+	}
+
+	@Override
+	public List<MediaVO> getMediaList(MediaVO vo) {
+		
+		return mediaMapper.getMediaList(vo);
+	}
+
 }

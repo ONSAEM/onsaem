@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.Paging;
+import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.course.service.ClassInfoVO;
+import com.onsaem.web.course.service.ClassReviewService;
 import com.onsaem.web.course.service.ClassService;
 
 @Controller
@@ -24,6 +26,9 @@ public class ClassController {
 
 	@Autowired
 	ClassService classService;
+	
+	@Autowired
+	ClassReviewService classReviewService;
 
 	// 강의목록 페이지 이동 (강의목록, 인기강의목록)
 	@RequestMapping(value = "/classList", method = RequestMethod.GET)
@@ -55,7 +60,11 @@ public class ClassController {
 		}
 		model.addAttribute("class", classService.getClass(vo));
 		model.addAttribute("mediaList", classService.classMediaList(vo));
-//		model.addAttribute("reviewList");
+		Paging paging = new Paging();
+		paging.setPage(1);
+		ReviewVO rvo = new ReviewVO();
+		rvo.setGroupId(vo.getClassId());
+		model.addAttribute("review", classReviewService.getReviewList(rvo, paging));
 		return "content/course/classDetail";
 	}
 
@@ -78,14 +87,14 @@ public class ClassController {
 	}
 
 	// 강의 좋아요 추가
-	@RequestMapping(value = "/addClassLike", method = RequestMethod.GET)
+	@RequestMapping(value = "/addClassLike", method = RequestMethod.POST)
 	@ResponseBody
 	public int addClassLike(LikeVO vo) {
 		return classService.addClassLike(vo);
 	}
 
 	// 강의 좋아요 삭제
-	@RequestMapping(value = "/delClassLike", method = RequestMethod.GET)
+	@RequestMapping(value = "/delClassLike", method = RequestMethod.POST)
 	@ResponseBody
 	public int delClassLike(LikeVO vo) {
 		return classService.delClassLike(vo);

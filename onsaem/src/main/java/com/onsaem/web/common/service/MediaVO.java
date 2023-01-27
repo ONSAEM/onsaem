@@ -14,7 +14,7 @@ public class MediaVO {
 	String fileRoute;
 	String mediaName;
 	String mediaType;
-	int mediaOrder;
+	int mediaOrder = 0;
 	String uuid;
 	
 	//챌린저스에 변수 추가
