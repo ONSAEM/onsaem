@@ -125,13 +125,12 @@ h1 {
 				<div class="col-lg-6 col-md-6">
 					<div class="product__details__text">
 						<h3 th:text=${product.productName}>Vetgetable’s Package</h3>
-
 						<div class="product__details__rating">
-
 							<i class="fa fa-star"
 								th:each="num:${#numbers.sequence(1,product.star)}"></i> <i
 								class="fa-solid fa-star-half" th:if="${product.star%1 >= 0.5}"></i>
 							<button class="openBtn" sec:authorize="isAuthenticated()">신고하기</button>
+							<button sec:authorize="isAnonymous()" onclick="noLogin()">신고하기</button>
 							<span th:text="'('+${#lists.size(reviewList)}+' reviews)'">(18
 								reviews)</span>
 						</div>
@@ -141,7 +140,6 @@ h1 {
 							quam vehicula elementum sed sit amet dui. Sed porttitor lectus
 							nibh. Vestibulum ac diam sit amet quam vehicula elementum sed sit
 							amet dui. Proin eget tortor risus.</p>
-
 						<div>
 							<div class="product__details__quantity">
 								<div class="quantity">
@@ -152,17 +150,22 @@ h1 {
 							</div>
 							<select class="options" onchange="optionEvent(this.value)">
 								<option value='' selected>-- 옵션 --</option>
-								<option th:value="${option.optionContent}"
-									th:each="option:${optionList}"
-									th:text="${option.optionContent}">친환경</option>
+								<option th:each="option:${optionList}"
+									th:value="${option != null ? option.optionContent : null}"
+									th:text="${option != null ? option.optionContent : null}"></option>
 							</select> <a th:onclick="cartEvent(this)" class="primary-btn"
-								sec:authorize="isAuthenticated()">장바구니 담기</a>
+								sec:authorize="isAuthenticated()">장바구니 담기</a> <a
+								onclick="noLogin()" class="primary-btn"
+								href="javascript:location.reload()"
+								sec:authorize="isAnonymous()">장바구니 담기</a>
 							<button th:onclick="changeHeart(this)" style="border: solid 0px;"
 								class="change-heart" sec:authorize="isAuthenticated()">♡</button>
 							<br>
 						</div>
 						<a th:onclick="buyProduct([[${productList}]])" class="primary-btn"
-							sec:authorize="isAuthenticated()">구매하기</a>
+							sec:authorize="isAuthenticated()">구매하기</a> <a
+							href="javascript:location.reload()" class="primary-btn"
+							sec:authorize="isAnonymous()" onclick="noLogin()">구매하기</a>
 						<ul>
 							<li><b>Shipping</b> <span>01 day shipping. </span>
 						</ul>
@@ -195,17 +198,20 @@ h1 {
 											alt="">
 									</div>
 									<br>
+
+									<div>
+										<img alt="" th:src="@{/shoptemplate/img/product/회원혜택.jpg}">
+									</div>
 									<h6 th:text="${product.productName}">Products Infomation</h6>
 									<p th:text="${product.productInfo}"></p>
 									<div th:each="nature:${natureImg}">
 										<img
-											th:data-imgbigurl="@{{fileRoute}{mediaName}/
-									(fileRoute=${nature.fileRoute},mediaName=${nature.mediaName})}"
-											th:src="@{{fileRoute}{mediaName}/
-									(fileRoute=${nature.fileRoute},mediaName=${nature.mediaName})}"
+											th:data-imgbigurl="@{/fileView/{fileRoute}/
+									(fileRoute=${nature.fileRoute}"
+											th:src="@{/fileView/{fileRoute}/
+									(fileRoute=${nature.fileRoute}"
 											alt="">
 									</div>
-									<p></p>
 								</div>
 							</div>
 
@@ -319,15 +325,18 @@ h1 {
 		<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
 		<script th:src="@{/shoptemplate/js/main.js}"></script>
 
-		<script type="text/javascript">
+		<script type="text/javascript">		
 		//csrf설정
 		 var token = $("meta[name='_csrf']").attr("content");
-		 var header = $("meta[name='_csrf_header']").attr("content");
-
-
-		
+		 var header = $("meta[name='_csrf_header']").attr("content");		
 		 
-		//찜선택
+		 //로그인 안햇을때 실행
+		 function noLogin(){
+			 alert("로그인 후 이용가능 합니다.")
+			 location.reload();
+		 }
+		 
+				//찜선택
 				function changeHeart(data){	
 					const urlParams = new URL(location.href).searchParams;
 					const name = urlParams.get('data');	

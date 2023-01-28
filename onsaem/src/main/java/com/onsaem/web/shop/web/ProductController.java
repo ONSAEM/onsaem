@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.shop.service.CartService;
@@ -71,19 +72,20 @@ public class ProductController {
 	// 쇼핑몰페이지이동,최신순,인기순 목록나열
 	@RequestMapping(value = "/shop", method = RequestMethod.GET)
 	public String shopMain(Model model, @RequestParam(value = "data", required = false) String data, CartVO cartVo,
-			Authentication authentication) {
+			Authentication authentication,Paging paging,ProductVO vo) {
 		if (authentication != null) {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 			cartVo.setMemberId(userDetails.getUsername());
 			likeVo.setMemberId(userDetails.getUsername());
 			model.addAttribute("cartList", cartService.cartList(cartVo)); // 장바구니 수량가져오기 위한 리스트
-			model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
-			model.addAttribute("categoryList", proService.categoryList()); //카테고리 리스트
+			model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트			
 		}
+		model.addAttribute("categoryList", proService.categoryList()); //카테고리 리스트
 		if (data != null && data.equals("popularity")) {
 			model.addAttribute("productList", proService.popList());
 		} else {
-			model.addAttribute("productList", proService.proList());			
+			model.addAttribute("productList", proService.proList(vo,paging));	
+			model.addAttribute("paging", paging);
 		}
 		return "content/shop/shopMain";
 	}
@@ -94,8 +96,8 @@ public class ProductController {
 		model.addAttribute("productList", proService.selectPro(data));// 상품데이터가져오기
 		model.addAttribute("imgList", proService.addImg(data));// 추가이미지가져오기
 		model.addAttribute("natureImg", proService.natureImg(data));// 친환경이미지가져오기
-		model.addAttribute("reviewList", proService.reviewList(data));// 상품리뷰리스트가져오기
-		model.addAttribute("optionList", proService.optionList(data));// 옵션가져오기		
+		model.addAttribute("reviewList", proService.reviewList(data));// 상품리뷰리스트가져오기			
+		model.addAttribute("optionList", proService.optionList(data));// 옵션가져오기										
 		return "content/shop/shopDetail";
 	}
 
@@ -109,11 +111,14 @@ public class ProductController {
 	@RequestMapping(value = "/category", method = RequestMethod.GET)
 	public String shopCategory(Model model, @RequestParam(value = "data", required = false) String data,
 			Authentication authentication) {
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		cartVo.setMemberId(userDetails.getUsername());
-		model.addAttribute("productList", proService.proCategory(data));
-		model.addAttribute("cartList", cartService.cartList(cartVo)); // 장바구니 수량가져오기 위한 리스트
-		model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
+		if(authentication!=null) {
+			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			cartVo.setMemberId(userDetails.getUsername());
+			likeVo.setMemberId(userDetails.getUsername());
+			model.addAttribute("cartList", cartService.cartList(cartVo)); // 장바구니 수량가져오기 위한 리스트
+			model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
+		}		
+		model.addAttribute("productList", proService.proCategory(data));		
 		model.addAttribute("categoryList", proService.categoryList()); //카테고리 리스트
 		return "content/shop/shopMain";
 	}
@@ -122,12 +127,15 @@ public class ProductController {
 	@RequestMapping(value = "/searchProduct", method = RequestMethod.POST)
 	public String searchProduct(Model model, @RequestParam(value = "data", required = false) String data,
 			Authentication authentication) {
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		cartVo.setMemberId(userDetails.getUsername());
-		likeVo.setMemberId(userDetails.getUsername());
-		model.addAttribute("productList", proService.searchProduct(data));
-		model.addAttribute("cartList", cartService.cartList(cartVo)); // 장바구니 수량가져오기 위한 리스트
-		model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
+		
+		if(authentication!=null) {
+			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			cartVo.setMemberId(userDetails.getUsername());
+			likeVo.setMemberId(userDetails.getUsername());
+			model.addAttribute("cartList", cartService.cartList(cartVo)); // 장바구니 수량가져오기 위한 리스트
+			model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
+		}		
+		model.addAttribute("productList", proService.searchProduct(data));		
 		return "content/shop/shopMain";
 	}
 
@@ -151,9 +159,7 @@ public class ProductController {
 		likeVo.setGroupId(data);
 		proService.likeDel(likeVo);
 		return "redirect:/shop";
-	}
-
-	
+	}	
 
 	// 상품등록
 	@RequestMapping(value = "/addProduct", method = RequestMethod.POST)
@@ -233,7 +239,8 @@ public class ProductController {
 	@ResponseBody
 	public int addReview(Model model, @RequestBody ReviewVO vo, Authentication authentication) {		
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		vo.setWriterId(userDetails.getUsername());		
+		vo.setWriterId(userDetails.getUsername());	
+		proService.reviewPoint(userDetails.getUsername());
 		return proService.addReview(vo);
 	}
 

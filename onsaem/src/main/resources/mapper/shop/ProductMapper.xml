@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onsaem.web.shop.mapper.ProductMapper">
+	<!-- 나의 리뷰리스트 -->
+	<select id="myReviewList"
+		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT * FROM REVIEWS WHERE WRITER_ID=#{data}
+	</select>
+
+	<!-- 리뷰 포인트 적립 -->
+	<update id="reviewPoint"
+		parameterType="com.onsaem.web.member.service.MemberVO">
+		UPDATE MEMBERS SET POINT=POINT+10 WHERE
+		MEMBER_ID=#{data}
+	</update>
+
 	<!-- 주간베스트 데이터 가져오기 -->
 	<select id="selectProduct"
 		resultType="com.onsaem.web.shop.service.ProductVO">
@@ -14,9 +27,14 @@
 		P.CATEGORY,
 		P.PRODUCT_STATUS,
 		P.REGISTER_DATE,
-		P.MEMBER_ID,		
-		M.FILE_ROUTE from products p,media m where m.group_id=p.product_id and m.sub_group='대표이미지' and (p.product_id=#{best1} or
-		p.product_id=#{best2} or p.product_id=#{best3} or p.product_id=#{best4} or
+		P.MEMBER_ID,
+		M.FILE_ROUTE from products p,media m where
+		m.group_id=p.product_id and
+		m.sub_group='대표이미지' and
+		(p.product_id=#{best1} or
+		p.product_id=#{best2} or
+		p.product_id=#{best3} or
+		p.product_id=#{best4} or
 		p.product_id=#{best5})
 	</select>
 
@@ -44,11 +62,14 @@
 	<!-- 상품전체조회 -->
 	<select id="proList"
 		resultType="com.onsaem.web.shop.service.ProductVO">
+		SELECT * FROM (SELECT ROWNUM RN, A.* FROM(
 		SELECT
-		P.PRODUCT_ID AS PRODUCT_ID,
+		P.PRODUCT_ID AS
+		PRODUCT_ID,
 		P.PRODUCT_NAME AS
 		PRODUCT_NAME,
-		P.PRODUCT_DETAIL AS PRODUCT_DETAIL,
+		P.PRODUCT_DETAIL AS
+		PRODUCT_DETAIL,
 		P.PRICE AS PRICE,
 		P.STAR AS STAR,
 		P.AMOUNT AS AMOUNT,
@@ -73,6 +94,16 @@
 		'대표이미지'
 		ORDER BY
 		P.REGISTER_DATE DESC
+		 <![CDATA[
+				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
+			]]>
+	</select>
+
+	<!-- paging용 -->
+	<select id="proCount" resultType="int">
+		SELECT COUNT(product_id) AS
+		total
+		FROM products
 	</select>
 
 	<!-- 상품전체조회(인기순) -->

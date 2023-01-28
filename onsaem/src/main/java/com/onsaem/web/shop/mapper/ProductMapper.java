@@ -10,14 +10,23 @@ import com.onsaem.web.shop.service.OptionVO;
 import com.onsaem.web.shop.service.ProductVO;
 
 public interface ProductMapper {
-	//주간 베스트 데이터 가져오기
-		List<ProductVO> selectProduct(String best1,String best2,String best3,String best4,String best5);
+	// 나의 리뷰리스트
+	List<ReviewVO> myReviewList(String data);
+
+	// 리뷰 포인트 적립
+	int reviewPoint(String data);
+
+	// 주간 베스트 데이터 가져오기
+	List<ProductVO> selectProduct(String best1, String best2, String best3, String best4, String best5);
 
 	// 주간 베스트
 	List<ProductVO> weekBest();
 
 	// 상품전체조회
-	List<ProductVO> proList();
+	List<ProductVO> proList(ProductVO vo);
+
+	// 상품 갯수 조회
+	int proCount(ProductVO vo);
 
 	// 상품전체목록(인기순)
 	List<ProductVO> popList();

@@ -160,9 +160,11 @@ h1 {
 						<table>
 							<thead>
 								<tr>
-									<th><button>전체</button></th>
-									<th><button>배송중</button></th>
-									<th><button>배송완료</button></th>
+									<th><button onclick="location.href='/myOrder'">전체</button></th>
+									<th><button
+											onclick="location.href='/myOrder?orderStatus=배송중'">배송중</button></th>
+									<th><button
+											onclick="location.href='/myOrder?orderStatus=배송완료'">배송완료</button></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -190,7 +192,8 @@ h1 {
 										th:if="${order.orderStatus=='배송완료'}">
 											<button th:onclick="displayModal([[${order}]])">교환/반품</button>
 											<br> <br>
-											<button class="modals">리뷰작성</button>
+											<button class="modals">리뷰작성</button> <input type="hidden"
+											th:value="${order.productId}" id="productId">
 									</span>
 									</td>
 									<!-- 리뷰 모달창 -->
@@ -271,6 +274,27 @@ h1 {
 			 var token = $("meta[name='_csrf']").attr("content");
 			 var header = $("meta[name='_csrf_header']").attr("content");
 			
+			 //리뷰 작성여부 확인(수정해야함)
+			 window.onload=function(){
+				 $.ajax({
+						type : 'get', 
+						url : '/shop/myReviewList', 				
+						headers : { 
+							"Content-Type" : "application/json"					
+						},
+						beforeSend : function(xhr)
+			               {   
+			               xhr.setRequestHeader(header, token);
+			               },						
+						success : function(result) {					
+							console.log(result);
+						},
+						error : function(error) { 
+							console.log(error)
+						}
+					}) 
+			 }
+			 
 			//교환/환불 신청
 			function submitBtn(){							
 				let reasonLength = document.getElementsByName("reason").length;  
@@ -357,7 +381,7 @@ h1 {
 				      "reviewStar" : reviewStar
 				    }),
 				    success : function(result) { 
-				        alert("리뷰가 작성되었습니다.")
+				        alert("리뷰가 작성 및 10포인트 적립되었습니다.")
 				    },
 				    error : function(request, status, error) { 
 				        console.log(error)
