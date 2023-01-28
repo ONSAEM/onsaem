@@ -130,7 +130,7 @@ h1 {
 								th:each="num:${#numbers.sequence(1,product.star)}"></i> <i
 								class="fa-solid fa-star-half" th:if="${product.star%1 >= 0.5}"></i>
 							<button class="openBtn" sec:authorize="isAuthenticated()">신고하기</button>
-							<button sec:authorize="isAnonymous()" onclick="noLogin()" >신고하기</button>
+							<button sec:authorize="isAnonymous()" onclick="noLogin()">신고하기</button>
 							<span th:text="'('+${#lists.size(reviewList)}+' reviews)'">(18
 								reviews)</span>
 						</div>
@@ -198,17 +198,20 @@ h1 {
 											alt="">
 									</div>
 									<br>
+
+									<div>
+										<img alt="" th:src="@{/shoptemplate/img/product/회원혜택.jpg}">
+									</div>
 									<h6 th:text="${product.productName}">Products Infomation</h6>
 									<p th:text="${product.productInfo}"></p>
 									<div th:each="nature:${natureImg}">
 										<img
-											th:data-imgbigurl="@{{fileRoute}{mediaName}/
-									(fileRoute=${nature.fileRoute},mediaName=${nature.mediaName})}"
-											th:src="@{{fileRoute}{mediaName}/
-									(fileRoute=${nature.fileRoute},mediaName=${nature.mediaName})}"
+											th:data-imgbigurl="@{/fileView/{fileRoute}/
+									(fileRoute=${nature.fileRoute}"
+											th:src="@{/fileView/{fileRoute}/
+									(fileRoute=${nature.fileRoute}"
 											alt="">
 									</div>
-									<p></p>
 								</div>
 							</div>
 

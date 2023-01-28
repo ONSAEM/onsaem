@@ -43,6 +43,9 @@
 		O.PRODUCT_ID=M.GROUP_ID
 		AND O.PRODUCT_ID=P.PRODUCT_ID AND
 		O.ORDER_ID=D.ORDER_ID
+		<if test="orderStatus!=null and orderStatus!=''">
+			and o.order_status=#{orderStatus}
+		</if>
 		GROUP BY
 		O.ORDER_ID,
 		O.ORDER_DATE,

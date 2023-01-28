@@ -8,11 +8,9 @@
 
 <!-- Google Font -->
 <head>
-<link
-	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
-	rel="stylesheet">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+
 </head>
 
 
@@ -20,8 +18,6 @@
 <th:block layout:fragment="css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
 		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
 		type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
@@ -82,13 +78,12 @@
 								<input type="hidden" id="token" th:name="${_csrf.parameterName}"
 									th:value="${_csrf.token}" /> <input type="text"
 									placeholder="검색어를 입력해 주세요." name="data">
-								<button type="submit" class="site-btn">
-									<i class="fa-thin fa-magnifying-glass"></i>
-								</button>
+								<button type="submit" class="site-btn"></button>
 							</form>
-
+							<i class="fa-duotone fa-magnifying-glass"></i> <i
+								class="fa-thin fa-magnifying-glass"></i>
 						</div>
-						<div class="header__cart">							
+						<div class="header__cart">
 							<ul>
 								<li><a href="/likeList"><i class="fa fa-heart"
 										sec:authorize="isAuthenticated()"></i> <span
@@ -114,28 +109,6 @@
 			<div class="row">
 				<div class="col-lg-3 col-md-5">
 					<div class="sidebar">
-						<div class="sidebar__item">
-							<h4>가격</h4>
-							<div class="price-range-wrap" style="text-align: center">
-								<div
-									class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-									data-min="10" data-max="540">
-									<div class="ui-slider-range ui-corner-all ui-widget-header"></div>
-									<span tabindex="0"
-										class="ui-slider-handle ui-corner-all ui-state-default"></span>
-									<span tabindex="0"
-										class="ui-slider-handle ui-corner-all ui-state-default"></span>
-								</div>
-								<div class="range-slider">
-									<div class="price-input">
-										<input type="text" id="minamount" style="text-align: right"><i
-											class="fa-solid fa-minus"
-											style="color: #63bf63; margin: 0px 10px"></i><input
-											type="text" id="maxamount" style="text-align: left">
-									</div>
-								</div>
-							</div>
-						</div>
 						<div class="sidebar__item">
 							<div class="latest-product__text">
 								<h4>최근 본 상품</h4>
@@ -260,16 +233,17 @@
 							</div>
 						</div>
 					</div>
-					<div class="product__pagination">
-						<a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#"><i
-							class="fa fa-long-arrow-right"></i></a>
-					</div>
+					<!-- 페이징 -->
+					<th:block
+						th:replace="fragments/paging :: component(${paging}, 'gopage')">
 				</div>
 			</div>
 			<input type="hidden" value="${session.id}" id="id">
 		</div>
 	</section>
 	<!-- Product Section End -->
+
+
 
 	<!-- JS -->
 	<th:block layout:fragment="script">
@@ -292,6 +266,11 @@
 		}
 		
 		 window.onload = function() {
+			 function gopage(i){
+					console.log(i);
+					location.href='/shop?page='+i;
+				}
+			 
 				//주간베스트 목록
 				$.ajax({
 					type : 'get',

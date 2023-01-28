@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.shop.mapper.ProductMapper;
@@ -19,9 +20,13 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired ProductMapper proMapper;
 
 	@Override
-	public List<ProductVO> proList() {
-		// 상품전체조회(최신순)		
-		return proMapper.proList();
+	public List<ProductVO> proList(ProductVO vo,Paging paging) {
+		// 상품전체조회(최신순)	
+		paging.setTotalRecord(proMapper.proCount(vo));
+		paging.setPageUnit(9);
+		vo.setFirst(paging.getFirst());
+		vo.setLast(paging.getLast());
+		return proMapper.proList(vo);
 	}
 
 	@Override
@@ -155,6 +160,18 @@ public class ProductServiceImpl implements ProductService{
 	public List<ProductVO> selectProduct(String best1,String best2,String best3,String best4,String best5) {
 		// 주간베스트 데이터 가져오기
 		return proMapper.selectProduct(best1,best2,best3,best4,best5);
+	}
+
+	@Override
+	public int reviewPoint(String data) {
+		// 리뷰 포인트 적립
+		return proMapper.reviewPoint(data);
+	}
+
+	@Override
+	public List<ReviewVO> myReviewList(String data) {
+		// 나의 리뷰리스트
+		return proMapper.myReviewList(data);
 	}
 
 	

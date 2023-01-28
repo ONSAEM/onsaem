@@ -10,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -43,6 +44,12 @@ public class OrderController {
 	OrderService orderService;
 
 	OrderVO orderVO = new OrderVO();
+	
+	//주문완료페이지이동
+	@RequestMapping(value = "/shop/buyEnd", method = RequestMethod.GET)
+	public String buyEnd() {		
+		return "content/shop/buyEnd";
+	}
 
 	// 주문결제페이지이동
 	@RequestMapping(value = "/buyProduct", method = RequestMethod.GET)
@@ -57,10 +64,19 @@ public class OrderController {
 
 	// 나의 주문목록
 	@RequestMapping(value = "/myOrder", method = RequestMethod.GET)
-	public String myOrder(Model model, ProductVO vo, Authentication authentication) {
+	public String myOrder(Model model, OrderVO orderVO, Authentication authentication) {		
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		orderVO.setMemberId(userDetails.getUsername());
 		model.addAttribute("myOrderList", orderService.myOrderList(orderVO));
+		model.addAttribute("myReviewList",proService.myReviewList(userDetails.getUsername()));
+		return "content/shop/myOrder";
+	}
+	
+	// 내 리뷰리스트(수정해야함)
+	@RequestMapping(value = "/shop/myReviewList", method = RequestMethod.GET)
+	public String myReviewList(Authentication authentication) {		
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();		
+		proService.myReviewList(userDetails.getUsername());
 		return "content/shop/myOrder";
 	}
 

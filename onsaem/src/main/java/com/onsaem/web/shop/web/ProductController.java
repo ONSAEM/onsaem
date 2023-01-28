@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.shop.service.CartService;
@@ -71,7 +72,7 @@ public class ProductController {
 	// 쇼핑몰페이지이동,최신순,인기순 목록나열
 	@RequestMapping(value = "/shop", method = RequestMethod.GET)
 	public String shopMain(Model model, @RequestParam(value = "data", required = false) String data, CartVO cartVo,
-			Authentication authentication) {
+			Authentication authentication,Paging paging,ProductVO vo) {
 		if (authentication != null) {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 			cartVo.setMemberId(userDetails.getUsername());
@@ -83,7 +84,8 @@ public class ProductController {
 		if (data != null && data.equals("popularity")) {
 			model.addAttribute("productList", proService.popList());
 		} else {
-			model.addAttribute("productList", proService.proList());			
+			model.addAttribute("productList", proService.proList(vo,paging));	
+			model.addAttribute("paging", paging);
 		}
 		return "content/shop/shopMain";
 	}
@@ -237,7 +239,8 @@ public class ProductController {
 	@ResponseBody
 	public int addReview(Model model, @RequestBody ReviewVO vo, Authentication authentication) {		
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		vo.setWriterId(userDetails.getUsername());		
+		vo.setWriterId(userDetails.getUsername());	
+		proService.reviewPoint(userDetails.getUsername());
 		return proService.addReview(vo);
 	}
 

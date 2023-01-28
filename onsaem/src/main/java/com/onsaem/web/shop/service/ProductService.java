@@ -4,10 +4,17 @@ import java.util.List;
 
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.common.service.ReviewVO;
 
 public interface ProductService {
+	//나의 리뷰리스트
+	List<ReviewVO> myReviewList(String data);
+	
+	//리뷰 포인트 적립
+	int reviewPoint(String data);
+	
 	//주간 베스트 데이터 가져오기
 	List<ProductVO> selectProduct(String best1,String best2,String best3,String best4,String best5);
 	
@@ -15,7 +22,7 @@ public interface ProductService {
 	List<ProductVO> weekBest();	
 	
 	//상품전체목록(최신순)
-	List<ProductVO> proList();
+	List<ProductVO> proList(ProductVO vo, Paging paging);
 	
 	//상품전체목록(인기순)
 	List<ProductVO> popList();

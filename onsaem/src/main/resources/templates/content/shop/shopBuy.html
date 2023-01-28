@@ -145,9 +145,10 @@
 								</div>
 								<br>
 								<h4>결제방법</h4>
-								<button class="paymentBtn">결제하기</button>
-								<button class="site-btn"
-									th:onclick="submitOrder([[${product}]])" style="display: none;">주문하기</button>
+
+								<button class="site-btn paymentBtn">주문 결제하기</button>
+								<input type="hidden" id="productId" th:value="${product.productId}">
+								<input type="hidden" id="deliveryFee" th:value="${product.deliveryFee}">
 							</div>
 						</div>
 					</div>
@@ -166,11 +167,14 @@
 			src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 
 		<script type="text/javascript">
-		//csrf설정
-		 var token = $("meta[name='_csrf']").attr("content");
-		 var header = $("meta[name='_csrf_header']").attr("content");
-
-		
+			//csrf설정
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			window.onload=function(){
+				document.querySelector("#productId").value;
+				console.log(document.querySelector("#deliveryFee").value)
+			}
+			
 			//결제API
 			$(".paymentBtn")
 					.on(
@@ -256,9 +260,7 @@
 																			msg += '카드 승인번호 : '
 																					+ rsp.apply_num;
 																			alert(msg);
-																			$(
-																					".site-btn")
-																					.show();
+																			submitOrder();
 																		} else {
 																			//[3] 아직 제대로 결제가 되지 않았습니다.
 																			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
@@ -284,7 +286,7 @@
 							});
 
 			//주문하기버튼
-			function submitOrder(data) {
+			function submitOrder() {
 				let detailOption = "[[${param.option}]]"
 				let detailAmount = "[[${param.amount}]]"
 				let recivReq = $("#requireRecive").val();
@@ -299,10 +301,9 @@
 					headers : {
 						"Content-Type" : "application/json"
 					},
-					beforeSend : function(xhr)
-		               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-		               xhr.setRequestHeader(header, token);
-		               },
+					beforeSend : function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+						xhr.setRequestHeader(header, token);
+					},
 					data : JSON.stringify({
 						"detailAmount" : detailAmount,
 						"detailOption" : detailOption,
@@ -310,11 +311,11 @@
 						"recivPhone" : recivPhone,
 						"recivAddr" : recivAddr,
 						"recivName" : recivName,
-						"deliveryFee" : data.deliveryFee,
-						"productId" : data.productId
+						"deliveryFee" : document.querySelector("#deliveryFee").value,
+						"productId" : document.querySelector("#productId").value
 					}),
 					success : function(result) {
-						alert("주문신청되었습니다.")
+						location.href="/shop/buyEnd"
 					},
 					error : function(error) {
 						console.log(error)

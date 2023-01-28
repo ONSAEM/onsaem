@@ -45,7 +45,7 @@
 							<li><a class="dropdown-item"
 								href="javascript:location.reload()"
 								sec:authorize="isAnonymous()" onclick="noLogin()">찜</a></li>
-							<li><a class="dropdown-item" href="/sellerMain">판매자</a></li>
+							<li><a class="dropdown-item" href="/sellerMain"  sec:authorize="hasRole('SELLER')">판매자</a></li>
 						</ul></li>
 
 					<li class="nav-item dropdown"><a
