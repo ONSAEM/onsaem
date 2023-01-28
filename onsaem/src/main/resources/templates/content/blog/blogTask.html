@@ -992,7 +992,7 @@
 							<div class="Iwrapper">
 
 								<form class="form" name="taskFrm">
-										<input type="hidden" th:value="${blogInfos.blogId}">
+										<input type="hidden" name="blogId" th:value="${blogInfos.blogId}">
 									<div class="inputfield">
 										<label>블로그 주소<span class="request"></span></label> <input
 											type="text" name="blogURL" class="input" readonly
@@ -1020,7 +1020,7 @@
 									</div>
 
 									<div class="inputfield">
-										<input type="submit" value="등록" class="btn" id="taskBtn">
+										<input type="button" value="등록" class="btn" id="taskBtn">
 									</div>
 								</form>
 							</div>
@@ -1127,6 +1127,7 @@
 				    	 console.log(result);
 				    	 if(result == "success"){
 				    		 alert("수정완료");
+				    		 location.reload();
 				    	 }else{
 				    		 alert("수정실패");
 				    	 }

@@ -1,8 +1,12 @@
 package com.onsaem.web.blog.mapper;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.onsaem.web.blog.service.BlogVO;
+import com.onsaem.web.blog.service.CategoriesVO;
 import com.onsaem.web.common.service.LikeVO;
 
 public interface BlogMapper {
@@ -13,8 +17,8 @@ public interface BlogMapper {
 		public BlogVO getBlogInfo(String blogId);
 	// 블로그 관리 내용 작성
 	
-	// 블로그 관리 내용 수정
-	
+	// 블로그 정보 변경
+	public int updateInfo(BlogVO vo);
 	// 통계
 	// 유입 시간 조회
 	
@@ -37,7 +41,7 @@ public interface BlogMapper {
 	// 전체 조회
 	
 	// 카테고리 등록
-	
+	public int cateInsert(CategoriesVO cateVO);
 	// 카테고리 삭제
 	
 	

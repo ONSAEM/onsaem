@@ -1,6 +1,9 @@
 package com.onsaem.web.blog.service;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.onsaem.web.common.service.LikeVO;
 
@@ -22,4 +25,10 @@ public interface BlogService {
 	List<LikeVO> subMeList(LikeVO likeVO);
 	// 내가 구독한 사람들 조회
 	List<LikeVO> mySubList(LikeVO likeVO);
+	
+	// 블로그 정보 변경
+	public BlogVO updateInfo(MultipartFile[] headerFile, BlogVO vo) throws IllegalStateException, IOException;
+	
+	// 카테고리 등록
+	public int cateInsert(CategoriesVO cateVO);
 }

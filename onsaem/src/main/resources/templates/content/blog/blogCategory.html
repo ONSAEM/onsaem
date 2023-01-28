@@ -947,30 +947,32 @@
 						<!-- 체크박스 -->
 						<div class="containerCheck" id="cateCheck">
 						  <div class="control-group">
-						  	<button>카테고리 추가</button>
-						  	<button>카테고리 삭제</button>
+						  	<button id="cateInsert">카테고리 추가</button>
+						  	<button id="cateDelete">카테고리 삭제</button>
 						    <h2 style="font-weight: bold; margin-top: 0;margin-bottom: 50px;text-align:center;">카테고리</h2>
 						    <th:block th:each="cate : ${cateList}">
-							    <label class="control control--checkbox">[[${cate.categoryName}]]
+						    	<input type="hidden" id="blogId" th:value="${cate.blogId}">
+							    <label class="control control--checkbox">[[${cate.categoryName}]] ([[${cate.publicScope}]])
+<!-- 							    	<div class="cateList"></div> -->
 							      <input type="checkbox"/>
-							      <div class="control__indicator"></div>
+							      <div class="control__indicator" type="checkbox" name="checkList"></div>
 							    </label>
 						    </th:block>
 						  </div>
 						  
 						  <div class="control-group">
-						  	<label>카테고리 명<input type="text"></input></label>
+						  	
 						    <h2 style="font-weight: bold; margin-top: 0;margin-bottom: 50px;text-align:center;">공개범위</h2>
+						    <label>카테고리 명 <input type="text" id="cateName"></input></label>
 						    <div class="select">
-						      <select>
-						        <option>:::공개범위:::</option>
-						        <option>전체공개</option>
-						        <option>일부공개</option>
-						        <option>비공개</option>
-						      </select>
+							      <select id="cateScope">
+							        <option value="">:::공개범위:::</option>
+							        <option value="public">전체공개</option>
+							        <option value="partial">일부공개</option>
+							        <option value="private">비공개</option>
+							      </select>
 						      <div class="select__arrow"></div>
 						    </div>
-						    <button>확인</button>
 						</div>
 						<!-- 체크박스 끝 -->
 						</div>
@@ -994,6 +996,9 @@
 		</th:block>
 
 		<script>
+		 var token = $("meta[name='_csrf']").attr("content");
+		 var header = $("meta[name='_csrf_header']").attr("content");
+			
 			document.addEventListener('DOMContentLoaded', function() {
 				var modeSwitch = document.querySelector('.mode-switch');
 
@@ -1022,7 +1027,66 @@
 
 			});
 			
+			$('#cateInsert').on("click", function(){
+				let cateName= $('#cateName').val();
+				let cateScope = $('#cateScope').val();
+				let blogId= $('#blogId').val();
+// 				console.log(blogId);
+				$.ajax({
+					url: '/blog/cateInsert',
+					method: 'post',
+					contentType: 'application/x-www-form-urlencoded',
+					data : { "categoryName": cateName,
+							 "publicScope" : cateScope,
+							      "blogId" : blogId },
+					beforeSend : function(xhr)
+		               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+		               xhr.setRequestHeader(header, token);
+		               },
+		            success: function(result){
+		            	console.log(result);
+		            	location.reload();
+		            	
+		            },
+		            error: function(error){
+		            	console.log(error);
+		            }
+				})
+				
+			})
+			
+// 			function newCateList(){
+// 				let blogId= $('#blogId').val();
+// 				$.ajax({
+// 					url: 'blog/myblog/blogCategory',
+// 					method: 'GET',
+// 					contentType: 'application/x-www-form-urlencoded',
+// 					data:{blogId:blogId},
+// 					success : function(result){
+// 						$('#cateCheck').find('.control-group').eq(0).find('label').remove();
+// 						$(result["cateList"].each(function(index, item){
+// 							$(".cateList").append(item.categoryName);
+// 							$(".cateList").append(item.publicScope);
+// 						}))
+						
+// 					},
+// 					error : function(error){
+// 						console.log(error);
+// 					}
+// 				})
+// 			}
+			
+			$('#cateDelete').on("click", function(){
+				$('div:checkbox[name=checkList]').each(function(index){
+					if($(this).is(":checked")==true){
+						console.log($(this).val());
+					}
+				})
+			})
+			
+			
 		</script>
+	</div>
 	</div>
 </body>
 </html>

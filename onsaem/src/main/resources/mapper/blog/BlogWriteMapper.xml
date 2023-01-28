@@ -135,7 +135,7 @@
  	
 	<!--해당 유저의 카테고리 조회 -->
 	<select id="cateList" resultType="CategoriesVO" parameterType="String">
-		select category_id,category_name, order_num
+		select category_id,category_name, blog_id, order_num, public_scope
 		from categories
 		where blog_id=#{blogId}
 		order by order_num

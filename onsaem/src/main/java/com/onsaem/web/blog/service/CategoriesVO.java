@@ -11,4 +11,5 @@ public class CategoriesVO {
 	String categoryName;
 	String blogId;
 	int orderNum;
+	String publicScope;
 }
