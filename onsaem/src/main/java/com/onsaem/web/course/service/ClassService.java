@@ -6,6 +6,7 @@ import java.util.Map;
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.Paging;
+import com.onsaem.web.common.service.ReportVO;
 
 public interface ClassService {
 	
@@ -33,6 +34,9 @@ public interface ClassService {
 	// 강의 좋아요 삭제
 	public int delClassLike(LikeVO vo);
 	
+	// 강의 신고
+	public boolean insertReport(ReportVO vo);
+	
 	//[위는 완성 아래는 미완성]
 	
 	// 인기강의목록조회
@@ -43,4 +47,5 @@ public interface ClassService {
 	
 	//강의 수정
 	public int classUpdate(ClassInfoVO vo);
+	
 }

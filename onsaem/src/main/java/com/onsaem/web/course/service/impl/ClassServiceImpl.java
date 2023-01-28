@@ -12,15 +12,25 @@ import org.springframework.stereotype.Service;
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.Paging;
+import com.onsaem.web.common.service.QuestionVO;
+import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.course.mapper.ClassMapper;
 import com.onsaem.web.course.service.ClassService;
+import com.onsaem.web.member.service.MemberService;
 import com.onsaem.web.course.service.ClassInfoVO;
+import com.onsaem.web.course.service.ClassQueService;
 
 @Service
 public class ClassServiceImpl implements ClassService {
 
 	@Autowired
 	ClassMapper classMapper;
+
+	@Autowired
+	ClassQueService classQueService;
+
+	@Autowired
+	MemberService memberService;
 
 	@Override
 	public Map<String, Object> getClassList(ClassInfoVO vo, Paging paging) {
@@ -38,8 +48,12 @@ public class ClassServiceImpl implements ClassService {
 
 	@Override
 	public ClassInfoVO getClass(ClassInfoVO vo) {
-
-		return classMapper.getClass(vo);
+		ClassInfoVO result = classMapper.getClass(vo);
+		QuestionVO qvo = new QuestionVO();
+		qvo.setGroupId(vo.getClassId());
+		result.setQueCount(classQueService.questionCount(qvo));
+		result.setAddr(memberService.getMember(result.getMemberId()).getAddr());
+		return result;
 	}
 
 	@Override
@@ -65,7 +79,7 @@ public class ClassServiceImpl implements ClassService {
 		LikeVO result = new LikeVO();
 		result.setGroupId(groupId);
 		result.setCnt(classMapper.LikeCount(result));
-		if(memberId!=null) {
+		if (memberId != null) {
 			result.setMemberId(memberId);
 			result.setLikeCk(classMapper.LikeCheck(result));
 		}
@@ -104,4 +118,13 @@ public class ClassServiceImpl implements ClassService {
 		return classMapper.classUpdate(vo);
 	}
 
+	@Override
+	public boolean insertReport(ReportVO vo) {
+		if (classMapper.insertReport(vo) > 0) {
+			return true;
+		} else {
+			return false;
+
+		}
+	}
 }

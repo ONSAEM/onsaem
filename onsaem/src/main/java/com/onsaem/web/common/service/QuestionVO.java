@@ -11,6 +11,7 @@ public class QuestionVO {
 	private String queId;
 	private String queContent;
 	private String writerId;
+	private String nickname;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH24:MI:SS")
 	private Date queDate;
 	private String ansContent;
@@ -19,6 +20,8 @@ public class QuestionVO {
 	private String groupId;
 	private String groups;
 
+	private MediaVO profile;
+	
 	// 페이징
 	private Integer first = 1;
 	private Integer last = 9;

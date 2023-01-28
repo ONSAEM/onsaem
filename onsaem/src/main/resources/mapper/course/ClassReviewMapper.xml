@@ -8,7 +8,8 @@
 		SELECT * FROM ( SELECT ROWNUM RN, A.* FROM (
 		SELECT *
 		FROM REVIEWS
-		WHERE GROUP_ID = #{groupId}
+		WHERE
+		GROUP_ID = #{groupId}
 		<choose>
 			<when test="'OD0'.equals(orderId)"> ORDER BY REVIEW_DATE DESC </when>
 			<when test="'OD1'.equals(orderId)"> ORDER BY REVIEW_STAR DESC </when>
@@ -27,8 +28,15 @@
 	</select>
 
 	<!-- 리뷰 갯수 -->
-	<select id="reviewCount" resultType="Paging">
-		SELECT COUNT(*) AS TOTALRECORD
+	<select id="reviewCount" resultType="Paging" parameterType="ReviewVO">
+		SELECT COUNT(*) AS
+		TOTALRECORD
+		FROM REVIEWS
+		WHERE GROUP_ID = #{groupId}
+	</select>
+
+	<select id="starAvg" resultType="int" parameterType="ReviewVO">
+		SELECT NVL(TRUNC(AVG(REVIEW_STAR),1),0)
 		FROM REVIEWS
 		WHERE GROUP_ID = #{groupId}
 	</select>

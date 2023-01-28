@@ -26,6 +26,7 @@ public class ClassInfoVO {
 	private double star;
 	private int reviewCount;
 	private int queCount;
+	private String addr;
 	
 	
 	// 강의 이미지

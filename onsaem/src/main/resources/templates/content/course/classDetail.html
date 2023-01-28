@@ -1,98 +1,89 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+
 <head>
-<style type="text/css">
-/* VARIABLES -  START */
-/* COLORS  */
-/* DIMENSIONS */
-/* FONTS */
-@import
-	url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap")
-	;
-/* VARIABLES - END */
-/* COMMONS - START */
-.flex-center, .wrapper .button-container, .wrapper {
-	justiy-content: center;
-	align-items: center;
-}
+	<style type="text/css">
+		/* VARIABLES -  START */
+		/* COLORS  */
+		/* DIMENSIONS */
+		/* FONTS */
+		@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap");
 
-* {
-	box-sizing: border-box;
-	margin: 0;
-}
+		/* VARIABLES - END */
+		/* COMMONS - START */
+		.flex-center,
+		.wrapper .button-container,
+		.wrapper {
+			justiy-content: center;
+			align-items: center;
+		}
 
-/* COMMONS - END */
-/* STYLES -  START */
-.wrapper {
-	font-family: "Lato", sans-serif;
-	font-weight: 400;
-}
+		* {
+			box-sizing: border-box;
+			margin: 0;
+		}
 
-.heartbutton {
-	height: 50px;
-	width: 170px;
-	background-color: #fefefe;
-	border-radius: 5px;
-	padding: 12.5px;
-	cursor: pointer;
-}
+		/* COMMONS - END */
+		/* STYLES -  START */
+		.wrapper {
+			font-family: "Lato", sans-serif;
+			font-weight: 400;
+		}
 
-.content .icon {
-	font-size: 25px;
-	color: #ea4a87;
-}
+		.heartbutton {
+			height: 50px;
+			width: 170px;
+			background-color: #fefefe;
+			border-radius: 5px;
+			padding: 12.5px;
+			cursor: pointer;
+		}
 
-.content .icon.fa {
-	display: none;
-}
+		.content .icon {
+			font-size: 25px;
+			color: #ea4a87;
+		}
 
-.content .text {
-	font-size: 25px;
-	color: #2f3537;
-}
+		.content .icon.fa {
+			display: none;
+		}
 
-.content .text.like {
-	margin-left: 10px;
-}
+		.content .text {
+			font-size: 25px;
+			color: #2f3537;
+		}
 
-.content .text.d {
-	opacity: 0;
-	display: inline-block;
-	transform: translateX(12px);
-}
+		.content .text.like {
+			margin-left: 10px;
+		}
 
-.content .text.number {
-	margin-left: 10px;
-	color: #7a7c81;
-}
-</style>
+		.content .text.d {
+			opacity: 0;
+			display: inline-block;
+			transform: translateX(12px);
+		}
+
+		.content .text.number {
+			margin-left: 10px;
+			color: #7a7c81;
+		}
+	</style>
 </head>
 <!-- Css  -->
 <th:block layout:fragment="css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/course/courseStyle.css}"
-		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/course/courseStyle.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
 </th:block>
 
 <div layout:fragment="content">
-	<br>
 	<!-- Product Details Section Begin -->
 	<section class="product-details spad">
 		<div class="container">
@@ -101,12 +92,10 @@
 					<div class="product__details__pic">
 						<div class="product__details__pic__item">
 							<img class="product__details__pic__item--large"
-								th:src=${mediaList[0].fileRoute}+${mediaList[0].mediaName}
-								alt="">
+								th:src=${mediaList[0].fileRoute}+${mediaList[0].mediaName} alt="">
 						</div>
 						<div class="product__details__pic__slider owl-carousel">
-							<img th:each="media : ${mediaList}"
-								th:data-imgbigurl=${media.fileRoute}+${media.mediaName}
+							<img th:each="media : ${mediaList}" th:data-imgbigurl=${media.fileRoute}+${media.mediaName}
 								th:src=${media.fileRoute}+${media.mediaName} alt="">
 						</div>
 					</div>
@@ -115,8 +104,7 @@
 					<div class="product__details__text">
 						<h3 th:text="${class.className}"></h3>
 						<div class="product__details__rating">
-							<i class="fa-solid fa-star" th:if="${class.star != 0}"
-								th:each="num:${#numbers.sequence(1,class.star)}"
+							<i class="fa-solid fa-star" th:if="${class.star != 0}" th:each="num:${#numbers.sequence(1,class.star)}"
 								style="color: #ffe949"></i><i class="fa-solid fa-star-half"
 								th:if="${class.star%1 >= 0.5}" style="color: #ffe949"></i> <span>([[${class.reviewCount}]]
 								reviews)</span>
@@ -126,7 +114,12 @@
 							<li><b>소요시간</b> <span>[[${class.classTime}]]시간</span></li>
 							<li><b>난이도</b> <span>[[${class.difficulty}]]</span></li>
 						</ul>
-						<a href="#" class="primary-btn">예약하기</a>
+						<a href="/loginPage" class="primary-btn"  sec:authorize="isAnonymous()">예약하기</a>
+						<a href="/loginPage" class="primary-btn"  sec:authorize="isAnonymous()">신고하기</a>
+						<a href="#" class="primary-btn" sec:authorize="hasRole('USER')" data-bs-toggle="modal"
+							data-bs-target="#searchId">예약하기</a>
+						<a href="#" class="primary-btn" sec:authorize="hasRole('USER')" data-bs-toggle="modal"
+							data-bs-target="#reportModal">신고하기</a>
 						<div class="wrapper">
 							<div class="button-container">
 								<div class="heartbutton">
@@ -151,27 +144,16 @@
 								href="#tabs-2" role="tab" aria-selected="false">Reviews <span>([[${class.reviewCount}]])</span></a>
 							</li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tabs-3" role="tab" aria-selected="false">Reviews <span>(1)</span></a>
+								href="#tabs-3" role="tab" aria-selected="false">Questions <span>([[${class.queCount}]])</span></a>
 							</li>
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane active" id="tabs-1" role="tabpanel">
 								<div class="product__details__tab__desc">
 									<h6>Products Infomation</h6>
-									<p th:text="${class.explanation}">Vestibulum ac diam sit
-										amet quam vehicula elementum sed sit amet dui. Pellentesque in
-										ipsum id orci porta dapibus. Proin eget tortor risus. Vivamus
-										suscipit tortor eget felis porttitor volutpat. Vestibulum ac
-										diam sit amet quam vehicula elementum sed sit amet dui. Donec
-										rutrum congue leo eget malesuada. Vivamus suscipit tortor eget
-										felis porttitor volutpat. Curabitur arcu erat, accumsan id
-										imperdiet et, porttitor at sem. Praesent sapien massa,
-										convallis a pellentesque nec, egestas non nisi. Vestibulum ac
-										diam sit amet quam vehicula elementum sed sit amet dui.
-										Vestibulum ante ipsum primis in faucibus orci luctus et
-										ultrices posuere cubilia Curae; Donec velit neque, auctor sit
-										amet aliquam vel, ullamcorper sit amet ligula. Proin eget
-										tortor risus.</p>
+									<p th:text="${class.explanation}"></p>
+									<img th:src="@{/images/classRefund.png}" style="width: 60%;">
+									<div id="map" style="width: 60%; height: 350px;"></div>
 								</div>
 							</div>
 							<div class="tab-pane" id="tabs-2" role="tabpanel">
@@ -182,11 +164,12 @@
 											<div class="col-lg-7 col-12">
 												<div class="news-block">
 
-													<div class="news-block-info">
+													<div class="news-block-info"
+														th:each="review : ${review.rList}"
+														th:id="${review.reviewId}">
 
 
-														<div class="author-comment d-flex mt-3 mb-4"
-															th:each="review : ${review.reviewList}" th:id="${review.reviewId}">
+														<div class="author-comment d-flex mt-3 mb-4 viewReview">
 															<img th:if="${review.profile != null}"
 																th:src="@{'/fileView/'+${review.profile.fileRoute}}"
 																class="img-fluid avatar-image"> <img
@@ -219,24 +202,39 @@
 							</div>
 							<div class="tab-pane" id="tabs-3" role="tabpanel">
 								<div class="container">
-										<div class="row">
+									<div class="row">
 
-											<div class="col-lg-7 col-12">
-												<div class="news-block">
+										<div class="col-lg-7 col-12">
+											<button type="button" class="primary-btn addQue">문의
+												등록</button>
+											<div class="news-block">
 
-													<div class="news-block-info">
+												<div class="news-block-info"
+													th:each="que : ${question.qList}" th:id="${que.queId}">
 
-														<div class="author-comment d-flex mt-3 mb-4"
-															th:each="review : ${review.reviewList}">
-															<div class="author-comment-info ms-3">
-																<h6 class="mb-1" th:text="${review.nickname}"></h6>
-																<p class="mb-0" th:text="${review.reviewContent}"></p>
-															</div>
+													<div class="author-comment d-flex mt-3 mb-4 viewQue"
+														th:if="${que.writerId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null} or ${class.memberId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}">
+														<img th:if="${que.profile != null}"
+															th:src="@{'/fileView/'+${que.profile.fileRoute}}"
+															class="img-fluid avatar-image"> <img
+															th:unless="${que.profile != null}"
+															th:src="@{/images/defaulltProfile.png}"
+															class="img-fluid avatar-image">
+														<div class="author-comment-info ms-3">
+															<h6 class="mb-1" th:text="${que.nickname}"></h6>
+															<p class="mb-0" th:text="${que.queContent}"></p>
 														</div>
+													</div>
 
+													<div class="author-comment d-flex mt-3 mb-4"
+														th:unless="${que.writerId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null} or ${class.memberId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}">
+														<p class="mb-0">작성자만 볼 수 있습니다</p>
 													</div>
 												</div>
 											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -245,13 +243,185 @@
 		</div>
 	</section>
 	<!-- Product Details Section End -->
+	<div class="modal fade" id="viewReview" data-bs-keyboard="false"
+		aria-hidden="true" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered"
+			style="min-width: 1000px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-wrapper">
+						<div class="title">강의상세</div>
 
+					</div>
+				</div>
+				<div class="modal-footer"></div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="inputModal" data-bs-keyboard="false"
+		aria-hidden="true" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered"
+			style="min-width: 1000px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-wrapper">
+						<div class="title">문의 작성</div>
+						<div class="inputfield">
+							<label>문의내용</label>
+							<textarea name="queContent" class="input"></textarea>
+						</div>
+						<div class="inputfield">
+							<button type="button" class="btn insertQue">문의등록</button>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer"></div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="viewQue" data-bs-keyboard="false"
+		aria-hidden="true" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered"
+			style="min-width: 1000px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-wrapper">
+						<div class="title">문의 상세</div>
 
+					</div>
+				</div>
+				<div class="modal-footer"></div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="modifyQue" data-bs-keyboard="false"
+		aria-hidden="true" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered"
+			style="min-width: 1000px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-wrapper">
+						<div class="title">문의 수정</div>
+						<div class="inputfield">
+							<label>문의내용</label>
+							<textarea name="queContent" class="input"></textarea>
+						</div>
+						<div class="inputfield">
+							<button type="button" class="btn updateQue">문의수정</button>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer"></div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="addAns" data-bs-keyboard="false"
+		aria-hidden="true" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered"
+			style="min-width: 1000px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-wrapper">
+						<div class="title">답변등록</div>
+						<div class="inputfield">
+							<label>답변내용</label>
+							<textarea name="ansContent" class="input"></textarea>
+						</div>
+						<div class="inputfield">
+							<button type="button" class="btn Answer">답변등록</button>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer"></div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="modifyAns" data-bs-keyboard="false"
+		aria-hidden="true" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered"
+			style="min-width: 1000px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-wrapper">
+						<div class="title">답변수정</div>
+						<div class="inputfield">
+							<label>답변내용</label>
+							<textarea name="ansContent" class="input"></textarea>
+						</div>
+						<div class="inputfield">
+							<button type="button" class="btn Answer">답변수정</button>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer"></div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="reportModal" data-bs-keyboard="false"
+		aria-hidden="true" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered"
+			style="min-width: 500px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-wrapper">
+						<div class="title">신고</div>
+						<div class="inputfield">
+						<label>신고종류</label><br>
+							<input type="radio" name="reason" value="욕설 및 비하 발언">욕설 및 비하 발언<br>
+							<input type="radio" name="reason" value="환경보호관련 클래스가 아님">환경보호관련 클래스가 아님<br>
+							<input type="radio" name="reason" value="설명과 다름">설명과 다름<br>
+							<input type="radio" name="reason" value="기타">기타<br>
+							<label>신고상세내용</label><br>
+							<textarea name="detailReason" class="input"></textarea>
+						</div>
+						<div class="inputfield">
+							<button type="button" class="btn insertReport">신고</button>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer"></div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript"
+		th:src="@{//dapi.kakao.com/v2/maps/sdk.js?appkey=893c277adb89f52ca235f12875f8ed43&libraries=services}"></script>
 	<script type="text/javascript">
 		let likeTF = '[[${like.likeCk}]]';
 		let token = $("meta[name='_csrf']").attr("content");
 		let header = $("meta[name='_csrf_header']").attr("content");
-
+		let memberId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}]]";
+		let groupId = "[[${class.classId}]]";
+		let addr = "[[${class.addr}]]";
+		
 		var timeline1 = gsap.timeline({
 			repeatDelay : 0.7,
 			paused : true
@@ -307,22 +477,18 @@
 				$('.number').text(e);
 			}
 		}
-
-		function test() {
-		}
-
+		
+		// 좋아요 이벤트
 		$(".heartbutton")
 				.click(
 						function() {
 							likeTF = $('.wrapper').find('input').val()
 							event.stopPropagation();
 							// 좋아요 디비 저장
-							let groupId = "[[${class.classId}]]";
-							let memberId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}]]";
+							
 							let data = {
 								"groupId" : groupId,
 								"memberId" : memberId,
-								"groups" : "CL"
 							}
 							if (memberId != "") { // 로그인 된 상태이면
 								if (likeTF == 'F') { // 테이블에 조회된 값이 없으면 db에 저장
@@ -378,9 +544,289 @@
 							} else { // 로그인 하지 않은 상태이면
 								alert('로그인이 필요합니다');
 							}
-						});
-		// 	좋아요 끝
+						})
+
+						$('.viewReview').each(function(){
+							$(this).on('click',function(){
+								$.ajax({
+							      url: '/class/getQue',
+							      method: 'GET',
+							      contentType: 'application/x-www-form-urlencoded',
+							      data: {"queId" : $(this).parent().attr('id')},
+							      success: function (result) {
+							    	  console.log(result);
+									  $('#viewQue').find('.modal-wrapper').children().remove();
+									  let img = '';
+									  if(result.profile != null){
+										img = '/fileView/'+result.profile.fileRoute;
+									  }else{
+										img = '/images/defaulltProfile.png';
+									  }  
+									  let content = `<img src="${img}" class="img-fluid avatar-image">
+									  <p>작성자 : ${result.nickname}</p>
+									  <p>내용 : ${result.queContent}</p>
+									  <p>작성일자 : ${result.queDate}</p>
+									  <p>답변내용 : ${result.ansContent}</p>
+									  <p>답변일자 : ${result.ansDate}</p>`;
+									  $('#viewQue').find('.modal-wrapper').append(content,btn);
+									  $('#viewQue').modal("show")
+							      },
+							      error: function (error) {
+							         console.log(error);
+							         alert('실패');
+							      }
+							   })
+							})		
+						})
+					
+		// 문의 등록 모달
+		$(".addQue")
+				.click(
+						function() {
+							if (memberId != "") { // 로그인 된 상태이면
+								$('#inputModal').modal("show");
+							} else { // 로그인 하지 않은 상태이면
+								alert('로그인이 필요합니다');
+							}
+						})
+		
+		// 문의등록
+		$(".insertQue")
+				.click(
+						function() {
+							if($(this).parentsUntil('.modal-body').find("textarea[name='queContent']").val() == null){
+					alert("내용을 입력해주세요");
+					return;
+				}
+							let data = {
+									"groupId" : groupId,
+									"writerId" : memberId,
+									"queContent" : $(this).parentsUntil('.modal-body').find("textarea[name='queContent']").val()
+								}
+							$.ajax({
+							      url: '/class/insertQue',
+							      method: 'POST',
+							      contentType: 'application/x-www-form-urlencoded',
+							      data: data,
+							      beforeSend : function(xhr) {
+										xhr.setRequestHeader(
+												header, token);
+									},
+							      success: function (result) {
+							    	  console.log(result);
+							      },
+							      error: function (error) {
+							         console.log(error);
+							         alert('실패');
+							      }
+							   })
+						})
+		
+		// 문의 상세 모달
+		$(".viewQue").each(function(){
+			$(this).click(
+						function() {
+							$.ajax({
+							      url: '/class/getQue',
+							      method: 'GET',
+							      contentType: 'application/x-www-form-urlencoded',
+							      data: {"queId" : $(this).parent().attr('id')},
+							      success: function (result) {
+							    	  console.log(result);
+									  $('#viewQue').find('.modal-wrapper').children().remove();
+									  let img = '';
+									  if(result.profile != null){
+										img = '/fileView/'+result.profile.fileRoute;
+									  }else{
+										img = '/images/defaulltProfile.png';
+									  }  
+									  let content = `<img src="${img}" class="img-fluid avatar-image">
+									  <p>작성자 : ${result.nickname}</p>
+									  <p>내용 : ${result.queContent}</p>
+									  <p>작성일자 : ${result.queDate}</p>
+									  <p>답변내용 : ${result.ansContent}</p>
+									  <p>답변일자 : ${result.ansDate}</p>`;
+									  let btn = $('<botton/>');
+									  if(result.writerId == memberId){
+										$(btn).text('문의 수정').on('click',function(){
+										if(result.ansContent != null){
+											alert('답변있는 문의는 수정할 수 없습니다');
+										}else{
+											modifyQueOpen(result.queContent, result.queId);
+										}
+									  })
+										
+									  }else{
+										if(result.ansContent != null){
+										$(btn).text('답변수정').on('click',function(){
+											modifyAnsOpen(result.ansContent,result.queId);
+									  	});
+										}else{
+											$(btn).text('답변등록').on('click',function(){
+											addAnsOpen(result.queId);
+										});
+										}
+									  }
+									  $('#viewQue').find('.modal-wrapper').append(content,btn);
+									  $('#viewQue').modal("show")
+							      },
+							      error: function (error) {
+							         console.log(error);
+							         alert('실패');
+							      }
+							   })
+								
+						})
+		})
+		
+		// 문의수정모달창
+		function modifyQueOpen(content,queId){
+			$('#modifyQue').find('textarea[name=queContent]').val(content);
+			$('#modifyQue').find('.updateQue').attr('id',queId);
+			$('#viewQue').modal("hide");
+			$('#modifyQue').modal("show");
+		}
+		// 답변수정모달창
+		function modifyAnsOpen(content,queId){
+			$('#modifyAns').find('textarea[name=ansContent]').val(content);
+			$('#modifyAns').find('.Answer').attr('id',queId);
+			$('#viewQue').modal("hide");
+			$('#modifyAns').modal("show");
+		}
+		// 답변 등록모달창
+		function addAnsOpen(queId){
+			$('#addAns').find('.Answer').attr('id',queId);
+			$('#viewQue').modal("hide");
+			$('#addAns').modal("show");
+		}
+		//문의 수정
+		$('.updateQue').on('click',function(){
+			if($(this).parentsUntil('.modal-body').find("textarea[name='queContent']").val() == null){
+					alert("내용을 입력해주세요");
+					return;
+				}
+			let data = {
+									"queId" : $(this).attr('id'),
+									"queContent" : $(this).parentsUntil('.modal-body').find("textarea[name='queContent']").val()
+								}
+							$.ajax({
+							      url: '/class/updateQue',
+							      method: 'POST',
+							      contentType: 'application/x-www-form-urlencoded',
+							      data: data,
+							      beforeSend : function(xhr) {
+										xhr.setRequestHeader(
+												header, token);
+									},
+							      success: function (result) {
+							    	  console.log(result);
+							      },
+							      error: function (error) {
+							         console.log(error);
+							         alert('실패');
+							      }
+							   })
+		})
+
+		// 답변 등록,수정
+		$('.Answer').each(function(){
+			$(this).on('click',function(){
+				if($(this).parentsUntil('.modal-body').find("textarea[name='ansContent']").val() == null){
+					alert("내용을 입력해주세요");
+					return;
+				}
+			let data = {"queId" : $(this).attr('id'),
+									"ansContent" : $(this).parentsUntil('.modal-body').find("textarea[name='ansContent']").val()
+								}
+							$.ajax({
+							      url: '/class/updateAnswer',
+							      method: 'POST',
+							      contentType: 'application/x-www-form-urlencoded',
+							      data: data,
+							      beforeSend : function(xhr) {
+										xhr.setRequestHeader(
+												header, token);
+									},
+							      success: function (result) {
+							    	  console.log(result);
+									  $('#addAns').modal("hide");
+									  $('#modifyAns').modal("hide");
+							      },
+							      error: function (error) {
+							         console.log(error);
+							         alert('실패');
+							      }
+							   })
+			})
+		})
+
+		// 강의 신고
+		$('.insertReport').on('click',function(){
+			let data = {"fromId" : memberId,
+						"reason" : $('input:radio[name=reason]:checked').val(),
+						"detailReason" : $("textarea[name='detailReason']").val(),
+						"groupId" : groupId
+						}
+						$.ajax({
+								url: '/class/insertReport',
+								method: 'POST',
+								contentType: 'application/x-www-form-urlencoded',
+								data: data,
+								beforeSend : function(xhr) {
+									xhr.setRequestHeader(
+											header, token);
+								},
+								success: function (result) {
+									console.log(result);
+									$('#reportModal').modal("hide");
+								},
+								error: function (error) {
+									console.log(error);
+									alert('실패');
+								}
+							})
+		})
+
+		
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		mapOption = { 
+			center: new kakao.maps.LatLng(37.54699, 127.09598), // 지도의 중심좌표
+			level: 4 // 지도의 확대 레벨
+		};
+
+		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+		
+		// 주소-좌표 변환 객체를 생성합니다
+		var geocoder = new kakao.maps.services.Geocoder();
+		// 주소로 좌표를 검색합니다
+		geocoder.addressSearch(addr, function(result, status) {
+
+	    // 정상적으로 검색이 완료됐으면 
+	     if (status === kakao.maps.services.Status.OK) {
+
+	        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	        
+	        var imageSrc = '/images/marker.png', // 마커이미지의 주소입니다    
+			imageSize = new kakao.maps.Size(24, 29), // 마커이미지의 크기입니다
+			imageOption = {offset: new kakao.maps.Point(9, 22)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+			
+			// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+	        // 결과값으로 받은 위치를 마커로 표시합니다
+	        var marker = new kakao.maps.Marker({
+	            map: map,
+	            position: coords,
+ 	            image: markerImage // 마커이미지 설정 
+	        });
+
+	        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+	        map.setCenter(coords);
+	  }   
+		
+	
+});   
 	</script>
+
 	<!-- JS -->
 	<th:block layout:fragment="script">
 		<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
@@ -392,6 +838,4 @@
 		<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
 		<script th:src="@{/shoptemplate/js/main.js}"></script>
 	</th:block>
-	</section>
-	<!-- Related Product Section End -->
 </div>
