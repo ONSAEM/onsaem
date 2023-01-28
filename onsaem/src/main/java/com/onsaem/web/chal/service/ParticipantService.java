@@ -33,4 +33,7 @@ public interface ParticipantService {
 		
 		//참가자 테이블 result_point 업데이트
 		Integer updateResultPoint(ParticipantVO vo);
+		
+		//참가자 테이블 result_point 업데이트
+		Integer updatePointOne(ParticipantVO vo);
 }

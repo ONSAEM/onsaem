@@ -183,15 +183,18 @@
 										<option>==아이디==</option>
 									</select>
 									<!-- 본인 기부금 띄우기  -->
-									<!-- 정산 포인트 띄우기 -->
-									<canvas id="userChart"></canvas> 
-									<button type="button" onclick="pointInput()">닫기</button>
+									<div style="float: left; width: 50%; padding:1px; "><p>기부금</p></div><div style="float: left; width: 50%; padding:1px;"><p id="privateDonate"/></div>
+									<canvas id="userChart"></canvas>
+									<!-- 정산 포인트 띄우기 --> 
+									<div style="float: left; width: 50%; padding:1px; "><p>기부금</p></div><div style="float: left; width: 50%; padding:1px;"><p id="privatePoint"/></div>
+									<button type="button" onclick="pointInput()">정산</button>
 									<button type="button" class="closeBtn">닫기</button>
 								</div>
 								
 								<div id ="teamPoint" class="modal__content">
 									<h5>포인트정산</h5>
 									<input type="hidden" id="groupId" name="groupId">
+									<input type="hidden" id="pp">
 									<div style="float: left; width: 50%; padding:1px; "><p>총 기부금</p></div><div style="float: left; width: 50%; padding:1px;"><p id="donationFee"/></div>
 									<div style="float: left; width: 50%; padding:1px;"><p>총 내기 포인트</p></div><div style="float: left; width: 50%; padding:1px;"><p id="sumBetPoint"/></div>
 									<select id="teamChoose">
@@ -431,7 +434,7 @@
   					let total = Number(result.days);
   					let cnt = Number(result.cnt);
   					let percent = Math.abs(cnt/total);
-  					console.log(percent);
+  					
   					let donate = Number(result.user.privateDonate);
   					let point = 0;
   					if(percent >=0.85){
@@ -442,15 +445,17 @@
   						point == 0;
   					}
   					let pp = percent*100;
-  					
+  					$('#pp').val(pp);
+  					$('#privatePoint').text(point);
   					//차트 렛츠고//
 	                let oneList = new Array();
-  					user= $("select[id=users] option:selected").val();
-  					let theLabel = user+ " 평균달성률";
+  					let labelList = new Array();
+  					let theLabel = proofWriter+ " 평균달성률";
+  					labelList.push(theLabel);
 	        		oneList.push(pp);
-	        		oneLlist.push(100-pp);
-	               var Bdata = {
-	                        labels: theLabel,
+	        		oneList.push(100-pp);
+	               var thedata = {
+	                        labels: labelList,
 	                        datasets: [{
 	                              backgroundColor: ['#b4a7d6','#eae5e1'],
 	                              data : oneList
@@ -458,14 +463,15 @@
 	                        options : {
 	                              title : {
 	                              display : true,
-	                              text: theLabel
+	                              text: "달성률"
 	                              }
 	                        }
 	                  }
-	               var ctx3 = document.getElementById('userchart').getContext('2d');
+	              
+	               var ctx3 = document.getElementById('userChart').getContext('2d');
 	                 new Chart(ctx3, {
 	                          type: 'doughnut',
-	                         data: Bdata
+	                         data: thedata
 	                 });
   					
   					
@@ -529,13 +535,17 @@
 		
 		//개인전 포인트 정산
 		function pointInput(){
-			let groupid = $('#groupId').val();
+			let groupId = $('#groupId').val();
+			let participantId = $("select[id=users] option:selected").val();
+			thatPoint =  $('#privatePoint').text();
+			let result = $('#pp').val()+"%";
+			console.log(result);
 			
 			$.ajax({
   				url : '/mypage/inputPoint',
   				method :'POST',
   				contentType:'application/json',
-  				data : JSON.stringify({"thatPoint":thatPoint, "chalId" : groupId, "winner" : winner, "loser" : loser }),
+  				data : JSON.stringify({"thatPoint":thatPoint, "chalId" : groupId, "participantId" : participantId, "result" : result }),
   				beforeSend : function(xhr)
 				                {   
 				                xhr.setRequestHeader(header, token);
@@ -547,7 +557,7 @@
   				error : function(error){
   					console.log()
   				}
-  			}) 
+  			})  
 			
 		}
 	</script>

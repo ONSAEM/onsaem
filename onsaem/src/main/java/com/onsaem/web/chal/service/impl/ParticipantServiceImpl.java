@@ -72,4 +72,10 @@ public class ParticipantServiceImpl implements ParticipantService {
 		return mapper.updateResultPoint(vo);
 	}
 
+	@Override
+	public Integer updatePointOne(ParticipantVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.updatePointOne(vo);
+	}
+
 }

@@ -145,9 +145,12 @@ public class ChalAdminController {
 	@RequestMapping(value="/inputPoint", method=RequestMethod.POST)
 	@ResponseBody
 	public String inputPoint(@RequestBody ParticipantVO vo) {
+		Integer resultPoint = vo.getThatPoint();
+		vo.setResultPoint(resultPoint);
 		//참가자테이블 result, resultPoint 업데이트
-		
+		partService.updatePointOne(vo);
 		//member테이블 업데이트
+		chalService.updateMemberPoint(vo);
 		
 		return "true";
 	}
@@ -168,9 +171,10 @@ public class ChalAdminController {
 		pvo.setChalId(chalId);
 		pvo.setTeam(winner);
 		pvo.setThatPoint(thatPoint);
+		pvo.setResultPoint(thatPoint);
 		pvo.setResult("승리");
 		partService.updateResultPoint(pvo);
-		chalService.updateMemberPoint(pvo);
+		chalService.updateTeamPoint(pvo);
 		
 		//패팀 포인트 정산
 		Integer losePoint = vo.getThatPoint()*-1;
@@ -179,8 +183,9 @@ public class ChalAdminController {
 		pvo.setTeam(loser);
 		pvo.setResult("패배");
 		pvo.setThatPoint(losePoint);
+		pvo.setResultPoint(losePoint);
 		partService.updateResultPoint(pvo);
-		chalService.updateMemberPoint(pvo);
+		chalService.updateTeamPoint(pvo);
 		
 		return "true";
 	}

@@ -169,4 +169,10 @@ public class CharServiceImpl implements ChalService {
 		return chalMapper.updateMemberPoint(vo);
 	}
 
+	@Override
+	public Integer updateTeamPoint(ParticipantVO vo) {
+		// TODO Auto-generated method stub
+		return chalMapper.updateTeamPoint(vo);
+	}
+
 }
