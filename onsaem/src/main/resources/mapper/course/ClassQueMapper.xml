@@ -6,10 +6,10 @@
 		parameterType="QuestionVO">
 		SELECT * FROM ( SELECT ROWNUM RN, A.* FROM (
 		SELECT *
-		FROM REVIEWS
+		FROM QUESTIONS
 		WHERE
 		GROUP_ID = #{groupId}
-		ORDER BY REVIEW_DATE DESC
+		ORDER BY QUE_DATE DESC
 			<![CDATA[
 				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
 			]]>
@@ -18,15 +18,42 @@
 	<select id="getQuestion" resultType="QuestionVO"
 		parameterType="QuestionVO">
 		SELECT *
-		FROM REVIEWS
-		WHERE REVIEW_ID = #{queId}
+		FROM QUESTIONS
+		WHERE QUE_ID = #{queId}
 	</select>
 
 	<!-- 리뷰 갯수 -->
 	<select id="questionCount" resultType="Paging">
 		SELECT COUNT(*) AS
 		TOTALRECORD
-		FROM REVIEWS
-		WHERE GROUP_ID = #{groupId}
+		FROM QUESTIONS
+		WHERE
+		GROUP_ID = #{groupId}
 	</select>
+
+	<!-- 문의 등록 -->
+	<insert id="insertQuestion">
+		<selectKey keyProperty="queId" resultType="String"
+			order="BEFORE">
+			SELECT 'Q'||LPAD(QUE_SEQ.NEXTVAL,3,0) FROM DUAL
+		</selectKey>
+		insert into QUESTIONS(QUE_ID, QUE_CONTENT, WRITER_ID, GROUP_ID,
+		GROUPS)
+		values(#{queId},#{queContent},#{writerId},#{groupId},'강의')
+	</insert>
+
+	<!-- 문의 수정 -->
+	<update id="updateQuestion" parameterType="QuestionVO">
+		UPDATE QUESTIONS
+		SET QUE_CONTENT = #{queContent}
+		WHERE QUE_ID = #{queId}
+	</update>
+	
+	<!-- 답변 등록, 수정 -->
+	<update id="updateAnswer" parameterType="QuestionVO">
+		UPDATE QUESTIONS
+		SET ANS_CONTENT = #{ansContent},
+		ANS_DATE = CURRENT_DATE 
+		WHERE QUE_ID = #{queId}
+	</update>
 </mapper>

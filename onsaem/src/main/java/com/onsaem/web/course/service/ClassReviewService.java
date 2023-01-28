@@ -14,4 +14,7 @@ public interface ClassReviewService {
 
 	// 리뷰 갯수 조회
 	public int reviewCount(ReviewVO vo);
+	
+	// 평균별점 조회
+	public int starAvg(ReviewVO vo);
 }

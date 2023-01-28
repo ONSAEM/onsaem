@@ -62,7 +62,7 @@
 	<select id="getClass" resultType="ClassInfoVO"
 		parameterType="ClassInfoVO">
 		SELECT C.CLASS_ID, C.CLASS_NAME, C.PRICE, C.CLASS_TIME,
-		C.EXPLANATION, C.CLASS_GROUP, C.DIFFICULTY,
+		C.EXPLANATION, C.CLASS_GROUP, C.DIFFICULTY, C.MEMBER_ID,
 		NVL(TRUNC(AVG(R.REVIEW_STAR),1),0) AS STAR, COUNT(R.REVIEW_ID) AS
 		REVIEW_COUNT
 		FROM CLASS_INFO C, REVIEWS R
@@ -72,7 +72,7 @@
 		GROUP BY C.CLASS_ID,
 		C.CLASS_NAME, C.PRICE, C.CLASS_TIME, C.EXPLANATION,
 		C.CLASS_GROUP,
-		C.DIFFICULTY
+		C.DIFFICULTY, C.MEMBER_ID
 	</select>
 	<!-- 강의 사진목록 -->
 	<select id="classMediaList" resultType="MediaVO"
@@ -109,11 +109,11 @@
 		L.CLASS_ID(+)
 		<include refid="condition" />
 	</select>
-	
+
 	<!-- 좋아요 갯수 -->
-	<select id="LikeCount" resultType="int"
-		parameterType="String">
-		SELECT COUNT(*) AS COUNT
+	<select id="LikeCount" resultType="int" parameterType="String">
+		SELECT
+		COUNT(*) AS COUNT
 		FROM LIKES
 		WHERE GROUP_ID =
 		#{groupId}
@@ -138,10 +138,11 @@
 		</selectKey>
 		INSERT INTO LIKES(LIKE_ID,
 		MEMBER_ID,
-		GROUP_ID)
-		VALUES (#{likeId}, 
+		GROUP_ID, GROUPS)
+		VALUES
+		(#{likeId},
 		#{memberId},
-		#{groupId})
+		#{groupId}, '강의')
 	</insert>
 
 	<!-- 좋아요 삭제 -->
@@ -152,7 +153,13 @@
 		AND MEMBER_ID=#{memberId}
 	</delete>
 
-
+	<!-- 강의 신고 -->
+	<insert id="insertReport">
+		INSERT INTO REPORTS(REPORT_ID, FROM_ID, TO_ID, REASON, DETAIL_REASON, GROUPS, GROUP_ID)
+		VALUES('R'||LPAD(REPORT_SEQ.NEXTVAL,3,0),#{fromId},(SELECT MEMBER_ID
+		FROM CLASS_INFO WHERE CLASS_ID=#{groupId}),#{reason}
+		,#{detailReason},'강의',#{groupId})
+	</insert>
 	<!-- [위는 완성 아래는 미완성] -->
 	<select id="popularClassList">
 

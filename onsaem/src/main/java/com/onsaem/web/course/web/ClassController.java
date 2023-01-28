@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.Paging;
+import com.onsaem.web.common.service.QuestionVO;
+import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.course.service.ClassInfoVO;
+import com.onsaem.web.course.service.ClassQueService;
 import com.onsaem.web.course.service.ClassReviewService;
 import com.onsaem.web.course.service.ClassService;
 
@@ -26,9 +29,12 @@ public class ClassController {
 
 	@Autowired
 	ClassService classService;
-	
+
 	@Autowired
 	ClassReviewService classReviewService;
+
+	@Autowired
+	ClassQueService classQueService;
 
 	// 강의목록 페이지 이동 (강의목록, 인기강의목록)
 	@RequestMapping(value = "/classList", method = RequestMethod.GET)
@@ -59,12 +65,16 @@ public class ClassController {
 			model.addAttribute("like", classService.LikeCount(vo.getClassId(), null));
 		}
 		model.addAttribute("class", classService.getClass(vo));
+		System.out.println(model.getAttribute("class"));
 		model.addAttribute("mediaList", classService.classMediaList(vo));
 		Paging paging = new Paging();
 		paging.setPage(1);
 		ReviewVO rvo = new ReviewVO();
 		rvo.setGroupId(vo.getClassId());
 		model.addAttribute("review", classReviewService.getReviewList(rvo, paging));
+		QuestionVO qvo = new QuestionVO();
+		qvo.setGroupId(vo.getClassId());
+		model.addAttribute("question", classQueService.getQuestionList(qvo, paging));
 		return "content/course/classDetail";
 	}
 
@@ -98,5 +108,12 @@ public class ClassController {
 	@ResponseBody
 	public int delClassLike(LikeVO vo) {
 		return classService.delClassLike(vo);
+	}
+
+	// 강의 신고
+	@RequestMapping(value = "/insertReport", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean insertReport(ReportVO vo) {
+		return classService.insertReport(vo);
 	}
 }

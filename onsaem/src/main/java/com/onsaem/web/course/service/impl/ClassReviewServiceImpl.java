@@ -48,7 +48,7 @@ public class ClassReviewServiceImpl implements ClassReviewService {
 			review.setNickname(memberService.getMember(review.getWriterId()).getNickname());
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("reviewList", reviewList);
+		result.put("rList", reviewList);
 		result.put("rPaging", newPaging);
 		return result;
 	}
@@ -63,6 +63,12 @@ public class ClassReviewServiceImpl implements ClassReviewService {
 	public int reviewCount(ReviewVO vo) {
 		
 		return classReviewMapper.reviewCount(vo).getTotalRecord();
+	}
+
+	@Override
+	public int starAvg(ReviewVO vo) {
+		
+		return classReviewMapper.starAvg(vo);
 	}
 
 }

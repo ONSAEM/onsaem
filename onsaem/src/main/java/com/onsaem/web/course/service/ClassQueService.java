@@ -2,11 +2,15 @@ package com.onsaem.web.course.service;
 
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.onsaem.web.common.service.QuestionVO;
 import com.onsaem.web.common.service.Paging;
 
 public interface ClassQueService {
-	
+
 	// 문의 전체조회
 	public Map<String, Object> getQuestionList(QuestionVO vo, Paging paging);
 
@@ -15,4 +19,13 @@ public interface ClassQueService {
 
 	// 문의 갯수 조회
 	public int questionCount(QuestionVO vo);
+
+	// 문의 등록
+	public QuestionVO insertQuestion(QuestionVO vo);
+
+	// 문의 수정
+	public boolean updateQuestion(QuestionVO vo);
+
+	// 답변 등록,수정
+	public boolean updateAnswer(QuestionVO vo);
 }

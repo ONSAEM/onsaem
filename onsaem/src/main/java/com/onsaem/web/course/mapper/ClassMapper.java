@@ -5,6 +5,7 @@ import java.util.List;
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.Paging;
+import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.course.service.ClassInfoVO;
 
 public interface ClassMapper {
@@ -55,4 +56,7 @@ public interface ClassMapper {
 
 	// 강의 수정
 	public int classUpdate(ClassInfoVO vo);
+
+	// 강의 신고
+	public int insertReport(ReportVO vo);
 }
