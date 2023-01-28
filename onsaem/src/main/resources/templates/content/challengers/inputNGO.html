@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-<title>Ogani | Template</title>
+
 
 <!-- Google Font -->
 <link
@@ -37,6 +37,7 @@
 		type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
 		type="text/css">
+	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
 </th:block>
 
 
@@ -44,45 +45,78 @@
 <!-- Content -->
 
 <div layout:fragment="content">
-	<div>
-		<h3>기부처 신청</h3>
+	<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-section set-bg"
+			th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 text-center">
+						<div class="breadcrumb__text">
+							<h2>Onsaem SignUp</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+	<div class="wrapper">
+		<div class="title">기부처 신청</div>
 		<form action="/inputNgo" method="post" name="myfrm" enctype="multipart/form-data">
 			<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
-			<label for="ngoName" id="ngoName">기부처 명</label>
-			<input type="text"  id="ngoName" name="ngoName">
-			<br>
+			<div class="inputfield">
+				<label for="ngoName" id="ngoName">기부처 명</label>
+				<input type="text"  id="ngoName" name="ngoName">
+			</div>
 			
-			<label for="ngoNo">사업자 등록번호</label>
-			<input type="number" placeholder="-는 뺴주세요" name="ngoNo">
+			<div class="inputfield">
+				<label for="ngoNo">사업자 등록번호</label>
+				<input type="number" placeholder="-는 뺴주세요" name="ngoNo">
 			<br>
+			</div>
 			
-			<label>고유번호증 첨부</label>
-			<input type="file" id="uploadFile" name="uploadFile">
+			<div class="inputfield">
+				<label>고유번호증 첨부</label>
+				<input type="file" id="uploadFile" name="uploadFile">
 			<br>
+			</div>
 			
-			<input type="text" id="sample6_postcode" placeholder="우편번호" name="postalCode">
-			<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-			<input type="text" id="sample6_address" placeholder="주소" name="addr"><br>
-			<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="detailAddr">
-			<input type="text" id="sample6_extraAddress" placeholder="참고항목">
-			<br>
+			<div class="inputfield">
+				<label>우편번호</label>
+				<input type="text" id="sample6_postcode" placeholder="우편번호" name="postalCode">
+				<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" class="checkBtn"><br>
+			</div>
+			<div class="inputfield">
+				<label>주소</label>
+				<input type="text" id="sample6_address" placeholder="주소" name="addr"><br>
+			</div>
+			<div class="inputfield">
+				<label>상세주소</label>
+				<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="detailAddr">
+				<input type="text" id="sample6_extraAddress" placeholder="참고항목">
+				<br>
+			</div>
 			
-			<label>이메일</label>
-			<input type="email" name="email">
-			<br>
 			
-			<label>연락처</label>
-			<input type="text" name="phone">
-			<br>
-						
-	        <label>후원계좌</label>
-	        <select name="bank">
-	        	<option value="" >==은행 선택==</option>
-	        	<option th:each="bank : ${banks}" th:value=${bank.bankName}
-	                th:text="${bank.bankName}"></option>        	
-	        </select>
-	        <input type="text" name="bankAccount">
-	        <br>
+			<div class="inputfield">
+				<label>이메일</label>
+				<input type="email" name="email">
+				<br>
+			</div>
+			
+			<div class="inputfield">
+				<label>연락처</label>
+				<input type="text" name="phone">
+			</div>
+			
+			<div class="inputfield">			
+		        <label>후원계좌</label>
+		        <select name="bank">
+		        	<option value="" >==은행 선택==</option>
+		        	<option th:each="bank : ${banks}" th:value=${bank.bankName}
+		                th:text="${bank.bankName}"></option>        	
+		        </select>
+		        <input type="text" name="bankAccount">
+	        </div>
 	 	
 			<input type="submit" value="기부처 신청" class="btn">&nbsp;&nbsp;
 			<input type="reset" value="취소" class="btn" onClick="history.go(-1)">

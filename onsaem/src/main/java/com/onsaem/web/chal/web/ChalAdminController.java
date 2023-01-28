@@ -92,7 +92,7 @@ public class ChalAdminController {
 	}
 	
 	//챌린저스 팀전 각 팀 정보 뽑기 ㅎ 
-	@RequestMapping(value="getTeams", method=RequestMethod.POST)
+	@RequestMapping(value="/getTeams", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getTeams(String chalId){
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -122,7 +122,7 @@ public class ChalAdminController {
 	}
 	
 	//개인전 포인트 정산 - 선택한 아이디의 인증정보 뽑기
-	@RequestMapping(value="getInfo4Point", method=RequestMethod.POST)
+	@RequestMapping(value="/getInfo4Point", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> getInfo4Point(@RequestBody ProofVO vo){
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -141,7 +141,19 @@ public class ChalAdminController {
 		return map;
 	}
 	
-	//개인전 - 포인트 적립 
+	//개인전 - 포인트 적립
+	@RequestMapping(value="/inputPoint", method=RequestMethod.POST)
+	@ResponseBody
+	public String inputPoint(@RequestBody ParticipantVO vo) {
+		Integer resultPoint = vo.getThatPoint();
+		vo.setResultPoint(resultPoint);
+		//참가자테이블 result, resultPoint 업데이트
+		partService.updatePointOne(vo);
+		//member테이블 업데이트
+		chalService.updateMemberPoint(vo);
+		
+		return "true";
+	}
 	
 	
 	//팀전 포인트 적립
@@ -159,9 +171,10 @@ public class ChalAdminController {
 		pvo.setChalId(chalId);
 		pvo.setTeam(winner);
 		pvo.setThatPoint(thatPoint);
+		pvo.setResultPoint(thatPoint);
 		pvo.setResult("승리");
 		partService.updateResultPoint(pvo);
-		chalService.updateMemberPoint(pvo);
+		chalService.updateTeamPoint(pvo);
 		
 		//패팀 포인트 정산
 		Integer losePoint = vo.getThatPoint()*-1;
@@ -170,8 +183,9 @@ public class ChalAdminController {
 		pvo.setTeam(loser);
 		pvo.setResult("패배");
 		pvo.setThatPoint(losePoint);
+		pvo.setResultPoint(losePoint);
 		partService.updateResultPoint(pvo);
-		chalService.updateMemberPoint(pvo);
+		chalService.updateTeamPoint(pvo);
 		
 		return "true";
 	}

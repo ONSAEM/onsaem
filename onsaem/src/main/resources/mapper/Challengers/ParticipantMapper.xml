@@ -73,12 +73,20 @@
 	<!-- 팀전 챌린저스 종료 후 참가자 테이블 resultPOint 업데이트 하는거 -->
 	<update id = "updateResultPoint" parameterType = "ParticipantVO">
 		UPDATE PARTICIPANTS
-		SET RESULT_POINT = RESULT_POINT + #{thatPoint},
+		SET RESULT_POINT = #{resultPoint},
 		RESULT = #{result}
 		WHERE TEAM = #{team}
 		AND CHAL_ID = #{chalId}
 	</update>
-	
+
+	<!-- 개인전 챌린저스 포인트 정산 -->
+	<update id = "updatePointOne" parameterType = "ParticipantVO">
+		UPDATE PARTICIPANTS
+		SET RESULT_POINT = #{resultPoint},
+		RESULT = #{result}
+		WHERE PARTICIPANT_ID = #{participantId}
+		AND CHAL_ID = #{chalId}
+	</update>	
 	
 	
 </mapper>

@@ -219,8 +219,10 @@
 	</div>
 	<!-- End of container -->
 
-		<!-- 도넛차트 -->		
-		 <canvas id="chDonut1"></canvas>
+		<!-- 도넛차트 -->
+		<div>	
+			<canvas id="chDonut1"></canvas>
+		</div>	
 		
 	<div class="container">
 		<span><p>성공 횟수 : [[${cntGood}]] 회</p>
@@ -350,35 +352,7 @@
 			  });
 			});
 		
-		
-		//차트
-		var colors = ['#b4a7d6','#eae5e1','#333333','#c3e6cb','#dc3545','#6c757d'];
-		var donutOptions = {
-			  cutoutPercentage: 85, 
-			  legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
-			};
-			
-			// donut 1
-			var chDonutData1 = {
-			    labels: ['평균달성률'],
-			    datasets: [
-			      {
-			        backgroundColor: colors.slice(0,2),
-			        borderWidth: 0,
-			        data: [74, 11]
-			      }
-			    ]
-			};
-			
-			var chDonut1 = document.getElementById("chDonut1");
-			if (chDonut1) {
-			  new Chart(chDonut1, {
-			      type: 'doughnut',
-			      data: chDonutData1,
-			      options: donutOptions
-			  });
-			}
-	      	
+		  	
 			//성공률 계산위해
 	      	let privateDonation = Number("[[${user.privateDonate}]]");
 	      	console.log(privateDonation);
@@ -408,7 +382,38 @@
 	     	}
 	     	
 	     	console.log(success);
-	      
+	      	
+	     	//차트
+			var colors = ['#b4a7d6','#eae5e1','#333333','#c3e6cb','#dc3545','#6c757d'];
+			var donutOptions = {
+				  cutoutPercentage: 85, 
+				  legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
+				};
+		
+			var data = new Array();
+			data.push(success);
+			data.push(100-success);
+				// donut 1
+				var chDonutData1 = {
+				    labels: ['평균달성률'],
+				    datasets: [
+				      {
+				        backgroundColor: colors.slice(0,2),
+				        borderWidth: 0,
+				        data: data
+				      }
+				    ]
+				};
+				
+				var chDonut1 = document.getElementById("chDonut1");
+				if (chDonut1) {
+				  new Chart(chDonut1, {
+				      type: 'doughnut',
+				      data: chDonutData1,
+				      options: donutOptions
+				  });
+				}
+				
 	     	//모달창
 	     	const modal = document.querySelector(".modal");
 	      const closeButton = modal.querySelector(".closeBtn");

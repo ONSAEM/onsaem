@@ -167,7 +167,9 @@
 				, CHAL_NAME
 				, RECEIPT
 				, USERCNT
-				, TO_DATE(END_DATE, 'YYYY-MM-DD') - TO_DATE(START_DATE, 'YYYY-MM-DD') AS TOTAL
+				, (TO_DATE(END_DATE, 'YYYY-MM-DD') - TO_DATE(START_DATE, 'YYYY-MM-DD'))+1 AS TOTAL
+				, (TO_DATE(CURRENT_DATE) - TO_DATE(START_DATE)) as nowStart
+				, (TO_DATE(CURRENT_DATE) - TO_DATE(END_DATE)) as nowEnd
 		FROM CHALLENGES
 		WHERE CHAL_ID = #{chalId}
 	</select>
@@ -278,12 +280,19 @@
 	
 	
 	<!--  관리자 포인트 정산용 - 팀전  -->
-	<update id="updateMemberPoint" parameterType="ParticipantVO">
+	<update id="updateTeamPoint" parameterType="ParticipantVO">
 		UPDATE MEMBERS
 		SET POINT = POINT + #{thatPoint}
 		WHERE MEMBER_ID IN (SELECT PARTICIPANT_ID
 							FROM PARTICIPANTS
 							WHERE TEAM = #{team}
 							AND CHAL_ID = #{chalId})	
+	</update>
+	
+	<!-- 개인전 포인트 업데이트 -->
+	<update id="updateMemberPoint" parameterType="ParticipantVO">
+		UPDATE MEMBERS
+		SET POINT = POINT + #{thatPoint}
+		WHERE MEMBER_ID = #{memberId}
 	</update> 
 </mapper>
