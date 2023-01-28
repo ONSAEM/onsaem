@@ -79,9 +79,26 @@
 
 
 	<!-- 블로그 정보 등록 -->
-	<update id="taskUpdate" parameterType="String">
+	<update id="updateInfo" parameterType="BlogVO">
 		update blogs set blog_name = #{blogName},
 		               introduction = #{introduction} 
 		 where blog_id = #{blogId}
 	</update>
+	
+	<!-- 카테고리 등록 -->
+	<insert id="cateInsert" parameterType="CategoriesVO">
+		<selectKey keyProperty="categoryId" resultType="String" order="BEFORE">
+ 			SELECT 'CT'||LPAD(CATE_SEQ.NEXTVAL,3,0) FROM DUAL
+ 		</selectKey>
+ 			insert into categories (CATEGORY_ID,
+									CATEGORY_NAME,
+									BLOG_ID,
+									ORDER_NUM,
+									PUBLIC_SCOPE)
+				 values (#{categoryId},
+				  		 #{categoryName},
+				  		 #{blogId}, 
+				  		 cate_order_seq.nextval, 
+				  		 #{publicScope})
+	</insert>
  </mapper>

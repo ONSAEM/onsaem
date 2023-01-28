@@ -1,5 +1,7 @@
 package com.onsaem.web.blog.web;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -86,9 +88,21 @@ public class BlogController {
 	// 일단 사진 다 넣고 있으면 status를 false로 바꾸고, 없으면 그냥 true로 넣어주기~
 	@RequestMapping(value = "/updateInfo", method=RequestMethod.POST)
 	@ResponseBody
-	public String updateInfo(MultipartFile[] profileFile, BlogVO vo) {
-//		BlogVO result = 
-		return null;
+	public String updateInfo(MultipartFile[] headerFile, BlogVO vo) throws IllegalStateException, IOException {
+		BlogVO result = blogService.updateInfo(headerFile, vo);
+		if(result != null) {
+			return "success";
+		} else {
+			return "fail";
+		}
+	}
+	
+	// 카테고리 등록
+	@RequestMapping(value = "/cateInsert", method=RequestMethod.POST)
+	@ResponseBody
+	public CategoriesVO cateInsert(CategoriesVO cateVO) {
+		blogService.cateInsert(cateVO);
+		return cateVO;
 	}
 	
 }
