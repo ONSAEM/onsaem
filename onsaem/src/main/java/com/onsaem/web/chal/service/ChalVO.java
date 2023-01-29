@@ -50,6 +50,9 @@ public class ChalVO {
 	
 	//
 	Integer total;
+	Integer nowStart;
+	Integer nowEnd;
+	Integer dday;
 	
 	
 	

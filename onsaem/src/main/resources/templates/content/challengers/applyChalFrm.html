@@ -60,14 +60,12 @@
                     <div class="product__details__pic">
                         <div class="product__details__pic__item">
                             <img class="pic"
-                                th:src="@{{fileRoute}{mediaName}/
-									(fileRoute=${photoes.get(0).fileRoute},mediaName=${photoes.get(0).mediaName})}" style="width:400px;height:400px;">
+                                th:src="'/fileView/'+${chal.fileRoute}" style="width:400px;height:400px;">
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
-                	<form name="applyFrm">
-                    <div class="product__details__text" th:each="chal : ${chals}">
+                    <div class="product__details__text">
                     	<input type="hidden" th:value="${chal.donationFee}" id="currentFee">
         				<input type="number" value="donationFee" id="donationFee" name="donationFee" style="display:none;">
         				<input type="hidden" th:value=${chal.chalId} name="chalId" id="chalId">

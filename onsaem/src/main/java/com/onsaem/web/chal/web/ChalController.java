@@ -127,6 +127,28 @@ public class ChalController {
 		pvo.setParticipantId(userDetails.getUsername());
 		//참가안했으면 0, 참가했으면 1
 		model.addAttribute("cnt", partService.cntParticipant(pvo));
+		
+		//
+		Integer nowStart = chalService.getChal(chalId).getNowStart();
+		Integer nowEnd = chalService.getChal(chalId).getNowEnd();
+		
+		if(nowStart>=0 && nowEnd<=0) {
+			//진행중인 챌린지
+			//인증샷 파티
+			model.addAttribute("proofs", proofService.listProofAll(chalId));
+		}else if(nowStart>0 && nowEnd>0) {
+			//완료된 챌린지
+			//영수증 이미지 파일 가져오기
+			model.addAttribute("receipt", proofService.getReceipt(chalId));
+			model.addAttribute("proofs", proofService.listProofAll(chalId));
+		}
+		
+		//상세 밑에 추천 컨텐츠로 넣을 조만간 시작하는 챌린지 모음들
+		model.addAttribute("ddays", chalService.ddayStartRank());
+		
+		//회원정보 가져가기
+		model.addAttribute("user", memberService.getMember(userDetails.getUsername()));
+		
 		return "content/challengers/chalDetail";
 	}
 	
@@ -156,6 +178,7 @@ public class ChalController {
 		model.addAttribute("user", memberService.getMember(userDetails.getUsername()));
 		String classes = "항시";
 		model.addAttribute("ngoes", ngoService.listNgoClass(classes));
+		
 		return "content/challengers/inputTeamChal";
 	}
 	
@@ -276,7 +299,7 @@ public class ChalController {
 	public String applyChalFrm(@RequestParam(value="chalId", required= true)String chalId, Model model,MediaVO vo, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		System.out.println(chalService.getChal(chalId));
-		model.addAttribute("chals", chalService.getChal(chalId));
+		model.addAttribute("chal", chalService.getChal(chalId));
 		vo.setGroupId(chalId);
 		model.addAttribute("photoes", proofService.listMedia(vo));
 		model.addAttribute("user", memberService.getMember(userDetails.getUsername()));
@@ -320,7 +343,7 @@ public class ChalController {
 		//로그인 사용자 정보 조회
 		model.addAttribute("user", memberService.getMember(userDetails.getUsername()));
 		System.out.println(chalService.getChal(chalId));
-		model.addAttribute("chals", chalService.getChal(chalId));
+		model.addAttribute("chal", chalService.getChal(chalId));
 		vo.setGroupId(chalId);
 		model.addAttribute("photoes", proofService.listMedia(vo));
 

@@ -175,4 +175,10 @@ public class CharServiceImpl implements ChalService {
 		return chalMapper.updateTeamPoint(vo);
 	}
 
+	@Override
+	public List<ChalVO> ddayStartRank() {
+		// TODO Auto-generated method stub
+		return chalMapper.ddayStartRank();
+	}
+
 }
