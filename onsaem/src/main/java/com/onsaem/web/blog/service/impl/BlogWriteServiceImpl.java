@@ -121,6 +121,13 @@ public class BlogWriteServiceImpl implements BlogWriteService {
 	}
 
 
+	@Override
+	public int updateCnt(BlogWriteVO blogWriteVO) {
+		// 조회수
+		return blogWriteMapper.updateCnt(blogWriteVO);
+	}
+
+
 	
 
 }

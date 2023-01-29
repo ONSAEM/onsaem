@@ -134,6 +134,15 @@ public class BlogWriteController {
 		return "content/blog/myblog";
 	}
 	
+	// 조회수 업데이트
+	@RequestMapping(value = "/updateCnt", method = RequestMethod.GET)
+	public void updateCnt(String bno,BlogWriteVO vo) {
+		System.out.println("조회수 업뎃");
+		vo.setWriteId(bno);
+		blogWriteService.updateCnt(vo);
+		
+	}
+	
 	// 블로그 글 상세 페이지로 이동(단건조회)
 	@RequestMapping(value = "/myblog/blogWrite", method = RequestMethod.GET)
 	public String blogWrite(Model model, String bno,BlogWriteVO bVo, LikeVO vo, RepliesVO rVo, CategoriesVO cVo,Authentication authentication) {
@@ -161,8 +170,10 @@ public class BlogWriteController {
 		
 		model.addAttribute("category", blogWriteService.cateList(cVo) ); // 카테고리 조회
 		
+		
 		return "content/blog/blogWrite";
 	}
+	
 	
 	// 블로그 글 등록 페이지로 이동
 	@RequestMapping(value = "/myblog/blogWrite/blogInsert", method = RequestMethod.GET)
