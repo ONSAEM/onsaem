@@ -141,7 +141,7 @@ public class ProductController {
 
 	// 찜클릭 찜담기
 	@RequestMapping(value = "/likeAdd", method = RequestMethod.GET)
-	public String cartAdd(Model model, @RequestParam(value = "data", required = false) String data,
+	public String likeAdd(Model model, @RequestParam(value = "data", required = false) String data,
 			Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		likeVo.setMemberId(userDetails.getUsername());

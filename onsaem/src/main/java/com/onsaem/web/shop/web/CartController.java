@@ -30,21 +30,20 @@ public class CartController {
 	
 	// 버튼클릭 장바구니담기
 	@RequestMapping(value = "/cartAdd", method = RequestMethod.GET)
-	public int cartAdd(Model model,CartVO vo, Authentication authentication) {
+	public String cartAdd(Model model,CartVO vo, Authentication authentication) {
 		CartVO cartVo = new CartVO();
 		 UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		if ( Integer.toString(vo.getCartAmount()).equals("0") ) {	
 			cartVo.setMemberId(userDetails.getUsername());
 			cartVo.setCartAmount(1);
-			cartVo.setProductId(vo.getProductId());			
-			return cartService.cartAdd(cartVo);
+			cartVo.setProductId(vo.getProductId());					
 		} else {
 			cartVo.setMemberId(userDetails.getUsername());
 			cartVo.setProductId(vo.getProductId());
 			cartVo.setCartAmount((int)vo.getCartAmount());
 			cartVo.setCartOption(vo.getCartOption());			
-			return cartService.cartAdd(cartVo);
 		}
+		return "redirect:/shop";
 	}
 	
 	// 장바구니페이지이동,나의 장바구니리스트
