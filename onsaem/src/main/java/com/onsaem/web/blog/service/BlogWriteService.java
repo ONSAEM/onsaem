@@ -46,4 +46,7 @@ public interface BlogWriteService {
 		
 		// 신고
 		int addBan(ReportVO reportVO);
+		
+		// 조회수
+		public int updateCnt(BlogWriteVO blogWriteVO);
 }
