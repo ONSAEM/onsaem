@@ -108,9 +108,9 @@ h1 {
 	<!-- Breadcrumb Section End -->
 
 	<!-- Product Details Section Begin -->
-	<section class="product-details spad">
+	<section class="product-details spad" th:each="product:${productList}">
 		<div class="container">
-			<div class="row" th:each="product:${productList}">
+			<div class="row">
 				<div class="col-lg-6 col-md-6">
 					<div class="product__details__pic">
 						<div class="product__details__pic__item">
@@ -175,13 +175,16 @@ h1 {
 					<div class="product__details__tab">
 						<ul class="nav nav-tabs" role="tablist">
 							<li class="nav-item"><a class="nav-link active"
-								data-toggle="tab" href="#tabs-1" role="tab" aria-selected="true">상품상세정보</a>
+								data-toggle="tab" href="#tabs-1" role="tab" aria-selected="true">상세정보</a>
 							</li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tabs-2" role="tab" aria-selected="false">상품리뷰<span
+								href="#tabs-4" role="tab" aria-selected="false">구매안내 </a></li>
+							<li class="nav-item"><a class="nav-link" data-toggle="tab"
+								href="#tabs-2" role="tab" aria-selected="false">상품후기<span
 									th:text="'('+${#lists.size(reviewList)}+')'">(1)</span></a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
 								href="#tabs-3" role="tab" aria-selected="false">상품문의 </a></li>
+
 						</ul>
 
 						<!-- 상품상세보기 -->
@@ -219,34 +222,48 @@ h1 {
 							<div class="tab-pane" id="tabs-2" role="tabpanel">
 								<div class="product__details__tab__desc">
 									<main>
-										<section class="news-section section-padding">
+										<section class="news-section section-padding"
+											style="padding: 0px;">
 											<div class="container">
 												<div class="row">
-													<div class="author-comment d-flex mt-3 mb-4"
-														th:each=" review : ${reviewList}">
-
-														<div th:if="${review.level}==1">
-															<img
-																th:src="@{/images/avatar/studio-portrait-emotional-happy-funny.jpg}"
-																class="img-fluid avatar-image" alt="">
-															<div class="author-comment-info ms-3">
-																<h6 class="mb-1">
-																	<span style="font-weight: bold">[[${review.writerId}]]</span>
-																	([[${#dates.format(review.reviewDate, 'YY.MM.DD
-																	HH:mm')}]])
-																</h6>
-																<p class="mb-0">[[${review.reviewContent}]]</p>
-																<i class="fa fa-star"
-																	th:each="num:${#numbers.sequence(1,review.reviewStar)}"></i>
-																<i class="fa-solid fa-star-half"
-																	th:if="${review.reviewStar%1 >= 0.5}"></i>
-																<div class="d-flex mt-2">
-																	<button href="#" class="openBtn">신고</button>
-																</div>
-															</div>
+													<div class="col-lg-12">
+														<div class="shoping__cart__table">
+															<table>
+																<thead>
+																	<tr>
+																		<th>상품만족도<br>
+																		<i class="fa fa-star"
+																			th:each="num:${#numbers.sequence(1,product.star)}"></i>
+																			<i class="fa-solid fa-star-half"
+																			th:if="${product.star%1 >= 0.5}"></i>[[${product.star}]]/5
+																		</th>
+																		<th>리뷰 개수<br><i class="fa-sharp fa-solid fa-comment"></i> [[${#lists.size(reviewList)}]]</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr>
+																	</tr>
+																</tbody>
+															</table>
 
 														</div>
-
+													</div>
+													<div class="author-comment d-flex mt-3 mb-4"
+														th:each=" review : ${reviewList}">
+														<div th:if="${review.level}==1">
+															<div class="author-comment-info ms-3">
+																<div style="float: left">
+																	<i class="fa fa-star"
+																		th:each="num:${#numbers.sequence(1,review.reviewStar)}"></i>
+																	<i class="fa-solid fa-star-half"
+																		th:if="${review.reviewStar%1 >= 0.5}"></i> <br>[[${#dates.format(review.reviewDate,
+																	'YY.MM.DD HH:mm')}]]
+																</div>
+																<p style="margin-left: 200px">
+																	[[${review.writerId}]]<br>[[${review.reviewContent}]]
+																</p>
+															</div>
+														</div>
 														<div th:unless="${review.level}==1"
 															style="margin-left: 100px">
 
@@ -272,6 +289,13 @@ h1 {
 
 							<!-- 상품문의 -->
 							<div class="tab-pane" id="tabs-3" role="tabpanel">
+								<div class="product__details__tab__desc">
+									<h6>Products Infomation</h6>
+									<p></p>
+								</div>
+							</div>
+							<!-- 구매안내 -->
+							<div class="tab-pane" id="tabs-4" role="tabpanel">
 								<div class="product__details__tab__desc">
 									<h6>Products Infomation</h6>
 									<p></p>
