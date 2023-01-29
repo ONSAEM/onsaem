@@ -125,18 +125,18 @@
                         
                         <div class="product__details__price"><span th:text="'기부처 : ' + ${chal.ngoName}">$50.00</span></div>
                         	<ul>
+                        	<input type="hidden" id="chalId" th:value="${chal.chalId}">
                             <li><b>시작일</b> <span th:text="${#dates.format(chal.startDate, 'yyyy년 MM월 dd일')}" ></span></li>
                             <li><b>종료일</b> <span th:text="${#dates.format(chal.endDate, 'yyyy년 MM월 dd일')}"> <samp>Free pickup today</samp></span></li>
-                            <li><b>유형</b> <span th:text="${chal.subClass}"></span></li>
+                            <li><b>유형</b> <span id="subClass" th:text="${chal.subClass}"></span></li>
+                            <li th:if="${chal.subClass} == '팀'"><b>고정 기부금</b> <span id="teamFee" th:text="${chal.teamFee}+'원'"></span></li>
                             <li><b>참가 요일</b> <span th:text="${chal.frequency}"></span></li>
                        		</ul>
-
+							
+							
 							<span th:if="${cnt.cnt} >=1" class="primary-btn" >이미 참가 중인 챌린지 입니다</span>
-
-							<span th:unless="${cnt.cnt} >=1">
-								<a th:if="${chal.subClass} == '개인'"  th:href="@{/applyChalFrm(chalId=${chal.chalId})}" class="primary-btn goApply">참가하기</a>                      
-								<a th:if="${chal.subClass} == '팀'" th:href="@{/applyChalTeamFrm(chalId=${chal.chalId})}" class="primary-btn goApply">참가하기</a>
-							<span>
+							<button th:unless="${cnt.cnt} >=1" onclick = "goPage()" class="primary-btn">참가하기</button>
+							
 							<button class="openBtn" style="background-color:red; color:white; width:120px; height:51px; border:none">신고하기</button>						 	
                     </div>
                 </div>
@@ -147,8 +147,12 @@
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
                                     aria-selected="true">상세보기</a>
                             </li>
+                            <li class="nav-item" th:if = "${proofs != null}"><a class="nav-link" data-toggle="tab"
+								href="#tabs-2" role="tab" aria-selected="false"></a>
+							</li>
                         </ul>
                         <div class="tab-content">
+                        	<div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <div class="product__details__tab__desc">
                                     <h6>환급 안내</h6>
                                     <p>100% 성공 : 예치금 전액 기부 + 예치금의 1% 포인트 적립</p>
@@ -171,94 +175,36 @@
                                 <div class="product__details__tab__desc">
                                     <h6>동의사항 요건</h6>
                                     	<p>챌린지에 참가하시기 전에 동의사항에 체크해 주세요</p>
-                                     	<label><input type="checkbox" name="check">모든 예치금은 성취퍼센트와 관계 없이 100% 기부됩니다.</label><br>
-                                     	<label><input type="checkbox" name="check">참가하셨을 시에 등록하신 인증 사진은 모든 유저가 조회 가능 합니다.</label><br>
-                                     	<label><input type="checkbox" name="check">챌린지 참가 취소는 마이페이지에서 가능하며, 시작일 하루 전 까지 가능합니다.</label><br>
+                                     	<label><input type="checkbox" name="check" class="checkList">모든 예치금은 성취퍼센트와 관계 없이 100% 기부됩니다.</label><br>
+                                     	<label><input type="checkbox" name="check" class="checkList">참가하셨을 시에 등록하신 인증 사진은 모든 유저가 조회 가능 합니다.</label><br>
+                                     	<label><input type="checkbox" name="check" class="checkList">챌린지 참가 취소는 마이페이지에서 가능하며, 시작일 하루 전 까지 가능합니다.</label><br>
                                 </div>
-                                
-                                
-
+                                <!-- 팀전 참가시 포인트 없으면 참가 불가 위해서  -->
+                                <input type="hidden" id="userPoint" th:value="${user.point}">                              
+							</div>
+							
+							<!-- tab2 -->
+							<div class="tab-pane active" id="tabs-2" role="tabpanel">                        	
+	 							<div th:if = "${receipt != null}">
+	 								<img th:src="'/fileView/'+${receipt.fileRoute}">
+	 							</div>                       	
+							  <div class="row row-cols-3">
+							    <div class="col" th:each="proof:${proofs}">
+							    	<img th:src="'/fileView/'+${proof.fileRoute}">
+							  	</div>
+							</div>
+                    	</div>
+                    	<!--  tab2끝 -->
                         </div>
+                        
+                        
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- Product Details Section End -->
-
-    <!-- Related Product Section Begin -->
-    <section class="related-product">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title related__product__title">
-                        <h2>Related Challenges</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" th:data-setbg="@{/shoptemplate/img/product/product-1.jpg}">
-                            <ul class="product__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="/detailChal">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" th:data-setbg="@{/shoptemplate/img/product/product-2.jpg}">
-                            <ul class="product__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" th:data-setbg="@{/shoptemplate/img/product/product-3.jpg}">
-                            <ul class="product__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" th:data-setbg="@{/shoptemplate/img/product/product-7.jpg}">
-                            <ul class="product__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="#">Crab Pool Security</a></h6>
-                            <h5>$30.00</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- 모달창 -->
+		<!-- 모달창 -->
                   <div class="modal hidden">
                      <div class="modal__background"></div>
                      <div class="modal__content">
@@ -275,6 +221,30 @@
                      </div>
                   </div>
                   <!-- 모달창 끛-->
+    <!-- Related Product Section Begin -->
+    <section class="related-product">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title related__product__title">
+                        <h2>시작 임박 챌린지</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-sm-6" th:each="dday :${ddays}">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" th:data-setbg="'/fileView/'+${dday.fileRoute}">
+                            
+                        </div>
+                        <div class="product__item__text">
+                            <h6><a th:text="${dday.chalName}" th:href="@{/detailChal(chalId = ${dday.chalId})}">Crab Pool Security</a></h6>
+                            <h5 th:text="${dday.dday} + '일 후 시작'">$30.00</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
         
         </div>
 
@@ -291,33 +261,8 @@
 			<script th:src="@{/shoptemplate/js/main.js}"></script>
 		</th:block>
 		
-    </section>
-    <!-- Related Product Section End -->
-    <script type="text/javascript">
-    google.charts.load('current', {packages: ['corechart', 'bar']});
-    google.charts.setOnLoadCallback(drawStacked);
+		<script type="text/javascript">
 
-    
-    	//체크박스 체크했는지 여부
-    	/* let goBtn = document.querySelectorAll(".goApply");
-    	let check = document.getElementsByName("check");
-    	let chk = false;
-    	goBtn.addEventListener('click', function(){
-    		for(let i=0; i<check.length; i++){
-    			if(check[i].checked) { 
-    			   chk = true;
-    			  } else {
-    				  chk = false;
-    			  }
-    		}
-    		
-    		if(chk){
-    			alet("굿");
-    		}else {
-    			alert("모든 동의사항에 동의해 주세요.");
-    		}
-    	}); */
-    	
     	//신고 모달창
 		 const openButton = document.querySelector(".openBtn");
 				const modal = document.querySelector(".modal");
@@ -331,6 +276,31 @@
 				openButton.addEventListener("click", displayModal);
 				closeButton.addEventListener("click", displayModal)
 				modalBackground.addEventListener("click", displayModal);
+		
+				
+			//CHECK	했는지 확인하기
+			function goPage(e){
+			 	console.log(e);
+			 	if($('input[class=checkList]:checked').length<3){
+			 		alert("모든 동의사항에 체크해 주세요");
+			 		return;
+			 	}else if($('input[class=checkList]:checked').length>=3){
+			 		 let data = $('#chalId').val();
+			 		 console.log(data);
+			 		if($('#subClass').text() == '개인'){
+			 			location.href ="/applyChalFrm?chalId="+ data;
+			 		}else{
+			 			let userPoint = parseInt($('#userPoint').val());
+			 			let teamFee = parseInt($('#teamFee').text()); 
+			 			console.log(userPoint);
+			 			if(userPoint < teamFee*0.01){
+			 				alert("내기 포인트가 충분하지 않아 참가가 불가합니다😢");
+			 			}else{
+			 				location.href = "/applyChalTeamFrm?chalId="+ data;
+			 			}
+			 		}
+			 	}
+    		}
 			
 		  //신고보내기
 		      function inputReport(){
@@ -362,6 +332,9 @@
 		       }
     	
 		</script>	
+    </section>
+    <!-- Related Product Section End -->
+    
     
 </div>
 </html>

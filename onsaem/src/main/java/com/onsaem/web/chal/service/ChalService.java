@@ -69,5 +69,8 @@ public interface ChalService {
 	//관리자용 member테이블 챌린저스 포인트 업데이트
 	Integer updateMemberPoint(ParticipantVO vo);
 	
+	//조만간 시작하는 챌린지
+	List<ChalVO> ddayStartRank();
+	
 	
 }

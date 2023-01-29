@@ -214,7 +214,7 @@
 										<h6>
 											<a th:href="@{/detailChal(chalId = ${chal.chalId})}" th:text=${chal.chalName}>Oing</a>
 										</h6>
-										<h5 th:text="${#dates.format(chal.startDate, 'MM월 dd일')}">$30.00</h5><h6>부터 시작</h6>
+										<h5 th:text="${#dates.format(chal.startDate, 'MM월 dd일')}+'부터 시작!'">$30.00</h5>
 										
 									</div>
 								</div>

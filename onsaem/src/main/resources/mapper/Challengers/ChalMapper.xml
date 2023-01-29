@@ -168,8 +168,8 @@
 				, RECEIPT
 				, USERCNT
 				, (TO_DATE(END_DATE, 'YYYY-MM-DD') - TO_DATE(START_DATE, 'YYYY-MM-DD'))+1 AS TOTAL
-				, (TO_DATE(CURRENT_DATE) - TO_DATE(START_DATE)) as nowStart
-				, (TO_DATE(CURRENT_DATE) - TO_DATE(END_DATE)) as nowEnd
+				, (TO_DATE(CURRENT_DATE) - TO_DATE(START_DATE)) as NOW_START
+				, (TO_DATE(CURRENT_DATE) - TO_DATE(END_DATE)) as NOW_END
 		FROM CHALLENGES
 		WHERE CHAL_ID = #{chalId}
 	</select>
@@ -295,4 +295,16 @@
 		SET POINT = POINT + #{thatPoint}
 		WHERE MEMBER_ID = #{memberId}
 	</update> 
+	
+	<!-- 시작이 얼마 안남은 챌린지 리스트 3개 -->
+	<select id = "ddayStartRank" resultType="ChalVO">
+		SELECT C.CHAL_ID , C.CLASSES, C.SUB_CLASS, C.CHAL_NAME, C.START_DATE, C.END_DATE, C.DONATION_FEE,
+		M.FILE_ROUTE, M.MEDIA_NAME, TO_DATE(CURRENT_DATE)-TO_DATE(C.START_DATE) AS DDAY, ROWNUM
+		FROM CHALLENGES C JOIN MEDIA M
+		ON C.CHAL_ID = M.GROUP_ID
+        WHERE 4>=ROWNUM
+        AND SUB_GROUP = '썸네일'
+        AND TO_DATE(CURRENT_DATE)-TO_DATE(C.START_DATE) >=0
+        ORDER BY DDAY
+    </select>
 </mapper>

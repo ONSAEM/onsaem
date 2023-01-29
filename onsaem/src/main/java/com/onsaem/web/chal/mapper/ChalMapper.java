@@ -80,5 +80,8 @@ public interface ChalMapper {
 	//관리자용 member테이블 개인전 챌린저스 포인트 업데이트
 	Integer updateMemberPoint(ParticipantVO vo);
 	
+	//조만간 시작하는 챌린지
+	List<ChalVO> ddayStartRank();
+	
 	
 }	

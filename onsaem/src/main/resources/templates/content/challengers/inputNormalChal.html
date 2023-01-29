@@ -3,18 +3,6 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/layout}">
-<meta charset="UTF-8">
-<meta name="description" content="Ogani Template">
-<meta name="keywords" content="Ogani, unica, creative, html">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-
-
-<!-- Google Font -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
-	rel="stylesheet">
 
 <!-- Css  -->
 <th:block layout:fragment="css">
@@ -35,112 +23,136 @@
 		type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
 		type="text/css">
+	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
 </th:block>
 
-<div layout:fragment="content">
-	<h3>챌린저스 개인전 등록</h3>
-	<form action="/inputNormalChal" method="post" enctype="multipart/form-data" name="inputFrm">
-		<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
-		<p>챌린지를 만들어 주세요!</p>
-		<label for="chalName" id="chalName">챌린지 제목</label><br>
-		<input type="text"  id="chalName" name="chalName">
-		<input type="hidden" name="classes" value="시작전">
-		<div>
-			<label for="frequency" id="frequency">인증 빈도</label><br>
-            	<input name="frequency" type="radio" value="월화수목금토일">매일
-				<input name="frequency" type="radio" value="월화수목금">평일 매일
-				<input name="frequency" type="radio" value="토일">주말 매일
-				<select id="frequency">
-					<option value="">==요일선택==</option>
-					<option value="월">월요일</option>
-					<option value="화">화요일</option>
-					<option value="수">수요일</option>
-					<option value="목">목요일</option>
-					<option value="금">금요일</option>
-					<option value="토">토요일</option>
-					<option value="일">일요일</option>	
-				</select>
+<head>
+<meta charset="UTF-8">
+<style>
+	.btnbtn{
+		background-color : #5bc1ac;
+		width: 20%;
+		height : 10%;
+		margin: 0 auto;
+		border : none;
+		border-radius : 3px;
+		color : white;
+		padding : 8px, 10px;
+	}
+	#btns{
+		margin : 0, auto;
+	}
+</style>
+</head>
+
+<body>
+	<div layout:fragment="content">
+
+		<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-section set-bg"
+			th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 text-center">
+						<div class="breadcrumb__text">
+							<h2>Challengers</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section End -->
+		<br>
+		<div class="wrapper">
+			<div class="title">챌린저스 개인전 등록</div>
+			<form action="/inputNormalChal" method="post" enctype="multipart/form-data" name="inputFrm" class="form">
+				<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
+				<p>챌린지를 만들어 주세요!</p>
+				<div class="inputfield">
+					<label for="chalName" id="chalName">챌린지 제목<span class="request">*</span></label>
+					<input type="text"  id="chalName" name="chalName" class="input">
+				</div>
+				<div class="inputfield">
+					<label>참가 인원<span class="request">*</span></label>
+					<input type="number"  id="usercnt" name="usercnt" class="input" 
+						placeholder="본인 포함 짝수로 입력해주세요" onchange="checkCnt()">
+				</div>
+				<div class="inputfield">
+					<label for="frequency" id="frequency">인증 빈도<span class="request">*</span></label><br>
+	            	<input name="frequency" type="radio" value="월화수목금토일">매일
+					<input name="frequency" type="radio" value="월화수목금">평일 매일
+					<input name="frequency" type="radio" value="토일">주말 매일
+					<input name="frequency" type="radio" value="" id="singleDay">요일 선택
+					<select id="frequency">
+						<option value="">==요일선택==</option>
+						<option value="월" >월요일</option>
+						<option value="화">화요일</option>
+						<option value="수">수요일</option>
+						<option value="목">목요일</option>
+						<option value="금">금요일</option>
+						<option value="토">토요일</option>
+						<option value="일">일요일</option>	
+					</select>
+				</div>
 				
-        </div>
-        <label for="ngoName">기부처</label>
-        <select name="ngoName">
-        	<option value="">==기부처 선택==</option>
-        	<option th:each="ngo : ${ngoes}" th:value="${ngo.ngoName}"
-                th:text="${ngo.ngoName}" ></option>        	
-        </select>
-        <br>
-        
-        <label for="startDate">시작일</label>
-        <input name="startDate" type="date" onchange="checkStart()">
-		<label for "endDate">종료일</label>
-        <input name="endDate" type="date" onchange="checkDate()">
-        
-        <br>
-        
-        <label for="proofContents">인증 방법</label>
-        <textarea rows="5" cols="20" placeholder="예? 오늘 날짜와 걸음수가 적힌 만보기 캡쳐 화면 업로드" name="proofContent" id="proofContent"></textarea>
-        <ul>
-        	<li>챌린지가 시작되면 인증 방법을 수정할 수 없습니다. 신중히 작성해주세요</li>
-        	<li>참가자들이 혼란을 겪지 않도록 정확한 기준과 구체적인 인증방법을 적어주세요</li>
-        	<li>유저 챌린지에서 발생한 분쟁에는 챌린저스가 관여하지 않습니다.</li>
-        </ul>
-        
-        
-       	<label for="proofEx">인증샷 예시</label>
-        <input type="file" name="uploadFile" class="uploadFile">
-        <br>
-        
-        <label for="contents">챌린지 소개</label>
-        <textarea rows="5" cols="20" placeholder="예) 매일 1만보 걷고 건강해지기! 오늘부터 같이 해봐요 :)" id="contents" name="contents"></textarea>	
-		<br>
+				<div class="inputfield">
+					<label for="ngoName">기부처<span class="request">*</span></label>
+			        <select name="ngoName">
+			        	<option value="">==기부처 선택==</option>
+			        	<option th:each="ngo : ${ngoes}" th:value="${ngo.ngoId}"
+			                th:text="${ngo.ngoName}"></option>        	
+			        </select>
+				</div>
+				<div class="inputfield">
+					 <label for="startDate">시작일<span class="request">*</span></label>
+	        		<input name="startDate" type="date" onchange="checkStart()" class="input">
+				</div>
+				<div class="inputfield">
+					<label for= "endDate">종료일<span class="request">*</span></label>
+	        		<input name="endDate" type="date" onchange="checkDate()" class="input">
+				</div>
+
+				<div class="inputfield">
+					<label for="proofEx">인증샷 예시<span class="request">*</span></label>
+	        		<input type="file" id ="proofEx" name="uploadFile" class="input">
+				</div>
+								
+				<div class="inputfield">
+					<label for="contents">챌린지 소개<span class="request">*</span></label>
+	        		<textarea rows="5" cols="20" 
+	        		placeholder="예) 매일 1만보 걷고 건강해지기! 오늘부터 같이 해봐요 :)" id="contents"
+	        		 value="contents" name="contents" class="input"></textarea>	
+				</div>
+				
+				<div class="inputfield">
+					 <label for="proofEx">썸네일 첨부<span class="request">*</span></label>
+	        		<input type="file" id ="thumbnail" name="uploadFile" >
+				</div>
+				
+				<input type="hidden" name="paymentId">
+				<input type="hidden" name="paymentMethod">
+				
+				<div class="inputfield">
+					<label>기부금<span class="request">*</span></label>
+					<p>마지막으로 기부금을 결제하시면 등록이 완료 됩니다.
+					<br>
+					<input name="donationFee" id="donationFee" class="input">
+				</div>
+				
+				<div id="btns">
+					<input type="button" value="챌린저스 등록" class="btnbtn" id="insertBtn">&nbsp;&nbsp;
+					<input type="reset" value="취소" class="btnbtn" onClick="history.go(-1)">
+				</div>
+			</form>
+		</div>
 		
-		
-		<label for="proofEx">썸네일 첨부</label>
-        <input type="file" name="uploadFile" class="uploadFile">
-	    <br>  
-		<label>기부금</label>
-		<p>마지막으로 기부금을 결제하시면 등록이 완료 됩니다.
-		<br>
-		<input name="donationFee" id="donationFee">
-		<input type="hidden" name="paymentId">
-		<input type="hidden" name="paymentMethod">
-        <br>
-        	
-		<input type="button" value="챌린저스 등록" class="btn" id="insertBtn">&nbsp;&nbsp;
-		<input type="reset" value="취소" class="btn" onClick="history.go(-1)">
-	</form>
-	
-	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-	
-	<script>
-	//csrf설정
-	 var token = $("meta[name='_csrf']").attr("content");
-	 var header = $("meta[name='_csrf_header']").attr("content");
-	
-		function checkStart(){
-			let today = new Date();
-			let start = new Date($('input[name=startDate]').val());
-			if(start < today){
-				alert('오늘 날짜 이후로 선택해 주세요');
-				$('input[name=startDate]').val("");
-			}
+				<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 			
-		}
-		
-		function checkDate(){
-			let today = new Date();
-			let start = new Date($('input[name=startDate]').val());
-			let end = new Date($('input[name=endDate]').val());
-			if(start>end){
-				alert('종료일은 시작일 보다 이후여야 합니다 ');
-				$('input[name=endDate]').val("");
-			}else if(end<today){
-				alert('오늘 날짜 이후로 선택해 주세요');
-				$('input[name=endDate]').val("");	
-			}
-			
-		}
-		
+		<script type="text/javascript">
+		//csrf설정
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+	
 		//결제 및 post로 값보내기
 		$("#insertBtn").on("click",function(){
 			console.log('확인')
@@ -227,6 +239,75 @@
 			          }
 			      }); 
 		})
-	</script>
-</div>
+	
+		var slider = document.getElementById("teamFee");
+		var output = document.getElementById("value");
+		output.innerHTML = slider.value;	
+		slider.oninput = function() {
+		    output.value = this.value;
+		}
+		output.oninput = function() {
+		    slider.value = this.value;
+		}
+		
+		let betPoint = document.getElementById("betPoint");
+		betPoint.value = Number(output.value)*0.01;
+		
+		function changePoint(money){
+			console.log(money);
+			betPoint.value = Number(money)*0.01;
+		}
+		
+		function checkStart(){
+			let today = new Date();
+			let start = new Date($('input[name=startDate]').val());
+			if(start < today){
+				alert('오늘 날짜 이후로 선택해 주세요');
+				$('input[name=startDate]').val("");
+			}
+			
+		}
+		
+		function checkDate(){
+			let today = new Date();
+			let start = new Date($('input[name=startDate]').val());
+			let end = new Date($('input[name=endDate]').val());
+			if(start>end){
+				alert('종료일은 시작일 보다 이후여야 합니다 ');
+				$('input[name=endDate]').val("");
+			}else if(end<today){
+				alert('오늘 날짜 이후로 선택해 주세요');
+				$('input[name=endDate]').val("");	
+			}
+			
+		}
+		
+		function checkCnt(){
+			let cnt = Number($('input[name=usercnt]').val());
+			if(cnt%2 ==1){
+				alert("짝수로 입력 해 주세요");
+				$('input[name=usercnt]').val("")
+				
+			}
+			
+		}
+		</script>
+
+		<!-- JS -->
+		<th:block layout:fragment="script">
+			<script
+				th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery-ui.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.slicknav.js}"></script>
+			<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/main.js}"></script>
+		</th:block>
+	</div>
+
+</body>
+
 </html>

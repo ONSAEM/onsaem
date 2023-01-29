@@ -3,18 +3,6 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/layout}">
-<meta charset="UTF-8">
-<meta name="description" content="Ogani Template">
-<meta name="keywords" content="Ogani, unica, creative, html">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-
-
-<!-- Google Font -->
-<link
-	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
-	rel="stylesheet">
 
 <!-- Css  -->
 <th:block layout:fragment="css">
@@ -35,227 +23,286 @@
 		type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
 		type="text/css">
+	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
 </th:block>
 
-<div layout:fragment="content">
-<title>챌린저스 팀전 등록</title>
+<head>
+<meta charset="UTF-8">
+<style>
+	.btnbtn{
+		background-color : #5bc1ac;
+		width: 20%;
+		height : 10%;
+		margin: 0 auto;
+		border : none;
+		border-radius : 3px;
+		color : white;
+		padding : 8px, 10px;
+	}
+	#btns{
+		margin : 0, auto;
+	}
+</style>
 </head>
+
 <body>
-	<h3>챌린저스 팀전 등록</h3>
-	<form action="http://localhost/inputTeamChal" method="post" enctype="multipart/form-data" name="inputFrm">
-	<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
-		<p>챌린지를 만들어 주세요!</p>
-		<label for="chalName" id="chalName">챌린지 제목</label><br>
-		<input type="text"  id="chalName" name="chalName">
-		<br>
-		<label>참가 인원</label>
-		<input type="number"  id="usercnt" name="usercnt" placeholder="본인 포함 작수로 입력해주세요" onchange="checkCnt()">
-		
-		<div>
-			<label for="frequency" id="frequency">인증 빈도</label><br>
-            	<input name="frequency" type="radio" value="월화수목금토일">매일
-				<input name="frequency" type="radio" value="월화수목금">평일 매일
-				<input name="frequency" type="radio" value="토일">주말 매일
-				<input name="frequency" type="radio" value="" id="singleDay">요일 선택
-				<select id="frequency">
-					<option value="">==요일선택==</option>
-					<option value="월" >월요일</option>
-					<option value="화">화요일</option>
-					<option value="수">수요일</option>
-					<option value="목">목요일</option>
-					<option value="금">금요일</option>
-					<option value="토">토요일</option>
-					<option value="일">일요일</option>	
-				</select>
-        </div>
-        
-        <div class="slideFee">
-        	<label for="teamFee">기부금</label>
-       	 	<p>챌린지 리더님이 설정하시는 금액은 모든 팀원에게 적용 됩니다!</p>
-        	<p>내기 포인트는 설정하시는 기부금액의 1%으로 설정됩니다!</p>
-        		<input id="value" value=5000 onchange="changePoint(this.value)"></input>
-        		<input name="teamFee" type="range" min=1000 max=50000 value=5000 id="teamFee" onchange="changePoint(this.value)">
-        		<br>
-        		<label>포인트</label><input name="betPoint" type="number" id="betPoint" readonly>
-        </div>
-        <label for="ngoName">기부처</label>
-        <select name="ngoName">
-        	<option value="">==기부처 선택==</option>
-        	<option th:each="ngo : ${ngoes}" th:value="${ngo.ngoId}"
-                th:text="${ngo.ngoName}"></option>        	
-        </select>
-        <br>
-        
-        <label for="startDate">시작일</label>
-        <input name="startDate" type="date" onchange="checkStart()">
-		<label for "endDate">종료일</label>
-        <input name="endDate" type="date" onchange="checkDate()">
-        
-        <br>
-        
-        <label for="proofContents">인증 방법</label>
-        <textarea rows="5" cols="20" placeholder="예? 오늘 날짜와 걸음수가 적힌 만보기 캡쳐 화면 업로드" name="proofContent"></textarea>
-        <ul>
-        	<li>챌린지가 시작되면 인증 방법을 수정할 수 없습니다. 신중히 작성해주세요</li>
-        	<li>참가자들이 혼란을 겪지 않도록 정확한 기준과 구체적인 인증방법을 적어주세요</li>
-        	<li>유저 챌린지에서 발생한 분쟁에는 챌린저스가 관여하지 않습니다.</li>
-        </ul>
-        
-        <label for="proofEx">인증샷 예시</label>
-        <input type="file" id ="proofEx" name="uploadFile" >
-        <br>
-        
-        <label for="contents">챌린지 소개</label>
-        <textarea rows="5" cols="20" placeholder="예) 매일 1만보 걷고 건강해지기! 오늘부터 같이 해봐요 :)" id="contents" value="contents" name="contents"></textarea>	
-		<br>
-		 <label for="proofEx">썸네일 첨부</label>
-        <input type="file" id ="thumbnail" name="uploadFile" >
-        <br>
-        <input type="hidden" name="paymentId">
-		<input type="hidden" name="paymentMethod">
-		
-		<input type="button" id="paymentBtn" value="등록하기" class="btn">
-		<input type="reset" value="취소" class="btn" onClick="history.go(-1)">
-	</form>
-	
-	<!-- 결제 api -->
-	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-<script>
-//csrf설정
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
+	<div layout:fragment="content">
 
-	$("#paymentBtn").on("click",function() {
-	    console.log('확인')
-	    let value = $('#value').val();
-	    let userId = '[[${user.memberId}]]';
-	    let userName = '[[${user.name}]]';
-	    let userEmail =  '[[${user.email}]]';
-	    let userAddr ='[[${user.addr}]]';
-	    let userpostalCode ='[[${user.postalCode}]]';
-	    let userTel = '[[${user.phone}]]'; 
-	  
-	    
-	    console.log(userId);
-	    
-	    console.log(value);
-	    IMP.init('imp54500213');
-		      IMP.request_pay({
-		          pg : 'html5_inicis',
-		          pay_method : 'card',
-		          merchant_uid: 'OS_' + new Date().getTime(), // 상점에서 관리하는 주문 번호
-		          name : userName,
-		          amount : value, // 테스트라서 10원만 결제 ^^;
-		          buyer_email : userEmail, // 구매자 이메일
-		          buyer_name : userName, // 구매자 이름
-		          buyer_tel : userTel, // 구매자 연락처
-		          buyer_addr : userAddr, // 구매자 주소
-		          buyer_postcode : userpostalCode // 구매자 우편번호
-		      }, function(rsp) {
-		          if ( rsp.success ) {
-			             //성공시
-			             let paymentId = rsp.imp_uid;
-			             let paymentMethod = rsp.pay_method;
-			             $('input[name=paymentId]').val(paymentId); 
-			             $('input[name=paymentMethod]').val(paymentMethod); 
-			             
-			             var formData = new FormData(document.inputFrm);
-			             //성공시 등록 버튼 띄우깅!
-			             $.ajax({
-				               url: '/inputTeamChal',
-				               enctype: 'multipart/form-data',
-				               method: 'POST',
-				               processData: false,
-							   contentType: false,
-				               beforeSend : function(xhr)
-					               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-					              	 xhr.setRequestHeader(header, token);
+		<!-- Breadcrumb Section Begin -->
+		<section class="breadcrumb-section set-bg"
+			th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 text-center">
+						<div class="breadcrumb__text">
+							<h2>Challengers</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Breadcrumb Section End -->
+		<br>
+		<div class="wrapper">
+			<div class="title">챌린저스 팀전 등록</div>
+			<form action="http://localhost/inputTeamChal" method="post" enctype="multipart/form-data" name="inputFrm" class="form">
+				<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
+				<p>챌린지를 만들어 주세요!</p>
+				<div class="inputfield">
+					<label for="chalName" id="chalName">챌린지 제목<span class="request">*</span></label>
+					<input type="text"  id="chalName" name="chalName" class="input">
+				</div>
+				<div class="inputfield">
+					<label>참가 인원</label>
+					<input type="number"  id="usercnt" name="usercnt" class="input" 
+						placeholder="본인 포함 짝수로 입력해주세요" onchange="checkCnt()">
+				</div>
+				<div class="inputfield">
+					<label for="frequency" id="frequency">인증 빈도</label><br>
+	            	<input name="frequency" type="radio" value="월화수목금토일">매일
+					<input name="frequency" type="radio" value="월화수목금">평일 매일
+					<input name="frequency" type="radio" value="토일">주말 매일
+					<input name="frequency" type="radio" value="" id="singleDay">요일 선택
+					<select id="frequency">
+						<option value="">==요일선택==</option>
+						<option value="월" >월요일</option>
+						<option value="화">화요일</option>
+						<option value="수">수요일</option>
+						<option value="목">목요일</option>
+						<option value="금">금요일</option>
+						<option value="토">토요일</option>
+						<option value="일">일요일</option>	
+					</select>
+				</div>
+				<div class="inputfield">
+					<div class="slideFee">
+		        	<label for="teamFee">기부금</label>
+		       	 	<p>챌린지 리더님이 설정하시는 금액은 모든 팀원에게 적용 됩니다!</p>
+		        	<p>내기 포인트는 설정하시는 기부금액의 1%으로 설정됩니다!</p>
+		        		<input id="value" value=5000 onchange="changePoint(this.value)" class="input"></input>
+		        		<input name="teamFee" type="range" min=1000 max=50000 value=5000
+		        			 id="teamFee" class="input" onchange="changePoint(this.value)">
+		        		<br>
+		        		<label>포인트</label><input name="betPoint" type="number" id="betPoint"  class="input" readonly>
+		       		 </div>
+				</div>
+				<div class="inputfield">
+					<label for="ngoName">기부처</label>
+			        <select name="ngoName">
+			        	<option value="">==기부처 선택==</option>
+			        	<option th:each="ngo : ${ngoes}" th:value="${ngo.ngoId}"
+			                th:text="${ngo.ngoName}"></option>        	
+			        </select>
+				</div>
+				<div class="inputfield">
+					 <label for="startDate">시작일</label>
+	        		<input name="startDate" type="date" onchange="checkStart()" class="input">
+				</div>
+				<div class="inputfield">
+					<label for= "endDate">종료일</label>
+	        		<input name="endDate" type="date" onchange="checkDate()" class="input">
+				</div>
+
+				<div class="inputfield">
+					<label for="proofEx">인증샷 예시</label>
+	        		<input type="file" id ="proofEx" name="uploadFile" class="input">
+				</div>
+								
+				<div class="inputfield">
+					<label for="contents">챌린지 소개</label>
+	        		<textarea rows="5" cols="20" 
+	        		placeholder="예) 매일 1만보 걷고 건강해지기! 오늘부터 같이 해봐요 :)" id="contents"
+	        		 value="contents" name="contents" class="input"></textarea>	
+				</div>
+				
+				<div class="inputfield">
+					 <label for="proofEx">썸네일 첨부</label>
+	        		<input type="file" id ="thumbnail" name="uploadFile" >
+				</div>
+				
+				<input type="hidden" name="paymentId">
+				<input type="hidden" name="paymentMethod">
+				<div id="btns">
+					<input type="button" id="paymentBtn" value="등록하기" class="btnbtn">
+					<input type="reset" value="취소" class="btnbtn" onClick="history.go(-1)">
+				</div>
+			</form>
+		</div>
+			<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+		
+		<script type="text/javascript">
+		//csrf설정
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+	
+		$("#paymentBtn").on("click",function() {
+		    console.log('확인')
+		    let value = $('#value').val();
+		    let userId = '[[${user.memberId}]]';
+		    let userName = '[[${user.name}]]';
+		    let userEmail =  '[[${user.email}]]';
+		    let userAddr ='[[${user.addr}]]';
+		    let userpostalCode ='[[${user.postalCode}]]';
+		    let userTel = '[[${user.phone}]]'; 
+		  
+		    
+		    console.log(userId);
+		    
+		    console.log(value);
+		    IMP.init('imp54500213');
+			      IMP.request_pay({
+			          pg : 'html5_inicis',
+			          pay_method : 'card',
+			          merchant_uid: 'OS_' + new Date().getTime(), // 상점에서 관리하는 주문 번호
+			          name : userName,
+			          amount : value, // 테스트라서 10원만 결제 ^^;
+			          buyer_email : userEmail, // 구매자 이메일
+			          buyer_name : userName, // 구매자 이름
+			          buyer_tel : userTel, // 구매자 연락처
+			          buyer_addr : userAddr, // 구매자 주소
+			          buyer_postcode : userpostalCode // 구매자 우편번호
+			      }, function(rsp) {
+			          if ( rsp.success ) {
+				             //성공시
+				             let paymentId = rsp.imp_uid;
+				             let paymentMethod = rsp.pay_method;
+				             $('input[name=paymentId]').val(paymentId); 
+				             $('input[name=paymentMethod]').val(paymentMethod); 
+				             
+				             var formData = new FormData(document.inputFrm);
+				             //성공시 등록 버튼 띄우깅!
+				             $.ajax({
+					               url: '/inputTeamChal',
+					               enctype: 'multipart/form-data',
+					               method: 'POST',
+					               processData: false,
+								   contentType: false,
+					               beforeSend : function(xhr)
+						               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+						              	 xhr.setRequestHeader(header, token);
+						               },
+					               data: formData,
+					               dataType:'json',
+					               success: function (result) {
+					                // 결제금액이 일치한지, 다른 정보 체크하고 일치하면 DB에 저장하고 데이터를 리턴
+					                   if (result) {
+					                      // data가 있으면 제대로 처리된것
+					                      // 이후 다른 페이지로 넘어갈 컨트롤과 데이어 작성
+					                      var msg = '결제 및 등록이 완료되었습니다.';
+					                      msg += '\n고유ID : ' + rsp.imp_uid;
+					                      msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+					                      msg += '\결제 금액 : ' + rsp.paid_amount;
+					                      msg += '카드 승인번호 : ' + rsp.apply_num;
+					                      alert(msg);
+					                      location.href="/chalList";
+					                   } else {
+					                      //[3] 아직 제대로 결제가 되지 않았습니다.
+					                      //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+					                      // 위에 같은 이유로 알림 띄우기
+					                   }
 					               },
-				               data: formData,
-				               dataType:'json',
-				               success: function (result) {
-				                // 결제금액이 일치한지, 다른 정보 체크하고 일치하면 DB에 저장하고 데이터를 리턴
-				                   if (result) {
-				                      // data가 있으면 제대로 처리된것
-				                      // 이후 다른 페이지로 넘어갈 컨트롤과 데이어 작성
-				                      var msg = '결제 및 등록이 완료되었습니다.';
-				                      msg += '\n고유ID : ' + rsp.imp_uid;
-				                      msg += '\n상점 거래ID : ' + rsp.merchant_uid;
-				                      msg += '\결제 금액 : ' + rsp.paid_amount;
-				                      msg += '카드 승인번호 : ' + rsp.apply_num;
-				                      alert(msg);
-				                      location.href="/chalList";
-				                   } else {
-				                      //[3] 아직 제대로 결제가 되지 않았습니다.
-				                      //[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
-				                      // 위에 같은 이유로 알림 띄우기
-				                   }
-				               },
-				               error: function (error) {
-				                  console.log(error);
-				                  alert('실패');
-				               }
-				          });
-			         } else {
-			              var msg = '결제에 실패하였습니다.';
-			              msg += '에러내용 : ' + rsp.error_msg;
-			              
-			              alert(msg);
-			          }
-			      }); 
-});
-
-	var slider = document.getElementById("teamFee");
-	var output = document.getElementById("value");
-	output.innerHTML = slider.value;	
-	slider.oninput = function() {
-	    output.value = this.value;
-	}
-	output.oninput = function() {
-	    slider.value = this.value;
-	}
+					               error: function (error) {
+					                  console.log(error);
+					                  alert('실패');
+					               }
+					          });
+				         } else {
+				              var msg = '결제에 실패하였습니다.';
+				              msg += '에러내용 : ' + rsp.error_msg;
+				              
+				              alert(msg);
+				          }
+				      }); 
+	});
 	
-	let betPoint = document.getElementById("betPoint");
-	betPoint.value = Number(output.value)*0.01;
-	
-	function changePoint(money){
-		console.log(money);
-		betPoint.value = Number(money)*0.01;
-	}
-	
-	function checkStart(){
-		let today = new Date();
-		let start = new Date($('input[name=startDate]').val());
-		if(start < today){
-			alert('오늘 날짜 이후로 선택해 주세요');
-			$('input[name=startDate]').val("");
+		var slider = document.getElementById("teamFee");
+		var output = document.getElementById("value");
+		output.innerHTML = slider.value;	
+		slider.oninput = function() {
+		    output.value = this.value;
+		}
+		output.oninput = function() {
+		    slider.value = this.value;
 		}
 		
-	}
-	
-	function checkDate(){
-		let today = new Date();
-		let start = new Date($('input[name=startDate]').val());
-		let end = new Date($('input[name=endDate]').val());
-		if(start>end){
-			alert('종료일은 시작일 보다 이후여야 합니다 ');
-			$('input[name=endDate]').val("");
-		}else if(end<today){
-			alert('오늘 날짜 이후로 선택해 주세요');
-			$('input[name=endDate]').val("");	
+		let betPoint = document.getElementById("betPoint");
+		betPoint.value = Number(output.value)*0.01;
+		
+		function changePoint(money){
+			console.log(money);
+			betPoint.value = Number(money)*0.01;
 		}
 		
-	}
-	
-	function checkCnt(){
-		let cnt = Number($('input[name=usercnt]').val());
-		if(cnt%2 ==1){
-			alert("짝수로 입력 해 주세요");
-			$('input[name=usercnt]').val("")
+		function checkStart(){
+			let today = new Date();
+			let start = new Date($('input[name=startDate]').val());
+			if(start < today){
+				alert('오늘 날짜 이후로 선택해 주세요');
+				$('input[name=startDate]').val("");
+			}
 			
 		}
 		
-	}
-</script>
-</div>
+		function checkDate(){
+			let today = new Date();
+			let start = new Date($('input[name=startDate]').val());
+			let end = new Date($('input[name=endDate]').val());
+			if(start>end){
+				alert('종료일은 시작일 보다 이후여야 합니다 ');
+				$('input[name=endDate]').val("");
+			}else if(end<today){
+				alert('오늘 날짜 이후로 선택해 주세요');
+				$('input[name=endDate]').val("");	
+			}
+			
+		}
+		
+		function checkCnt(){
+			let cnt = Number($('input[name=usercnt]').val());
+			if(cnt%2 ==1){
+				alert("짝수로 입력 해 주세요");
+				$('input[name=usercnt]').val("")
+				
+			}
+			
+		}
+		</script>
+
+		<!-- JS -->
+		<th:block layout:fragment="script">
+			<script
+				th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery-ui.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.slicknav.js}"></script>
+			<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/main.js}"></script>
+		</th:block>
+	</div>
+
+</body>
+
 </html>
