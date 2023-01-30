@@ -6,33 +6,62 @@
 <!-- sss -->
 <!-- index.html 고유 CSS 추가 -->
 <head>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style type="text/css">
-	 .modal-custom{display:none; position:fixed; z-index:1; padding-top:100px; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgb(0,0,0); background-color:rgba(0,0,0,0.4); /* Black w/ opacity */
-	}
-	 .modal-content{position:relative; background-color:#fefefe; margin:auto; padding:0; border:1px solid #888; width:800px; box-shadow:0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19); -webkit-animation-name:animatetop; -webkit-animation-duration:0.4s; animation-name:animatetop; animation-duration:0.4s}
-	 @-webkit-keyframes animatetop{
-	     from{top:-300px; opacity:0}
-	     to{top:0; opacity:1}
-	}
-	@keyframes animatetop{
-	    from{top:-300px; opacity:0}
-	    to{top:0; opacity:1}
-	}
-	.close-modal{color:white; float:right; font-size:28px; font-weight:bold; }
-	.close-modal:hover,.close-modal:focus{color:#000; text-decoration:none; cursor:pointer; }
-	.modal-header{padding:2px 16px; margin: 0, auto;}
-	.modal-body{padding:2px 16px; width: 800px;}
-	.modal-footer{padding:2px 16px; }
-	button {
-   all: unset;
-   background-color: pink;
-   color: white;
-   padding: 5px 25px;
-   border-radius: 10px;
-   cursor: pointer;
-   margin : 1px;
-}
-	
+		button {
+		   cursor: pointer;
+		}
+		
+		.btn {
+		   margin-top: 60px;
+		}
+		
+		.modal {
+		   display: flex;
+		   justify-content: center;
+		   align-items: center;
+		   position: fixed;
+		   top: 0;
+		   left: 0;
+		   width: 100%;
+		   height: 100%;
+		}
+		
+		.modal__background {
+		   background-color: rgba(0, 0, 0, 0.6);
+		   width: 100%;
+		   height: 100%;
+		   position: absolute;
+		}
+		
+		.modal__content {
+		   text-align: center;
+		   position: relative;
+		   background-color: white;
+		   border-radius: 10px;
+		   top: 0;
+		   padding: 10px 25px;
+		   width: 20%;
+		}
+		
+		h1 {
+		   margin: 0;
+		   margin-bottom: 13px;
+		}
+		
+		.hidden {
+		   display: none;
+		}
+		.modal-custom-button{
+			background-color : #FADBDF;
+			border : none;
+			margin : 5px;
+			width : 120px;
+			height : 40px;
+			border-radius : 10px
+		}
+		
+
 
 </style>
 </head>
@@ -181,17 +210,17 @@
                         <p class="box-content-header" th:text="${chal.chalName}">Web
                            Designing</p>
                         <p class="box-content-subheader" th:text="${chal.subClass}+'전'">Prototyping</p>
-                        <input type="hidden" th:name="chalId" th:value="${chal.chalId}">
-                        <input type="hidden" th:name="subClass" th:value="${chal.subClass}" id="subClass">
                      </div>
                      <p
                         th:text="${#dates.format(chal.startDate, 'MM월 dd일')} + ' ~ ' + ${#dates.format(chal.endDate, 'MM월 dd일')}"></p>
                      <div class="project-box-footer">
                         <div class="participants">
-							<button th:if="${chal.receipt} !=null" class="modal-custom-button" href="#myModal1" th:value="${chal.chalId}" name="영수증">기부영수증 ⭕</button>
-							<button th:if="${chal.receipt} == null" class="modal-custom-button" href="#myModal1" th:value="${chal.chalId}" name="영수증">기부영수증 ❌</button>
-							<button th:if="${chal.resultPoint} !=null" class="modal-custom-button" href="#myModal2" name="포인트">포인트 확인</button>
-							<button th:if="${chal.resultPoint} ==null" class="modal-custom-button" name="포인트">포인트 미정산</button>
+                        	<input type="hidden" th:name="chalId" th:value="${chal.chalId}">
+                       		<input type="hidden" th:name="subClass" th:value="${chal.subClass}" id="subClass">
+							<button th:if="${chal.receipt} !=null" class="modal-custom-button" th:value="${chal.chalId}" name="영수증" th:onclick="displayModal(this)">기부영수증 ⭕</button>
+							<button th:if="${chal.receipt} == null" class="modal-custom-button" th:value="${chal.chalId}" name="영수증">기부영수증 ❌</button>
+							<button th:if="${chal.resultPoint} !=null" class="modal-custom-button" name="포인트" >포인트 확인</button>
+							<button th:if="${chal.resultPoint} ==null" class="modal-custom-button" name="포인트" th:onclick="displayModal(this)">포인트 미정산</button>
                         </div>
                      </div>
 
@@ -199,66 +228,52 @@
 
                   <!-- 모달창 -->
 
-						<!-- Trigger/Open The Modal -->
-						
-						<!-- The Modal -->
-						<div id="myModal1" class="modal-custom">
-						
-						    <!-- Modal content -->
-						    <div class="modal-content">
-						        <div class="modal-header">
-						            <span class="close-modal">×</span>
-						            <h5>기부 영수증</h5>
-						        </div>
-						        <div class="modal-body">
-						            <p></p>
-						            <img id="receipt">
-						        </div>
-						        <div class="modal-footer">
-						        <h5>기부에 참여해 주셔서 감사합니다!</h5>
-						        </div>
-						    </div>
-						
-						</div>
-						
+						<!--모달창  --> 
+						<div class="modal hidden">
+							<div class="modal__background"></div>
+							
+								<div id="receiptFrm" class="modal__content">
+										<h5>기부 영수증</h5>
+										<img id="receipt">
+										<button type="button" class="closeBtn" id="closeModals">닫기</button>
+								</div>
+								<div id ="point" class="modal__content">
+									<h4>포인트정산</h4>
+									<input type="hidden" id="groupId" name="groupId">
+					
+									<!-- 본인 기부금 띄우기  -->
+									<div style="float: left; width: 50%; padding:1px; "><p>기부금</p></div><div style="float: left; width: 50%; padding:1px;"><p id="privateDonate"/></div>
+									
+									<!-- 차트 -->
+									<div style="width:100%;">
+										<canvas id="oneChart"></canvas>
+									</div>
+					
+									<!-- 정산 포인트 띄우기 --> 
+									<div style="float: left; width: 50%; padding:1px; "><p>포인트</p></div><div style="float: left; width: 50%; padding:1px;"><p id="privatePoint"/></div>
+									
+									<button type="button" class="closeBtn" id="closeModals">닫기</button>
+								</div>
+								
+								<div id ="teamPoint" class="modal__content">
+									<h5>포인트정산</h5>
+									<input type="hidden" id="groupId" name="groupId">
+									<input type="hidden" id="pp">
+									<div style="float: left; width: 50%; padding:1px; "><p>총 기부금</p></div><div style="float: left; width: 50%; padding:1px;"><p id="donationFee"/></div>
+									<div style="float: left; width: 50%; padding:1px;"><p>총 내기 포인트</p></div><div style="float: left; width: 50%; padding:1px;"><p id="sumBetPoint"/></div>
 
-						<!-- The Modal -->
-						<div id="myModal2" class="modal-custom">
-						
-						    <!-- Modal content -->
-						    <div class="modal-content">
-						        <div class="modal-header">
-						            <span class="close-modal">×</span>
-						            <h2>포인트 정산 내역</h2>
-						        </div>
-						        <div class="modal-body">
-						        	<div id="private">
-							            <span><p>챌린지 명 :</p><p>이름</p></span>
-							            <span><p>참가 아이디 :</p><p>이름</p></span>
-							            <span><p>팀전/개인전 :</p><p>개인전</p></span>
-							            <span><p>기부금 :</p><p>결과</p></span>
-							            <span><p>달성률 :</p><p>결과</p></span>
-							            <span><p>결과 :</p><p>결과</p></span>						            
-							            <span><p>정산 포인트 :</p><p>결과</p></span>
-						            </div>
-						            <div id="team">
-							            <span><p>챌린지 명 :</p><p>이름</p></span>
-							            <span><p>참가 아이디 :</p><p>이름</p></span>
-							            <span><p>팀전/개인전 :</p><p>팀전</p></span>
-							            <span><p>기부금 :</p><p>결과</p></span>
-							            <span><p>우리팀 달성률 :</p><p>결과</p><p>상대팀 달성률 :</p><p>결과</p></span>
-							            <span><p>결과 :</p><p>결과</p></span>						            
-							            <span><p>정산 포인트 :</p><p>결과</p></span>
-						            </div>
-						        </div>
-						        <div class="modal-footer">
-						            <h3>Modal Footer</h3>
-						        </div>
-						    </div>
+									<div style="float: right; width: 50%; padding:10px;">
+							            <canvas id="Achart"></canvas>
+							        </div>
+							        <div style="float: right; width: 50%; padding:10px;">
+							            <canvas id="Bchart"></canvas>
+							         </div>
+									<button type="button" onclick="teamPointInput()">정산</button>
+									<button type="button" class="closeBtn" id="closeModals">닫기</button>
+								</div>
+							
 						</div>
-						
-						
-						
+						<!--모달창 끝  -->
 						
 				   <!-- 끝 -->
                </div>
@@ -319,81 +334,116 @@
       
 
       //모달창 생성
-		var btn = document.querySelectorAll("button.modal-custom-button");
-		var modals = document.querySelectorAll('.modal-custom');
-		var spans = document.getElementsByClassName("close-modal");
-		
-		for (var i = 0; i < btn.length; i++) {
-		    btn[i].onclick = function (e) {
-		    	console.log(e.target.parentNode.parentNode.parentNode.querySelector('#subClass').value);
-		        e.preventDefault();
-		        modal = document.querySelector(e.target.getAttribute("href"));
-		        modal.style.display = "block";
-		        //console.log(e.target.name);
-		        let name = e.target.name;
-		        let groupId = e.target.value;
-		        let subClassVal = e.target.parentNode.parentNode.parentNode.querySelector('#subClass').value;
-		       
-		        if(name == '영수증'){
-		        	console.log("영수증");
-		        	//영수증 불러오기 이미지파일,,
-		        	$.ajax({
-		        		url:'/mypage/seeRecepit',
-		        		method : 'POST',
-		        		  beforeSend : function(xhr)
-		                  {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-		                  xhr.setRequestHeader(header, token);
-		                  },
-		        		data : {groupId, groupId},
-		        		success : function(result){
-		        			console.log(result);
-		        			let imgsrc = result.fileRoute;
-		        			$('#receipt').attr("src", '/fileView/'+imgsrc);
-		        		},
-		        		error : function(error){
-		        			console.log(error);
-		        		}
-		        		
-		        	})
-		        }else if(name=='포인트' && subClassVal =='팀'){
-		        	console.log("포인트");
-		        	//포인트랑,,,참가율 계산위해,,뭔갈 불러와야한다..
-		        	$.ajax({
-		        		url:'/mypage/checkPoint',
-		        		method : 'POST',
-		        		  beforeSend : function(xhr)
-		                  {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-		                  xhr.setRequestHeader(header, token);
-		                  },
-		        		data : {groupId, groupId},
-		        		success : function(result){
-		        			console.log(result);
-		        		},
-		        		error : function(error){
-		        			console.log(error);
-		        		}
-		        })   
-		        }// end of else
-		    
-		    spans[i].onclick = function () {
-		        for (var index in modals) {
-		            if (typeof modals[index].style !== 'undefined') modals[index].style.display = "none";
-		        }
-		    }
-		}
-		
-		// When the user clicks anywhere outside of the modal, close it
-		window.onclick = function (event) {
-		    if (event.target.classList.contains('modal-custom')) {
-		        for (var index in modals) {
-		            if (typeof modals[index].style !== 'undefined') modals[index].style.display = "none";
-		        }
-		    }
+		//모달창 생성
+		document.querySelectorAll(".openBtn").forEach((openBtn) => {
+			console.log(openBtn);
+			openBtn.addEventListener("click", displayModal);
+			
+		})
+		const modal = document.querySelector(".modal");
+		const closeButton = modal.querySelector(".closeBtn");
+		const modalBackground = modal.querySelector(".modal__background");
+
+		function displayModal(data) {
+			
+			console.log(data);
+			let name = data.name;
+			let groupId = data.value;
+			 //let subClassVal = $(data).closest("tr").find('#teamChalId').text();
+			 let subClassVal = $(data).closest("div.participants").find("input[name='subClass']").val()
+			 
+			if(name == '영수증'){
+				//영수증 불러오기 이미지파일,,
+	        	$.ajax({
+	        		url:'/mypage/seeRecepit',
+	        		method : 'POST',
+	        		  beforeSend : function(xhr)
+	                  {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	                  xhr.setRequestHeader(header, token);
+	                  },
+	        		data : {groupId, groupId},
+	        		success : function(result){
+	        			//console.log(result);
+	        			let imgsrc = result.fileRoute;
+	        			$('#receipt').attr("src", '/fileView/'+imgsrc);
+	        			
+	        		},
+	        		error : function(error){
+	        			console.log(error);
+	        		}
+	        	})
+	        	$('#receiptFrm').show();
+    			$("#point").hide();
+				$("#teamPoint").hide();
+				modal.classList.toggle("hidden");
+			}else if(name =='포인트' && subClassVal=='개인'){
+				//개인전  포인트 가져오기
+				$.ajax({
+					url : '/mypage/checkPoint',
+	  				method :'POST',
+	  				data : {chalId : groupId},
+	  				beforeSend : function(xhr)
+		                {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+		                xhr.setRequestHeader(header, token);
+		                },
+	  				success:function(result){
+	  					console.log(result);
+	  					//받아온 데이터를 필요한 곳에 넣기
+	  					
+	  					//차트 렛츠고//
+		               	 let oneList = new Array();
+	  					
+		        		/* oneList.push();
+		        		oneList.push(100-pp); */
+		               var thedata = {
+		                        labels: ['달성률'],
+		                        datasets: [{
+		                              backgroundColor: ['#b4a7d6','#eae5e1'],
+		                              data : oneList,
+	 					 borderColor: "rgba(255, 201, 14, 1)",
+	            		backgroundColor: "rgba(255, 201, 14, 0.5)",
+	            		fill: false,
+		                        }],
+		                        options : {
+		                              title : {
+		                              display : true,
+		                              text: "나의 달성률"
+		                              }
+		                        }
+		                  }
+		              
+		               var ctx3 = document.getElementById('oneChart').getContext('2d');
+		                 new Chart(ctx3, {
+		                           type: 'horizontalBar',
+		                         data: thedata
+		                 });
+	  					
+	  				},
+	  				error : function(error){
+	  					console.log(error);
+	  				}
+				})
+				$('#receiptFrm').hide();
+    			$("#point").show();
+				$("#teamPoint").hide();
+				modal.classList.toggle("hidden");
+			}else if(name =='포인트' && subClassVal=='팀'){
+				//팀 포인트 가져오기 ㅎㅎ 
+				
+				$('#receiptFrm').hide();
+    			$("#point").hide();
+				$("#teamPoint").show();
+				modal.classList.toggle("hidden");
+			}
+			
 		}
 
-      //=----모달창관련 스크립트 끝
+		
+		closeButton.addEventListener("click", displayModal)
+		modalBackground.addEventListener("click", displayModal);
+		//=----모달창관련 스크립트 끝
       
-		}
+		
    </script>
 </div>
 </html>
