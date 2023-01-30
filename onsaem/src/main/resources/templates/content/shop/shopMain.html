@@ -301,9 +301,10 @@
 								for(let i=0;i<result.length;i++){
 									let list=`<div class="col-lg-4">
 									<div class="product__discount__item">
-										<div class="product__discount__item__pic set-bg"											
-											th:data-setbg="@{/fileView/{fileRoute}/
-												(fileRoute=`+result[i].fileRoute+`)}">											
+									<div class="product__discount__item__pic"											
+										style="background-image:url('/fileView/${result[i].fileRoute}');  width: 300px;
+											  height: 150px;
+									  object-fit: cover; ">												
 											<ul class="product__item__pic__hover">											
 												<li><a href="#"><i class="fa fa-heart"></i></a></li>												
 												<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
@@ -318,7 +319,8 @@
 										</div>
 									</div>
 								</div>`;
-								$("#bestList").html($("#bestList").html()+list)
+								$("#bestList").append(list)
+							   
 								}
 							},
 							error : function(error) {

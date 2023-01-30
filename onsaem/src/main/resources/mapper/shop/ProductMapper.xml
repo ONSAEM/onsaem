@@ -190,7 +190,7 @@
 		AND M.SUB_GROUP = '대표이미지'
 		ORDER BY P.STAR DESC
 		 <![CDATA[
-				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
+				)A WHERE ROWNUM <= #{vo.last} ) WHERE RN >= #{vo.first}
 			]]>
 	</select>
 
