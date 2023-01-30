@@ -12,6 +12,7 @@ import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.shop.mapper.ProductMapper;
 import com.onsaem.web.shop.service.OptionVO;
+import com.onsaem.web.shop.service.OrderVO;
 import com.onsaem.web.shop.service.ProductService;
 import com.onsaem.web.shop.service.ProductVO;
 
@@ -30,10 +31,13 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<ProductVO> popList() {
+	public List<ProductVO> popList(ProductVO vo,Paging paging) {
 		// 상품전체조회(인기순)
-		
-		return proMapper.popList();
+		paging.setTotalRecord(proMapper.popCount(vo));
+		paging.setPageUnit(9);
+		vo.setFirst(paging.getFirst());
+		vo.setLast(paging.getLast());
+		return proMapper.popList(vo);
 	}
 
 	@Override
@@ -77,9 +81,13 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<ProductVO> searchProduct(String data) {
+	public List<ProductVO> searchProduct(String data,Paging paging,ProductVO vo) {
 		// 검색목록
-		return proMapper.searchProduct(data);
+		paging.setTotalRecord(proMapper.searchCount(data));
+		paging.setPageUnit(9);
+		vo.setFirst(paging.getFirst());
+		vo.setLast(paging.getLast());
+		return proMapper.searchProduct(data,vo);
 	}
 
 	@Override
@@ -182,6 +190,18 @@ public class ProductServiceImpl implements ProductService{
 	public int updateStar(ReviewVO vo) {
 		// 리뷰 별점 업데이트
 		return proMapper.updateStar(vo);
+	}
+
+	@Override
+	public List<ProductVO> approProduct() {
+		// 승인대기품목
+		return proMapper.approProduct();
+	}
+
+	@Override
+	public List<OrderVO> compareReview(OrderVO vo) {
+		// 리뷰 작성가능여부
+		return proMapper.compareReview(vo);
 	}
 
 	

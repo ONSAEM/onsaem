@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.shop.service.CartService;
 import com.onsaem.web.shop.service.CartVO;
 import com.onsaem.web.shop.service.OptionVO;
+import com.onsaem.web.shop.service.OrderVO;
 import com.onsaem.web.shop.service.ProductService;
 import com.onsaem.web.shop.service.ProductVO;
 
@@ -33,8 +35,7 @@ import groovyjarjarantlr4.v4.runtime.misc.Nullable;
 
 /**
  * 
- * @author 이재원
- * 상품관리
+ * @author 이재원 상품관리
  *
  */
 @Controller
@@ -50,42 +51,61 @@ public class ProductController {
 	CartVO cartVo = new CartVO();
 	LikeVO likeVo = new LikeVO();
 	ProductVO proVo = new ProductVO();
-	
-	//주간베스트 데이터 가져오기
+
+	// 뷰테스트
+	@RequestMapping(value = "/shop/test", method = RequestMethod.GET)
+	public String vueTest(Model model) {
+		proService.approProduct(); // 승인대기품목(아직안뿌려줌)
+		return "content/shop/test";
+	}
+
+	// 리뷰작성가능여부
+	@RequestMapping(value = "/shop/compareReview", method = RequestMethod.POST)
+	@ResponseBody
+	public String compareReview(Authentication authentication,OrderVO vo) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		vo.setMemberId(userDetails.getUsername());		
+		if((proService.compareReview(vo)).isEmpty() ) {
+			return "불가능";
+		}else {
+			return "가능";
+		}		
+	}
+
+	// 주간베스트 데이터 가져오기
 	@RequestMapping(value = "/shop/weekBestProduct", method = RequestMethod.POST)
 	@ResponseBody
-	public List<ProductVO> weekBestProduct(@RequestBody List<ProductVO>  vo) {		
-		List<String> list=new ArrayList<String>();
-		
-		for(int i =0;i<vo.size();i++) {
+	public List<ProductVO> weekBestProduct(@RequestBody List<ProductVO> vo) {
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < vo.size(); i++) {
 			list.add(vo.get(i).getProductId());
-		}				
-		return proService.selectProduct(list); 
+		}
+		return proService.selectProduct(list);
 	}
-	
-	//주간베스트
+
+	// 주간베스트
 	@RequestMapping(value = "/shop/weekBest", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ProductVO> weekBest() {				
+	public List<ProductVO> weekBest() {
 		return proService.weekBest();
-	}	
+	}
 
 	// 쇼핑몰페이지이동,최신순,인기순 목록나열
 	@RequestMapping(value = "/shop", method = RequestMethod.GET)
 	public String shopMain(Model model, @RequestParam(value = "data", required = false) String data, CartVO cartVo,
-			Authentication authentication,Paging paging,ProductVO vo) {
+			Authentication authentication, Paging paging, ProductVO vo) {
 		if (authentication != null) {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 			cartVo.setMemberId(userDetails.getUsername());
 			likeVo.setMemberId(userDetails.getUsername());
 			model.addAttribute("cartList", cartService.cartList(cartVo)); // 장바구니 수량가져오기 위한 리스트
-			model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트			
+			model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
 		}
-		model.addAttribute("categoryList", proService.categoryList()); //카테고리 리스트
+		model.addAttribute("categoryList", proService.categoryList()); // 카테고리 리스트
 		if (data != null && data.equals("popularity")) {
-			model.addAttribute("productList", proService.popList());
+			model.addAttribute("productList", proService.popList(vo, paging));
 		} else {
-			model.addAttribute("productList", proService.proList(vo,paging));	
+			model.addAttribute("productList", proService.proList(vo, paging));
 			model.addAttribute("paging", paging);
 		}
 		return "content/shop/shopMain";
@@ -97,8 +117,8 @@ public class ProductController {
 		model.addAttribute("productList", proService.selectPro(data));// 상품데이터가져오기
 		model.addAttribute("imgList", proService.addImg(data));// 추가이미지가져오기
 		model.addAttribute("natureImg", proService.natureImg(data));// 친환경이미지가져오기
-		model.addAttribute("reviewList", proService.reviewList(data));// 상품리뷰리스트가져오기			
-		model.addAttribute("optionList", proService.optionList(data));// 옵션가져오기										
+		model.addAttribute("reviewList", proService.reviewList(data));// 상품리뷰리스트가져오기
+		model.addAttribute("optionList", proService.optionList(data));// 옵션가져오기
 		return "content/shop/shopDetail";
 	}
 
@@ -111,16 +131,16 @@ public class ProductController {
 	// 카테고리별 목록리스트
 	@RequestMapping(value = "/category", method = RequestMethod.GET)
 	public String shopCategory(Model model, @RequestParam(value = "data", required = false) String data,
-			Authentication authentication,Paging paging,ProductVO vo) {
-		if(authentication!=null) {
+			Authentication authentication, Paging paging, ProductVO vo) {
+		if (authentication != null) {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 			cartVo.setMemberId(userDetails.getUsername());
 			likeVo.setMemberId(userDetails.getUsername());
 			model.addAttribute("cartList", cartService.cartList(cartVo)); // 장바구니 수량가져오기 위한 리스트
 			model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
-		}		
-		model.addAttribute("productList", proService.proCategory(data,paging,vo));		
-		model.addAttribute("categoryList", proService.categoryList()); //카테고리 리스트
+		}
+		model.addAttribute("productList", proService.proCategory(data, paging, vo));
+		model.addAttribute("categoryList", proService.categoryList()); // 카테고리 리스트
 		model.addAttribute("paging", paging);
 		return "content/shop/shopMain";
 	}
@@ -128,15 +148,15 @@ public class ProductController {
 	// 검색 목록리스트
 	@RequestMapping(value = "/searchProduct", method = RequestMethod.POST)
 	public String searchProduct(Model model, @RequestParam(value = "data", required = false) String data,
-			Authentication authentication) {		
-		if(authentication!=null) {
+			Authentication authentication, Paging paging, ProductVO vo) {
+		if (authentication != null) {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 			cartVo.setMemberId(userDetails.getUsername());
 			likeVo.setMemberId(userDetails.getUsername());
 			model.addAttribute("cartList", cartService.cartList(cartVo)); // 장바구니 수량가져오기 위한 리스트
 			model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
-		}		
-		model.addAttribute("productList", proService.searchProduct(data));		
+		}
+		model.addAttribute("productList", proService.searchProduct(data, paging, vo));
 		return "content/shop/shopMain";
 	}
 
@@ -160,7 +180,7 @@ public class ProductController {
 		likeVo.setGroupId(data);
 		proService.likeDel(likeVo);
 		return "redirect:/shop";
-	}	
+	}
 
 	// 상품등록
 	@RequestMapping(value = "/addProduct", method = RequestMethod.POST)
@@ -206,7 +226,7 @@ public class ProductController {
 	@ResponseBody
 	public int addBan(Model model, @RequestBody ReportVO vo, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		vo.setFromId(userDetails.getUsername());		
+		vo.setFromId(userDetails.getUsername());
 		return proService.addBan(vo);
 	}
 
@@ -222,28 +242,27 @@ public class ProductController {
 	// 버튼찜클릭 삭제
 	@RequestMapping(value = "/delMyLike", method = RequestMethod.POST)
 	@ResponseBody
-	public int delMyLike(Model model, @RequestBody ProductVO vo, Authentication authentication) {		
+	public int delMyLike(Model model, @RequestBody ProductVO vo, Authentication authentication) {
 		return proService.delMyLike(vo);
 	}
 
 	// 최근본상품
 	@RequestMapping(value = "/watchProduct", method = RequestMethod.POST)
 	@ResponseBody
-	public List<ProductVO> watchProduct(Model model, @RequestBody ProductVO vo, Authentication authentication) {		
+	public List<ProductVO> watchProduct(Model model, @RequestBody ProductVO vo, Authentication authentication) {
 		return proService.watchProduct(vo);
 	}
 
 	// 리뷰작성
 	@RequestMapping(value = "/addReview", method = RequestMethod.POST)
 	@ResponseBody
-	public int addReview(Model model, @RequestBody ReviewVO vo, Authentication authentication) {
-		System.out.println(vo);
+	public int addReview(Model model, @RequestBody ReviewVO vo, Authentication authentication) {		
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		vo.setWriterId(userDetails.getUsername());	
-		proService.reviewPoint(userDetails.getUsername());//리뷰포인트 적립
-		proService.addReview(vo);//리뷰작성
-		return proService.updateStar(vo);//리뷰별점 업데이트
-		
+		vo.setWriterId(userDetails.getUsername());
+		proService.reviewPoint(userDetails.getUsername());// 리뷰포인트 적립
+		proService.addReview(vo);// 리뷰작성
+		return proService.updateStar(vo);// 리뷰별점 업데이트
+
 	}
 
 }

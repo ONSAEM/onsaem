@@ -9,6 +9,12 @@ import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.common.service.ReviewVO;
 
 public interface ProductService {
+	//리뷰작성여부판단
+	List<OrderVO> compareReview(OrderVO vo);
+	
+	//승인대기품목
+	List<ProductVO> approProduct();
+	
 	//리뷰 별점 주기
 	int updateStar(ReviewVO vo);
 	
@@ -28,13 +34,13 @@ public interface ProductService {
 	List<ProductVO> proList(ProductVO vo, Paging paging);
 	
 	//상품전체목록(인기순)
-	List<ProductVO> popList();
+	List<ProductVO> popList(ProductVO vo, Paging paging);
 	
 	//카테고리별상품목록
 	List<ProductVO> proCategory(String data,Paging paging,ProductVO vo);
 	
 	//검색목록
-	List<ProductVO> searchProduct(String data);
+	List<ProductVO> searchProduct(String data,Paging paging,ProductVO vo);
 	
 	//찜 담기
 	int likeAdd(LikeVO vo);

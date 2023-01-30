@@ -8,9 +8,16 @@ import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.shop.service.OptionVO;
+import com.onsaem.web.shop.service.OrderVO;
 import com.onsaem.web.shop.service.ProductVO;
 
 public interface ProductMapper {
+	//리뷰작성가능여부
+	List<OrderVO> compareReview(OrderVO vo);
+	
+	// 승인대기품목
+	List<ProductVO> approProduct();
+
 	// 리뷰 별점 주기
 	int updateStar(ReviewVO vo);
 
@@ -31,19 +38,25 @@ public interface ProductMapper {
 
 	// 상품 갯수 조회
 	int proCount(ProductVO vo);
-	
+
 	// 옵션 갯수 조회
 	int cateCount(String data);
 
+	// 인기상품순 갯수 조회
+	int popCount(ProductVO vo);
+	
 	// 상품전체목록(인기순)
-	List<ProductVO> popList();
+	List<ProductVO> popList(ProductVO vo);
 
 	// 카테고리별 상품목록
-	List<ProductVO> proCategory(String data,ProductVO vo);
+	List<ProductVO> proCategory(String data, ProductVO vo);
 
 	// 검색목록
-	List<ProductVO> searchProduct(String data);
-
+	List<ProductVO> searchProduct(String data, ProductVO vo);
+	
+	// 검색목록 전체 갯수 조회
+	int searchCount(String data);
+	
 	// 찜 담기
 	int likeAdd(LikeVO vo);
 
