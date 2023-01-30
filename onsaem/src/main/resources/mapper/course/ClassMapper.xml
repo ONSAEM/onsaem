@@ -30,8 +30,9 @@
 				]]>
 		</if>
 	</sql>
-	<!-- 강의 전체조회 -->
-	<select id="getClassList" resultType="ClassInfoVO"
+
+	<!-- 강의정보 전체조회 -->
+	<select id="getClassInfoList" resultType="ClassInfoVO"
 		parameterType="ClassInfoVO">
 		SELECT * FROM ( SELECT ROWNUM RN, A.* FROM (
 		SELECT C.CLASS_ID,
@@ -58,8 +59,9 @@
 				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
 			]]>
 	</select>
-	<!-- 강의 단건조회 -->
-	<select id="getClass" resultType="ClassInfoVO"
+
+	<!-- 강의정보 단건조회 -->
+	<select id="getClassInfo" resultType="ClassInfoVO"
 		parameterType="ClassInfoVO">
 		SELECT C.CLASS_ID, C.CLASS_NAME, C.PRICE, C.CLASS_TIME,
 		C.EXPLANATION, C.CLASS_GROUP, C.DIFFICULTY, C.MEMBER_ID,
@@ -74,6 +76,7 @@
 		C.CLASS_GROUP,
 		C.DIFFICULTY, C.MEMBER_ID
 	</select>
+
 	<!-- 강의 사진목록 -->
 	<select id="classMediaList" resultType="MediaVO"
 		parameterType="ClassInfoVO">
@@ -83,6 +86,7 @@
 		ORDER BY
 		SUB_GROUP
 	</select>
+
 	<!-- 강의 갯수 조회 -->
 	<select id="classCount" resultType="Paging"
 		parameterType="ClassInfoVO">
@@ -91,6 +95,7 @@
 		WHERE C.CLASS_ID = L.CLASS_ID(+)
 		<include refid="condition" />
 	</select>
+
 	<!-- 강의 최대금액 -->
 	<select id="classMaxPrice" resultType="int"
 		parameterType="ClassInfoVO">
@@ -100,6 +105,7 @@
 		L.CLASS_ID(+)
 		<include refid="condition" />
 	</select>
+
 	<!-- 강의 최소금액 -->
 	<select id="classMinPrice" resultType="int"
 		parameterType="ClassInfoVO">
@@ -155,11 +161,33 @@
 
 	<!-- 강의 신고 -->
 	<insert id="insertReport">
-		INSERT INTO REPORTS(REPORT_ID, FROM_ID, TO_ID, REASON, DETAIL_REASON, GROUPS, GROUP_ID)
+		INSERT INTO REPORTS(REPORT_ID, FROM_ID, TO_ID,
+		REASON, DETAIL_REASON, GROUPS, GROUP_ID)
 		VALUES('R'||LPAD(REPORT_SEQ.NEXTVAL,3,0),#{fromId},(SELECT MEMBER_ID
 		FROM CLASS_INFO WHERE CLASS_ID=#{groupId}),#{reason}
 		,#{detailReason},'강의',#{groupId})
 	</insert>
+
+	<!-- 강의 한건 가져오기 -->
+	<select id="getClass" resultType="ClassVO"
+		parameterType="ClassVO">
+		SELECT CLASSES.*, (SELECT COUNT(*) FROM BOOKINDS WHERE
+		C_NO = CLASSES.C_NO)
+		AS BOOKING_PEOPLE
+		FROM CLASSES
+		WHERE C_NO = #{cNo}
+	</select>
+
+	<!-- 강의 목록 가져오기 -->
+	<select id="getclassList" resultType="ClassVO"
+		parameterType="ClassVO">
+		SELECT CLASSES.*, (SELECT COUNT(*) FROM BOOKINDS WHERE
+		C_NO = CLASSES.C_NO) AS BOOKING_PEOPLE
+		FROM CLASSES
+		WHERE CLASS_ID =
+		#{classId}
+	</select>
+
 	<!-- [위는 완성 아래는 미완성] -->
 	<select id="popularClassList">
 

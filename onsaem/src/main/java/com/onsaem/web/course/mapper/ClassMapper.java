@@ -7,14 +7,15 @@ import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.course.service.ClassInfoVO;
+import com.onsaem.web.course.service.ClassVO;
 
 public interface ClassMapper {
 
-	// 강의 전체조회
-	public List<ClassInfoVO> getClassList(ClassInfoVO vo);
+	// 강의정보 전체조회
+	public List<ClassInfoVO> getClassInfoList(ClassInfoVO vo);
 
-	// 강의 단건조회
-	public ClassInfoVO getClass(ClassInfoVO vo);
+	// 강의정보 단건조회
+	public ClassInfoVO getClassInfo(ClassInfoVO vo);
 
 	// 강의 사진목록
 	public List<MediaVO> classMediaList(ClassInfoVO vo);
@@ -40,6 +41,11 @@ public interface ClassMapper {
 	// 강의 좋아요 삭제
 	public int delClassLike(LikeVO vo);
 
+	// 강의 한건 가져오기
+	public ClassVO getClass(ClassVO vo);
+
+	// 강의 목록 가져오기
+	public List<ClassVO> getclassList(ClassVO vo);
 	// [위는 완성 아래는 미완성]
 
 	// 인기강의목록조회
