@@ -120,9 +120,9 @@
 	<select id="getMyShotsForOne" parameterType="MediaVO" resultType="MediaVO">
 			SELECT M.FILE_ROUTE, M.MEDIA_NAME, P.PROOF_ID
 			FROM MEDIA M JOIN PROOFS P
-			ON M.GROUP_ID = P.CHAL_ID 
+			ON M.GROUPS = P.CHAL_ID 
 			WHERE P.PROOF_WRITER = #{proofWriter}
-			AND M.GROUP_ID = #{groupId}
+			AND M.GROUPS = #{groups}
 			ORDER BY P.WRITE_DATE
 	</select>
 	

@@ -65,6 +65,21 @@ public class ChalController {
 		return "content/challengers/chalMain";
 	}
 	
+	//검색ㅎㅎ
+	@RequestMapping(value="/chalListSearch", method=RequestMethod.GET)
+	public String chalSearchList(@RequestParam(value="chalName", required=false)String chalName, Model model,ChalVO vo, Paging paging){
+		vo.setChalName(chalName);
+		System.out.println(chalName);
+		System.out.println(vo);
+		String classes = "항시";
+		model.addAttribute("ngoes", ngoService.listNgoClass(classes));
+		model.addAttribute("chals", chalService.getChalAll(vo, paging));
+		model.addAttribute("paging", paging);
+		//기부금 순위로
+		model.addAttribute("ranks", chalService.donateRank());
+		return "content/challengers/chalMain";
+	}
+	
 	//챌린지 조건 리스트 보기 - ngo별 
 	@RequestMapping(value="/chalListOption",method=RequestMethod.GET)
 	public String chalListNgo(Model model,@RequestParam(value="ngoName", required=false)String ngoName, ChalVO vo,  Paging paging){
@@ -131,15 +146,18 @@ public class ChalController {
 		//
 		Integer nowStart = chalService.getChal(chalId).getNowStart();
 		Integer nowEnd = chalService.getChal(chalId).getNowEnd();
-		
-		if(nowStart>=0 && nowEnd<=0) {
+		System.out.println(nowStart);
+		System.out.println(nowEnd);
+		if(nowStart>=0 && nowEnd<0) {
+			System.out.println("체크");
 			//진행중인 챌린지
 			//인증샷 파티
 			model.addAttribute("proofs", proofService.listProofAll(chalId));
-		}else if(nowStart>0 && nowEnd>0) {
+		}else if(nowStart>0 && nowEnd>=0) {
 			//완료된 챌린지
 			//영수증 이미지 파일 가져오기
 			model.addAttribute("receipt", proofService.getReceipt(chalId));
+			System.out.println("receipt : "+proofService.getReceipt(chalId));
 			model.addAttribute("proofs", proofService.listProofAll(chalId));
 		}
 		

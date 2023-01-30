@@ -14,8 +14,18 @@
 </th:block>
 <head>
  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ 
 <style>
-		.app-content{
+	p{
+		display:inline-block;
+	}
+	.boldFont{
+		font-size : 20px;
+	}
+	.pcList{
+		display:inline-block
+	}
+	.app-content{
 	width: 70%;
     margin: auto;
 	}
@@ -191,11 +201,6 @@
 			<div class="profile-user-settings">
 
 				<h1 class="profile-user-name" th:text="${chal.chalName}">janedoe_</h1>
-
-				<button class="btn profile-edit-btn">Edit Profile</button>
-
-				<button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
-
 			</div>
 
 			<div class="profile-stats">
@@ -214,29 +219,34 @@
 			</div>
 
 		</div>
+		
 		<!-- End of profile section -->
 
+	</div>
 	</div>
 	<!-- End of container -->
 
 		<!-- 도넛차트 -->
-		<div>	
-			<canvas id="chDonut1"></canvas>
+		<div id="chart" style=" text-align : center; width:500px; margin-left:300px;">
+			<h3>[[${user.participantId}]] 님의 달성률</h3>	
+			<canvas id="chDonut1" ></canvas>
 		</div>	
 		
 	<div class="container">
-		<span><p>성공 횟수 : [[${cntGood}]] 회</p>
-		<p>실패 횟수 : [[${cntBad}]] 회</p>
-		<p>남은 횟수 : </p><p th:text="${dday}"></p>
-		<span><p>성공률 :</p><p id="successPercent"></p><p>%</p></span>
-		<span><p>에상 성공률 :</p><p id="expectPC"></p><p>%</p></span>
-		<span><p>에상 획득 포인트 :</p><p id="expectPT"></p><p>원</p></span>
-		
+	<div style="text-align : center; margin-top : 30px; margin-bottom : 30px">
+		<span style="margin: 10px"><b class="boldFont">✨성공 횟수 :</b> <p>[[${cntGood}]] 회</p></span>
+		<span style="margin: 10px"><b class="boldFont">✨실패 횟수 :</b><p> [[${cntBad}]] 회</p></span>
+		<span style="margin: 10px"><b class="boldFont">✨남은 횟수 : </b><p th:text="${dday}+' 회'"></p></span>
+		<br>
+		<span style="margin: 10px"><b class="boldFont">✨성공률 :</b><p id="successPercent"></p><p>%</p></span>
+		<span style="margin: 10px"><b class="boldFont">✨에상 성공률 :</b><p id="expectPC"></p><p>%</p></span>
+		<span style="margin: 10px"><b class="boldFont">✨에상 획득 포인트 :</b><p id="expectPT"></p><p>원</p></span></span>
+	</div>	
 		<div class="gallery">
 
-			<div class="gallery-item" tabindex="0" th:each="myphoto : ${myPhotoes}" th:onclick="displayModal([[${myphoto}]])">
-
-				<img src="'/fileView/'+${myphoto.fileRoute}" class="gallery-image">
+			<div class="gallery-item" tabindex="0" th:each="myphoto : ${myPhotoes}" th:onclick="displayModal([[${myphoto}]])"  style="width:33%">
+				<div class="row row-cols-3">
+				<img th:src="'/fileView/'+${myphoto.fileRoute}" class="gallery-image col">
 				<input type="hidden" id="chalId" th:value="${myphoto.proofId}">
 				<div class="gallery-item-info">
 
@@ -244,7 +254,7 @@
 						<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> 56</li>
 						<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li>
 					</ul>
-
+				</div>
 				</div>
 
 			</div>
@@ -260,7 +270,7 @@
 
 	</div>	    
 
-</div>
+
 			</div>
 
 		</div>

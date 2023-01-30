@@ -130,6 +130,7 @@
                             <li><b>종료일</b> <span th:text="${#dates.format(chal.endDate, 'yyyy년 MM월 dd일')}"> <samp>Free pickup today</samp></span></li>
                             <li><b>유형</b> <span id="subClass" th:text="${chal.subClass}"></span></li>
                             <li th:if="${chal.subClass} == '팀'"><b>고정 기부금</b> <span id="teamFee" th:text="${chal.teamFee}+'원'"></span></li>
+                            <li th:if="${chal.subClass} == '팀'"><b>내기 포인트</b> <span id="betPoint" th:text="${chal.teamFee}+'원'"></span></li>
                             <li><b>참가 요일</b> <span th:text="${chal.frequency}"></span></li>
                        		</ul>
 							
@@ -147,8 +148,8 @@
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
                                     aria-selected="true">상세보기</a>
                             </li>
-                            <li class="nav-item" th:if = "${proofs != null}"><a class="nav-link" data-toggle="tab"
-								href="#tabs-2" role="tab" aria-selected="false"></a>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab"
+								href="#tabs-2" role="tab" aria-selected="false">흠냐</a>
 							</li>
                         </ul>
                         <div class="tab-content">
@@ -178,13 +179,17 @@
                                      	<label><input type="checkbox" name="check" class="checkList">모든 예치금은 성취퍼센트와 관계 없이 100% 기부됩니다.</label><br>
                                      	<label><input type="checkbox" name="check" class="checkList">참가하셨을 시에 등록하신 인증 사진은 모든 유저가 조회 가능 합니다.</label><br>
                                      	<label><input type="checkbox" name="check" class="checkList">챌린지 참가 취소는 마이페이지에서 가능하며, 시작일 하루 전 까지 가능합니다.</label><br>
+                               			<th:block th:if="${chal.subClass} == '팀'">
+                               				<label><input type="checkbox"  name="check" class="checkList">고정 기부금의 1%에 해당하는 포인트를 배팅해야 합니다.</label>
+                               			</th:block>
                                 </div>
                                 <!-- 팀전 참가시 포인트 없으면 참가 불가 위해서  -->
                                 <input type="hidden" id="userPoint" th:value="${user.point}">                              
 							</div>
 							
 							<!-- tab2 -->
-							<div class="tab-pane active" id="tabs-2" role="tabpanel">                        	
+							<div class="tab-pane" id="tabs-2" role="tabpanel">                        	
+	 							
 	 							<div th:if = "${receipt != null}">
 	 								<img th:src="'/fileView/'+${receipt.fileRoute}">
 	 							</div>                       	
@@ -262,7 +267,9 @@
 		</th:block>
 		
 		<script type="text/javascript">
-
+		//내기 포인트 계산후 넣어주기
+		$('#betPoint').text(parseInt($('#teamFee').text())*0.01+'원');
+		
     	//신고 모달창
 		 const openButton = document.querySelector(".openBtn");
 				const modal = document.querySelector(".modal");
@@ -292,11 +299,13 @@
 			 		}else{
 			 			let userPoint = parseInt($('#userPoint').val());
 			 			let teamFee = parseInt($('#teamFee').text()); 
+			 			console.log(teamFee);
 			 			console.log(userPoint);
 			 			if(userPoint < teamFee*0.01){
 			 				alert("내기 포인트가 충분하지 않아 참가가 불가합니다😢");
 			 			}else{
-			 				location.href = "/applyChalTeamFrm?chalId="+ data;
+			 				 location.href = "/applyChalTeamFrm?chalId="+ data; 
+			 				alert("굿");
 			 			}
 			 		}
 			 	}

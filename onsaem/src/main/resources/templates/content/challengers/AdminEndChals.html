@@ -173,7 +173,7 @@
 										<input type="hidden" id="groupId" name="groupId">
 										<input type="file" id="uploadFile" name="uploadFile">
 										<button type="submit">첨부하기</button>
-										<button type="button" class="closeBtn">닫기</button>
+										<button type="button" class="closeBtn" id="closeModals">닫기</button>
 									</form>
 								</div>
 								<div id ="point" class="modal__content">
@@ -188,7 +188,7 @@
 									<!-- 정산 포인트 띄우기 --> 
 									<div style="float: left; width: 50%; padding:1px; "><p>기부금</p></div><div style="float: left; width: 50%; padding:1px;"><p id="privatePoint"/></div>
 									<button type="button" onclick="pointInput()">정산</button>
-									<button type="button" class="closeBtn">닫기</button>
+									<button type="button" class="closeBtn" id="closeModals">닫기</button>
 								</div>
 								
 								<div id ="teamPoint" class="modal__content">
@@ -209,9 +209,9 @@
 							            <canvas id="Bchart"></canvas>
 							         </div>
 									<button type="button" onclick="teamPointInput()">정산</button>
-									<button type="button" class="closeBtn">닫기</button>
+									<button type="button" class="closeBtn" id="closeModals">닫기</button>
 								</div>
-						
+							
 						</div>
 						<!--모달창 끝  -->
 	
@@ -238,9 +238,11 @@
 			
 		})
 		
-		const modal = document.querySelector(".modal");
-		const closeButton = modal.querySelector(".closeBtn");
-		const modalBackground = modal.querySelector(".modal__background");
+		
+		
+		let modal = document.querySelector(".modal");
+		let closeButton = modal.querySelector(".closeBtn");
+		let modalBackground = modal.querySelector(".modal__background");
 		
 		
 		//chalId 정의
@@ -406,10 +408,20 @@
 						
 						modal.classList.toggle("hidden");
 					break;
+				case "closeModals" :
+					modal.classList.toggle("hidden");
+
 			}
 			
 		};
-		closeButton.addEventListener("click", displayModal)
+		
+		
+		//부모한테 이벤트 걸기
+		$(document).on("click", '.closeBtn', function(e){
+			displayModal(e.target);
+		});
+		
+		
 		modalBackground.addEventListener("click", displayModal);
 		
 		
