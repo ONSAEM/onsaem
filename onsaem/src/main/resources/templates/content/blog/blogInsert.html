@@ -47,17 +47,18 @@
 		<ul>
 			<li>글 제목 : <input type="text" name="writeTitle"></li>
 			<li>소제목 : <input type="text" name="subTitle"></li>
-			<li>카테고리<select name="categoryId"> <!-- 카테고리 부분 나중에 value 수정 필요 -->
-			    <option value="CT001">자연</option>
-			    <option value="CT002" selected>일상</option>
-			    <option value="CT003">재활용</option>
-			    <option value="CT004">비밀일기</option>
+			<li>카테고리<select name="categoryId" onchange=""> <!-- 카테고리 부분 나중에 value 수정 필요 -->
+				<option value="" style="text-align:center;">::::::  카테고리  ::::::</option>
+			    <div th:each="cate : ${category}">
+			    	<option th:value="${cate.categoryId}" th:data-scope="${cate.publicScope}">[[${cate.categoryName}]] ([[${cate.publicScope}]])</option>
+			    </div>
 				</select>
 			</li>
 			
 			<li>공개범위<select name="publicScope"> <!-- 공개범위 부분 나중에 value 수정 필요 -->
+				<option value="">:::공개범위:::</option>
 			    <option value="public">전체공개</option>
-			    <option value="partial" selected>일부공개</option>
+			    <option value="partial">일부공개</option>
 			    <option value="private">비공개</option>
 				</select>
 			</li>	
@@ -122,6 +123,15 @@
 		function editer(fileUrl){
 			oEditors.getById["ir1"].exec("PASTE_HTML",[`<video src='${fileUrl}' controls></video>`]);
 		}
+		
+		
+		// 카테고리 공개범위 수정
+		$("select[name='categoryId']").on("change", function(){
+			console.log($("select[name='categoryId'] option:selected").data('scope'));
+			let selectVal = $("select[name='categoryId'] option:selected").data('scope');
+			
+			$("select[name='publicScope']").val(selectVal);
+		})
 	</script>
 	<!-- JS -->
 		<th:block layout:fragment="script">

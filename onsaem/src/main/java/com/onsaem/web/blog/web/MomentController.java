@@ -2,9 +2,6 @@ package com.onsaem.web.blog.web;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.onsaem.web.blog.service.BlogWriteService;
 import com.onsaem.web.blog.service.MomentService;
 import com.onsaem.web.blog.service.MomentsVO;
+import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
 /**
@@ -38,12 +37,18 @@ public class MomentController {
 	MomentService momentService;
 	@Autowired
 	MediaService mediaService;
+	@Autowired
+	BlogWriteService blogWriteService;
 	
 	// 모먼트 상세보기
 	@RequestMapping(value="/getMoment", method= RequestMethod.POST)
 	@ResponseBody
-	public MomentsVO getMoment(String momentId) {
+	public MomentsVO getMoment(Model model, String momentId, LikeVO lvo ) {
 		MomentsVO vo = momentService.getMoment(momentId);
+		
+		lvo.setGroupId(momentId);
+		model.addAttribute("likeCount", blogWriteService.likeCount(lvo));
+		model.addAttribute("cntBlogLike", blogWriteService.cntBlogLike(lvo)); // 좋아요 수
 		
 		return vo;
 	}

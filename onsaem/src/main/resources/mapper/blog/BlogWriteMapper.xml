@@ -5,11 +5,14 @@
  <mapper namespace="com.onsaem.web.blog.mapper.BlogWriteMapper">
  	
  	
-<!--  	<sql id="condition"> -->
-<!--  		<if test="writeTitle"> -->
-<!-- 			AND b.write_title LIKE '%' || #{writeTitle} || '%' -->
-<!-- 		</if> -->
-<!--  	</sql> -->
+ 	<sql id="condition">
+ 		<if test="blogWriteVO.writeTitle">
+			AND b.write_title LIKE '%' || #{blogWriteVO.writeTitle} || '%'
+		</if>
+		<if test="blogWriteVO.categoryId">
+			AND b.category_id = #{blogWriteVO.categoryId}
+		</if>
+ 	</sql>
  	
  	<!-- 페이징 -->
  	<select id="blogCount" resultType="Paging" parameterType="BlogWriteVO">
@@ -31,7 +34,7 @@
 		  FROM  BLOG_WRITES b, members m
 		 WHERE  b.blog_id = m.member_id
 		   and  blog_id=#{blogWriteVO.blogId}
-<!-- 		   <include refid="condition" /> -->
+		   <include refid="condition" />
  		 order  by b.write_date DESC
 			<![CDATA[
 				)A WHERE ROWNUM <= #{paging.last} ) WHERE RN >= #{paging.first}

@@ -15,6 +15,9 @@ public class LikeVO {
 	Date insertDate;
 	String count;
 	
+	
 	Integer cnt;
 	String likeCk;
+	
+	String fileRoute;
 }
