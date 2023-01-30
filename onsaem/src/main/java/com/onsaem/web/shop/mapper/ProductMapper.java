@@ -4,12 +4,16 @@ import java.util.List;
 
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.shop.service.OptionVO;
 import com.onsaem.web.shop.service.ProductVO;
 
 public interface ProductMapper {
+	// 리뷰 별점 주기
+	int updateStar(ReviewVO vo);
+
 	// 나의 리뷰리스트
 	List<ReviewVO> myReviewList(String data);
 
@@ -17,7 +21,7 @@ public interface ProductMapper {
 	int reviewPoint(String data);
 
 	// 주간 베스트 데이터 가져오기
-	List<ProductVO> selectProduct(String best1, String best2, String best3, String best4, String best5);
+	List<ProductVO> selectProduct(List<String> list);
 
 	// 주간 베스트
 	List<ProductVO> weekBest();
@@ -27,12 +31,15 @@ public interface ProductMapper {
 
 	// 상품 갯수 조회
 	int proCount(ProductVO vo);
+	
+	// 옵션 갯수 조회
+	int cateCount(String data);
 
 	// 상품전체목록(인기순)
 	List<ProductVO> popList();
 
 	// 카테고리별 상품목록
-	List<ProductVO> proCategory(String data);
+	List<ProductVO> proCategory(String data,ProductVO vo);
 
 	// 검색목록
 	List<ProductVO> searchProduct(String data);

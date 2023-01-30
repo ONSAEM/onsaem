@@ -73,7 +73,7 @@
 								<tr>
 									<th><input type="checkbox" th:onclick="checkBoxAll(this)"></input></th>
 									<th>상품이미지</th>
-									<th class="shoping__product" style="text-align:center">상품명</th>
+									<th class="shoping__product" style="text-align: center">상품명</th>
 									<th>가격</th>
 									<th>선택</th>
 								</tr>
@@ -83,16 +83,19 @@
 									<td><input type="checkbox" name="checkBox"
 										th:onchange="saveList([[${like}]])"></input></td>
 									<td class="shoping__cart__item" style="width: 389px"><img
-										th:src="@{{fileRoute}{mediaName}/
-									(fileRoute=${like.fileRoute},mediaName=${like.mediaName})}"
-										alt=""></td>
-									<td><h5 th:text="${like.productName}" th:onclick="location.href='/shopDetail?data='+[[${like.groupId}]]" id="productName">Fresh
-											Garden Vegetable</h5></td>
+										th:src="@{/fileView/{fileRoute}/
+									(fileRoute=${like.fileRoute})}"
+										alt="" th:onclick="detailFnc([[${like.productId}]])"></td>
+									<td><h5 th:text="${like.productName}"
+											th:onclick="location.href='/shopDetail?data='+[[${like.groupId}]]"
+											id="productName">Fresh Garden Vegetable</h5></td>
 									<td class="shoping__cart__price" id="cartPrice"
 										th:text="${like.price}+원">$39.00</td>
-									<td class="shoping__cart__item__close" value=${cart.productId}
-										><button>주문하기</button><br><br><button>장바구니담기</button><br><br><button th:onclick="delLike([[${like}]])">삭제</button><br></td>
-
+									<td class="shoping__cart__item__close" value=${cart.productId}><button
+											th:onclick="buyPage([[${like}]])">주문하기</button> <br> <br>
+										<button th:onclick="addCart([[${like}]])">장바구니담기</button> <br>
+										<br>
+										<button th:onclick="delLike([[${like}]])">삭제</button> <br></td>
 								</tr>
 							</tbody>
 						</table>
@@ -120,7 +123,25 @@
 	<script type="text/javascript">
 	 var token = $("meta[name='_csrf']").attr("content");
 	 var header = $("meta[name='_csrf_header']").attr("content");
-		
+	 
+	//상품상세보기페이지이동
+	 function detailFnc(data){
+		 location.href='/shopDetail?data='+data
+	 }
+	 
+	//장바구니 담기
+		function addCart(data){		
+			alert("장바구니에 담겼습니다.")
+			let productId=data.productId;			
+			location.href='/cartAdd?productId='+productId;	
+		}
+	 
+		//주문페이지이동
+		function buyPage(data){			
+			let productId=data.productId;
+			location.href='/buyProduct?productId='+productId+'&amount=1&option=기본';	
+		}
+	 
 		//찜삭제
 		function delLike(data){
 			let likeId=data.likeId;			

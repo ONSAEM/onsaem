@@ -80,8 +80,6 @@
 									placeholder="검색어를 입력해 주세요." name="data">
 								<button type="submit" class="site-btn"></button>
 							</form>
-							<i class="fa-duotone fa-magnifying-glass"></i> <i
-								class="fa-thin fa-magnifying-glass"></i>
 						</div>
 						<div class="header__cart">
 							<ul>
@@ -104,7 +102,7 @@
 
 
 	<!-- Product Section Begin -->
-	<section class="product spad">
+	<section class="product spad" style="padding: 0">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-3 col-md-5">
@@ -119,6 +117,13 @@
 					</div>
 				</div>
 				<div class="col-lg-9 col-md-7">
+					<div class="sidebar__item__size" th:each="category:${categoryList}">
+						<label for="large" th:text="${category.optionContent}"
+							th:onclick="'location.href=\''+ @{${moveUrl}} + '\''">
+							Large <input type="radio" id="large">
+						</label>
+					</div>
+					<br> <br>
 					<div class="product__discount">
 						<div class="section-title product__discount__title">
 							<h2>주간 베스트</h2>
@@ -291,13 +296,15 @@
 							},
 							data:JSON.stringify(result),
 							success : function(result) {	
+								console.log(result)
 								$("#bestList").html("")
 								for(let i=0;i<result.length;i++){
 									let list=`<div class="col-lg-4">
 									<div class="product__discount__item">
-										<div class="product__discount__item__pic set-bg"
-											data-setbg="/fileView/`+result[i].fileRoute+`">											
-											<ul class="product__item__pic__hover">
+										<div class="product__discount__item__pic set-bg"											
+											th:data-setbg="@{/fileView/{fileRoute}/
+												(fileRoute=`+result[i].fileRoute+`)}">											
+											<ul class="product__item__pic__hover">											
 												<li><a href="#"><i class="fa fa-heart"></i></a></li>												
 												<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
 											</ul>
