@@ -1,49 +1,38 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 
 <!-- Css  -->
 <th:block layout:fragment="css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
-		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
 </th:block>
+
 <head>
-<meta charset="UTF-8">
-<title>Login</title>
-<style type="text/css">
-</style>
+	<meta charset="UTF-8">
+	<style type="text/css">
+	</style>
 </head>
+
 <body>
 	<div layout:fragment="content">
 
 		<!-- Breadcrumb Section Begin -->
-		<section class="breadcrumb-section set-bg"
-			data-setbg="img/breadcrumb.jpg">
+		<section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12 text-center">
 						<div class="breadcrumb__text">
 							<h2>Checkout</h2>
 							<div class="breadcrumb__option">
-								<a href="./index.html">Home</a> <span>Checkout</span>
+								<a href="./index.html">Home</a> <span>booking</span>
 							</div>
 						</div>
 					</div>
@@ -51,151 +40,99 @@
 			</div>
 		</section>
 		<!-- Breadcrumb Section End -->
-
-		<!-- Checkout Section Begin -->
-		<section class="checkout spad">
+		<section class="shoping-cart spad">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
-						<h6>
-							<span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click
-								here</a> to enter your code
-						</h6>
+						<div class="shoping__cart__table">
+							<table>
+								<thead>
+									<tr>
+										<th></th>
+										<th class="shoping__product">강의</th>
+										<th>가격</th>
+										<th>인원</th>
+										<th>총가격</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td></td>
+										<td class="shoping__cart__item"><img src="img/cart/cart-1.jpg" alt="">
+											<h5 th:text="${class.classInfo.className}"></h5>
+										</td>
+										<td class="shoping__cart__price" th:text="${class.classInfo.price}+'원'"></td>
+										<td class="shoping__cart__quantity" th:text="${people}"></td>
+										<td class="shoping__cart__total" th:text="${class.classInfo.price*people}+'원'">
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
+			</div>
+		</section>
+		<!-- Checkout Section Begin -->
+		<section class="checkout spad">
+			<div class="container">
 				<div class="checkout__form">
-					<h4>Billing Details</h4>
+					<h4>예약 상세</h4>
 					<form action="#">
 						<div class="row">
 							<div class="col-lg-8 col-md-6">
-								<div class="row">
-									<div class="col-lg-6">
-										<div class="checkout__input">
-											<p>
-												Fist Name<span>*</span>
-											</p>
-											<input type="text">
-										</div>
-									</div>
-									<div class="col-lg-6">
-										<div class="checkout__input">
-											<p>
-												Last Name<span>*</span>
-											</p>
-											<input type="text">
-										</div>
-									</div>
+								<div class="checkout__input">
+									<p>
+										주문자<span>*</span>
+									</p>
+									<input type="text" th:value="${#authentication.principal.name}" readonly="readonly">
 								</div>
 								<div class="checkout__input">
 									<p>
-										Country<span>*</span>
+										연락처<span>*</span>
 									</p>
-									<input type="text">
+									<input type="tel" th:value="${#authentication.principal.phone}" readonly="readonly">
+								</div>
+								<hr>
+								<div class="checkout__input">
+									<input type="checkbox" id="bringInfo" readonly="readonly" style="width: 20px">내정보 불러오기
 								</div>
 								<div class="checkout__input">
 									<p>
-										Address<span>*</span>
+										예약자<span>*</span>
 									</p>
-									<input type="text" placeholder="Street Address"
-										class="checkout__input__add"> <input type="text"
-										placeholder="Apartment, suite, unite ect (optinal)">
+									<input name="bookerName" type="text" readonly="readonly">
 								</div>
 								<div class="checkout__input">
 									<p>
-										Town/City<span>*</span>
+										연락처<span>*</span>
 									</p>
-									<input type="text">
+									<input name="bookerPhone" type="text">
 								</div>
+								<hr>
 								<div class="checkout__input">
-									<p>
-										Country/State<span>*</span>
-									</p>
-									<input type="text">
-								</div>
-								<div class="checkout__input">
-									<p>
-										Postcode / ZIP<span>*</span>
-									</p>
-									<input type="text">
-								</div>
-								<div class="row">
-									<div class="col-lg-6">
-										<div class="checkout__input">
-											<p>
-												Phone<span>*</span>
-											</p>
-											<input type="text">
-										</div>
-									</div>
-									<div class="col-lg-6">
-										<div class="checkout__input">
-											<p>
-												Email<span>*</span>
-											</p>
-											<input type="text">
-										</div>
-									</div>
-								</div>
-								<div class="checkout__input__checkbox">
-									<label for="acc"> Create an account? <input
-										type="checkbox" id="acc"> <span class="checkmark"></span>
-									</label>
-								</div>
-								<p>Create an account by entering the information below. If
-									you are a returning customer please login at the top of the
-									page</p>
-								<div class="checkout__input">
-									<p>
-										Account Password<span>*</span>
-									</p>
-									<input type="text">
-								</div>
-								<div class="checkout__input__checkbox">
-									<label for="diff-acc"> Ship to a different address? <input
-										type="checkbox" id="diff-acc"> <span class="checkmark"></span>
-									</label>
-								</div>
-								<div class="checkout__input">
-									<p>
-										Order notes<span>*</span>
-									</p>
-									<input type="text"
-										placeholder="Notes about your order, e.g. special notes for delivery.">
+									<p>요청사항</p>
+									<textarea name="requirement" placeholder="요청사항이 있다면 입력해주세요" cols="80" rows="5"></textarea>
 								</div>
 							</div>
 							<div class="col-lg-4 col-md-6">
 								<div class="checkout__order">
-									<h4>Your Order</h4>
+									<h4>예약</h4>
 									<div class="checkout__order__products">
-										Products <span>Total</span>
+										클래스 <span>인원</span>
 									</div>
 									<ul>
-										<li>Vegetable’s Package <span>$75.99</span></li>
-										<li>Fresh Vegetable <span>$151.99</span></li>
-										<li>Organic Bananas <span>$53.99</span></li>
+										<li>[[${class.classInfo.className}]] <span th:text="${people}+'명'"></span></li>
+										<li>
+											보유 포인트 <span th:text="${point}"></span>
+										</li>
+										<li>
+											포인트 사용 <span><input name="usePoint" value="0" type="number" style="width: 120px;"></span>
+										</li>
 									</ul>
-									<div class="checkout__order__subtotal">
-										Subtotal <span>$750.99</span>
-									</div>
 									<div class="checkout__order__total">
-										Total <span>$750.99</span>
-									</div>
-									<div class="checkout__input__checkbox">
-										<label for="acc-or"> Create an account? <input
-											type="checkbox" id="acc-or"> <span class="checkmark"></span>
-										</label>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adip elit, sed
-										do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-									<div class="checkout__input__checkbox">
-										<label for="payment"> Check Payment <input
-											type="checkbox" id="payment"> <span class="checkmark"></span>
-										</label>
-									</div>
-									<div class="checkout__input__checkbox">
-										<label for="paypal"> Paypal <input type="checkbox"
-											id="paypal"> <span class="checkmark"></span>
-										</label>
+										총가격 <span th:text="${class.classInfo.price*people}+'원'" id="price"></span>
+										<input type="hidden" name="price">
 									</div>
 									<button type="button" class="site-btn paymentBtn">구매하기</button>
 								</div>
@@ -209,26 +146,93 @@
 		<script type="text/javascript">
 		let token = $("meta[name='_csrf']").attr("content");
 		let header = $("meta[name='_csrf_header']").attr("content");
+		
+		$('#bringInfo').change(function(){
+			if($(this).is(':checked')){
+				$('input[name=bookerName]').val("[[${#authentication.principal.name}]]");
+				$('input[name=bookerPhone]').val("[[${#authentication.principal.phone}]]");
+			}else{
+				$('input[name=bookerName]').val("");
+				$('input[name=bookerPhone]').val("");
+			}
+		})
+		
+       // 포인트 사용
+	   $('input[name=usePoint]').change(function(){
+			if(!!Number($('input[name=usePoint]').val())){
+				if(parseInt($('input[name=usePoint]').val()) <= parseInt("[[${point}]]")){
+					let price = "[[${class.classInfo.price*people}]]" - $('input[name=usePoint]').val();
+					console.log(price);
+					$('input[name=price]').val(price);
+					$('#price').text(price+'원');
+				}else{
+					$('input[name=usePoint]').val(0);
+					$('#price').text("[[${class.classInfo.price*people}]]"+'원');
+				}
+			}else{
+				$('input[name=usePoint]').val(0);
+				$('#price').text("[[${class.classInfo.price*people}]]"+'원');
+			}
+	   })
+
 		// 클릭시 결제
 	$(".paymentBtn").on("click",function() {
-		console.log('확인')
+		if ($('input[name=bookerName]').parentsUntil('.col-lg-8').next().prop('tagName') == 'P') {
+						$('input[name=bookerName]').parentsUntil('.col-lg-8').next().remove();
+					}
+					if ($('input[name=bookerPhone]').parentsUntil('.col-lg-8').next().prop('tagName') == 'P') {
+						$('input[name=bookerPhone]').parentsUntil('.col-lg-8').next().remove();
+					}
+		if (!$('input[name=bookerName]').val()) {
+					$('input[name=bookerName]').parentsUntil('.col-lg-8').after($('<p/>').text("예약자 이름을 입력해주세요").css("color", "#f20000"));
+					$('input[name=bookerName]').focus();
+					return;
+				}
+				if (!$('input[name=bookerPhone]').val()) {
+					$('input[name=bookerPhone]').parentsUntil('.col-lg-8').after($('<p/>').text("예약자 연락처를 입력해주세요").css("color", "#f20000"));
+					$('input[name=bookerPhone]').focus();
+					return;
+				}
+				let str = /^\d{2,3}-\d{3,4}-\d{4}$/;
+				if (!str.test($('input[name=bookerPhone]').val())) {
+					$('input[name=bookerPhone]').parentsUntil('.col-lg-8').after($('<p/>').text("올바른 연락처를 입력해주세요").css("color", "#f20000"));
+					$('input[name=bookerPhone]').focus();
+					return;
+				}
+				payment();
+	});
+
+	function payment(){
 		IMP.init('imp54500213');
 		IMP.request_pay({
 		    pg : 'html5_inicis',
 		    pay_method : 'card',
 		    merchant_uid: 'OS_' + new Date().getTime(), // 상점에서 관리하는 주문 번호
-		    name : '주문명:결제테스트',
-		    amount : 10, // 테스트라서 10원만 결제 ^^;
-		    buyer_email : 'iamport@siot.do', // 구매자 이메일
-		    buyer_name : '구매자이름', // 구매자 이름
-		    buyer_tel : '010-1234-5678', // 구매자 연락처
-		    buyer_addr : '서울특별시 강남구 삼성동', // 구매자 주소
-		    buyer_postcode : '123456' // 구매자 우편번호
+		    name : '온샘클래스예약',
+		    amount : 100, // 테스트라서 100원만 결제 ^^;
+		    buyer_email : '[[${#authentication.principal.email}]]', // 구매자 이메일
+		    buyer_name : '[[${#authentication.principal.name}]]', // 구매자 이름
+		    buyer_tel : '[[${#authentication.principal.phone}]]', // 구매자 연락처
+		    buyer_addr : '[[${#authentication.principal.addr}]]', // 구매자 주소
+		    buyer_postcode : '[[${#authentication.principal.postalCode}]]' // 구매자 우편번호
 		}, function(rsp) {
 		    if ( rsp.success ) {
+				console.log(rsp);
 		    	//아래 아작스부터는 본인의 컨트롤이나 구현에 맞게 적절히 사용할것
 		    	// 결제성공하고 컨트롤에 넘어가서 DB에 정보저장를 위한 아작스
-		    	let data = {"imp_uid":rsp.imp_uid};
+		    	let data = {"paymentId":rsp.imp_uid,
+						"price":rsp.paid_amount,
+					"payerId" : '[[${#authentication.principal.memberId}]]',
+				"paymentMethod" : rsp.pay_method,
+				"groupId" : '[[${class.cNo}]]',
+				"cNo" :'[[${class.cNo}]]',
+				"bookingId" : rsp.merchant_uid,
+				"bookerName" : $('input[name=bookerName]').val(),
+				"bookerPhone" : $('input[name=bookerPhone]').val(),
+				"requirement" : $('textarea[name=requirement]').val(),
+				"totalPeople" : '[[${people}]]',
+				"ordererId" : '[[${#authentication.principal.memberId}]]',
+				"usePoint" :  $('input[name=usePoint]').val()};
 		    	$.ajax({
 			      url: '/class/insertBooking',
 			      method: 'POST',
@@ -238,26 +242,17 @@
 			      contentType: 'application/x-www-form-urlencoded',
 			      data: data,
 			      success: function (result) {
-			    	// 결제금액이 일치한지, 다른 정보 체크하고 일치하면 DB에 저장하고 데이터를 리턴
-			    		if (result) {
-			    			// data가 있으면 제대로 처리된것
-			    			// 이후 다른 페이지로 넘어갈 컨트롤과 데이어 작성
-			    			var msg = '결제가 완료되었습니다.';
-			    			msg += '\n고유ID : ' + rsp.imp_uid;
-			    			msg += '\n상점 거래ID : ' + rsp.merchant_uid;
-			    			msg += '\결제 금액 : ' + rsp.paid_amount;
-			    			msg += '카드 승인번호 : ' + rsp.apply_num;
-			    			alert(msg);
-			    		} else {
-			    			//[3] 아직 제대로 결제가 되지 않았습니다.
-			    			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
-			    			// 위에 같은 이유로 알림 띄우기
-			    		}
+					if(result != null){
+						location.href = "/class/BookingCOM?bookingId=" + result.bookingId;
+					}else{
+						alert('결제등록중 오류 발생');
+					}
 			      },
 			      error: function (error) {
 			         console.log(error);
 			         alert('실패');
 			      }
+				})
 		    } else {
 		        var msg = '결제에 실패하였습니다.';
 		        msg += '에러내용 : ' + rsp.error_msg;
@@ -265,7 +260,7 @@
 		        alert(msg);
 		    }
 		});
-	});
+	}
 		
 		
 	</script>

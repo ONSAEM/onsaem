@@ -16,6 +16,7 @@ import com.onsaem.web.common.service.QuestionVO;
 import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.course.mapper.ClassMapper;
 import com.onsaem.web.course.service.ClassService;
+import com.onsaem.web.course.service.ClassVO;
 import com.onsaem.web.member.service.MemberService;
 import com.onsaem.web.course.service.ClassInfoVO;
 import com.onsaem.web.course.service.ClassQueService;
@@ -33,7 +34,7 @@ public class ClassServiceImpl implements ClassService {
 	MemberService memberService;
 
 	@Override
-	public Map<String, Object> getClassList(ClassInfoVO vo, Paging paging) {
+	public Map<String, Object> getClassInfoList(ClassInfoVO vo, Paging paging) {
 		Paging newPaging = classMapper.classCount(vo);
 		newPaging.setPageUnit(paging.getPageUnit());
 		newPaging.setPage(paging.getPage());
@@ -41,14 +42,14 @@ public class ClassServiceImpl implements ClassService {
 		vo.setFirst(newPaging.getFirst());
 		vo.setLast(newPaging.getLast());
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("classList", classMapper.getClassList(vo));
+		result.put("classList", classMapper.getClassInfoList(vo));
 		result.put("newPaging", newPaging);
 		return result;
 	}
 
 	@Override
-	public ClassInfoVO getClass(ClassInfoVO vo) {
-		ClassInfoVO result = classMapper.getClass(vo);
+	public ClassInfoVO getClassInfo(ClassInfoVO vo) {
+		ClassInfoVO result = classMapper.getClassInfo(vo);
 		QuestionVO qvo = new QuestionVO();
 		qvo.setGroupId(vo.getClassId());
 		result.setQueCount(classQueService.questionCount(qvo));
@@ -98,6 +99,20 @@ public class ClassServiceImpl implements ClassService {
 		return classMapper.LikeCount(vo);
 	}
 
+	@Override
+	public ClassVO getClass(ClassVO vo) {
+		ClassVO result = classMapper.getClass(vo);
+		ClassInfoVO infoVo = new ClassInfoVO();
+		infoVo.setClassId(result.getClassId());
+		result.setClassInfo(classMapper.getClassInfo(infoVo));
+		return result;
+	}
+
+	@Override
+	public List<ClassVO> getclassList(ClassVO vo) {
+		
+		return classMapper.getclassList(vo);
+	}
 	// [위는 완성 아래는 미완성]
 
 	@Override
@@ -127,4 +142,5 @@ public class ClassServiceImpl implements ClassService {
 
 		}
 	}
+
 }

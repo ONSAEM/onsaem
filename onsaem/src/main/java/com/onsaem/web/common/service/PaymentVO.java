@@ -10,16 +10,17 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PaymentVO {
-	String paymentId;
-	Integer price;
-	String payerId;
-	String paymentMethod;
-	Date payDate;
-	String groupId;
-	String groups;
-	String status;
+	private String paymentId;
+	private Integer price;
+	private String payerId;
+	private String paymentMethod;
+	private Date payDate;
+	private String groupId;
+	private String groups;
+	private String status;
+	private int usePoint;
 	
 	//챌린저스에서 사용
-	Integer donationFee;
-	Integer betPoint;
+	private Integer donationFee;
+	private Integer betPoint;
 }
