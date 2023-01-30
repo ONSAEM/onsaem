@@ -868,19 +868,26 @@
 							<thead>
 								<h3>나를 구독한 사람</h3>
 								<tr>
-									<th><input type="checkbox" th:onclick="checkBoxAll(this)"></input></th>
+									<th><input type="checkbox"></input></th>
 									<th>프로필사진</th>
 									<th class="shoping__product">나를 구독한 사람ID</th>
+									<th><button id="subMeDel">삭제</button></th>
 								</tr>
 							</thead>
 							<tbody>
 									<th:block th:each="subMe:${subMeList}">
 										<tr>
-										<td><input type="checkbox" name="checkBox"></input></td>
+										<td><input type="checkbox" name="checkBox" class="sMDel" th:value="${subMe.memberId}"></input></td>
 										<td class="shoping__cart__item" style="width: 100px">
-										<img th:src="@{/blog/img/M081.jpg}" alt=""></td>
+											<img th:if="${subMe.fileRoute == null}"
+												th:src="@{/images/defaulltProfile.png}"
+												class="profile" />
+											<img th:if="${subMe.fileRoute != null}"
+												th:src="'/fileView/'+${subMe.fileRoute}"
+												class="profile" />
+										</td>
 										<td><h5 th:text="${subMe.memberId}"></h5></td>
-										<td><button>삭제</button></td>
+										<td></td>
 										</tr>
 									</th:block>
 							</tbody>
@@ -891,19 +898,26 @@
 							<thead>
 								<h3>내가 구독한 사람</h3>
 								<tr>
-									<th><input type="checkbox" th:onclick="checkBoxAll(this)"></input></th>
+									<th><input type="checkbox"></input></th>
 									<th>프로필사진</th>
 									<th class="shoping__product">내가 구독한 사람ID</th>
+									<th><button id="mySubDel">삭제</button></th>
 								</tr>
 							</thead>
 							<tbody>
 									<th:block th:each="mySub:${mySubList}">
 										<tr>
-										<td><input type="checkbox" name="checkBox"></input></td>
+										<td><input type="checkbox" name="checkBox" class="mSDel" th:value="${mySub.groupId}"></input></td>
 										<td class="shoping__cart__item" style="width: 100px">
-										<img th:src="@{/blog/img/M081.jpg}" alt=""></td>
+											<img th:if="${mySub.fileRoute == null}"
+												th:src="@{/images/defaulltProfile.png}"
+												class="profile" />
+											<img th:if="${mySub.fileRoute != null}"
+												th:src="'/fileView/'+${mySub.fileRoute}"
+												class="profile" />
+										</td>
 										<td><h5 th:text="${mySub.groupId}"></h5></td>
-										<td><button>삭제</button></td>
+										<td></td>
 										</tr>
 									</th:block>
 							</tbody>
@@ -932,6 +946,9 @@
 		</th:block>
 
 		<script>
+		 var token = $("meta[name='_csrf']").attr("content");
+		 var header = $("meta[name='_csrf_header']").attr("content");
+		
 			document.addEventListener('DOMContentLoaded', function() {
 				var modeSwitch = document.querySelector('.mode-switch');
 
@@ -959,6 +976,65 @@
 				});
 
 			});
+			
+			let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
+			// 내가 구독한 사람 삭제
+			$('#mySubDel').on("click", function(){
+				console.log("클릭");
+				$('.mSDel').each(function(){
+					if($(this).is(":checked")==true){
+						let likeId = $(this).val();
+						let removeLK = $(this).parent().parent();
+						console.log($(this).parent().parent());
+						$.ajax({
+							url: '/blog/delSub',
+							method: 'POST',
+							contentType: 'application/x-www-form-urlencoded',
+							data:{"groupId": likeId, "memberId": id},
+							beforeSend : function(xhr)
+				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				               xhr.setRequestHeader(header, token);
+				               },
+							success : function(result){
+								removeLK.remove();
+								
+							},
+							error : function(error){
+								console.log(error);
+							}
+						})
+					}
+				})
+			})
+			
+			// 나를 구독한 사람 삭제
+			$('#subMeDel').on("click", function(){
+				$('.sMDel').each(function(){
+					if($(this).is(":checked")==true){
+						console.log($(this));
+						let likeId = $(this).val();
+						let removeLK = $(this).parent().parent();
+						console.log($(this).parent().parent());
+						$.ajax({
+							url: '/blog/delSub',
+							method: 'POST',
+							contentType: 'application/x-www-form-urlencoded',
+							data:{"memberId": likeId, "groupId": id},
+							beforeSend : function(xhr)
+				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				               xhr.setRequestHeader(header, token);
+				               },
+							success : function(result){
+								removeLK.remove();
+								
+							},
+							error : function(error){
+								console.log(error);
+							}
+						})
+					}
+				})
+			})
 			
 		</script>
 	</div>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+<title>뷰테스트</title>
+ <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+
+<div id="app">
+	<p>{{fullName}}</p>
+</div>
+
+<script>
+const {createApp} = Vue;
+createApp({
+    data(){
+        return{
+            firstName: '길동',
+            lastName: '홍',
+            fullName: ''
+        }
+    },
+    watch: { // 감시하는 데이터가 변경이 되면 실행 
+        firstName(){ // 데이터 감시대상
+            this.fullName = this.firstName + this.lastName
+        },
+        lastName(){  // 데이터 감시대상
+            this.fullName = this.firstName + this.lastName
+        }
+    }
+}).mount('#app');
+
+</script>
+
+</body>
+</html>

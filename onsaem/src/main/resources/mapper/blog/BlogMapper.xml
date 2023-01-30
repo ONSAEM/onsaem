@@ -117,4 +117,10 @@
 				  		 cate_order_seq.nextval, 
 				  		 #{publicScope})
 	</insert>
+	
+	<!-- 카테고리 삭제 -->
+	<delete id="cateDelete" parameterType="String">
+		delete from categories
+		 where category_id=#{categoryId}
+	</delete>
  </mapper>

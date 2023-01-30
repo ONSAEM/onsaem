@@ -91,6 +91,12 @@ public class BlogServiceImpl implements BlogService {
 		// 카테고리 등록
 		return blogMapper.cateInsert(cateVO);
 	}
+
+	@Override
+	public int cateDelete(String categoryId) {
+		// 카테고리 삭제
+		return blogMapper.cateDelete(categoryId);
+	}
 	
 	
 	

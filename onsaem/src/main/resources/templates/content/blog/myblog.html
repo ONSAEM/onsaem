@@ -444,7 +444,7 @@
 									class="blog__btn">글 작성<span class="arrow_right"></span></a>
 								<h4>Categories</h4>
 								<ul th:each="cate:${category}">
-									<li><a class="searchCate" th:value="${cate.categoryId}">[[${cate.categoryName}]]</a></li>
+									<li><a class="searchCate" th:value="${cate.categoryId}" style="cursor:pointer">[[${cate.categoryName}]]</a></li>
 								</ul>
 							</div>
 							<div class="blog__sidebar__item">
@@ -499,7 +499,6 @@
 
 									<table id="mySubTable">
 										<thead>
-
 											<tr>
 												<th></th>
 												<th class="shoping__product">내가 구독한 사람ID</th>
@@ -554,7 +553,7 @@
 						<ul>
 							<li><i class="fa fa-calendar-o"></i></li>
 							<li><i class="fa fa-comment-o"></i></li>
-							<li><i class="fa-duotone fa-eye"></i></li>
+							<li><i class="fa-solid fa-eye"></i></li>
 						</ul>
 						<h5>
 							<a></a>
@@ -872,7 +871,7 @@
 		 					url: '/blog/delSub',
 		 					method: 'post',
 		 					contentType: 'application/x-www-form-urlencoded',
-							data: {"groupId":blogId},
+							data: {"groupId":blogId, "memberId": id},
 							beforeSend : function(xhr)
 				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
 				               xhr.setRequestHeader(header, token);
@@ -968,9 +967,9 @@
 				let makeClone = $(listClone).clone();
 				$(makeClone).find(".blog__item__pic").find("input[type=hidden].thumbnail").val(item.blogWrite);
 				$(makeClone).find(".blog__item__pic").find("img").attr("src",item.fileRoute);
-				$(makeClone).find(".blog__item__text").find("i.fa-calendar-o").text(item.writeDate.substr(0,10));
-				$(makeClone).find(".blog__item__text").find("i.fa-comment-o").text(item.replyCnt);
-				$(makeClone).find(".blog__item__text").find("i.fa-eye").text(item.cnt);
+				$(makeClone).find(".blog__item__text").find("i.fa-calendar-o").text(" "+item.writeDate.substr(0,10));
+				$(makeClone).find(".blog__item__text").find("i.fa-comment-o").text(" "+item.replyCnt);
+				$(makeClone).find(".blog__item__text").find("i.fa-eye").text(" "+item.cnt);
 				$(makeClone).find(".blog__item__text").find("a:eq(0)").attr("href","/blog/myblog/blogWrite?bno="+item.writeId).text(item.writeTitle);
 				$(makeClone).find(".blog__item__text").find("p").text(item.subTitle);
 				$(makeClone).find(".blog__item__text").find("a.blog__btn").attr("href","/blog/myblog/blogWrite?bno="+item.writeId).text("READ MORE");
