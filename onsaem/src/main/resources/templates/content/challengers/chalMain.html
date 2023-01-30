@@ -85,8 +85,8 @@
 									<div class="hero__search__categories">
 										All Categories <span class="arrow_carrot-down"></span>
 									</div>
-									<input type="text" placeholder="What do yo u need?">
-									<button type="submit" class="site-btn">SEARCH</button>
+									<input type="text" placeholder="검색어를 검색하세요" id="searchText">
+									<button type="submit" class="site-btn" onclick="searchList()">SEARCH</button>
 								</form>
 							</div>
 							<div class="hero__search__phone">
@@ -224,21 +224,16 @@
 					</div>
 				</div>
 			</div>
+			
 		</section>
 		<!-- Product Section End -->
-		
-		<!-- JS -->
-		<th:block layout:fragment="script">
-			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
-			<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
-			<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
-			<script th:src="@{/shoptemplate/js/jquery-ui.min.js}"></script>
-			<script th:src="@{/shoptemplate/js/jquery.slicknav.js}"></script>
-			<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
-			<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
-			<script th:src="@{/shoptemplate/js/main.js}"></script>
-		</th:block>
 		<Script type="text/javascript">
+			function searchList(){
+				
+				let searchText = $('#searchText').val();
+				console.log(searchText);
+				location.href='/chalListSearch?chalName='+searchText;
+			}
 			function changeOption(data){
 				console.log(data);
 				if(data == 'All'){
@@ -255,5 +250,17 @@
 			
 			
 		</Script>
+		<!-- JS -->
+		<th:block layout:fragment="script">
+			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery-ui.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.slicknav.js}"></script>
+			<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/main.js}"></script>
+		</th:block>
+		
 </div>
 </html>

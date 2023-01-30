@@ -214,19 +214,20 @@ h1 {
                      <div class="modal__content">
 
                         <h3>인증하기</h3>
-                     
-                        <p th:text="'챌린지 명 : '+${chal.chalName}"></p>
-                        <div class="modalText">
-                           <img style="width: 500px;" id="preview-image"
-                              src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
-                           <input style="display: block;" type="file" id="input-image"
-                              name="uploadFile">
-                           <p th:text="${chal.chalId}" id="chalId"></p>
-                           <textarea id="content" name="content"></textarea>
-                           <button type="button" th:onclick="inputProof()">인증하기</button>
-                           <button type="button" class="closeBtn">닫기</button>
-                        </div>
-                     
+                     	<form name="inputFrm" class="form" enctype="multipart/form-data">
+                     		<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
+	                        <p th:text="'챌린지 명 : '+${chal.chalName}"></p>
+	                        <div class="modalText">
+	                           <img style="width: 500px;" id="preview_image"
+	                              src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
+	                           <input style="display: block;" type="file" id="input_image"
+	                              name="uploadFile">
+	                           <input type="hidden" th:value="${chal.chalId}" id="chalId" name="chalId"></p>
+	                           <textarea id="content" name="content"></textarea>
+	                           <button type="button" th:onclick="inputProof()">인증하기</button>
+	                           <button type="button" class="closeBtn">닫기</button>
+	                        </div>
+                     	</form>
                      </div>
                   </div>
                   <!-- 모달창 끛-->
@@ -241,6 +242,9 @@ h1 {
       <script th:src="@{/shoptemplate/js/main.js}"></script>
    </th:block>
    <script type="text/javascript">
+   var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	
       document.addEventListener('DOMContentLoaded', function() {
          var modeSwitch = document.querySelector('.mode-switch');
 
@@ -310,7 +314,7 @@ h1 {
               const reader = new FileReader()
               // 이미지가 로드가 된 경우
               reader.onload = e => {
-                  const previewImage = document.getElementById("preview-image")
+                  const previewImage = document.getElementById("preview_image")
                   previewImage.src = e.target.result
               }
               // reader가 이미지 읽도록 하기
@@ -321,32 +325,29 @@ h1 {
       //모달창한테 값넘기기 ㅋㅋ
       
       // input file에 change 이벤트 부여
-      const inputImage = document.getElementById("input-image")
+      const inputImage = document.getElementById("input_image")
       inputImage.addEventListener("change", e => {
           readImage(e.target)
       })
 
    function inputProof(){
-         let content=document.getElementById("content").value;
-         console.log(content.value)
-         let img=document.getElementById("input-image").value;
-         console.log(img);
-         let imgName= img.substr(12,img.length);
-         console.log(imgName);
-         let chalId=document.getElementById("chalId").innerText;
-         console.log(chalId)
-         
+         var formData = new FormData(document.inputFrm);
          $.ajax({
              url:'/mypage/myCurrentChal',
-             method: 'post',
-             contentType : 'application/json',
-             data: JSON.stringify({content:content,
-                fileName:imgName,
-                chalId:chalId}),
+             enctype: 'multipart/form-data',
+             method: 'POST',
+             processData: false,
+			 contentType: false,
+             beforeSend : function(xhr)
+             {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+            	 xhr.setRequestHeader(header, token);
+             },
+             data: formData,
+             dataType:'json',
              success : function(result){
                 console.log(result);
                 alert('인증 첨부 성공❤❤');
-                location.href="http://localhost/mypage/myCurrentChal";
+                //location.href="http://localhost/mypage/myCurrentChal";
              },
              error : function(error){
                 console.log(error);

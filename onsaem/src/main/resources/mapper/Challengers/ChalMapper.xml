@@ -13,8 +13,14 @@
 		</where>
 	</sql>
 	
+	<sql id="condition2">
+		<if test="chalName">
+				 AND CHAL_NAME LIKE '%' || #{chalName} || '%'
+		</if>
+	</sql>
+	
 	<!-- 챌리저스 전체조회 -->
-	<select id="getChalAll" resultType="ChalVO">
+	<select id="getChalAll" resultType="ChalVO" parameterType="ChalVO">
 		SELECT * FROM (SELECT ROWNUM RN, A.* FROM( 
 		SELECT  C.CHAL_ID,
 				C.CLASSES, 
@@ -28,6 +34,7 @@
 		  JOIN MEDIA M
 		    ON C.CHAL_ID = M.GROUP_ID
          WHERE M.SUB_GROUP = '썸네일'
+         <include refid="condition2"/>
 		 ORDER BY CHAL_ID DESC
         <![CDATA[
 				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}

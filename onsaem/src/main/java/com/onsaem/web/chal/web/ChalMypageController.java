@@ -73,7 +73,8 @@ public class ChalMypageController {
 	
 	//인증샷 넣기 ! 
 	@RequestMapping(value="/myCurrentChal",method=RequestMethod.POST)
-	public String inputProof(@RequestBody ProofVO pvo,  MultipartFile[] uploadFile, Authentication authentication) throws IllegalStateException, IOException {
+	@ResponseBody
+	public String inputProof(ProofVO pvo,  MultipartFile[] uploadFile, Authentication authentication) throws IllegalStateException, IOException {
 		//세션에서 가져온 로그인 된 id값 
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		String id = userDetails.getUsername();
@@ -88,9 +89,10 @@ public class ChalMypageController {
 		
 		vo.setGroupId(pvo.getProofId());
 		vo.setSubGroup("챌린저스인증");
+		vo.setGroups(pvo.getChalId());
 		mediaService.uploadMedia(uploadFile, vo);
 
-		return "redirect:/mypage/myCurrentChal";
+		return "true";
 	}
 	
 	//권한 - 일반회원의 챌린저스 마이페이지 - 시작전 챌린지 모음
@@ -164,14 +166,14 @@ public class ChalMypageController {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 //		//세션에서 가져온 로그인 된 id값
 		String id = userDetails.getUsername();
-		chalId="CH1";
+		//chalId="CH1";
 //		//챌린저스 한건 정보
 		model.addAttribute("chal",chalService.getChal(chalId));
 		
 		ParticipantVO tvo = new ParticipantVO();
-		tvo.setChalId("CH1");
+		tvo.setChalId(chalId);
 		tvo.setParticipantId(id);
-		//참가자 정모
+		//참가자 정보
 		model.addAttribute("user", partService.getParticipant(tvo));
 		
 		ChalVO cvo = chalService.getChal(chalId);
@@ -187,19 +189,21 @@ public class ChalMypageController {
 		//		
 		//해당 챌린지에 대해 내가 입력한 모든 인증샷 싹다 가져오기 - chalId, memberid
 		vo.setGroupId(chalId);
-		vo.setProofWriter("hodu");
+		//vo.setProofWriter("hodu");
+		vo.setProofWriter(id);
+		vo.setGroups(chalId);
 		model.addAttribute("myPhotoes", proofService.getMyShotsForOne(vo));
 		
 //		//Proofs 테이블에서 count(*) 해야함 - 조건이 성공인거, 작성자 아이디, 챌린지 아이디 필요
 		pvo.setChalId(chalId);
-		pvo.setProofWriter("hodu");
+		pvo.setProofWriter(id);
 		pvo.setCondition("정상");
 		
 		model.addAttribute("cntGood", proofService.countProof(pvo));
 		
 //		//Proofs 테이블에서 count(*) 해야함 - 조건이 성공인거, 작성자 아이디, 챌린지 아이디 필요
 		pvo.setChalId(chalId);
-		pvo.setProofWriter("hodu");
+		pvo.setProofWriter(id);
 		pvo.setCondition("실패");
 		
 		model.addAttribute("cntBad", proofService.countProof(pvo));

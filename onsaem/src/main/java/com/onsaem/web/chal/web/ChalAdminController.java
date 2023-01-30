@@ -78,7 +78,7 @@ public class ChalAdminController {
 		chalService.updateRecipt(cvo);
 		
 		
-		return "redirect:/AdminEndChals";
+		return "redirect:/mypage/AdminEndChals";
 	}
 	
 	//챌린저스 개인전 포인트 적립 - 해당 챌린지 참가 인원 리스트 뽑기
