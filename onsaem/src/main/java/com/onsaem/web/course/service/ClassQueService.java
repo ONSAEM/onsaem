@@ -2,10 +2,6 @@ package com.onsaem.web.course.service;
 
 import java.util.Map;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.onsaem.web.common.service.QuestionVO;
 import com.onsaem.web.common.service.Paging;
 

@@ -8,12 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.onsaem.web.common.service.QuestionVO;
-import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.course.mapper.ClassQueMapper;
-import com.onsaem.web.course.service.ClassInfoVO;
 import com.onsaem.web.course.service.ClassQueService;
 import com.onsaem.web.member.service.MemberService;
 
