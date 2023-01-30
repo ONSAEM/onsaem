@@ -444,7 +444,7 @@
 									class="blog__btn">글 작성<span class="arrow_right"></span></a>
 								<h4>Categories</h4>
 								<ul th:each="cate:${category}">
-									<li><a class="searchCate" th:value="${cate.categoryId}">[[${cate.categoryName}]]</a></li>
+									<li><a class="searchCate" th:value="${cate.categoryId}" style="cursor:pointer">[[${cate.categoryName}]]</a></li>
 								</ul>
 							</div>
 							<div class="blog__sidebar__item">
@@ -499,7 +499,6 @@
 
 									<table id="mySubTable">
 										<thead>
-
 											<tr>
 												<th></th>
 												<th class="shoping__product">내가 구독한 사람ID</th>
@@ -554,7 +553,7 @@
 						<ul>
 							<li><i class="fa fa-calendar-o"></i></li>
 							<li><i class="fa fa-comment-o"></i></li>
-							<li><i class="fa-duotone fa-eye"></i></li>
+							<li><i class="fa-solid fa-eye"></i></li>
 						</ul>
 						<h5>
 							<a></a>
@@ -598,19 +597,8 @@
 								</div>
 							</div>
 							<p id="uploadDate"></p>
-							<!-- 하트 -->
-							<div class="wrapper" >
-								<div class="button-container">
-									<div class="heartbutton">
-										<span class="content"> <i class="icon fa fa-heart"
-											aria-hidden="true"></i> <i class="icon far fa-heart"
-											aria-hidden="true"></i> <span class="text like">Like<span
-												class="text d">d</span></span> <span class="text number" th:text="${cntBlogLike.count}"></span>
-										</span>
-										<input type="hidden" class="blogLike" th:value=${likeCount}> <!-- 초기값을 F로 두기 -->
-									</div>
-								</div>
-							</div>
+							<!-- 하트 시간 남으면-->
+							
 							<!-- 하트 끝 -->
 						</div>
 					</div>
@@ -808,94 +796,7 @@
 			})
 			
 			
-			// 좋아요
-					var timeline1 = gsap.timeline({ repeatDelay: 0.7, paused: true}); //하트 효과
-		timeline1.to(".heartbutton", {duration: 0.7, width: 50, ease: Back.easeIn}) 
-	  			 .to(".like", {duration: 0.2, opacity: 0}, "-=0.7")
-				 .to(".number", {duration: 0.2,opacity: 0, fontSize: 0}, "-=0.7")
-				 .to(".far", {duration: 0.4, display: "none"}, "-=0.5") 
-				 .to(".fa", {duration: 0.1, display: "inline-block"},"-=0.1")
-				 .to(".heartbutton", {duration: 0.7, width: 170})
-				 .to(".like", { opacity: 1},"-=0.5")
-				 .to(".d", {duration: 0.3, opacity: 1, translateX: 0},"-=0.2").to(".number", {duration: 0.2, opacity: 1,text: "[[${cntBlogLike.count}]]", fontSize: 25}, "-=0.1");
-		
-		if(likeTF == 'Y'){ // like 테이블에 값이 있는지 확인하고, 값이 있으면 하트가 눌러진 상태로 표시 되게.
-			timeline("[[${cntBlogLike.count}]]",true);
-		}
-		
-		function timeline(e,tf){
-			if(tf){ //만약 true이면,
-				timeline1.to(".number", {duration: 0.2, opacity: 1,text: e, fontSize: 25}, "-=0.1"); //
-				timeline1.play(); // 버튼 눌림
-			}else{
-				timeline1.progress(0).pause(); // 버튼 초기화
-				$('.number').text(e);
-			}
-		}
-		
-		$(".heartbutton").click(function(){
-			likeTF = $('.wrapper').find('input').val();
-			event.stopPropagation();
-			// 좋아요 디비 저장
-			let bno = "[[${blogWrite.writeId}]]";
-			let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
 			
-			if(id!=""){ // 로그인 된 상태이면
-				//console.log($(".blogLike").val());
-			  	if(likeTF=='F'){ // 테이블에 조회된 값이 없으면 db에 저장
-			  			//db에 저장하는 메서드 컨트롤러에 추가
-			  	
-			  			$.ajax({
-						      url: '/blog/addBlogLike',
-						      method: 'post',
-						      contentType: 'application/x-www-form-urlencoded',
-						      data: {"groupId": bno}, // 컨트롤러로 넘겨줄 값. 이 페이지의 글 번호
-						      beforeSend : function(xhr)
-				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-				               xhr.setRequestHeader(header, token);
-				               },
-						      success: function (result) {
-						         console.log(result.count);
-						         // Y를 F로
-						         
-						       $('.blogLike').val('Y'); // blogLike인 클래스의 값을 불러와서 'Y'로 바꿔준다
-						       timeline(result.count,true);
-						      },
-						      error: function (error) {
-						         console.log(error);
-						      }
-						   })
-			  	
-			  	
-			  	}else{	// db에 삭제
-			  			//db에서 삭제 또는 수정하는 메서드 컨트롤러에 추가
-			  	
-			  			$.ajax({
-						      url: '/blog/delBlogLike',
-						      method: 'post',
-						      contentType: 'application/x-www-form-urlencoded',
-						      data: {"groupId": bno},
-						      beforeSend : function(xhr)
-				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-				               xhr.setRequestHeader(header, token);
-				               },
-						      success: function (result) {
-						         console.log(result.count);
-						         
-						         // F를 Y로
-						         $('.blogLike').val('F'); // blogLike인 클래스의 값을 불러와서 'F'로 바꿔준다
-						         timeline(result.count,false);
-						      },
-						      error: function (error) {
-						         console.log(error);
-						      }
-						   })
-			  	};
-			}else{ // 로그인 하지 않은 상태이면
-				alert('로그인이 필요합니다');
-			}
-			});
-				// 	좋아요 끝
 			
 			
 			// 모달 끝
@@ -970,7 +871,7 @@
 		 					url: '/blog/delSub',
 		 					method: 'post',
 		 					contentType: 'application/x-www-form-urlencoded',
-							data: {"groupId":blogId},
+							data: {"groupId":blogId, "memberId": id},
 							beforeSend : function(xhr)
 				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
 				               xhr.setRequestHeader(header, token);
@@ -1066,9 +967,9 @@
 				let makeClone = $(listClone).clone();
 				$(makeClone).find(".blog__item__pic").find("input[type=hidden].thumbnail").val(item.blogWrite);
 				$(makeClone).find(".blog__item__pic").find("img").attr("src",item.fileRoute);
-				$(makeClone).find(".blog__item__text").find("i.fa-calendar-o").text(item.writeDate.substr(0,10));
-				$(makeClone).find(".blog__item__text").find("i.fa-comment-o").text(item.replyCnt);
-				$(makeClone).find(".blog__item__text").find("i.fa-eye").text(item.cnt);
+				$(makeClone).find(".blog__item__text").find("i.fa-calendar-o").text(" "+item.writeDate.substr(0,10));
+				$(makeClone).find(".blog__item__text").find("i.fa-comment-o").text(" "+item.replyCnt);
+				$(makeClone).find(".blog__item__text").find("i.fa-eye").text(" "+item.cnt);
 				$(makeClone).find(".blog__item__text").find("a:eq(0)").attr("href","/blog/myblog/blogWrite?bno="+item.writeId).text(item.writeTitle);
 				$(makeClone).find(".blog__item__text").find("p").text(item.subTitle);
 				$(makeClone).find(".blog__item__text").find("a.blog__btn").attr("href","/blog/myblog/blogWrite?bno="+item.writeId).text("READ MORE");

@@ -77,9 +77,9 @@ public class BlogController {
 	@RequestMapping(value = "/delSub", method = RequestMethod.POST)
 	@ResponseBody
 	public LikeVO delBlogLike(LikeVO vo, Authentication authentication) {
-		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		String id = userDetails.getUsername();		
-		vo.setMemberId(id);
+//		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+//		String id = userDetails.getUsername();		
+//		vo.setMemberId(id);
 		blogService.delSub(vo);
 		return vo;
 	}
@@ -103,6 +103,14 @@ public class BlogController {
 	public CategoriesVO cateInsert(CategoriesVO cateVO) {
 		blogService.cateInsert(cateVO);
 		return cateVO;
+	}
+	
+	// 카테고리 삭제
+	@RequestMapping(value = "/cateDelete", method=RequestMethod.POST)
+	@ResponseBody
+	public String cateDelete(String categoryId) {
+		blogService.cateDelete(categoryId);
+		return "success";
 	}
 	
 }

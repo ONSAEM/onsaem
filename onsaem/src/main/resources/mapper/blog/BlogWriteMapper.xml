@@ -105,6 +105,27 @@
 				current_date)
  	</insert>
  	
+ 	<!-- 글 삭제 -->
+ 	<delete id="blogDelete" parameterType="String">
+ 		delete from blog_writes
+ 		where write_id = #{writeId}
+ 	</delete>
+ 	
+ 	
+ 	<!-- 글 수정 -->
+ 	<update id="blogUpdate" parameterType="blogWriteVO">
+ 		UPDATE BLOG_WRITES
+ 			SET WRITE_TITLE = #{writeTitle},
+ 			 	SUBTITLE = #{subTitle},
+ 			 	CATEGORY_ID = #{categoryId},
+ 			 	PUBLIC_SCOPE = #{publicScope},
+ 			 	BLOG_WRITE = #{blogWrite},
+ 			 	WRITE_DATE = CURRENT_DATE
+ 		where BLOG_ID = #{blogId}
+ 		and WRITE_ID = #{writeId}
+ 	</update>
+ 	
+ 	
  	<!-- 좋아요 조회 -->
  	<select id="likeCount" resultType="String" parameterType="String">
  		select case when count(*) != 0 then 'Y' else 'F' end as like_count
@@ -181,6 +202,7 @@
  	
  	
  	
+ 	
 <!--  	밑에는 수정중 -->
  	
  	<!-- 내 블로그 제목 검색 (보류)-->
@@ -199,25 +221,6 @@
 		where write_title like '%'||#{data}||'%'
 		order by write_date DESC
 	</select>
- 	
- 	
- 	<!-- 글 수정 -->
- 	<update id="blogUpdate" parameterType="blogWriteVO">
- 		UPDATE BLOG_WRITES
- 			SET WRITE_TITLE = #{writeTitle},
- 			SET SUBTITLE = #{subTitle},
- 			SET CATEGORY_ID = #{categoryId},
- 			SET PUBLIC_SCOPE = #{publicScope},
- 			SET BLOG_WRITE = #{blogWrite},
- 			SET WRITE_DATE = CURRENT_DATE
- 		where BLOG_ID = #{blogId}
- 		and WRITE_ID = #{writeId}
- 	</update>
- 	<!-- 글 삭제 -->
- 	<delete id="blogDelete" parameterType="String">
- 		delete from blog_writes
- 		where write_id = #{writeId}
- 	</delete>
  	
  	
  </mapper>

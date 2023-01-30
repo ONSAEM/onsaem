@@ -215,7 +215,7 @@
 				<div class="col-lg-8 col-md-7 order-md-1 order-1"> <!--------------------------신고!!!!! -->
 					<i type="button" class="fa-solid fa-triangle-exclamation openBtn" style="float:right;"
 					th:value1="${blogWrite.writeId}" th:value2="${blogWrite.blogId}">신고하기</i>
-					<button style="float:right;" id="blogUpdate">수정</button>
+					<button style="float:right;" id="blogUpdate" th:onclick="|location.href='@{/blog/myblog/blogWrite/blogUpdate(bno=${blogWrite.writeId})}'|">수정</button>
 					<button style="float:right;" id="blogDelete" th:value="${blogWrite.writeId}">삭제</button>
 					<div class="blog__details__text">
 						 [(${blogWrite.blogWrite})]

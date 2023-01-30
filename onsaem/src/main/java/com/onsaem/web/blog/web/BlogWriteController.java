@@ -343,18 +343,30 @@ public class BlogWriteController {
 	
 	
 	// 블로그 글 수정 페이지로 이동
-//	@RequestMapping(value = "/myblog/blogWrite/blogUpdate/{userId}/{bno}", method = RequestMethod.GET)
-//	public String blogUpdatePage(Model model, @PathVariable String userId, @PathVariable String bno) {
-//		model.addAttribute("blogUpdate", blogWriteService.getBlog(userId, bno));
-//		return "content/blog/blogUpdate";
-//	}
+	@RequestMapping(value = "/myblog/blogWrite/blogUpdate", method = RequestMethod.GET)
+	public String blogUpdatePage(Model model, String bno, Authentication authentication,CategoriesVO vo ) {
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		String id = userDetails.getUsername();
+		
+		model.addAttribute("blogUpdate", blogWriteService.getBlog(bno)); // 글 불러오기
+		System.out.println("블로그업데이트: "+ blogWriteService.getBlog(bno));
+		
+		vo.setBlogId(id);
+		model.addAttribute("category", blogWriteService.cateList(vo)); // 카테고리 불러오기
+		
+		return "content/blog/blogUpdate";
+	}
 //	// 블로그 글 수정 처리(수정)
-//	@RequestMapping(value = "/myblog/blogWrite/blogUpdate", method = RequestMethod.POST)
-//	@ResponseBody  //ajax 응답은 responseBody
-//	public BlogWriteVO blogUpdate(Model model, BlogWriteVO vo) {
-//		model.addAttribute("blogUpdate", blogWriteService.blogUpdate(vo));
-//		return vo;
-//	}
+	@RequestMapping(value = "/myblog/blogWrite/blogUpdate", method = RequestMethod.POST)
+	@ResponseBody  //ajax 응답은 responseBody
+	public BlogWriteVO blogUpdate(Model model, BlogWriteVO vo, Authentication authentication) {
+		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		String id = userDetails.getUsername();
+		
+		vo.setBlogId(id);
+		model.addAttribute("blogUpdate", blogWriteService.blogUpdate(vo));
+		return vo;
+	}
 //	// 블로그 글 삭제 처리(삭제)
 	@RequestMapping(value = "/blogDelete", method = RequestMethod.POST)
 	@ResponseBody

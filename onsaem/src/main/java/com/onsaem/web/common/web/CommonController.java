@@ -27,4 +27,8 @@ public class CommonController {
 	public String testblog() {
 		return "content/test/blogtest";
 	}
+	@RequestMapping(value="/testVue", method = RequestMethod.GET)
+	public String testVue() {
+		return "content/test/vueTest";
+	}
 }

@@ -46,10 +46,6 @@ public class MomentController {
 	public MomentsVO getMoment(Model model, String momentId, LikeVO lvo ) {
 		MomentsVO vo = momentService.getMoment(momentId);
 		
-		lvo.setGroupId(momentId);
-		model.addAttribute("likeCount", blogWriteService.likeCount(lvo));
-		model.addAttribute("cntBlogLike", blogWriteService.cntBlogLike(lvo)); // 좋아요 수
-		
 		return vo;
 	}
 	

@@ -954,8 +954,8 @@
 						    	<input type="hidden" id="blogId" th:value="${cate.blogId}">
 							    <label class="control control--checkbox">[[${cate.categoryName}]] ([[${cate.publicScope}]])
 <!-- 							    	<div class="cateList"></div> -->
-							      <input type="checkbox"/>
-							      <div class="control__indicator" type="checkbox" name="checkList"></div>
+							      <input type="checkbox" class="checkList" th:value="${cate.categoryId}"></input>
+							      <div class="control__indicator"></div>
 							    </label>
 						    </th:block>
 						  </div>
@@ -1046,6 +1046,7 @@
 		            success: function(result){
 		            	console.log(result);
 		            	location.reload();
+						
 		            	
 		            },
 		            error: function(error){
@@ -1058,7 +1059,7 @@
 // 			function newCateList(){
 // 				let blogId= $('#blogId').val();
 // 				$.ajax({
-// 					url: 'blog/myblog/blogCategory',
+// 					url: '/blog/myblog/blogCategory',
 // 					method: 'GET',
 // 					contentType: 'application/x-www-form-urlencoded',
 // 					data:{blogId:blogId},
@@ -1077,9 +1078,30 @@
 // 			}
 			
 			$('#cateDelete').on("click", function(){
-				$('div:checkbox[name=checkList]').each(function(index){
+				$(".checkList").each(function(index,item){
 					if($(this).is(":checked")==true){
-						console.log($(this).val());
+// 						console.log($(this).parent());
+						let cateId = $(this).val();
+						let removeCate = $(this).parent();
+						console.log(removeCate.parent());
+						$.ajax({
+							url: '/blog/cateDelete',
+							method: 'POST',
+							contentType: 'application/x-www-form-urlencoded',
+							data:{"categoryId": cateId},
+							beforeSend : function(xhr)
+				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				               xhr.setRequestHeader(header, token);
+				               },
+							success : function(result){
+								removeCate.remove();
+								console.log(cateId);
+								
+							},
+							error : function(error){
+								console.log(error);
+							}
+						})
 					}
 				})
 			})

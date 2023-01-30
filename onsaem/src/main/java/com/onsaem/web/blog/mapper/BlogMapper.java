@@ -43,6 +43,7 @@ public interface BlogMapper {
 	// 카테고리 등록
 	public int cateInsert(CategoriesVO cateVO);
 	// 카테고리 삭제
+	public int cateDelete(String categoryId);
 	
 	
 	// 신고
