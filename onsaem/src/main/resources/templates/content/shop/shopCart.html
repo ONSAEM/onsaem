@@ -85,15 +85,15 @@
 								<tr th:each="cart:${myCartList}">
 									<td><input type="checkbox" name="checkBox"
 										th:onchange="saveList([[${cart}]])"></input></td>
-									<td class="shoping__cart__item" style="width:389px"><img
+									<td class="shoping__cart__item" style="width: 389px"><img
 										th:src="@{/fileView/{fileRoute}/
 									(fileRoute=${cart.fileRoute})}"
-										alt="" ></td>
+										alt="" th:onclick="detailFnc([[${cart.productId}]])"></td>
 									<td><h5 th:text="${cart.productName}" id="productName">Fresh
 											Garden Vegetable</h5></td>
 									<td class="shoping__cart__price" id="cartPrice"
 										th:text="${cart.cartPrice}+원">$39.00</td>
-									<td th:text="${cartOption}">옵션</td>
+									<td th:text="${cart.cartOption}">옵션</td>
 									<td class="shoping__cart__quantity">
 										<div class="quantity">
 											<div class="pro-qty" th:onclick="changeAmount()">
@@ -149,6 +149,11 @@
 	<script type="text/javascript">
 	 var token = $("meta[name='_csrf']").attr("content");
 	 var header = $("meta[name='_csrf_header']").attr("content");
+	 
+	//상품상세보기페이지이동
+	 function detailFnc(data){
+		 location.href='/shopDetail?data='+data
+	 }
 		
 		//장바구니삭제
 		function delCart(data){

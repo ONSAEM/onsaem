@@ -37,9 +37,13 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<ProductVO> proCategory(String data) {
-		// 카테고리별상품조회		
-		return proMapper.proCategory(data);
+	public List<ProductVO> proCategory(String data,Paging paging,ProductVO vo) {
+		// 카테고리별상품조회	
+		paging.setTotalRecord(proMapper.cateCount(data));
+		paging.setPageUnit(9);
+		vo.setFirst(paging.getFirst());
+		vo.setLast(paging.getLast());
+		return proMapper.proCategory(data,vo);
 	}
 
 	@Override
@@ -157,9 +161,9 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<ProductVO> selectProduct(String best1,String best2,String best3,String best4,String best5) {
+	public List<ProductVO> selectProduct(List<String> list) {
 		// 주간베스트 데이터 가져오기
-		return proMapper.selectProduct(best1,best2,best3,best4,best5);
+		return proMapper.selectProduct(list);
 	}
 
 	@Override
@@ -172,6 +176,12 @@ public class ProductServiceImpl implements ProductService{
 	public List<ReviewVO> myReviewList(String data) {
 		// 나의 리뷰리스트
 		return proMapper.myReviewList(data);
+	}
+
+	@Override
+	public int updateStar(ReviewVO vo) {
+		// 리뷰 별점 업데이트
+		return proMapper.updateStar(vo);
 	}
 
 	

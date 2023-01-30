@@ -170,7 +170,7 @@ h1 {
 							<tbody>
 								<tr th:each="order:${myOrderList}">
 									<td>주문일자 [[${order.orderDate}]]<br> <img
-										id="preview-image" th:src="'/fileView/'+${order.fileRoute}">
+										id="preview-image" th:src="'/fileView/'+${order.fileRoute}" th:onclick="detailFnc([[${order.productId}]])">
 									</td>
 									<td>배송상태 [[${order.orderStatus}]]<br> <br>상품명
 										[[${order.productName}]] 옵션 [[${order.detailOption}]] <br>
@@ -197,7 +197,7 @@ h1 {
 									</span>
 									</td>
 									<!-- 리뷰 모달창 -->
-									<td>
+									<td id="reviewModal">
 										<div class="black-bg">
 											<div class="white-bg">
 												<h4>리뷰작성</h4>
@@ -274,6 +274,11 @@ h1 {
 			 var token = $("meta[name='_csrf']").attr("content");
 			 var header = $("meta[name='_csrf_header']").attr("content");
 			
+			 //상품상세보기페이지이동
+			 function detailFnc(data){
+				 location.href='/shopDetail?data='+data
+			 }
+			 
 			 //리뷰 작성여부 확인(수정해야함)
 			 window.onload=function(){
 				 $.ajax({
@@ -362,6 +367,7 @@ h1 {
 			
 			//리뷰제출
 			function submitReview(data){
+				console.log(data)
 				let groupId=data;				
 				let reviewContent=$('#reviewContent').val();
 				let reviewStar=$('input[name="rating"]:checked').val();
@@ -392,7 +398,8 @@ h1 {
 			
 			//리뷰 모달창 생성
 			  $(".modals").click(function () {
-			        $(".black-bg").fadeIn();
+				  console.log(this.parentNode.parentNode.parentNode.querySelector(".black-bg"))
+			        this.parentNode.parentNode.parentNode.querySelector(".black-bg").style.display="block";
 			      });  
 			      $(".btn-danger").click(function () {
 			        $(".black-bg").fadeOut(); 

@@ -30,19 +30,19 @@ public class CartController {
 	
 	// 버튼클릭 장바구니담기
 	@RequestMapping(value = "/cartAdd", method = RequestMethod.GET)
-	public String cartAdd(Model model,CartVO vo, Authentication authentication) {
-		CartVO cartVo = new CartVO();
+	public String cartAdd(Model model,CartVO vo, Authentication authentication) {	
 		 UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		if ( Integer.toString(vo.getCartAmount()).equals("0") ) {	
-			cartVo.setMemberId(userDetails.getUsername());
-			cartVo.setCartAmount(1);
-			cartVo.setProductId(vo.getProductId());					
+			vo.setMemberId(userDetails.getUsername());
+			vo.setCartAmount(1);
+			vo.setProductId(vo.getProductId());					
 		} else {
-			cartVo.setMemberId(userDetails.getUsername());
-			cartVo.setProductId(vo.getProductId());
-			cartVo.setCartAmount((int)vo.getCartAmount());
-			cartVo.setCartOption(vo.getCartOption());			
+			vo.setMemberId(userDetails.getUsername());
+			vo.setProductId(vo.getProductId());
+			vo.setCartAmount((int)vo.getCartAmount());
+			vo.setCartOption(vo.getCartOption());			
 		}
+		cartService.cartAdd(vo);
 		return "redirect:/shop";
 	}
 	

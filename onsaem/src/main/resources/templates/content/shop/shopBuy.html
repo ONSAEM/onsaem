@@ -137,8 +137,9 @@
 								<ul>
 									<li>배송금액 <span>[[${product.deliveryFee}]] 원</span></li>
 									<li th:each="user:${userData}">사용할포인트 <input
-										style="width: 50px; height: 30px" oninput="usePoint(this)"
-										id="usePo"> <span id="myPoint">보유한포인트[[${user.point}]]</span></li>
+										style="width: 50px; height: 30px"
+										onkeyup="usePoint(this.value)" value="0" id="usePo"> <span
+										id="myPoint">보유한포인트[[${user.point}]]</span></li>
 								</ul>
 								<div class="checkout__order__subtotal">
 									총결제금액 <span id="totalPrice">[[${product.deliveryFee+productVO.amount*product.price}]]원</span>
@@ -147,8 +148,9 @@
 								<h4>결제방법</h4>
 
 								<button class="site-btn paymentBtn">주문 결제하기</button>
-								<input type="hidden" id="productId" th:value="${product.productId}">
-								<input type="hidden" id="deliveryFee" th:value="${product.deliveryFee}">
+								<input type="hidden" id="productId"
+									th:value="${product.productId}"> <input type="hidden"
+									id="deliveryFee" th:value="${product.deliveryFee}">
 							</div>
 						</div>
 					</div>
@@ -170,11 +172,11 @@
 			//csrf설정
 			var token = $("meta[name='_csrf']").attr("content");
 			var header = $("meta[name='_csrf_header']").attr("content");
-			window.onload=function(){
+			window.onload = function() {
 				document.querySelector("#productId").value;
 				console.log(document.querySelector("#deliveryFee").value)
 			}
-			
+
 			//결제API
 			$(".paymentBtn")
 					.on(
@@ -304,18 +306,21 @@
 					beforeSend : function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
 						xhr.setRequestHeader(header, token);
 					},
-					data : JSON.stringify({
-						"detailAmount" : detailAmount,
-						"detailOption" : detailOption,
-						"recivReq" : recivReq,
-						"recivPhone" : recivPhone,
-						"recivAddr" : recivAddr,
-						"recivName" : recivName,
-						"deliveryFee" : document.querySelector("#deliveryFee").value,
-						"productId" : document.querySelector("#productId").value
-					}),
+					data : JSON
+							.stringify({
+								"detailAmount" : detailAmount,
+								"detailOption" : detailOption,
+								"recivReq" : recivReq,
+								"recivPhone" : recivPhone,
+								"recivAddr" : recivAddr,
+								"recivName" : recivName,
+								"deliveryFee" : document
+										.querySelector("#deliveryFee").value,
+								"productId" : document
+										.querySelector("#productId").value
+							}),
 					success : function(result) {
-						location.href="/shop/buyEnd"
+						location.href = "/shop/buyEnd"
 					},
 					error : function(error) {
 						console.log(error)
@@ -323,16 +328,13 @@
 				})
 
 				event.preventDefault();
-
 			}
 
 			//포인트 사용
 			function usePoint(data) {
-
 				let usePoint = $("#usePo").val();
 				let totalPrice = $("#totalPrice").text().split('원')[0];
-				$("#totalPrice").text(totalPrice - usePoint + "원")
-
+				$("#totalPrice").text(totalPrice - usePoint + "원");
 			}
 
 			$(function() {
