@@ -116,7 +116,12 @@
 						class="input">
 				</div>
 				<div class="inputfield">
-					<label>환불계좌</label>
+					<label>사업자번호<span class="request">*</span></label> <input
+						type="text" name="businessNumber" id="sample6_detailAddress"
+						class="input">
+				</div>
+				<div class="inputfield">
+					<label>계좌</label>
 					<div class="custom_select">
 						<select name="bank">
 							<option value="">::은행선택::</option>
@@ -128,11 +133,37 @@
 				<div class="inputfield">
 					<label></label> <input type="text" name="bankAccount" class="input">
 				</div>
+				<div class="inputfield">
+					<label>사업 상세 설명<span class="request">*</span></label> <textarea
+						type="text" name="businessNumber" id="sample6_detailAddress"
+						class="input"></textarea>
+				</div>
+				<div class="inputfield">
+					<label>인증사진</label>
+					<p>*상품 또는 사업장 사진을 최소 5장 최대 10장내로 등록해주세요</p>
+				</div>
+				<div class="col-lg-6 col-md-6" style="margin: auto; margin-bottom: 10px">
+					<div class="product__details__pic">
+						<div class="product__details__pic__item">
+							<img class="product__details__pic__item--large"
+								src="/images/defaulltProfile.png" alt="">
+						</div>
+						<div class="product__details__pic__slider owl-carousel">
+							<img src="/images/defaulltProfile.png" alt="">
+						</div>
+					</div>
+				</div>
+				<div class="filebox">
+				<label for="file"
+						class="filelabel">사진등록</label> <input name="appliyFile"
+						type="file" id=file accept=".gif, .jpg, .png, .bmp">
+				</div>
+				<p style="margin: auto; text-align: center;">총 0개 등록됨</p>
 				<div class="inputfield terms">
 					<label class="check"> <input type="checkbox"> <span
 						class="checkmark"></span>
 					</label>
-					<p>회원가입 동의</p>
+					<p>가입신청 동의</p>
 				</div>
 				<div class="inputfield">
 					<button type="button" class="btn">회원가입</button>
@@ -433,6 +464,9 @@
 				}
 				if ($('input[name=detailAddr]').parentsUntil('.form').next().prop('tagName') == 'P') {
 					$('input[name=detailAddr]').parentsUntil('.form').next().remove();
+				}
+				if ($('input[name=businessNumber]').parentsUntil('.form').next().prop('tagName') == 'P') {
+					$('input[name=businessNumber]').parentsUntil('.form').next().remove();
 				}
 				if ($('input[type=checkbox]').parentsUntil('.form').next().eq(1).prop('tagName') == 'P') {
 					$('input[type=checkbox]').parentsUntil('.form').next().eq(1).remove();
