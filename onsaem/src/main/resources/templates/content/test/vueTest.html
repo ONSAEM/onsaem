@@ -26,7 +26,30 @@
 		<div class="app-content-actions">
 			<input class="search-bar" placeholder="Search..." type="text">
 			<div class="app-content-actions-wrapper">
-				
+				<div class="filter-button-wrapper">
+					<button class="action-button filter jsFilter">
+						<span>Filter</span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 24 24" fill="none" stroke="currentColor"
+							stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+							class="feather feather-filter">
+							<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" /></svg>
+					</button>
+					<div class="filter-menu" style="right:0px;">
+						<label>Category</label> 
+						<select id="filterId">
+							<option value="">::카테고리::</option>
+							<option value="블로그">블로그</option>
+							<option value="쇼핑몰">쇼핑몰</option>
+							<option value="챌린저스">챌린저스</option>
+							<option value="강의">강의</option>
+						</select> 
+						<div class="filter-menu-buttons">
+							<button class="filter-button reset">Reset</button>
+							<button class="filter-button apply">Apply</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="products-area-wrapper tableView">
@@ -146,6 +169,9 @@
 
 		 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 		 <script type="text/javascript">
+			document.querySelector(".jsFilter").addEventListener("click", function() {
+				document.querySelector(".filter-menu").classList.toggle("active");
+			});
 
 			var modeSwitch = document.querySelector('.mode-switch');
 			modeSwitch.addEventListener('click', function() {
@@ -153,29 +179,38 @@
 				modeSwitch.classList.toggle('active');
 			});
 			
-			const app = Vue.createApp({
-              data() {
-                  return {
-                	  reports:[]                      
-                  };
-              },
-              created () {
-                  this.fetchComments();
-              },
-              methods: {
-                  fetchComments: function () {
-                     let is=this;
-                      $.ajax({
-                          url: '/blog/blogReportList',
-                          method: 'GET',
-                          success: function (data) {                             
-                             is.reports=data;                                                       
-                          }
-                      });
-                  }
-              }
-          });  
-		  app.mount('#app');  
+			
+			$('.apply').on("click", function(){
+				let groups = $('#filterId').val();
+				console.log(groups);
+				
+					const app = Vue.createApp({
+		              data() {
+		                  return {
+		                	  reports:[]                      
+		                  };
+		              },
+		              created () {
+		                  this.fetchComments();
+		              },
+		              methods: {
+		                  fetchComments: function () {
+		                     let is=this;
+		                     console.log(is);
+		                      $.ajax({
+		                          url: '/blog/blogReportList',
+		                          method: 'GET',
+		                          data: {"groups" : groups},
+		                          success: function (data) {
+		                        	 
+		                             is.reports=data;                                                       
+		                          }
+		                      });
+		                  }
+		              }
+		          });  
+				  app.mount('#app');
+			});
 		</script>
 		<!-- JS -->
 		<th:block layout:fragment="script">
