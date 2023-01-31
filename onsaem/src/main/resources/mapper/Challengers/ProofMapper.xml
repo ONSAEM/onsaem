@@ -118,7 +118,7 @@
 	
 	<!-- 한 챌린지에 대해 내가 입력한 모든 인증샷 싹다 가져오기 -->
 	<select id="getMyShotsForOne" parameterType="MediaVO" resultType="MediaVO">
-			SELECT M.FILE_ROUTE, M.MEDIA_NAME, P.PROOF_ID
+			SELECT M.FILE_ROUTE, M.MEDIA_NAME, P.PROOF_ID, P.WRITE_DATE
 			FROM MEDIA M JOIN PROOFS P
 			ON M.GROUPS = P.CHAL_ID 
 			WHERE P.PROOF_WRITER = #{proofWriter}
