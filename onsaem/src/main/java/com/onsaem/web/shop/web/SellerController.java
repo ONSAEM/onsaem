@@ -48,6 +48,7 @@ public class SellerController {
 	CartVO cartVo = new CartVO();
 	LikeVO likeVo = new LikeVO();
 	ProductVO proVo = new ProductVO();
+	
 	// 판매자 리뷰댓글달기
 	@RequestMapping(value = "/shop/sellerReviewContent", method = RequestMethod.POST)
 	@ResponseBody

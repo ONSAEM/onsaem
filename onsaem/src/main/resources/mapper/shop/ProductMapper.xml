@@ -11,7 +11,21 @@
 	<!-- 승인대기 품목 -->
 	<select id="approProduct"
 		resultType="com.onsaem.web.shop.service.ProductVO">
-		SELECT * FROM PRODUCTS WHERE PRODUCT_STATUS='승인대기'
+		SELECT P.PRODUCT_ID,
+		P.PRODUCT_NAME,
+		P.PRODUCT_DETAIL,
+		P.PRICE ,
+		P.STAR,
+		P.AMOUNT,
+		P.DELIVERY_FEE,
+		P.CATEGORY,
+		P.PRODUCT_STATUS,
+		P.REGISTER_DATE,
+		P.MEMBER_ID,
+		M.FILE_ROUTE FROM PRODUCTS P,MEDIA m WHERE p.PRODUCT_STATUS='승인대기'
+		AND
+		M.GROUP_ID=P.PRODUCT_ID AND
+		M.SUB_GROUP='대표이미지'
 	</select>
 
 	<!-- 리뷰별점 업데이트 -->
@@ -52,7 +66,7 @@
 		P.PRODUCT_STATUS,
 		P.REGISTER_DATE,
 		P.MEMBER_ID,
-		M.FILE_ROUTE from products p,media m
+		M.FILE_ROUTE FROM PRODUCTS P,MEDIA M
 		WHERE P.PRODUCT_ID IN
 		<foreach item="list" index="index" collection="list" open="("
 			separator="," close=")">
