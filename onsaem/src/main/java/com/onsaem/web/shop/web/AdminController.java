@@ -3,6 +3,8 @@ package com.onsaem.web.shop.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.Paging;
+import com.onsaem.web.shop.service.AdminShopService;
 import com.onsaem.web.shop.service.CartService;
 import com.onsaem.web.shop.service.ProductService;
 import com.onsaem.web.shop.service.ProductVO;
@@ -28,21 +31,28 @@ public class AdminController {
 	@Autowired
 	ProductService proService;
 	@Autowired
-	CartService cartService;
-	@Autowired
-	MediaService mediaService;
+	AdminShopService service;
+
+	// 승인처리
+	@RequestMapping(value = "/admin/approProduct", method = RequestMethod.POST)
+	@ResponseBody
+	public String adminApproProduct(ProductVO vo) {		
+		vo.setProductStatus("판매중");
+		service.adminApproProduct(vo);
+		return "성공"; 
+	}
 
 	// 관리자상품관리페이지이동
 	@RequestMapping(value = "/shop/adminProduct", method = RequestMethod.GET)
-	public String adminProduct(Model model) {		
+	public String adminProduct(Model model) {
 		return "content/shop/adminProduct";
 	}
 
 	// 승인대기품목
 	@RequestMapping(value = "/shop/approProduct", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ProductVO> approProduct(ProductVO vo,Paging paging) {			
-		return proService.proList(vo,paging); // 승인대기품목
+	public List<ProductVO> approProduct(ProductVO vo, Paging paging) {
+		return proService.proList(vo, paging); // 승인대기품목
 	}
 
 }
