@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8" />
+<title>ONSAEM</title>
+<meta name="viewport"
+	content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
+<!-- CSS -->
+<link rel="stylesheet" th:href="@{/css/management.css}" type="text/css">
+<!-- JAVASCRIPT -->
+<script th:src="@{/js/jquery.min.js}"></script>
+<!-- csrf 설정 -->
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+<body>
+	<div class="app-container">
+		<th:block th:replace="fragments/AdminSidebar :: sidebarFragment"></th:block>
+		<th:block layout:fragment="content"></th:block>
+	</div>
+	<script th:src="@{/js/onsaem.js}"></script>
+</body>
+</html>

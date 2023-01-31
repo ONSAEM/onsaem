@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/AdminLayout}">
 <head>
 	<meta charset="UTF-8">
 <title>뷰테스트</title>
@@ -7,29 +10,12 @@
 </head>
 <body>
 
-<div id="app">
-	<p>{{fullName}}</p>
+<div>
+	
 </div>
 
 <script>
-const {createApp} = Vue;
-createApp({
-    data(){
-        return{
-            firstName: '길동',
-            lastName: '홍',
-            fullName: ''
-        }
-    },
-    watch: { // 감시하는 데이터가 변경이 되면 실행 
-        firstName(){ // 데이터 감시대상
-            this.fullName = this.firstName + this.lastName
-        },
-        lastName(){  // 데이터 감시대상
-            this.fullName = this.firstName + this.lastName
-        }
-    }
-}).mount('#app');
+
 
 </script>
 
