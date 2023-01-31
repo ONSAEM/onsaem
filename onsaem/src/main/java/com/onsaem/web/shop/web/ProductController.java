@@ -51,7 +51,7 @@ public class ProductController {
 	CartVO cartVo = new CartVO();
 	LikeVO likeVo = new LikeVO();
 	ProductVO proVo = new ProductVO();
-
+	
 	// 뷰테스트
 	@RequestMapping(value = "/shop/test", method = RequestMethod.GET)
 	public String vueTest(Model model) {
