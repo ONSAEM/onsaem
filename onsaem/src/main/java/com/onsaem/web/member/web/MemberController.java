@@ -32,7 +32,8 @@ public class MemberController {
 
 	// 로그인페이지 이동
 	@RequestMapping(value = "/loginPage", method = RequestMethod.GET)
-	public String loginPage(@RequestParam(value = "error", required = false) String error,@RequestParam(value = "exception", required = false) String exception,Model model) {
+	public String loginPage(@RequestParam(value = "error", required = false) String error,
+			@RequestParam(value = "exception", required = false) String exception, Model model) {
 		model.addAttribute("error", error);
 		model.addAttribute("exception", exception);
 		return "content/member/loginForm";
@@ -43,6 +44,12 @@ public class MemberController {
 	public String SignUpPage(Model model) {
 		model.addAttribute("bankList", commonService.getBankList());
 		return "content/member/signUpForm";
+	}
+
+	// 가입신청페이지 이동
+	@RequestMapping(value = "/appliyForm", method = RequestMethod.GET)
+	public String appliyForm() {
+		return "content/member/appliyForm";
 	}
 
 	// 회원단건조회
@@ -131,7 +138,7 @@ public class MemberController {
 		model.addAttribute("bankList", commonService.getBankList());
 		return "content/member/myinfoModify";
 	}
-	
+
 	// 회원 탈퇴
 	@RequestMapping(value = "/deleteMember", method = RequestMethod.POST)
 	@ResponseBody
