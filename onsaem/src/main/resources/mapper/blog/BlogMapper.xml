@@ -126,9 +126,16 @@
 	
 	
 	<!-- ADMIN -->
+	<sql id="condition">
+ 		<if test="groups">
+			where groups = ${groups}
+		</if>
+ 	</sql>
+	
+	
 	<select id="blogReportList" resultType="ReportVO" parameterType="ReportVO">
 		select Rownum rn, r.* from (select * from reports
-		where groups = '블로그'
+		<include refid="condition" />
 		order by report_date DESC) r
 	</select>
  </mapper>
