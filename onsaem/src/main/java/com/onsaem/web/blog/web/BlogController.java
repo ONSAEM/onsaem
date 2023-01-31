@@ -1,6 +1,7 @@
 package com.onsaem.web.blog.web;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,7 @@ import com.onsaem.web.blog.service.BlogVO;
 import com.onsaem.web.blog.service.BlogWriteService;
 import com.onsaem.web.blog.service.CategoriesVO;
 import com.onsaem.web.common.service.LikeVO;
+import com.onsaem.web.common.service.ReportVO;
 
 /**
  * 
@@ -111,6 +113,15 @@ public class BlogController {
 	public String cateDelete(String categoryId) {
 		blogService.cateDelete(categoryId);
 		return "success";
+	}
+	
+	
+	// 관리자
+	// 블로그 신고조회 페이지로 이동
+	@RequestMapping(value="/blogReportList", method=RequestMethod.GET)
+	@ResponseBody
+	public List<ReportVO> blogReportList() {
+		return blogService.blogReportList(null);
 	}
 	
 }

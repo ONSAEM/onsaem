@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+
 @Controller
 @CrossOrigin(origins = "*")
 public class CommonController {
@@ -28,7 +29,7 @@ public class CommonController {
 		return "content/test/blogtest";
 	}
 	@RequestMapping(value="/testVue", method = RequestMethod.GET)
-	public String testVue() {
+	public String testVue(Model model) {
 		return "content/test/vueTest";
 	}
 }

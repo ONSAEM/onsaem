@@ -123,4 +123,12 @@
 		delete from categories
 		 where category_id=#{categoryId}
 	</delete>
+	
+	
+	<!-- ADMIN -->
+	<select id="blogReportList" resultType="ReportVO" parameterType="ReportVO">
+		select Rownum rn, r.* from (select * from reports
+		where groups = '블로그'
+		order by report_date DESC) r
+	</select>
  </mapper>

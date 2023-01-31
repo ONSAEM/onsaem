@@ -14,6 +14,7 @@ import com.onsaem.web.blog.service.CategoriesVO;
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.ReportVO;
 
 @Service
 public class BlogServiceImpl implements BlogService {
@@ -96,6 +97,12 @@ public class BlogServiceImpl implements BlogService {
 	public int cateDelete(String categoryId) {
 		// 카테고리 삭제
 		return blogMapper.cateDelete(categoryId);
+	}
+
+	@Override
+	public List<ReportVO> blogReportList(ReportVO reportVO) {
+		// 관리자 신고조회
+		return blogMapper.blogReportList(reportVO);
 	}
 	
 	
