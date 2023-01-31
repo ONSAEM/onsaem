@@ -20,5 +20,6 @@ public class ReportVO {
 	String groups;
 	String groupId;
 	
+	String rn;
 }
 	

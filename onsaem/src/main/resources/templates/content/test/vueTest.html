@@ -5,19 +5,182 @@
 	layout:decorate="~{layout/AdminLayout}">
 <head>
 	<meta charset="UTF-8">
-<title>뷰테스트</title>
- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<title>블로그 신고관리페이지</title>
+
 </head>
 <body>
-
-<div>
+<div layout:fragment="content" class="app-content">
 	
-</div>
+		<div class="app-content-header">
+			<h1 class="app-content-headerText">블로그 신고관리페이지</h1>
+			<button class="mode-switch" title="Switch Theme">
+				<svg class="moon" fill="none" stroke="currentColor"
+					stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+					width="24" height="24" viewBox="0 0 24 24">
+            <defs></defs>
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+          </svg>
+			</button>
+			<button class="app-content-headerButton">Add Product</button>
+		</div>
+		<div class="app-content-actions">
+			<input class="search-bar" placeholder="Search..." type="text">
+			<div class="app-content-actions-wrapper">
+				
+			</div>
+		</div>
+		<div class="products-area-wrapper tableView">
+			<div class="products-header">
+				<div class="product-cell image">
+					No.
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
+					</button>
+				</div>
+				<div class="product-cell image">
+					신고ID
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
+					</button>
+				</div>
+				<div class="product-cell category">
+					신고자ID
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
+					</button>
+				</div>
+				<div class="product-cell status-cell">
+					피신고자ID
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
+					</button>
+				</div>
+				<div class="product-cell sales">
+					신고날짜
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
+					</button>
+				</div>
+				<div class="product-cell stock">
+					신고사유
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
+					</button>
+				</div>
+				<div class="product-cell stock">
+					상세사유
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
+					</button>
+				</div>
+				<div class="product-cell price">
+					신고상태
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
+					</button>
+				</div>
+			</div>
+			<div id="app">
+				<div class="products-row" v-for="rp in reports">
+					<button class="cell-more-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+							viewBox="0 0 24 24" fill="none" stroke="currentColor"
+							stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+							class="feather feather-more-vertical">
+							<circle cx="12" cy="12" r="1" />
+							<circle cx="12" cy="5" r="1" />
+							<circle cx="12" cy="19" r="1" /></svg>
+					</button>
+					<div class="product-cell image">
+						<span></span>{{rp.rn}}
+					</div>
+					<div class="product-cell image">
+						<span></span>{{rp.reportId}}
+					</div>
+					<div class="product-cell category">
+						<span class="cell-label">Category:</span>{{rp.fromId}}
+					</div>
+					<div class="product-cell status-cell">
+						<span class="cell-label">Status:</span> <span class="cell-label">Price:</span>{{rp.toId}}
+					</div>
+					<div class="product-cell sales">
+						<span class="cell-label">Sales:</span>{{rp.reportDate.substr(0,10)}}
+					</div>
+					<div class="product-cell sales">
+						<span class="cell-label">Sales:</span>{{rp.reason}}
+					</div>
+					<div class="product-cell stock">
+						<span class="cell-label">Stock:</span>{{rp.detailReason}}
+					</div>
+					<div class="product-cell price">
+						<span class="status active">{{rp.status}}</span>
+					</div>
+				</div>
+			</div>
+			
+		</div>
 
-<script>
+		 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+		 <script type="text/javascript">
 
-
-</script>
+			var modeSwitch = document.querySelector('.mode-switch');
+			modeSwitch.addEventListener('click', function() {
+				document.documentElement.classList.toggle('light');
+				modeSwitch.classList.toggle('active');
+			});
+			
+			const app = Vue.createApp({
+              data() {
+                  return {
+                	  reports:[]                      
+                  };
+              },
+              created () {
+                  this.fetchComments();
+              },
+              methods: {
+                  fetchComments: function () {
+                     let is=this;
+                      $.ajax({
+                          url: '/blog/blogReportList',
+                          method: 'GET',
+                          success: function (data) {                             
+                             is.reports=data;                                                       
+                          }
+                      });
+                  }
+              }
+          });  
+		  app.mount('#app');  
+		</script>
+		<!-- JS -->
+		<th:block layout:fragment="script">
+		</th:block>
+	</div>
 
 </body>
 </html>

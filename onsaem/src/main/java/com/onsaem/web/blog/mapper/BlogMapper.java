@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.onsaem.web.blog.service.BlogVO;
 import com.onsaem.web.blog.service.CategoriesVO;
 import com.onsaem.web.common.service.LikeVO;
+import com.onsaem.web.common.service.ReportVO;
 
 public interface BlogMapper {
 	// 블로그 관리
@@ -48,6 +49,10 @@ public interface BlogMapper {
 	
 	// 신고
 	// 신고 등록
+	
+	
+	// 관리자 신고조회
+	List<ReportVO> blogReportList(ReportVO reportVO);
 	
 	
 }

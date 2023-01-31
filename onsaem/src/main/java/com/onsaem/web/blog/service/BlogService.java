@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.onsaem.web.common.service.LikeVO;
+import com.onsaem.web.common.service.ReportVO;
 
 public interface BlogService {
 	
@@ -33,4 +34,7 @@ public interface BlogService {
 	public int cateInsert(CategoriesVO cateVO);
 	// 카테고리 삭제
 	public int cateDelete(String categoryId);
+	
+	// 관리자 신고조회
+	List<ReportVO> blogReportList(ReportVO reportVO);
 }
