@@ -179,13 +179,21 @@
 	</select>
 
 	<!-- 강의 목록 가져오기 -->
+	<select id="getDateList" resultType="ClassVO"
+		parameterType="ClassVO">
+		SELECT TO_CHAR(START_DATE, 'FMYYYY/MM/DD') AS CLASS_DATE
+		FROM CLASSES
+		WHERE CLASS_ID = #{classId}
+	</select>
+
+
+	<!-- 강의 목록 가져오기 -->
 	<select id="getclassList" resultType="ClassVO"
 		parameterType="ClassVO">
 		SELECT CLASSES.*, (SELECT COUNT(*) FROM BOOKINDS WHERE
 		C_NO = CLASSES.C_NO) AS BOOKING_PEOPLE
 		FROM CLASSES
-		WHERE CLASS_ID =
-		#{classId}
+		WHERE TO_CHAR(START_DATE, 'YY-MM-DD') = #{date}
 	</select>
 
 	<!-- [위는 완성 아래는 미완성] -->

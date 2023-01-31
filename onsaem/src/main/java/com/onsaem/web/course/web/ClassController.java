@@ -1,5 +1,6 @@
 package com.onsaem.web.course.web;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,5 +105,12 @@ public class ClassController {
 	@ResponseBody
 	public boolean insertReport(ReportVO vo) {
 		return classService.insertReport(vo);
+	}
+	
+	// 강의 날짜 목록 가져오기
+	@RequestMapping(value = "/getDateList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ClassVO> getDateList(ClassVO vo) {
+		return classService.getDateList(vo);
 	}
 }

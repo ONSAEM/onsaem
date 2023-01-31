@@ -40,7 +40,10 @@ public interface ClassService {
 	// 강의 한건 가져오기
 	public ClassVO getClass(ClassVO vo);
 	
-	// 강의 목록 가져오기
+	// 강의 날짜 목록 가져오기
+	public List<ClassVO> getDateList(ClassVO vo);
+	
+	// 해당날짜 강의 목록 가져오기
 	public List<ClassVO> getclassList(ClassVO vo);
 	
 	//[위는 완성 아래는 미완성]
