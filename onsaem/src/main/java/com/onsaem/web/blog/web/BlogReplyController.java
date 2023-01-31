@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.onsaem.web.blog.service.BlogReplyService;
+import com.onsaem.web.blog.service.BlogWriteVO;
 import com.onsaem.web.common.service.RepliesVO;
 
 @Controller
@@ -32,5 +33,14 @@ public class BlogReplyController {
 		replyService.replyInsert(vo);
 		
 		return vo;
+	}
+	
+	// 댓글 삭제 처리(삭제)
+	@RequestMapping(value = "/replyDel", method = RequestMethod.POST)
+	@ResponseBody
+	public String replyDel(String replyId) {
+		replyService.replyDel(replyId);
+		
+		return "success";
 	}
 }

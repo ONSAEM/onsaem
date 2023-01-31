@@ -289,7 +289,7 @@
 	                                    <input type="hidden" name="groupId" th:value="${reply.replyId}">
 	                                </form>
                                           <!-- 대댓글 끝 -->
-								<a type="button" class="author-comment-link me-3"><span style="color:red;">삭제</span></a>
+								<a type="button" class="author-comment-link me-3 reDelBtn" th:value="${reply.replyId}" ><span style="color:red;">삭제</span></a>
                                          <a type="button" class="author-comment-link me-3 openBtn" id="replyIdVal" th:value1="${reply.replyId}" th:value2="${reply.writerId}"><span style="color:red;">신고</span></a>
                                      </div>
                                  </div>
@@ -312,7 +312,7 @@
 
                                         <div class="d-flex mt-2">
                                             <a href="#" class="author-comment-link me-3">신고</a>
-                                            <a type="button" class="author-comment-link me-3"><span style="color:red;">삭제</span></a>
+                                            <a type="button" class="author-comment-link me-3 reDelBtn" th:value="${reply.replyId}"><span style="color:red;">삭제</span></a>
                                         </div>
                                     </div>
                                 </div>
@@ -331,6 +331,7 @@
 
                                     <div class="col-lg-3 col-md-4 col-6 ms-auto">
 <!--                                         <button type="button" id="replyBtn" class="form-control" th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}" disabled>로그인이 필요합니다 <a th:href="@{/loginPage}">login</a></button> -->
+                                        <input type="checkbox" name="publicScope" id="scopeReply" value="public"/> <span style="color:blue;font-weight:bold;">비밀댓글 🔒</span>
                                         <button type="button" id="replyBtn" class="form-control" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}">등록</button>
                                     </div>
                                     <input type="hidden" name="groupId" th:value="${blogWrite.writeId}">
@@ -555,6 +556,15 @@
 			
 				
 				
+				// 비밀 댓글 만들기 아니 바뀌는데 왜 프라이빗만 들어가냐구여,,,
+				$("input[name='publicScope']").on("click", function(){
+					if($(this).is(":checked")){
+						$('#scopeReply').val('private');
+					}else{
+						$('#scopeReply').val('public');
+					}
+					
+				});
 				
 				
 				// 댓글 등록
@@ -738,7 +748,28 @@
 	 					}
 					})
 				})
-			
+				
+			// 댓글, 대댓글 삭제	
+			$('.reDelBtn').on("click", function(){
+				let replyId = $(this).attr("value");
+				console.log(replyId);
+				$.ajax({
+					url: '/blog/replyDel',
+					method: 'post',
+					contentType: 'application/x-www-form-urlencoded',
+ 					data: {"replyId":replyId},
+ 					beforeSend : function(xhr)
+		               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+		               xhr.setRequestHeader(header, token);
+		               },
+ 					success: function(result){
+ 						location.reload();
+ 					},
+ 					error: function(error){
+ 						console.log(error);
+ 					}
+				})
+			})
 				
 			// 카톡공유
 			Kakao.Share.createCustomButton({
