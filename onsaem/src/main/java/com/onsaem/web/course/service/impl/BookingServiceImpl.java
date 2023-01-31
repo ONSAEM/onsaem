@@ -75,7 +75,7 @@ public class BookingServiceImpl implements BookingService{
 	}
 
 	@Override
-	public int getPoint(String MemberId) {
+	public Integer getPoint(String MemberId) {
 
 		return bookingMapper.getPoint(MemberId);
 	}

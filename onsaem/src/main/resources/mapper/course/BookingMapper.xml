@@ -54,8 +54,8 @@
 	</update>
 	
 	<!-- 포인트 조회-->
-	<select id="getPoint" resultType="int" parameterType="String">
-		SELECT POINT
+	<select id="getPoint" resultType="Integer" parameterType="String">
+		SELECT NVL(POINT,0)
 		FROM MEMBERS
 		WHERE MEMBER_ID = #{MemberId}
 	</select>

@@ -12,7 +12,6 @@ import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.course.mapper.ClassReviewMapper;
-import com.onsaem.web.course.service.ClassInfoVO;
 import com.onsaem.web.course.service.ClassReviewService;
 import com.onsaem.web.member.service.MemberService;
 
@@ -55,8 +54,17 @@ public class ClassReviewServiceImpl implements ClassReviewService {
 
 	@Override
 	public ReviewVO getReview(ReviewVO vo) {
-		
-		return null;
+		ReviewVO review = classReviewMapper.getReview(vo);
+		MediaVO mvo = new MediaVO();
+		mvo.setMediaOrder(0);
+		mvo.setGroups("강의");
+		mvo.setGroupId(review.getReviewId());
+		review.setReviewMediaList(mediaService.getMediaList(mvo));
+		mvo.setGroups("회원");
+		mvo.setGroupId(review.getWriterId());
+		review.setProfile(mediaService.getMedia(mvo));
+		review.setNickname(memberService.getMember(review.getWriterId()).getNickname());
+		return review;
 	}
 
 	@Override

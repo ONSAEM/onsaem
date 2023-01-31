@@ -2,7 +2,6 @@ package com.onsaem.web.course.mapper;
 
 import java.util.List;
 
-import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.ReviewVO;
 

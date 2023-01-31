@@ -88,7 +88,7 @@ main {
 }
 
 /* COSMETIC STYLING */
-:root { 
+:root {
 	red: #ED5454;
 }
 
@@ -146,14 +146,22 @@ main {
 	border-left: 4px solid var(- -red);
 	box-shadow: inset 10px 0px 17px -13px var(- -red);
 }
+
+#leftside-navigation div ul {
+	display: none;
+}
+
+ul {
+	list-style-type: none
+}
 </style>
 <!-- content script -->
 <th:block layout:fragment="css"></th:block>
 <!-- content script -->
 <th:block layout:fragment="script"></th:block>
 <!-- csrf 설정 -->
-   <meta name="_csrf" th:content="${_csrf.token}" />
-   <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 </head>
 <body>
 	<!-- header fragment 사용 -->

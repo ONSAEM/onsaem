@@ -1,86 +1,117 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
 
 <head>
-	<style type="text/css">
-		/* VARIABLES -  START */
-		/* COLORS  */
-		/* DIMENSIONS */
-		/* FONTS */
-		@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap");
+<style type="text/css">
+/* VARIABLES -  START */
+/* COLORS  */
+/* DIMENSIONS */
+/* FONTS */
+@import
+	url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap")
+	;
 
-		/* VARIABLES - END */
-		/* COMMONS - START */
-		.flex-center,
-		.wrapper .button-container,
-		.wrapper {
-			justiy-content: center;
-			align-items: center;
-		}
+/* VARIABLES - END */
+/* COMMONS - START */
+.flex-center, .wrapper .button-container, .wrapper {
+	justiy-content: center;
+	align-items: center;
+}
 
-		* {
-			box-sizing: border-box;
-			margin: 0;
-		}
+* {
+	box-sizing: border-box;
+	margin: 0;
+}
 
-		/* COMMONS - END */
-		/* STYLES -  START */
-		.wrapper {
-			font-family: "Lato", sans-serif;
-			font-weight: 400;
-		}
+/* COMMONS - END */
+/* STYLES -  START */
+.wrapper {
+	font-family: "Lato", sans-serif;
+	font-weight: 400;
+}
 
-		.heartbutton {
-			height: 50px;
-			width: 170px;
-			background-color: #fefefe;
-			border-radius: 5px;
-			padding: 12.5px;
-			cursor: pointer;
-		}
+.heartbutton {
+	height: 50px;
+	width: 170px;
+	background-color: #fefefe;
+	border-radius: 5px;
+	padding: 12.5px;
+	cursor: pointer;
+}
 
-		.content .icon {
-			font-size: 25px;
-			color: #ea4a87;
-		}
+.content .icon {
+	font-size: 25px;
+	color: #ea4a87;
+}
 
-		.content .icon.fa {
-			display: none;
-		}
+.content .icon.fa {
+	display: none;
+}
 
-		.content .text {
-			font-size: 25px;
-			color: #2f3537;
-		}
+.content .text {
+	font-size: 25px;
+	color: #2f3537;
+}
 
-		.content .text.like {
-			margin-left: 10px;
-		}
+.content .text.like {
+	margin-left: 10px;
+}
 
-		.content .text.d {
-			opacity: 0;
-			display: inline-block;
-			transform: translateX(12px);
-		}
+.content .text.d {
+	opacity: 0;
+	display: inline-block;
+	transform: translateX(12px);
+}
 
-		.content .text.number {
-			margin-left: 10px;
-			color: #7a7c81;
-		}
-	</style>
+.content .text.number {
+	margin-left: 10px;
+	color: #7a7c81;
+}
+
+/* GENERAL STYLES */
+.pagination ul {
+	margin: auto;
+	padding: 0;
+	list-style: none;
+}
+
+/* ONE */
+.p1 li {
+	font-size: 14px;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	padding: 0;
+	text-align: center;
+	float: left;
+	cursor: pointer;
+}
+</style>
 </head>
 <!-- Css  -->
 <th:block layout:fragment="css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/course/courseStyle.css}" type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
+		type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}"
+		type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/course/courseStyle.css}"
+		type="text/css">
 	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/calendar.css}" type="text/css">
 </th:block>
 
 <div layout:fragment="content">
@@ -92,10 +123,12 @@
 					<div class="product__details__pic">
 						<div class="product__details__pic__item">
 							<img class="product__details__pic__item--large"
-								th:src=${mediaList[0].fileRoute}+${mediaList[0].mediaName} alt="">
+								th:src=${mediaList[0].fileRoute}+${mediaList[0].mediaName}
+								alt="">
 						</div>
 						<div class="product__details__pic__slider owl-carousel">
-							<img th:each="media : ${mediaList}" th:data-imgbigurl=${media.fileRoute}+${media.mediaName}
+							<img th:each="media : ${mediaList}"
+								th:data-imgbigurl=${media.fileRoute}+${media.mediaName}
 								th:src=${media.fileRoute}+${media.mediaName} alt="">
 						</div>
 					</div>
@@ -104,7 +137,8 @@
 					<div class="product__details__text">
 						<h3 th:text="${class.className}"></h3>
 						<div class="product__details__rating">
-							<i class="fa-solid fa-star" th:if="${class.star != 0}" th:each="num:${#numbers.sequence(1,class.star)}"
+							<i class="fa-solid fa-star" th:if="${class.star != 0}"
+								th:each="num:${#numbers.sequence(1,class.star)}"
 								style="color: #ffe949"></i><i class="fa-solid fa-star-half"
 								th:if="${class.star%1 >= 0.5}" style="color: #ffe949"></i> <span>([[${class.reviewCount}]]
 								reviews)</span>
@@ -114,12 +148,13 @@
 							<li><b>소요시간</b> <span>[[${class.classTime}]]시간</span></li>
 							<li><b>난이도</b> <span>[[${class.difficulty}]]</span></li>
 						</ul>
-						<a href="/loginPage" class="primary-btn"  sec:authorize="isAnonymous()">예약하기</a>
-						<a href="/loginPage" class="primary-btn"  sec:authorize="isAnonymous()">신고하기</a>
-						<a href="#" class="primary-btn" sec:authorize="hasRole('USER')" data-bs-toggle="modal"
-							data-bs-target="#searchId">예약하기</a>
-						<a href="#" class="primary-btn" sec:authorize="hasRole('USER')" data-bs-toggle="modal"
-							data-bs-target="#reportModal">신고하기</a>
+						<a href="/loginPage" class="primary-btn"
+							sec:authorize="isAnonymous()">예약하기</a> <a href="/loginPage"
+							class="primary-btn" sec:authorize="isAnonymous()">신고하기</a> <a
+							href="#" class="primary-btn" sec:authorize="hasRole('USER')"
+							data-bs-toggle="modal" data-bs-target="#bookingModal">예약하기</a> <a
+							href="#" class="primary-btn" sec:authorize="hasRole('USER')"
+							data-bs-toggle="modal" data-bs-target="#reportModal">신고하기</a>
 						<div class="wrapper">
 							<div class="button-container">
 								<div class="heartbutton">
@@ -164,12 +199,11 @@
 											<div class="col-lg-7 col-12">
 												<div class="news-block">
 
-													<div class="news-block-info"
-														th:each="review : ${review.rList}"
-														th:id="${review.reviewId}">
+													<div class="news-block-info rList">
 
-
-														<div class="author-comment d-flex mt-3 mb-4 viewReview">
+														<div class="author-comment d-flex mt-3 mb-4 viewReview"
+															th:each="review : ${review.rList}"
+															th:id="${review.reviewId}">
 															<img th:if="${review.profile != null}"
 																th:src="@{'/fileView/'+${review.profile.fileRoute}}"
 																class="img-fluid avatar-image"> <img
@@ -193,6 +227,30 @@
 														</div>
 
 													</div>
+													<!-- 페이징 부분 -->
+													<div class="pagination p1 rPaging"
+														th:if="${review.rPaging.totalRecord != 0}">
+														<ul>
+															<!-- 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) << -->
+															<li id="prevPaging"
+																th:if="${review.rPaging.startPage > 1}"
+																style="font-size: 30px;">&laquo;</li>
+															<th:block
+																th:each="num : ${#numbers.sequence(review.rPaging.startPage,review.rPaging.endPage)}">
+																<!-- 페이지 생성  ex) 1 2 3 4 5-->
+																<li id="pageNum" th:if="${review.rPaging.page != num}"
+																	th:text=${num}></li>
+																<!-- 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성-->
+																<li th:if="${review.rPaging.page == num}" th:text=${num}
+																	style="background-color: #2ecc71; border-radius: 100%; color: #fff;"></li>
+															</th:block>
+															<!-- 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >> -->
+															<li id="nextPaging"
+																th:if="${review.rPaging.endPage < review.rPaging.lastPage}"
+																style="font-size: 30px;">&raquo;</li>
+														</ul>
+													</div>
+													<!-- 페이징 끝 -->
 												</div>
 											</div>
 
@@ -207,12 +265,11 @@
 										<div class="col-lg-7 col-12">
 											<button type="button" class="primary-btn addQue">문의
 												등록</button>
-											<div class="news-block">
-
-												<div class="news-block-info"
-													th:each="que : ${question.qList}" th:id="${que.queId}">
-
+											<div class="news-block qList">
+												<div class="news-block-info "
+													th:each="que : ${question.qList}">
 													<div class="author-comment d-flex mt-3 mb-4 viewQue"
+														th:id="${que.queId}"
 														th:if="${que.writerId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null} or ${class.memberId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}">
 														<img th:if="${que.profile != null}"
 															th:src="@{'/fileView/'+${que.profile.fileRoute}}"
@@ -232,6 +289,30 @@
 													</div>
 												</div>
 											</div>
+											<!-- 페이징 부분 -->
+											<div class="pagination p1 qPaging"
+												th:if="${question.qPaging.totalRecord != 0}">
+												<ul>
+													<!-- 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) << -->
+													<li id="prevPaging"
+														th:if="${question.qPaging.startPage > 1}"
+														style="font-size: 30px;">&laquo;</li>
+													<th:block
+														th:each="num : ${#numbers.sequence(question.qPaging.startPage,question.qPaging.endPage)}">
+														<!-- 페이지 생성  ex) 1 2 3 4 5-->
+														<li id="pageNum" th:if="${question.qPaging.page != num}"
+															th:text=${num}></li>
+														<!-- 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성-->
+														<li th:if="${question.qPaging.page == num}" th:text=${num}
+															style="background-color: #2ecc71; border-radius: 100%; color: #fff;"></li>
+													</th:block>
+													<!-- 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >> -->
+													<li id="nextPaging"
+														th:if="${question.qPaging.endPage < question.qPaging.lastPage}"
+														style="font-size: 30px;">&raquo;</li>
+												</ul>
+											</div>
+											<!-- 페이징 끝 -->
 										</div>
 									</div>
 								</div>
@@ -258,6 +339,20 @@
 
 					</div>
 				</div>
+				<div class="modal-footer"></div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="viewReview" data-bs-keyboard="false"
+		aria-hidden="true" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered"
+			style="min-width: 1000px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body"></div>
 				<div class="modal-footer"></div>
 			</div>
 		</div>
@@ -394,16 +489,42 @@
 					<div class="modal-wrapper">
 						<div class="title">신고</div>
 						<div class="inputfield">
-						<label>신고종류</label><br>
-							<input type="radio" name="reason" value="욕설 및 비하 발언">욕설 및 비하 발언<br>
-							<input type="radio" name="reason" value="환경보호관련 클래스가 아님">환경보호관련 클래스가 아님<br>
-							<input type="radio" name="reason" value="설명과 다름">설명과 다름<br>
-							<input type="radio" name="reason" value="기타">기타<br>
+							<label>신고종류</label><br> <input type="radio" name="reason"
+								value="욕설 및 비하 발언">욕설 및 비하 발언<br> <input
+								type="radio" name="reason" value="환경보호관련 클래스가 아님">환경보호관련
+							클래스가 아님<br> <input type="radio" name="reason" value="설명과 다름">설명과
+							다름<br> <input type="radio" name="reason" value="기타">기타<br>
 							<label>신고상세내용</label><br>
 							<textarea name="detailReason" class="input"></textarea>
 						</div>
 						<div class="inputfield">
 							<button type="button" class="btn insertReport">신고</button>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer"></div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="bookingModal" data-bs-keyboard="false"
+		aria-hidden="true" tabindex="-1">
+		<div class="modal-dialog modal-dialog-centered"
+			style="min-width: 1000px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-wrapper">
+						<div class="title">예약</div>
+						<div id="calendar"></div>
+						<div class="inputfield">
+							<label>답변내용</label>
+							<textarea name="ansContent" class="input"></textarea>
+						</div>
+						<div class="inputfield">
+							<button type="button" class="btn Answer">답변수정</button>
 						</div>
 					</div>
 				</div>
@@ -422,6 +543,205 @@
 		let groupId = "[[${class.classId}]]";
 		let addr = "[[${class.addr}]]";
 		
+		//  리뷰 페이지 이동
+		$(".rPaging").find("#pageNum").on("click",function(){
+				newRList($(this).text());
+			});
+
+			// 리뷰 다음 페이징 목록 이동
+			$(".rPaging").find("#nextPaging").on("click",function(){
+				newRList("[[${review.rPaging.startPage+review.rPaging.pageSize}]]");
+			});
+
+			// 리뷰 이전 페이징 목록 이동
+			$(".rPaging").find("#prevPaging").on("click",function(){
+				newRList("[[${review.rPaging.startPage-review.rPaging.pageSize}]]");
+			});
+
+			//  문의 페이지 이동
+		$(".qPaging").find("#pageNum").on("click",function(){
+				newQList($(this).text());
+			});
+
+			// 문의 다음 페이징 목록 이동
+			$(".qPaging").find("#nextPaging").on("click",function(){
+				newQList("[[${question.qPaging.startPage+question.qPaging.pageSize}]]");
+			});
+
+			// 문의 이전 페이징 목록 이동
+			$(".qPaging").find("#prevPaging").on("click",function(){
+				newQList("[[${question.qPaging.startPage-question.qPaging.pageSize}]]");
+			});
+
+			// 리뷰 페이지 가져오기
+			function newRList(page) {
+				console.log('확인');
+				$.ajax({
+			      url: '/class/newRList',
+			      method: 'GET',
+			      contentType: 'application/x-www-form-urlencoded',
+			      data: {'page' : page,
+						'groupId' : groupId},
+			      success: function (result) {
+					 $(".rList").children().detach();
+					 $(".rPaging").children().detach();
+					 $(result["rList"]).each(function(index, item){
+						$(".rList").append(makeRList(item));
+					 })
+					 // 페이징 새로 생성
+					 $(".rPaging").append(makeRPageing(result["rPaging"]));
+			      },
+			      error: function (error) {
+			         console.log(error);
+			         alert('실패');
+			      }
+			   })
+			}
+
+			// 리뷰 리스트만들기
+			function makeRList(item) {
+				let img = ``;
+					if(item.profile != null){
+						img = '/fileView/'+ item.profile.fileRoute;
+					}else{
+						img = '/images/defaulltProfile.png';
+					}
+				let	content = $(`<div class="news-block-info" th:id="${item.reviewId}">
+													<div class="author-comment d-flex mt-3 mb-4 viewReview">
+															<img src="${img}"
+																class="img-fluid avatar-image">
+															<div class="author-comment-info ms-3">
+																<h6 class="mb-1" >${item.nickname}</h6>
+																<p class="mb-0" >${item.reviewContent}</p>
+															</div>
+														</div>
+													</div>`);
+				if(item.reviewStar != 0){
+					for(let i=1; i<=item.reviewStar; i++){
+						$(content).find('.mb-0').before(`<i class="fa-solid fa-star"
+																	style="color: #ffe949"></i>`);
+					}
+				}
+				if(item.reviewStar%1 >= 0.5){
+					$(content).find('.mb-0').before(`<i class="fa-solid fa-star-half"
+																	style="color: #ffe949"></i>`);
+				}
+				if(item.reviewMedia != null){
+					$(content).find('.mb-0').before(`<img src="/fileView/${item.reviewMedia.fileRoute}">`);
+				}
+				$(content).find('.viewReview').on('click',function(){
+					viewReview($(this).attr('id'));
+				})
+				console.log(content);
+				return content;							
+			}
+
+			// 리뷰페이징 만들기
+			function makeRPageing(page){
+				// 페이징을 넣을 div, ul 생성
+				let ul = $("<ul/>");
+				// 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) <<
+				if(page.startPage > 1){
+					$(ul).append($("<li/>").html("&laquo;").css("font-size","30px").on("click",function(){newRList(page.startPage-page.pageSize)}));
+				}
+				// 페이지 생성  ex) 1 2 3 4 5
+				for(let i = page.startPage; i <= page.endPage; i++){
+					if(page.page == i){
+						// 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성
+						$(ul).append($("<li/>").text(i).css("background-color","#2ecc71").css("border-radius","100%").css("color","#fff"));
+					}else {
+						$(ul).append($("<li/>").text(i).attr("id","pageNum").on("click",function(){newRList($(this).text())}));
+					}
+				}
+				// 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >>
+				if(page.endPage < page.lastPage){
+					$(ul).append($("<li/>").html("&raquo;").css("font-size","30px").on("click",function(){newRList(page.startPage+page.pageSize)}));
+				}
+				return ul;
+			}
+
+			// 문의 페이지 가져오기
+			function newQList(page){
+				$.ajax({
+			      url: '/class/newQList',
+			      method: 'GET',
+			      contentType: 'application/x-www-form-urlencoded',
+			      data: {'page' : page,
+						'groupId' : groupId},
+			      success: function (result) {
+					 $(".qList").children().detach();
+					 $(".qPaging").children().detach();
+					 $(result["qList"]).each(function(index, item){
+						$(".qList").append(makeQList(item));
+					 })
+					 // 페이징 새로 생성
+					 $(".qPaging").append(makeQPageing(result["qPaging"]));
+			      },
+			      error: function (error) {
+			         console.log(error);
+			         alert('실패');
+			      }
+			   })
+			}
+
+			// 문의 리스트만들기
+			function makeQList(item) {
+				let content = ``;
+				let img = ``;
+				if(item.writerId == memberId || "[[${class.memberId}]]" == memberId){
+					if(item.profile != null){
+						img = '/fileView/'+ item.profile.fileRoute;
+					}else{
+						img = '/images/defaulltProfile.png';
+					}
+					content = $(`<div class="news-block-info">
+													<div class="author-comment d-flex mt-3 mb-4 viewQue"  id="${item.queId}">
+														<img src="${img}"
+															class="img-fluid avatar-image">
+														<div class="author-comment-info ms-3">
+															<h6 class="mb-1">${item.nickname}</h6>
+															<p class="mb-0">${item.queContent}</p>
+														</div>
+													</div>
+												</div>`);
+					$(content).find('.viewQue').on('click',function(){
+						viewQueOpen($(this).attr('id'));
+					})						
+				}else{
+					content = `<div class="news-block-info">
+													<div class="author-comment d-flex mt-3 mb-4">
+														<p class="mb-0">작성자만 볼 수 있습니다</p>
+													</div>
+												</div>`;
+				}
+				return content;
+			}
+
+			// 문의 페이징 만들기
+			function makeQPageing(page){
+				// 페이징을 넣을 div, ul 생성
+				let ul = $("<ul/>");
+				// 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) <<
+				if(page.startPage > 1){
+					$(ul).append($("<li/>").html("&laquo;").css("font-size","30px").on("click",function(){newQList(page.startPage-page.pageSize)}));
+				}
+				// 페이지 생성  ex) 1 2 3 4 5
+				for(let i = page.startPage; i <= page.endPage; i++){
+					if(page.page == i){
+						// 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성
+						$(ul).append($("<li/>").text(i).css("background-color","#2ecc71").css("border-radius","100%").css("color","#fff"));
+					}else {
+						$(ul).append($("<li/>").text(i).attr("id","pageNum").on("click",function(){newQList($(this).text())}));
+					}
+				}
+				// 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >>
+				if(page.endPage < page.lastPage){
+					$(ul).append($("<li/>").html("&raquo;").css("font-size","30px").on("click",function(){newQList(page.startPage+page.pageSize)}));
+				}
+				return ul;
+			}
+			
+
 		var timeline1 = gsap.timeline({
 			repeatDelay : 0.7,
 			paused : true
@@ -546,38 +866,57 @@
 							}
 						})
 
-						$('.viewReview').each(function(){
-							$(this).on('click',function(){
-								$.ajax({
-							      url: '/class/getQue',
-							      method: 'GET',
-							      contentType: 'application/x-www-form-urlencoded',
-							      data: {"queId" : $(this).parent().attr('id')},
-							      success: function (result) {
-							    	  console.log(result);
-									  $('#viewQue').find('.modal-wrapper').children().remove();
-									  let img = '';
-									  if(result.profile != null){
-										img = '/fileView/'+result.profile.fileRoute;
-									  }else{
-										img = '/images/defaulltProfile.png';
-									  }  
-									  let content = `<img src="${img}" class="img-fluid avatar-image">
-									  <p>작성자 : ${result.nickname}</p>
-									  <p>내용 : ${result.queContent}</p>
-									  <p>작성일자 : ${result.queDate}</p>
-									  <p>답변내용 : ${result.ansContent}</p>
-									  <p>답변일자 : ${result.ansDate}</p>`;
-									  $('#viewQue').find('.modal-wrapper').append(content,btn);
-									  $('#viewQue').modal("show")
-							      },
-							      error: function (error) {
-							         console.log(error);
-							         alert('실패');
-							      }
-							   })
-							})		
+				// 리뷰 상세
+				$('.viewReview').each(function(){
+					$(this).on('click',function(){
+						viewReview($(this).attr('id'));
+					})		
+				})
+
+				function viewReview(reviewId){
+					$.ajax({
+							url: '/class/getReview',
+							method: 'GET',
+							contentType: 'application/x-www-form-urlencoded',
+							data: {"reviewId" : reviewId},
+							success: function (result) {
+								console.log(result);
+								$('#viewQue').find('.modal-body').children().remove();
+								let img = '';
+								if(result.profile != null){
+								img = '/fileView/'+result.profile.fileRoute;
+								}else{
+								img = '/images/defaulltProfile.png';
+								}
+								let content = $(`<div class="modal-wrapper">
+								<div class="title">리뷰 상세</div>
+								<img src="${img}" class="img-fluid avatar-image">
+								<p>작성자 : ${result.nickname}</p>
+								<p>내용 : ${result.reviewContent}</p>
+								<p>작성일자 : ${result.reviewDate}</p></div>`);
+								console.log($(content).eq(4));
+								if(result.reviewStar != 0){
+									for(let i=1; i<=result.reviewStar; i++){
+										$(content).find('p').eq(1).before(`<i class="fa-solid fa-star"
+																					style="color: #ffe949"></i>`);
+									}
+								}
+								if(result.reviewStar%1 >= 0.5){
+									$(content).find('p').eq(1).before(`<i class="fa-solid fa-star-half"
+																					style="color: #ffe949"></i>`);
+								}
+								for(let media of result.reviewMediaList){
+									$(content).find('p').eq(2).after(`<img src="/fileView/${media.fileRoute}" style="width : 300px">`);
+								}
+								$('#viewQue').find('.modal-body').append(content);
+								$('#viewQue').modal("show")
+							},
+							error: function (error) {
+								console.log(error);
+								alert('실패');
+							}
 						})
+				}
 					
 		// 문의 등록 모달
 		$(".addQue")
@@ -624,13 +963,18 @@
 		
 		// 문의 상세 모달
 		$(".viewQue").each(function(){
-			$(this).click(
+			$(this).on('click',
 						function() {
-							$.ajax({
+							viewQueOpen($(this).attr('id'));
+						})
+		})
+
+		function viewQueOpen(queId){
+			$.ajax({
 							      url: '/class/getQue',
 							      method: 'GET',
 							      contentType: 'application/x-www-form-urlencoded',
-							      data: {"queId" : $(this).parent().attr('id')},
+							      data: {"queId" : queId},
 							      success: function (result) {
 							    	  console.log(result);
 									  $('#viewQue').find('.modal-wrapper').children().remove();
@@ -676,8 +1020,7 @@
 							      }
 							   })
 								
-						})
-		})
+		}
 		
 		// 문의수정모달창
 		function modifyQueOpen(content,queId){
@@ -829,6 +1172,7 @@
 
 	<!-- JS -->
 	<th:block layout:fragment="script">
+		<script th:src="@{/js/calendar.js}"></script>
 		<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
 		<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
 		<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>

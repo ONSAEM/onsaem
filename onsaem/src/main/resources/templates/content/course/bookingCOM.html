@@ -59,8 +59,8 @@
 					<p>예약자 연락처 : [[${booking.bookerPhone}]]</p>
 					<p>총 금액 : [[${#numbers.formatInteger(payment.price + payment.usePoint, 3, 'COMMA')}]]</p>
 					<p>사용 포인트 : [[${payment.usePoint}]]</p>
-					<p>결제금액 : [[${payment.price}]]</p>
-					<p>적립포인트 : [[{#numbers.formatInteger(payment.price * 0.1, 3, 'COMMA')}]]</p>
+					<p>결제금액 : [[${payment.price + payment.usePoint}]]</p>
+					<p>적립포인트 : [[${#numbers.formatInteger(payment.price * 0.1, 1, 'COMMA')}]]</p>
 					<p>총포인트 : [[${point}]]</p>
 				</div>
 		</div>

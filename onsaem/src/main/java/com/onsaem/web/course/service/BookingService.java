@@ -35,6 +35,6 @@ public interface BookingService {
 	public int updatePoint(PaymentVO vo);
 
 	// 포인트 조회
-	public int getPoint(String MemberId);
+	public Integer getPoint(String MemberId);
 
 }

@@ -79,12 +79,6 @@ public class ClassController {
 		return "content/course/classDetail";
 	}
 
-	// 예약완료 페이지 이동
-	@RequestMapping(value = "/bookingCOM", method = RequestMethod.GET)
-	public String bookingCOM(ClassInfoVO vo, Model model) {
-		return "content/course/bookingCOM";
-	}
-
 	// 강의관리 페이지 이동
 	@RequestMapping(value = "/classMGMT", method = RequestMethod.GET)
 	public String courseMGMT(ClassInfoVO vo, Model model) {

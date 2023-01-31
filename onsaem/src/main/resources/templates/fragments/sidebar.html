@@ -3,22 +3,35 @@
 <div th:fragment="sidebarFragment" class="sbar">
 	<div class="avatar">
 		<div class="avatar__img">
-			<img th:if="${#authentication.principal.fileRoute != null}" th:src="@{'/fileView/'+${#authentication.principal.fileRoute}}">
-			 <img th:if="${#authentication.principal.fileRoute == null}" th:src="@{/images/defaulltProfile.png}">
+			<img th:if="${#authentication.principal.fileRoute != null}"
+				th:src="@{'/fileView/'+${#authentication.principal.fileRoute}}">
+			<img th:if="${#authentication.principal.fileRoute == null}"
+				th:src="@{/images/defaulltProfile.png}">
 		</div>
 		<div>
 			<p th:text="${#authentication.principal.nickname}"></p>
 		</div>
 	</div>
-	<nav class="menu">
-		<a class="menu__item" th:href="@{/myInfo}"> <i class="menu__icon fa fa-home"></i>
-			<span class="menu__text">내정보관리</span>
-		</a> <a class="menu__item" href="#"> <i
-			class="menu__icon fa fa-envelope"></i> <span class="menu__text">messages</span>
-		</a> <a class="menu__item" href="#"> <i class="menu__icon fa fa-list"></i>
+	<nav class="menu"  id="leftside-navigation">
+
+		<a class="menu__item" th:href="@{/myInfo}"> <i
+			class="menu__icon fa fa-home"></i> <span class="menu__text">내정보관리</span>
+		</a>
+		<div class="sub-menu">
+			<a class="menu__item" href="avascript:void(0);"> <i
+				class="menu__icon fa fa-envelope"></i> <span class="menu__text">내
+					클래스</span>
+			</a>
+			<ul>
+				<li><a href="tables-basic.html">찜한 클래스</a></li>
+				<li><a href="tables-data.html">클래스예약조회</a></li>
+				<li><a href="tables-data.html">클래스문의내역</a></li>
+			</ul>
+		</div>
+		<a class="menu__item" href="#"> <i class="menu__icon fa fa-list"></i>
 			<span class="menu__text">workout</span>
-		</a> <a class="menu__item menu__item--active" href="#"> <i
-			class="menu__icon fa fa-calendar"></i> <span class="menu__text">calendar</span>
+		</a> <a class="menu__item menu__item--active" href="javascript:void(0);">
+			<i class="menu__icon fa fa-calendar"></i> <span class="menu__text">calendar</span>
 		</a> <a class="menu__item" href="#"> <i
 			class="menu__icon fa fa-bar-chart"></i> <span class="menu__text">goals</span>
 		</a> <a class="menu__item" href="#"> <i
