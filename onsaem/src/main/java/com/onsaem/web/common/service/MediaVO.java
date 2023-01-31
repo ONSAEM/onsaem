@@ -2,6 +2,10 @@ package com.onsaem.web.common.service;
 
 
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -20,4 +24,6 @@ public class MediaVO {
 	//챌린저스에 변수 추가
 	String proofWriter;
 	String proofId;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	Date writeDate;
 }
