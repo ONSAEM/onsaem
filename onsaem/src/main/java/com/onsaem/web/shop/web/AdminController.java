@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.onsaem.web.common.service.MediaService;
+import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.shop.service.CartService;
 import com.onsaem.web.shop.service.ProductService;
 import com.onsaem.web.shop.service.ProductVO;
@@ -40,9 +41,8 @@ public class AdminController {
 	// 승인대기품목
 	@RequestMapping(value = "/shop/approProduct", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ProductVO> approProduct() {	
-		System.out.println(proService.approProduct());
-		return proService.approProduct(); // 승인대기품목
+	public List<ProductVO> approProduct(ProductVO vo,Paging paging) {			
+		return proService.proList(vo,paging); // 승인대기품목
 	}
 
 }
