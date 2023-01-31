@@ -360,7 +360,7 @@ public class ChalMypageController {
 	//나의 포인트 확인
 	@RequestMapping(value="checkPoint", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> checkPoint(String groupId,Authentication authentication){
+	public Map<String, Object> checkPoint(String chalId,Authentication authentication){
 		Map<String,Object>map = new HashMap<String,Object>();
 		
 		//아이디
@@ -368,36 +368,40 @@ public class ChalMypageController {
 		String user = userDetails.getUsername();
 		ParticipantVO vo = new ParticipantVO();
 		vo.setParticipantId(user);
-		vo.setChalId(groupId);
+		vo.setChalId(chalId);
 		
 		//성공률 계산할 것
 		//공통 필요 - 총 챌린저스 일수 
-		ChalVO cvo = chalService.getChal(groupId);
+		ChalVO cvo = chalService.getChal(chalId);
 		Date end = cvo.getEndDate();
 		Date start = cvo.getStartDate();
 		Integer check =  cvo.getUsercnt();
 		long days = (end.getTime() - start.getTime())/(24*60*60*1000)+1;
 		map.put("totaldays", days);
-		map.put("totaluser", cvo.getUsercnt());
 
 		if(check==0) {
-			//개인전 일때 성공률 계산
-//			//Proofs 테이블에서 count(*) 해야함 - 조건이 성공인거, 작성자 아이디, 챌린지 아이디 필요
-			ProofVO pvo = new ProofVO();
-			pvo.setChalId(vo.getChalId());
-			pvo.setProofWriter(vo.getParticipantId());
-			pvo.setCondition("정상");
-			map.put("cntGood", proofService.countProof(pvo));
-			
+			//개인전 일때 
+//			//이거로 다 가능 
+			partService.getParticipant(vo);
+		
 		}else {
 			//팀전일때 성공률 계산
 			
 			//A팀 성공률 구하기 ㅎㅎ
 			vo.setTeam("A");
 			map.put("cntA", proofService.cntTeamProof(vo));
+			//A팀 인원수
+			map.put("Asize", partService.listParticipantAll(vo).size());
+			
 			//B팀 성공률 구하기 ~
 			vo.setTeam("B");
 			map.put("cntB", proofService.cntTeamProof(vo));
+			//b팀인원수
+			map.put("Bsize", partService.listParticipantAll(vo).size());
+			//총 일수 구하기, 총 기부비 정보
+			map.put("totalInfo" ,chalService.getChal(chalId));
+			
+			return map;
 		}
 		
 		//나의 포인트 조회
