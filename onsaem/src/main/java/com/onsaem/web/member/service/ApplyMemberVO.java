@@ -25,5 +25,5 @@ public class ApplyMemberVO {
 	private String memberId;
 	private String detailExplain;
 	
-	private List<MediaVO> appliyFile;
+	private List<MediaVO> appliyFileList;
 }

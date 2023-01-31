@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.onsaem.web.member.mapper.ApplyMapper">
+
+	<insert id="insertApply" parameterMap="ApplyMemberVO">
+		<selectKey resultType="String" keyProperty="applyId"
+			order="BEFORE">
+			SELECT 'AP'||LPAD(MEDIA_SEQ.NEXTVAL,3,0) FROM DUAL
+		</selectKey>
+		INSERT INTO APPLY_MEMBERS (APPLY_ID, PASSWORD, NICKNAME, EMAIL, PHONE,
+		POSTAL_CODE, ADDR, DETAIL_ADDR, BANK, BANK_ACCOUNT, BUSINESS_NUMBER,
+		MEMBER_CLASS, MEMBER_ID, DETAIL_EXPLAIN)
+		VALUES(#{applyId},
+		#{password}, #{nickname}, #{email}, #{phone}, #{postalCode}, #{addr},
+		#{detailAddr}, #{bank}, #{bankAccount}, #{businessNumber},
+		#{memberClass}, #{memberId}, #{detailExplain})
+	</insert>
+</mapper>
