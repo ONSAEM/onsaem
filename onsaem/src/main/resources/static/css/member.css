@@ -237,6 +237,15 @@
 			overflow: hidden;
 			border: 0;
 		}
+		
+		.filebox .file {
+			position: absolute;
+			width: 0;
+			height: 0;
+			padding: 0;
+			overflow: hidden;
+			border: 0;
+		}
 
 		.btn-primary {
 			width: 50%;

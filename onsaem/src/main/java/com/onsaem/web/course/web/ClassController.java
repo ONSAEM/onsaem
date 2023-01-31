@@ -24,6 +24,12 @@ import com.onsaem.web.course.service.ClassReviewService;
 import com.onsaem.web.course.service.ClassService;
 import com.onsaem.web.course.service.ClassVO;
 
+/**
+ * 작성자 - 주소현
+ * 작성 내용 - 클래스관리
+ */
+
+
 @Controller
 @CrossOrigin(origins = "*")
 @RequestMapping("/class")

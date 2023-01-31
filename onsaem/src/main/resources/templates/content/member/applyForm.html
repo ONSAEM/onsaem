@@ -13,10 +13,33 @@
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
+	<link type="text/css" rel="stylesheet"
+		th:href="@{https://cdn.jsdelivr.net/npm/aksfileupload@1.0.0/dist/aksFileUpload.min.css}">
+	<script th:src="@{/js/fileupload.js}"></script>
 </th:block>
 
 <head>
 	<meta charset="UTF-8">
+	<style>
+		.aks-file-upload-label {
+			width: 100%;
+		}
+
+		#aks-file-upload {
+			width: 400px;
+			display: block;
+			margin: 0 auto;
+			margin-top: 4rem;
+		}
+
+		#uploadfile {
+			margin: 0 auto;
+			color: #002c7b;
+			line-height: 1.5;
+			margin-top: 2rem;
+			margin-bottom: 2rem;
+		}
+	</style>
 </head>
 
 <body>
@@ -44,8 +67,8 @@
 				</div>
 				<div class="filebox">
 					<label style="width: 20%;"></label> <input class="inputfile" placeholder="프로필사진" readonly> <label
-						for="file" class="filelabel">사진등록</label> <input name="profileFile" type="file" id=file
-						accept=".gif, .jpg, .png, .bmp">
+						for="profileInput" class="filelabel">사진등록</label> <input name="profileFile" type="file"
+						class="file" id="profileInput" accept=".gif, .jpg, .png, .bmp">
 				</div>
 				<div class="inputfield">
 					<label>아이디<span class="request">*</span></label> <input type="text" name="memberId"
@@ -66,7 +89,17 @@
 					<label>이름<span class="request">*</span></label> <input type="email" name="name" class="input">
 				</div>
 				<div class="inputfield">
-					<label>닉네임</label> <input type="text" name="nickname" class="input">
+					<label>신청타입<span class="request">*</span></label>
+					<div class="custom_select">
+						<select name="memberClass">
+							<option value="">::신청타입::</option>
+							<option value="SELLER">쇼핑몰</option>
+							<option value="TEACHER">클래스</option>
+						</select>
+					</div>
+				</div>
+				<div class="inputfield">
+					<label>상호명<span class="request">*</span></label> <input type="text" name="nickname" class="input">
 				</div>
 				<div class="inputfield">
 					<label>이메일<span class="request">*</span></label> <input type="email" name="email"
@@ -96,12 +129,11 @@
 				</div>
 				<div class="inputfield">
 					<label>사업자번호<span class="request">*</span></label> <input type="text" name="businessNumber"
-						id="sample6_detailAddress" class="input"><input type="button" value="조회"
-						class="checkBNum checkBtn">
+						class="input"><input type="button" value="조회" class="checkBNum checkBtn">
 					<input type="hidden" value="false" id="checkBNum">
 				</div>
 				<div class="inputfield">
-					<label>계좌</label>
+					<label>계좌<span class="request">*</span></label>
 					<div class="custom_select">
 						<select name="bank">
 							<option value="">::은행선택::</option>
@@ -114,35 +146,23 @@
 					<label></label> <input type="text" name="bankAccount" class="input">
 				</div>
 				<div class="inputfield">
-					<label>사업 상세 설명<span class="request">*</span></label> <textarea name="detailExplain"
-						id="sample6_detailAddress"></textarea>
+					<label>사업 상세 설명<span class="request">*</span></label> <textarea name="detailExplain"></textarea>
 				</div>
 				<div class="inputfield">
-					<label>인증사진</label>
+					<label>인증사진<span class="request">*</span></label>
 					<p>*상품 또는 사업장 사진을 최소 5장 최대 10장내로 등록해주세요</p>
 				</div>
-				<div class="col-lg-6 col-md-6" style="margin: auto; margin-bottom: 10px">
-					<div class="product__details__pic">
-						<div class="product__details__pic__item">
-							<img class="product__details__pic__item--large" src="/images/defaulltProfile.png" alt="">
-						</div>
-						<div class="product__details__pic__slider owl-carousel">
-							<img src="/images/defaulltProfile.png" alt="">
-						</div>
-					</div>
+				<div class="inputfiles">
+					<input name="applyFile" type="file" accept=".gif, .jpg, .png, .bmp" style="display: none;">
+					<div id="aks-file-upload"></div>
 				</div>
-				<div class="filebox">
-					<label for="file" class="filelabel">사진등록</label> <input name="appliyFile" type="file" id=file
-						accept=".gif, .jpg, .png, .bmp">
-				</div>
-				<p style="margin: auto; text-align: center;">총 0개 등록됨</p>
 				<div class="inputfield terms">
 					<label class="check"> <input type="checkbox"> <span class="checkmark"></span>
 					</label>
 					<p>가입신청 동의</p>
 				</div>
 				<div class="inputfield">
-					<button type="button" class="btn">회원가입</button>
+					<button type="button" class="btn">가입신청</button>
 				</div>
 			</form>
 		</div>
@@ -151,10 +171,11 @@
 			let emailCk = '';
 			let token = $("meta[name='_csrf']").attr("content");
 			let header = $("meta[name='_csrf_header']").attr("content");
+			let applyFileList = [];
 
 			// 이미지 미리보기
-			$("#file").on('change', function () {
-				let fileName = $("#file").val();
+			$("input[name=profileFile]").on('change', function () {
+				let fileName = $("input[name=profileFile]").val();
 				$(".inputfile").val(fileName);
 				readURL(this);
 			});
@@ -423,6 +444,13 @@
 					success: function (result) {
 						if (result.data[0].b_stt_cd == '01') {
 							$('#checkBNum').val('true');
+							if ($('input[name=businessNumber]').parentsUntil('.form').next().prop(
+								'tagName') == 'P') {
+								$('input[name=businessNumber]').parentsUntil('.form').next().remove();
+							}
+							$('input[name=businessNumber]').parentsUntil('.form').after($('<p/>').text(
+								"사업자번호 인증이 완료되었습니다").css(
+								"margin-left", "20%"));
 						}
 					},
 					error: function (result) {
@@ -431,13 +459,91 @@
 				});
 			})
 
+			$("#aks-file-upload").aksFileUpload({
+				fileUpload: "#uploadfile", // With target [input]file or [type]json you can save the data of loaded items
+				fileType: ["pdf", "docx", "rtf", "jpg", "jpeg", "png"], // allowed file formats
+				dragDrop: true, // drag & drop upload
+				maxSize: "90 GB", // maximum uploaded file size
+				multiple: true, // multiple file upload
+				maxFile: 10, // maximum number of uploaded files
+				maxFileError: "10개를 넘길 수 없습니다", // error text
+				maxSizeError: "File exceeds size. - Max limit:", // error text
+				fileTypeError: "Disallowed file format.", // error text
+				label: "클릭하거나 파일을 올려주세요" // label text
+			});
+
+			//이미지목록에서 삭제하면 input file도 삭제
+			function delfileList(fileName) {
+				for (let i = 0; i < applyFileList.length; i++) {
+					if (applyFileList[i].name == fileName) {
+						applyFileList.splice(i, 1);
+					}
+				}
+				$('#aks-file-upload').find('input#aksfileupload').val("");
+			}
+
+			//img 비교해서 이미 표시된 이미지면 표시안함
+			function matchfile(fileName) {
+				let check = true;
+				if (applyFileList.length == 0) {
+					listinput(fileName);
+					return check;
+				} else {
+					for (let i = 0; i < applyFileList.length; i++) {
+						if (applyFileList[i].name == fileName) {
+							check = false;
+						}
+					}
+				}
+				if (check) {
+					listinput(fileName);
+				}
+				return check;
+			}
+
+			// 중복되지 않는 파일은 저장
+			function listinput(fileName) {
+				let files = $('#aks-file-upload').find('input#aksfileupload')[0].files;
+				let fileArray = Array.from(files);
+				for (let i = 0; i < fileArray.length; i++) {
+					if (fileArray[i].name == fileName) {
+						applyFileList.push(fileArray[i]);
+					}
+				}
+				return;
+			}
+
+			// 이미지 갯수 확인
+			function fileCount(inputCount) {
+				if ($('input[name=applyFile]').parentsUntil('.form').prev().prop('tagName') == 'P') {
+					$('input[name=applyFile]').parentsUntil('.form').prev().remove();
+				}
+				let check = true;
+				if (applyFileList.length + inputCount > 10) {
+					$('input[name=applyFile]').parentsUntil('.form').before($('<p/>').text("사진은 최대 10장까지 등록가능합니다").css(
+						"text-align", "center").css("color", "#f20000"));
+					check = false;
+				} else if (applyFileList.length + inputCount < 5) {
+					$('input[name=applyFile]').parentsUntil('.form').before($('<p/>').text("사진을 최소 5장이상 등록해주세요").css(
+						"text-align", "center").css("color", "#f20000"));
+				}
+				return check;
+			}
+
+
+			// 파일들 원하는 input에 담기
+			function inputFile() {
+				const dataTransfer = new DataTransfer();
+				applyFileList.forEach(file => {
+					dataTransfer.items.add(file);
+				});
+				$('input[name=applyFile]')[0].files = dataTransfer.files; //제거 처리된 FileList를 돌려줌
+			}
+
 			// 회원가입폼 확인
 			$('.btn').on('click', function () {
 				if ($('input[name=memberId]').parentsUntil('.form').next().prop('tagName') == 'P') {
 					$('input[name=memberId]').parentsUntil('.form').next().remove();
-				}
-				if ($('#checkId').parentsUntil('.form').next().prop('tagName') == 'P') {
-					$('#checkId').parentsUntil('.form').next().remove();
 				}
 				if ($('input[name=password]').parentsUntil('.form').next().prop('tagName') == 'P') {
 					$('input[name=password]').parentsUntil('.form').next().remove();
@@ -448,14 +554,14 @@
 				if ($('input[name=name]').parentsUntil('.form').next().prop('tagName') == 'P') {
 					$('input[name=name]').parentsUntil('.form').next().remove();
 				}
-				if ($('input[name=email]').parentsUntil('.form').next().prop('tagName') == 'P') {
-					$('input[name=email]').parentsUntil('.form').next().remove();
+				if ($('select[name=memberClass]').parentsUntil('.form').next().prop('tagName') == 'P') {
+					$('select[name=memberClass]').parentsUntil('.form').next().remove();
+				}
+				if ($('input[name=nickname]').parentsUntil('.form').next().prop('tagName') == 'P') {
+					$('input[name=nickname]').parentsUntil('.form').next().remove();
 				}
 				if ($('input[name=email]').parentsUntil('.form').next().prop('tagName') == 'P') {
 					$('input[name=email]').parentsUntil('.form').next().remove();
-				}
-				if ($('input[name=phone]').parentsUntil('.form').next().prop('tagName') == 'P') {
-					$('input[name=phone]').parentsUntil('.form').next().remove();
 				}
 				if ($('input[name=phone]').parentsUntil('.form').next().prop('tagName') == 'P') {
 					$('input[name=phone]').parentsUntil('.form').next().remove();
@@ -475,18 +581,24 @@
 				if ($('input[type=checkbox]').parentsUntil('.form').next().eq(1).prop('tagName') == 'P') {
 					$('input[type=checkbox]').parentsUntil('.form').next().eq(1).remove();
 				}
-				if ($('input[name=businessNumber]').parentsUntil('.form').next().prop('tagName') == 'P') {
-					$('input[name=businessNumber]').parentsUntil('.form').next().remove();
+				if ($('input[name=bankAccount]').parentsUntil('.form').next().prop('tagName') == 'P') {
+					$('input[name=bankAccount]').parentsUntil('.form').next().remove();
 				}
-				//
+				if ($('textarea[name=detailExplain]').parentsUntil('.form').next().prop('tagName') == 'P') {
+					$('textarea[name=detailExplain]').parentsUntil('.form').next().remove();
+				}
+				if ($('input[name=applyFile]').parentsUntil('.form').prev().prop('tagName') == 'P') {
+					$('input[name=applyFile]').parentsUntil('.form').prev().remove();
+				}
+				if ($('input[type=checkbox]').parentsUntil('.form').next().eq(1).prop('tagName') == 'P') {
+					$('input[type=checkbox]').parentsUntil('.form').next().remove();
+				}
+				if ($('input[name=applyFile]').parentsUntil('.form').prev().prop('tagName') == 'P') {
+					$('input[name=applyFile]').parentsUntil('.form').prev().remove();
+				}
+				// 
 				if (!$('input[name=memberId]').val()) {
 					$('input[name=memberId]').parentsUntil('.form').after($('<p/>').text("아이디를 입력해주세요").css(
-						"margin-left", "20%").css("color", "#f20000"));
-					$('input[name=memberId]').focus();
-					return;
-				}
-				if ($('#checkId').val() == 'false') {
-					$('.checkId').parentsUntil('.form').after($('<p/>').text("아이디 중복 확인해주세요").css(
 						"margin-left", "20%").css("color", "#f20000"));
 					$('input[name=memberId]').focus();
 					return;
@@ -507,6 +619,18 @@
 					$('input[name=name]').parentsUntil('.form').after($('<p/>').text("이름을 입력해주세요").css(
 						"margin-left", "20%").css("color", "#f20000"));
 					$('input[name=name]').focus();
+					return;
+				}
+				if (!$('select[name=memberClass]').val()) {
+					$('select[name=memberClass]').parentsUntil('.form').eq(1).after($('<p/>').text("신청타입을 선택해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('select[name=memberClass]').focus();
+					return;
+				}
+				if (!$('input[name=nickname]').val()) {
+					$('input[name=nickname]').parentsUntil('.form').after($('<p/>').text("상호명을 입력해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('input[name=nickname]').focus();
 					return;
 				}
 				if (!$('input[name=email]').val()) {
@@ -552,13 +676,43 @@
 					return;
 				}
 				if (!$('input[name=businessNumber]').val()) {
-					$('input[name=businessNumber]').parentsUntil('.form').after($('<p/>').text("사업번호를 입력해주세요").css(
+					$('input[name=businessNumber]').parentsUntil('.form').after($('<p/>').text("사업자번호를 입력해주세요").css(
 						"margin-left", "20%").css("color", "#f20000"));
 					$('input[name=businessNumber]').focus();
 					return;
 				}
+				if ($('#checkBNum').val() == 'false') {
+					$('input[name=businessNumber]').parentsUntil('.form').after($('<p/>').text("사업자번호를 조회해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('input[name=businessNumber]').focus();
+					return;
+				}
+				if (!$('select[name=bank]').val()) {
+					$('input[name=bankAccount]').parentsUntil('.form').after($('<p/>').text("은행을 선택해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('input[name=bankAccount]').focus();
+					return;
+				}
+				if (!$('input[name=bankAccount]').val()) {
+					$('input[name=bankAccount]').parentsUntil('.form').after($('<p/>').text("계좌를 입력해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('input[name=bankAccount]').focus();
+					return;
+				}
+				if (!$('textarea[name=detailExplain]').val()) {
+					$('textarea[name=detailExplain]').parentsUntil('.form').after($('<p/>').text("상세 설명을 입력해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+					$('textarea[name=detailExplain]').focus();
+					return;
+				}
+				if (applyFileList.length < 5) {
+					console.log($('input[type=applyFile]').parentsUntil('.form'));
+					$('input[name=applyFile]').parentsUntil('.form').before($('<p/>').text("사진을 최소 5장이상 등록해주세요").css(
+						"text-align", "center").css("color", "#f20000"));
+					return;
+				}
 				if (!$('input[type=checkbox]').is(':checked')) {
-					$('input[type=checkbox]').parentsUntil('.form').eq(1).after($('<p/>').text("회원가입에 동의해주세요").css(
+					$('input[type=checkbox]').parentsUntil('.form').eq(1).after($('<p/>').text("가입신청에 동의해주세요").css(
 						"color", "#f20000"));
 					return;
 				}
@@ -567,6 +721,7 @@
 
 			// 회원등록
 			function insertApply() {
+				inputFile();
 				let data = new FormData($('.form')[0]);
 				$.ajax({
 					url: '/insertApply',
@@ -580,7 +735,7 @@
 					},
 					success: function (result) {
 						if (result == "success") {
-							location.href = "/signUpCOM"
+							location.href = "/applyCOM"
 						} else {
 							alert('등록실패');
 						}

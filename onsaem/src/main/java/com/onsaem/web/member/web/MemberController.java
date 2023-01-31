@@ -17,6 +17,12 @@ import com.onsaem.web.common.service.CommonService;
 import com.onsaem.web.member.service.MemberService;
 import com.onsaem.web.member.service.MemberVO;
 
+/**
+ * 작성자 - 주소현
+ * 작성 내용 - 회원관리
+ */
+
+
 @Controller
 @CrossOrigin(origins = "*")
 public class MemberController {
@@ -47,9 +53,10 @@ public class MemberController {
 	}
 
 	// 가입신청페이지 이동
-	@RequestMapping(value = "/appliyForm", method = RequestMethod.GET)
-	public String appliyForm() {
-		return "content/member/appliyForm";
+	@RequestMapping(value = "/applyForm", method = RequestMethod.GET)
+	public String appliyForm(Model model) {
+		model.addAttribute("bankList", commonService.getBankList());
+		return "content/member/applyForm";
 	}
 
 	// 회원단건조회
