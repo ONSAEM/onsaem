@@ -1,115 +1,104 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 
 <head>
-<style type="text/css">
-/* VARIABLES -  START */
-/* COLORS  */
-/* DIMENSIONS */
-/* FONTS */
-@import
-	url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap")
-	;
+	<style type="text/css">
+		/* VARIABLES -  START */
+		/* COLORS  */
+		/* DIMENSIONS */
+		/* FONTS */
+		@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap");
 
-/* VARIABLES - END */
-/* COMMONS - START */
-.flex-center, .wrapper .button-container, .wrapper {
-	justiy-content: center;
-	align-items: center;
-}
+		/* VARIABLES - END */
+		/* COMMONS - START */
+		.flex-center,
+		.wrapper .button-container,
+		.wrapper {
+			justiy-content: center;
+			align-items: center;
+		}
 
-* {
-	box-sizing: border-box;
-	margin: 0;
-}
+		* {
+			box-sizing: border-box;
+			margin: 0;
+		}
 
-/* COMMONS - END */
-/* STYLES -  START */
-.wrapper {
-	font-family: "Lato", sans-serif;
-	font-weight: 400;
-}
+		/* COMMONS - END */
+		/* STYLES -  START */
+		.wrapper {
+			font-family: "Lato", sans-serif;
+			font-weight: 400;
+		}
 
-.heartbutton {
-	height: 50px;
-	width: 170px;
-	background-color: #fefefe;
-	border-radius: 5px;
-	padding: 12.5px;
-	cursor: pointer;
-}
+		.heartbutton {
+			height: 50px;
+			width: 170px;
+			background-color: #fefefe;
+			border-radius: 5px;
+			padding: 12.5px;
+			cursor: pointer;
+		}
 
-.content .icon {
-	font-size: 25px;
-	color: #ea4a87;
-}
+		.content .icon {
+			font-size: 25px;
+			color: #ea4a87;
+		}
 
-.content .icon.fa {
-	display: none;
-}
+		.content .icon.fa {
+			display: none;
+		}
 
-.content .text {
-	font-size: 25px;
-	color: #2f3537;
-}
+		.content .text {
+			font-size: 25px;
+			color: #2f3537;
+		}
 
-.content .text.like {
-	margin-left: 10px;
-}
+		.content .text.like {
+			margin-left: 10px;
+		}
 
-.content .text.d {
-	opacity: 0;
-	display: inline-block;
-	transform: translateX(12px);
-}
+		.content .text.d {
+			opacity: 0;
+			display: inline-block;
+			transform: translateX(12px);
+		}
 
-.content .text.number {
-	margin-left: 10px;
-	color: #7a7c81;
-}
+		.content .text.number {
+			margin-left: 10px;
+			color: #7a7c81;
+		}
 
-/* GENERAL STYLES */
-.pagination ul {
-	margin: auto;
-	padding: 0;
-	list-style: none;
-}
+		/* GENERAL STYLES */
+		.pagination ul {
+			margin: auto;
+			padding: 0;
+			list-style: none;
+		}
 
-/* ONE */
-.p1 li {
-	font-size: 14px;
-	width: 40px;
-	height: 40px;
-	line-height: 40px;
-	padding: 0;
-	text-align: center;
-	float: left;
-	cursor: pointer;
-}
-</style>
+		/* ONE */
+		.p1 li {
+			font-size: 14px;
+			width: 40px;
+			height: 40px;
+			line-height: 40px;
+			padding: 0;
+			text-align: center;
+			float: left;
+			cursor: pointer;
+		}
+	</style>
 </head>
 <!-- Css  -->
 <th:block layout:fragment="css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/course/courseStyle.css}"
-		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/course/courseStyle.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/css/calendar.css}" type="text/css">
 </th:block>
@@ -123,12 +112,10 @@
 					<div class="product__details__pic">
 						<div class="product__details__pic__item">
 							<img class="product__details__pic__item--large"
-								th:src=${mediaList[0].fileRoute}+${mediaList[0].mediaName}
-								alt="">
+								th:src=${mediaList[0].fileRoute}+${mediaList[0].mediaName} alt="">
 						</div>
 						<div class="product__details__pic__slider owl-carousel">
-							<img th:each="media : ${mediaList}"
-								th:data-imgbigurl=${media.fileRoute}+${media.mediaName}
+							<img th:each="media : ${mediaList}" th:data-imgbigurl=${media.fileRoute}+${media.mediaName}
 								th:src=${media.fileRoute}+${media.mediaName} alt="">
 						</div>
 					</div>
@@ -137,8 +124,7 @@
 					<div class="product__details__text">
 						<h3 th:text="${class.className}"></h3>
 						<div class="product__details__rating">
-							<i class="fa-solid fa-star" th:if="${class.star != 0}"
-								th:each="num:${#numbers.sequence(1,class.star)}"
+							<i class="fa-solid fa-star" th:if="${class.star != 0}" th:each="num:${#numbers.sequence(1,class.star)}"
 								style="color: #ffe949"></i><i class="fa-solid fa-star-half"
 								th:if="${class.star%1 >= 0.5}" style="color: #ffe949"></i> <span>([[${class.reviewCount}]]
 								reviews)</span>
@@ -151,8 +137,8 @@
 						<a href="/loginPage" class="primary-btn"
 							sec:authorize="isAnonymous()">예약하기</a> <a href="/loginPage"
 							class="primary-btn" sec:authorize="isAnonymous()">신고하기</a> <a
-							href="#" class="primary-btn" sec:authorize="hasRole('USER')"
-							data-bs-toggle="modal" data-bs-target="#bookingModal">예약하기</a> <a
+							href="#" class="primary-btn bookingModal" sec:authorize="hasRole('USER')"
+							>예약하기</a> <a
 							href="#" class="primary-btn" sec:authorize="hasRole('USER')"
 							data-bs-toggle="modal" data-bs-target="#reportModal">신고하기</a>
 						<div class="wrapper">
@@ -518,14 +504,26 @@
 				<div class="modal-body">
 					<div class="modal-wrapper">
 						<div class="title">예약</div>
-						<div id="calendar"></div>
+						<div id="calendar" style="float: left;"></div>
+						<div style="float: right;">
+						<div class="classTable"><table>
+							<tr>
+								<th>
+									시간
+								</th>
+								<th>
+									인원
+								</th>
+							</tr>
+						</table></div>
 						<div class="inputfield">
-							<label>답변내용</label>
-							<textarea name="ansContent" class="input"></textarea>
+							<label>예약인원</label>
+							<textarea name="totalPeople" class="input"></textarea>
 						</div>
 						<div class="inputfield">
-							<button type="button" class="btn Answer">답변수정</button>
+							<button type="button" class="btn Answer">에약</button>
 						</div>
+					</div>
 					</div>
 				</div>
 				<div class="modal-footer"></div>
@@ -543,6 +541,43 @@
 		let groupId = "[[${class.classId}]]";
 		let addr = "[[${class.addr}]]";
 		
+			// 예약모달창
+			$('.bookingModal').on('click',function(){
+				getDateList();
+				$('#bookingModal').modal("show");
+			})
+			
+			// 강의 날짜 가져오기
+			function getDateList(){
+				$.ajax({
+			      url: '/class/getDateList',
+			      method: 'GET',
+			      contentType: 'application/x-www-form-urlencoded',
+			      data: {'classId' : groupId},
+			      success: function (result) {
+					console.log(result);
+					$(result).each(function(index, item){
+						changeDate(item)
+					 })
+			      },
+			      error: function (error) {
+			         console.log(error);
+			         alert('실패');
+			      }
+			   })
+			}
+
+			// 강의 있는 날짜 css 변경
+			function changeDate (d) {
+				$('#calendar').find('li').each(function(){
+					console.log(d.classDate);
+					console.log($(this).attr('data-calendar-day'));
+					if($(this).attr('data-calendar-day') == d.classDate){
+						$(this).css("color","yellow");
+					};
+				});
+			}
+
 		//  리뷰 페이지 이동
 		$(".rPaging").find("#pageNum").on("click",function(){
 				newRList($(this).text());

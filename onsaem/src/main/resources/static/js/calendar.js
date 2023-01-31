@@ -180,6 +180,7 @@
     setMonthAction: function (t) {
       var e = this.date.getMonth() + 1;
       this.$monthItems.children().removeClass(D), t === this.date.getFullYear() && this.$monthItems.children().eq(e - 1).addClass(D)
+      getDateList()
     },
     fillStatic: function () {
       var t = {

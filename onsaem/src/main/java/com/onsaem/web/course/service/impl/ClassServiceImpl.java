@@ -109,8 +109,14 @@ public class ClassServiceImpl implements ClassService {
 	}
 
 	@Override
+	public List<ClassVO> getDateList(ClassVO vo) {
+	
+		return classMapper.getDateList(vo);
+	}
+
+	@Override
 	public List<ClassVO> getclassList(ClassVO vo) {
-		
+
 		return classMapper.getclassList(vo);
 	}
 	// [위는 완성 아래는 미완성]
