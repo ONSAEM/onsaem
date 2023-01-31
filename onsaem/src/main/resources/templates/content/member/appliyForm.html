@@ -96,7 +96,9 @@
 				</div>
 				<div class="inputfield">
 					<label>사업자번호<span class="request">*</span></label> <input type="text" name="businessNumber"
-						id="sample6_detailAddress" class="input"><input type="button" value="조회" class="checkBNum">
+						id="sample6_detailAddress" class="input"><input type="button" value="조회"
+						class="checkBNum checkBtn">
+					<input type="hidden" value="false" id="checkBNum">
 				</div>
 				<div class="inputfield">
 					<label>계좌</label>
@@ -401,12 +403,16 @@
 				}).open();
 			}
 
+			// 사업자번호 입력창 변화 확인
+			$('input[name=businessNumber]').on('change', function () {
+				$('#checkBNum').val('false');
+			})
 
+			// 사업자번호 인증
 			$('.checkBNum').on('click', function () {
 				var data = {
-					"b_no": ["1058633455"] // 사업자번호 "xxxxxxx" 로 조회 시,
+					"b_no": [$('input[name=businessNumber]').val()] // 사업자번호 "xxxxxxx" 로 조회 시,"1058633455"
 				};
-
 				$.ajax({
 					url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=stP86vGAn8wv2bzGqed5SejJCvve7nWirKNy76rt7822yygDQMBNgikMe4EnSJIzJoN2N1VZ40K2AlVgpo0TTw%3D%3D", // serviceKey 값을 xxxxxx에 입력
 					type: "POST",
@@ -415,7 +421,9 @@
 					contentType: "application/json",
 					accept: "application/json",
 					success: function (result) {
-						console.log(result);
+						if (result.data[0].b_stt_cd == '01') {
+							$('#checkBNum').val('true');
+						}
 					},
 					error: function (result) {
 						console.log(result.responseText); //responseText의 에러메세지 확인
