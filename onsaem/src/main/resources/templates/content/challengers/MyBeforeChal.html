@@ -203,11 +203,12 @@ h1 {
 							</div>
 							<p
 								th:text="${#dates.format(chal.startDate, 'MM월 dd일')} + ' ~ ' + ${#dates.format(chal.endDate, 'MM월 dd일')}"></p>
+								<p th:text="'인증 요일 : '+${chal.frequency}"></p>
 							<div class="project-box-footer">
 								<div class="participants">
 									<button class="openBtn">취소하기</button>
 								</div>
-								<div class="days-left" style="color: #ff942e;">2 Days Left</div>
+								<div class="days-left" style="color: #ff942e;" th:text="${chal.dday}+'일 후 시작'"></div>
 							</div>
 
 						</div>

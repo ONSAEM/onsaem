@@ -183,6 +183,9 @@
                                				<label><input type="checkbox"  name="check" class="checkList">고정 기부금의 1%에 해당하는 포인트를 배팅해야 합니다.</label>
                                			</th:block>
                                 </div>
+                                <br>
+                                <span th:if="${cnt.cnt} >=1" class="primary-btn" >이미 참가 중인 챌린지 입니다</span>
+							<button th:unless="${cnt.cnt} >=1" onclick = "goPage()" class="primary-btn">참가하기</button>
                                 <!-- 팀전 참가시 포인트 없으면 참가 불가 위해서  -->
                                 <input type="hidden" id="userPoint" th:value="${user.point}">                              
 							</div>

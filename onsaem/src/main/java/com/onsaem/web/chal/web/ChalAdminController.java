@@ -237,13 +237,21 @@ public class ChalAdminController {
 		return "content/challengers/AdminVueReportChal";
 	}
 	
-	//신고 목록 불러오기
-	@RequestMapping(value="/ChalReportList", method=RequestMethod.POST)
-	@ResponseBody
-	public String ChalReportList() {
+	//종료 팀 챌린지 관리 페이지로 이동
+	@RequestMapping(value="/AdminEndTeam", method=RequestMethod.GET)
+	public String AdminEndTeam() {
 
-		return "content/challengers/AdminVueReportChal";
+		return "content/challengers/AdminChalView";
 	}
+	
+	//종료 팀 챌린지 목록 가져오기
+	@RequestMapping(value="/getTeamChals", method=RequestMethod.POST)
+	@ResponseBody
+	public List<ChalVO> getTeamChals(){
+		
+		return chalService.AdminEndChals("팀");
+	}
+	
 	
 	
 }
