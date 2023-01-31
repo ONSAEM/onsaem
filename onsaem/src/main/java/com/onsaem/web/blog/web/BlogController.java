@@ -118,10 +118,11 @@ public class BlogController {
 	
 	// 관리자
 	// 블로그 신고조회 페이지로 이동
-	@RequestMapping(value="/blogReportList", method=RequestMethod.GET)
+	@RequestMapping(value="/blogReportList", method=RequestMethod.POST)
 	@ResponseBody
-	public List<ReportVO> blogReportList() {
-		return blogService.blogReportList(null);
+	public List<ReportVO> blogReportList(ReportVO reportVO) {
+		
+		return blogService.blogReportList(reportVO);
 	}
 	
 }
