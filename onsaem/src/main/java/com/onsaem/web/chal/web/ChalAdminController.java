@@ -157,7 +157,7 @@ public class ChalAdminController {
 	
 	
 	//팀전 포인트 적립
-	@RequestMapping(value="sharePoint", method=RequestMethod.POST)
+	@RequestMapping(value="/sharePoint", method=RequestMethod.POST)
 	@ResponseBody
 	public String sharePoint(@RequestBody ParticipantVO vo){
 		
