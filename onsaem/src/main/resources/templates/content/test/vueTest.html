@@ -4,13 +4,15 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/AdminLayout}">
 <head>
-	<meta charset="UTF-8">
+<meta charset="UTF-8">
 <title>블로그 신고관리페이지</title>
-
+	<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
+	</th:block>
 </head>
 <body>
-<div layout:fragment="content" class="app-content">
-	
+	<div layout:fragment="content" class="app-content">
+
 		<div class="app-content-header">
 			<h1 class="app-content-headerText">블로그 신고관리페이지</h1>
 			<button class="mode-switch" title="Switch Theme">
@@ -35,15 +37,14 @@
 							class="feather feather-filter">
 							<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" /></svg>
 					</button>
-					<div class="filter-menu" style="right:0px;">
-						<label>Category</label> 
-						<select id="filterId">
+					<div class="filter-menu" style="right: 0px;">
+						<label>Category</label> <select id="filterId">
 							<option value="">::카테고리::</option>
 							<option value="블로그">블로그</option>
 							<option value="쇼핑몰">쇼핑몰</option>
 							<option value="챌린저스">챌린저스</option>
 							<option value="강의">강의</option>
-						</select> 
+						</select>
 						<div class="filter-menu-buttons">
 							<button class="filter-button reset">Reset</button>
 							<button class="filter-button apply">Apply</button>
@@ -163,12 +164,19 @@
 						<span class="status active">{{rp.status}}</span>
 					</div>
 				</div>
+				<!-- 모달시작 -->
+				
+				<!-- 모달끝 -->
 			</div>
-			
+
 		</div>
 
-		 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-		 <script type="text/javascript">
+		<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+		<script type="text/javascript">
+			//csrf설정
+			 var token = $("meta[name='_csrf']").attr("content");
+			 var header = $("meta[name='_csrf_header']").attr("content");	 
+			 
 			document.querySelector(".jsFilter").addEventListener("click", function() {
 				document.querySelector(".filter-menu").classList.toggle("active");
 			});
@@ -179,11 +187,6 @@
 				modeSwitch.classList.toggle('active');
 			});
 			
-			
-			$('.apply').on("click", function(){
-				let groups = $('#filterId').val();
-				console.log(groups);
-				
 					const app = Vue.createApp({
 		              data() {
 		                  return {
@@ -191,18 +194,28 @@
 		                  };
 		              },
 		              created () {
-		                  this.fetchComments();
+		            	  let th=this;
+		            	  $('.apply').on("click", function(){
+		      				let groups = $('#filterId').val();
+		      				
+		                  th.fetchComments(groups);
+		            	  });
 		              },
 		              methods: {
-		                  fetchComments: function () {
+		                  fetchComments: function (groups) {
 		                     let is=this;
-		                     console.log(is);
+		                     console.log(groups);
 		                      $.ajax({
 		                          url: '/blog/blogReportList',
-		                          method: 'GET',
+		                          method: 'POST',
+		                          contentType: 'application/x-www-form-urlencoded',
 		                          data: {"groups" : groups},
+		                          beforeSend : function(xhr)
+			   	 	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+			   	 	               xhr.setRequestHeader(header, token);
+			   	 	               },
 		                          success: function (data) {
-		                        	 
+// 		                        	  console.log('도착');
 		                             is.reports=data;                                                       
 		                          }
 		                      });
@@ -210,7 +223,14 @@
 		              }
 		          });  
 				  app.mount('#app');
-			});
+				  
+				  
+				  $('.products-row').each(function(){
+					  $(this).on('click', function() {
+// 								
+					  })
+				  });
+			
 		</script>
 		<!-- JS -->
 		<th:block layout:fragment="script">
