@@ -3,28 +3,28 @@
 <mapper namespace="com.onsaem.web.course.mapper.ClassMapper">
 
 	<sql id="condition">
-		<if test="className">
+		<if test="className != null and className !=''">
 			AND C.CLASS_NAME LIKE '%' || #{className} || '%'
 		</if>
-		<if test="classAddr">
+		<if test="classAddr != null and classAddr !=''">
 			AND C.CLASS_ADDR LIKE '%' || #{classAddr} || '%'
 		</if>
-		<if test="startDate">
+		<if test="startDate != null and startDate !=''">
 			<![CDATA[
 				AND L.START_DATE >= #{startDate}
 				]]>
 		</if>
-		<if test="endDate">
+		<if test="endDate != null and endDate !=''">
 			<![CDATA[
 				AND L.END_DATE < #{endDate}
 				]]>
 		</if>
-		<if test="minPrice">
+		<if test="minPrice != null and minPrice !=''">
 				<![CDATA[
 					AND C.PRICE >= #{minPrice}
 				]]>
 		</if>
-		<if test="maxPrice">
+		<if test="maxPrice != null and maxPrice !=''">
 				<![CDATA[
 					AND C.PRICE <= #{maxPrice}
 				]]>
