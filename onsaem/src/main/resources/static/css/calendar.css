@@ -215,3 +215,7 @@ ul, ol {
 	border: 6px solid transparent;
 	border-top-color: #000
 }
+
+.isClass {
+	color: #66be8c;
+}

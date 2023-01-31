@@ -507,6 +507,7 @@
 						<div id="calendar" style="float: left;"></div>
 						<div style="float: right;">
 						<div class="classTable"><table>
+							<thead>
 							<tr>
 								<th>
 									시간
@@ -515,6 +516,8 @@
 									인원
 								</th>
 							</tr>
+						</thead>
+						<tbody></tbody>
 						</table></div>
 						<div class="inputfield">
 							<label>예약인원</label>
@@ -540,10 +543,9 @@
 		let memberId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}]]";
 		let groupId = "[[${class.classId}]]";
 		let addr = "[[${class.addr}]]";
-		
+		let DateList = [];
 			// 예약모달창
 			$('.bookingModal').on('click',function(){
-				getDateList();
 				$('#bookingModal').modal("show");
 			})
 			
@@ -554,11 +556,9 @@
 			      method: 'GET',
 			      contentType: 'application/x-www-form-urlencoded',
 			      data: {'classId' : groupId},
+				  async:false,
 			      success: function (result) {
-					console.log(result);
-					$(result).each(function(index, item){
-						changeDate(item)
-					 })
+					DateList = result;
 			      },
 			      error: function (error) {
 			         console.log(error);
@@ -566,17 +566,19 @@
 			      }
 			   })
 			}
-
 			// 강의 있는 날짜 css 변경
-			function changeDate (d) {
-				$('#calendar').find('li').each(function(){
-					console.log(d.classDate);
-					console.log($(this).attr('data-calendar-day'));
-					if($(this).attr('data-calendar-day') == d.classDate){
-						$(this).css("color","yellow");
-					};
-				});
+			function changeDate (date) {
+				let checked = false;
+				$(DateList).each(function(index, item){
+					if(date == item.classDate){
+						checked = true;
+						return;
+					}
+				})
+				return checked;
 			}
+
+
 
 		//  리뷰 페이지 이동
 		$(".rPaging").find("#pageNum").on("click",function(){
@@ -859,7 +861,6 @@
 															header, token);
 												},
 												success : function(result) {
-													console.log(result);
 													// Y를 F로
 
 													$('.ClassLike').val('Y'); // blogLike인 클래스의 값을 불러와서 'Y'로 바꿔준다
@@ -884,7 +885,6 @@
 															header, token);
 												},
 												success : function(result) {
-													console.log(result);
 
 													// F를 Y로
 													$('.ClassLike').val('F'); // blogLike인 클래스의 값을 불러와서 'F'로 바꿔준다

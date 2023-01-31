@@ -143,17 +143,35 @@
         l = {
           w: this.width / 7,
           h: this.height / 7,
-          value: i
+          value: i,
         };
       r.isSame(e, a, i) ? w : "";
-      return 1 === n ? l.class = g : 3 === n ? l.class = v : l.class = "", r.isSame(e, a, i) && (l.class += " " + D), l.date = h.format(this.options.format), l.action = this.getDayAction(h), s = this.getDayData(h), o = t(b.repeat(l)), s && (o.data(m, s), o.html(i + y)), o
+      return 1 === n ? l.class = g : 3 === n ? l.class = v : 5 === n ? l.class = 'isClass' : l.class = "", r.isSame(e, a, i) && (l.class += " " + D), l.date = h.format(this.options.format), l.action = this.getDayAction(h), s = this.getDayData(h), o = t(b.repeat(l)), s && (o.data(m, s), o.html(i + y)), o
     },
     getDaysHtml: function (a, i) {
       var n, s, o, r, h, l, d = (this.date, t('<ol class="days"></ol>'));
       e(a) ? (n = a.getFullYear(), s = a.getMonth() + 1) : (n = Number(a), s = Number(i)), o = new Date(n, s - 1, 1).getDay() || 7, l = o - this.options.startWeek, r = Date.getDaysNum(n, s), h = Date.getPrevMonth(n, s), prevDaysNum = Date.getDaysNum(n, h.m), nextM = Date.getNextMonth(n, s);
-      for (var c = 1, u = 2, p = 3, m = 0, f = prevDaysNum - l + 1; f <= prevDaysNum; f++, m++) d.append(this.getDayItem(h.y, h.m, f, c));
-      for (var g = 1; g <= r; g++, m++) d.append(this.getDayItem(n, s, g, u));
-      for (var v = 1, D = 42 - m; v <= D; v++) d.append(this.getDayItem(nextM.y, nextM.m, v, p));
+      for (var c = 1, u = 2, p = 3, m = 0, f = prevDaysNum - l + 1; f <= prevDaysNum; f++, m++){
+        if(changeDate(h.y+"/"+h.m+"/"+f)){
+          d.append(this.getDayItem(h.y, h.m, f, 5));
+        }else{
+          d.append(this.getDayItem(h.y, h.m, f, c));
+        };
+      } 
+      for (var g = 1; g <= r; g++, m++){
+        if(changeDate(n+"/"+s+"/"+g)){
+          d.append(this.getDayItem(n, s, g, 5));
+        }else{
+           d.append(this.getDayItem(n, s, g, u));
+        };
+      } 
+      for (var v = 1, D = 42 - m; v <= D; v++){
+        if(changeDate(nextM.y+"/"+nextM.m+"/"+v)){
+          d.append(this.getDayItem(nextM.y, nextM.m, v, 5));
+        }else{
+          d.append(this.getDayItem(nextM.y, nextM.m, v, p));
+        };
+      } 
       return t("<li></li>").width(this.options.width).append(d)
     },
     getWeekHtml: function () {
@@ -180,7 +198,6 @@
     setMonthAction: function (t) {
       var e = this.date.getMonth() + 1;
       this.$monthItems.children().removeClass(D), t === this.date.getFullYear() && this.$monthItems.children().eq(e - 1).addClass(D)
-      getDateList()
     },
     fillStatic: function () {
       var t = {
@@ -201,6 +218,7 @@
       this.$disMonth.html(t)
     },
     fillDateItems: function (t, e) {
+      getDateList();
       var a = [Date.getPrevMonth(t, e), {
         y: t,
         m: e
@@ -244,6 +262,7 @@
       this.$element.removeClass(f.date + " " + f.month).addClass(f[t]), this.view = t
     },
     updateDateView: function (e, a, i, n) {
+      getDateList();
       a = a || this.date.getMonth() + 1;
       var s = this,
         o = this.$dateItems,
@@ -342,7 +361,7 @@
         t = "prev" === n ? t - 1 : t + 1, e.updateMonthView(t), a("month", t)
       }), e.$element.on("click", "[" + c + "]", function () {
         var a = parseInt(this.innerHTML),
-          n = i(this),
+          n = i(this),S
           s = /new|old/.test(n) ? n.match(/new|old/)[0] : "",
           o = e.selectedDay(a, s);
         e.options.onSelected.call(this, "date", o, t(this).data(m)), e.$trigger && e.hide("date", o, t(this).data(m))
@@ -394,6 +413,4 @@ $('#calendar').calendar({
   monthArray: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
   selectedRang: null,
   view: 'date',
-
-
 });
