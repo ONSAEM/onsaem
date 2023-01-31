@@ -382,8 +382,8 @@ public class ChalMypageController {
 		if(check==0) {
 			//개인전 일때 
 //			//이거로 다 가능 
-			partService.getParticipant(vo);
-		
+			//나의 포인트 조회
+			map.put("user", partService.getParticipant(vo));		
 		}else {
 			//팀전일때 성공률 계산
 			
@@ -401,12 +401,10 @@ public class ChalMypageController {
 			//총 일수 구하기, 총 기부비 정보
 			map.put("totalInfo" ,chalService.getChal(chalId));
 			
-			return map;
+			//나의 포인트 조회
+			map.put("user", partService.getParticipant(vo));			
 		}
-		
-		//나의 포인트 조회
-		map.put("user", partService.getParticipant(vo));
-		
+
 		return map;
 	}
 	
