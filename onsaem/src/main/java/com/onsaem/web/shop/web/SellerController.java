@@ -51,8 +51,7 @@ public class SellerController {
 	// 판매자 리뷰댓글달기
 	@RequestMapping(value = "/shop/sellerReviewContent", method = RequestMethod.POST)
 	@ResponseBody
-	public int sellerReviewContent(Authentication authentication, ReviewVO vo) {
-		System.out.println(vo);
+	public int sellerReviewContent(Authentication authentication, ReviewVO vo) {		
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		vo.setWriterId(userDetails.getUsername());
 		vo.setGroups("쇼핑몰");		

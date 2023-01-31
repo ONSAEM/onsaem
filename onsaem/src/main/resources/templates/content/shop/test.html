@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout3}">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+</th:block>
+
+<head>
+<meta charset="UTF-8">
+</head>
+
+<body>
+	<div layout:fragment="content" class="app-content">
+    <div id="app">
+      <div>{{message}}</div>
+      <h1>{{description}}</h1>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+      var app = new Vue({
+        el: '#app',
+        data: {
+          message: '안녕하세요 Vue!',
+          description: '반갑습니다',
+        },
+      });
+    </script>
+    </div>
+  </body>
+</html>

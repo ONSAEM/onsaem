@@ -44,8 +44,9 @@
 								sec:authorize="isAuthenticated()">관심상품</a></li>
 							<li><a class="dropdown-item"
 								href="javascript:location.reload()"
-								sec:authorize="isAnonymous()" onclick="noLogin()">찜</a></li>
+								sec:authorize="isAnonymous()" onclick="noLogin()">관심상품</a></li>
 							<li><a class="dropdown-item" href="/sellerMain"  sec:authorize="hasRole('SELLER')">판매자</a></li>
+							<li><a class="dropdown-item" href="/shop/test"  sec:authorize="hasRole('SELLER')">Vue테스트</a></li>
 						</ul></li>
 
 					<li class="nav-item dropdown"><a

@@ -78,7 +78,7 @@
 								<input type="hidden" id="token" th:name="${_csrf.parameterName}"
 									th:value="${_csrf.token}" /> <input type="text"
 									placeholder="검색어를 입력해 주세요." name="data">
-								<button type="submit" class="site-btn"></button>
+								<button type="submit" class="site-btn">🐼</button>
 							</form>
 						</div>
 						<div class="header__cart">
@@ -118,8 +118,8 @@
 				</div>
 				<div class="col-lg-9 col-md-7">
 					<div class="sidebar__item__size" th:each="category:${categoryList}">
-						<label for="large" th:text="${category.optionContent}"
-							th:onclick="'location.href=\''+ @{${moveUrl}} + '\''">
+						<label for="large" th:text="${category.optionContent}"							t
+							th:onclick="'location.href=\'' + @{/category/(data=${category.optionContent})} + '\''">
 							Large <input type="radio" id="large">
 						</label>
 					</div>
@@ -295,15 +295,15 @@
 								"Content-Type" : "application/json"
 							},
 							data:JSON.stringify(result),
-							success : function(result) {	
-								console.log(result)
+							success : function(result) {								
 								$("#bestList").html("")
 								for(let i=0;i<result.length;i++){
 									let list=`<div class="col-lg-4">
 									<div class="product__discount__item">
-										<div class="product__discount__item__pic set-bg"											
-											th:data-setbg="@{/fileView/{fileRoute}/
-												(fileRoute=`+result[i].fileRoute+`)}">											
+									<div class="product__discount__item__pic"											
+										style="background-image:url('/fileView/${result[i].fileRoute}');  width: 300px;
+											  height: 150px;
+									  object-fit: cover; ">												
 											<ul class="product__item__pic__hover">											
 												<li><a href="#"><i class="fa fa-heart"></i></a></li>												
 												<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
@@ -318,7 +318,8 @@
 										</div>
 									</div>
 								</div>`;
-								$("#bestList").html($("#bestList").html()+list)
+								$("#bestList").append(list)
+							   
 								}
 							},
 							error : function(error) {
