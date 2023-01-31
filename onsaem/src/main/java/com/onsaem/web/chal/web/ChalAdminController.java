@@ -230,6 +230,21 @@ public class ChalAdminController {
 	}
 	
 	
+	//Admin 신고 관리페이지 이동
+	@RequestMapping(value="/AdminChalReport", method=RequestMethod.GET) 
+	public String AdminChalReport(Model model) {
+
+		return "content/challengers/AdminVueReportChal";
+	}
+	
+	//신고 목록 불러오기
+	@RequestMapping(value="/ChalReportList", method=RequestMethod.POST)
+	@ResponseBody
+	public String ChalReportList() {
+
+		return "content/challengers/AdminVueReportChal";
+	}
+	
 	
 }
 
