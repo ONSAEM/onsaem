@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout2}">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/myClass.css}" type="text/css">
+</th:block>
+
+<head>
+	<meta charset="UTF-8">
+	<style>
+		.products-area-wrapper {
+			width: 80%;
+			max-height: 100%;
+			overflow: auto;
+			padding: 0 4px;
+			margin: auto;
+		}
+	</style>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="title">찜한 클래스</div>
+		<div class="app-content-actions">
+			<div class="app-content-actions-wrapper">
+				<button class="action-button allDel">전체삭제</button>
+				<button class="action-button checkDel">선택삭제</button>
+			</div>
+		</div>
+		<div class="products-area-wrapper tableView" th:if="${likeList != null}">
+			<div class="products-header">
+				<div class="product-cell">
+					<input type="checkbox" name="allcheck">
+				</div>
+				<div class="product-cell">
+					클래스
+				</div>
+				<div class="product-cell">
+
+				</div>
+			</div>
+			<div class="products-row" th:each="like : ${likeList}" th:id="${like.groupId}">
+				<div class="product-cell">
+					<input type="checkbox" name="delcheck">
+				</div>
+				<div class="product-cell classdetail">
+					<img th:src="'/fileView/'+${like.classInfo.media.fileRoute}" alt="product"> <span
+						th:text="${like.classInfo.className}">Ocean</span>
+				</div>
+				<div class="product-cell">
+					<button type="button" class="delBtn"><i class="fa-solid fa-x"></i></button>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			let token = $("meta[name='_csrf']").attr("content");
+			let header = $("meta[name='_csrf_header']").attr("content");
+			let memberId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}]]";
+
+			$(document).find('.delBtn').each(function () {
+				$(this).on('click', function () {
+					let id = $(this).parentsUntil('.tableView').eq(1);
+					$.ajax({
+						url: '/class/delClassLike',
+						method: 'POST',
+						contentType: 'application/x-www-form-urlencoded',
+						data: {
+							"groupId": $(id).attr('id'),
+							"memberId": memberId
+						},
+						beforeSend: function (xhr) {
+							xhr.setRequestHeader(
+								header, token);
+						},
+						success: function (result) {
+							$(id).remove();
+						},
+						error: function (error) {
+							console.log(error);
+							alert('실패');
+						}
+					})
+				})
+			})
+
+			$(document).find('.classdetail').each(function () {
+				$(this).on('click', function () {
+					location.href = "/class/classDetail?classId=" + $(this).parentsUntil('.tableView').eq(0)
+						.attr('id');
+				})
+
+			})
+
+			$('.allDel').on('click', function () {
+				$.ajax({
+					url: '/class/delAllLike',
+					method: 'POST',
+					contentType: 'application/x-www-form-urlencoded',
+					data: {
+						"memberId": memberId
+					},
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader(
+							header, token);
+					},
+					success: function (result) {
+						$(document).find('.products-row').each(function () {
+							$(this).remove();
+						})
+					},
+					error: function (error) {
+						console.log(error);
+						alert('실패');
+					}
+				})
+			})
+
+			$('.checkDel').on('click', function () {
+				$(document).find("input[name=delcheck]").each(function () {
+					if ($(this).is(":checked")) {
+						let id = $(this).parentsUntil('.tableView').eq(1);
+						$.ajax({
+							url: '/class/delClassLike',
+							method: 'POST',
+							contentType: 'application/x-www-form-urlencoded',
+							data: {
+								"groupId": $(id).attr('id'),
+								"memberId": memberId
+							},
+							beforeSend: function (xhr) {
+								xhr.setRequestHeader(
+									header, token);
+							},
+							success: function (result) {
+								$(id).remove();
+							},
+							error: function (error) {
+								console.log(error);
+								alert('실패');
+							}
+						})
+					}
+				})
+			})
+
+			$('input[name=allcheck]').on('click', function () {
+				if ($(this).is(":checked")) {
+					$(document).find("input[name=delcheck]").each(function () {
+						$(this).prop("checked", true);
+					})
+				} else {
+					$(document).find("input[name=delcheck]").each(function () {
+						$(this).prop("checked", false);
+					})
+				}
+			})
+		</script>
+
+		<!-- JS -->
+		<th:block layout:fragment="script">
+			<script th:src="@{https://kit.fontawesome.com/6094ba072a.js}" crossorigin="anonymous"></script>
+		</th:block>
+	</div>
+
+</body>
+
+</html>

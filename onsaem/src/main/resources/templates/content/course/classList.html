@@ -272,14 +272,14 @@
 						th:each="class : ${classList}">
 						<div class="product__item">
 							<div class="product__item__pic set-bg"
-								th:data-setbg=${class.fileRoute}+${class.mediaName}>
+								th:data-setbg="'/fileView/'+${class.media.fileRoute}">
 								<ul class="product__item__pic__hover">
 									<li><a href="#"><i class="fa fa-heart"></i></a></li>
 								</ul>
 							</div>
 							<div class="product__item__text">
 								<h6>
-									<a th:href="@{/class/classDetail(classId=${class.classId})}"
+									<a th:href="'/class/classDetail?classId='+${class.classId}"
 										th:text="${class.className}"></a>
 								</h6>
 								<h5 th:text="${class.price}+'원'"></h5>
@@ -404,8 +404,8 @@
 			// 강의 리스트 만들기
 			function makeList(item){
 					let makeClone = $(listClone).clone();
-					$(makeClone).find(".product__item__pic").attr("data-setbg",item.fileRoute+item.mediaName);
-					$(makeClone).find(".product__item__pic").css("background-image","url("+item.fileRoute+item.mediaName+")");
+					$(makeClone).find(".product__item__pic").attr("data-setbg","/fileView/"+item.media.fileRoute);
+					$(makeClone).find(".product__item__pic").css("background-image","url(/fileView/"+item.media.fileRoute+")");
 					$(makeClone).find("h5").text(item.price+"원");
 					$(makeClone).find(".product__item__text").find("a").attr("href","/class/classDetail?classId="+item.classId);
 					$(makeClone).find(".product__item__text").find("a").text(item.className);

@@ -318,6 +318,7 @@
         } [e], s);
         i = o.y, n = o.m, this.options.viewChange("date", i, n)
       } else s.call(this);
+
       return new Date(i, n - 1, t)
     },
     showLabel: function (t, e, a, i) {
@@ -360,6 +361,10 @@
           n = i(this);
         t = "prev" === n ? t - 1 : t + 1, e.updateMonthView(t), a("month", t)
       }), e.$element.on("click", "[" + c + "]", function () {
+        let className = this.className;
+        if(className.includes('isClass')){
+          getclassList(this.getAttribute('data-calendar-day'));
+        }
         var a = parseInt(this.innerHTML),
           n = i(this),S
           s = /new|old/.test(n) ? n.match(/new|old/)[0] : "",

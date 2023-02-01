@@ -1,6 +1,9 @@
 package com.onsaem.web.member.service;
 
+import java.util.Date;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.onsaem.web.common.service.MediaVO;
 
@@ -24,6 +27,8 @@ public class ApplyMemberVO {
 	private String rejectReason;
 	private String memberId;
 	private String detailExplain;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH24:MI:SS")
+	private Date applyDate;
 	
 	private List<MediaVO> appliyFileList;
 }

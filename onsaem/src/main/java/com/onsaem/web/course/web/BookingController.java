@@ -15,45 +15,43 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.onsaem.web.common.service.PaymentVO;
 import com.onsaem.web.course.service.BookingService;
 import com.onsaem.web.course.service.BookingVO;
+import com.onsaem.web.course.service.ClassInfoVO;
 import com.onsaem.web.course.service.ClassService;
 import com.onsaem.web.course.service.ClassVO;
 
 /**
- * 작성자 - 주소현
- * 작성 내용 - 예약관리
+ * 작성자 - 주소현 작성 내용 - 예약관리
  */
-
 
 @Controller
 @CrossOrigin(origins = "*")
 @RequestMapping("/class")
 public class BookingController {
-	
+
 	@Autowired
 	ClassService classService;
-	
+
 	@Autowired
 	BookingService bookingService;
-	
+
 	// 예약결제 페이지 이동
 	@RequestMapping(value = "/booking", method = RequestMethod.GET)
-	public String booking(ClassVO vo, Model model, Authentication authentication) {
-		vo.setCNo("C003");
+	public String booking(ClassVO vo, int people, Model model, Authentication authentication) {
 		model.addAttribute("class", classService.getClass(vo));
-		model.addAttribute("people", 2);
-		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+		model.addAttribute("people", people);
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		model.addAttribute("point", bookingService.getPoint(userDetails.getUsername()));
 		return "content/course/booking";
 	}
-	
+
 	// 예약, 결제 등록
 	@RequestMapping(value = "/insertBooking", method = RequestMethod.POST)
 	@ResponseBody
 	public BookingVO insertBooking(BookingVO vo, PaymentVO pvo) {
-		if(bookingService.insertPayment(pvo)>0) {
+		if (bookingService.insertPayment(pvo) > 0) {
 			bookingService.updatePoint(pvo);
 			return bookingService.insertBooking(vo);
-		}else {
+		} else {
 			return null;
 		}
 	}
@@ -68,5 +66,11 @@ public class BookingController {
 		model.addAttribute("payment", bookingService.getPayment(pvo));
 		model.addAttribute("point", bookingService.getPoint(bvo.getOrdererId()));
 		return "content/course/BookingCOM";
+	}
+
+	// 클래스예약조회 페이지 이동
+	@RequestMapping(value = "/myBooking", method = RequestMethod.GET)
+	public String myBooking() {
+		return "content/course/myBooking";
 	}
 }

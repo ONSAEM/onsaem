@@ -25,10 +25,8 @@ import com.onsaem.web.course.service.ClassService;
 import com.onsaem.web.course.service.ClassVO;
 
 /**
- * 작성자 - 주소현
- * 작성 내용 - 클래스관리
+ * 작성자 - 주소현 작성 내용 - 클래스관리
  */
-
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -44,7 +42,7 @@ public class ClassController {
 	@Autowired
 	ClassQueService classQueService;
 
-	// 강의목록 페이지 이동 (강의목록, 인기강의목록)
+	// 클래스목록 페이지 이동 (강의목록, 인기강의목록)
 	@RequestMapping(value = "/classList", method = RequestMethod.GET)
 	public String classList(ClassInfoVO vo, Model model, Paging paging) {
 		paging.setPageUnit(9);
@@ -55,7 +53,7 @@ public class ClassController {
 		return "content/course/classList";
 	}
 
-	// 강의검색, 페이지, 정렬 처리(수정예정)
+	// 클래스검색, 페이지, 정렬 처리(수정예정)
 	@RequestMapping(value = "/classSearch", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> classSearch(ClassInfoVO vo, Model model, Paging paging) {
@@ -63,7 +61,7 @@ public class ClassController {
 		return classService.getClassInfoList(vo, paging);
 	}
 
-	// 강의상세 페이지 이동 (강의정보, 미디어목록, 후기목록, 문의목록)
+	// 클래스상세 페이지 이동 (클래스정보, 미디어목록, 후기목록, 문의목록)
 	@RequestMapping(value = "/classDetail", method = RequestMethod.GET)
 	public String classDetail(ClassInfoVO vo, Model model, Authentication authentication) {
 		if (authentication != null) {
@@ -73,8 +71,6 @@ public class ClassController {
 			model.addAttribute("like", classService.LikeCount(vo.getClassId(), null));
 		}
 		model.addAttribute("class", classService.getClassInfo(vo));
-		System.out.println(model.getAttribute("class"));
-		model.addAttribute("mediaList", classService.classMediaList(vo));
 		Paging paging = new Paging();
 		paging.setPage(1);
 		ReviewVO rvo = new ReviewVO();
@@ -86,37 +82,62 @@ public class ClassController {
 		return "content/course/classDetail";
 	}
 
-	// 강의관리 페이지 이동
+	// 클래스관리 페이지 이동
 	@RequestMapping(value = "/classMGMT", method = RequestMethod.GET)
 	public String courseMGMT(ClassInfoVO vo, Model model) {
 		return "content/course/classMGMT";
 	}
 
-	// 강의 좋아요 추가
+	// 클래스 좋아요 추가
 	@RequestMapping(value = "/addClassLike", method = RequestMethod.POST)
 	@ResponseBody
 	public int addClassLike(LikeVO vo) {
 		return classService.addClassLike(vo);
 	}
 
-	// 강의 좋아요 삭제
+	// 클래스 좋아요 삭제
 	@RequestMapping(value = "/delClassLike", method = RequestMethod.POST)
 	@ResponseBody
 	public int delClassLike(LikeVO vo) {
 		return classService.delClassLike(vo);
 	}
 
-	// 강의 신고
+	// 클래스 신고
 	@RequestMapping(value = "/insertReport", method = RequestMethod.POST)
 	@ResponseBody
 	public boolean insertReport(ReportVO vo) {
 		return classService.insertReport(vo);
 	}
-	
-	// 강의 날짜 목록 가져오기
+
+	// 클래스 날짜 목록 가져오기
 	@RequestMapping(value = "/getDateList", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ClassVO> getDateList(ClassVO vo) {
 		return classService.getDateList(vo);
 	}
+
+	// 해당 날짜 클래스일정 가져오기
+	@RequestMapping(value = "/getclassList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ClassVO> getclassList(ClassVO vo) {
+		return classService.getclassList(vo);
+	}
+
+	// 찜한 클래스 페이지 이동
+	@RequestMapping(value = "/likeClass", method = RequestMethod.GET)
+	public String likeClass(Model model, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		LikeVO vo = new LikeVO();
+		vo.setMemberId(userDetails.getUsername());
+		model.addAttribute("likeList", classService.getLikeList(vo));
+		return "content/course/likeClass";
+	}
+	
+	// 클래스 좋아요 전체삭제
+	@RequestMapping(value = "/delAllLike", method = RequestMethod.POST)
+	@ResponseBody
+	public int delAllLike(LikeVO vo) {
+		return classService.delAllLike(vo);
+	}
+
 }

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.onsaem.web.common.service.LikeVO;
+import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.QuestionVO;
@@ -32,6 +33,9 @@ public class ClassServiceImpl implements ClassService {
 
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	MediaService mediaService;
 
 	@Override
 	public Map<String, Object> getClassInfoList(ClassInfoVO vo, Paging paging) {
@@ -41,8 +45,14 @@ public class ClassServiceImpl implements ClassService {
 		newPaging.setTotalRecord(newPaging.getTotalRecord());
 		vo.setFirst(newPaging.getFirst());
 		vo.setLast(newPaging.getLast());
+		List<ClassInfoVO> list = classMapper.getClassInfoList(vo);
+		for(ClassInfoVO info : list) {
+			MediaVO media = new MediaVO();
+			media.setGroupId(info.getClassId());
+			info.setMedia(mediaService.getMedia(media));
+		}
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("classList", classMapper.getClassInfoList(vo));
+		result.put("classList", list);
 		result.put("newPaging", newPaging);
 		return result;
 	}
@@ -54,13 +64,10 @@ public class ClassServiceImpl implements ClassService {
 		qvo.setGroupId(vo.getClassId());
 		result.setQueCount(classQueService.questionCount(qvo));
 		result.setAddr(memberService.getMember(result.getMemberId()).getAddr());
+		MediaVO media = new MediaVO();
+		media.setGroupId(result.getClassId());
+		result.setMediaList(mediaService.getMediaList(media));
 		return result;
-	}
-
-	@Override
-	public List<MediaVO> classMediaList(ClassInfoVO vo) {
-
-		return classMapper.classMediaList(vo);
 	}
 
 	@Override
@@ -98,6 +105,17 @@ public class ClassServiceImpl implements ClassService {
 		classMapper.delClassLike(vo);
 		return classMapper.LikeCount(vo);
 	}
+	
+
+	@Override
+	public boolean insertReport(ReportVO vo) {
+		if (classMapper.insertReport(vo) > 0) {
+			return true;
+		} else {
+			return false;
+
+		}
+	}
 
 	@Override
 	public ClassVO getClass(ClassVO vo) {
@@ -116,9 +134,31 @@ public class ClassServiceImpl implements ClassService {
 
 	@Override
 	public List<ClassVO> getclassList(ClassVO vo) {
-
+		
 		return classMapper.getclassList(vo);
 	}
+	
+	@Override
+	public List<LikeVO> getLikeList(LikeVO vo) {
+		List<LikeVO> list = classMapper.getLikeList(vo);
+		for(LikeVO like : list) {
+			ClassInfoVO cvo = new ClassInfoVO();
+			cvo.setClassId(like.getGroupId());
+			like.setClassInfo(classMapper.getClassInfo(cvo));
+			MediaVO mvo = new MediaVO();
+			mvo.setGroupId(like.getGroupId());
+			like.getClassInfo().setMedia(mediaService.getMedia(mvo));
+		}
+		return list;
+	}
+	
+
+	@Override
+	public int delAllLike(LikeVO vo) {
+		
+		return classMapper.delAllLike(vo);
+	}
+	
 	// [위는 완성 아래는 미완성]
 
 	@Override
@@ -139,14 +179,8 @@ public class ClassServiceImpl implements ClassService {
 		return classMapper.classUpdate(vo);
 	}
 
-	@Override
-	public boolean insertReport(ReportVO vo) {
-		if (classMapper.insertReport(vo) > 0) {
-			return true;
-		} else {
-			return false;
 
-		}
-	}
+
+
 
 }

@@ -16,6 +16,8 @@ public class ClassVO {
 	private Date startDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH24:MI:SS")
 	private Date endDate;
+	private String startTime;
+	private String endTime;
 	private String totalPeople;
 	private String status;
 	private String bookingPeople;

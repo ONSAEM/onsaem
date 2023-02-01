@@ -2,22 +2,26 @@ package com.onsaem.web.common.service;
 
 import java.util.Date;
 
+import com.onsaem.web.course.service.ClassInfoVO;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor 
 public class LikeVO {
-	String likeId;
-	String memberId;
-	String groupId;
-	String groups;
-	Date insertDate;
-	String count;
+	private String likeId;
+	private String memberId;
+	private String groupId;
+	private String groups;
+	private Date insertDate;
+	private String count;
 	
 	
-	Integer cnt;
-	String likeCk;
+	private Integer cnt;
+	private String likeCk;
 	
-	String fileRoute;
+	private String fileRoute;
+	
+	private ClassInfoVO classInfo;
 }
