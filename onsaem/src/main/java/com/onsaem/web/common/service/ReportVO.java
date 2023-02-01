@@ -21,5 +21,10 @@ public class ReportVO {
 	String groupId;
 	
 	String rn;
+	String nickname;
+	int reportCnt;
+	int banPeriod;
+	int filterPeriod;
+	String filterStatus;
 }
 	

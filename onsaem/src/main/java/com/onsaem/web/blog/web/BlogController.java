@@ -20,6 +20,7 @@ import com.onsaem.web.blog.service.BlogWriteService;
 import com.onsaem.web.blog.service.CategoriesVO;
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.ReportVO;
+import com.onsaem.web.member.service.MemberVO;
 
 /**
  * 
@@ -117,12 +118,20 @@ public class BlogController {
 	
 	
 	// 관리자
-	// 블로그 신고조회 페이지로 이동
+	// 신고조회 페이지로 이동
 	@RequestMapping(value="/blogReportList", method=RequestMethod.POST)
 	@ResponseBody
 	public List<ReportVO> blogReportList(ReportVO reportVO) {
-		
+		System.out.println(reportVO);
 		return blogService.blogReportList(reportVO);
+	}
+	
+	// 제재기간 업데이트
+	@RequestMapping(value="/banUpdate", method=RequestMethod.POST)
+	@ResponseBody
+	public int banUpdate(MemberVO memberVO, ReportVO vo) {
+				blogService.banStatusUpdate(vo);
+		return  blogService.banUpdate(memberVO);
 	}
 	
 }

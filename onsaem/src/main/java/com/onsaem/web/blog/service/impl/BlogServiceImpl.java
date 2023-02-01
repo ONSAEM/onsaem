@@ -15,6 +15,7 @@ import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.ReportVO;
+import com.onsaem.web.member.service.MemberVO;
 
 @Service
 public class BlogServiceImpl implements BlogService {
@@ -103,6 +104,18 @@ public class BlogServiceImpl implements BlogService {
 	public List<ReportVO> blogReportList(ReportVO reportVO) {
 		// 관리자 신고조회
 		return blogMapper.blogReportList(reportVO);
+	}
+
+	@Override
+	public int banUpdate(MemberVO memberVO) {
+		// 관리자 제재기간 업데이트
+		return blogMapper.banUpdate(memberVO);
+	}
+
+	@Override
+	public int banStatusUpdate(ReportVO reportVO) {
+		// 관리자 신고처리상태 업데이트
+		return blogMapper.banStatusUpdate(reportVO);
 	}
 	
 	

@@ -9,6 +9,7 @@ import com.onsaem.web.blog.service.BlogVO;
 import com.onsaem.web.blog.service.CategoriesVO;
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.ReportVO;
+import com.onsaem.web.member.service.MemberVO;
 
 public interface BlogMapper {
 	// 블로그 관리
@@ -53,6 +54,10 @@ public interface BlogMapper {
 	
 	// 관리자 신고조회
 	List<ReportVO> blogReportList(ReportVO reportVO);
+	// 관리자 제재기간 업데이트
+	public int banUpdate(MemberVO memberVO);
+	// 관리자 신고처리 상태 업데이트
+	public int banStatusUpdate(ReportVO reportVO);
 	
 	
 }
