@@ -1,10 +1,13 @@
 package com.onsaem.web.member.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
 public interface MemberService {
+	// 회원전체조회
+	public List<MemberVO> memberList();
 
 	// 회원단건조회
 	public MemberVO getMember(String memberId);
@@ -32,5 +35,8 @@ public interface MemberService {
 	
 	// 회원 탈퇴
 	public String deleteMember(MemberVO member);
+	
+	// 회원리스트 (필터링)
+	public List<MemberVO> searchList(MemberVO vo,String startDate,String endDate);
 
 }

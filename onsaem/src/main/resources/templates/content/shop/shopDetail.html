@@ -210,13 +210,10 @@ h1 {
 									</div>
 									<h6 th:text="${product.productName}">Products Infomation</h6>
 									<p th:text="${product.productInfo}"></p>
-									<div th:each="nature:${natureImg}">
-										<img
-											th:data-imgbigurl="@{/fileView/{fileRoute}/
-									(fileRoute=${nature.fileRoute}"
-											th:src="@{/fileView/{fileRoute}/
-									(fileRoute=${nature.fileRoute}"
-											alt="">
+									<div th:each="nature : ${natureImg}">
+										<img alt="" th:src="@{/fileView/{fileRoute}/
+									(fileRoute=${nature.fileRoute})}">
+										
 									</div>
 								</div>
 							</div>

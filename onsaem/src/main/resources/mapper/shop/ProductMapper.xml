@@ -360,7 +360,7 @@
 		FROM MEDIA M JOIN PRODUCTS
 		P
 		ON p.product_id = M.GROUP_ID
-		WHERE M.SUB_GROUP like '추가이미지'||'%'
+		WHERE M.SUB_GROUP like '추가'||'%'
 		AND
 		P.PRODUCT_ID=#{data}
 	</select>
@@ -430,7 +430,7 @@
 		SELECT FILE_ROUTE,MEDIA_NAME
 		FROM MEDIA
 		WHERE SUB_GROUP LIKE
-		'친환경이미지'||'%'
+		'친환경'||'%'
 		AND
 		GROUP_ID=#{data}
 	</select>

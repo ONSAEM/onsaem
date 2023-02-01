@@ -1,6 +1,7 @@
 package com.onsaem.web.member.service.impl;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -193,5 +194,18 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 			return "fail";
 		}
 
+	}
+
+	@Override
+	public List<MemberVO> memberList() {	
+		return memberMapper.memberList();
+	}
+
+	@Override
+	public List<MemberVO> searchList(MemberVO vo, String startDate, String endDate) {
+		System.out.println(vo);
+		System.out.println(startDate);
+		System.out.println(endDate);
+		return memberMapper.searchList(vo,startDate,endDate);
 	}
 }

@@ -1,5 +1,6 @@
 package com.onsaem.web.member.service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -8,12 +9,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Builder.Default;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -38,6 +37,8 @@ public class MemberVO implements UserDetails{
 	private String status;
 	private String memberId;
 	private String name;
+	private String bandate;
+	private String signupdate;
 	
 	// 프로필 이미지
 	private String fileName;

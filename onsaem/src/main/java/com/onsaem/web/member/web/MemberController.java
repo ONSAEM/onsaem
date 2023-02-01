@@ -1,6 +1,7 @@
 package com.onsaem.web.member.web;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,10 +19,8 @@ import com.onsaem.web.member.service.MemberService;
 import com.onsaem.web.member.service.MemberVO;
 
 /**
- * 작성자 - 주소현
- * 작성 내용 - 회원관리
+ * 작성자 - 주소현 작성 내용 - 회원관리
  */
-
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -151,5 +150,25 @@ public class MemberController {
 	@ResponseBody
 	public String deleteMember(MemberVO member) {
 		return memberService.deleteMember(member);
+	}
+
+	// 회원 승인페이지로 이동 (관리자)
+	@RequestMapping(value = "/approveMember", method = RequestMethod.GET)
+	public String approveMember(MemberVO member) {
+		return "content/member/approveMember";
+	}
+
+	// 회원정보리스트
+	@RequestMapping(value = "/admin/memberList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<MemberVO> memberList() {		
+		return memberService.memberList();
+	}
+
+	// 회원정보리스트 (필터)
+	@RequestMapping(value = "/admin/searchList", method = RequestMethod.POST)
+	@ResponseBody
+	public List<MemberVO> searchList(MemberVO vo,String startDate,String endDate) {		
+		return memberService.searchList(vo,startDate,endDate);
 	}
 }

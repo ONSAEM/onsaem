@@ -36,10 +36,10 @@ public class AdminController {
 	// 승인처리
 	@RequestMapping(value = "/admin/approProduct", method = RequestMethod.POST)
 	@ResponseBody
-	public String adminApproProduct(ProductVO vo) {		
+	public String adminApproProduct(ProductVO vo) {
 		vo.setProductStatus("판매중");
 		service.adminApproProduct(vo);
-		return "성공"; 
+		return "성공";
 	}
 
 	// 관리자상품관리페이지이동
@@ -55,4 +55,17 @@ public class AdminController {
 		return proService.proList(vo, paging); // 승인대기품목
 	}
 
+	// 추가이미지가져오기
+	@RequestMapping(value = "/admin/addImg", method = RequestMethod.POST)
+	@ResponseBody
+	public List<ProductVO> addImg(String data) {	
+		return proService.addImg(data); // 추가이미지
+	}
+	
+	//친환경이미지가져오기
+	@RequestMapping(value = "/admin/natureImg", method = RequestMethod.POST)
+	@ResponseBody
+	public List<ProductVO> natureImg(String data) {		
+		return proService.natureImg(data); 
+	}
 }
