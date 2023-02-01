@@ -963,13 +963,14 @@
 			
 			// 블로그 리스트 만들기
 			function makeBlogList(item){
+				console.log("이야!!!!!!!!!!!!!!!!!!!!!!!!!"+item.blogId);
 				let makeClone = $(listClone).clone();
 				$(makeClone).find(".blog__item__pic").find("input[type=hidden].thumbnail").val(item.blogWrite);
 				$(makeClone).find(".blog__item__pic").find("img").attr("src",item.fileRoute);
 				$(makeClone).find(".blog__item__text").find("i.fa-calendar-o").text(" "+item.writeDate.substr(0,10));
 				$(makeClone).find(".blog__item__text").find("i.fa-comment-o").text(" "+item.replyCnt);
 				$(makeClone).find(".blog__item__text").find("i.fa-eye").text(" "+item.cnt);
-				$(makeClone).find(".blog__item__text").find("a:eq(0)").attr("href","/blog/myblog/blogWrite?bno="+item.writeId).text(item.writeTitle);
+				$(makeClone).find(".blog__item__text").find("a:eq(0)").attr("href","/blog/myblog/blogWrite?bno="+item.writeId+"&userId="+item.blogId).text(item.writeTitle);
 				$(makeClone).find(".blog__item__text").find("p").text(item.subTitle);
 				$(makeClone).find(".blog__item__text").find("a.blog__btn").attr("href","/blog/myblog/blogWrite?bno="+item.writeId).text("READ MORE");
 				

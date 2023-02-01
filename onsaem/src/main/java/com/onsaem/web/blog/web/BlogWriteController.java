@@ -146,13 +146,13 @@ public class BlogWriteController {
 	
 	// 블로그 글 상세 페이지로 이동(단건조회)
 	@RequestMapping(value = "/myblog/blogWrite", method = RequestMethod.GET)
-	public String blogWrite(Model model, String bno,BlogWriteVO bVo, LikeVO vo, RepliesVO rVo, CategoriesVO cVo,Authentication authentication) {
+	public String blogWrite(Model model, String bno,String userId,BlogWriteVO bVo, LikeVO vo, RepliesVO rVo, CategoriesVO cVo,Authentication authentication) {
 		
 		if(authentication != null) {
 			UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 			String id = userDetails.getUsername();
 			vo.setMemberId(id);
-			cVo.setBlogId(id);
+			
 		}
 		
 		
@@ -168,8 +168,9 @@ public class BlogWriteController {
 		model.addAttribute("replyCnt", replyService.replyCnt(rVo)); // 댓글 수
 		model.addAttribute("replyList", replyService.replyList(bno)); // 댓글 조회
 
-		
+		cVo.setBlogId(userId);
 		model.addAttribute("category", blogWriteService.cateList(cVo) ); // 카테고리 조회
+		
 		
 		bVo.setWriteId(bno);
 		blogWriteService.updateCnt(bVo); // 조회수 업데이트
@@ -185,6 +186,8 @@ public class BlogWriteController {
 		//model.addAttribute("blogInsert", blogWriteService.blogInsert(null));
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		String id = userDetails.getUsername();
+		
+		
 		vo.setBlogId(id);
 		model.addAttribute("category", blogWriteService.cateList(vo));
 		

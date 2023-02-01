@@ -3,6 +3,7 @@ package com.onsaem.web.member.service;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -37,8 +38,11 @@ public class MemberVO implements UserDetails{
 	private String status;
 	private String memberId;
 	private String name;
-	private String bandate;
-	private String signupdate;
+	private Date bandate;
+	private Date signupdate;
+	
+	// 제재 기간
+	private int banPeriod; 
 	
 	// 프로필 이미지
 	private String fileName;
