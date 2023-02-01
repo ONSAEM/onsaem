@@ -3,34 +3,22 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/AdminLayout}">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+</th:block>
+
 <head>
 <meta charset="UTF-8">
-<title>블로그 신고관리페이지</title>
-	<th:block layout:fragment="css">
-<!-- 	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css"> -->
-	</th:block>
-<style>
-	.black-bg {
-	width: 100%; 
-	height: 100%;
-	background: rgba(0, 0, 0, 0.6);
-	position: fixed;
-}
-
-.white-bg {
-	width: 90%;
-	margin: 80px auto;
-	background: white;
-	border-radius: 5px;
-	padding: 20px 0;
-}
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<style type="text/css">
 </style>
 </head>
-<body>
-	<div layout:fragment="content" class="app-content">
 
+<body>
+	<div layout:fragment="content" class="app-content" id="app">
 		<div class="app-content-header">
-			<h1 class="app-content-headerText">블로그 신고관리페이지</h1>
+			<h1 class="app-content-headerText">Challengers</h1>
 			<button class="mode-switch" title="Switch Theme">
 				<svg class="moon" fill="none" stroke="currentColor"
 					stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -53,13 +41,17 @@
 							class="feather feather-filter">
 							<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" /></svg>
 					</button>
-					<div class="filter-menu" style="right: 0px;">
-						<label>Category</label> <select id="filterId">
-							<option value="">::카테고리::</option>
-							<option value="블로그">블로그</option>
-							<option value="쇼핑몰">쇼핑몰</option>
-							<option value="챌린저스">챌린저스</option>
-							<option value="강의">강의</option>
+					<div class="filter-menu">
+						<label>Category</label> <select>
+							<option>All Categories</option>
+							<option>Furniture</option>
+							<option>Decoration</option>
+							<option>Kitchen</option>
+							<option>Bathroom</option>
+						</select> <label>Status</label> <select>
+							<option>All Status</option>
+							<option>Active</option>
+							<option>Disabled</option>
 						</select>
 						<div class="filter-menu-buttons">
 							<button class="filter-button reset">Reset</button>
@@ -67,21 +59,34 @@
 						</div>
 					</div>
 				</div>
+				<button class="action-button list active" title="List View">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+						viewBox="0 0 24 24" fill="none" stroke="currentColor"
+						stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+						class="feather feather-list">
+						<line x1="8" y1="6" x2="21" y2="6" />
+						<line x1="8" y1="12" x2="21" y2="12" />
+						<line x1="8" y1="18" x2="21" y2="18" />
+						<line x1="3" y1="6" x2="3.01" y2="6" />
+						<line x1="3" y1="12" x2="3.01" y2="12" />
+						<line x1="3" y1="18" x2="3.01" y2="18" /></svg>
+				</button>
+				<button class="action-button grid" title="Grid View">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+						viewBox="0 0 24 24" fill="none" stroke="currentColor"
+						stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+						class="feather feather-grid">
+						<rect x="3" y="3" width="7" height="7" />
+						<rect x="14" y="3" width="7" height="7" />
+						<rect x="14" y="14" width="7" height="7" />
+						<rect x="3" y="14" width="7" height="7" /></svg>
+				</button>
 			</div>
 		</div>
 		<div class="products-area-wrapper tableView">
 			<div class="products-header">
 				<div class="product-cell image">
-					No.
-					<button class="sort-button">
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-							viewBox="0 0 512 512">
-							<path fill="currentColor"
-								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
-					</button>
-				</div>
-				<div class="product-cell image">
-					신고ID
+					챌린지 번호
 					<button class="sort-button">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 							viewBox="0 0 512 512">
@@ -90,7 +95,7 @@
 					</button>
 				</div>
 				<div class="product-cell category">
-					신고자ID
+					챌린지 명
 					<button class="sort-button">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 							viewBox="0 0 512 512">
@@ -99,7 +104,7 @@
 					</button>
 				</div>
 				<div class="product-cell status-cell">
-					피신고자ID
+					기부처 명
 					<button class="sort-button">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 							viewBox="0 0 512 512">
@@ -108,25 +113,7 @@
 					</button>
 				</div>
 				<div class="product-cell sales">
-					신고날짜
-					<button class="sort-button">
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-							viewBox="0 0 512 512">
-							<path fill="currentColor"
-								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
-					</button>
-				</div>
-				<div class="product-cell stock">
-					신고사유
-					<button class="sort-button">
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-							viewBox="0 0 512 512">
-							<path fill="currentColor"
-								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
-					</button>
-				</div>
-				<div class="product-cell stock">
-					상세사유
+					기간
 					<button class="sort-button">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 							viewBox="0 0 512 512">
@@ -135,7 +122,25 @@
 					</button>
 				</div>
 				<div class="product-cell price">
-					신고상태
+					개최자
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
+					</button>
+				</div>
+				<div class="product-cell price">
+					영수증 첨부
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
+					</button>
+				</div>
+				<div class="product-cell stock">
+					포인트 정산
 					<button class="sort-button">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 							viewBox="0 0 512 512">
@@ -144,137 +149,135 @@
 					</button>
 				</div>
 			</div>
-			<div id="app">
-				<div v-for="rp in reports">
-					<div class="products-row" id="reportModal" v-on:click="modalOpen = true">
-						<button class="cell-more-button">
-							<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-								viewBox="0 0 24 24" fill="none" stroke="currentColor"
-								stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-								class="feather feather-more-vertical">
-								<circle cx="12" cy="12" r="1" />
-								<circle cx="12" cy="5" r="1" />
-								<circle cx="12" cy="19" r="1" /></svg>
-						</button>
-						<div class="product-cell image">
-							<span></span>{{rp.rn}}
-						</div>
-						<div class="product-cell image" >
-							<span></span>{{rp.reportId}}
-						</div>
-						<div class="product-cell category">
-							<span class="cell-label">Category:</span>{{rp.fromId}}
-						</div>
-						<div class="product-cell status-cell">
-							<span class="cell-label">Status:</span> <span class="cell-label">Price:</span>{{rp.toId}}
-						</div>
-						<div class="product-cell sales">
-							<span class="cell-label">Sales:</span>{{rp.reportDate.substr(0,10)}}
-						</div>
-						<div class="product-cell sales">
-							<span class="cell-label">Sales:</span>{{rp.reason}}
-						</div>
-						<div class="product-cell stock">
-							<span class="cell-label">Stock:</span>{{rp.detailReason}}
-						</div>
-						<div class="product-cell price">
-							<span class="status active">{{rp.status}}</span>
-						</div>
-					</div>
+		
+			<div class="products-row" v-for="chal in chals">
+				<button class="cell-more-button">
+					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+						viewBox="0 0 24 24" fill="none" stroke="currentColor"
+						stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+						class="feather feather-more-vertical">
+						<circle cx="12" cy="12" r="1" />
+						<circle cx="12" cy="5" r="1" />
+						<circle cx="12" cy="19" r="1" /></svg>
+				</button>
+				<div class="product-cell image">
+					<img
+						src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+						alt="product"> <span>{{chal.chalId}}</span>
 				</div>
-				
-					<!-- 모달시작 -->
-						<div class="modal hidden">
-							<div class="modal__background"></div>
-							<div class="modal__content">
-								<h3>신고하기</h3>
-								<div class="modalText">
-									<p>사유선택</p>
-									<input type="checkbox" name="reason" id="ban1"
-										th:onclick="checkOnlyone(this)" value="욕설 및 비하 발언">욕설 및 비하
-									발언 <span id="1"></span><br> <input type="checkbox"
-										value="친환경 물품이 아님" id="ban2" name="reason"
-										th:onclick="checkOnlyone(this)"> 친환경 물품이 아님<span id="2"></span>
-				
-									<br> <input type="checkbox" value="불건전한 게시물 등록" name="reason"
-										id="ban3" th:onclick="checkOnlyone(this)"> 불건전한 게시물 등록 <span
-										id="3"></span><br> <input type="checkbox" value="기타"
-										name="reason" id="ban4" th:onclick="checkOnlyone(this)">
-									기타 <span id="4"></span> <br>
-				
-									<button th:onclick="banSubmit()">신고하기</button>
-									<button class="closeBtn" @click="displayModal()">닫기</button>
-								</div>
-							</div>
-						</div>
-					<!-- 모달끝 -->
-				
+				<div class="product-cell category">
+					<span class="cell-label">Category:</span>{{chal.name}}
+				</div>
+				<div class="product-cell sales">
+					<span class="cell-label">Sales:</span>{{chal.ngoName}}
+				</div>
+				<div class="product-cell sales">
+					<span class="cell-label">Sales:</span>{{chal.term}}
+				</div>
+				<div class="product-cell stock">
+					<span class="cell-label">Stock:</span>{{chal.memberId}
+				</div>
+				<div class="product-cell status-cell">
+					<span class="cell-label">Status:</span> <span class="status active">Active</span>
+				</div>
+				<div class="product-cell status-cell">
+					<span class="cell-label">Status:</span> <span class="status active">Active</span>
+				</div>
 			</div>
+		   </div>
 		</div>
-	
-	
-	
-		<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+		
+		<script type="module">
+		
+		    methods: {
+		    	
+		    }
+			
+
+		</script>
+		
+		<script>
+		//csrf설정
+		 var token = $("meta[name='_csrf']").attr("content");
+		 var header = $("meta[name='_csrf_header']").attr("content");	
+		//뷰 아작스용
+		const app = Vue.createApp({
+              data() {
+                  return {
+                      chals:[]                      
+                  };
+              },
+              created () {
+                  this.fetchComments();
+              },
+              methods: {
+            	  displayModal:function(){
+		        		const modal = document.querySelector(".modal");
+		        		modal.classList.toggle("hidden");
+		        	},
+                  fetchComments: function () {
+                     let is=this;
+                      $.ajax({
+                          url: '/mypage/getTeamChals',
+                          method: 'GET',
+                          success: function (data) {                             
+                             console.log(data);
+                        	  is.chals=data;                                                       
+                          }
+                      });
+                  }
+              }
+          });       
+			app.mount('#app');	   
+		
+		</script>
 		<script type="text/javascript">
-			//csrf설정
-			 var token = $("meta[name='_csrf']").attr("content");
-			 var header = $("meta[name='_csrf_header']").attr("content");	 
-			 
-			document.querySelector(".jsFilter").addEventListener("click", function() {
-				document.querySelector(".filter-menu").classList.toggle("active");
-			});
+			document.querySelector(".jsFilter").addEventListener(
+					"click",
+					function() {
+						document.querySelector(".filter-menu").classList
+								.toggle("active");
+					});
+
+			document
+					.querySelector(".grid")
+					.addEventListener(
+							"click",
+							function() {
+								document.querySelector(".list").classList
+										.remove("active");
+								document.querySelector(".grid").classList
+										.add("active");
+								document
+										.querySelector(".products-area-wrapper").classList
+										.add("gridView");
+								document
+										.querySelector(".products-area-wrapper").classList
+										.remove("tableView");
+							});
+
+			document
+					.querySelector(".list")
+					.addEventListener(
+							"click",
+							function() {
+								document.querySelector(".list").classList
+										.add("active");
+								document.querySelector(".grid").classList
+										.remove("active");
+								document
+										.querySelector(".products-area-wrapper").classList
+										.remove("gridView");
+								document
+										.querySelector(".products-area-wrapper").classList
+										.add("tableView");
+							});
 
 			var modeSwitch = document.querySelector('.mode-switch');
 			modeSwitch.addEventListener('click', function() {
 				document.documentElement.classList.toggle('light');
 				modeSwitch.classList.toggle('active');
 			});
-			
-					const app = Vue.createApp({   // 뷰 생성
-		              data() {     // 화면에 뿌려줄 값
-		                  return {  
-		                	  reports:[],
-		                	  modalOpen: false
-		                  };
-		              },
-		              created () {  // 시작하자마자 사용될 함수
-		            	  let th=this;
-		            	  $('.apply').on("click", function(){
-		      				let groups = $('#filterId').val();
-		      				
-		                  th.fetchComments(groups);
-		            	  });
-		            	  
-		              },
-		              methods: { // 그 밖의 함수들
-		                  fetchComments: function (groups) { // 목록에 신고 조회
-		                     let is=this;
-		                     console.log(groups);
-		                      $.ajax({
-		                          url: '/blog/blogReportList',
-		                          method: 'POST',
-		                          contentType: 'application/x-www-form-urlencoded',
-		                          data: {"groups" : groups},
-		                          beforeSend : function(xhr)
-			   	 	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-			   	 	               xhr.setRequestHeader(header, token);
-			   	 	               },
-		                          success: function (data) {
-// 		                        	  console.log('도착');
-		                             is.reports=data;                                                       
-		                          }
-		                      });
-		                  },
-		                  displayModal:function(){
-				        		const modal = document.querySelector(".modal");
-				        		modal.classList.toggle("hidden");
-				        	}
-		                  
-		              }
-		          });  
-				  app.mount('#app');    //  뷰를 사용할 범위 설정
-				  
-			
 		</script>
 		<!-- JS -->
 		<th:block layout:fragment="script">
@@ -282,4 +285,5 @@
 	</div>
 
 </body>
+
 </html>

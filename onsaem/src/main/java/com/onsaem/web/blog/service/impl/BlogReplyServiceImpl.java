@@ -32,4 +32,10 @@ public class BlogReplyServiceImpl implements BlogReplyService {
 		return blogReplyMapper.replyCnt(repliesVO);
 	}
 
+	@Override
+	public int replyDel(String replyId) {
+		// 댓글 삭제
+		return blogReplyMapper.replyDel(replyId);
+	}
+
 }

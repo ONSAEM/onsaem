@@ -35,7 +35,7 @@
 		       '블로그', 
 		       #{writerId}, 
 		       current_date, 
-		       'public')
+		       #{publicScope})
  	</insert>
  	
 	<!--  	댓글 수 조회 -->
@@ -52,6 +52,10 @@
 		order by cate desc,level, reply_date)
 	</select>
 	
+	<delete id="replyDel" parameterType="String">
+		delete from replies
+		where reply_id = #{replyId}
+	</delete>
 	
 	
  </mapper>
