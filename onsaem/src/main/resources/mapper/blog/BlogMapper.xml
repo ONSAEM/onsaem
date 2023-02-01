@@ -129,12 +129,39 @@
 	
 	
 	<select id="blogReportList" resultType="ReportVO" parameterType="ReportVO">
-		select Rownum rn, r.* from (select * from reports
+		select Rownum rn, r.*, m.nickname,
+			   (select count(*)
+                  from reports
+                 where to_id = r.to_id) report_cnt
+		  from (select * from reports
 		<where>
 			<if test="groups != null and groups !=''">
 				groups = #{groups}
 			</if>
+			<if test="filterPeriod != null and filterPeriod !=''">
+				<![CDATA[
+				and report_date >= current_date - #{filterPeriod}
+				]]>
+			</if>
+			<if test="filterStatus != null and filterStatus !=''">
+				and status = #{filterStatus}
+			</if>
 		</where>
-		order by report_date DESC) r
+		order by report_date DESC) r, members m
+		where r.to_id = m.member_id
 	</select>
+	
+	
+	<!-- 	제제기간 업데이트 -->
+	<update id="banUpdate" parameterType="MemberVO">
+		update members set bandate = current_date + #{banPeriod}
+		 where member_id = #{memberId}
+	</update>
+	<!-- 	제제상태 업데이트 -->
+	<update id="banStatusUpdate" parameterType="ReportVO">
+		update reports set status = '처리완료'
+		where report_id = #{reportId}
+	</update>
+	
+	
  </mapper>

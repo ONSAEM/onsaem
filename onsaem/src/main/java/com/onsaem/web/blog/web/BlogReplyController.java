@@ -29,6 +29,9 @@ public class BlogReplyController {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		String id = userDetails.getUsername();
 		vo.setWriterId(id);
+		if(vo.getPublicScope()==null) {
+			vo.setPublicScope("public");
+		}
 		System.out.println("vo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+vo);
 		replyService.replyInsert(vo);
 		

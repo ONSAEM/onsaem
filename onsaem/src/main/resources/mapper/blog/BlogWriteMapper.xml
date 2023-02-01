@@ -64,7 +64,7 @@
 		  FROM  BLOG_WRITES B, 
 		        CATEGORIES C,
 		        MEMBERS M
-		 WHERE  B.CATEGORY_ID = C.CATEGORY_ID
+		 WHERE  B.CATEGORY_ID = C.CATEGORY_ID(+)
            and  B.BLOG_ID = M.MEMBER_ID
 		   AND  WRITE_ID = #{writeId}
  	</select>
