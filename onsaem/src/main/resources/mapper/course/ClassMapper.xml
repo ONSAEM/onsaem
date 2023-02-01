@@ -31,24 +31,21 @@
 		</if>
 	</sql>
 
-	<!-- 강의정보 전체조회 -->
+	<!-- 클래스정보 전체조회 -->
 	<select id="getClassInfoList" resultType="ClassInfoVO"
 		parameterType="ClassInfoVO">
 		SELECT * FROM ( SELECT ROWNUM RN, A.* FROM (
 		SELECT C.CLASS_ID,
-		C.CLASS_NAME, C.PRICE, C.CLASS_TIME, C.CLASS_GROUP,
-		NVL(TRUNC(AVG(R.REVIEW_STAR),1),0) AS STAR, M.FILE_NAME, M.FILE_ROUTE,
-		M.MEDIA_NAME
-		FROM CLASS_INFO C, REVIEWS R, MEDIA M, CLASSES L
+		C.CLASS_NAME, C.PRICE, C.CLASS_TIME,
+		NVL(TRUNC(AVG(R.REVIEW_STAR),1),0) AS STAR
+		FROM CLASS_INFO C, REVIEWS
+		R, CLASSES L
 		WHERE
 		C.CLASS_ID = R.GROUP_ID(+)
-		AND C.CLASS_ID = M.GROUP_ID
 		AND C.CLASS_ID =
 		L.CLASS_ID(+)
-		AND M.SUB_GROUP = '대표이미지'
 		<include refid="condition" />
-		GROUP BY C.CLASS_ID, C.CLASS_NAME, C.PRICE, C.CLASS_TIME,
-		C.CLASS_GROUP, M.FILE_NAME, M.FILE_ROUTE, M.MEDIA_NAME
+		GROUP BY C.CLASS_ID, C.CLASS_NAME, C.PRICE, C.CLASS_TIME
 		<choose>
 			<when test="'OD0'.equals(orderId)"> ORDER BY C.CLASS_ID </when>
 			<when test="'OD1'.equals(orderId)"> ORDER BY STAR DESC </when>
@@ -60,11 +57,11 @@
 			]]>
 	</select>
 
-	<!-- 강의정보 단건조회 -->
+	<!-- 클래스정보 단건조회 -->
 	<select id="getClassInfo" resultType="ClassInfoVO"
 		parameterType="ClassInfoVO">
 		SELECT C.CLASS_ID, C.CLASS_NAME, C.PRICE, C.CLASS_TIME,
-		C.EXPLANATION, C.CLASS_GROUP, C.DIFFICULTY, C.MEMBER_ID,
+		C.EXPLANATION, C.DIFFICULTY, C.MEMBER_ID,
 		NVL(TRUNC(AVG(R.REVIEW_STAR),1),0) AS STAR, COUNT(R.REVIEW_ID) AS
 		REVIEW_COUNT
 		FROM CLASS_INFO C, REVIEWS R
@@ -73,21 +70,11 @@
 		AND C.CLASS_ID = #{classId}
 		GROUP BY C.CLASS_ID,
 		C.CLASS_NAME, C.PRICE, C.CLASS_TIME, C.EXPLANATION,
-		C.CLASS_GROUP,
-		C.DIFFICULTY, C.MEMBER_ID
+		C.DIFFICULTY,
+		C.MEMBER_ID
 	</select>
 
-	<!-- 강의 사진목록 -->
-	<select id="classMediaList" resultType="MediaVO"
-		parameterType="ClassInfoVO">
-		SELECT *
-		from MEDIA
-		WHERE GROUP_ID = #{classId}
-		ORDER BY
-		SUB_GROUP
-	</select>
-
-	<!-- 강의 갯수 조회 -->
+	<!-- 클래스 갯수 조회 -->
 	<select id="classCount" resultType="Paging"
 		parameterType="ClassInfoVO">
 		SELECT COUNT(C.CLASS_ID) AS TOTAL_RECORD
@@ -96,7 +83,7 @@
 		<include refid="condition" />
 	</select>
 
-	<!-- 강의 최대금액 -->
+	<!-- 클래스 최대금액 -->
 	<select id="classMaxPrice" resultType="int"
 		parameterType="ClassInfoVO">
 		SELECT MAX(C.PRICE)
@@ -106,7 +93,7 @@
 		<include refid="condition" />
 	</select>
 
-	<!-- 강의 최소금액 -->
+	<!-- 클래스 최소금액 -->
 	<select id="classMinPrice" resultType="int"
 		parameterType="ClassInfoVO">
 		SELECT MIN(C.PRICE)
@@ -148,7 +135,7 @@
 		VALUES
 		(#{likeId},
 		#{memberId},
-		#{groupId}, '강의')
+		#{groupId}, '클래스')
 	</insert>
 
 	<!-- 좋아요 삭제 -->
@@ -159,16 +146,19 @@
 		AND MEMBER_ID=#{memberId}
 	</delete>
 
-	<!-- 강의 신고 -->
-	<insert id="insertReport">
-		INSERT INTO REPORTS(REPORT_ID, FROM_ID, TO_ID,
-		REASON, DETAIL_REASON, GROUPS, GROUP_ID)
-		VALUES('R'||LPAD(REPORT_SEQ.NEXTVAL,3,0),#{fromId},(SELECT MEMBER_ID
+	<!-- 클래스 신고 -->
+	<insert id="insertReport" parameterType="ReportVO">
+		INSERT INTO
+		REPORTS(REPORT_ID, FROM_ID, TO_ID,
+		REASON, DETAIL_REASON, GROUPS,
+		GROUP_ID)
+		VALUES('R'||LPAD(REPORT_SEQ.NEXTVAL,3,0),#{fromId},(SELECT
+		MEMBER_ID
 		FROM CLASS_INFO WHERE CLASS_ID=#{groupId}),#{reason}
-		,#{detailReason},'강의',#{groupId})
+		,#{detailReason},'클래스',#{groupId})
 	</insert>
 
-	<!-- 강의 한건 가져오기 -->
+	<!-- 클래스 한건 가져오기 -->
 	<select id="getClass" resultType="ClassVO"
 		parameterType="ClassVO">
 		SELECT CLASSES.*, (SELECT COUNT(*) FROM BOOKINDS WHERE
@@ -178,31 +168,60 @@
 		WHERE C_NO = #{cNo}
 	</select>
 
-	<!-- 강의 목록 가져오기 -->
+	<!-- 클래스 목록 가져오기 -->
 	<select id="getDateList" resultType="ClassVO"
 		parameterType="ClassVO">
-		SELECT TO_CHAR(START_DATE, 'FMYYYY/MM/DD') AS CLASS_DATE
-		FROM CLASSES
-		WHERE CLASS_ID = #{classId}
-	</select>
-
-
-	<!-- 강의 목록 가져오기 -->
-	<select id="getclassList" resultType="ClassVO"
-		parameterType="ClassVO">
-		SELECT CLASSES.*, (SELECT COUNT(*) FROM BOOKINDS WHERE
+		<![CDATA[
+		SELECT *
+        FROM (SELECT TO_CHAR(START_DATE, 'FMYYYY/MM/DD') AS CLASS_DATE, TOTAL_PEOPLE, (SELECT NVL(SUM(TOTAL_PEOPLE),0) FROM BOOKINDS WHERE
 		C_NO = CLASSES.C_NO) AS BOOKING_PEOPLE
 		FROM CLASSES
-		WHERE TO_CHAR(START_DATE, 'YY-MM-DD') = #{date}
+		WHERE CLASS_ID = #{classId}
+		AND TO_CHAR(START_DATE, 'YYYY-MM-DD HH24') > TO_CHAR(CURRENT_DATE, 'YYYY-MM-DD HH24')
+		AND STATUS = '등록') C
+		WHERE C.TOTAL_PEOPLE > C.BOOKING_PEOPLE
+		]]>
 	</select>
+
+
+	<!-- 클래스 목록 가져오기 -->
+	<select id="getclassList" resultType="ClassVO"
+		parameterType="ClassVO">
+		<![CDATA[
+		SELECT *
+        FROM (SELECT C_NO, CLASS_ID, TO_CHAR(START_DATE, 'HH24:MI') AS START_TIME, TO_CHAR(END_DATE, 'HH24:MI') AS END_TIME, TOTAL_PEOPLE, (SELECT NVL(SUM(TOTAL_PEOPLE),0) FROM BOOKINDS WHERE
+		C_NO = CLASSES.C_NO) AS BOOKING_PEOPLE
+		FROM CLASSES
+		WHERE CLASS_ID = #{classId}
+		AND TO_CHAR(START_DATE, 'YYYY-MM-DD') = TO_DATE(#{classDate}, 'YYYY-MM-DD')
+		AND TO_CHAR(START_DATE, 'YYYY-MM-DD HH24') > TO_CHAR(CURRENT_DATE, 'YYYY-MM-DD HH24')
+		AND STATUS = '등록') C
+        WHERE C.TOTAL_PEOPLE > C.BOOKING_PEOPLE
+		]]>
+	</select>
+
+	<!-- 좋아요 전체조회 -->
+	<select id="getLikeList" resultType="LikeVO"
+		parameterType="LikeVO">
+		select *
+		from likes
+		where member_id = #{memberId}
+		AND
+		GROUPS = '클래스'
+	</select>
+
+	<!-- 좋아요 전체삭제 -->
+	<delete id="delAllLike" parameterType="LikeVO">
+		DELETE FROM LIKES
+		WHERE
+		GROUPS = '클래스'
+		AND MEMBER_ID=#{memberId}
+	</delete>
 
 	<!-- [위는 완성 아래는 미완성] -->
 	<select id="popularClassList">
 
 	</select>
-
-
-
 
 	<insert id="classInfoInsert">
 

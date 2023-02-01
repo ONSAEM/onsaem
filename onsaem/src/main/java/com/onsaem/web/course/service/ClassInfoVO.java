@@ -1,8 +1,11 @@
 package com.onsaem.web.course.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.onsaem.web.common.service.MediaVO;
 
 import lombok.Data;
 
@@ -16,7 +19,6 @@ public class ClassInfoVO {
 	private int classTime;
 	private String explanation;
 	private String status;
-	private String classGroup;
 	private String memberId;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH24:MI:SS")
 	private Date classDate;
@@ -30,9 +32,8 @@ public class ClassInfoVO {
 	
 	
 	// 강의 이미지
-	private String fileName;
-	private String fileRoute;
-	private String mediaName;
+	private MediaVO media;
+	private List<MediaVO> mediaList;
 	
 	//검색
 	private int maxPrice;

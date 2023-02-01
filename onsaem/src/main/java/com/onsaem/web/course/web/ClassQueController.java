@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,14 +12,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.QuestionVO;
+import com.onsaem.web.course.service.ClassInfoVO;
 import com.onsaem.web.course.service.ClassQueService;
 
-
 /**
- * 작성자 - 주소현
- * 작성 내용 - 클래스문의관리
+ * 작성자 - 주소현 작성 내용 - 클래스문의관리
  */
-
 
 @Controller
 @CrossOrigin(origins = "*")
@@ -61,5 +60,11 @@ public class ClassQueController {
 	@ResponseBody
 	public Map<String, Object> newQList(QuestionVO vo, Paging paging) {
 		return classQueService.getQuestionList(vo, paging);
+	}
+
+	// 클래스문의조회 페이지 이동
+	@RequestMapping(value = "/myQue", method = RequestMethod.GET)
+	public String myQue() {
+		return "content/course/myQue";
 	}
 }

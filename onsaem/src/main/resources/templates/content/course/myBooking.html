@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout2}">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/myClass.css}" type="text/css">
+</th:block>
+
+<head>
+	<meta charset="UTF-8">
+	<style>
+	</style>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="title">클래스예약조회</div>
+		<div class="app-content-actions">
+			<div class="app-content-actions-wrapper">
+				<div class="filter-button-wrapper">
+					<button class="action-button filter jsFilter">
+						<span>search</span>
+						<i class="fa-solid fa-magnifying-glass"></i>
+					</button>
+					<div class="filter-menu">
+						<label>Category</label> <select>
+							<option>All Categories</option>
+							<option>Furniture</option>
+							<option>Decoration</option>
+							<option>Kitchen</option>
+							<option>Bathroom</option>
+						</select> <label>Status</label> <select>
+							<option>All Status</option>
+							<option>Active</option>
+							<option>Disabled</option>
+						</select>
+						<div class="filter-menu-buttons">
+							<button class="filter-button reset">Reset</button>
+							<button class="filter-button apply">Apply</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="products-area-wrapper tableView">
+			<div class="products-header">
+				<div class="product-cell category">
+					예약번호
+				</div>
+				<div class="product-cell image">
+					클래스
+				</div>
+				<div class="product-cell">
+					예약일자
+				</div>
+				<div class="product-cell price">
+					예약상태
+				</div>
+			</div>
+			<div class="products-row">
+				<div class="product-cell">
+					Furniture
+				</div>
+				<div class="product-cell image">
+					<img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+						alt="product"> <span>Ocean</span>
+				</div>
+				<div class="product-cell">
+					
+				</div>
+				<div class="product-cell">
+					36
+				</div>
+				<div class="product-cell">
+					$560
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			let token = $("meta[name='_csrf']").attr("content");
+			let header = $("meta[name='_csrf_header']").attr("content");
+			let memberId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}]]";
+
+			document.querySelector(".jsFilter").addEventListener(
+					"click",
+					function() {
+						document.querySelector(".filter-menu").classList
+								.toggle("active");
+					});
+		</script>
+
+		<!-- JS -->
+		<th:block layout:fragment="script">
+		</th:block>
+	</div>
+
+</body>
+
+</html>

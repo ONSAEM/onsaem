@@ -1,12 +1,16 @@
 package com.onsaem.web.course.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.PaymentVO;
+import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.course.mapper.BookingMapper;
 import com.onsaem.web.course.service.BookingService;
 import com.onsaem.web.course.service.BookingVO;
@@ -19,8 +23,16 @@ public class BookingServiceImpl implements BookingService{
 	
 	@Override
 	public Map<String, Object> getBookingList(BookingVO vo, Paging paging) {
-		// TODO Auto-generated method stub
-		return null;
+		Paging newPaging = bookingMapper.BookingCount(vo);
+		newPaging.setPage(paging.getPage());
+		newPaging.setTotalRecord(newPaging.getTotalRecord());
+		vo.setFirst(newPaging.getFirst());
+		vo.setLast(newPaging.getLast());
+		List<BookingVO> reviewList = bookingMapper.getBookingList(vo);
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("bList", reviewList);
+		result.put("bPaging", newPaging);
+		return result;
 	}
 
 	@Override

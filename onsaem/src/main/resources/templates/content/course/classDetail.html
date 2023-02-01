@@ -87,6 +87,14 @@
 			float: left;
 			cursor: pointer;
 		}
+
+		.dayClass {
+			cursor: pointer;
+		}
+
+		.selectedClass {
+			background-color: #2ecc71;
+		}
 	</style>
 </head>
 <!-- Css  -->
@@ -112,11 +120,11 @@
 					<div class="product__details__pic">
 						<div class="product__details__pic__item">
 							<img class="product__details__pic__item--large"
-								th:src=${mediaList[0].fileRoute}+${mediaList[0].mediaName} alt="">
+								th:src="'/fileView/'+${class.mediaList[0].fileRoute}"alt="">
 						</div>
 						<div class="product__details__pic__slider owl-carousel">
-							<img th:each="media : ${mediaList}" th:data-imgbigurl=${media.fileRoute}+${media.mediaName}
-								th:src=${media.fileRoute}+${media.mediaName} alt="">
+							<img th:each="media : ${class.mediaList}" th:data-imgbigurl="'/fileView/'+${media.fileRoute}"
+								th:src="'/fileView/'+${media.fileRoute}" alt="">
 						</div>
 					</div>
 				</div>
@@ -129,7 +137,7 @@
 								th:if="${class.star%1 >= 0.5}" style="color: #ffe949"></i> <span>([[${class.reviewCount}]]
 								reviews)</span>
 						</div>
-						<div class="product__details__price">[[${class.price}]]원</div>
+						<div class="product__details__price">[[${#numbers.formatInteger(class.price, 3, 'COMMA')}]]원</div>
 						<ul>
 							<li><b>소요시간</b> <span>[[${class.classTime}]]시간</span></li>
 							<li><b>난이도</b> <span>[[${class.difficulty}]]</span></li>
@@ -517,14 +525,16 @@
 								</th>
 							</tr>
 						</thead>
-						<tbody></tbody>
+						<tbody>
+							
+						</tbody>
 						</table></div>
 						<div class="inputfield">
 							<label>예약인원</label>
-							<textarea name="totalPeople" class="input"></textarea>
+							<input type="number" name="people" value="1" min="1"> 
 						</div>
 						<div class="inputfield">
-							<button type="button" class="btn Answer">에약</button>
+							<button type="button" class="btn BookingBtn">예약</button>
 						</div>
 					</div>
 					</div>
@@ -577,6 +587,49 @@
 				})
 				return checked;
 			}
+
+			function getclassList(date){
+				$.ajax({
+			      url: '/class/getclassList',
+			      method: 'GET',
+			      contentType: 'application/x-www-form-urlencoded',
+			      data: {'classId' : groupId,
+						'classDate' : date},
+				  async:false,
+			      success: function (result) {
+					console.log(result);
+					$('.classTable').find('tbody').children().remove();
+					$(result).each(function(index, item){
+						let trDate = $(`<tr class="dayClass" id="${item.cno}">
+								<td>${item.startTime}</td>
+								<td><span>${item.bookingPeople}</span>/<span>${item.totalPeople}</span></td>
+								</tr>`);
+						$(trDate).on('click',function(){
+					$(this).addClass('selectedClass');
+					$('input[name=people]').attr('max',item.totalPeople-item.bookingPeople);
+				})
+					$('.classTable').find('tbody').append(trDate);
+				})
+			      },
+			      error: function (error) {
+			         console.log(error);
+			         alert('실패');
+			      }
+			   })
+			}
+
+			$('.BookingBtn').on('click',function(){
+				if ($(this).parents().prev().eq(0).prop('tagName') == 'P') {
+					$(this).parents().prev().eq(0).remove();
+				}
+				let cno = $('.selectedClass').attr('id')
+				console.log(cno);
+				if(!!cno){
+					location.href = "/class/booking?cNo=" + cno + "&people=" + $('input[name=people]').val();
+				}else{
+					$(this).parent().before($('<p/>').text("강의를 선택해주세요").css("color", "#f20000"));
+				}
+			})
 
 
 
