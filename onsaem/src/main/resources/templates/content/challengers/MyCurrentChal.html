@@ -208,8 +208,9 @@ h1 {
                      </a>
                      <div class="project-box-footer">
                         <div class="participants">
-                           <button class="openBtn" th:if="${chal.day}==0">인증하기</button>
+                           <button class="openBtn" th:if="${chal.day}==0 and ${chal.checkDate>0}">인증하기</button>
                            <button th:if="${chal.day}>0">인증완료</button>
+                           <button th:if="${chal.checkDate}==0">인증하는 날이 아닙니다</button>
                         </div>
                         <div class="days-left" style="color: #ff942e;" th:text="${chal.dday}+'days left'"></div>
                      </div>

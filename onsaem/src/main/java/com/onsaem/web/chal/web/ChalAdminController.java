@@ -61,10 +61,11 @@ public class ChalAdminController {
 	
 	//기부 증서 넣기
 	@RequestMapping(value="/inputReceipt", method=RequestMethod.POST)
+	@ResponseBody
 	public String inputReceipt(MediaVO vo,Authentication authentication,  MultipartFile[] uploadFile) throws IllegalStateException, IOException {
 		//세션에서 가져온 로그인 된 id값 
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		
+		System.out.println(vo);
 		//이미지 첨부
 
 		vo.setGroups("챌린저스");
@@ -75,10 +76,11 @@ public class ChalAdminController {
 		ChalVO cvo = new ChalVO();
 		cvo.setChalId(vo.getGroupId());
 		cvo.setReceipt("첨부완료");
+		System.out.println(cvo);
 		chalService.updateRecipt(cvo);
 		
 		
-		return "redirect:/mypage/AdminEndChals";
+		return "true";
 	}
 	
 	//챌린저스 개인전 포인트 적립 - 해당 챌린지 참가 인원 리스트 뽑기
@@ -160,7 +162,7 @@ public class ChalAdminController {
 	@RequestMapping(value="/sharePoint", method=RequestMethod.POST)
 	@ResponseBody
 	public String sharePoint(@RequestBody ParticipantVO vo){
-		
+		System.out.println("------"+vo);
 		String winner = vo.getWinner();
 		String loser = vo.getLoser();
 		Integer thatPoint = vo.getThatPoint();
@@ -245,7 +247,7 @@ public class ChalAdminController {
 	}
 	
 	//종료 팀 챌린지 목록 가져오기
-	@RequestMapping(value="/getTeamChals", method=RequestMethod.POST)
+	@RequestMapping(value="/getTeamChals", method=RequestMethod.GET)
 	@ResponseBody
 	public List<ChalVO> getTeamChals(){
 		
