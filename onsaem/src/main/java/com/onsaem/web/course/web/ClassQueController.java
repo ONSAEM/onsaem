@@ -67,4 +67,10 @@ public class ClassQueController {
 	public String myQue() {
 		return "content/course/myQue";
 	}
+	
+	// 강사 문의관리 페이지 이동
+	@RequestMapping(value = "/queMGMT", method = RequestMethod.GET)
+	public String queMGMT(ClassInfoVO vo, Model model) {
+		return "content/course/queMGMT";
+	}
 }

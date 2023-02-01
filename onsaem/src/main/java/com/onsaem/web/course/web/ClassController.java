@@ -72,7 +72,6 @@ public class ClassController {
 		}
 		model.addAttribute("class", classService.getClassInfo(vo));
 		Paging paging = new Paging();
-		paging.setPage(1);
 		ReviewVO rvo = new ReviewVO();
 		rvo.setGroupId(vo.getClassId());
 		model.addAttribute("review", classReviewService.getReviewList(rvo, paging));
@@ -80,12 +79,6 @@ public class ClassController {
 		qvo.setGroupId(vo.getClassId());
 		model.addAttribute("question", classQueService.getQuestionList(qvo, paging));
 		return "content/course/classDetail";
-	}
-
-	// 클래스관리 페이지 이동
-	@RequestMapping(value = "/classMGMT", method = RequestMethod.GET)
-	public String courseMGMT(ClassInfoVO vo, Model model) {
-		return "content/course/classMGMT";
 	}
 
 	// 클래스 좋아요 추가
@@ -139,5 +132,16 @@ public class ClassController {
 	public int delAllLike(LikeVO vo) {
 		return classService.delAllLike(vo);
 	}
+
+	// 강사 클래스관리 페이지 이동
+	@RequestMapping(value = "/classMGMT", method = RequestMethod.GET)
+	public String courseMGMT(ClassInfoVO vo, Model model) {
+		return "content/course/classMGMT";
+	}
+	
+	// 강의 등록
+	
+	// 강의 수정
+	
 
 }
