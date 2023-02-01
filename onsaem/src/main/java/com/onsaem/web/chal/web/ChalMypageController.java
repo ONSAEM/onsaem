@@ -217,6 +217,14 @@ public class ChalMypageController {
 	public String myChalStatus2(Model model, @RequestParam(value="chalId", required=false)String chalId) {
 		model.addAttribute("chal",chalService.getChal(chalId));
 		chalId = "CH1";
+		if(chalService.getChal(chalId).getSubClass()=="팀") {
+			//팀전
+			//인원수
+			//성공인증샷수 구해야함
+		}else{
+			//개인전
+			//인간 수 //성공인증샷 수 
+		}
 		//한 챌린지에 대한 모든 사람들의 인증글 가져오기
 		model.addAttribute("proofs", proofService.listProofAll(chalId));
 		return "content/challengers/MyChalStatus2";

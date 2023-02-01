@@ -215,6 +215,11 @@
 	</div>
 	<!-- End of container -->
 
+		<!-- 도넛차트 -->
+		<div id="chart" style=" text-align : center; width:500px; margin-left:300px;">
+			<h3>[[${user.participantId}]] 님의 달성률</h3>	
+			<canvas id="chDonut1" ></canvas>
+		</div>	
 
 
 
@@ -229,8 +234,8 @@
 				<div class="gallery-item-info">
 
 					<ul>
-						<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> 56</li>
-						<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li>
+						<li class="gallery-item-likes"><span class="visually-hidden">작성일:</span><i class="fas fa-heart" aria-hidden="true" th:text="${#dates.format(proof.writeDate, 'yyyy-MM-dd')}"></i></li>
+						<!-- <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li> -->
 					</ul>
 
 				</div>

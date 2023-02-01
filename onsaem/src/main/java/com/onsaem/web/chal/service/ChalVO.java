@@ -49,6 +49,7 @@ public class ChalVO {
 	Integer last = 10;
 	
 	//
+	String term; //기간
 	Integer total;
 	Integer nowStart;
 	Integer nowEnd;
