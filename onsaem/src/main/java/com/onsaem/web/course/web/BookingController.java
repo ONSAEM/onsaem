@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.PaymentVO;
 import com.onsaem.web.course.service.BookingService;
 import com.onsaem.web.course.service.BookingVO;
@@ -58,7 +59,7 @@ public class BookingController {
 
 	// 예약완료 페이지 이동
 	@RequestMapping(value = "/BookingCOM", method = RequestMethod.GET)
-	public String BookingCOM(BookingVO booking, Model model, Authentication authentication) {
+	public String BookingCOM(BookingVO booking, Model model) {
 		BookingVO bvo = bookingService.getBooking(booking);
 		model.addAttribute("booking", bvo);
 		PaymentVO pvo = new PaymentVO();
@@ -70,7 +71,22 @@ public class BookingController {
 
 	// 클래스예약조회 페이지 이동
 	@RequestMapping(value = "/myBooking", method = RequestMethod.GET)
-	public String myBooking() {
+	public String myBooking(Model model, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		BookingVO vo = new BookingVO();
+		vo.setOrdererId(userDetails.getUsername());
+		Paging paging = new Paging();
+		model.addAttribute("bookingList", bookingService.getBookingList(vo,paging));
 		return "content/course/myBooking";
 	}
+	
+	// 예약상세
+
+	
+	// 강사 예약관리 페이지 이동
+	@RequestMapping(value = "/bookingMGMT", method = RequestMethod.GET)
+	public String bookingMGMT(ClassInfoVO vo, Model model) {
+		return "content/course/bookingMGMT";
+	}
+	
 }

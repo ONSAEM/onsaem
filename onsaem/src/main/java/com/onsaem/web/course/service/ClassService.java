@@ -49,6 +49,7 @@ public interface ClassService {
 	// 좋아요 전체삭제
 	public int delAllLike(LikeVO vo);
 	
+	
 	//[위는 완성 아래는 미완성]
 	
 	// 인기클래스목록조회

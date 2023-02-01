@@ -20,8 +20,9 @@ public class BookingVO {
 	private Date orderDate;
 	private String ordererId;
 	private String paymentId;
+	private String status;
 	
-	private MediaVO classMedia;
+	private ClassVO bClass;
 
 	// 페이징
 	private Integer first = 1;

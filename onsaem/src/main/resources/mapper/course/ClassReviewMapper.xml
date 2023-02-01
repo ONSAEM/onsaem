@@ -28,16 +28,29 @@
 	</select>
 
 	<!-- 리뷰 갯수 -->
-	<select id="reviewCount" resultType="Paging" parameterType="ReviewVO">
+	<select id="reviewCount" resultType="Paging"
+		parameterType="ReviewVO">
 		SELECT COUNT(*) AS
 		TOTALRECORD
 		FROM REVIEWS
-		WHERE GROUP_ID = #{groupId}
+		WHERE GROUP_ID
+		= #{groupId}
 	</select>
 
+	<!-- 별점 평균 -->
 	<select id="starAvg" resultType="int" parameterType="ReviewVO">
-		SELECT NVL(TRUNC(AVG(REVIEW_STAR),1),0)
+		SELECT
+		NVL(TRUNC(AVG(REVIEW_STAR),1),0)
 		FROM REVIEWS
-		WHERE GROUP_ID = #{groupId}
+		WHERE GROUP_ID =
+		#{groupId}
 	</select>
+
+	<!-- 리뷰 등록 -->
+	<insert id="insertReview" parameterType="ReviewVO">
+
+	</insert>
+	
+	<!-- 리뷰 수정 -->
+	<update id="updateReview" parameterType="ReviewVO"</update>
 </mapper>

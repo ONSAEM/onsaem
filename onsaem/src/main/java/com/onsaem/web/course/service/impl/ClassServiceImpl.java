@@ -158,6 +158,7 @@ public class ClassServiceImpl implements ClassService {
 		
 		return classMapper.delAllLike(vo);
 	}
+
 	
 	// [위는 완성 아래는 미완성]
 

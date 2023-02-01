@@ -7,19 +7,28 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.PaymentVO;
-import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.course.mapper.BookingMapper;
 import com.onsaem.web.course.service.BookingService;
 import com.onsaem.web.course.service.BookingVO;
+import com.onsaem.web.course.service.ClassInfoVO;
+import com.onsaem.web.course.service.ClassService;
+import com.onsaem.web.course.service.ClassVO;
 
 @Service
 public class BookingServiceImpl implements BookingService{
 	
 	@Autowired
 	BookingMapper bookingMapper;
+	
+	@Autowired
+	MediaService mediaService;
+	
+	@Autowired
+	ClassService classService;
 	
 	@Override
 	public Map<String, Object> getBookingList(BookingVO vo, Paging paging) {
@@ -29,6 +38,17 @@ public class BookingServiceImpl implements BookingService{
 		vo.setFirst(newPaging.getFirst());
 		vo.setLast(newPaging.getLast());
 		List<BookingVO> reviewList = bookingMapper.getBookingList(vo);
+		for(BookingVO bvo : reviewList) {
+			ClassVO cvo = new  ClassVO();
+			cvo.setCNo(bvo.getCNo());
+			bvo.setBClass(classService.getClass(cvo));
+			ClassInfoVO clvo = new ClassInfoVO();
+			clvo.setClassId(bvo.getBClass().getClassId());
+			bvo.getBClass().setClassInfo(classService.getClassInfo(clvo));
+			MediaVO mvo = new MediaVO();
+			mvo.setGroupId(bvo.getBClass().getClassId());
+			bvo.getBClass().getClassInfo().setMedia(mediaService.getMedia(mvo));
+		}
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("bList", reviewList);
 		result.put("bPaging", newPaging);
@@ -37,8 +57,17 @@ public class BookingServiceImpl implements BookingService{
 
 	@Override
 	public BookingVO getBooking(BookingVO vo) {
-		
-		return bookingMapper.getBooking(vo);
+		BookingVO bvo = bookingMapper.getBooking(vo);
+		ClassVO cvo = new  ClassVO();
+		cvo.setCNo(bvo.getCNo());
+		bvo.setBClass(classService.getClass(cvo));
+		ClassInfoVO clvo = new ClassInfoVO();
+		clvo.setClassId(bvo.getBClass().getClassId());
+		bvo.getBClass().setClassInfo(classService.getClassInfo(clvo));
+		MediaVO mvo = new MediaVO();
+		mvo.setGroupId(bvo.getBClass().getClassId());
+		bvo.getBClass().getClassInfo().setMedia(mediaService.getMedia(mvo));
+		return bvo;
 	}
 
 	@Override

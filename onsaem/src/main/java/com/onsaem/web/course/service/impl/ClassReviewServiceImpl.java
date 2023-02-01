@@ -79,4 +79,22 @@ public class ClassReviewServiceImpl implements ClassReviewService {
 		return classReviewMapper.starAvg(vo);
 	}
 
+	@Override
+	public ReviewVO insertReview(ReviewVO vo) {
+		if(classReviewMapper.insertReview(vo)>0) {
+			return vo;
+		}else {
+			return null;
+		}
+	}
+
+	@Override
+	public boolean updateReview(ReviewVO vo) {
+		if(classReviewMapper.updateReview(vo)>0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
 }

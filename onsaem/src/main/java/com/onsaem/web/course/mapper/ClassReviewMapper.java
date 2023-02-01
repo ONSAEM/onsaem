@@ -17,4 +17,10 @@ public interface ClassReviewMapper {
 
 	// 평균별점 조회
 	public int starAvg(ReviewVO vo);
+
+	// 리뷰 등록
+	public int insertReview(ReviewVO vo);
+
+	// 리뷰 수정
+	public int updateReview(ReviewVO vo);
 }

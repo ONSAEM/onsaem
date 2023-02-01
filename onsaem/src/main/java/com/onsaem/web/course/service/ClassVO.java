@@ -23,5 +23,4 @@ public class ClassVO {
 	private String bookingPeople;
 	
 	private ClassInfoVO classInfo;
-	private MediaVO classMedia;
 }
