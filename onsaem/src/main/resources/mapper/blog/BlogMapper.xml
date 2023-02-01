@@ -75,6 +75,11 @@
 	     and m.status = 'true'
 	     and l.groups = '구독'
 	     and l.group_id = #{groupId}
+	     <if test="rownum != null and rownum !=''">
+				<![CDATA[
+				and rownum <= #{rownum}
+				]]>
+		</if>
 	</select>
 	
 	<!-- 내가 구독한 사람 목록 조회 -->
@@ -91,6 +96,11 @@
 		and m.sub_group ='프로필이미지'
 		and m.status = 'true'
 		and l.member_id = #{memberId}
+		<if test="rownum != null and rownum !=''">
+				<![CDATA[
+				and rownum <= #{rownum}
+				]]>
+		</if>
 	</select>
 
 
