@@ -24,4 +24,6 @@ public class LikeVO {
 	private String fileRoute;
 	
 	private ClassInfoVO classInfo;
+	
+	private int rownum;
 }

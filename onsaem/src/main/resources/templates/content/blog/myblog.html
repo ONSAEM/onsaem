@@ -470,6 +470,8 @@
 							<!-- 구독자 목록 -->
 							<div class="blog__sidebar__item">
 								<h4>구독자 목록</h4>
+								<a th:href="@{/blog/myblog/blogSubscribe(blogId=${blogInfo.blogId})}" 
+								   style="float: right;margin-right:50px;">목록 더보기 ➕</a>
 								<div class="blog__sidebar__recent">
 									<table id="submeTable">
 										<thead>
@@ -669,7 +671,7 @@
 			<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/main.js}"></script>
-<!-- 			<script src="https://kit.fontawesome.com/fef5f4c5da.js" crossorigin="anonymous"></script> -->
+			<script src="https://kit.fontawesome.com/fef5f4c5da.js" crossorigin="anonymous"></script>
 		</th:block>
 
 		<!-- moment -->

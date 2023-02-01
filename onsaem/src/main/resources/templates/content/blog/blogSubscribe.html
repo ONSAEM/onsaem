@@ -868,7 +868,7 @@
 							<thead>
 								<h3>나를 구독한 사람</h3>
 								<tr>
-									<th><input type="checkbox"></input></th>
+									<th><input type="checkbox" id="subMeAll"></input></th>
 									<th>프로필사진</th>
 									<th class="shoping__product">나를 구독한 사람ID</th>
 									<th><button id="subMeDel">삭제</button></th>
@@ -898,7 +898,7 @@
 							<thead>
 								<h3>내가 구독한 사람</h3>
 								<tr>
-									<th><input type="checkbox"></input></th>
+									<th><input type="checkbox" id="mySubAll"></input></th>
 									<th>프로필사진</th>
 									<th class="shoping__product">내가 구독한 사람ID</th>
 									<th><button id="mySubDel">삭제</button></th>
@@ -978,6 +978,11 @@
 			});
 			
 			let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
+			// 나를 구독한 사람 올체크
+			
+			// 내가 구독한 사람 올체크
+			 
+			
 			// 내가 구독한 사람 삭제
 			$('#mySubDel').on("click", function(){
 				console.log("클릭");
