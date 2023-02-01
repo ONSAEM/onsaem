@@ -222,11 +222,11 @@
 					<span class="cell-label">Stock:</span>{{chal.memberId}}
 				</div>
 				<div class="product-cell status-cell">
-					<span class="cell-label">Status:</span> <span class="status active" v-if="chal.receipt == null" @click="displayModal('receiptTeam', chal.chalId)"  id="receiptTeam" style="background-color: #F78181; color: #A4A4A4">첨부하기</span>
+					<span class="cell-label">Status:</span> <span class="status active" v-if="chal.receipt == null" @click="displayModal('receiptFrm', chal.chalId)"  id="receiptTeam" style="background-color: #F78181; color: #A4A4A4">첨부하기</span>
 															<span class="status active"  v-else="chal.receipt == null"  id="receiptTeam" >첨부완료</span>
 				</div>
 				<div class="product-cell status-cell">
-					<span class="cell-label">Status:</span> <span class="status active"   v-if="chal.sharepoint == null " @click="displayModal('pointTeam', chal.chalId)" style="background-color: #F78181; color: #A4A4A4">정산하기</span>
+					<span class="cell-label">Status:</span> <span class="status active"   v-if="chal.sharepoint == null " @click="displayModal('point', chal.chalId)" style="background-color: #F78181; color: #A4A4A4">정산하기</span>
 															<span class="status active"   v-else="chal.sharepoint == null">정산완료</span>
 				</div>
 			</div>
@@ -247,25 +247,19 @@
 									</form>
 								</div>
 								
-								<div id ="teamPoint" class="modal__content" v-if="modalCheck=='pointTeam'">
+								<div id ="point" class="modal__content" v-if="modalCheck=='pointTeam'">
 									<h5>포인트정산</h5>
-							
-									<input type="hidden" id="pp" :text="teamInfo.pp">
-									
-									<div style="float: left; width: 50%; padding:1px; "><p>총 기부금</p></div><div style="float: left; width: 50%; padding:1px;"><p id="donationFee" />{{teamInfo.totalInfo.donationFee}}</div>
-									<div style="float: left; width: 50%; padding:1px;"><p>총 내기 포인트</p></div><div style="float: left; width: 50%; padding:1px;"><p id="sumBetPoint" v-text="betPoints"/></div>
-									<select id="teamChoose" @change="setWinner()">
-										<option>==우승팀 고르기==</option>
-										<option value="A">A팀</option>
-										<option value="B">B팀</option>
+							<h4>포인트정산</h4>
+									<input type="hidden" id="groupId" name="groupId">
+									<select id="users">
+										<option>==아이디==</option>
 									</select>
-									<div style="float: right; width: 50%; padding:10px;">
-							            <canvas id="Achart"></canvas>
-							        </div>
-							        <div style="float: right; width: 50%; padding:10px;">
-							            <canvas id="Bchart"></canvas>
-							         </div>
-									<button type="button" @click="teamPointInput(chalId, winner, loser)">정산</button>
+									<!-- 본인 기부금 띄우기  -->
+									<div style="float: left; width: 50%; padding:1px; "><p>기부금</p></div><div style="float: left; width: 50%; padding:1px;"><p id="privateDonate"/></div>
+									<canvas id="userChart"></canvas>
+									<!-- 정산 포인트 띄우기 --> 
+									<div style="float: left; width: 50%; padding:1px; "><p>기부금</p></div><div style="float: left; width: 50%; padding:1px;"><p id="privatePoint"/></div>
+									<button type="button" @click="pointInput(chalId, winner, loser)">정산</button>
 									<button type="button" class="closeBtn" id="closeModals" @click="displayModal('closeModals')">닫기</button>
 								</div>
 							
@@ -275,15 +269,6 @@
 			<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 			
 		<script>
-		/* let winner;
-		let loser;
-		//select값 가져오기
-		$("select[id=teamChoose]").change(function(){
-		  //console.log($(this).val()); //value값 가져오기
-		  winner = $(this).val();
-		  //eq() => 인덱스 요소에 해당되는거 찾기
-		  loser = $('#teamChoose option:not(:selected)').eq(1).val();
-		}); */
 		
 		//csrf설정
 		 var token = $("meta[name='_csrf']").attr("content");
@@ -315,12 +300,11 @@
               data() {
                   return {
                       chals:[],
+                      users : [],
                       modalCheck : '',
                       teamInfo :[],
                       betPoints : '',
                       chalId : '',
-                      winner : '',
-                      loser : ''
                   };
               },
               created () {
@@ -437,14 +421,13 @@
 		    					modal.classList.toggle("hidden");
 		    					
 		    					break;
-		    				case "pointTeam" :
-		    					console.log("팀 포인트정산");
-		    					
-		    					
-		    					//팀전 포인트 계산 위해서 
-		    					//a팀 정보, b팀 정보 가져오는 아작스필요
+		    				case "point" :
+		    					console.log("개인 포인트정산");
+		    		
+		    					//개인 포인트 계산 위해서 
+		    					//챌린지 참여하는 모든 유저들 데려오기 
 		    					  $.ajax({
-		    							url:'/mypage/getTeams',
+		    							url:'/mypage/getParticipant',
 		    							method : 'POST',
 		    							data : {chalId: chal},
 		    							beforeSend : function(xhr)
@@ -453,78 +436,8 @@
 		    				               },
 		    							success : function(result){
 		    			        			console.log(result);
-		    			        		//전체 모금
-		    			        		let donationFee = result.totalInfo.donationFee;
-		    			        		console.log(donationFee);
-		    			        		let betPoints = Number(donationFee)*0.01;     
-		    			        		infoes.betPoints = betPoints;
-		    			        		infoes.teamInfo = result;
-		    			        		console.log(infoes.teamInfo);
-		    			        		
-		    			        		
-		    			        		//팀별 인원수
-		    			        		Asize = Number(result.Asize);
-		    			        		Bsize = Number(result.Bsize);
-		    			        		console.log(Asize);
-		    			        		//팀별 정상 인증 갯수
-		    			        		let Acnt = Number(result.A);
-		    			        		let Bcnt = Number(result.B);
-		    			        		console.log(Acnt);
-		    			        		//팀별 100%일시 총 전체 인증수  
-		    			        		let Aall = Math.abs(Number(result.totalInfo.total))*Asize;
-		    			        		let Ball = Math.abs(Number(result.totalInfo.total))*Bsize;
-		    			        		console.log(Aall);
-		    			        		//팀별 평균 성취율
-		    			        		let Apercent = 25;
-		    			        			//(Acnt/Aall)*100;
-		    			        		let Bpercent = 80;//(Bcnt/Ball)*100;
-		    			        		console.log(Apercent);
-		    			        		//A차트 만들기
-		    			        		let Alist = new Array();
-		    			        		Alist.push(Apercent);
-		    			        		Alist.push(100-Apercent);
-		    			        		var Adata = {
-		    			                        labels: ['A팀 평균달성률'],
-		    			                        datasets: [{
-		    			                              backgroundColor: ['#b4a7d6','#eae5e1'],
-		    			                              data : Alist
-		    			                        }],
-		    			                        options : {
-		    			                              title : {
-		    			                              display : true,
-		    			                              text: 'A팀 달성률'
-		    			                              }
-		    			                        }
-		    			                  };
-		    			        		 var ctx1 = document.getElementById('Achart').getContext('2d');
-		    			                 new Chart(ctx1, {
-		    			                          type: 'doughnut',
-		    			                         data: Adata
-		    			                 });
-		    			            
-		    			        		
-		    			        		//B차트 만들기 렛츠고 
-		    			                let Blist = new Array();
-		    			        		Blist.push(Bpercent);
-		    			        		Blist.push(100-Bpercent);
-		    			               var Bdata = {
-		    			                        labels: ['B팀 평균달성률'],
-		    			                        datasets: [{
-		    			                              backgroundColor: ['#b4a7d6','#eae5e1'],
-		    			                              data : Blist
-		    			                        }],
-		    			                        options : {
-		    			                              title : {
-		    			                              display : true,
-		    			                              text: 'B팀 달성률'
-		    			                              }
-		    			                        }
-		    			                  }
-		    			               var ctx2 = document.getElementById('Bchart').getContext('2d');
-		    			                 new Chart(ctx2, {
-		    			                          type: 'doughnut',
-		    			                         data: Bdata
-		    			                 });
+		    			        		//result를 option에 둘둘 v-for돌리기
+		    			        		this.users = result;
 		    						},error : function(error){
 		    		        			console.log(error);
 		    		        		}
@@ -541,7 +454,7 @@
                   fetchComments: function () {
                      let is=this;
                       $.ajax({
-                          url: '/mypage/getTeamChals',
+                          url: '/mypage/getAloneChals',
                           method: 'GET',
                           success: function (data) {                             
                              console.log(data);

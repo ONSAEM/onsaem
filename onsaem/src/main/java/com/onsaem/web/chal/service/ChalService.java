@@ -72,5 +72,6 @@ public interface ChalService {
 	//조만간 시작하는 챌린지
 	List<ChalVO> ddayStartRank();
 	
+	Integer updateSharePoint(ChalVO vo);
 	
 }
