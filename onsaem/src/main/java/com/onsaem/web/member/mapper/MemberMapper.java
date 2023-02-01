@@ -1,5 +1,7 @@
 package com.onsaem.web.member.mapper;
 
+import java.util.List;
+
 import com.onsaem.web.member.service.MemberVO;
 
 public interface MemberMapper {
@@ -30,4 +32,10 @@ public interface MemberMapper {
 	
 	// 회원 탈퇴
 	public int deleteMember(MemberVO member);
+	
+	// 회원정보리스트
+	public List<MemberVO> memberList();
+	
+	// 회원리스트(필터링)
+	public List<MemberVO> searchList(MemberVO vo,String startDate, String endDate);
 }

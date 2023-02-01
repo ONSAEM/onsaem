@@ -46,7 +46,7 @@
 								href="javascript:location.reload()"
 								sec:authorize="isAnonymous()" onclick="noLogin()">관심상품</a></li>
 							<li><a class="dropdown-item" href="/sellerMain"  sec:authorize="hasRole('SELLER')">판매자</a></li>
-							<li><a class="dropdown-item" href="/shop/test"  sec:authorize="hasRole('SELLER')">Vue테스트</a></li>
+							<li><a class="dropdown-item" href="/shop/test"  sec:authorize="hasRole('SELLER')">Vue테스트</a></li>							
 						</ul></li>
 
 					<li class="nav-item dropdown"><a
@@ -91,6 +91,7 @@
 							<li><a class="dropdown-item" th:href="@{/testblog}">blogtest</a></li>
 							<li><a class="dropdown-item" th:href="@{/testVue}">vueTest</a></li>
 							<li><a class="dropdown-item" th:href="@{/mypage/AdminEndChals}">chalAdmin</a></li>
+							<li><a class="dropdown-item" href="/shop/shopSellerMain">MY PAGE 쇼핑몰</a></li>
 						</ul></li>
 					<li class="nav-item" sec:authorize="isAnonymous()"><a
 						class="nav-link click-scroll" th:href="@{/loginPage}">Login</a></li>

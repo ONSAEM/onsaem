@@ -48,14 +48,14 @@ public class SellerController {
 	CartVO cartVo = new CartVO();
 	LikeVO likeVo = new LikeVO();
 	ProductVO proVo = new ProductVO();
-	
+
 	// 판매자 리뷰댓글달기
 	@RequestMapping(value = "/shop/sellerReviewContent", method = RequestMethod.POST)
 	@ResponseBody
-	public int sellerReviewContent(Authentication authentication, ReviewVO vo) {		
+	public int sellerReviewContent(Authentication authentication, ReviewVO vo) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		vo.setWriterId(userDetails.getUsername());
-		vo.setGroups("쇼핑몰");		
+		vo.setGroups("쇼핑몰");
 		return sellService.sellerReviewContent(vo);
 	}
 
@@ -93,6 +93,21 @@ public class SellerController {
 		model.addAttribute("sellerList", proService.sellerList(vo));
 		model.addAttribute("countList", sellService.countList(userDetails.getUsername()));
 		return "content/shop/sellerMain";
+	}
+
+	// 판매자 페이지로 이동(찐)
+	@RequestMapping(value = "/shop/shopSellerMain", method = RequestMethod.GET)
+	public String shopSellerMain(Model model, Authentication authentication, ProductVO vo) {		
+		return "content/shop/shopSellerMain";
+	}
+	
+	// 판매자 상품가져오기
+	@RequestMapping(value = "/shop/sellList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ProductVO> sellList(Authentication authentication, ProductVO vo) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		vo.setMemberId(userDetails.getUsername());		
+		return proService.sellerList(vo);
 	}
 
 	// 상품등록페이지로 이동

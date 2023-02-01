@@ -115,7 +115,7 @@ public class ProductController {
 	@RequestMapping(value = "/shopDetail", method = RequestMethod.GET)
 	public String shopSelect(Model model, @RequestParam(value = "data", required = false) String data) {
 		model.addAttribute("productList", proService.selectPro(data));// 상품데이터가져오기
-		model.addAttribute("imgList", proService.addImg(data));// 추가이미지가져오기
+		model.addAttribute("imgList", proService.addImg(data));// 추가이미지가져오기		
 		model.addAttribute("natureImg", proService.natureImg(data));// 친환경이미지가져오기
 		model.addAttribute("reviewList", proService.reviewList(data));// 상품리뷰리스트가져오기
 		model.addAttribute("optionList", proService.optionList(data));// 옵션가져오기

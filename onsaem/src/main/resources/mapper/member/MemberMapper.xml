@@ -108,8 +108,41 @@
 	<!-- 회원탈퇴 DB삭제 X 상태만 변경 -->
 	<update id="deleteMember" parameterType="MemberVO">
 		UPDATE MEMBERS
-		SET STATUS = 'false',
+		SET STATUS
+		= 'false',
 		BANDATE = (current_date + 30)
 		WHERE MEMBER_ID = #{memberId}
 	</update>
+
+	<!-- 회원정보리스트 (현재기준 한달) -->
+	<select id="memberList"
+		resultType="com.onsaem.web.member.service.MemberVO">
+		SELECT * FROM MEMBERS
+		WHERE
+		<![CDATA[TO_CHAR(SIGNUPDATE,'YYYY-MM-DD')>=TO_CHAR( CURRENT_DATE-( (SELECT
+		TO_CHAR(CURRENT_DATE,'D') FROM DUAL) -2 )-15, 'YYYY-MM-DD' ) AND
+		TO_CHAR(SIGNUPDATE,'YYYY-MM-DD')<=TO_CHAR( CURRENT_DATE-( (SELECT
+		TO_CHAR(CURRENT_DATE,'D')
+		FROM DUAL) -2 )+15, 'YYYY-MM-DD' ) ]]>
+		ORDER BY SIGNUPDATE DESC
+	</select>
+
+	<!-- 회원정보리스트 (필터링) -->
+	<select id="searchList"
+		resultType="com.onsaem.web.member.service.MemberVO">
+		SELECT *
+		FROM MEMBERS
+		<where>
+			<if test="vo.status != null">
+				AND STATUS=#{vo.status}
+			</if>
+			<if test="vo.role != null">
+				AND ROLE LIKE '%'||#{vo.role}
+			</if>
+			<if test="startDate != '' and endDate!=''">			
+				<![CDATA[AND TO_CHAR(SIGNUPDATE,'yyyy-MM-dd')>=#{startDate} AND TO_CHAR(SIGNUPDATE,'yyyy-MM-dd')<=#{endDate}]]>
+			</if>
+		</where>
+		ORDER BY SIGNUPDATE DESC
+	</select>
 </mapper>
