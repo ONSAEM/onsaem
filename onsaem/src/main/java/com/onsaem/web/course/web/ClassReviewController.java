@@ -13,6 +13,12 @@ import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.ReviewVO;
 import com.onsaem.web.course.service.ClassReviewService;
 
+/**
+ * 작성자 - 주소현
+ * 작성 내용 - 클래스리뷰관리
+ */
+
+
 @Controller
 @CrossOrigin(origins = "*")
 @RequestMapping("/class")

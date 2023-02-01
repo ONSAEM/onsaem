@@ -18,6 +18,12 @@ import com.onsaem.web.course.service.BookingVO;
 import com.onsaem.web.course.service.ClassService;
 import com.onsaem.web.course.service.ClassVO;
 
+/**
+ * 작성자 - 주소현
+ * 작성 내용 - 예약관리
+ */
+
+
 @Controller
 @CrossOrigin(origins = "*")
 @RequestMapping("/class")

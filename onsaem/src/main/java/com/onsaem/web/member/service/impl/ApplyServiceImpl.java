@@ -23,16 +23,16 @@ public class ApplyServiceImpl implements ApplyService{
 	MediaService mediaService;
 	
 	@Override
-	public String insertApply(MultipartFile[] appliyFile, ApplyMemberVO vo) throws IllegalStateException, IOException {
+	public String insertApply(MultipartFile[] applyFile, ApplyMemberVO vo) throws IllegalStateException, IOException {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 		vo.setPassword(encoder.encode(vo.getPassword()));
 		int result = applyMapper.insertApply(vo);
-		if (appliyFile != null) {
+		if (applyFile != null) {
 			MediaVO mvo = new MediaVO();
 			mvo.setGroupId(vo.getApplyId());
 			mvo.setGroups("회원신청");
 			mvo.setSubGroup("가입신청이미지");
-			mediaService.uploadMedia(appliyFile, mvo);
+			mediaService.uploadMedia(applyFile, mvo);
 		}
 		if (result > 0) {
 			return "success";
