@@ -284,6 +284,7 @@
 	
 	                                    	<div class="col-lg-3 col-md-4 col-6 ms-auto">
 <!-- 			                                        <button type="button" id="replyBtn" class="form-control" sec:authorize="isAnonymous()" disabled>로그인이 필요합니다 <a th:href="@{/loginPage}">login</a></button> -->
+	                                        	<input type="checkbox" name="publicScope" id="scopeReply" value="public"/> <span style="color:blue;font-weight:bold;">비밀댓글 🔒</span>
 	                                        	<button type="button" class="form-control rereplyInsert" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}">등록</button>
 	                                    	</div>
 	                                    <input type="hidden" name="groupId" th:value="${reply.replyId}">
