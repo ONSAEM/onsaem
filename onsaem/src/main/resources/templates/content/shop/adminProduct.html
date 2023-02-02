@@ -6,6 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>뷰테스트</title>
+<link type="text/css" rel="stylesheet"
+	th:href="@{https://cdn.jsdelivr.net/npm/aksfileupload@1.0.0/dist/aksFileUpload.min.css}">
+<script th:src="@{/js/fileupload.js}"></script>
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <style type="text/css">
 button {
@@ -57,6 +60,7 @@ h1 {
 	display: none;
 }
 </style>
+
 </head>
 <body>
 	<div layout:fragment="content" class="app-content" id="app">

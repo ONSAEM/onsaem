@@ -517,10 +517,12 @@
 	<!-- 판매자 상품 리스트 -->
 	<select id="sellerList"
 		resultType="com.onsaem.web.shop.service.ProductVO">
-		SELECT * FROM PRODUCTS
-		WHERE MEMBER_ID=#{memberId}
+		SELECT P.*,M.FILE_ROUTE FROM PRODUCTS P, MEDIA M
+		WHERE
+		P.MEMBER_ID=#{memberId} AND P.PRODUCT_ID=M.GROUP_ID AND
+		M.SUB_GROUP='대표이미지'
 		<if test="productStatus!=null and productStatus!=''">
-			and product_status=#{productStatus}
+			AND PRODUCT_STATUS=#{productStatus}
 		</if>
 	</select>
 
