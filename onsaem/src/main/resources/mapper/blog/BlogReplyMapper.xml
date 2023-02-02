@@ -6,14 +6,20 @@
 	
 	<!-- 댓글 조회 -->
  	<select id="replyList" resultType="RepliesVO" parameterType="String">
- 		select   r.*,
-         		 level, 
-         		 case when group_id like 'BW%' 
-         		 then reply_id else group_id 
-         		 end cate
-  		from   replies r
- 		START WITH group_id = #{groupId}
-		CONNECT BY PRIOR reply_id = group_id
+			select   r.*,
+         		 	 level, 
+         		 	 case when r.group_id like 'BW%' 
+         		 	 then r.reply_id else r.group_id 
+         		 	 end cate
+                 	 , F.file_route
+  			  from   replies r,
+                	 (select * 
+		           		from MEDIA
+                  	   where STATUS = 'true' 
+                    	 and sub_group='프로필이미지') F
+        	 where r.writer_id = F.group_id(+)
+ 		START WITH r.group_id = #{groupId}
+		CONNECT BY PRIOR r.reply_id = r.group_id
 		order by cate desc,level, reply_date
  	</select>
  	

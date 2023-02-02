@@ -421,7 +421,8 @@
 										[[${blogInfo.nickname}]]<span>@[[${blogInfo.blogId}]]</span>
 									</h2>
 									<p>[[${blogInfo.introduction}]]</p>
-									<a class="follow" type="button" th:value=${subCount}>구독</a>
+									<a class="follow" type="button" th:value=${subCount} th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} != ${blogInfo.blogId}">구독</a>
+									<a class="follow" type="button" th:value=${subCount} th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} != ${blogInfo.blogId}" style="display:none;">구독</a>
 									<a  th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
 										style="display:none"
 										th:href="@{/blog/myblog/blogTask(blogId=${blogInfo.blogId})}"
@@ -690,6 +691,8 @@
 			// 블로그 아이디 가져오기
 			let blogId = $('#getblogId').val();
 // 			console.log("블로그 아이디 찾아요~!"+blogId);
+			// 세션 아이디 값
+			let sessionId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
 
 			// 검색할 때 값 넣기
 			let nowData = {"writeTitle" : null, 
@@ -785,6 +788,7 @@
 	 	               },
 	 					success: function(result){
 	 						$('#exampleModal').modal('show');
+	 						
 	 						console.log(result);
  	 						$(".mt-3").text(result.nickname);
  	 						$("#modalImg").attr("src", "/fileView/"+result.fileRoute);
@@ -801,9 +805,6 @@
 				
 				
 			})
-			
-			
-			
 			
 			
 			// 모달 끝
@@ -993,7 +994,7 @@
 				let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
 			
 				console.log("공개범위"+subTF);
-				if(scope == "public" || scope =="patial" && subTF == "T" || blogId == id){  // 구독여부 체크
+				if(scope == "public" || scope =="partial" && subTF == "T" || blogId == id){  // 구독여부 체크
 					location.href="/blog/myblog/blogWrite?bno="+writeId+"&userId="+blogId
 				}else if(scope == "private" && blogId == id){
 					location.href="/blog/myblog/blogWrite?bno="+writeId+"&userId="+blogId

@@ -161,7 +161,7 @@ public class BlogWriteController {
 		
 		
 		model.addAttribute("blogWrite", blogWriteService.getBlog(bno)); // 블로그 단건 조회
-		
+		System.out.println("블로그 단건 조회: "+ model.getAttribute("blogWrite"));
 		
 		vo.setGroupId(bno);
 		model.addAttribute("likeCount", blogWriteService.likeCount(vo)); // 좋아요 조회
@@ -170,7 +170,7 @@ public class BlogWriteController {
 		rVo.setGroupId(bno);
 		model.addAttribute("replyCnt", replyService.replyCnt(rVo)); // 댓글 수
 		model.addAttribute("replyList", replyService.replyList(bno)); // 댓글 조회
-
+		System.out.println("댓글 정보: "+ model.getAttribute("replyList"));
 		cVo.setBlogId(userId);
 		model.addAttribute("category", blogWriteService.cateList(cVo) ); // 카테고리 조회
 		
