@@ -44,7 +44,7 @@
 	<!-- 결제 -->
 	<insert id="inputPayment" parameterType="PaymentVO">
 		INSERT INTO PAYMENTS
-		VALUES(#{paymentId}, #{price}, #{payerId}, #{paymentMethod}, current_date, #{groupId}, '챌린저스', '결제완료') 
+		VALUES(#{paymentId}, #{price}, #{payerId}, #{paymentMethod}, current_date, #{groupId}, '챌린저스', '결제완료', #{usePoint}) 
 	</insert>
 	
 	<!-- 환불테이블에 등록 -->
