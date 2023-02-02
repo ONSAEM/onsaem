@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.onsaem.web.shop.mapper.ProductMapper">
+	<!-- 리뷰 갯수 -->
+	<select id="totalReview"
+		resultType="com.onsaem.web.common.service.ReviewVO">
+		SELECT COUNT(*) AS GROUPS FROM REVIEWS WHERE
+		GROUP_ID=#{groupId}
+	</select>
+
 	<!-- 리뷰작성가능여부 -->
 	<select id="compareReview"
 		resultType="com.onsaem.web.shop.service.OrderVO">
@@ -22,7 +29,8 @@
 		P.PRODUCT_STATUS,
 		P.REGISTER_DATE,
 		P.MEMBER_ID,
-		M.FILE_ROUTE FROM PRODUCTS P,MEDIA m WHERE p.PRODUCT_STATUS='승인대기'
+		M.FILE_ROUTE FROM PRODUCTS P,MEDIA m WHERE
+		p.PRODUCT_STATUS='승인대기'
 		AND
 		M.GROUP_ID=P.PRODUCT_ID AND
 		M.SUB_GROUP='대표이미지'

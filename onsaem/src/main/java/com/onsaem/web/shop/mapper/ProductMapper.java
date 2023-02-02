@@ -12,9 +12,12 @@ import com.onsaem.web.shop.service.OrderVO;
 import com.onsaem.web.shop.service.ProductVO;
 
 public interface ProductMapper {
-	//리뷰작성가능여부
+	// 리뷰갯수
+	List<ReviewVO> totalReview(ReviewVO vo);
+
+	// 리뷰작성가능여부
 	List<OrderVO> compareReview(OrderVO vo);
-	
+
 	// 승인대기품목
 	List<ProductVO> approProduct();
 
@@ -44,7 +47,7 @@ public interface ProductMapper {
 
 	// 인기상품순 갯수 조회
 	int popCount(ProductVO vo);
-	
+
 	// 상품전체목록(인기순)
 	List<ProductVO> popList(ProductVO vo);
 
@@ -53,10 +56,10 @@ public interface ProductMapper {
 
 	// 검색목록
 	List<ProductVO> searchProduct(String data, ProductVO vo);
-	
+
 	// 검색목록 전체 갯수 조회
 	int searchCount(String data);
-	
+
 	// 찜 담기
 	int likeAdd(LikeVO vo);
 
