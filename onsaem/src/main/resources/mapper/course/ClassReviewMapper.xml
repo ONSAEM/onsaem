@@ -52,5 +52,5 @@
 	</insert>
 	
 	<!-- 리뷰 수정 -->
-	<update id="updateReview" parameterType="ReviewVO"</update>
+	<update id="updateReview" parameterType="ReviewVO"></update>
 </mapper>

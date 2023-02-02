@@ -76,17 +76,23 @@ public class BookingController {
 		BookingVO vo = new BookingVO();
 		vo.setOrdererId(userDetails.getUsername());
 		Paging paging = new Paging();
-		model.addAttribute("bookingList", bookingService.getBookingList(vo,paging));
+		model.addAttribute("bookingList", bookingService.getBookingList(vo, paging));
 		return "content/course/myBooking";
 	}
-	
+
 	// 예약상세
 
-	
+	// 예약, 결제 등록
+	@RequestMapping(value = "/getBooking", method = RequestMethod.GET)
+	@ResponseBody
+	public BookingVO getBooking(BookingVO vo, PaymentVO pvo) {
+		return null;
+	}
+
 	// 강사 예약관리 페이지 이동
 	@RequestMapping(value = "/bookingMGMT", method = RequestMethod.GET)
 	public String bookingMGMT(ClassInfoVO vo, Model model) {
 		return "content/course/bookingMGMT";
 	}
-	
+
 }
