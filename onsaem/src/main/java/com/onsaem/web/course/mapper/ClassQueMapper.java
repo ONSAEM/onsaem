@@ -23,4 +23,7 @@ public interface ClassQueMapper {
 
 	// 답변 등록,수정
 	public int updateAnswer(QuestionVO vo);
+
+	// 문의 전체조회
+	public List<QuestionVO> getMyQuestionList(QuestionVO vo);
 }

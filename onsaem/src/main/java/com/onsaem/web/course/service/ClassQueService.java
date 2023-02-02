@@ -24,4 +24,7 @@ public interface ClassQueService {
 
 	// 답변 등록,수정
 	public boolean updateAnswer(QuestionVO vo);
+
+	// 회원문의 전체조회
+	public Map<String, Object> getMyQuestionList(QuestionVO vo, Paging paging);
 }
