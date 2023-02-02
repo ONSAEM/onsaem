@@ -46,9 +46,6 @@ public class BookingServiceImpl implements BookingService{
 			ClassInfoVO clvo = new ClassInfoVO();
 			clvo.setClassId(bvo.getBClass().getClassId());
 			bvo.getBClass().setClassInfo(classService.getClassInfo(clvo));
-			MediaVO mvo = new MediaVO();
-			mvo.setGroupId(bvo.getBClass().getClassId());
-			bvo.getBClass().getClassInfo().setMedia(mediaService.getMedia(mvo));
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("bList", reviewList);

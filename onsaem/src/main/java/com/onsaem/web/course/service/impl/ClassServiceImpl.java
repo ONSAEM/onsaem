@@ -16,6 +16,7 @@ import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.QuestionVO;
 import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.course.mapper.ClassMapper;
+import com.onsaem.web.course.mapper.ClassQueMapper;
 import com.onsaem.web.course.service.ClassService;
 import com.onsaem.web.course.service.ClassVO;
 import com.onsaem.web.member.service.MemberService;
@@ -29,7 +30,7 @@ public class ClassServiceImpl implements ClassService {
 	ClassMapper classMapper;
 
 	@Autowired
-	ClassQueService classQueService;
+	ClassQueMapper classQueMapper;
 
 	@Autowired
 	MemberService memberService;
@@ -62,7 +63,7 @@ public class ClassServiceImpl implements ClassService {
 		ClassInfoVO result = classMapper.getClassInfo(vo);
 		QuestionVO qvo = new QuestionVO();
 		qvo.setGroupId(vo.getClassId());
-		result.setQueCount(classQueService.questionCount(qvo));
+		result.setQueCount(classQueMapper.questionCount(qvo).getTotalRecord());
 		result.setAddr(memberService.getMember(result.getMemberId()).getAddr());
 		MediaVO media = new MediaVO();
 		media.setGroupId(result.getClassId());

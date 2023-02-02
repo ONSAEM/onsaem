@@ -7,12 +7,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.onsaem.web.common.service.QuestionVO;
 import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.Paging;
+import com.onsaem.web.common.service.QuestionVO;
 import com.onsaem.web.course.mapper.ClassQueMapper;
+import com.onsaem.web.course.service.ClassInfoVO;
 import com.onsaem.web.course.service.ClassQueService;
+import com.onsaem.web.course.service.ClassService;
 import com.onsaem.web.member.service.MemberService;
 
 @Service
@@ -26,6 +28,9 @@ public class ClassQueServiceImpl implements ClassQueService{
 	
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	ClassService classService;
 	
 	@Override
 	public Map<String, Object> getQuestionList(QuestionVO qvo, Paging paging) {
@@ -90,8 +95,28 @@ public class ClassQueServiceImpl implements ClassQueService{
 	}
 
 	@Override
-	public Map<String, Object> getMyQuestionList(QuestionVO vo, Paging paging) {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<String, Object> getMyQuestionList(QuestionVO qvo, Paging paging) {
+		Paging newPaging = classQMapper.questionCount(qvo);
+		newPaging.setPage(paging.getPage());
+		newPaging.setTotalRecord(newPaging.getTotalRecord());
+		qvo.setFirst(newPaging.getFirst());
+		qvo.setLast(newPaging.getLast());
+		System.out.println(qvo);
+		List<QuestionVO> qList = classQMapper.getMyQuestionList(qvo);
+		for(QuestionVO que : qList) {
+			if(que.getAnsContent() != null) {
+				que.setStatus("답변완료");
+			}else {
+				que.setStatus("답변대기");
+			}
+			ClassInfoVO cvo = new ClassInfoVO();
+			cvo.setClassId(que.getGroupId());
+			que.setClassInfo(classService.getClassInfo(cvo));
+		}
+		System.out.println(qList);
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("qList", qList);
+		result.put("qPaging", newPaging);
+		return result;
 	}
 }

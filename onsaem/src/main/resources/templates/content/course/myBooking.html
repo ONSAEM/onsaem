@@ -1,24 +1,20 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/layout2}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout2}">
 
 <!-- Css  -->
 <th:block layout:fragment="css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
-		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/css/myClass.css}" type="text/css">
 </th:block>
 
 <head>
-<meta charset="UTF-8">
-<style>
-</style>
+	<meta charset="UTF-8">
+	<style>
+	</style>
 </head>
 
 <body>
@@ -57,17 +53,13 @@
 				<div class="product-cell">예약일자</div>
 				<div class="product-cell price">예약상태</div>
 			</div>
-			<div class="products-row" th:each="booking : ${bookingList.bList}"
-				th:id="${booking.bookingId}">
+			<div class="products-row" th:each="booking : ${bookingList.bList}" th:id="${booking.bookingId}">
 				<div class="product-cell" th:text="${booking.bookingId}"></div>
 				<div class="product-cell">
-					<img
-						th:src="@{'/fileView/'+${booking.bClass.classInfo.media.fileRoute}}"
-						alt="product"> <span
-						th:text="${booking.bClass.classInfo.className}"></span>
+					<img th:src="@{'/fileView/'+${booking.bClass.classInfo.mediaList[0].fileRoute}}" alt="product">
+					<span th:text="${booking.bClass.classInfo.className}"></span>
 				</div>
-				<div class="product-cell"
-					th:text="${#dates.format(booking.bClass.startDate, 'MM월dd일 HH:mm')}">
+				<div class="product-cell" th:text="${#dates.format(booking.bClass.startDate, 'MM월dd일 HH:mm')}">
 
 				</div>
 				<div class="product-cell">
@@ -75,19 +67,16 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="deltailBooking" data-bs-keyboard="false"
-			aria-hidden="true" tabindex="-1">
-			<div class="modal-dialog modal-dialog-centered"
-				style="min-width: 1000px">
+		<div class="modal fade" id="deltailBooking" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered" style="min-width: 1000px">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							aria-label="Close"></button>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
 						<div class="modal-wrapper">
 							<div class="title">예약상세</div>
-							
+
 						</div>
 						<button type="button">신고</button>
 						<button type="button">후기작성</button>
@@ -101,8 +90,8 @@
 			let header = $("meta[name='_csrf_header']").attr("content");
 			let memberId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}]]";
 
-			$('.products-row').each(function(){
-				$(this).on('click',function(){
+			$('.products-row').each(function () {
+				$(this).on('click', function () {
 					$.ajax({
 						url: '/class/getBooking',
 						method: 'GET',
@@ -136,11 +125,11 @@
 
 
 			document.querySelector(".jsFilter").addEventListener(
-					"click",
-					function() {
-						document.querySelector(".filter-menu").classList
-								.toggle("active");
-					});
+				"click",
+				function () {
+					document.querySelector(".filter-menu").classList
+						.toggle("active");
+				});
 		</script>
 
 		<!-- JS -->

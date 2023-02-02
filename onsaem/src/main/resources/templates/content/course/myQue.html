@@ -59,28 +59,18 @@
 					</button>
 				</div>
 			</div>
-			<div class="products-row">
-				<button class="cell-more-button">
-					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-						stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-						class="feather feather-more-vertical">
-						<circle cx="12" cy="12" r="1" />
-						<circle cx="12" cy="5" r="1" />
-						<circle cx="12" cy="19" r="1" />
-					</svg>
-				</button>
+			<div class="products-row" th:each="que : ${question.qList}" th:id="${que.queId}">
 				<div class="product-cell image">
-					<img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
-						alt="product"> <span>Ocean</span>
+					<img th:src="@{'/fileView/'+${que.classInfo.mediaList[0].fileRoute}}" alt="product"> <span
+						th:text="${que.classInfo.className}">Ocean</span>
 				</div>
-				<div class="product-cell category">
-					Furniture
+				<div class="product-cell" th:text="${que.queContent}">
+
 				</div>
 				<div class="product-cell status-cell">
-					<span class="status active">Active</span>
+					<span class="status active" th:text="${que.status}"></span>
 				</div>
-				<div class="product-cell sales">
-					11
+				<div class="product-cell sales" th:text="${#dates.format(que.queDate, 'MM월dd일 HH:mm')}">
 				</div>
 			</div>
 		</div>

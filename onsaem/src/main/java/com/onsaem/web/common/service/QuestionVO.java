@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.onsaem.web.course.service.ClassInfoVO;
+
 import lombok.Data;
 
 @Data
@@ -19,7 +21,10 @@ public class QuestionVO {
 	private Date ansDate;
 	private String groupId;
 	private String groups;
+	private String status;
 
+	private ClassInfoVO classInfo;
+	
 	private MediaVO profile;
 	
 	// 페이징
