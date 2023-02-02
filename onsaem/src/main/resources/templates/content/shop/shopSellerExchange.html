@@ -3,71 +3,19 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/sellerLayout}">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+</th:block>
+
 <head>
 <meta charset="UTF-8">
-<title>뷰테스트</title>
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-<style type="text/css">
-button {
-	all: unset;
-	background-color: mediumslateblue;
-	color: white;
-	padding: 5px 25px;
-	border-radius: 10px;
-	cursor: pointer;
-}
-
-.btn {
-	margin-top: 60px;
-}
-
-.modal {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-}
-
-.modal__background {
-	background-color: rgba(0, 0, 0, 0.6);
-	width: 100%;
-	height: 100%;
-	position: absolute;
-}
-
-.modal__content {
-	text-align: center;
-	position: relative;
-	background-color: white;
-	border-radius: 10px;
-	top: 0;
-	padding: 10px 25px;
-}
-
-h1 {
-	margin: 0;
-	margin-bottom: 13px;
-}
-
-.hidden {
-	display: none;
-}
-</style>
-<link
-	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
-	rel="stylesheet">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-	rel="stylesheet">
-<script src="https://kit.fontawesome.com/8ae463e53a.js"
-	crossorigin="anonymous"></script>
 </head>
-<body >
+
+<body>
 	<div layout:fragment="content" class="app-content" id="app">
-		<div class="app-content-header" >
+		<div class="app-content-header">
 			<h1 class="app-content-headerText">Products</h1>
 			<button class="mode-switch" title="Switch Theme">
 				<svg class="moon" fill="none" stroke="currentColor"
@@ -159,7 +107,7 @@ h1 {
 					</button>
 				</div>
 				<div class="product-cell sales">
-					상품명
+					반품접수일
 					<button class="sort-button">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 							viewBox="0 0 512 512">
@@ -179,37 +127,17 @@ h1 {
 					</button>
 				</div>
 				<div class="product-cell status-cell">
-					주문일자
-					<button class="sort-button">
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-							viewBox="0 0 512 512">
-							<path fill="currentColor"
-								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" />
-						</svg>
-					</button>
-				</div>
-				<div class="product-cell status-cell">
-					주문상태
-					<button class="sort-button">
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-							viewBox="0 0 512 512">
-							<path fill="currentColor"
-								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" />
-						</svg>
-					</button>
-				</div>
-				<div class="product-cell status-cell">
-					구매자ID
-					<button class="sort-button">
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-							viewBox="0 0 512 512">
-							<path fill="currentColor"
-								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" />
-						</svg>
-					</button>
-				</div>
-				<div class="product-cell status-cell">
 					수량
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" />
+						</svg>
+					</button>
+				</div>
+				<div class="product-cell status-cell">
+					가격
 					<button class="sort-button">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 							viewBox="0 0 512 512">
@@ -228,78 +156,85 @@ h1 {
 						</svg>
 					</button>
 				</div>
+				<div class="product-cell status-cell">
+					처리상태
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" />
+						</svg>
+					</button>
+				</div>
 			</div>
-			<div class="products-row" v-for="(order,index) in orders">
+			<div class="products-row" v-for="(exchange,index) in exchanges">
 				<div class="product-cell image">
 					 <span>{{index}}</span>
 				</div>
 				<div class="product-cell category">
-					<span class="cell-label">Category:</span>{{order.orderId}}
+					<span class="cell-label">Category:</span>{{exchange.orderId}}
 				</div>
 				<div class="product-cell sales">
-					<span class="cell-label">Sales:</span>{{order.productName}}
+					<span class="cell-label">Sales:</span>{{exchange.orderDate}}
 				</div>
 				<div class="product-cell price">
-					<span class="cell-label">Price:</span>$560
+					<span class="cell-label">Price:</span>{{exchange.productId}}
+				</div>
+				<div class="product-cell price">
+					<span class="cell-label">Price:</span>{{exchange.detailAmount}}
+				</div>
+				<div class="product-cell price">
+					<span class="cell-label">Price:</span>{{exchange.price}}
+				</div>
+				<div class="product-cell price">
+					<span class="cell-label">Price:</span>{{exchange.detailOption}}
 				</div>
 				<div class="product-cell status-cell">
-					 <span >{{order.orderDate}}</span>
-				</div>
-				<div class="product-cell status-cell">
-					<span class="cell-label">Status:</span> <span class="status active">{{order.orderStatus}}</span>
-				</div>
-				<div class="product-cell status-cell">
-					 <span >{{order.memberId}}</span>
-				</div>
-				<div class="product-cell status-cell">
-					 <span >{{order.detailAmount}}</span>
-				</div>
-				<div class="product-cell status-cell">
-					 <span >{{order.detailOption}}</span>
+					<span class="cell-label">Status:</span> <span class="status active">{{exchange.orderStatus}}</span>
 				</div>
 			</div>
 		</div>
 
 		<script type="text/javascript">
-		//csrf설정
-		 var token = $("meta[name='_csrf']").attr("content");
-		 var header = $("meta[name='_csrf_header']").attr("content");	
-		
-			 //뷰 사용
-			 const app = Vue.createApp({
-			        data() {
-			            return {	
-			            	orders:[]           	
-			            };
-			        },
-			        created() {
-						this.orderList();						
-			        },
-			        methods: {
-			        	//날짜조회
-			        	orderList:function(){
-			        		let is=this;			        		
-			        		$.ajax({
-		        				type : 'get', 
-		        				url : '/shop/sellerOrderList',	        				
-		        				beforeSend : function(xhr)
-		        	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-		        	               xhr.setRequestHeader(header, token);
-		        	               },
-		        				success : function(result) {
-		        					console.log(result)
-		        					is.orders=result;
-		        				},
-		        				error : function(error) { 
-		        					console.log(error)
-		        				}
-		        			})     
-			        		
-			        	}
-			        }
-			        });
-			 
-			 app.mount("#app")
+			//csrf설정
+			 var token = $("meta[name='_csrf']").attr("content");
+			 var header = $("meta[name='_csrf_header']").attr("content");	
+			
+				 //뷰 사용
+				 const app = Vue.createApp({
+				        data() {
+				            return {	
+				            	exchanges:[]           	
+				            };
+				        },
+				        created() {
+							this.orderList();						
+				        },
+				        methods: {
+				        	//날짜조회
+				        	orderList:function(){
+				        		let is=this;			        		
+				        		$.ajax({
+			        				type : 'get', 
+			        				url : '/shop/sellerExchangeList',	        				
+			        				beforeSend : function(xhr)
+			        	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+			        	               xhr.setRequestHeader(header, token);
+			        	               },
+			        				success : function(result) {
+			        					console.log(result)
+			        					is.exchanges=result;
+			        				},
+			        				error : function(error) { 
+			        					console.log(error)
+			        				}
+			        			})     
+				        		
+				        	}
+				        }
+				        });
+				 
+				 app.mount("#app") 
 			</script>
 
 		<script type="text/javascript">
@@ -356,4 +291,5 @@ h1 {
 	</div>
 
 </body>
+
 </html>

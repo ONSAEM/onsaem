@@ -90,6 +90,6 @@
 	<insert id="insertOrder"
 		parameterType="com.onsaem.web.common.service.PaymentVO">
 		insert into payments
-		values(#{paymentId},#{price},#{payerId},#{paymentMethod},current_date,#{groupId},#{groups},#{status})
+		values(#{paymentId},#{price},#{payerId},#{paymentMethod},current_date,#{groupId},#{groups},#{status},#{usePoint})
 	</insert>
 </mapper>

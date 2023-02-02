@@ -48,18 +48,18 @@ public class SellerController {
 	CartVO cartVo = new CartVO();
 	LikeVO likeVo = new LikeVO();
 	ProductVO proVo = new ProductVO();
-	
-	//상품 날짜조회
+
+	// 상품 날짜조회
 	@RequestMapping(value = "/shop/dateProduct", method = RequestMethod.POST)
 	@ResponseBody
 	public List<ProductVO> dateProduct(Authentication authentication, String startDate, String endDate, ProductVO vo) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		vo.setMemberId(userDetails.getUsername());		
+		vo.setMemberId(userDetails.getUsername());
 		System.out.println(vo);
 		System.out.println(startDate);
 		System.out.println(endDate);
-		
-		return sellService.dateProduct(vo,startDate,endDate);
+
+		return sellService.dateProduct(vo, startDate, endDate);
 	}
 
 	// 판매자 리뷰댓글달기
@@ -72,7 +72,7 @@ public class SellerController {
 		return sellService.sellerReviewContent(vo);
 	}
 
-	// 판매자 리뷰페이지이동
+	// 판매자 리뷰페이지이동(가짜)
 	@RequestMapping(value = "/sellerReview", method = RequestMethod.GET)
 	public String sellerReview(Authentication authentication, Model model) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -80,12 +80,24 @@ public class SellerController {
 		return "content/shop/sellerReview";
 	}
 
+	// 판매자 리뷰페이지이동
+	@RequestMapping(value = "shop/shopSellerReview", method = RequestMethod.GET)
+	public String shopSellerReview() {
+		return "content/shop/shopSellerReview";
+	}
+
 	// 판매자 교환/환불페이지이동
-	@RequestMapping(value = "/sellerExchange", method = RequestMethod.GET)
-	public String sellerExchange(Authentication authentication, Model model) {
+	@RequestMapping(value = "/shop/shopSellerExchange", method = RequestMethod.GET)
+	public String shopSllerExchange(Authentication authentication) {
+		return "content/shop/shopSellerExchange";
+	}
+
+	// 판매자 교환/환불 리스트
+	@RequestMapping(value = "/shop/sellerExchangeList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<OrderVO> sellerExchangeList(Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		model.addAttribute("orderList", sellService.orderExchange(userDetails.getUsername()));
-		return "content/shop/sellerExchange";
+		return sellService.orderExchange(userDetails.getUsername());
 	}
 
 	// 주문상태변경
@@ -118,7 +130,7 @@ public class SellerController {
 	@RequestMapping(value = "/shop/countList", method = RequestMethod.GET)
 	@ResponseBody
 	public List<ProductVO> seller(Authentication authentication) {
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();		
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		return sellService.countList(userDetails.getUsername());
 	}
 
@@ -256,7 +268,7 @@ public class SellerController {
 	public List<ProductVO> categoryProduct(Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		return sellService.categoryProduct(userDetails.getUsername());
-	}	
+	}
 
 	// 품절처리
 	@RequestMapping(value = "/endProduct", method = RequestMethod.POST)
@@ -265,18 +277,18 @@ public class SellerController {
 		return sellService.endProduct(vo);
 	}
 
-	// 판매자 주문목록(가짜)
-	@RequestMapping(value = "/sellerOrder", method = RequestMethod.GET)
-	public String sellerOrder(Model model, Authentication authentication) {
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		model.addAttribute("orderList", sellService.orderList(userDetails.getUsername()));
-		return "content/shop/sellerOrder";
-	}
-	
 	// 판매자 주문목록 페이지 이동
-	@RequestMapping(value = "shop/shopSellerOrder", method = RequestMethod.GET)
-	public String shopSellerOrder() {	
+	@RequestMapping(value = "/shop/shopSellerOrder", method = RequestMethod.GET)
+	public String shopSellerOrder() {
 		return "content/shop/shopSellerOrder";
+	}
+
+	// 판매자 주문목록 가져오기
+	@RequestMapping(value = "/shop/sellerOrderList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<OrderVO> sellerOrderList(Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return sellService.orderList(userDetails.getUsername());
 	}
 
 	// 품절처리
