@@ -5,6 +5,7 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.common.service.PaymentVO;
 
 import lombok.Data;
 
@@ -23,6 +24,7 @@ public class BookingVO {
 	private String status;
 	
 	private ClassVO bClass;
+	private PaymentVO payment;
 
 	// 페이징
 	private Integer first = 1;

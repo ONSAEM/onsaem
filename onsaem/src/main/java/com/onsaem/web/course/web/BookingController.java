@@ -81,14 +81,14 @@ public class BookingController {
 	}
 
 	// 예약상세
-
-	// 예약, 결제 등록
 	@RequestMapping(value = "/getBooking", method = RequestMethod.GET)
 	@ResponseBody
 	public BookingVO getBooking(BookingVO vo, PaymentVO pvo) {
-		return null;
+		return bookingService.getBooking(vo);
 	}
 
+	// 예약, 결제 등록
+	
 	// 강사 예약관리 페이지 이동
 	@RequestMapping(value = "/bookingMGMT", method = RequestMethod.GET)
 	public String bookingMGMT(ClassInfoVO vo, Model model) {
