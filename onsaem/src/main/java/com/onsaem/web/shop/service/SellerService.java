@@ -54,7 +54,7 @@ public interface SellerService {
 	List<ProductVO> categoryProduct(String data);
 
 	// 날짜별 조회
-	List<ProductVO> dateProduct(ProductVO vo);
+	List<ProductVO> dateProduct(ProductVO vo,String startDate,String endDate);
 
 	// 품절처리
 	int endProduct(ProductVO vo);

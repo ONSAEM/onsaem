@@ -36,7 +36,7 @@
 	<!-- 상태별 갯수 -->
 	<select id="countList"
 		resultType="com.onsaem.web.shop.service.ProductVO">
-		SELECT COUNT(CASE WHEN MEMBER_ID=#{data} AND
+		SELECT COUNT(CASE WHEN MEMBER_ID=#{data} THEN 1 END) AS PRODUCT_ALL,COUNT(CASE WHEN MEMBER_ID=#{data} AND
 		PRODUCT_STATUS='판매대기' THEN 1 END) AS WAIT_SELL_PRODUCT,
 		COUNT(CASE WHEN
 		MEMBER_ID=#{data} AND PRODUCT_STATUS='판매중' THEN 1 END) AS
@@ -94,7 +94,7 @@
 		FROM PRODUCTS
 		WHERE MEMBER_ID=#{data}
 		ORDER BY
-		${PRODUCT_STATUS}
+		PRODUCT_STATUS
 
 	</select>
 
@@ -120,10 +120,12 @@
 	<!-- 날짜별 조회 -->
 	<select id="dateProduct"
 		resultType="com.onsaem.web.shop.service.ProductVO">
-		SELECT * FROM PRODUCTS WHERE
-		to_char(REGISTER_DATE,'yyyy-MM-dd')=#{registerDate}
-		AND
-		MEMBER_ID=#{memberId}
+		SELECT * FROM PRODUCTS 
+		where MEMBER_ID=#{vo.memberId}
+		<if test="startDate!='' and endDate!=''">
+			 <![CDATA[and to_char(register_date,'yyyy-MM-dd')>=#{startDate}
+			 and to_char(register_date,'yyyy-MM-dd')<=#{endDate} ]]>		
+		</if>
 	</select>
 
 	<!-- 품절처리 -->
