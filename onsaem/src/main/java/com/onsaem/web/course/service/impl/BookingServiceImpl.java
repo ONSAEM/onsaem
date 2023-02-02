@@ -1,5 +1,6 @@
 package com.onsaem.web.course.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +68,12 @@ public class BookingServiceImpl implements BookingService{
 		MediaVO mvo = new MediaVO();
 		mvo.setGroupId(bvo.getBClass().getClassId());
 		bvo.getBClass().getClassInfo().setMedia(mediaService.getMedia(mvo));
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일 HH:mm");
+		bvo.getBClass().setStartTime(simpleDateFormat.format(bvo.getBClass().getStartDate()));
+		PaymentVO pvo = new PaymentVO();
+		pvo.setPaymentId(bvo.getPaymentId());
+		bvo.setPayment(bookingMapper.getPayment(pvo));
+		System.out.println(bvo);
 		return bvo;
 	}
 

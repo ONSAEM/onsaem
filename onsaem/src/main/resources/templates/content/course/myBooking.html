@@ -75,7 +75,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="modifyAns" data-bs-keyboard="false"
+		<div class="modal fade" id="deltailBooking" data-bs-keyboard="false"
 			aria-hidden="true" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered"
 				style="min-width: 1000px">
@@ -86,14 +86,8 @@
 					</div>
 					<div class="modal-body">
 						<div class="modal-wrapper">
-							<div class="title">답변수정</div>
-							<div class="inputfield">
-								<label>답변내용</label>
-								<textarea name="ansContent" class="input"></textarea>
-							</div>
-							<div class="inputfield">
-								<button type="button" class="btn Answer">답변수정</button>
-							</div>
+							<div class="title">예약상세</div>
+							
 						</div>
 					</div>
 					<div class="modal-footer"></div>
@@ -104,6 +98,40 @@
 			let token = $("meta[name='_csrf']").attr("content");
 			let header = $("meta[name='_csrf_header']").attr("content");
 			let memberId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}]]";
+
+			$('.products-row').each(function(){
+				$(this).on('click',function(){
+					$.ajax({
+						url: '/class/getBooking',
+						method: 'GET',
+						contentType: 'application/x-www-form-urlencoded',
+						data: {
+							"bookingId": $(this).attr('id')
+						},
+						success: function (result) {
+							console.log(result);
+							console.log(result.bClass);
+							$('#deltailBooking').find('.title').siblings().remove();
+							let content = $(`<p>예약번호 : ${result.bookingId}</p>
+							<p>클래스 이름 : ${result.bclass.classInfo.className}</p>
+							<p>시간 : ${result.bclass.startTime}</p>
+							<p>인원 : ${result.totalPeople}</p>
+							<p>총가격 : ${result.payment.price + result.payment.usePoint}</p>
+							<p>예약자 : ${result.bookerName}</p>
+							<p>예약자 연락처 : ${result.bookerPhone}</p>
+							<p>요구사항 : ${result.requirement}</p>
+							<p>예약상태 : ${result.status}</p>`);
+							$('#deltailBooking').find('.modal-wrapper').append(content);
+							$('#deltailBooking').modal("show");
+						},
+						error: function (error) {
+							console.log(error);
+							alert('실패');
+						}
+					})
+				})
+			})
+
 
 			document.querySelector(".jsFilter").addEventListener(
 					"click",
