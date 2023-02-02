@@ -368,9 +368,11 @@
 			<div class="blog__sidebar__item">
 				<h3 style="text-align: center; margin: 0 auto;">
 					MOMENT <a data-bs-toggle="modal" data-bs-target="#insertModal"
-						type="button" th:if="${mmtCnt<4}">▶</a> <a type="button"
+						type="button" th:if="${mmtCnt<4} and ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}">▶</a> 
+						<a type="button"
 						th:if="${mmtCnt==4}"
 						onclick="alert('😥 저장 가능한 모먼트 용량이 초과되었습니다. 삭제 후 등록해주세요!')">✖</a>
+						<a type="button" th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}" style="display:none;"></a>
 				</h3>
 			</div>
 		</div>
@@ -440,8 +442,9 @@
 							</div>
 							<!--[[${param.userId}]]  유저 이름확인-->
 							<div class="blog__sidebar__item">
-								<a th:href="@{/blog/myblog/blogWrite/blogInsert}"
+								<a th:href="@{/blog/myblog/blogWrite/blogInsert}" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
 									class="blog__btn">글 작성<span class="arrow_right"></span></a>
+								<a th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}" style="display:none;"></a>
 								<h4>Categories</h4>
 								<ul th:each="cate:${category}">
 									<li><a class="searchCate" th:value="${cate.categoryId}" style="cursor:pointer">[[${cate.categoryName}]]</a></li>
@@ -452,16 +455,17 @@
 								<div class="blog__sidebar__recent">
 									<a href="#" class="blog__sidebar__recent__item"
 										th:each="rW:${recentWrite}">
-										<div class="blog__sidebar__recent__item__pic">
-											<img th:src="@{/shoptemplate/img/blog/sidebar/sr-1.jpg}"
-												alt="">
+										<div class="blog__sidebar__recent__item__pic" style="margin-top:15px;">
+<!-- 											<img th:src="@{/shoptemplate/img/blog/sidebar/sr-1.jpg}" -->
+<!-- 												alt=""> -->
+											<h6>[[${#dates.format(rW.writeDate, 'MM/DD')}]] </h6>
 										</div>
 										<div class="blog__sidebar__recent__item__text">
-											
+										
 											<h6 th:onclick="|location.href='@{/blog/myblog/blogWrite(bno=${rW.writeId})}'|">
-												[[${rW.writeTitle}]]<br /> -[[${rW.subTitle}]]
-											</h6>
-											<span>[[${#dates.format(rW.writeDate, 'YYYY-MM-DD')}]]</span>
+												[[${rW.writeTitle}]] <span> [[${rW.subTitle}]]</span><br /></h6> <span><i class="fa-solid fa-eye"></i> [[${rW.cnt}]]</span>
+											
+											
 											
 										</div>
 									</a>
@@ -471,7 +475,9 @@
 							<div class="blog__sidebar__item">
 								<h4>구독자 목록</h4>
 								<a th:href="@{/blog/myblog/blogSubscribe(blogId=${blogInfo.blogId})}" 
-								   style="float: right;margin-right:50px;">목록 더보기 ➕</a>
+								   style="float: right;margin-right:50px;" 
+								   th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}">목록 더보기 ➕</a>
+								<a th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}" style="display:none;"></a>
 								<div class="blog__sidebar__recent">
 									<table id="submeTable">
 										<thead>
