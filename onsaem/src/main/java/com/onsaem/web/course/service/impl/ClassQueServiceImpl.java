@@ -88,4 +88,10 @@ public class ClassQueServiceImpl implements ClassQueService{
 			return false;
 		}
 	}
+
+	@Override
+	public Map<String, Object> getMyQuestionList(QuestionVO vo, Paging paging) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
