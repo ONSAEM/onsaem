@@ -85,5 +85,8 @@ public interface ChalMapper {
 	//조만간 시작하는 챌린지
 	List<ChalVO> ddayStartRank();
 	
+	//관리자용 - 종료된 팀챌린지 검색 리스트
+	List<ChalVO> adminSearchChals(ChalVO vo);
+	
 	
 }	

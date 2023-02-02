@@ -332,24 +332,46 @@
             		  let receipt;
             		  //상태구분
             		  switch($("#status").val()) {
-							  case '전체':  // if (x === 'value1')
-							   
+							  case '전체':  // if (x === 'value1') 
 							    break;						
 							  case '영수증 첨부필요':  // if (x === 'value2')
 							    sharepoint = '정산완료';
 							    break;
-							
 							  case '포인트 정산필요':
 								receipt = '첨부완료';
 							    break;
 							  case '전체 필요' :
-								  
+								  receipt = '미첨부';
+								  sharePoint = '미정산';
 								break;
 							  case '전체 완료' :
 								  receipt ='첨부완료';
 								  sharepoint = '정산완료';
 								  break;
-							}
+						}
+            		  	let startDate=$("#startDate").val();
+		            	let endDate=$("#endDate").val();
+		            	let is=this;
+		            	 $.ajax({
+								type : 'post', 
+								url : '/mypage/searchTeamChals', 										
+								beforeSend : function(xhr)
+					            {
+					            	xhr.setRequestHeader(header, token);
+					            },		      
+					            data:{"receipt":receipt,
+					            	"sharepoint":sharepoint,
+					            	"startDate":startDate,
+					            	"endDate":endDate,
+					            	},
+								success : function(result) {									
+									console.log(result)
+									is.chals=result;   
+								},
+								error : function(error) { 
+									console.log(error)
+								}
+							})
             	  }
             	  ,setWinner : function(){
             		  this.winner =  $('#teamChoose').val()

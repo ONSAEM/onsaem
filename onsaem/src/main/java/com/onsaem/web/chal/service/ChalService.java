@@ -74,4 +74,6 @@ public interface ChalService {
 	
 	Integer updateSharePoint(ChalVO vo);
 	
+	//관리자용 - 종료된 팀챌린지 검색 리스트
+	List<ChalVO> adminSearchChals(ChalVO vo);
 }

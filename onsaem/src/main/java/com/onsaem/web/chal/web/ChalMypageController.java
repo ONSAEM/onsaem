@@ -226,6 +226,7 @@ public class ChalMypageController {
 			pvo.setParticipantId(userDetails.getUsername());
 			//우리팀 구하기
 			String myTeam = partService.getParticipant(pvo).getTeam();
+			model.addAttribute("myTeam", myTeam);
 			pvo.setTeam(myTeam);
 			//성공인증샷수 구해야함
 			model.addAttribute("MyTeamCnt", proofService.cntTeamProof(pvo));

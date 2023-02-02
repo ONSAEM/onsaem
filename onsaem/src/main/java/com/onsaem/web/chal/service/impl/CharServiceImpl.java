@@ -187,4 +187,10 @@ public class CharServiceImpl implements ChalService {
 		return chalMapper.updateSharePoint(vo);
 	}
 
+	@Override
+	public List<ChalVO> adminSearchChals(ChalVO vo) {
+		// TODO Auto-generated method stub
+		return chalMapper.adminSearchChals(vo);
+	}
+
 }
