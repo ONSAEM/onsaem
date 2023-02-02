@@ -993,7 +993,7 @@
 				let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
 			
 				console.log("공개범위"+subTF);
-				if(scope == "public" || scope =="patial" && subTF == "T" || blogId == id){  // 구독여부 체크
+				if(scope == "public" || scope =="partial" && subTF == "T" || blogId == id){  // 구독여부 체크
 					location.href="/blog/myblog/blogWrite?bno="+writeId+"&userId="+blogId
 				}else if(scope == "private" && blogId == id){
 					location.href="/blog/myblog/blogWrite?bno="+writeId+"&userId="+blogId
