@@ -65,11 +65,52 @@ h1 {
 <script src="https://kit.fontawesome.com/8ae463e53a.js"
 	crossorigin="anonymous"></script>
 </head>
+
+<!-- <h2 class="app-content-headerText"
+				style="margin-left: 20px; display: inline-block">
+				<i class="fa-solid fa-house" style="text-align: center"
+					@click="allSell()"><h5>전체 {{count.productAll}}건</h5></i>
+			</h2>
+			<h2 class="app-content-headerText"
+				style="margin-left: 20px; display: inline-block">
+				<i class="fa-solid fa-hourglass-start" style="text-align: center"
+					@click="waitSell()"><h5>판매대기 {{count.waitSellProduct}}건</h5></i>
+			</h2>
+			<h2 class="app-content-headerText"
+				style="margin-left: 20px; display: inline-block">
+				<i class="fa-solid fa-cart-shopping" style="text-align: center"
+					@click="selling()"><h5>판매중 {{count.sellingProduct}}건</h5></i>
+			</h2>
+			<h2 class="app-content-headerText"
+				style="margin-left: 20px; display: inline-block">
+				<i class="fa-solid fa-circle-stop" style="text-align: center"
+					@click="endSell()"><h5>품절 {{count.endProduct}}건</h5></i>
+			</h2>
+			<br>
+			<h2 class="app-content-headerText"
+				style="margin-left: 20px; display: inline-block">
+				<i class="fa-solid fa-circle-pause" style="text-align: center"
+					@click="wait()"><h5>승인대기 {{count.waitProduct}}건</h5></i>
+			</h2>
+			<h2 class="app-content-headerText"
+				style="margin-left: 20px; display: inline-block">
+				<i class="fa-sharp fa-solid fa-hand" style="text-align: center"
+					@click="stopSell()"><h5>판매중지 {{count.stopProduct}}건</h5></i>
+			</h2>
+			<h2 class="app-content-headerText"
+				style="margin-left: 20px; display: inline-block">
+				<i class="fa-solid fa-circle-xmark" style="text-align: center"
+					@click="banSell()"><h5>판매정지 {{count.banProduct}}건</h5></i>
+			</h2> -->
+
+
+
+
 <body>
 	<div layout:fragment="content" class="app-content" id="app">
-		<div class="app-content-header" v-for="count in counts">
-			<h1 class="app-content-headerText">Products</h1>
-			<br> <br>
+		<div class="app-content-header">
+			<h1 class="app-content-headerText">Products</h1>			
+			<div v-for="count in counts" style="display:flex">
 			<h2 class="app-content-headerText"
 				style="margin-left: 20px; display: inline-block">
 				<i class="fa-solid fa-house" style="text-align: center"
@@ -106,13 +147,13 @@ h1 {
 				<i class="fa-solid fa-circle-xmark" style="text-align: center"
 					@click="banSell()"><h5>판매정지 {{count.banProduct}}건</h5></i>
 			</h2>
+			</div>
 			<button class="mode-switch" title="Switch Theme">
-				<svg class="moon" fill="none" stroke="currentColor"
-					stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-					width="24" height="24" viewBox="0 0 24 24">
-            <defs></defs>
-            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
-          </svg>
+				<svg class="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+					stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
+					<defs></defs>
+					<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+				</svg>
 			</button>
 			<button class="app-content-headerButton">Add Product</button>
 		</div>
