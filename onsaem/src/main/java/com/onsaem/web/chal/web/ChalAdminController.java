@@ -89,9 +89,7 @@ public class ChalAdminController {
 	public List<ParticipantVO> getParticipant(String chalId){
 		ParticipantVO vo = new ParticipantVO();
 		vo.setChalId(chalId);
-		
-		
-		
+
 		return partService.listParticipantAll(vo);
 	}
 	
