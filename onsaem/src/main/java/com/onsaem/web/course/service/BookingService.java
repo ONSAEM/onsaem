@@ -36,5 +36,7 @@ public interface BookingService {
 
 	// 포인트 조회
 	public Integer getPoint(String MemberId);
+	
+	
 
 }

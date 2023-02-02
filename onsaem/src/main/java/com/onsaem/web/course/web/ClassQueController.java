@@ -3,6 +3,8 @@ package com.onsaem.web.course.web;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,7 +43,7 @@ public class ClassQueController {
 		return classQueService.getQuestion(vo);
 	}
 
-	// 문의 등록
+	// 문의 수정
 	@RequestMapping(value = "/updateQue", method = RequestMethod.POST)
 	@ResponseBody
 	public boolean updateQue(QuestionVO vo) {
@@ -62,12 +64,17 @@ public class ClassQueController {
 		return classQueService.getQuestionList(vo, paging);
 	}
 
-	// 클래스문의조회 페이지 이동
+	// 회원 문의조회 페이지 이동
 	@RequestMapping(value = "/myQue", method = RequestMethod.GET)
-	public String myQue() {
+	public String myQue(Model model, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		QuestionVO vo = new QuestionVO();
+		vo.setWriterId(userDetails.getUsername());
+		Paging paging = new Paging();
+		model.addAttribute("question", classQueService.getQuestionList(vo, paging));
 		return "content/course/myQue";
 	}
-	
+
 	// 강사 문의관리 페이지 이동
 	@RequestMapping(value = "/queMGMT", method = RequestMethod.GET)
 	public String queMGMT(ClassInfoVO vo, Model model) {
