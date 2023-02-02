@@ -40,5 +40,8 @@ public class ClassReviewController {
 	public ReviewVO getReview(ReviewVO vo) {
 		return classReviewService.getReview(vo);
 	}
-
+	
+	// 리뷰 등록
+	
+	// 리뷰 수정
 }

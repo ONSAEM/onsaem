@@ -246,7 +246,7 @@
 	<!-- 관리자가 포인트 정산 후 상태 업데이트 -->
 	<update id="updateSharePoint" parameterType="ChalVO">
 		UPDATE CHALLENGES
-		SET SHAREPOINT = #{receipt}
+		SET SHAREPOINT = #{sharepoint}
 		WHERE CHAL_ID = #{chalId}
 	</update>
 	

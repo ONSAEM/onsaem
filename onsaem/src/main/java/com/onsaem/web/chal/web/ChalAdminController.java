@@ -90,6 +90,8 @@ public class ChalAdminController {
 		ParticipantVO vo = new ParticipantVO();
 		vo.setChalId(chalId);
 		
+		
+		
 		return partService.listParticipantAll(vo);
 	}
 	
@@ -130,7 +132,7 @@ public class ChalAdminController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ChalVO cvo = chalService.getChal(vo.getChalId());
 		Integer days = cvo.getTotal();
-		map.put("days", days);
+		map.put("total", days);
 		
 		vo.setCondition("정상");
 		map.put("cnt", proofService.countProof(vo));
@@ -189,6 +191,12 @@ public class ChalAdminController {
 		partService.updateResultPoint(pvo);
 		chalService.updateTeamPoint(pvo);
 		
+		//챌린저스테이블 업데이트
+		ChalVO cvo = new ChalVO();
+		cvo.setSharepoint("정산완료");
+		cvo.setChalId(vo.getChalId());
+		chalService.updateSharePoint(cvo);
+		
 		return "true";
 	}
 	
@@ -239,7 +247,7 @@ public class ChalAdminController {
 		return "content/challengers/AdminVueReportChal";
 	}
 	
-	//종료 팀 챌린지 관리 페이지로 이동
+	//뷰 - 종료 팀 챌린지 관리 페이지로 이동
 	@RequestMapping(value="/AdminEndTeam", method=RequestMethod.GET)
 	public String AdminEndTeam() {
 
@@ -254,7 +262,20 @@ public class ChalAdminController {
 		return chalService.AdminEndChals("팀");
 	}
 	
+	//뷰 - 챌린저스 개인전 종료,, 관리 페이지 이동
+	@RequestMapping(value="/AdminEndAlone", method=RequestMethod.GET)
+	public String AdminEndAlone() {
+
+		return "content/challengers/AdminChalOneView";
+	}
 	
+	//개인전 챌린지 목록 가져오기
+	@RequestMapping(value="/getAloneChals", method=RequestMethod.GET)
+	@ResponseBody
+	public List<ChalVO> getAlooneChals(){
+		
+		return chalService.AdminEndChals("개인");
+	}
 	
 }
 

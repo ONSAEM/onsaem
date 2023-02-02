@@ -214,16 +214,32 @@ public class ChalMypageController {
 	
 	//얘 마이페이지의 - 2번째 페이지
 	@RequestMapping(value="/myChalStatus2", method=RequestMethod.GET)
-	public String myChalStatus2(Model model, @RequestParam(value="chalId", required=false)String chalId) {
+	public String myChalStatus2(Model model, @RequestParam(value="chalId", required=false)String chalId,Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
 		model.addAttribute("chal",chalService.getChal(chalId));
 		chalId = "CH1";
 		if(chalService.getChal(chalId).getSubClass()=="팀") {
 			//팀전
-			//인원수
+			ParticipantVO pvo = new ParticipantVO();
+			pvo.setChalId(chalId);
+			pvo.setParticipantId(userDetails.getUsername());
+			//우리팀 구하기
+			String myTeam = partService.getParticipant(pvo).getTeam();
+			pvo.setTeam(myTeam);
 			//성공인증샷수 구해야함
+			model.addAttribute("MyTeamCnt", proofService.cntTeamProof(pvo));
+			//우리팀 인원수
+			model.addAttribute("MyteamSize", partService.listParticipantAll(pvo).size());
+			
 		}else{
 			//개인전
-			//인간 수 //성공인증샷 수 
+			ParticipantVO tvo = new ParticipantVO();
+			tvo.setChalId(chalId);
+			//인간 수
+			model.addAttribute("ChalSize", partService.listParticipantAll(tvo).size());
+			//성공인증샷 수
+			model.addAttribute("ChalCnt", proofService.listProofAll(chalId).size());
 		}
 		//한 챌린지에 대한 모든 사람들의 인증글 가져오기
 		model.addAttribute("proofs", proofService.listProofAll(chalId));

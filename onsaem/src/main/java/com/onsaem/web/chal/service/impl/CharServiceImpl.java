@@ -181,4 +181,10 @@ public class CharServiceImpl implements ChalService {
 		return chalMapper.ddayStartRank();
 	}
 
+	@Override
+	public Integer updateSharePoint(ChalVO vo) {
+		// TODO Auto-generated method stub
+		return chalMapper.updateSharePoint(vo);
+	}
+
 }
