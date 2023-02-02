@@ -256,11 +256,12 @@
 										<option :key="user" :value="user.participantId" v-for="user in users">{{user.participantId}}</option>
 									</select>
 									<!-- 본인 기부금 띄우기  -->
-									<div style="float: left; width: 50%; padding:1px; "><p>기부금</p></div><div style="float: left; width: 50%; padding:1px;"><p id="privateDonate"/></div>
+									<div style="float: left; width: 50%; padding:1px; "><p>기부금</p></div>
+										<div style="float: left; width: 50%; padding:1px;"><p id="privateDonate">{{userInfo.privateDonate}}</p></div>
 									<canvas id="userChart"></canvas>
 									<!-- 정산 포인트 띄우기 --> 
-									<div style="float: left; width: 50%; padding:1px; "><p>기부금</p></div><div style="float: left; width: 50%; padding:1px;"><p id="privatePoint"/></div>
-									<button type="button" @click="pointInput(chalId, winner, loser)">정산</button>
+									<div style="float: left; width: 50%; padding:1px; "><p>정산 포인트</p></div><div style="float: left; width: 50%; padding:1px;"><p id="privatePoint">{{point}}</div>
+									<button type="button" @click="pointInput()">정산</button>
 									<button type="button" class="closeBtn" id="closeModals" @click="displayModal('closeModals')">닫기</button>
 								</div>
 							
@@ -303,10 +304,12 @@
                       chals:[],
                       users : [],
                       modalCheck : '',
-                      teamInfo :[],
-                      betPoints : '',
                       chalId : '',
                       theUser:'',
+                      pp : '',
+                      point : '',
+                      userInfo : []
+                      
                   };
               },
               created () {
@@ -318,27 +321,52 @@
             		  let receipt;
             		  //상태구분
             		  switch($("#status").val()) {
-							  case '전체':  // if (x === 'value1')
-							   
+							  case '전체':  // if (x === 'value1') 
 							    break;						
 							  case '영수증 첨부필요':  // if (x === 'value2')
 							    sharepoint = '정산완료';
 							    break;
-							
 							  case '포인트 정산필요':
 								receipt = '첨부완료';
 							    break;
 							  case '전체 필요' :
-								  
+								  receipt = '미첨부';
+								  sharepoint = '미정산';
 								break;
 							  case '전체 완료' :
 								  receipt ='첨부완료';
 								  sharepoint = '정산완료';
 								  break;
-							}
+						}
+            		  	let startDate=$("#startDate").val();
+		            	let endDate=$("#endDate").val();
+		            	let is=this;
+		            	 $.ajax({
+								type : 'post', 
+								url : '/mypage/searchAloneChals', 										
+								beforeSend : function(xhr)
+					            {
+					            	xhr.setRequestHeader(header, token);
+					            },		      
+					            data:{"receipt":receipt,
+					            	"sharepoint":sharepoint,
+					            	"startDate":startDate,
+					            	"endDate":endDate,
+					            	},
+								success : function(result) {									
+									console.log(result)
+									is.chals=result;   
+								},
+								error : function(error) { 
+									console.log(error)
+								}
+							})
             	  }
             	  ,setUser : function(){
+            		  let is = this;
             		  this.theUser =  $('#theUsers').val()
+            		  let theUser = this.theUser;
+            		  let chalId = this.chalId;
             		  console.log(this.theUser);
             		  console.log(this.chalId);
             		  //eq() => 인덱스 요소에 해당되는거 찾기
@@ -352,9 +380,9 @@
 			                xhr.setRequestHeader(header, token);
 			                },
 			            	success:function(result){
-			            		
+			            		is.userInfo = result.user;
 			            		console.log(result);
-			  					 let total = Number(result.days);
+			  					 let total = 4;//Number(result.total);
 			  					let cnt = Number(result.cnt);
 			  					let percent = Math.abs(cnt/total);
 			  					
@@ -368,12 +396,12 @@
 			  						point == 0;
 			  					}
 			  					let pp = percent*100;
-			  					$('#pp').val(pp);
-			  					$('#privatePoint').text(point);
+			  					is.pp = pp; 
+			  					is.point = point;
 			  					//차트 렛츠고//
 				                let oneList = new Array();
 			  					let labelList = new Array();
-			  					let theLabel = proofWriter+ " 평균달성률";
+			  					let theLabel = result.user.participantId+ " 평균달성률";
 			  					labelList.push(theLabel);
 				        		oneList.push(pp);
 				        		oneList.push(100-pp);
@@ -395,7 +423,7 @@
 				                 new Chart(ctx3, {
 				                          type: 'doughnut',
 				                         data: thedata
-				                 }); 
+				                 });  
 
 			  				},
 			  				error : function(error){
@@ -403,40 +431,36 @@
 			  				}
             		  })
             	},
-            	  teamPointInput : function(chal,winner,loser){
-            		//팀포인튜 정산 
+            	  pointInput : function(){
+            		//포인튜 정산 
             		//분모 mom - 개별 팀 인원수
 					let mom = 0;
-            		console.log(chal);
-            		console.log(winner);
-            		console.log(loser);
-            		console.log(this.teamInfo.Asize);
-            		if(winner == 'A'){
-        				mom = this.teamInfo.Asize;
-        				console.log(mom);
-        			}else {
-        				mom = this.teamInfo.Bsize;
-        			}
-            		mom=10;
-            		let sharePoint = this.betPoints/mom;
-            		console.log(sharePoint);
-            		   $.ajax({
-            				url : '/mypage/sharePoint',
-            				method :'POST',
-            				contentType:'application/json',
-            				data : JSON.stringify({"thatPoint":sharePoint, "chalId" : chal, "winner" : winner, "loser" : loser }),
-            				beforeSend : function(xhr)
-          				                {   
-          				                xhr.setRequestHeader(header, token);
-          				                },
-            				success:function(result){
-            					alert("정산 완료 되었습니다.");
-            					location.href ="/mypage/AdminEndTeam";
-            				},
-            				error : function(error){
-            					console.log()
-            				}
-            			})  
+            		console.log(this.chalId);
+            		console.log(this.userInfo.participantId);
+            		console.log(this.point);
+            		console.log(this.pp);
+            		let chalId = this.chalId;
+            		let participantId = this.userInfo.participantId;
+            		let thatPoint = this.point;
+            		let result = this.pp+'%';
+
+            		$.ajax({
+          				url : '/mypage/inputPoint',
+          				method :'POST',
+          				contentType:'application/json',
+          				data : JSON.stringify({"thatPoint":thatPoint, "chalId" : groupId, "participantId" : participantId, "result" : result }),
+          				beforeSend : function(xhr)
+        				                {   
+        				                xhr.setRequestHeader(header, token);
+        				                },
+          				success:function(result){
+          					alert("정산 완료 되었습니다.");
+          					location.href ="/mypage/AdminEndChals";
+          				},
+          				error : function(error){
+          					console.log()
+          				}
+          			})  
             	  },
             	  makeChart : function(){
             		//차트만들기  

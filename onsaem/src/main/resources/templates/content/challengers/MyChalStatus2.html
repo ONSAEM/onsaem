@@ -13,6 +13,7 @@
 
 </th:block>
 <head>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 	.app-content{
 	width: 70%;
@@ -216,9 +217,13 @@
 	<!-- End of container -->
 
 		<!-- 도넛차트 -->
-		<div id="chart" style=" text-align : center; width:500px; margin-left:300px;">
-			<h3>[[${user.participantId}]] 님의 달성률</h3>	
+		<div id="chart" th:if="${chal.subClass} =='팀'" style=" text-align : center; width:500px; margin-left:300px;">
+			<h3>우리 [[${myTeam}]]의 달성률</h3>	
 			<canvas id="chDonut1" ></canvas>
+		</div>
+		<div id="chart" th:if="${chal.subClass} =='개인'" style=" text-align : center; width:500px; margin-left:300px;">
+			<h3>[[${chal.chalName}]] 참가자 달성률</h3>	
+			<canvas id="chDonut2" ></canvas>
 		</div>	
 
 
@@ -339,6 +344,81 @@
 			  });
 			}); */
 			
+		//차트관련
+		 let subClass = "[[${chal.subClass}]]";
+		console.log(subClass+"subClass");
+		if(subClass == '팀'){
+			 let myteamcnt = Number("[[${MyTeamCnt}]]");
+			 let myteamsize = Number("[[${MyTeamSize}]]");
+			 let total = Number("[[${chal.total}]]")*myteamsize;
+			 let pteam = (myteamcnt/total).toFixed(1)*100;
+			 console.log(myteamcnt);
+			 var colors = ['#b4a7d6','#eae5e1','#333333','#c3e6cb','#dc3545','#6c757d'];
+			var donutOptions = {
+				  cutoutPercentage: 85, 
+				  legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
+				};
+		
+			var data = new Array();
+			data.push(pteam);
+			data.push(100-pteam);
+				// donut 1
+				var chDonutData1 = {
+				    labels: ['평균달성률'],
+				    datasets: [
+				      {
+				        backgroundColor: colors.slice(0,2),
+				        borderWidth: 0,
+				        data: data
+				      }
+				    ]
+				};
+				
+				var chDonut1 = document.getElementById("chDonut1");
+				if (chDonut1) {
+				  new Chart(chDonut1, {
+				      type: 'doughnut',
+				      data: chDonutData1,
+				      options: donutOptions
+				  });
+				} 
+				
+		}else{
+			 let chalSize = Number("[[${ChalSize}]]");
+			 let chalCnt = Number("[[${ChalCnt}]]");
+			 let total = Number("[[${chal.total}]]")*chalSize;
+			 let pt = (chalCnt/total).toFixed(1)*100;
+			 var colors = ['#b4a7d6','#eae5e1','#333333','#c3e6cb','#dc3545','#6c757d'];
+				var donutOptions = {
+					  cutoutPercentage: 85, 
+					  legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
+					};
+			
+				var data = new Array();
+				data.push(pt);
+				data.push(100-pt);
+					// donut 1
+					var chDonutData2 = {
+					    labels: ['평균달성률'],
+					    datasets: [
+					      {
+					        backgroundColor: colors.slice(0,2),
+					        borderWidth: 0,
+					        data: data
+					      }
+					    ]
+					};
+					
+					var chDonut2 = document.getElementById("chDonut2");
+					if (chDonut2) {
+					  new Chart(chDonut2, {
+					      type: 'doughnut',
+					      data: chDonutData2,
+					      options: donutOptions
+					  });
+					} 
+			 
+		}
 			
 		//모달창 생성
 	     /*  document.querySelectorAll(".openDetail").forEach((openDetail) => {

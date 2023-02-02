@@ -29,6 +29,7 @@ import com.onsaem.web.chal.service.ProofService;
 import com.onsaem.web.chal.service.ProofVO;
 import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
+import com.onsaem.web.member.service.MemberVO;
 
 /**
  * 작성자 - 박이현 , 
@@ -273,6 +274,22 @@ public class ChalAdminController {
 	public List<ChalVO> getAlooneChals(){
 		
 		return chalService.AdminEndChals("개인");
+	}
+	
+	//종료 팀 챌린지 검색 목록 가져오기
+	@RequestMapping(value="/searchTeamChals", method=RequestMethod.POST)
+	@ResponseBody
+	public List<ChalVO> getTeamChals(ChalVO vo){
+		vo.setSubClass("팀");
+		return chalService.adminSearchChals(vo);
+	}
+	
+	//종료 개인 챌린지 검색 목록 가져오기
+	@RequestMapping(value="/searchAloneChals", method=RequestMethod.POST)
+	@ResponseBody
+	public List<ChalVO> searchAloneChals(ChalVO vo){
+		vo.setSubClass("개인");
+		return chalService.adminSearchChals(vo);
 	}
 	
 }
