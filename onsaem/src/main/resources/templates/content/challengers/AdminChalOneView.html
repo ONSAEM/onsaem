@@ -251,7 +251,7 @@
 									
 									<h5>포인트정산</h5>
 									<input type="hidden" id="groupId" name="groupId">
-									<select id="users">
+									<select id="theUsers" @change="setUser()">
 										<option>==아이디==</option>
 										<option :key="user" :value="user.participantId" v-for="user in users">{{user.participantId}}</option>
 									</select>
@@ -306,6 +306,7 @@
                       teamInfo :[],
                       betPoints : '',
                       chalId : '',
+                      theUser:'',
                   };
               },
               created () {
@@ -336,11 +337,72 @@
 								  break;
 							}
             	  }
-            	  ,setWinner : function(){
-            		  this.winner =  $('#teamChoose').val()
+            	  ,setUser : function(){
+            		  this.theUser =  $('#theUsers').val()
+            		  console.log(this.theUser);
+            		  console.log(this.chalId);
             		  //eq() => 인덱스 요소에 해당되는거 찾기
-            		  this.loser = $('#teamChoose option:not(:selected)').eq(1).val();
-            	  },
+            		  $.ajax({
+			  				url : '/mypage/getInfo4Point',
+			  				method :'POST',
+			  				contentType:'application/json',
+			  				data : JSON.stringify({chalId:chalId, proofWriter : theUser}),
+			  				beforeSend : function(xhr)
+			                {   
+			                xhr.setRequestHeader(header, token);
+			                },
+			            	success:function(result){
+			            		
+			            		console.log(result);
+			  					 let total = Number(result.days);
+			  					let cnt = Number(result.cnt);
+			  					let percent = Math.abs(cnt/total);
+			  					
+			  					let donate = Number(result.user.privateDonate);
+			  					let point = 0;
+			  					if(percent >=0.85){
+			  						point = donate*0.005;
+			  					}else if(percent==1){
+			  						point = donate*0.01;
+			  					}else{
+			  						point == 0;
+			  					}
+			  					let pp = percent*100;
+			  					$('#pp').val(pp);
+			  					$('#privatePoint').text(point);
+			  					//차트 렛츠고//
+				                let oneList = new Array();
+			  					let labelList = new Array();
+			  					let theLabel = proofWriter+ " 평균달성률";
+			  					labelList.push(theLabel);
+				        		oneList.push(pp);
+				        		oneList.push(100-pp);
+				               var thedata = {
+				                        labels: labelList,
+				                        datasets: [{
+				                              backgroundColor: ['#b4a7d6','#eae5e1'],
+				                              data : oneList
+				                        }],
+				                        options : {
+				                              title : {
+				                              display : true,
+				                              text: "달성률"
+				                              }
+				                        }
+				                  }
+				              
+				               var ctx3 = document.getElementById('userChart').getContext('2d');
+				                 new Chart(ctx3, {
+				                          type: 'doughnut',
+				                         data: thedata
+				                 }); 
+
+			  				},
+			  				error : function(error){
+			  					console.log(error);
+			  				}
+            		  })
+            	},
             	  teamPointInput : function(chal,winner,loser){
             		//팀포인튜 정산 
             		//분모 mom - 개별 팀 인원수
