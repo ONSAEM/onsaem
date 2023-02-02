@@ -161,52 +161,14 @@
                                 <li><a href="#">[[${cate.categoryName}]]</a></li>
                             </ul>
 						</div>
-						<div class="blog__sidebar__item">
-							<h4>Recent News</h4>
-							<div class="blog__sidebar__recent">
-								<a href="#" class="blog__sidebar__recent__item">
-									<div class="blog__sidebar__recent__item__pic">
-										<img th:src="@{/shoptemplate/img/blog/sidebar/sr-1.jpg}"
-											alt="">
-									</div>
-									<div class="blog__sidebar__recent__item__text">
-										<h6>
-											09 Kinds Of Vegetables<br /> Protect The Liver
-										</h6>
-										<span>MAR 05, 2019</span>
-									</div>
-								</a> <a href="#" class="blog__sidebar__recent__item">
-									<div class="blog__sidebar__recent__item__pic">
-										<img th:src="@{/shoptemplate/img/blog/sidebar/sr-2.jpg}"
-											alt="">
-									</div>
-									<div class="blog__sidebar__recent__item__text">
-										<h6>
-											Tips You To Balance<br /> Nutrition Meal Day
-										</h6>
-										<span>MAR 05, 2019</span>
-									</div>
-								</a> <a href="#" class="blog__sidebar__recent__item">
-									<div class="blog__sidebar__recent__item__pic">
-										<img th:src="@{/shoptemplate/img/blog/sidebar/sr-3.jpg}"
-											alt="">
-									</div>
-									<div class="blog__sidebar__recent__item__text">
-										<h6>
-											4 Principles Help You Lose <br />Weight With Vegetables
-										</h6>
-										<span>MAR 05, 2019</span>
-									</div>
-								</a>
-							</div>
-						</div>
+						
 					</div>
 				</div>
 				<div class="col-lg-8 col-md-7 order-md-1 order-1"> <!--------------------------신고!!!!! -->
 					<i type="button" class="fa-solid fa-triangle-exclamation openBtn" style="float:right;"
 					th:value1="${blogWrite.writeId}" th:value2="${blogWrite.blogId}">신고하기</i>
-					<button style="float:right;" id="blogUpdate" th:onclick="|location.href='@{/blog/myblog/blogWrite/blogUpdate(bno=${blogWrite.writeId})}'|">수정</button>
-					<button style="float:right;" id="blogDelete" th:value="${blogWrite.writeId}">삭제</button>
+					<button style="float:right;" id="blogUpdate" th:onclick="|location.href='@{/blog/myblog/blogWrite/blogUpdate(bno=${blogWrite.writeId})}'|" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogWrite.blogId}">수정</button>
+					<button style="float:right;" id="blogDelete" th:value="${blogWrite.writeId}" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogWrite.blogId}">삭제</button>
 					<div class="blog__details__text">
 						 [(${blogWrite.blogWrite})]
 					</div>
@@ -215,9 +177,14 @@
 							<div class="col-lg-6">
 								<div class="blog__details__author">
 									<div class="blog__details__author__pic">
-										<img
-											th:src="@{/shoptemplate/img/blog/details/details-author.jpg}"
-											alt="">
+									
+										<img th:if="${blogWrite.fileRoute != null}"
+											th:src="'/fileView/'+${blogWrite.fileRoute}"
+											alt="profile-sample5" class="profile" />
+										<img th:if="${blogWrite.fileRoute == null}"
+											th:src="@{/images/defaulltProfile.png}"
+											alt="profile-sample5" class="profile" />
+										
 									</div>
 									<div class="blog__details__author__text">
 										<h6>[[${blogWrite.nickname}]]</h6>
@@ -266,16 +233,23 @@
                 	<div th:each=" reply : ${replyList}">
                 		<div th:if="${reply.level} == 1">
 		                	<div class="author-comment d-flex mt-3 mb-4">
-                                 <img th:src="@{/images/avatar/studio-portrait-emotional-happy-funny.jpg}"
-                                     class="img-fluid avatar-image" alt="">
+		                			<div class="blog__details__author__pic">
+                                 		<img th:if="${reply.fileRoute != null}"
+											th:src="'/fileView/'+${reply.fileRoute}"
+											alt="profile-sample5" class="profile" />
+										<img th:if="${reply.fileRoute == null}"
+											th:src="@{/images/defaulltProfile.png}"
+											alt="profile-sample5" class="profile" />
+									</div>
 
                                  <div class="author-comment-info ms-3">
                                      <h6 class="mb-1"><span style="font-weight:bold" id="writerIdText">[[${reply.writerId}]]</span> <a th:if="${blogWrite.blogId} == ${reply.writerId}" style="color:#5bc1ac;font-weight:bold;">[작성자🍀]</a> ([[${#dates.format(reply.replyDate, 'YY.MM.DD HH:mm')}]])</h6>
 
-                                     <p class="mb-0">[[${reply.content}]]</p>
+                                     <p class="mb-0" th:if="${reply.publicScope!='private'} or ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogWrite.blogId} or ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${reply.writerId}"> <span th:if="${reply.publicScope == 'private'}"> 🔒 </span> [[${reply.content}]]</p>
+                                     <p class="mb-0" th:unless="${reply.publicScope!='private'} or ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogWrite.blogId} or ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${reply.writerId}"> 🤐 글 작성자와 본인만 볼 수 있는 댓글입니다.</p>
 
                                      <div class="d-flex mt-2">
-                                         <a type="button" class="author-comment-link rereplyBtn">댓글달기</a>
+                                         <a type="button" class="author-comment-link rereplyBtn" sec:authorize="isAuthenticated()">댓글달기</a>
                                           <!-- 대댓글 -->
                                           <form class="custom-form comment-form mt-4 rereplyFrm" role="form" name="rereplyFrm" style="display:none;">
 	                                	<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
@@ -290,8 +264,8 @@
 	                                    <input type="hidden" name="groupId" th:value="${reply.replyId}">
 	                                </form>
                                           <!-- 대댓글 끝 -->
-								<a type="button" class="author-comment-link me-3 reDelBtn" th:value="${reply.replyId}" ><span style="color:red;">삭제</span></a>
-                                         <a type="button" class="author-comment-link me-3 openBtn" id="replyIdVal" th:value1="${reply.replyId}" th:value2="${reply.writerId}"><span style="color:red;">신고</span></a>
+								<a type="button" class="author-comment-link me-3 reDelBtn" th:value="${reply.replyId}" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogWrite.blogId}"><span style="color:red;">삭제</span></a>
+                                         <a type="button" class="author-comment-link me-3 openBtn" id="replyIdVal" th:value1="${reply.replyId}" th:value2="${reply.writerId}" sec:authorize="isAuthenticated()"><span style="color:red;">신고</span></a>
                                      </div>
                                  </div>
 	                     </div>
@@ -300,8 +274,14 @@
                      <div th:unless="${reply.level} == 1">
                      		<div class="rereTemplate">	
                                 <div class="author-comment d-flex ms-5 ps-3">
-                                    <img th:src="@{/images/avatar/pretty-blonde-woman-wearing-white-t-shirt.jpg}"
-                                        class="img-fluid avatar-image" alt="">
+                                		<div class="blog__details__author__pic">
+	                                    	<img th:if="${reply.fileRoute != null}"
+												th:src="'/fileView/'+${reply.fileRoute}"
+												alt="profile-sample5" class="profile" />
+											<img th:if="${reply.fileRoute == null}"
+												th:src="@{/images/defaulltProfile.png}"
+												alt="profile-sample5" class="profile" />
+										</div>
 
                                     <div class="author-comment-info ms-3">
                                         <h6 class="mb-1">
@@ -309,7 +289,8 @@
                                         <a th:if="${blogWrite.blogId} == ${reply.writerId}" style="color:#5bc1ac;font-weight:bold;">[작성자🍀]</a> 
                                         ([[${#dates.format(reply.replyDate, 'YY.MM.DD HH:mm')}]])</h6>
 
-                                        <p class="mb-0">[[${reply.content}]]</p>
+                                        <p class="mb-0" th:if="${reply.publicScope!='private'} or ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogWrite.blogId} or ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${reply.writerId}"> <span th:if="${reply.publicScope == 'private'}"> 🔒 </span> [[${reply.content}]]</p>
+                                     	<p class="mb-0" th:unless="${reply.publicScope!='private'} or ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogWrite.blogId} or ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${reply.writerId}"> 🤐 글 작성자와 본인만 볼 수 있는 댓글입니다.</p>
 
                                         <div class="d-flex mt-2">
                                             <a href="#" class="author-comment-link me-3">신고</a>
@@ -331,9 +312,8 @@
                                         placeholder="온샘은 신고 관리를 철저하게 합니다. 댓글 작성 시, 한번 더 생각해주세요"></textarea>
 
                                     <div class="col-lg-3 col-md-4 col-6 ms-auto">
-<!--                                         <button type="button" id="replyBtn" class="form-control" th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}" disabled>로그인이 필요합니다 <a th:href="@{/loginPage}">login</a></button> -->
-                                        <input type="checkbox" name="publicScope" id="scopeReply" value="public"/> <span style="color:blue;font-weight:bold;">비밀댓글 🔒</span>
-                                        <button type="button" id="replyBtn" class="form-control" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}">등록</button>
+                                        <input type="checkbox" name="publicScope" id="scopeReply" value="public"/> <span style="color:blue;font-weight:bold;" >비밀댓글 🔒</span>
+                                        <button type="button" id="replyBtn" class="form-control" >등록</button>
                                     </div>
                                     <input type="hidden" name="groupId" th:value="${blogWrite.writeId}">
                                 </form>
@@ -557,7 +537,7 @@
 			
 				
 				
-				// 비밀 댓글 만들기 아니 바뀌는데 왜 프라이빗만 들어가냐구여,,,
+				// 
 				$("input[name='publicScope']").on("click", function(){
 					if($(this).is(":checked")){
 						$('#scopeReply').val('private');

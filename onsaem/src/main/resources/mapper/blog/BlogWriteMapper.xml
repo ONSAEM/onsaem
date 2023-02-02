@@ -60,12 +60,18 @@
 		        B.LIKE_NUMBER,
 		        B.WRITE_DATE,
 		        C.CATEGORY_NAME,
-		        M.NICKNAME
+		        M.NICKNAME,
+                F.file_route
 		  FROM  BLOG_WRITES B, 
 		        CATEGORIES C,
-		        MEMBERS M
+		        MEMBERS M,
+                (select * 
+		           from MEDIA
+                  where STATUS = 'true' 
+                    and sub_group='프로필이미지') F
 		 WHERE  B.CATEGORY_ID = C.CATEGORY_ID(+)
            and  B.BLOG_ID = M.MEMBER_ID
+           and  B.blog_id = F.group_id(+)
 		   AND  WRITE_ID = #{writeId}
  	</select>
  	<!-- 블로그 단건 조회 -->

@@ -18,4 +18,5 @@ public class RepliesVO {
 	String publicScope;
 	
 	int level;
+	String fileRoute;
 }
