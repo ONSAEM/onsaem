@@ -1,20 +1,24 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout2}">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout2}">
 
 <!-- Css  -->
 <th:block layout:fragment="css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
+		type="text/css">
 	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/css/myClass.css}" type="text/css">
 </th:block>
 
 <head>
-	<meta charset="UTF-8">
-	<style>
-	</style>
+<meta charset="UTF-8">
+<style>
+</style>
 </head>
 
 <body>
@@ -24,8 +28,7 @@
 			<div class="app-content-actions-wrapper">
 				<div class="filter-button-wrapper">
 					<button class="action-button filter jsFilter">
-						<span>search</span>
-						<i class="fa-solid fa-magnifying-glass"></i>
+						<span>search</span> <i class="fa-solid fa-magnifying-glass"></i>
 					</button>
 					<div class="filter-menu">
 						<label>Category</label> <select>
@@ -49,32 +52,51 @@
 		</div>
 		<div class="products-area-wrapper tableView">
 			<div class="products-header">
-				<div class="product-cell category">
-					예약번호
-				</div>
-				<div class="product-cell image">
-					클래스
-				</div>
-				<div class="product-cell">
-					예약일자
-				</div>
-				<div class="product-cell price">
-					예약상태
-				</div>
+				<div class="product-cell category">예약번호</div>
+				<div class="product-cell image">클래스</div>
+				<div class="product-cell">예약일자</div>
+				<div class="product-cell price">예약상태</div>
 			</div>
-			<div class="products-row" th:each="booking : ${bookingList.bList}" th:id="${booking.bookingId}">
-				<div class="product-cell" th:text="${booking.bookingId}">
-
-				</div>
+			<div class="products-row" th:each="booking : ${bookingList.bList}"
+				th:id="${booking.bookingId}">
+				<div class="product-cell" th:text="${booking.bookingId}"></div>
 				<div class="product-cell">
-					<img th:src="@{'/fileView/'+${booking.bClass.classInfo.media.fileRoute}}" alt="product"> <span
+					<img
+						th:src="@{'/fileView/'+${booking.bClass.classInfo.media.fileRoute}}"
+						alt="product"> <span
 						th:text="${booking.bClass.classInfo.className}"></span>
 				</div>
-				<div class="product-cell" th:text="${#dates.format(booking.bClass.startDate, 'MM월dd일 HH:mm')}">
+				<div class="product-cell"
+					th:text="${#dates.format(booking.bClass.startDate, 'MM월dd일 HH:mm')}">
 
 				</div>
 				<div class="product-cell">
 					<span class="status active" th:text="${booking.status}"></span>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="modifyAns" data-bs-keyboard="false"
+			aria-hidden="true" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered"
+				style="min-width: 1000px">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="btn-close" data-bs-dismiss="modal"
+							aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="modal-wrapper">
+							<div class="title">답변수정</div>
+							<div class="inputfield">
+								<label>답변내용</label>
+								<textarea name="ansContent" class="input"></textarea>
+							</div>
+							<div class="inputfield">
+								<button type="button" class="btn Answer">답변수정</button>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer"></div>
 				</div>
 			</div>
 		</div>
@@ -84,11 +106,11 @@
 			let memberId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}]]";
 
 			document.querySelector(".jsFilter").addEventListener(
-				"click",
-				function () {
-					document.querySelector(".filter-menu").classList
-						.toggle("active");
-				});
+					"click",
+					function() {
+						document.querySelector(".filter-menu").classList
+								.toggle("active");
+					});
 		</script>
 
 		<!-- JS -->
