@@ -53,7 +53,20 @@
 	<update id="updateAnswer" parameterType="QuestionVO">
 		UPDATE QUESTIONS
 		SET ANS_CONTENT = #{ansContent},
-		ANS_DATE = CURRENT_DATE 
+		ANS_DATE = CURRENT_DATE
 		WHERE QUE_ID = #{queId}
 	</update>
+	
+	<select id="getMyQuestionList" resultType="QuestionVO"
+		parameterType="QuestionVO">
+		SELECT * FROM ( SELECT ROWNUM RN, A.* FROM (
+		SELECT *
+		FROM QUESTIONS
+		WHERE
+		WRITER_ID = #{writerId}
+		ORDER BY QUE_DATE DESC
+			<![CDATA[
+				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
+			]]>
+		</select>
 </mapper>

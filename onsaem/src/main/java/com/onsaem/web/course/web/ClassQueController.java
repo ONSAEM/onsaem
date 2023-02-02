@@ -71,7 +71,7 @@ public class ClassQueController {
 		QuestionVO vo = new QuestionVO();
 		vo.setWriterId(userDetails.getUsername());
 		Paging paging = new Paging();
-		model.addAttribute("question", classQueService.getQuestionList(vo, paging));
+		model.addAttribute("question", classQueService.getMyQuestionList(vo, paging));
 		return "content/course/myQue";
 	}
 
