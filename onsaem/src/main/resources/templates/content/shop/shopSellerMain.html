@@ -62,11 +62,50 @@ h1 {
 	rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
+<script src="https://kit.fontawesome.com/8ae463e53a.js"
+	crossorigin="anonymous"></script>
 </head>
 <body>
 	<div layout:fragment="content" class="app-content" id="app">
-		<div class="app-content-header">
+		<div class="app-content-header" v-for="count in counts">
 			<h1 class="app-content-headerText">Products</h1>
+			<br> <br>
+			<h2 class="app-content-headerText"
+				style="margin-left: 20px; display: inline-block">
+				<i class="fa-solid fa-house" style="text-align: center"
+					@click="allSell()"><h5>전체 {{count.productAll}}건</h5></i>
+			</h2>
+			<h2 class="app-content-headerText"
+				style="margin-left: 20px; display: inline-block">
+				<i class="fa-solid fa-hourglass-start" style="text-align: center"
+					@click="waitSell()"><h5>판매대기 {{count.waitSellProduct}}건</h5></i>
+			</h2>
+			<h2 class="app-content-headerText"
+				style="margin-left: 20px; display: inline-block">
+				<i class="fa-solid fa-cart-shopping" style="text-align: center"
+					@click="selling()"><h5>판매중 {{count.sellingProduct}}건</h5></i>
+			</h2>
+			<h2 class="app-content-headerText"
+				style="margin-left: 20px; display: inline-block">
+				<i class="fa-solid fa-circle-stop" style="text-align: center"
+					@click="endSell()"><h5>품절 {{count.endProduct}}건</h5></i>
+			</h2>
+			<br>
+			<h2 class="app-content-headerText"
+				style="margin-left: 20px; display: inline-block">
+				<i class="fa-solid fa-circle-pause" style="text-align: center"
+					@click="wait()"><h5>승인대기 {{count.waitProduct}}건</h5></i>
+			</h2>
+			<h2 class="app-content-headerText"
+				style="margin-left: 20px; display: inline-block">
+				<i class="fa-sharp fa-solid fa-hand" style="text-align: center"
+					@click="stopSell()"><h5>판매중지 {{count.stopProduct}}건</h5></i>
+			</h2>
+			<h2 class="app-content-headerText"
+				style="margin-left: 20px; display: inline-block">
+				<i class="fa-solid fa-circle-xmark" style="text-align: center"
+					@click="banSell()"><h5>판매정지 {{count.banProduct}}건</h5></i>
+			</h2>
 			<button class="mode-switch" title="Switch Theme">
 				<svg class="moon" fill="none" stroke="currentColor"
 					stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -78,7 +117,8 @@ h1 {
 			<button class="app-content-headerButton">Add Product</button>
 		</div>
 		<div class="app-content-actions">
-			<input class="search-bar" placeholder="Search..." type="text">
+			<input class="search-bar" placeholder="Search..." type="text"
+				id="search" @change="submitBtn()">
 			<div class="app-content-actions-wrapper">
 				<div class="filter-button-wrapper">
 					<button class="action-button filter jsFilter">
@@ -90,26 +130,10 @@ h1 {
 							<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" /></svg>
 					</button>
 					<div class="filter-menu">
-						<label>전체</label> <select name="role" id=role>
-							<option>선택</option>
-							<option>상품명</option>
-							<option>상품번호</option>
-						</select> <label>정렬</label> <select name="status" id=status>
-							<option>선택</option>
-							<option>재고별</option>
-							<option>품목별</option>
-						</select> <label>판매상태</label> <select name="status" id=status>
-							<option>선택</option>
-							<option>판매대기</option>
-							<option>판매중</option>
-							<option>품절</option>
-							<option>승인대기</option>
-							<option>판매중지</option>
-							<option>판매정지</option>
-						</select> <label for="white"> 시작 <input id="startDate" type="date">
+						<label for="white"> 시작 <input id="startDate" type="date">
 						</label> <label for="gray"> 종료 <input id="endDate" type="date">
 							<div class="filter-menu-buttons">
-								<button class="filter-button reset">Reset</button>
+								<button class="filter-button reset" onclick="location.reload()">Reset</button>
 								<button class="filter-button apply" @click="apply()">Apply</button>
 							</div>
 					</div>
@@ -240,7 +264,8 @@ h1 {
 					<div class="product-cell status-cell">{{product.price}}</div>
 					<div class="product-cell status-cell">{{product.amount}}</div>
 					<div class="product-cell sales">
-						<input type="checkbox">
+						<input type="checkbox" id="check"
+							@click="endProduct(product.productId)">
 					</div>
 					<div class="product-cell stock">{{product.registerDate}}</div>
 					<div class="product-cell price">
@@ -273,13 +298,230 @@ h1 {
 		 const app = Vue.createApp({
 		        data() {
 		            return {	
-		            	products:[]
+		            	products:[],
+		            	counts:[]		            	
 		            };
 		        },
 		        created() {
 					this.productList();
+					this.countList();
 		        },
 		        methods: {
+		        	//날짜조회
+		        	apply:function(){
+		        		let is=this;
+		        		console.log( $("#startDate").val())
+		        		console.log( $("#endDate").val())
+		        		$.ajax({
+	        				type : 'post', 
+	        				url : '/shop/dateProduct',	        				
+	        				beforeSend : function(xhr)
+	        	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	        	               xhr.setRequestHeader(header, token);
+	        	               },
+	        				data : {  
+	        				      "startDate" : $("#startDate").val(),
+	        				      "endDate" : $("#endDate").val()
+	        				    },
+	        				success : function(result) {					
+	        							is.products=result;
+	        				},
+	        				error : function(error) { 
+	        					console.log(error)
+	        				}
+	        			})     
+		        		
+		        	},
+		        	//검색조회
+		        	submitBtn:function () {	        	
+		        		let is=this;
+		        			$.ajax({
+		        				type : 'post', 
+		        				url : '/arrayProductAll', 				
+		        				headers : { 
+		        					"Content-Type" : "application/json"					
+		        				},
+		        				beforeSend : function(xhr)
+		        	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+		        	               xhr.setRequestHeader(header, token);
+		        	               },
+		        				data : JSON.stringify({  
+		        				      "productId" : $("#search").val(),
+		        				      "productName" : $("#search").val()
+		        				    }),
+		        				success : function(result) {					
+		        							is.products=result;
+		        				},
+		        				error : function(error) { 
+		        					console.log(error)
+		        				}
+		        			})        		  
+		        	},
+		        	//판매자수량
+		        	 countList: function() {
+		        		 let is=this;
+		        		$.ajax({
+		        			type : 'get', 
+		        			url : '/shop/countList', 				
+		        			headers : { 
+		        				"Content-Type" : "application/json"					
+		        			},				
+		        			success : function(result) {					
+		        				is.counts=result			
+		        			},
+		        			error : function(error) { 
+		        				console.log(error)
+		        			}
+		        		})
+		        	},
+		        	//판매정지
+		        	 banSell: function() {
+		        		 let is=this;
+		        		$.ajax({
+		        			type : 'get', 
+		        			url : '/banSell', 				
+		        			headers : { 
+		        				"Content-Type" : "application/json"					
+		        			},				
+		        			success : function(result) {					
+		        				is.products=result			
+		        			},
+		        			error : function(error) { 
+		        				console.log(error)
+		        			}
+		        		})
+		        	},
+		        	//판매중지
+		        	stopSell:function () {	
+		        		 let is=this;
+		        		$.ajax({
+		        			type : 'get', 
+		        			url : '/stopSell', 				
+		        			headers : { 
+		        				"Content-Type" : "application/json"					
+		        			},				
+		        			success : function(result) {					
+		        				is.products=result				
+		        			},
+		        			error : function(error) { 
+		        				console.log(error)
+		        			}
+		        		})
+		        	},
+		        	//품절
+		        	endSell:function () {	
+		        		 let is=this;
+		        		$.ajax({
+		        			type : 'get', 
+		        			url : '/endSell', 				
+		        			headers : { 
+		        				"Content-Type" : "application/json"					
+		        			},				
+		        			success : function(result) {					
+		        				is.products=result				
+		        			},
+		        			error : function(error) { 
+		        				console.log(error)
+		        			}
+		        		})
+		        	},
+		        	//판매중
+		        	selling:function () {
+		        		 let is=this;
+		        		$.ajax({
+		        			type : 'get', 
+		        			url : '/selling', 				
+		        			headers : { 
+		        				"Content-Type" : "application/json"					
+		        			},				
+		        			success : function(result) {					
+		        				is.products=result				
+		        			},
+		        			error : function(error) { 
+		        				console.log(error)
+		        			}
+		        		})
+		        	},
+		        	//판매대기버튼
+		        	waitSell:function () {	
+		        		 let is=this;
+		        		$.ajax({
+		        			type : 'get', 
+		        			url : '/waitSell', 				
+		        			headers : { 
+		        				"Content-Type" : "application/json"					
+		        			},				
+		        			success : function(result) {					
+		        				is.products=result			
+		        			},
+		        			error : function(error) { 
+		        				console.log(error)
+		        			}
+		        		})
+		        	},
+		        	//전체 상품 버튼
+		        	allSell:function () {
+		        		 let is=this;
+		        		$.ajax({
+		        			type : 'get', 
+		        			url : '/sellerAllProduct', 				
+		        			headers : { 
+		        				"Content-Type" : "application/json"					
+		        			},				
+		        			success : function(result) {					
+		        				is.products=result
+		        									
+		        			},
+		        			error : function(error) { 
+		        				console.log(error)
+		        			}
+		        		})
+		        	},
+		        	//승인대기 상품 버튼
+		        	wait:function () {
+		        		 let is=this;
+		        			$.ajax({
+		        				type : 'get', 
+		        				url : '/waitProduct', 				
+		        				headers : { 
+		        					"Content-Type" : "application/json"					
+		        				},				
+		        				success : function(result) {					
+		        					is.products=result
+		        								
+		        				},
+		        				error : function(error) { 
+		        					console.log(error)
+		        				}
+		        			})
+		        		},		        	
+		        	      	
+		        	//품절체크박스
+		        	endProduct:function(data2){		        		
+		        		if($('#check').prop('checked',true)){			
+		        			$.ajax({
+		        				type : 'post', 
+		        				url : '/endProduct', 				
+		        				headers : { 
+		        					"Content-Type" : "application/json"					
+		        				},
+		        				beforeSend : function(xhr)
+		        	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+		        	               xhr.setRequestHeader(header, token);
+		        	               },
+		        				data : JSON.stringify({  
+		        				      "productId" : data2				      
+		        				    }),
+		        				success : function(result) {					
+		        					alert("품절처리 되었습니다.")	
+		        					location.reload();		        					
+		        				},
+		        				error : function(error) { 
+		        					console.log(error)
+		        				}
+		        			})
+		        		}		
+		        	},
 		        	//판매상태별리스트
 		        	status:function(){
 		        		let is=this;
@@ -346,7 +588,8 @@ h1 {
 					            {
 					            	xhr.setRequestHeader(header, token);
 					            },
-								success : function(result) {								
+								success : function(result) {	
+									console.log(result)
 									is.products=result
 								},
 								error : function(error) { 

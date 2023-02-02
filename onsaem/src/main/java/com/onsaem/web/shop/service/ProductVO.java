@@ -48,6 +48,7 @@ public class ProductVO {
 	Integer waitProduct;
 	Integer stopProduct;
 	Integer banProduct;
+	Integer productAll;
 
 	String session1;
 	String session2;

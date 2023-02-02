@@ -95,9 +95,9 @@ public class SellerServiceImpl implements SellerService {
 	}
 
 	@Override
-	public List<ProductVO> dateProduct(ProductVO vo) {
+	public List<ProductVO> dateProduct(ProductVO vo,String startDate,String endDate) {
 		// 날짜별 조회
-		return sellMapper.dateProduct(vo);
+		return sellMapper.dateProduct(vo,startDate,endDate);
 	}
 
 	@Override
