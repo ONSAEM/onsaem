@@ -81,9 +81,17 @@ public class SellerController {
 	}
 
 	// 판매자 리뷰페이지이동
-	@RequestMapping(value = "shop/shopSellerReview", method = RequestMethod.GET)
+	@RequestMapping(value = "/shop/shopSellerReview", method = RequestMethod.GET)
 	public String shopSellerReview() {
 		return "content/shop/shopSellerReview";
+	}
+
+	// 판매자 리뷰리스트 가져오기
+	@RequestMapping(value = "/shop/sellerReviewList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ReviewVO> sellerReviewList(Authentication authentication, Model model) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return sellService.sellerReview(userDetails.getUsername());
 	}
 
 	// 판매자 교환/환불페이지이동
@@ -141,13 +149,19 @@ public class SellerController {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		vo.setMemberId(userDetails.getUsername());
 		return proService.sellerList(vo);
-	}
+	}	
 
 	// 상품등록페이지로 이동
-	@RequestMapping(value = "/addProductPage", method = RequestMethod.GET)
-	public String addProductPage(Model model) {
-		model.addAttribute("categoryList", proService.categoryList());
-		return "content/shop/addProduct";
+	@RequestMapping(value = "/shop/shopAddProduct", method = RequestMethod.GET)
+	public String shopAddProduct() {
+		return "content/shop/shopAddProduct";
+	}
+	
+	// 카테고리 리스트 가져오기
+	@RequestMapping(value = "/shop/categoryList", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ProductVO> categoryList() {		
+		return proService.categoryList();
 	}
 
 	// 승인대기품목

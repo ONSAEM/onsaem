@@ -51,7 +51,7 @@ public class ProductController {
 	CartVO cartVo = new CartVO();
 	LikeVO likeVo = new LikeVO();
 	ProductVO proVo = new ProductVO();
-	
+
 	// 뷰테스트
 	@RequestMapping(value = "/shop/test", method = RequestMethod.GET)
 	public String vueTest(Model model) {
@@ -62,14 +62,14 @@ public class ProductController {
 	// 리뷰작성가능여부
 	@RequestMapping(value = "/shop/compareReview", method = RequestMethod.POST)
 	@ResponseBody
-	public String compareReview(Authentication authentication,OrderVO vo) {
+	public String compareReview(Authentication authentication, OrderVO vo) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		vo.setMemberId(userDetails.getUsername());		
-		if((proService.compareReview(vo)).isEmpty() ) {
+		vo.setMemberId(userDetails.getUsername());
+		if ((proService.compareReview(vo)).isEmpty()) {
 			return "불가능";
-		}else {
+		} else {
 			return "가능";
-		}		
+		}
 	}
 
 	// 주간베스트 데이터 가져오기
@@ -115,11 +115,18 @@ public class ProductController {
 	@RequestMapping(value = "/shopDetail", method = RequestMethod.GET)
 	public String shopSelect(Model model, @RequestParam(value = "data", required = false) String data) {
 		model.addAttribute("productList", proService.selectPro(data));// 상품데이터가져오기
-		model.addAttribute("imgList", proService.addImg(data));// 추가이미지가져오기		
+		model.addAttribute("imgList", proService.addImg(data));// 추가이미지가져오기
 		model.addAttribute("natureImg", proService.natureImg(data));// 친환경이미지가져오기
 		model.addAttribute("reviewList", proService.reviewList(data));// 상품리뷰리스트가져오기
 		model.addAttribute("optionList", proService.optionList(data));// 옵션가져오기
 		return "content/shop/shopDetail";
+	}
+
+	// 리뷰갯수가져오기
+	@RequestMapping(value = "/shop/totalReview", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ReviewVO> totalReview(ReviewVO vo) {		
+		return proService.totalReview(vo);
 	}
 
 	// 결제페이지이동
@@ -218,7 +225,7 @@ public class ProductController {
 		mvo.setSubGroup("친환경인증증서");
 		mediaService.uploadMedia(natureFile, mvo);
 
-		return "redirect:/addProductPage";
+		return "redirect:/shop/shopAddProduct";
 	}
 
 	// 상품신고
@@ -256,7 +263,7 @@ public class ProductController {
 	// 리뷰작성
 	@RequestMapping(value = "/addReview", method = RequestMethod.POST)
 	@ResponseBody
-	public int addReview(Model model, @RequestBody ReviewVO vo, Authentication authentication) {		
+	public int addReview(Model model, @RequestBody ReviewVO vo, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		vo.setWriterId(userDetails.getUsername());
 		proService.reviewPoint(userDetails.getUsername());// 리뷰포인트 적립

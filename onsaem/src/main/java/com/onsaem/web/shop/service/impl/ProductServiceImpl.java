@@ -204,6 +204,12 @@ public class ProductServiceImpl implements ProductService{
 		return proMapper.compareReview(vo);
 	}
 
+	@Override
+	public List<ReviewVO> totalReview(ReviewVO vo) {
+		// 리뷰 총 갯수
+		return proMapper.totalReview(vo);
+	}
+
 	
 	
 }

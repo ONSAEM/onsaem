@@ -131,7 +131,7 @@ h1 {
 									th:each="num:${#numbers.sequence(1,product.star)}"></i> <i
 									class="fa-solid fa-star-half" th:if="${product.star%1 >= 0.5}"></i>
 							</div>
-							<span th:text="'('+${#lists.size(reviewList)}+' reviews)'">(18
+							<span id="totalReview2">(18
 								reviews)</span><br>
 							<button class="openBtn" sec:authorize="isAuthenticated()">신고하기</button>
 							<button sec:authorize="isAnonymous()" onclick="noLogin()">신고하기</button>
@@ -184,7 +184,7 @@ h1 {
 								href="#tabs-4" role="tab" aria-selected="false">구매안내 </a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
 								href="#tabs-2" role="tab" aria-selected="false">상품후기<span
-									th:text="'('+${#lists.size(reviewList)}+')'">(1)</span></a></li>
+									id="totalReview">(1)</span></a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
 								href="#tabs-3" role="tab" aria-selected="false">상품문의 </a></li>
 
@@ -400,7 +400,30 @@ h1 {
 		<script type="text/javascript">		
 		//csrf설정
 		 var token = $("meta[name='_csrf']").attr("content");
-		 var header = $("meta[name='_csrf_header']").attr("content");		
+		 var header = $("meta[name='_csrf_header']").attr("content");		 
+		
+		 //리뷰갯수 가져오기
+		  window.onload=function(){	
+			 productId="[[${param.data}]]";			  
+			 $.ajax({
+					type : 'get', 
+					url : '/shop/totalReview', 										
+					beforeSend : function(xhr)
+		            {
+		            	xhr.setRequestHeader(header, token);
+		            },
+		            data:{
+		            	"groupId":productId
+		            },
+					success : function(result) {					
+						$("#totalReview").text('('+result[0].groups+')');
+						$("#totalReview2").text('('+result[0].groups+' reviews)');
+					},
+					error : function(error) { 
+						console.log(error)
+					}
+				}) 
+		 } 
 		 
 		 //구매한 상품 리뷰작성
 		 function reviewWrite(){			

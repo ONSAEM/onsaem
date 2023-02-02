@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/sellerLayout}">
+
+
+<meta charset="UTF-8">
+<meta name="description" content="Ogani Template">
+<meta name="keywords" content="Ogani, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Ogani | Template</title>
+
+
+<!-- Google Font -->
+<link
+	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
+	rel="stylesheet">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
+		type="text/css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+		rel="stylesheet">
+</th:block>
+
+<head>
+
+<style type="text/css">
+.wrapper {
+	max-width: 900px;
+	width: 100%;
+	background: #fff;
+	margin: 50px auto;
+	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.125);
+	padding: 30px;
+}
+
+.wrapper .title {
+	font-size: 24px;
+	font-weight: 700;
+	margin-bottom: 25px;
+	color: #5bc1ac;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.wrapper .form {
+	width: 100%;
+}
+
+.wrapper .form .inputfield {
+	margin-bottom: 15px;
+	display: flex;
+	align-items: center;
+}
+
+.wrapper .form .inputfield label {
+	width: 20%;
+	color: #757575;
+	font-size: 14px;
+}
+
+.wrapper .form .inputfield .request {
+	color: red;
+	font-size: 20px;
+}
+
+.wrapper .form .inputfield .input, .wrapper .form .inputfield .textarea
+	{
+	width: 50%;
+	outline: none;
+	border: 1px solid #d5dbd9;
+	font-size: 15px;
+	padding: 8px 10px;
+	border-radius: 3px;
+	transition: all 0.3s ease;
+}
+
+.wrapper .form .inputfield .textarea {
+	width: 100%;
+	height: 125px;
+	resize: none;
+}
+
+.wrapper .form .inputfield .custom_select {
+	position: relative;
+	height: 37px;
+}
+
+.wrapper .form .inputfield .custom_select:before {
+	content: "";
+	position: absolute;
+	top: 12px;
+	right: 10px;
+	border: 8px solid;
+	border-color: #d5dbd9 transparent transparent transparent;
+	pointer-events: none;
+}
+
+.wrapper .form .inputfield .custom_select select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	outline: none;
+	width: 100%;
+	height: 100%;
+	border: 0px;
+	padding: 8px 10px;
+	font-size: 15px;
+	border: 1px solid #d5dbd9;
+	border-radius: 3px;
+}
+
+.wrapper .form .emailCk {
+	display: none;
+}
+
+.wrapper .form .inputfield .input:focus, .wrapper .form .inputfield .textarea:focus,
+	.wrapper .form .inputfield .custom_select select:focus {
+	border: 1px solid #fec107;
+}
+
+.wrapper .form .inputfield p {
+	font-size: 14px;
+	color: #757575;
+}
+
+.wrapper .form .inputfield .check {
+	width: 15px;
+	height: 15px;
+	position: relative;
+	display: block;
+	cursor: pointer;
+}
+
+.wrapper .form .inputfield .check input[type="checkbox"] {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+}
+
+.wrapper .form .inputfield .check .checkmark {
+	width: 15px;
+	height: 15px;
+	border: 1px solid #5bc1ac;
+	display: block;
+	position: relative;
+}
+
+.wrapper .form .inputfield .check .checkmark:before {
+	content: "";
+	position: absolute;
+	top: 1px;
+	left: 2px;
+	width: 5px;
+	height: 2px;
+	border: 2px solid;
+	border-color: transparent transparent #fff #fff;
+	transform: rotate(-45deg);
+	display: none;
+}
+
+.wrapper .form .inputfield .check input[type="checkbox"]:checked ~
+	.checkmark {
+	background: #5bc1ac;
+}
+
+.wrapper .form .inputfield .check input[type="checkbox"]:checked ~
+	.checkmark:before {
+	display: block;
+}
+
+.wrapper .form .inputfield .btn, .wrapper .form .inputfield  .checkBtn {
+	margin: 0px auto;
+	padding: 8px 10px;
+	font-size: 15px;
+	border: 0px;
+	background: #5bc1ac;
+	color: #fff;
+	cursor: pointer;
+	border-radius: 3px;
+	outline: none;
+}
+
+.wrapper .form .inputfield .btn {
+	width: 100%;
+}
+
+.form .inputfield .checkBtn {
+	width: 20%;
+}
+
+.wrapper .form .inputfield .btn:hover, .wrapper .form .inputfield  .checkBtn:hover
+	{
+	background: #42a18d;
+}
+
+.wrapper .form .inputfield:last-child {
+	margin-bottom: 0;
+}
+
+@media ( max-width :420px) {
+	.wrapper .form .inputfield {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.wrapper .form .inputfield label {
+		margin-bottom: 5px;
+	}
+	.wrapper .form .inputfield.terms {
+		flex-direction: row;
+	}
+}
+
+.filebox {
+	margin-bottom: 15px;
+	display: flex;
+	align-items: center;
+}
+
+.filebox .inputfile {
+	width: 50%;
+	outline: none;
+	border: 1px solid #d5dbd9;
+	font-size: 15px;
+	padding: 8px 10px;
+	border-radius: 3px;
+	transition: all 0.3s ease;
+	cursor: default;
+}
+
+.inputfield #preview-image {
+	width: 300px;
+	height: 300px;
+	margin: 0px auto;
+}
+
+.filebox .filelabel {
+	width: 20%;
+	margin: 0px auto;
+	padding: 8px 10px;
+	font-size: 15px;
+	border: 0px;
+	background: #5bc1ac;
+	color: #fff;
+	cursor: pointer;
+	border-radius: 3px;
+	outline: none;
+	text-align: center;
+}
+
+.filebox .filelabel:hover {
+	background: #42a18d;
+}
+
+.filebox #file {
+	position: absolute;
+	width: 0;
+	height: 0;
+	padding: 0;
+	overflow: hidden;
+	border: 0;
+}
+
+.naturefile {
+	width: 50%;
+	outline: none;
+	border: 1px solid #d5dbd9;
+	font-size: 15px;
+	padding: 8px 10px;
+	border-radius: 3px;
+	transition: all 0.3s ease;
+	cursor: default;
+}
+
+.addfile {
+	width: 50%;
+	outline: none;
+	border: 1px solid #d5dbd9;
+	font-size: 15px;
+	padding: 8px 10px;
+	border-radius: 3px;
+	transition: all 0.3s ease;
+	cursor: default;
+}
+
+#addfile {
+	position: absolute;
+	width: 0;
+	height: 0;
+	padding: 0;
+	overflow: hidden;
+	border: 0;;
+}
+
+.filebox #naturefile {
+	position: absolute;
+	width: 0;
+	height: 0;
+	padding: 0;
+	overflow: hidden;
+	border: 0;
+}
+
+button {
+	all: unset;
+	background-color: mediumslateblue;
+	color: white;
+	padding: 5px 25px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.btn {
+	margin-top: 60px;
+}
+
+.modal {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.modal__background {
+	background-color: rgba(0, 0, 0, 0.6);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
+.modal__content {
+	text-align: center;
+	position: relative;
+	background-color: white;
+	border-radius: 10px;
+	top: 0;
+	padding: 10px 25px;
+}
+
+h1 {
+	margin: 0;
+	margin-bottom: 13px;
+}
+
+.hidden {
+	display: none;
+}
+
+.aks-file-upload-label {
+	width: 100%;
+}
+
+#aks-file-upload {
+	width: 400px;
+	display: block;
+	margin: 0 auto;
+	margin-top: 4rem;
+}
+
+#uploadfile {
+	margin: 0 auto;
+	color: #002c7b;
+	line-height: 1.5;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+}
+</style>
+
+<link type="text/css" rel="stylesheet"
+	th:href="@{https://cdn.jsdelivr.net/npm/aksfileupload@1.0.0/dist/aksFileUpload.min.css}">
+<script th:src="@{/js/fileupload.js}"></script>
+</head>
+<!-- Content -->
+
+
+<div layout:fragment="content" class="app-content" id="app">
+	<div class="app-content-header">
+		<h1 class="app-content-headerText">Products</h1>
+		<button class="mode-switch" title="Switch Theme">
+			<svg class="moon" fill="none" stroke="currentColor"
+				stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+				width="24" height="24" viewBox="0 0 24 24">
+					<defs></defs>
+					<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+				</svg>
+		</button>
+		<button class="app-content-headerButton" style="display: none">Add
+			Product</button>
+	</div>
+	<div class="app-content-actions" style="display: none">
+
+		<input class="search-bar" placeholder="Search..." type="text">
+		<div class="app-content-actions-wrapper">
+			<div class="filter-button-wrapper">
+				<button class="action-button filter jsFilter">
+					<span>Filter</span>
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+						viewBox="0 0 24 24" fill="none" stroke="currentColor"
+						stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+						class="feather feather-filter">
+							<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+						</svg>
+				</button>
+				<div class="filter-menu">
+					<label>Category</label> <select>
+						<option>All Categories</option>
+						<option>Furniture</option>
+						<option>Decoration</option>
+						<option>Kitchen</option>
+						<option>Bathroom</option>
+					</select> <label>Status</label> <select>
+						<option>All Status</option>
+						<option>Active</option>
+						<option>Disabled</option>
+					</select>
+					<div class="filter-menu-buttons">
+						<button class="filter-button reset">Reset</button>
+						<button class="filter-button apply">Apply</button>
+					</div>
+				</div>
+			</div>
+			<button class="action-button list active" title="List View">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+					viewBox="0 0 24 24" fill="none" stroke="currentColor"
+					stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+					class="feather feather-list">
+						<line x1="8" y1="6" x2="21" y2="6" />
+						<line x1="8" y1="12" x2="21" y2="12" />
+						<line x1="8" y1="18" x2="21" y2="18" />
+						<line x1="3" y1="6" x2="3.01" y2="6" />
+						<line x1="3" y1="12" x2="3.01" y2="12" />
+						<line x1="3" y1="18" x2="3.01" y2="18" />
+					</svg>
+			</button>
+			<button class="action-button grid" title="Grid View">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+					viewBox="0 0 24 24" fill="none" stroke="currentColor"
+					stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+					class="feather feather-grid">
+						<rect x="3" y="3" width="7" height="7" />
+						<rect x="14" y="3" width="7" height="7" />
+						<rect x="14" y="14" width="7" height="7" />
+						<rect x="3" y="14" width="7" height="7" />
+					</svg>
+			</button>
+		</div>
+	</div>
+	<div class="products-area-wrapper tableView">
+		<form method="post" action="/addProduct" name="uploadForm"
+			enctype="multipart/form-data">
+			<input type="hidden" id="token" th:name="${_csrf.parameterName}"
+				th:value="${_csrf.token}" />
+			<div class="wrapper">
+				<div class="form">
+					<div class="inputfield">
+						<img id="preview-image"
+							src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
+					</div>
+					<div class="imgFile">
+						<div class="filebox">
+							<label style="width: 10%;" class="filelabel" onclick="addPart()">+
+							</label> <input class="inputfile" placeholder="상품이미지" readonly> <label
+								for="file" class="filelabel">사진등록</label> <input type="file"
+								id="file" name="uploadFile">
+						</div>
+					</div>
+					<div class="inputfield">
+						<label>상품명<span class="request">*</span></label> <input
+							type="text" name="productName" class="input">
+					</div>
+					<div class="inputfield">
+						<label>상품설명<span class="request">*</span></label> <input
+							type="text" name="productDetail" class="input">
+					</div>
+					<div class="inputfield">
+						<label>판매가<span class="request">*</span></label> <input
+							type="text" name="price" class="input">
+					</div>
+
+					<div class="inputfield">
+						<label>재고량<span class="request">*</span></label> <input
+							type="text" name="amount" placeholder="500" class="input">
+					</div>
+					<div class="inputfield">
+						<label>카테고리<span class="request">*</span></label>
+						<div class="custom_select">
+							<select name="category" id="category">
+								<option value="">::카테고리::</option>
+							</select>
+						</div>
+					</div>
+					<div class="options">
+						<div class="inputfield">
+							<label>옵션<span class="request">*</span></label> <input
+								type="text" class="input" name="optionContent"><input
+								type="button" value="+" class="checkBtn" onclick="addOption()">
+						</div>
+					</div>
+					<br>
+					<div class="inputfield">
+						<label>반송주소<span class="request">*</span></label> <input
+							type="text" id="sample6_postcode" class="input" name="sellerAddr"><input
+							type="button" onclick="sample6_execDaumPostcode()" value="주소검색"
+							class="checkBtn">
+					</div>
+					<div class="inputfield">
+						<label>주소<span class="request">*</span></label> <input type="text"
+							id="sample6_address" class="input" name="sellerAddr">
+					</div>
+					<div class="inputfield">
+						<label>상세주소</label> <input type="text" id="sample6_detailAddress"
+							class="input" name="sellerAddr">
+					</div>
+					<div class="inputfield">
+						<label>배송비<span class="request">*</span></label> <input
+							type="text" class="input" name="deliveryFee">
+					</div>
+					<div class="inputfield">
+						<label>상품상세내용<span class="request">*</span></label> <input
+							type="text" class="input" name="productInfo">
+					</div>
+					<div class="filebox">
+						<label style="width: 20%;"></label> <input class="naturefile"
+							placeholder="친환경인증증서" readonly> <label for="naturefile"
+							class="filelabel">사진등록</label> <input type="file" id="naturefile"
+							name="natureFile">
+					</div>
+					<div class="inputfield">
+						<input type="submit" value="등록신청" class="btn"
+							style="background-color: #66C;" onclick="submitProduct()"><input
+							type="reset" value="취소" class="btn">
+					</div>
+					<div class="inputfield">
+						<label>인증사진<span class="request">*</span></label>
+						<p>*상품 또는 사업장 사진을 최소 5장 최대 10장내로 등록해주세요</p>
+					</div>
+					<div class="inputfiles">
+						<input name="applyFile" type="file"
+							accept=".gif, .jpg, .png, .bmp" style="display: none;">
+						<div id="aks-file-upload"></div>
+					</div>
+				</div>
+			</div>
+
+		</form>
+
+	</div>
+
+
+	<script type="text/javascript">
+				document.querySelector(".jsFilter").addEventListener(
+					"click",
+					function () {
+						document.querySelector(".filter-menu").classList
+							.toggle("active");
+					});
+
+				document
+					.querySelector(".grid")
+					.addEventListener(
+						"click",
+						function () {
+							document.querySelector(".list").classList
+								.remove("active");
+							document.querySelector(".grid").classList
+								.add("active");
+							document
+								.querySelector(".products-area-wrapper").classList
+								.add("gridView");
+							document
+								.querySelector(".products-area-wrapper").classList
+								.remove("tableView");
+						});
+
+				document
+					.querySelector(".list")
+					.addEventListener(
+						"click",
+						function () {
+							document.querySelector(".list").classList
+								.add("active");
+							document.querySelector(".grid").classList
+								.remove("active");
+							document
+								.querySelector(".products-area-wrapper").classList
+								.remove("gridView");
+							document
+								.querySelector(".products-area-wrapper").classList
+								.add("tableView");
+						});
+
+				var modeSwitch = document.querySelector('.mode-switch');
+				modeSwitch.addEventListener('click', function () {
+					document.documentElement.classList.toggle('light');
+					modeSwitch.classList.toggle('active');
+				});
+			</script>
+	<!-- JS -->
+	<th:block layout:fragment="script">
+	</th:block>
+
+
+
+
+	<input type="hidden" id="sample6_postcode" placeholder="우편번호"
+		name="postalCode"> <input type="hidden"
+		onclick="sample6_execDaumPostcode()" value="우편번호 찾기"> <br>
+	<input type="hidden" id="sample6_address" placeholder="주소" name="addr">
+	<br> <input type="hidden" id="sample6_extraAddress"
+		placeholder="참고항목"> <input type="hidden"
+		id="sample6_detailAddress" placeholder="상세주소" name="detailAddr">
+
+	<th:block layout:fragment="script">
+		<script th:src="@{/shoptemplate/js/main.js}"></script>
+	</th:block>
+
+	<script type="text/javascript">	
+	let applyFileList = [];
+	$("#aks-file-upload").aksFileUpload({
+		fileUpload: "#uploadfile", // With target [input]file or [type]json you can save the data of loaded items
+		fileType: ["pdf", "docx", "rtf", "jpg", "jpeg", "png"], // allowed file formats
+		dragDrop: true, // drag & drop upload
+		maxSize: "90 GB", // maximum uploaded file size
+		multiple: true, // multiple file upload
+		maxFile: 10, // maximum number of uploaded files
+		maxFileError: "10개를 넘길 수 없습니다", // error text
+		maxSizeError: "File exceeds size. - Max limit:", // error text
+		fileTypeError: "Disallowed file format.", // error text
+		label: "클릭하거나 파일을 올려주세요" // label text
+	});
+
+	//이미지목록에서 삭제하면 input file도 삭제
+	function delfileList(fileName) {
+		for (let i = 0; i < applyFileList.length; i++) {
+			if (applyFileList[i].name == fileName) {
+				applyFileList.splice(i, 1);
+			}
+		}
+		$('#aks-file-upload').find('input#aksfileupload').val("");
+	}
+
+	//img 비교해서 이미 표시된 이미지면 표시안함
+	function matchfile(fileName) {
+		let check = true;
+		if (applyFileList.length == 0) {
+			listinput(fileName);
+			return check;
+		} else {
+			for (let i = 0; i < applyFileList.length; i++) {
+				if (applyFileList[i].name == fileName) {
+					check = false;
+				}
+			}
+		}
+		if (check) {
+			listinput(fileName);
+		}
+		return check;
+	}
+
+	// 중복되지 않는 파일은 저장
+	function listinput(fileName) {
+		let files = $('#aks-file-upload').find('input#aksfileupload')[0].files;
+		let fileArray = Array.from(files);
+		for (let i = 0; i < fileArray.length; i++) {
+			if (fileArray[i].name == fileName) {
+				applyFileList.push(fileArray[i]);
+			}
+		}
+		return;
+	}
+
+	// 이미지 갯수 확인
+	function fileCount(inputCount) {
+		if ($('input[name=applyFile]').parentsUntil('.form').prev().prop('tagName') == 'P') {
+			$('input[name=applyFile]').parentsUntil('.form').prev().remove();
+		}
+		let check = true;
+		if (applyFileList.length + inputCount > 10) {
+			$('input[name=applyFile]').parentsUntil('.form').before($('<p/>').text("사진은 최대 10장까지 등록가능합니다").css(
+				"text-align", "center").css("color", "#f20000"));
+			check = false;
+		} else if (applyFileList.length + inputCount < 5) {
+			$('input[name=applyFile]').parentsUntil('.form').before($('<p/>').text("사진을 최소 5장이상 등록해주세요").css(
+				"text-align", "center").css("color", "#f20000"));
+		}
+		return check;
+	}
+	
+	//카테고리리스트 가져오기
+	window.onload=function(){
+		$.ajax({
+			type : 'get', 
+			url : '/shop/categoryList',		
+			success : function(result) {				
+				for(let i=0;i<result.length;i++){
+					let category=`<option value=${result[i].optionContent}>${result[i].optionContent}</option>`;
+					$("#category").append(category);
+				}				
+			},
+			error : function(error) { 
+				console.log(error)
+			}
+		})   
+	}
+	
+	//주소API
+		function sample6_execDaumPostcode() {
+			new daum.Postcode(
+					{
+						oncomplete : function(data) {
+							// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+							// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+							// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+							var addr = ''; // 주소 변수
+							var extraAddr = ''; // 참고항목 변수
+
+							//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+							if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+								addr = data.roadAddress;
+							} else { // 사용자가 지번 주소를 선택했을 경우(J)
+								addr = data.jibunAddress;
+							}
+
+							// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+							if (data.userSelectedType === 'R') {
+								// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+								// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+								if (data.bname !== ''
+										&& /[동|로|가]$/g.test(data.bname)) {
+									extraAddr += data.bname;
+								}
+								// 건물명이 있고, 공동주택일 경우 추가한다.
+								if (data.buildingName !== ''
+										&& data.apartment === 'Y') {
+									extraAddr += (extraAddr !== '' ? ', '
+											+ data.buildingName
+											: data.buildingName);
+								}
+								// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+								if (extraAddr !== '') {
+									extraAddr = ' (' + extraAddr + ')';
+								}
+								// 조합된 참고항목을 해당 필드에 넣는다.
+								document.getElementById("sample6_extraAddress").value = extraAddr;
+
+							} else {
+								document.getElementById("sample6_extraAddress").value = '';
+							}
+
+							// 우편번호와 주소 정보를 해당 필드에 넣는다.
+							document.getElementById('sample6_postcode').value = data.zonecode;
+							document.getElementById("sample6_address").value = addr;
+							// 커서를 상세주소 필드로 이동한다.
+							document.getElementById("sample6_detailAddress")
+									.focus();
+						}
+					}).open();
+		};
+
+		//상품미리보기
+		$("#file").on('change', function() {
+			var fileName = $("#file").val();
+			$(".inputfile").val(fileName);	
+			readURL(this);
+		});
+		
+		$("#naturefile").on('change', function() {
+			var fileName = $("#naturefile").val();
+			$(".naturefile").val(fileName);
+			readURL(this);
+		});		
+		
+	
+		
+		 $(".imgFile").on('change',".addImg", function(ev) {
+			console.log(ev);
+			var fileName = ev.target.value;
+			$(ev.target).prev().prev().val(fileName);			
+			readURL(ev.target);
+		}); 
+
+		function readURL(obj) {			
+			let reader = new FileReader();
+			if (!obj.files.length) {
+				return;
+			}
+			reader.readAsDataURL(obj.files[0]);
+			reader.onload = function(e) {				
+				$('#preview-image').attr('src', e.target.result);
+			}
+		}		
+		
+		//상품추가버튼
+		function addPart() {			
+		     let filetemplate=`<div class="filebox" id="addFileBox">
+				<label style="width: 10%;" class="filelabel" onclick="delPart()">X
+				</label> <input class="addfile" placeholder="추가이미지" readonly> <label
+					for="addfile" class="filelabel">사진등록</label> <input type="file"
+					 class="addImg" id="addfile" name="uploadFile">
+			</div>`; 						
+		
+			$(".imgFile").append(filetemplate);
+		}
+		
+		//상품추가이미지 삭제
+		function delPart(){
+			document.querySelector("#addFileBox").remove();
+		}		
+		
+		//옵션추가버튼
+		function addOption(){
+			let addOption=`<div class="inputfield" id="addOption">
+				<label>옵션</label> <input type="text"
+				class="input" name="optionContent" placeholder="추가옵션"><input type="button"
+				value="X" class="checkBtn" onclick="delOption()">
+		</div>`;
+		$(".options").append(addOption);
+		}
+		
+		//추가옵션 삭제
+		function delOption(){
+			document.querySelector("#addOption").remove();
+		}
+		
+		//상품제출 알람
+		function submitProduct(){
+			alert("등록 신청되었습니다.")
+		}
+		
+	</script>
+	<script
+		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.3.js"
+		integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+		crossorigin="anonymous"></script>
+</div>
+</html>

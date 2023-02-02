@@ -56,6 +56,25 @@ h1 {
 .hidden {
 	display: none;
 }
+
+.aks-file-upload-label {
+	width: 100%;
+}
+
+#aks-file-upload {
+	width: 400px;
+	display: block;
+	margin: 0 auto;
+	margin-top: 4rem;
+}
+
+#uploadfile {
+	margin: 0 auto;
+	color: #002c7b;
+	line-height: 1.5;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+}
 </style>
 <link
 	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
@@ -66,91 +85,52 @@ h1 {
 	crossorigin="anonymous"></script>
 </head>
 
-<!-- <h2 class="app-content-headerText"
-				style="margin-left: 20px; display: inline-block">
-				<i class="fa-solid fa-house" style="text-align: center"
-					@click="allSell()"><h5>전체 {{count.productAll}}건</h5></i>
-			</h2>
-			<h2 class="app-content-headerText"
-				style="margin-left: 20px; display: inline-block">
-				<i class="fa-solid fa-hourglass-start" style="text-align: center"
-					@click="waitSell()"><h5>판매대기 {{count.waitSellProduct}}건</h5></i>
-			</h2>
-			<h2 class="app-content-headerText"
-				style="margin-left: 20px; display: inline-block">
-				<i class="fa-solid fa-cart-shopping" style="text-align: center"
-					@click="selling()"><h5>판매중 {{count.sellingProduct}}건</h5></i>
-			</h2>
-			<h2 class="app-content-headerText"
-				style="margin-left: 20px; display: inline-block">
-				<i class="fa-solid fa-circle-stop" style="text-align: center"
-					@click="endSell()"><h5>품절 {{count.endProduct}}건</h5></i>
-			</h2>
-			<br>
-			<h2 class="app-content-headerText"
-				style="margin-left: 20px; display: inline-block">
-				<i class="fa-solid fa-circle-pause" style="text-align: center"
-					@click="wait()"><h5>승인대기 {{count.waitProduct}}건</h5></i>
-			</h2>
-			<h2 class="app-content-headerText"
-				style="margin-left: 20px; display: inline-block">
-				<i class="fa-sharp fa-solid fa-hand" style="text-align: center"
-					@click="stopSell()"><h5>판매중지 {{count.stopProduct}}건</h5></i>
-			</h2>
-			<h2 class="app-content-headerText"
-				style="margin-left: 20px; display: inline-block">
-				<i class="fa-solid fa-circle-xmark" style="text-align: center"
-					@click="banSell()"><h5>판매정지 {{count.banProduct}}건</h5></i>
-			</h2> -->
-
-
-
-
 <body>
 	<div layout:fragment="content" class="app-content" id="app">
 		<div class="app-content-header">
-			<h1 class="app-content-headerText">Products</h1>			
-			<div v-for="count in counts" style="display:flex">
-			<h2 class="app-content-headerText"
-				style="margin-left: 20px; display: inline-block">
-				<i class="fa-solid fa-house" style="text-align: center"
-					@click="allSell()"><h5>전체 {{count.productAll}}건</h5></i>
-			</h2>
-			<h2 class="app-content-headerText"
-				style="margin-left: 20px; display: inline-block">
-				<i class="fa-solid fa-hourglass-start" style="text-align: center"
-					@click="waitSell()"><h5>판매대기 {{count.waitSellProduct}}건</h5></i>
-			</h2>
-			<h2 class="app-content-headerText"
-				style="margin-left: 20px; display: inline-block">
-				<i class="fa-solid fa-cart-shopping" style="text-align: center"
-					@click="selling()"><h5>판매중 {{count.sellingProduct}}건</h5></i>
-			</h2>
-			<h2 class="app-content-headerText"
-				style="margin-left: 20px; display: inline-block">
-				<i class="fa-solid fa-circle-stop" style="text-align: center"
-					@click="endSell()"><h5>품절 {{count.endProduct}}건</h5></i>
-			</h2>
-			<br>
-			<h2 class="app-content-headerText"
-				style="margin-left: 20px; display: inline-block">
-				<i class="fa-solid fa-circle-pause" style="text-align: center"
-					@click="wait()"><h5>승인대기 {{count.waitProduct}}건</h5></i>
-			</h2>
-			<h2 class="app-content-headerText"
-				style="margin-left: 20px; display: inline-block">
-				<i class="fa-sharp fa-solid fa-hand" style="text-align: center"
-					@click="stopSell()"><h5>판매중지 {{count.stopProduct}}건</h5></i>
-			</h2>
-			<h2 class="app-content-headerText"
-				style="margin-left: 20px; display: inline-block">
-				<i class="fa-solid fa-circle-xmark" style="text-align: center"
-					@click="banSell()"><h5>판매정지 {{count.banProduct}}건</h5></i>
-			</h2>
+			<h1 class="app-content-headerText">Products</h1>
+			<div v-for="count in counts" style="display: flex">
+				<h2 class="app-content-headerText"
+					style="margin-left: 20px; display: inline-block">
+					<i class="fa-solid fa-house" style="text-align: center"
+						@click="allSell()"><h5>전체 {{count.productAll}}건</h5></i>
+				</h2>
+				<h2 class="app-content-headerText"
+					style="margin-left: 20px; display: inline-block">
+					<i class="fa-solid fa-hourglass-start" style="text-align: center"
+						@click="waitSell()"><h5>판매대기 {{count.waitSellProduct}}건</h5></i>
+				</h2>
+				<h2 class="app-content-headerText"
+					style="margin-left: 20px; display: inline-block">
+					<i class="fa-solid fa-cart-shopping" style="text-align: center"
+						@click="selling()"><h5>판매중 {{count.sellingProduct}}건</h5></i>
+				</h2>
+				<h2 class="app-content-headerText"
+					style="margin-left: 20px; display: inline-block">
+					<i class="fa-solid fa-circle-stop" style="text-align: center"
+						@click="endSell()"><h5>품절 {{count.endProduct}}건</h5></i>
+				</h2>
+				<br>
+				<h2 class="app-content-headerText"
+					style="margin-left: 20px; display: inline-block">
+					<i class="fa-solid fa-circle-pause" style="text-align: center"
+						@click="wait()"><h5>승인대기 {{count.waitProduct}}건</h5></i>
+				</h2>
+				<h2 class="app-content-headerText"
+					style="margin-left: 20px; display: inline-block">
+					<i class="fa-sharp fa-solid fa-hand" style="text-align: center"
+						@click="stopSell()"><h5>판매중지 {{count.stopProduct}}건</h5></i>
+				</h2>
+				<h2 class="app-content-headerText"
+					style="margin-left: 20px; display: inline-block">
+					<i class="fa-solid fa-circle-xmark" style="text-align: center"
+						@click="banSell()"><h5>판매정지 {{count.banProduct}}건</h5></i>
+				</h2>
 			</div>
 			<button class="mode-switch" title="Switch Theme">
-				<svg class="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-					stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
+				<svg class="moon" fill="none" stroke="currentColor"
+					stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+					width="24" height="24" viewBox="0 0 24 24">
 					<defs></defs>
 					<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
 				</svg>
@@ -299,7 +279,7 @@ h1 {
 						<circle cx="12" cy="19" r="1" /></svg>
 					</button>
 					<div class="product-cell image">{{index}}</div>
-					<div class="product-cell category">{{product.productId}}</div>
+					<div class="product-cell category" @click="displayModal(product)">{{product.productId}}</div>
 					<div class="product-cell category">{{product.productName}}</div>
 					<div class="product-cell status-cell">{{product.category}}</div>
 					<div class="product-cell status-cell">{{product.price}}</div>
@@ -318,18 +298,46 @@ h1 {
 
 
 
-			<!-- 회원승인모달창(상세보기) -->
+			<!-- 상품승인모달창(상세보기) -->
 			<div class="modal hidden">
 				<div class="modal__background"></div>
 				<div class="modal__content" text-align:center>
+					<table style="text-align: center">
+						<thead>
+							<tr>
+								<th>대표이미지</th>
+								<th>추가이미지</th>
+								<th>친환경인증증서</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><img alt="" :src="'/fileView/'+selectProduct.fileRoute"
+									style="width: 200px; height: 200px;"></td>
+								<td v-for="add in addImg"><img alt=""
+									:src="'/fileView/'+add.fileRoute"
+									style="width: 200px; height: 200px;"></td>
+								<td v-for="nat in nature"><img alt=""
+									:src="'/fileView/'+nat.fileRoute"
+									style="width: 200px; height: 200px;"></td>
+							</tr>
+						</tbody>
+					</table>
+					<ul style="list-style-type: none;">
 
-					<button>승인</button>
+
+						<li>상품명 {{selectProduct.productName}}</li>
+						<li>상품상세설명 {{selectProduct.productDetail}}</li>
+						<li>가격 {{selectProduct.price}}</li>
+						<li>카테고리 {{selectProduct.category}}</li>
+					</ul>
+
+					<button @click="approProduct(selectProduct.productId)">승인</button>
 					&nbsp&nbsp&nbsp&nbsp
-					<button class="closeBtn">닫기</button>
+					<button class="closeBtn" @click="closeModal()">닫기</button>
 				</div>
 			</div>
 		</div>
-
 		<script>
 		//csrf설정
 		 var token = $("meta[name='_csrf']").attr("content");
@@ -340,7 +348,10 @@ h1 {
 		        data() {
 		            return {	
 		            	products:[],
-		            	counts:[]		            	
+		            	counts:[],		    
+		            	selectProduct:[],
+		            	addImg:[],
+		            	nature:[]
 		            };
 		        },
 		        created() {
@@ -348,6 +359,52 @@ h1 {
 					this.countList();
 		        },
 		        methods: {
+		        	//모달창띄우기
+		        	displayModal:function(data){	
+		        		this.selectProduct=data;		        		
+		        		const modal = document.querySelector(".modal");
+		        		modal.classList.toggle("hidden");
+		        		let is=this;
+		        		//추가이미지 가져오기
+		        		$.ajax({
+								type : 'post', 
+								url : '/admin/addImg', 										
+								beforeSend : function(xhr)
+					            {
+					            	xhr.setRequestHeader(header, token);
+					            },		      
+					            data:{"data":data.productId},
+								success : function(result) {
+									console.log(result)
+									is.addImg=result									
+								},
+								error : function(error) { 
+									console.log(error)
+								}
+							})
+						//친환경이미지 가져오기						
+		        		$.ajax({
+								type : 'post', 
+								url : '/admin/natureImg', 										
+								beforeSend : function(xhr)
+					            {
+					            	xhr.setRequestHeader(header, token);
+					            },		      
+					            data:{"data":data.productId},
+								success : function(result) {
+									console.log(result)
+									is.nature=result																	
+								},
+								error : function(error) { 
+									console.log(error)
+								}
+							})
+		        	},
+		        	//모달창닫기
+		        	closeModal:function(){
+		        		const modal = document.querySelector(".modal");
+		        		modal.classList.toggle("hidden");
+		        	},
 		        	//날짜조회
 		        	apply:function(){
 		        		let is=this;
@@ -640,12 +697,12 @@ h1 {
 		        	}
 		        }
 		    });	    		
-			app.mount('#app');	      
-			
-			 
+			app.mount('#app');	 		
 		    </script>
 
 		<script type="text/javascript">
+			
+		
 			document.querySelector(".jsFilter").addEventListener(
 					"click",
 					function() {
