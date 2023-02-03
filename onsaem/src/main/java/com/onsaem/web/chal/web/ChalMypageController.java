@@ -68,7 +68,7 @@ public class ChalMypageController {
 		model.addAttribute("chals", chalService.myCurentChal(vo));
 		
 		
-		return "content/challengers/MyCurrentChal";
+		return "content/challengers/MypageCurrentChal";
 	}
 	
 	//인증샷 넣기 ! 

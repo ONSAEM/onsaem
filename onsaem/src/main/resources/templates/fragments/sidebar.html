@@ -28,9 +28,19 @@
 				<li><a th:href="@{/class/myQue}">클래스문의내역</a></li>
 			</ul>
 		</div>
-		<a class="menu__item" href="#"> <i class="menu__icon fa fa-list"></i>
-			<span class="menu__text">workout</span>
-		</a> <a class="menu__item menu__item--active" href="javascript:void(0);">
+		<div class="sub-menu">
+			<a class="menu__item" href="avascript:void(0);"> <i
+				class="menu__icon fa fa-envelope"></i> <span class="menu__text">내
+					챌린저스</span>
+			</a>
+			<ul>
+				<li><a th:href="@{/mypage/myCurrentChal}">진행 중 챌린저스 </a></li>
+				<li><a th:href="@{/mypage/myBeforeChal}">시작 전 챌린저스</a></li>
+				<li><a th:href="@{/mypage/myEndChal}">완료 챌린저스</a></li>
+				<li><a th:href="@{/mypage/myQue}">내가 신청한 기부처</a></li>
+			</ul>
+		</div>
+		<a class="menu__item menu__item--active" href="javascript:void(0);">
 			<i class="menu__icon fa fa-calendar"></i> <span class="menu__text">calendar</span>
 		</a> <a class="menu__item" href="#"> <i
 			class="menu__icon fa fa-bar-chart"></i> <span class="menu__text">goals</span>

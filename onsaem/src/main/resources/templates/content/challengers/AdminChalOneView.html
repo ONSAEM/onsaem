@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml" class="light"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/AdminLayout}">
@@ -222,12 +222,12 @@
 					<span class="cell-label">Stock:</span>{{chal.memberId}}
 				</div>
 				<div class="product-cell status-cell">
-					<span class="cell-label">Status:</span> <span class="status active" v-if="chal.receipt == null" @click="displayModal('receiptAlone', chal.chalId)"  id="receiptAlone" style="background-color: #F78181; color: #A4A4A4">첨부하기</span>
-															<span class="status active"  v-else="chal.receipt == null"  id="receiptTeam" >첨부완료</span>
+					<span class="cell-label">Status:</span> <span class="status active" v-if="chal.receipt == '미첨부'" @click="displayModal('receiptAlone', chal.chalId)"  id="receiptAlone" style="background-color: #F78181; color: #A4A4A4">첨부하기</span>
+															<span class="status active"   v-if="chal.receipt == '첨부완료'"  id="receiptTeam" >첨부완료</span>
 				</div>
 				<div class="product-cell status-cell">
-					<span class="cell-label">Status:</span> <span class="status active"   v-if="chal.sharepoint == null " @click="displayModal('point', chal.chalId)" style="background-color: #F78181; color: #A4A4A4">정산하기</span>
-															<span class="status active"   v-else="chal.sharepoint == null">정산완료</span>
+					<span class="cell-label">Status:</span> <span class="status active"   v-if="chal.sharepoint == '미정산'" @click="displayModal('point', chal.chalId)" style="background-color: #F78181; color: #A4A4A4">정산하기</span>
+															<span class="status active"  v-if="chal.sharepoint == '정산완료'">정산완료</span>
 				</div>
 			</div>
 		   </div>
@@ -319,24 +319,27 @@
             	  apply : function(){
             		  let sharepoint; 
             		  let receipt;
+            		  let status = $("#status").val();
             		  //상태구분
-            		  switch($("#status").val()) {
-							  case '전체':  // if (x === 'value1') 
-							    break;						
-							  case '영수증 첨부필요':  // if (x === 'value2')
-							    sharepoint = '정산완료';
-							    break;
-							  case '포인트 정산필요':
-								receipt = '첨부완료';
-							    break;
-							  case '전체 필요' :
-								  receipt = '미첨부';
-								  sharepoint = '미정산';
-								break;
-							  case '전체 완료' :
-								  receipt ='첨부완료';
-								  sharepoint = '정산완료';
-								  break;
+            		  switch(status) {
+            		 	 case '전체':  // if (x === 'value1') 
+						    break;						
+						  case '영수증 첨부필요':  // if (x === 'value2')
+						    //sharepoint = '정산완료';
+						  	receipt = '미첨부';
+						    break;
+						  case '포인트 정산필요':
+							//receipt = '첨부완료';
+							sharepoint ='미정산'
+						    break;
+						  case '전체 필요' :
+							  receipt = '미첨부';
+							  sharepoint = '미정산';
+							break;
+						  case '전체 완료' :
+							  receipt ='첨부완료';
+							  sharepoint = '정산완료';
+							  break;
 						}
             		  	let startDate=$("#startDate").val();
 		            	let endDate=$("#endDate").val();
@@ -443,19 +446,19 @@
             		let participantId = this.userInfo.participantId;
             		let thatPoint = this.point;
             		let result = this.pp+'%';
-
+					console.log(result);
             		$.ajax({
           				url : '/mypage/inputPoint',
           				method :'POST',
           				contentType:'application/json',
-          				data : JSON.stringify({"thatPoint":thatPoint, "chalId" : groupId, "participantId" : participantId, "result" : result }),
+          				data : JSON.stringify({"thatPoint":thatPoint, "chalId" : chalId, "participantId" : participantId, "result" : result }),
           				beforeSend : function(xhr)
         				                {   
         				                xhr.setRequestHeader(header, token);
         				                },
           				success:function(result){
           					alert("정산 완료 되었습니다.");
-          					location.href ="/mypage/AdminEndChals";
+          					location.href ="/mypage/AdminEndAlone";
           				},
           				error : function(error){
           					console.log()
