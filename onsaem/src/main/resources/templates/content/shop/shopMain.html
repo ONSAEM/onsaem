@@ -1,43 +1,33 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 
 <title>shop main</title>
 
 <!-- Google Font -->
+
 <head>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
 
 </head>
 
 
 <!-- Css  -->
 <th:block layout:fragment="css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/jquery-ui.min.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
-		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/jquery-ui.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
 </th:block>
 
 
 <!-- Content -->
 <div layout:fragment="content">
 	<!-- Breadcrumb Section Begin -->
-	<section class="breadcrumb-section set-bg"
-		th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
+	<section class="breadcrumb-section set-bg" th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
@@ -65,8 +55,8 @@
 						<ul>
 							<li><a href="/shop">전체</a></li>
 							<li th:each="category:${categoryList}"><a
-								th:href="@{/category/(data=${category.optionContent})}"
-								th:text="${category.optionContent}"></a></li>
+									th:href="@{/category/(data=${category.optionContent})}"
+									th:text="${category.optionContent}"></a></li>
 
 						</ul>
 					</div>
@@ -76,16 +66,15 @@
 						<div class="hero__search__form">
 							<form action="/searchProduct" method="post">
 								<input type="hidden" id="token" th:name="${_csrf.parameterName}"
-									th:value="${_csrf.token}" /> <input type="text"
-									placeholder="검색어를 입력해 주세요." name="data">
+									th:value="${_csrf.token}" /> <input type="text" placeholder="검색어를 입력해 주세요."
+									name="data">
 								<button type="submit" class="site-btn">🐼</button>
 							</form>
 						</div>
 						<div class="header__cart">
 							<ul>
-								<li><a href="/likeList"><i class="fa fa-heart"
-										sec:authorize="isAuthenticated()"></i> <span
-										th:text="${#lists.size(likeList)}"
+								<li><a href="/likeList"><i class="fa fa-heart" sec:authorize="isAuthenticated()"></i>
+										<span th:text="${#lists.size(likeList)}"
 										sec:authorize="isAuthenticated()">1</span></a></li>
 								<li><a th:href="@{/shopCart}"><i
 										class="fa fa-shopping-bag" sec:authorize="isAuthenticated()"></i>
@@ -116,135 +105,107 @@
 						</div>
 					</div>
 				</div>
+
+				<br> <br>
 				<div class="col-lg-9 col-md-7">
 					<div class="sidebar__item__size" th:each="category:${categoryList}">
-						<label for="large" th:text="${category.optionContent}"							t
+						<label for="large" th:text="${category.optionContent}" t
 							th:onclick="'location.href=\'' + @{/category/(data=${category.optionContent})} + '\''">
 							Large <input type="radio" id="large">
 						</label>
 					</div>
-					<br> <br>
 					<div class="product__discount">
 						<div class="section-title product__discount__title">
-							<h2>주간 베스트</h2>
+							<h2 class="ko-h2">주간 베스트</h2>
 						</div>
 						<div class="row">
 							<div class="product__discount__slider owl-carousel" id="bestList">
-								<div class="col-lg-4">
+								<div class="col-lg-4" th:each="week:${weekList}">
 									<div class="product__discount__item">
 										<div class="product__discount__item__pic set-bg"
-											th:data-setbg="@{/shoptemplate/img/product/discount/pd-1.jpg}">
-											<div class="product__discount__percent">-20%</div>
-											<ul class="product__item__pic__hover">
-												<li><a href="#"><i class="fa fa-heart"></i></a></li>
-												<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-											</ul>
-										</div>
-										<div class="product__discount__item__text">
-											<span>Dried Fruit</span>
-											<h5>
-												<a href="#">Raisin’n’nuts</a>
-											</h5>
-											<div class="product__item__price">
-												$30.00 <span>$36.00</span>
-											</div>
-										</div>
+											th:data-setbg="@{/fileView/{fileRoute}/
+									(fileRoute=${week.fileRoute})}" style="cursor:pointer"></div>										
 									</div>
-								</div>
-								<div class="col-lg-4">
-									<div class="product__discount__item">
-										<div class="product__discount__item__pic set-bg"
-											th:data-setbg="@{/shoptemplate/img/product/discount/pd-5.jpg}">
-											<div class="product__discount__percent">-20%</div>
-											<ul class="product__item__pic__hover">
-												<li><a href="#"><i class="fa fa-heart"></i></a></li>
-												<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-												<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-											</ul>
-										</div>
-										<div class="product__discount__item__text">
-											<span>Dried Fruit</span>
-											<h5>
-												<a href="#">Raisin’n’nuts</a>
-											</h5>
-											<div class="product__item__price">
-												$30.00 <span>$36.00</span>
-											</div>
-										</div>
+									<div class="product__discount__item__text">										
+										<h5>
+											<a th:onclick="productDetail([[${week.productId}]])" style="cursor:pointer">[[${week.productName}]]</a>
+										</h5>
+										<div class="product__item__price">[[${week.price}]]</div>
 									</div>
-								</div>
+								</div>								
 							</div>
 						</div>
 					</div>
-					<div class="filter__item">
-						<div class="row">
-							<div class="col-lg-4 col-md-5">
-								<div class="filter__sort">
-									<span>Sort By</span> <select id="changeList"
-										th:onchange="changeList(this.value)">
-										<option value="new"
-											th:selected="${#strings.equals(param.data, 'new')}">최신순</option>
-										<option value="popularity"
-											th:selected="${#strings.equals(param.data, 'popularity')}">인기순</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-lg-4 col-md-4">
-								<div class="filter__found">
-									<h6>
-										<span th:text="${#lists.size(productList)}"></span> Products
-										found
-									</h6>
-								</div>
-							</div>
-							<div class="col-lg-4 col-md-3">
-								<div class="filter__option">
-									<span class="icon_grid-2x2"></span> <span class="icon_ul"></span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-4 col-md-6 col-sm-6"
-							th:each="product:${productList}">
-							<div class="product__item">
-								<div class="product__item__pic set-bg"
-									th:data-setbg="@{/fileView/{fileRoute}/
-									(fileRoute=${product.fileRoute})}"
-									th:onclick="productDetail([[${product.productId}]])">
-									<ul class="product__item__pic__hover"
-										sec:authorize="isAuthenticated()">
-										<li><a th:href="@{/likeAdd(data=${product.productId})}"
-											th:onclick="likeEvent()"><i class="fa fa-heart"></i></a></li>
-										<li><a
-											th:href="@{/cartAdd(productId=${product.productId})}"
-											th:onclick="cartEvent()"><i class="fa fa-shopping-cart"></i></a></li>
-									</ul>
-									<ul class="product__item__pic__hover"
-										sec:authorize="isAnonymous()">
-										<li><a href="/loginPage" th:onclick="noLogin()"><i
-												class="fa fa-heart"></i></a></li>
-										<li><a href="/loginPage" th:onclick="noLogin()"><i
-												class="fa fa-shopping-cart"></i></a></li>
-									</ul>
-								</div>
-								<div class="product__item__text">
-									<h6>
-										<a th:onclick="productDetail([[${product.productId}]])"
-											th:text=${product.productName}>Crab Pool Security</a>
-									</h6>
-									<h5 th:text="${product.price}+원">$30.00</h5>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- 페이징 -->
-					<th:block
-						th:replace="fragments/paging :: component(${paging}, 'gopage')">
 				</div>
+				<div class="filter__item">
+					<div class="row">
+						<div class="col-lg-4 col-md-5">
+							<div class="filter__sort">
+								<span>Sort By</span> <select id="changeList"
+									th:onchange="changeList(this.value)">
+									<option value="new"
+										th:selected="${#strings.equals(param.data, 'new')}">최신순</option>
+									<option value="popularity"
+										th:selected="${#strings.equals(param.data, 'popularity')}">인기순</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-4">
+							<div class="filter__found">
+								<h6>
+									<span th:text="${#lists.size(productList)}"></span> Products
+									found
+								</h6>
+							</div>
+						</div>
+						<div class="col-lg-4 col-md-3">
+							<div class="filter__option">
+								<span class="icon_grid-2x2"></span> <span class="icon_ul"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-4 col-md-6 col-sm-6"
+						th:each="product:${productList}">
+						<div class="product__item">
+							<div class="product__item__pic set-bg"
+								th:data-setbg="@{/fileView/{fileRoute}/
+									(fileRoute=${product.fileRoute})}"
+								th:onclick="productDetail([[${product.productId}]])" style="cursor:pointer">
+								<ul class="product__item__pic__hover"
+									sec:authorize="isAuthenticated()">
+									<li><a th:href="@{/likeAdd(data=${product.productId})}"
+										th:onclick="likeEvent()"><i class="fa fa-heart"></i></a></li>
+									<li><a
+										th:href="@{/cartAdd(productId=${product.productId})}"
+										th:onclick="cartEvent()"><i class="fa fa-shopping-cart"></i></a></li>
+								</ul>
+								<ul class="product__item__pic__hover"
+									sec:authorize="isAnonymous()">
+									<li><a href="/loginPage" th:onclick="noLogin()"><i
+											class="fa fa-heart"></i></a></li>
+									<li><a href="/loginPage" th:onclick="noLogin()"><i
+											class="fa fa-shopping-cart"></i></a></li>
+								</ul>
+							</div>
+							<div class="product__item__text">
+								<h6>
+									<a th:onclick="productDetail([[${product.productId}]])"
+										th:text=${product.productName} style="cursor:pointer">Crab Pool Security</a>
+								</h6>
+								<h5 th:text="${product.price}+원">$30.00</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 페이징 -->
+				<th:block
+					th:replace="fragments/paging :: component(${paging}, 'gopage')">
 			</div>
-			<input type="hidden" value="${session.id}" id="id">
 		</div>
+		<input type="hidden" value="${session.id}" id="id">
+
 	</section>
 	<!-- Product Section End -->
 
@@ -274,64 +235,7 @@
 			 function gopage(i){
 					console.log(i);
 					location.href='/shop?page='+i;
-				}
-			 
-				//주간베스트 목록
-				$.ajax({
-					type : 'get',
-					url : '/shop/weekBest',
-					headers : {
-						"Content-Type" : "application/json"
-					},
-					success : function(result) {						
-							$.ajax({
-							type : 'post',
-							url : '/shop/weekBestProduct',
-							beforeSend : function(xhr)
-				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-					               xhr.setRequestHeader(header, token);
-					               },
-							headers : {
-								"Content-Type" : "application/json"
-							},
-							data:JSON.stringify(result),
-							success : function(result) {								
-								$("#bestList").html("")
-								for(let i=0;i<result.length;i++){
-									let list=`<div class="col-lg-4">
-									<div class="product__discount__item">
-									<div class="product__discount__item__pic"											
-										style="background-image:url('/fileView/${result[i].fileRoute}');  width: 300px;
-											  height: 150px;
-									  object-fit: cover; ">												
-											<ul class="product__item__pic__hover">											
-												<li><a href="#"><i class="fa fa-heart"></i></a></li>												
-												<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-											</ul>
-										</div>
-										<div class="product__discount__item__text">	<h5>
-												<a href="#">`+result[i].productName+`</a>
-											</h5>
-											<div class="product__item__price">
-												`+result[i].price+`
-											</div>
-										</div>
-									</div>
-								</div>`;
-								$("#bestList").append(list)
-							   
-								}
-							},
-							error : function(error) {
-								console.log(error)
-							}
-						})
-					},
-					error : function(error) {
-						console.log(error)
-					}
-				}) 
-				
+				}				
 				
 				//최근본상품 세션 전달
 				let watch = sessionStorage.getItem('productId').split(',');

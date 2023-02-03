@@ -380,6 +380,7 @@ h1 {
 <link type="text/css" rel="stylesheet"
 	th:href="@{https://cdn.jsdelivr.net/npm/aksfileupload@1.0.0/dist/aksFileUpload.min.css}">
 <script th:src="@{/js/fileupload.js}"></script>
+<script type="text/javascript" th:src="@{/smarteditor/js/HuskyEZCreator.js}"></script>
 </head>
 <!-- Content -->
 
@@ -464,28 +465,18 @@ h1 {
 			<div class="wrapper">
 				<div class="form">
 					<div class="inputfield">
-						<img id="preview-image"
-							src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
+						<label>상품이미지<span class="request">*</span></label>
+						<p>
+							*최소 1장 최대 5장내로 등록해주세요 <br> *첫 이미지는 대표이미지로 사용됩니다
+						</p>
+						<br>
 					</div>
-					<div class="imgFile">
-						<div class="filebox">
-							<label style="width: 10%;" class="filelabel" onclick="addPart()">+
-							</label> <input class="inputfile" placeholder="상품이미지" readonly> <label
-								for="file" class="filelabel">사진등록</label> <input type="file"
-								id="file" name="uploadFile">
-						</div>
+					<div class="inputfiles">
+						<input name="applyFile" type="file"
+							accept=".gif, .jpg, .png, .bmp" style="display: none;">
+						<div id="aks-file-upload"></div>
 					</div>
-					<div>
-						<div class="inputfield">
-							<label>추가이미지<span class="request">*</span></label>
-							<p>*최소 1장 최대 5장내로 등록해주세요</p>
-						</div>
-						<div class="inputfiles">
-							<input name="applyFile" type="file"
-								accept=".gif, .jpg, .png, .bmp" style="display: none;">
-							<div id="aks-file-upload"></div>
-						</div>
-					</div><br>
+					<br>
 					<div class="inputfield">
 						<label>상품명<span class="request">*</span></label> <input
 							type="text" name="productName" class="input">
@@ -538,8 +529,8 @@ h1 {
 							type="text" class="input" name="deliveryFee">
 					</div>
 					<div class="inputfield">
-						<label>상품상세내용<span class="request">*</span></label> <input
-							type="text" class="input" name="productInfo">
+						<label>상품상세내용<span class="request">*</span></label>
+						<textarea name="productInfo" id="ir1" rows="10" cols="100"></textarea>
 					</div>
 					<div class="filebox">
 						<label style="width: 20%;"></label> <input class="naturefile"
@@ -612,10 +603,6 @@ h1 {
 	<!-- JS -->
 	<th:block layout:fragment="script">
 	</th:block>
-
-
-
-
 	<input type="hidden" id="sample6_postcode" placeholder="우편번호"
 		name="postalCode"> <input type="hidden"
 		onclick="sample6_execDaumPostcode()" value="우편번호 찾기"> <br>
@@ -628,7 +615,24 @@ h1 {
 		<script th:src="@{/shoptemplate/js/main.js}"></script>
 	</th:block>
 
-	<script type="text/javascript">	
+	<script type="text/javascript">
+	
+	//네이버 에디터 사용
+	let oEditors = [];
+	
+	smartEditor = function() {
+		nhn.husky.EZCreator.createInIFrame({
+			oAppRef: oEditors,
+			elPlaceHolder: "ir1",
+			sSkinURI: "/smarteditor/SmartEditor2Skin.html",
+			fCreator: "createSEditor2"
+		});
+	}
+	
+	$(document).ready(function() {
+	      smartEditor()
+	    })
+	//사진여러개 첨부
 	let applyFileList = [];
 	$("#aks-file-upload").aksFileUpload({
 		fileUpload: "#uploadfile", // With target [input]file or [type]json you can save the data of loaded items
@@ -651,6 +655,7 @@ h1 {
 			}
 		}
 		$('#aks-file-upload').find('input#aksfileupload').val("");
+		inputFile();
 	}
 
 	//img 비교해서 이미 표시된 이미지면 표시안함
@@ -669,6 +674,7 @@ h1 {
 		if (check) {
 			listinput(fileName);
 		}
+		inputFile();
 		return check;
 	}
 
@@ -681,6 +687,7 @@ h1 {
 				applyFileList.push(fileArray[i]);
 			}
 		}
+		inputFile();
 		return;
 	}
 
@@ -698,7 +705,17 @@ h1 {
 			$('input[name=applyFile]').parentsUntil('.form').before($('<p/>').text("사진을 최소 1장이상 등록해주세요").css(
 				"text-align", "center").css("color", "#f20000"));
 		}
+		inputFile();
 		return check;
+	}
+	
+	// 파일들 원하는 input에 담기
+	function inputFile() {
+		const dataTransfer = new DataTransfer();
+		applyFileList.forEach(file => {
+			dataTransfer.items.add(file);
+		});
+		$('input[name=applyFile]')[0].files = dataTransfer.files; //제거 처리된 FileList를 돌려줌
 	}
 	
 	//카테고리리스트 가져오기
@@ -841,6 +858,7 @@ h1 {
 		//상품제출 알람
 		function submitProduct(){
 			alert("등록 신청되었습니다.")
+			oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
 		}
 		
 	</script>
