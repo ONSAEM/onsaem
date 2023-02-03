@@ -14,7 +14,8 @@
 		M.MEMBER_ID, M.NAME, F.FILE_NAME,
 		F.FILE_ROUTE, C.CODE_NAME AS BANK
 		FROM MEMBERS M , (select* from MEDIA
-		where STATUS = 'true') F, COMMONS C
+		WHERE STATUS = 'true'
+		AND SUB_GROUP = '프로필이미지') F, COMMONS C
 		WHERE M.MEMBER_ID = F.GROUP_ID(+)
 		AND M.BANK = C.CODE_ID(+)
 		AND M.MEMBER_ID = #{memberId}
