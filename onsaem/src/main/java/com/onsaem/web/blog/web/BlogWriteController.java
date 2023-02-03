@@ -117,6 +117,7 @@ public class BlogWriteController {
 		
 		mVo.setBlogId(userId);
 		model.addAttribute("moments", momentService.getMomentList(mVo));
+		System.out.println("모먼트 정보:"+model.getAttribute("moments"));
 		// getBlog를 써서 유저아이디 받아오고, getbloginfo라고 이름 지어주기
 		model.addAttribute("blogInfo", blogService.getBlogInfo(userId));
 		System.out.println("방문한 블로그 정보:"+model.getAttribute("blogInfo"));
@@ -381,5 +382,51 @@ public class BlogWriteController {
 		blogWriteService.blogDelete(vo);
 		return "success";
 	}
+	
+	// 테스트용
+		@RequestMapping(value = "/testblog", method = RequestMethod.GET)
+		public String blogTest(Model model, String userId, CategoriesVO vo, 
+							 MomentsVO mVo, BlogVO bVo, LikeVO lVo,Authentication authentication, 
+						 	BlogWriteVO bwVo) {
+			System.out.println("유저아이디 찾습니다"+userId);
+			
+			
+			// 내 블로그 전체조회
+			if(authentication != null) {
+				UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+				String id = userDetails.getUsername();
+				lVo.setMemberId(id);
+				model.addAttribute("mmtCnt",momentService.momentCnt(id));
+			}
+			
+			
+			vo.setBlogId(userId);
+			model.addAttribute("category", blogWriteService.cateList(vo));
+			model.addAttribute("recentWrite", blogWriteService.recentWrite(userId)); // 최신글 조회
+			System.out.println("최신글 정보: " + model.getAttribute("recentWrite"));
+			
+			mVo.setBlogId(userId);
+			model.addAttribute("moments", momentService.getMomentList(mVo));
+			System.out.println("모먼트 정보:"+model.getAttribute("moments"));
+			// getBlog를 써서 유저아이디 받아오고, getbloginfo라고 이름 지어주기
+			model.addAttribute("blogInfo", blogService.getBlogInfo(userId));
+			System.out.println("방문한 블로그 정보:"+model.getAttribute("blogInfo"));
+			
+			lVo.setGroupId(userId); // 구독 당한 사람
+			 // 구독 한 사람
+			model.addAttribute("subCount", blogService.subCount(lVo));
+			System.out.println("구독 여부:"+model.getAttribute("subCount")); // 지금 로그인 한 사람이 접속한 블로그를 구독 했나? 있으면 T 없으면 F
+			
+			lVo.setRownum(3);
+			model.addAttribute("subMeList", blogService.subMeList(lVo)); // 나를 구독한
+			System.out.println("나를 구독한 사람: " + model.getAttribute("subMeList"));
+			lVo.setMemberId(userId);
+			model.addAttribute("mySubList", blogService.mySubList(lVo)); // 내가 구독한
+			
+			
+			System.out.println("현재모먼트 수:"+model.getAttribute("mmtCnt"));
+			
+			return "content/test/blogtest";
+		}
 	
 }
