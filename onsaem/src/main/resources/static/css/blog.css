@@ -185,12 +185,25 @@
 }
 
 .profile-name {
-	margin-left: 24px;
-	margin-bottom: 24px;
+	margin-left: 11px;
+	margin-bottom: -5px;
 	font-size: 22px;
 	color: #fff;
 	font-weight: 600;
 	font-family: "DM Sans", sans-serif;
+}
+
+.profile-name span{
+	font-size: 20px;
+	color: #fff;
+	font-weight: 300;
+	font-family: "DM Sans", sans-serif;
+}
+
+.profile-name p{
+	font-size: 15px;
+	color: #fff;
+	font-weight: 600;
 }
 
 .timeline {
