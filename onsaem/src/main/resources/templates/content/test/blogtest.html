@@ -39,6 +39,8 @@
   <path d="M19 12H5M12 19l-7-7 7-7"/>
 </svg>
     </div>
+    
+    <!-- 카테고리 -->
     <div class="side-wrapper">
       <div class="side-title">MENU</div>
       <div class="side-menu">
@@ -86,6 +88,13 @@
         </a>
       </div>
     </div>
+    <!-- 카테고리 끝 -->
+    
+    <!-- 최신글 -->
+    
+    <!-- 최신글 끝 -->
+    
+    <!-- 구독 목록 -->
     <div class="side-wrapper">
       <div class="side-title">YOUR FAVOURITE</div>
       <div class="side-menu">
@@ -235,30 +244,42 @@
         </a>
       </div>
     </div>
+    <!-- 구독 목록 끝 -->
   </div>
         <div class="timeline-right">
-      <div id="card-app" class="card-container">
-        <card
-            data-image="https://images.unsplash.com/photo-1479660656269-197ebb83b540?dpr=2&auto=compress,format&fit=crop&w=1199&h=798&q=80&cs=tinysrgb&crop=">
-            <h1>Canyons</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-        </card>
-        <card
-            data-image="https://images.unsplash.com/photo-1479659929431-4342107adfc1?dpr=2&auto=compress,format&fit=crop&w=1199&h=799&q=80&cs=tinysrgb&crop=">
-            <h1>Beaches</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-        </card>
-        <card
-            data-image="https://images.unsplash.com/photo-1479644025832-60dabb8be2a1?dpr=2&auto=compress,format&fit=crop&w=1199&h=799&q=80&cs=tinysrgb&crop=">
-            <h1>Trees</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-        </card>
-        <card
-            data-image="https://images.unsplash.com/photo-1479621051492-5a6f9bd9e51a?dpr=2&auto=compress,format&fit=crop&w=1199&h=811&q=80&cs=tinysrgb&crop=">
-            <h1>Lakes</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-        </card>
-    </div>
+        <!-- 모먼트 -->
+        		<h3 style="text-align: center; margin: 0 auto;">
+					MOMENT <a data-bs-toggle="modal" data-bs-target="#insertModal"
+						type="button" th:if="${mmtCnt<4} and ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}">▶</a> 
+						<a type="button"
+						th:if="${mmtCnt==4}"
+						onclick="alert('😥 저장 가능한 모먼트 용량이 초과되었습니다. 삭제 후 등록해주세요!')">✖</a>
+						<a type="button" th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}" style="display:none;"></a>
+				</h3>
+		      <div id="card-app" class="card-container mmtpage-content">
+		      	<!-- 모달창 띄우는 버튼 -->
+				<a th:each="moment : ${moments}" data-bs-toggle="modal" data-bs-target="#exampleModal" id="modalBtn"
+				 th:if="${moment.publicScope}=='public' or
+				  ${moment.publicScope}=='partial' and  ${subCount} =='T' or
+				  ${moment.blogId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}">
+				<a style="padding: 100px;"
+				 th:unless="${moment.publicScope}=='public' or
+				  ${moment.publicScope}=='partial' and  ${subCount} =='T' or
+				  ${moment.blogId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}"></a>
+				  
+					<input type="hidden" id="mmtId" th:value="${moment.momentId}">
+			      
+			        <card th:data-image="@{'/fileView/'+${moment.fileRoute}}"
+			            class="mmtcard inputfield" id="preview-image"
+						th:style="'background: url('+@{'/fileView/'+${moment.fileRoute}}+');background-repeat:no-repeat;background-size:cover;'">
+			            <h1 class="mmttitle">@[[${moment.blogId}]]</h1>
+			            <p class="mmtcopy">[[${moment.momentWrite}]]</p>
+			        </card>
+		        </a>
+		      </div>
+        <!-- 모먼트 끝 -->
+        
+        <!-- 페이징 해야함 -->
           <div class="album box">
             <div class="album-content">글제목1
               <div class="album-photos">
@@ -280,118 +301,468 @@
               </a>
             </div>
           </div>
-          
-          <div class="album box">
-            <div class="album-content">글제목2
-              <div class="album-photos">
-                <img src="https://images.unsplash.com/photo-1508179719682-dbc62681c355?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2378&q=80" alt="" class="album-photo" />
-              </div>
-            </div>
-            <div class="album-actions">
-              <a href="#" class="album-action">
-                <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                  <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
-                </svg>
-                87
-              </a>
-              <a href="#" class="album-action">
-                <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1" viewBox="0 0 24 24">
-                  <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
-                </svg>
-                20
-              </a>
-            </div>
-          </div>
-          <div class="album box">
-            <div class="album-content">글제목3
-              <div class="album-photos">
-                <img src="https://images.unsplash.com/photo-1508179719682-dbc62681c355?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2378&q=80" alt="" class="album-photo" />
-              </div>
-            </div>
-            <div class="album-actions">
-              <a href="#" class="album-action">
-                <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                  <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
-                </svg>
-                87
-              </a>
-              <a href="#" class="album-action">
-                <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1" viewBox="0 0 24 24">
-                  <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
-                </svg>
-                20
-              </a>
-            </div>
-          </div>
-          <div class="album box">
-            <div class="album-content">글제목4
-              <div class="album-photos">
-                <img src="https://images.unsplash.com/photo-1508179719682-dbc62681c355?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2378&q=80" alt="" class="album-photo" />
-              </div>
-            </div>
-            <div class="album-actions">
-              <a href="#" class="album-action">
-                <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                  <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
-                </svg>
-                87
-              </a>
-              <a href="#" class="album-action">
-                <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1" viewBox="0 0 24 24">
-                  <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
-                </svg>
-                20
-              </a>
-            </div>
-          </div>
-          <div class="album box">
-            <div class="album-content">글제목5
-              <div class="album-photos">
-                <img src="https://images.unsplash.com/photo-1508179719682-dbc62681c355?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2378&q=80" alt="" class="album-photo" />
-              </div>
-            </div>
-            <div class="album-actions">
-              <a href="#" class="album-action">
-                <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                  <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
-                </svg>
-                87
-              </a>
-              <a href="#" class="album-action">
-                <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1" viewBox="0 0 24 24">
-                  <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
-                </svg>
-                20
-              </a>
-            </div>
-          </div>
-          <div class="album box">
-            <div class="album-content">글제목6
-              <div class="album-photos">
-                <img src="https://images.unsplash.com/photo-1508179719682-dbc62681c355?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2378&q=80" alt="" class="album-photo" />
-              </div>
-            </div>
-            <div class="album-actions">
-              <a href="#" class="album-action">
-                <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                  <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
-                </svg>
-                87
-              </a>
-              <a href="#" class="album-action">
-                <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1" viewBox="0 0 24 24">
-                  <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
-                </svg>
-                20
-              </a>
-            </div>
-          </div>
-          
+          <!-- 페이징 해야함 -->
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<!-- 모달창 조회 -->
+		<div class="modal fade" id="exampleModal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-xl modal-dialog-scrollable">
+				<div class="modal-content">
+
+					<div class="modal-body row">
+						<div class="col-md-6 modal-image sticky-top">
+							<img id="modalImg"
+								src="https://unsplash.it/800/1200.jpg?image=256"
+								class="img-fluid sticky-top">
+						</div>
+						<div class="col-md-6 p-3">
+							<span class="round">
+								<img th:if="${blogInfo.fileRoute != null}"
+										th:src="'/fileView/'+${blogInfo.fileRoute}"
+										alt="profile-sample5" class="profile" width="70" style="border-radius:100px"/>
+								<img th:if="${blogInfo.fileRoute == null}"
+										th:src="@{/images/defaulltProfile.png}"
+										alt="profile-sample5" class="profile" width="70" style="border-radius:100px"/>
+								<a class="mt-3" style="font-weight: bold;font-size:20px;">닉네임</a>
+							</span>
+
+							<p id="nickname">Edited · 1d</p>
+							<button class="mmtbtn" style="color: red;" id="mmtDelBtn">delete</button>
+							<div class="mt-2 mx-2">
+								<input type="text" class="form-control"
+									placeholder="type comment" id="addUrl" readonly>
+							</div>
+
+							<div class="d-flex flex-row comment-row mt-2">
+								<div class="p-2"></div>
+								<div class="comment-text active w-100">
+									<h5 id="mmtWrite">내용</h5>
+								</div>
+							</div>
+							<p id="uploadDate"></p>
+							<!-- 하트 시간 남으면-->
+							
+							<!-- 하트 끝 -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 모달창 끝 -->
+		
+		<!-- 모먼트 작성 -->
+		<div class="modal fade" id="insertModal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-xl modal-dialog-scrollable">
+				<div class="modal-content">
+
+					<div class="modal-body row">
+						<div class="col-md-6 modal-image sticky-top">
+							<h3>상세 내용</h3>
+							<textarea id="momentWrite" cols="58" rows="20"
+								placeholder="500자 미만으로 입력해주세요"></textarea>
+						</div>
+						<div class="col-md-6 p-3">
+
+							<input type="text" class="form-control"
+								placeholder="첨부할 주소를 입력하세요" id="insertUrl"> <br>
+							<fieldset>
+								<h3>업로드 기간</h3>
+								<input type="date" id="date" placeholder="Select a date"
+									data-datepicker-events="{date: '2020-07-12T12:00', name: 'Business Lunch Zürich', type: 'holiday'}"
+									required /> <br>
+								<h3>공개범위</h3>
+								<select name="publicScope" id="scope">
+									<!-- 공개범위 부분 나중에 value 수정 필요 -->
+									<option value="public">전체공개</option>
+									<option value="partial" selected>일부공개</option>
+									<option value="private">비공개</option>
+								</select>
+							</fieldset>
+							<div class="mt-2 mx-2"></div>
+
+							<div class="d-flex flex-row comment-row mt-2">
+								<form id="momentFrm">
+									<div class="p-2">
+										이미지 미리보기
+										<div class="image-container">
+											<img style="width: 500px;" id="preview-image2"
+												src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
+											<input style="display: block;" type="file" name="uploadfile"
+												multiple="multiple" id="input-image">
+										</div>
+									</div>
+								</form>
+							</div>
+							<input type="hidden" id="getblogId" th:value="${blogInfo.blogId}">
+							<button type="button" id="mmtInsertBtn">등록</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 모먼트 작성 끝 -->
+
+	<!-- moment -->
+		<script type="text/javascript">
+			
+			//csrf설정
+			 var token = $("meta[name='_csrf']").attr("content");
+			 var header = $("meta[name='_csrf_header']").attr("content");	
+			
+// 			// 블로그 아이디 가져오기
+// 			let blogId = $('#getblogId').val();
+// // 			console.log("블로그 아이디 찾아요~!"+blogId);
+// 			// 세션 아이디 값
+// 			let sessionId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
+
+// 			// 검색할 때 값 넣기
+// 			let nowData = {"writeTitle" : null, 
+// 						   "blogId": blogId}; 
+			
+// 			// 구독했는지 확인하기
+// 			let subTF = $('.follow').attr('value');
+			
+// 			// 페이징 할 때 리스트 클론하기
+// 			let listClone = $(".template").find(".col-md-6").first();
+			
+// 			// 좋아요 조회
+// 			let likeTF = $('.blogLike').val();
+			
+// 			// 검색할때 값 넣는 곳
+// 			function dataMake(){
+// 				let data = {};
+// 				if($("#searchWord").val()){
+// 					data['writeTitle'] = $("#searchWord").val();
+// 					data['blogId'] = blogId;
+// 				}
+// 				return data;
+// 			}
+			
+// 			// 제목 검색
+// 			$("#searchBtn").on("click", function(){
+// 				nowData = dataMake();
+// 				newBlogList(1);
+// 			})
+			
+// 			// 카테고리 검색
+// 			$(".searchCate").each(function(){
+// 				$(this).on("click", function(){
+// 					let categoryId = $(this).attr("value"); // value는 input아니면 attr로 가져오기!!!!!
+// 					nowData = {"categoryId" : categoryId,
+// 							   "blogId" : blogId};
+// 					newBlogList(1);
+// 				})
+// 			})
+			
+			
+
+			
+// 			// moment 모달
+			//moment 등록버튼을 누르면, 입력된 값을 DB로 보내기
+			$("#mmtInsertBtn").on("click", function(){
+				let data = new FormData($('#momentFrm')[0]); //아이디가 momentFrm을 가져온다.
+				
+				data.append("momentWrite", $('#momentWrite').val());
+				data.append("addUrl", $('#insertUrl').val());
+				data.append("uploadEnd", $('#date').val());
+				data.append("publicScope",$('#scope').val());  //컨트롤러에 가져갈 내용을 담는다.
+				
+				console.log(data.get("uploadfile"));
+				
+				$.ajax({
+					url : '/blog/insertMoment',
+					enctype: 'multipart/form-data',
+					method : 'POST',
+					processData: false,
+					contentType: false,
+					data : data,
+					beforeSend : function(xhr)
+		               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+		               xhr.setRequestHeader(header, token);
+		               },
+					dataType:'json',
+					success : function(result) {
+						alert('성공');
+						location.reload();
+					},
+					error : function(error) {
+						console.log(error);
+						alert('실패');
+					}
+				})
+			})
+			
+			// moment 모달 상세보기 모먼트번호 보내기
+			$(".mmtpage-content").children("#modalBtn").each(function(){ 
+				$(this).on("click", function(){
+					console.log(this);
+					let mno = $(this).children('#mmtId').val();
+					console.log(mno);
+	 				$.ajax({
+	 					url: '/blog/getMoment',
+	 					method: 'post',
+	 					contentType: 'application/x-www-form-urlencoded',
+	 					data: {"momentId": mno},
+	 					beforeSend : function(xhr)
+	 	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	 	               xhr.setRequestHeader(header, token);
+	 	               },
+	 					success: function(result){
+	 						$('#exampleModal').modal('show');
+	 						
+	 						console.log(result);
+ 	 						$(".mt-3").text(result.nickname);
+ 	 						$("#modalImg").attr("src", "/fileView/"+result.fileRoute);
+ 	 						$("#addUrl").attr("placeholder",result.addUrl);
+ 	 						$("#mmtWrite").text(result.momentWrite);
+							$("#nickname").text("@"+result.blogId+" · "+result.writeDate.substr(0,10)+" "+result.writeDate.substr(11,5));
+							$("#uploadDate").text(result.uploadStart.substr(0,10)+" - "+result.uploadEnd.substr(0,10));
+	 					},
+	 					error: function (error){
+	 						console.log(error);
+	 					}
+	 				})
+				})
+				
+				
+			})
+			
+			
+			// 모달 끝
+			
+			
+// 			// input file에 change 이벤트 부여
+			const inputImage = document.getElementById("input-image")
+			inputImage.addEventListener("change", function(e) {
+				console.log('확인');
+			    readImage(e.target);
+			})
+			// 이미지 미리보기
+			function readImage(input) {
+			    // 인풋 태그에 파일이 있는 경우
+			    if(input.files && input.files[0]) {
+			        // 이미지 파일인지 검사 (생략)
+			        // FileReader 인스턴스 생성
+			        const reader = new FileReader();
+			        // 이미지가 로드가 된 경우
+			        // reader가 이미지 읽도록 하기
+			        reader.readAsDataURL(input.files[0]);
+			        reader.onload = e => {
+			            const previewImage = document.getElementById("preview-image2");
+			            console.log('확인22');
+			            previewImage.src = e.target.result;
+			            console.log(previewImage.src);
+			        }
+			        
+			    }
+			}
+			
+// 			// 구독
+// 			if(subTF == 'T'){ // 만약 값이 있다면
+// 				$(".follow").css({'background-color':'#2980b9','color':'white','border-color':'white'});
+// 			}else{
+// 				$(".follow").css({'background-color':'','color':'#2980b9','border-color':'#2980b9'});
+// 			}
+			
+			
+// 			//구독 저장
+// 			$(".follow").on("click", function(){
+// 				let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
+// 				if(id!=""){
+// 					if(subTF =='F'){ // 구독하지 않았다면~
+// 						$(this).css({'background-color':'#2980b9','color':'white','border-color':'white'});
+						
+// 						$.ajax({
+// 							url: '/blog/addSub',
+// 							method: 'post',
+// 							contentType: 'application/x-www-form-urlencoded',
+// 							data: {"groupId":blogId},
+// 							beforeSend : function(xhr)
+// 				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+// 				               xhr.setRequestHeader(header, token);
+// 				               },
+// 							success: function(result){
+// 								console.log(result);
+// 								alert("구독 완료");
+								
+// 								subTF = 'T';
+// 							},
+// 							error: function(error){
+// 								console.log(error);
+// 							}
+// 						})
+					
+// 				}else{
+// 				//구독 취소
+// 		 				$(this).css({'background-color':'','color':'#2980b9','border-color':'#2980b9'});
+						
+// 		 				$.ajax({
+// 		 					url: '/blog/delSub',
+// 		 					method: 'post',
+// 		 					contentType: 'application/x-www-form-urlencoded',
+// 							data: {"groupId":blogId, "memberId": id},
+// 							beforeSend : function(xhr)
+// 				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+// 				               xhr.setRequestHeader(header, token);
+// 				               },
+// 							success: function(result){
+// 								console.log(result);
+// 								alert("구독 취소");
+								
+// 								subTF = 'F';
+// 							},
+// 							error: function(error){
+// 								console.log(error);
+// 							}
+// 		 				});
+// 				}
+// 			}else{
+// 					alert('로그인이 필요합니다');
+// 				}
+// 			});
+			
+			
+			
+// 			console.log($("document").find('#mmtDelBtn'));
+			$("#mmtDelBtn").each(function(){
+				console.log(this);
+				$(this).on("click", function(){
+					let momentId = $('#mmtId').val();
+					console.log("momentID: "+momentId);
+	 				$.ajax({
+	 					url: '/blog/momentDel',
+	 					method: 'post',
+	 					contentType: 'application/x-www-form-urlencoded',
+	 					data: {"momentId":momentId},
+	 					beforeSend : function(xhr)
+	 	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	 	               xhr.setRequestHeader(header, token);
+	 	               },
+	 					success: function(result){
+	 						console.log(result);
+	 						alert("삭제완료");
+	 						location.reload();
+	 					},
+	 					error: function(error){
+	 						console.log(error);
+	 					}
+	 				});
+				});
+			});
+			
+			
+// 			// 페이지 이동
+// 			$(".blogList").on("click","#pageNum",function(e){
+// 				newBlogList($(e.target).text());
+// 			});
+
+		
+			
+			
+// 			// 페이징 만들기 이건 본인 css나 html에 맞춰서 할것
+// 			function makePageing(page){
+// 				// 가져온 결과값이 0개면 리턴
+// 				if(page.totalRecord == 0){
+// 					return;
+// 				}
+// 				// 페이징을 넣을 div, ul 생성
+// 				let pagination = $("<div/>").addClass("pagination p1");
+// 				let ul = $("<ul/>");
+// 				// 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) <<
+// 				if(page.startPage > 1){
+// 					$(ul).append($("<li/>").html("&laquo;").css("font-size","30px").on("click",function(){newBlogList(page.startPage-page.pageSize)}));
+// 				}
+// 				// 페이지 생성  ex) 1 2 3 4 5
+// 				for(let i = page.startPage; i <= page.endPage; i++){
+// 					if(page.page == i){
+// 						// 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성
+// 						$(ul).append($("<li/>").text(i).css("background-color","#2ecc71").css("border-radius","100%").css("color","#fff"));
+// 					}else {
+// 						$(ul).append($("<li/>").text(i).attr("id","pageNum").on("click",function(){newBlogList($(this).text());}));
+// 					}
+// 				}
+// 				// 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >>
+// 				if(page.endPage < page.lastPage){
+// 					$(ul).append($("<li/>").html("&raquo;").css("font-size","30px").on("click",function(){newBlogList(page.startPage+page.pageSize)}));
+// 				}
+// 				// 완성된 페이징을 넣기
+// 				pagination.append(ul);
+// 				return pagination;
+// 			}
+			
+			
+// 			// 블로그 리스트 만들기
+// 			function makeBlogList(item){
+// 				console.log("이야!!!!!!!!!!!!!!!!!!!!!!!!!"+item.blogId);
+// 				let makeClone = $(listClone).clone();
+// 				$(makeClone).find(".blog__item__pic").find("input[type=hidden].thumbnail").val(item.blogWrite);
+// 				$(makeClone).find(".blog__item__pic").find("img").attr("src",item.fileRoute);
+// 				$(makeClone).find(".blog__item__text").find("i.fa-calendar-o").text(" "+item.writeDate.substr(0,10));
+// 				$(makeClone).find(".blog__item__text").find("i.fa-comment-o").text(" "+item.replyCnt);
+// 				$(makeClone).find(".blog__item__text").find("i.fa-eye").text(" "+item.cnt);
+// 				$(makeClone).find(".blog__item__text").find("a:eq(0)").data("writeid",item.writeId).data("scope",item.publicScope).data("userid",item.blogId).text(item.writeTitle);
+// 				$(makeClone).find(".blog__item__text").find("p").text(item.subTitle);
+// 				$(makeClone).find(".blog__item__text").find("a.blog__btn").attr("href","/blog/myblog/blogWrite?bno="+item.writeId).text("READ MORE");
+			
+// 				return makeClone;
+// 			}
+			
+// 			function scopeCheck(obj){
+// 				let subTF = "[[${subCount}]]";
+// 				let writeId = $(obj).data("writeid");
+// 				let blogId = $(obj).data("userid");
+// 				let scope = $(obj).data("scope");
+// 				let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
+			
+// 				console.log("공개범위"+subTF);
+// 				if(scope == "public" || scope =="partial" && subTF == "T" || blogId == id){  // 구독여부 체크
+// 					location.href="/blog/myblog/blogWrite?bno="+writeId+"&userId="+blogId
+// 				}else if(scope == "private" && blogId == id){
+// 					location.href="/blog/myblog/blogWrite?bno="+writeId+"&userId="+blogId
+// 				}else{
+// 					alert("일부공개 된 글입니다.");
+// 				} 
+				
+// 			}
+			
+// 			// 블로그 리스트 가져오기
+// 			function newBlogList(page){
+// 				let data = nowData;
+// 				data['page'] = page;
+				
+// 		        console.log(data);
+// 		        $.ajax({
+// 		        	url: '/blog/blogSearch',
+// 			      method: 'GET',
+// 			      contentType: 'application/x-www-form-urlencoded',
+// 			      data: data,
+// 			      success: function (result) {
+// 					 $(".row").find(".col-sm-6").detach();
+// 					 $(".row").find(".pagination").detach();
+// 					 $(result["blogList"]).each(function(index, item){
+// 						$(".blogList").append(makeBlogList(item));
+// 					 })
+// 					 // 페이징 새로 생성
+// 					 $(".blogList").append(makePageing(result["newPaging"]));
+// 			      },
+// 			      error: function (error) {
+// 			         console.log(error);
+// 			         alert('실패');
+// 			      }
+// 		        })
+// 			}
+			
+//  			// 마이블로그 들어오자마자 1페이지로 보여주기
+// 			newBlogList(1);
+		</script>
+
+
 	<script type="text/javascript">
 	$('card').each(function () {
         let Image = $(this).attr('data-image');
@@ -437,6 +808,15 @@
 	</script>
 		<!-- JS -->
 		<th:block layout:fragment="script">
+			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery-ui.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.slicknav.js}"></script>
+			<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/main.js}"></script>
+			<script src="https://kit.fontawesome.com/fef5f4c5da.js" crossorigin="anonymous"></script>
 		</th:block>
 	</div>
 

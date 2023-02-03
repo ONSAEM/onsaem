@@ -380,12 +380,20 @@
 		<main class="mmtpage-content">
 
 			<!-- 모달창 띄우는 버튼 -->
-			<a th:each="moment : ${moments}" data-bs-toggle="modal" data-bs-target="#exampleModal" id="modalBtn"> 
+			<a th:each="moment : ${moments}" data-bs-toggle="modal" data-bs-target="#exampleModal" id="modalBtn"
+			 th:if="${moment.publicScope}=='public' or
+			  ${moment.publicScope}=='partial' and  ${subCount} =='T' or
+			  ${moment.blogId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}">
+			<a style="padding: 100px;"
+			 th:unless="${moment.publicScope}=='public' or
+			  ${moment.publicScope}=='partial' and  ${subCount} =='T' or
+			  ${moment.blogId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}"></a>
+			  
 			<input type="hidden" id="mmtId" th:value="${moment.momentId}">
 
 				<div class="mmtcard inputfield" id="preview-image"
 					th:style="'background: url('+@{'/fileView/'+${moment.fileRoute}}+');background-repeat:no-repeat;background-size:cover;'">
-
+				
 					<div class="mmtcontent">
 						<h2 class="mmttitle">@[[${moment.blogId}]]</h2>
 						<p class="mmtcopy">[[${moment.momentWrite}]]</p>
@@ -586,10 +594,15 @@
 								class="img-fluid sticky-top">
 						</div>
 						<div class="col-md-6 p-3">
-							<span class="round"><img
-								src="https://www.thispersondoesnotexist.com/image" alt="user"
-								width="50"></span>
-							<h3 class="mt-3" style="font-weight: bold">닉네임</h3>
+							<span class="round">
+								<img th:if="${blogInfo.fileRoute != null}"
+										th:src="'/fileView/'+${blogInfo.fileRoute}"
+										alt="profile-sample5" class="profile" width="70" style="border-radius:100px"/>
+								<img th:if="${blogInfo.fileRoute == null}"
+										th:src="@{/images/defaulltProfile.png}"
+										alt="profile-sample5" class="profile" width="70" style="border-radius:100px"/>
+								<a class="mt-3" style="font-weight: bold;font-size:20px;">닉네임</a>
+							</span>
 
 							<p id="nickname">Edited · 1d</p>
 							<button class="mmtbtn" style="color: red;" id="mmtDelBtn">delete</button>
