@@ -475,6 +475,17 @@ h1 {
 								id="file" name="uploadFile">
 						</div>
 					</div>
+					<div>
+						<div class="inputfield">
+							<label>추가이미지<span class="request">*</span></label>
+							<p>*최소 1장 최대 5장내로 등록해주세요</p>
+						</div>
+						<div class="inputfiles">
+							<input name="applyFile" type="file"
+								accept=".gif, .jpg, .png, .bmp" style="display: none;">
+							<div id="aks-file-upload"></div>
+						</div>
+					</div><br>
 					<div class="inputfield">
 						<label>상품명<span class="request">*</span></label> <input
 							type="text" name="productName" class="input">
@@ -541,15 +552,7 @@ h1 {
 							style="background-color: #66C;" onclick="submitProduct()"><input
 							type="reset" value="취소" class="btn">
 					</div>
-					<div class="inputfield">
-						<label>인증사진<span class="request">*</span></label>
-						<p>*상품 또는 사업장 사진을 최소 5장 최대 10장내로 등록해주세요</p>
-					</div>
-					<div class="inputfiles">
-						<input name="applyFile" type="file"
-							accept=".gif, .jpg, .png, .bmp" style="display: none;">
-						<div id="aks-file-upload"></div>
-					</div>
+
 				</div>
 			</div>
 
@@ -687,12 +690,12 @@ h1 {
 			$('input[name=applyFile]').parentsUntil('.form').prev().remove();
 		}
 		let check = true;
-		if (applyFileList.length + inputCount > 10) {
-			$('input[name=applyFile]').parentsUntil('.form').before($('<p/>').text("사진은 최대 10장까지 등록가능합니다").css(
+		if (applyFileList.length + inputCount > 5) {
+			$('input[name=applyFile]').parentsUntil('.form').before($('<p/>').text("사진은 최대 5장까지 등록가능합니다").css(
 				"text-align", "center").css("color", "#f20000"));
 			check = false;
-		} else if (applyFileList.length + inputCount < 5) {
-			$('input[name=applyFile]').parentsUntil('.form').before($('<p/>').text("사진을 최소 5장이상 등록해주세요").css(
+		} else if (applyFileList.length + inputCount < 1) {
+			$('input[name=applyFile]').parentsUntil('.form').before($('<p/>').text("사진을 최소 1장이상 등록해주세요").css(
 				"text-align", "center").css("color", "#f20000"));
 		}
 		return check;
