@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" class="light" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout2}">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/management.css}" type="text/css">
+	
+</th:block>
+
+<head>
+	<meta charset="UTF-8">
+	<style>
+		.gridView .products-row {
+    margin: 8px;
+    width: calc(25% - 16px);
+    background-color: #f3f6fd;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    position: relative;
+}
+
+
+	button {
+	all: unset;
+	background-color: rgb(242, 210, 215);
+	color: white;
+	padding: 5px 25px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.btn {
+	margin-top: 60px;
+}
+
+.modal {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+	.modal__background {
+		background-color: rgba(0, 0, 0, 0.6);
+		width: 100%;
+		height: 100%;
+		position: absolute;
+	}
+	
+	.modal__content {
+		text-align: center;
+		position: relative;
+		background-color: white;
+		border-radius: 10px;
+		top: 0;
+		padding: 10px 25px;
+		width: 20%;
+	}
+	
+	h1 {
+		margin: 0;
+		margin-bottom: 13px;
+	}
+	
+	.hidden {
+		display: none;
+	}
+		</style>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="title">시작 전 챌린저스</div>
+		<div class="products-area-wrapper gridView">
+
+			<div class="products-row" th:each = "chal : ${chals}">
+				<div class="product-cell image">
+					<input type="hidden" th:name="chalId" th:value="${chal.chalId}">
+					<img th:src="'/fileView/'+${chal.fileRoute}"
+						alt="product"><a th:href="@{/mypage/myChalStatus(chalId = ${chal.chalId})}"> <span th:text="${chal.chalName}">Ocean</span>
+				</div>
+				<div class="product-cell category">
+					<span class="cell-label">분류:</span><span th:text="${chal.subClass}+'전'"></span>
+				</div>
+				<div class="product-cell sales">
+					<span class="cell-label">기간:</span><span th:text="${#dates.format(chal.startDate, 'MM월 dd일')} + ' ~ ' + ${#dates.format(chal.endDate, 'MM월 dd일')}"></span>
+				</div>
+				<div class="product-cell price">
+					<span class="cell-label">인증요일:</span><span th:text="${chal.frequency}"></span>
+				</div>
+				<div class="product-cell status-cell">
+					<span class="status active openBtn">취소하기</span>
+					<span class="status active" th:text="${chal.dday}+'일 후 시작'"></span>
+				</div>
+				
+					<!-- 모달창 -->
+						<div class="modal hidden">
+							<div class="modal__background"></div>
+							<div class="modal__content">
+
+								<h3>챌린지 참가 취소하기</h3>
+								<div class="modalText">
+									<p th:text="'챌린지 명 : '+${chal.chalName}" id="chalName"></p>
+									<p th:text="'챌린지 시작일 : '+${#dates.format(chal.startDate, 'MM월 dd일')}" id="startDate"></p>
+									<p th:text="'챌린지 종료일 : '+${#dates.format(chal.endDate, 'MM월 dd일')}" id="endDate"></p>
+									<p th:text="'나의 기부금 : '+ ${chal.privateDonate}" id="privateDonate"></p>
+									<div th:if="${user.bankAccount == null}">
+										<label>계좌 번호 : </label><input type="text" id="refundAccount">
+									</div>
+									<p th:if="${user.bankAccount != null}" th:text="'환불 계좌 : '+ ${user.bankAccount}" id="refundAccount"></p>
+									<button type="button" th:onclick="cancelChal([[${chal}]])">취소하기</button>
+									<button type="button" class="closeBtn">닫기</button>
+								</div>
+							
+							</div>
+						</div>
+						<!-- 모달창 끛-->
+			</div>
+		</div>
+		<script type="text/javascript">
+			let token = $("meta[name='_csrf']").attr("content");
+			let header = $("meta[name='_csrf_header']").attr("content");
+			let memberId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}]]";
+		</script>
+		
+
+		<!-- JS -->
+		<th:block layout:fragment="script">
+		</th:block>
+	</div>
+
+</body>
+
+</html>
