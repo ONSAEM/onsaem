@@ -82,13 +82,7 @@ public class ProductController {
 		}
 		return proService.selectProduct(list);
 	}
-
-	// 주간베스트
-	@RequestMapping(value = "/shop/weekBest", method = RequestMethod.GET)
-	@ResponseBody
-	public List<ProductVO> weekBest() {
-		return proService.weekBest();
-	}
+	
 
 	// 쇼핑몰페이지이동,최신순,인기순 목록나열
 	@RequestMapping(value = "/shop", method = RequestMethod.GET)
@@ -108,6 +102,12 @@ public class ProductController {
 			model.addAttribute("productList", proService.proList(vo, paging));
 			model.addAttribute("paging", paging);
 		}
+		//주간베스트목록보내주기
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < proService.weekBest().size(); i++) {
+			list.add(proService.weekBest().get(i).getProductId());
+		}
+		model.addAttribute("weekList",proService.selectProduct(list)); 
 		return "content/shop/shopMain";
 	}
 
@@ -192,13 +192,13 @@ public class ProductController {
 	// 상품등록
 	@RequestMapping(value = "/addProduct", method = RequestMethod.POST)
 	public String addProduct(Model model, @Nullable ProductVO vo, OptionVO ovo, Authentication authentication,
-			MultipartFile[] uploadFile, MultipartFile[] natureFile) throws IllegalStateException, IOException {
+			MultipartFile[] applyFile, MultipartFile[] natureFile) throws IllegalStateException, IOException {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
 		vo.setMemberId(userDetails.getUsername());
 		proService.addProduct(vo);
 		ovo.setProductId(vo.getProductId());
-
+		System.out.println("====================="+applyFile[0].getOriginalFilename());
 		// 옵션목록 넣기
 		String[] array = ovo.getOptionContent().split(",");
 		for (int i = 0; i < array.length; i++) {
@@ -211,13 +211,13 @@ public class ProductController {
 		mvo.setGroups("쇼핑몰");
 
 		// 사진구분해서 넣기
-		for (int i = 0; i < uploadFile.length; i++) {
+		for (int i = 0; i < applyFile.length; i++) {
 			if (i == 0) {
 				mvo.setSubGroup("대표이미지");
 			} else {
 				mvo.setSubGroup("추가이미지");
 			}
-			MultipartFile[] upload = { uploadFile[i] };
+			MultipartFile[] upload = { applyFile[i] };
 			mediaService.uploadMedia(upload, mvo);
 		}
 

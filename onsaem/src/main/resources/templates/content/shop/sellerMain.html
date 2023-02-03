@@ -152,11 +152,11 @@ label {
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12" th:each="count:${countList}">
-					<h3 style="margin-left: 20px; display: inline-block">판매자 상품목록</h3>
+					<h3 style="margin-left: 20px; display: inline-block" >판매자 상품목록</h3>
 					<br> <br>
-					<h2 style="margin-left: 20px; display: inline-block">
-						<i class="fa-solid fa-house" style="text-align: center"
-							onclick="allSell()"><h5>전체[[${#lists.size(sellerList)}]]건</h5></i>
+					<h2 style="margin-left: 20px; display: inline-block" >
+						<i class="fa-solid fa-house" style="text-align: center; cursor:pointer"
+							onclick="allSell()"><h5 >전체[[${#lists.size(sellerList)}]]건</h5></i>
 					</h2>
 					<h2 style="margin-left: 20px; display: inline-block">
 						<i class="fa-solid fa-hourglass-start" style="text-align: center"

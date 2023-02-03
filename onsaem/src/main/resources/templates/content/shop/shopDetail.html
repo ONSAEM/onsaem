@@ -56,6 +56,7 @@ h1 {
 	display: none;
 }
 </style>
+<script type="text/javascript" th:src="@{/smarteditor/js/HuskyEZCreator.js}"></script>
 </head>
 
 
@@ -157,18 +158,18 @@ h1 {
 									th:value="${option != null ? option.optionContent : null}"
 									th:text="${option != null ? option.optionContent : null}"></option>
 							</select> <a th:onclick="cartEvent(this)" class="primary-btn"
-								sec:authorize="isAuthenticated()">장바구니 담기</a> <a
+								sec:authorize="isAuthenticated()" style="cursor:pointer">장바구니 담기</a> <a
 								onclick="noLogin()" class="primary-btn"
 								href="javascript:location.reload()"
-								sec:authorize="isAnonymous()">장바구니 담기</a>
+								sec:authorize="isAnonymous()" style="cursor:pointer">장바구니 담기</a>
 							<button th:onclick="changeHeart(this)" style="border: solid 0px;"
 								class="change-heart" sec:authorize="isAuthenticated()">♡</button>
 							<br>
 						</div>
 						<a th:onclick="buyProduct([[${productList}]])" class="primary-btn"
-							sec:authorize="isAuthenticated()">구매하기</a> <a
+							sec:authorize="isAuthenticated()" style="cursor:pointer">구매하기</a> <a
 							href="javascript:location.reload()" class="primary-btn"
-							sec:authorize="isAnonymous()" onclick="noLogin()">구매하기</a>
+							sec:authorize="isAnonymous()" onclick="noLogin()" style="cursor:pointer">구매하기</a>
 						<ul>
 							<li><b>Shipping</b> <span>01 day shipping. </span>
 						</ul>
@@ -186,7 +187,7 @@ h1 {
 								href="#tabs-2" role="tab" aria-selected="false">상품후기<span
 									id="totalReview">(1)</span></a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tabs-3" role="tab" aria-selected="false">상품문의 </a></li>
+								href="#tabs-3" role="tab" aria-selected="false" >상품문의 </a></li>
 
 						</ul>
 
@@ -207,9 +208,8 @@ h1 {
 
 									<div>
 										<img alt="" th:src="@{/shoptemplate/img/product/회원혜택.jpg}">
-									</div>
-									<h6 th:text="${product.productName}">Products Infomation</h6>
-									<p th:text="${product.productInfo}"></p>
+									</div>									
+									<p>[(${product.productInfo})]</p>									
 									<div th:each="nature : ${natureImg}">
 										<img alt="" th:src="@{/fileView/{fileRoute}/
 									(fileRoute=${nature.fileRoute})}">
@@ -287,9 +287,9 @@ h1 {
 												</div>
 												<div style="text-align:center">
 													<a th:onclick="reviewWrite()" class="primary-btn"
-														sec:authorize="isAuthenticated()">리뷰작성하기</a> <a
+														sec:authorize="isAuthenticated()" style="cursor:pointer">리뷰작성하기</a> <a
 														href="javascript:location.reload()" class="primary-btn"
-														sec:authorize="isAnonymous()" onclick="noLogin()">리뷰작성하기</a>
+														sec:authorize="isAnonymous()" onclick="noLogin()" style="cursor:pointer">리뷰작성하기</a>
 												</div>
 											</div>
 										</section>
@@ -402,6 +402,21 @@ h1 {
 		 var token = $("meta[name='_csrf']").attr("content");
 		 var header = $("meta[name='_csrf_header']").attr("content");		 
 		
+		 
+		 let oEditors = [];
+			
+			smartEditor = function() {
+				nhn.husky.EZCreator.createInIFrame({
+					oAppRef: oEditors,
+					elPlaceHolder: "ir1",
+					sSkinURI: "/smarteditor/SmartEditor2Skin.html",
+					fCreator: "createSEditor2"
+				});
+			}
+			
+			$(document).ready(function() {
+			      smartEditor()
+			    })
 		 //리뷰갯수 가져오기
 		  window.onload=function(){	
 			 productId="[[${param.data}]]";			  
