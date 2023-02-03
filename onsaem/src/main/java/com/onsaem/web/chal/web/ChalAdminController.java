@@ -153,6 +153,7 @@ public class ChalAdminController {
 		//참가자테이블 result, resultPoint 업데이트
 		partService.updatePointOne(vo);
 		//member테이블 업데이트
+		
 		chalService.updateMemberPoint(vo);
 		
 		return "true";
@@ -280,6 +281,7 @@ public class ChalAdminController {
 	@RequestMapping(value="/searchTeamChals", method=RequestMethod.POST)
 	@ResponseBody
 	public List<ChalVO> getTeamChals(ChalVO vo){
+		System.out.println(vo);
 		vo.setSubClass("팀");
 		return chalService.adminSearchChals(vo);
 	}

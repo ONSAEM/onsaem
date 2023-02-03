@@ -135,8 +135,10 @@
                        		</ul>
 							
 							
-							<span th:if="${cnt.cnt} >=1" class="primary-btn" >이미 참가 중인 챌린지 입니다</span>
-							<button th:unless="${cnt.cnt} >=1" onclick = "goPage()" class="primary-btn">참가하기</button>
+							<span th:if="${cnt.cnt} >0 and ${chal.nowStart} >=0 and ${chal.nowEnd}<0" class="primary-btn" >이미 참가 중인 챌린지 입니다</span>
+							<button th:if="${cnt.cnt} >0 and ${chal.nowStart}<0 and ${chal.nowEnd}<0" onclick = "goPage()" class="primary-btn">참가하기</button>
+							<button th:if = "${chal.nowEnd} >0 " class="primary-btn" style="background-color : #E6E0F8 ">이미 종료된 챌린지 입니다</button>
+							<button th:if = "${chal.nowStart} >=0 and ${chal.nowEnd} <=0" class="primary-btn" style="background-color : blue ">이미 시작된 챌린지 입니다</button>
 							
 							<button class="openBtn" style="background-color:red; color:white; width:120px; height:51px; border:none">신고하기</button>						 	
                     </div>
