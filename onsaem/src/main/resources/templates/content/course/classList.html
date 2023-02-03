@@ -1,451 +1,503 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 
 <!-- Css  -->
 <th:block layout:fragment="css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/jquery-ui.min.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
-		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/jquery-ui.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
 </th:block>
+
 <head>
-<style>
+	<style>
+		/* GENERAL STYLES */
+		.pagination ul {
+			margin: auto;
+			padding: 0;
+			list-style: none;
+		}
 
-/* GENERAL STYLES */
-.pagination ul {
-	margin: auto;
-	padding: 0;
-	list-style: none;
-}
+		/* ONE */
+		.p1 li {
+			font-size: 14px;
+			width: 40px;
+			height: 40px;
+			line-height: 40px;
+			padding: 0;
+			text-align: center;
+			float: left;
+			cursor: pointer;
+		}
 
-/* ONE */
-.p1 li {
-	font-size: 14px;
-	width: 40px;
-	height: 40px;
-	line-height: 40px;
-	padding: 0;
-	text-align: center;
-	float: left;
-	cursor: pointer;
-}
-</style>
+		.main {
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+			min-width: 1400px;
+		}
+
+		.main-container {
+			padding: 20px;
+			flex-grow: 1;
+			overflow: auto;
+			background-color: #FCFBFC;
+		}
+
+		.profile-cover {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: center;
+			border-radius: 4px;
+		}
+
+		.subheader {
+			position: relative;
+			height: 300px;
+			min-height: 250px;
+			z-index: 1;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-size: cover;
+			background-position: center;
+		}
+
+		.subheader:before {
+			content: "";
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			z-index: -1;
+			left: 0;
+			top: 0;
+			background-image:
+				url("/course/test.jpg");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center;
+			filter: blur(30px);
+			opacity: 0.7;
+		}
+
+		.glass {
+			height: 100%;
+			width: 100%;
+			background-image: url("/course/test.jpg");
+			background-size: cover;
+			background-position: center;
+			clip-path: inset(10em);
+			filter: blur(5px);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.drop-shadow {
+			height: 155%;
+			width: 100%;
+			filter: drop-shadow(0px 20px 10px rgba(0, 0, 0, 0.3));
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.drop-shadow:before {
+			display: block;
+			content: "";
+			position: absolute;
+			top: 10em;
+			height: calc(100% - 20em);
+			width: calc(100% - 20em);
+			border-top: 2px solid rgba(225, 225, 225, 0.2);
+			border-left: 1px solid rgba(225, 225, 225, 0.1);
+			border-right: 1px solid rgba(225, 225, 225, 0.3);
+			z-index: 2;
+		}
+
+		.drop-shadow>span {
+			position: absolute;
+			z-index: 5;
+			color: white;
+			font-size: 4em;
+			letter-spacing: 0.75em;
+			padding-left: 0.375em;
+		}
+
+		.sidebar {
+			padding: 20px 30px;
+			background-color: #ffffff;
+			border-radius: 10px;
+			margin-bottom: 10px;
+		}
+
+		.col-lg-9 {
+			background-color: #ffffff;
+			padding: 20px 30px;
+			border-radius: 20px;
+			margin-bottom: 10px;
+		}
+
+		.product {
+			padding-top: 0px;
+			padding-bottom: 80px;
+			position: relative;
+			z-index: 1;
+		}
+
+		.gridView .products-row {
+			margin: 8px;
+			width: calc(100% - 16px);
+			background-color: #f3f6fd;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: transform 0.2s;
+			position: relative;
+			padding-bottom: 8px;
+		}
+
+		.products-row img {
+			border-radius: 4px 4px 0px 0px;
+			height: 70%;
+			width: 100%;
+		}
+
+		.product-cell {
+			margin: 8px;
+			text-align: end;
+		}
+
+		.classList .products-row {
+			margin: 15px 26px;
+			width: calc(30% - 16px);
+			background-color: #f3f6fd;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: transform 0.2s;
+			position: relative;
+			padding-bottom: 8px;
+			margin-bottom: 20px;
+			height: 400px;
+		}
+
+		.classList {
+			flex-shrink: 0;
+			width: 100%;
+			max-width: 100%;
+			padding-right: calc(var(--bs-gutter-x) * .5);
+			padding-left: calc(var(--bs-gutter-x) * .5);
+			margin-top: var(--bs-gutter-y);
+			display: flex;
+			flex-wrap: wrap;
+		}
+	</style>
 </head>
 
 <!-- Content -->
 
 <div layout:fragment="content">
-	<!-- Breadcrumb Section Begin -->
-	<section class="breadcrumb-section set-bg"
-		th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 text-center">
-					<div class="breadcrumb__text">
-						<h2>Onsaem Class</h2>
-						<div class="breadcrumb__option">
-							<a href="./index.html">Home</a> <span>Class</span>
-						</div>
-					</div>
+	<div class="main">
+		<div class="main-container">
+			<div class="subheader">
+				<img src="/course/test.jpg" alt="" class="profile-cover">
+				<div class="drop-shadow">
+					<div class="glass"></div>
+					<span>CLASS</span>
 				</div>
 			</div>
-		</div>
-	</section>
-	<!-- Breadcrumb Section End -->
-	<br>
-	<!-- Product Section Begin -->
-	<section class="product spad">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3 col-md-5">
-					<div class="sidebar">
-						<div class="sidebar__item">
-							<h4>지역</h4>
-							<select class="addr">
-								<option value="">::지역선택::</option>
-								<option value="서울">서울</option>
-								<option value="부산">부산</option>
-								<option value="대구">대구</option>
-								<option value="인천">인천</option>
-								<option value="광주">광주</option>
-								<option value="대전">대전</option>
-								<option value="울산">울산</option>
-								<option value="세종">세종</option>
-								<option value="경기">경기</option>
-								<option value="강원">강원</option>
-								<option value="충청북도">충북</option>
-								<option value="충청남도">충남</option>
-								<option value="전라북도">전북</option>
-								<option value="전라남도">전남</option>
-								<option value="경상북도">경북</option>
-								<option value="경상남도">경남</option>
-								<option value="제주">제주</option>
-							</select> <br>
-						</div>
-						<div class="sidebar__item">
-							<h4>가격</h4>
-							<div class="price-range-wrap" style="text-align: center">
-								<div
-									class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-									th:data-min=${minPrice} th:data-max=${maxPrice}>
-									<div class="ui-slider-range ui-corner-all ui-widget-header"></div>
-									<span tabindex="0"
-										class="ui-slider-handle ui-corner-all ui-state-default"></span>
-									<span tabindex="0"
-										class="ui-slider-handle ui-corner-all ui-state-default"></span>
-								</div>
-								<div class="range-slider">
-									<div class="price-input">
-										<input type="text" id="minamount" style="text-align: right"><i
-											class="fa-solid fa-minus"
-											style="color: #63bf63; margin: 0px 10px"></i><input
-											type="text" id="maxamount" style="text-align: left">
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="sidebar__item sidebar__item__color--option">
-							<h4>날짜</h4>
-							<label for="white"> 시작 <input class="startDate"
-								type="date">
-							</label> <label for="gray"> 종료 <input class="endDate" type="date">
-							</label>
-						</div>
-						<div class="sidebar__item">
-							<h4>검색</h4>
-							<input type="text" class="searchWord" placeholder="검색">
-						</div>
-						<button type="button" class="site-btn">SEARCH</button>
-					</div>
-				</div>
-				<div class="col-lg-9 col-md-7">
-					<div class="product__discount">
-						<div class="section-title product__discount__title">
-							<h2 class="ko-h2">인기 클래스</h2>
-						</div>
-						<div class="row">
-							<div class="product__discount__slider owl-carousel">
-								<div class="col-lg-4">
-									<div class="product__discount__item">
-										<div class="product__discount__item__pic set-bg"
-											th:data-setbg="@{/shoptemplate/img/product/discount/pd-1.jpg}">
-											<div class="product__discount__percent">-20%</div>
-											<ul class="product__item__pic__hover">
-												<li><a href="#"><i class="fa fa-heart"></i></a></li>
-												<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-												<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-											</ul>
-										</div>
-										<div class="product__discount__item__text">
-											<span>Dried Fruit</span>
-											<h5>
-												<a href="#">Raisin’n’nuts</a>
-											</h5>
-											<div class="product__item__price">
-												$30.00 <span>$36.00</span>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-4">
-									<div class="product__discount__item">
-										<div class="product__discount__item__pic set-bg"
-											th:data-setbg="@{/shoptemplate/img/product/discount/pd-2.jpg}">
-											<div class="product__discount__percent">-20%</div>
-											<ul class="product__item__pic__hover">
-												<li><a href="#"><i class="fa fa-heart"></i></a></li>
-												<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-												<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-											</ul>
-										</div>
-										<div class="product__discount__item__text">
-											<span>Vegetables</span>
-											<h5>
-												<a href="#">Vegetables’package</a>
-											</h5>
-											<div class="product__item__price">
-												$30.00 <span>$36.00</span>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-4">
-									<div class="product__discount__item">
-										<div class="product__discount__item__pic set-bg"
-											th:data-setbg="@{/shoptemplate/img/product/discount/pd-3.jpg}">
-											<div class="product__discount__percent">-20%</div>
-											<ul class="product__item__pic__hover">
-												<li><a href="#"><i class="fa fa-heart"></i></a></li>
-												<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-												<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-											</ul>
-										</div>
-										<div class="product__discount__item__text">
-											<span>Dried Fruit</span>
-											<h5>
-												<a href="#">Mixed Fruitss</a>
-											</h5>
-											<div class="product__item__price">
-												$30.00 <span>$36.00</span>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-4">
-									<div class="product__discount__item">
-										<div class="product__discount__item__pic set-bg"
-											th:data-setbg="@{/shoptemplate/img/product/discount/pd-4.jpg}">
-											<div class="product__discount__percent">-20%</div>
-											<ul class="product__item__pic__hover">
-												<li><a href="#"><i class="fa fa-heart"></i></a></li>
-												<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-												<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-											</ul>
-										</div>
-										<div class="product__discount__item__text">
-											<span>Dried Fruit</span>
-											<h5>
-												<a href="#">Raisin’n’nuts</a>
-											</h5>
-											<div class="product__item__price">
-												$30.00 <span>$36.00</span>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-4">
-									<div class="product__discount__item">
-										<div class="product__discount__item__pic set-bg"
-											th:data-setbg="@{/shoptemplate/img/product/discount/pd-5.jpg}">
-											<div class="product__discount__percent">-20%</div>
-											<ul class="product__item__pic__hover">
-												<li><a href="#"><i class="fa fa-heart"></i></a></li>
-												<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-												<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-											</ul>
-										</div>
-										<div class="product__discount__item__text">
-											<span>Dried Fruit</span>
-											<h5>
-												<a href="#">Raisin’n’nuts</a>
-											</h5>
-											<div class="product__item__price">
-												$30.00 <span>$36.00</span>
-											</div>
-										</div>
-									</div>
-								</div>
-
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="filter__item">
+			<br>
+			<!-- Product Section Begin -->
+			<section class="product spad">
+				<div class="container">
 					<div class="row">
-						<div class="col-lg-4 col-md-5">
-							<div class="filter__sort">
-								<span>Sort By</span> <select name="orderId" class="orderId"
-									th:onchange="newOrder()">
-									<option value="OD0">최신순</option>
-									<option value="OD1">별점높은순</option>
-									<option value="OD2">가격높은순</option>
-									<option value="OD3">가격낮은순</option>
-								</select>
+						<div class="col-lg-3 col-md-5">
+							<div class="sidebar">
+								<div class="sidebar__item">
+									<h4>지역</h4>
+									<select class="addr">
+										<option value="">::지역선택::</option>
+										<option value="서울">서울</option>
+										<option value="부산">부산</option>
+										<option value="대구">대구</option>
+										<option value="인천">인천</option>
+										<option value="광주">광주</option>
+										<option value="대전">대전</option>
+										<option value="울산">울산</option>
+										<option value="세종">세종</option>
+										<option value="경기">경기</option>
+										<option value="강원">강원</option>
+										<option value="충청북도">충북</option>
+										<option value="충청남도">충남</option>
+										<option value="전라북도">전북</option>
+										<option value="전라남도">전남</option>
+										<option value="경상북도">경북</option>
+										<option value="경상남도">경남</option>
+										<option value="제주">제주</option>
+									</select> <br>
+								</div>
+								<div class="sidebar__item">
+									<h4>가격</h4>
+									<div class="price-range-wrap" style="text-align: center">
+										<div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+											th:data-min=${minPrice} th:data-max=${maxPrice}>
+											<div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+											<span tabindex="0"
+												class="ui-slider-handle ui-corner-all ui-state-default"></span>
+											<span tabindex="0"
+												class="ui-slider-handle ui-corner-all ui-state-default"></span>
+										</div>
+										<div class="range-slider">
+											<div class="price-input">
+												<input type="text" id="minamount" style="text-align: right"><i
+													class="fa-solid fa-minus"
+													style="color: #63bf63; margin: 0px 10px"></i><input type="text"
+													id="maxamount" style="text-align: left">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="sidebar__item sidebar__item__color--option">
+									<h4>날짜</h4>
+									<label for="white"> 시작 <input class="startDate" type="date">
+									</label> <label for="gray"> 종료 <input class="endDate" type="date">
+									</label>
+								</div>
+								<div class="sidebar__item">
+									<h4>검색</h4>
+									<input type="text" class="searchWord" placeholder="검색">
+								</div>
+								<button type="button" class="site-btn">SEARCH</button>
 							</div>
 						</div>
-					</div>
-				</div>
+						<div class="col-lg-9 col-md-7">
+							<div class="product__discount">
+								<div class="section-title product__discount__title">
+									<h2 class="ko-h2">인기 클래스</h2>
+								</div>
+								<div class="row">
+									<div class="product__discount__slider owl-carousel gridView">
+										<div class="products-row">
+											<img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+												alt="product">
+											<div class="product-cell">
+												Ocean
+											</div>
+											<div class="product-cell">
+												$560
+											</div>
+											<div class="product-cell">
+												11
+											</div>
+										</div>
 
-				<div class="row classList">
-					<div class="col-lg-4 col-md-6 col-sm-6"
-						th:each="class : ${classList}">
-						<div class="product__item">
-							<div class="product__item__pic set-bg"
-								th:data-setbg="'/fileView/'+${class.media.fileRoute}">
-								<ul class="product__item__pic__hover">
-									<li><a href="#"><i class="fa fa-heart"></i></a></li>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="filter__item">
+								<div class="row">
+									<div class="col-lg-4 col-md-5">
+										<div class="filter__sort">
+											<span>Sort By</span> <select name="orderId" class="orderId"
+												th:onchange="newOrder()">
+												<option value="OD0">최신순</option>
+												<option value="OD1">별점높은순</option>
+												<option value="OD2">가격높은순</option>
+												<option value="OD3">가격낮은순</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="classList">
+								<div class="products-row" th:each="class : ${classList}" th:id="${class.classId}">
+									<img th:src="'/fileView/'+${class.media.fileRoute}" alt="product">
+									<div class="product-cell" th:text="${class.className}">
+									</div>
+									<div class="product-cell" th:text="${class.price}+'원'">
+									</div>
+									<div class="product-cell">
+										<i class="fa-solid fa-star" th:if="${class.star} != 0" th:each="num:${#numbers.sequence(1,class.star)}"
+											style="color: #ffe949"></i><i class="fa-solid fa-star-half"
+											th:if="${class.star%1 >= 0.5}" style="color: #ffe949"></i>
+								</div>
+							</div>
+						</div>
+						<!-- 처음 페이지 열릴때는 여기서 페이징 생성, 이후 아작스로 결과값 가져올때는 자바스크립트로 생성해서 새로 넣기 -->
+							<!-- 페이징 부분 -->
+							<div class="pagination p1" th:if="${page.totalRecord != 0}">
+								<ul>
+									<!-- 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) << -->
+									<li id="prevPaging" th:if="${page.startPage > 1}" style="font-size: 30px;">&laquo;
+									</li>
+									<th:block th:each="num : ${#numbers.sequence(page.startPage,page.endPage)}">
+										<!-- 페이지 생성  ex) 1 2 3 4 5-->
+										<li id="pageNum" th:if="${page.page != num}" th:text=${num}></li>
+										<!-- 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성-->
+										<li th:if="${page.page == num}" th:text=${num}
+											style="background-color: #2ecc71; border-radius: 100%; color: #fff;"></li>
+									</th:block>
+									<!-- 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >> -->
+									<li id="nextPaging" th:if="${page.endPage < page.lastPage}"
+										style="font-size: 30px;">&raquo;</li>
 								</ul>
 							</div>
-							<div class="product__item__text">
-								<h6>
-									<a th:href="'/class/classDetail?classId='+${class.classId}"
-										th:text="${class.className}"></a>
-								</h6>
-								<h5 th:text="${class.price}+'원'"></h5>
-								<i class="fa-solid fa-star" th:if="${class.star} != 0"
-									th:each="num:${#numbers.sequence(1,class.star)}"
-									style="color: #ffe949"></i><i class="fa-solid fa-star-half"
-									th:if="${class.star%1 >= 0.5}" style="color: #ffe949"></i>
-							</div>
+							<!-- 페이징 끝 -->
 						</div>
 					</div>
-					<!-- 처음 페이지 열릴때는 여기서 페이징 생성, 이후 아작스로 결과값 가져올때는 자바스크립트로 생성해서 새로 넣기 -->
-					<!-- 페이징 부분 -->
-					<div class="pagination p1" th:if="${page.totalRecord != 0}">
-						<ul>
-							<!-- 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) << -->
-							<li id="prevPaging" th:if="${page.startPage > 1}"
-								style="font-size: 30px;">&laquo;</li>
-							<th:block
-								th:each="num : ${#numbers.sequence(page.startPage,page.endPage)}">
-								<!-- 페이지 생성  ex) 1 2 3 4 5-->
-								<li id="pageNum" th:if="${page.page != num}" th:text=${num}></li>
-								<!-- 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성-->
-								<li th:if="${page.page == num}" th:text=${num}
-									style="background-color: #2ecc71; border-radius: 100%; color: #fff;"></li>
-							</th:block>
-							<!-- 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >> -->
-							<li id="nextPaging" th:if="${page.endPage < page.lastPage}"
-								style="font-size: 30px;">&raquo;</li>
-						</ul>
-					</div>
-					<!-- 페이징 끝 -->
 				</div>
-			</div>
+			</section>
 		</div>
-	</section>
+	</div>
+
 	<!-- Product Section End -->
 	<script type="text/javascript">
-			let listClone = $(".classList").find(".col-md-6").first().clone(true);
-			let nowData = {};
-			
-			function dataMake(){
-				let data = {};
-				if($(".addr").val()){
-					data['classAddr'] = $(".addr").val();
-				}
-				if($("#minamount").val().slice(0, -1)){
-					data['minPrice'] = $("#minamount").val().slice(0, -1);
-				}
-				if($("#maxamount").val().slice(0, -1)){
-					data['maxPrice'] = $("#maxamount").val().slice(0, -1);;
-				}
-				if($(".startDate").val()){
-					data['startDate'] = $(".startDate").val();
-				}
-				if($(".endDate").val()){
-					data['endDate'] = $(".endDate").val();
-				}
-				if($(".searchWord").val()){
-					data['className'] = $(".searchWord").val();
-				}
-				data['orderId'] = $(".orderId").val();
-				return data;
+		let nowData = {};
+
+		$('.products-row').each(function(){
+			$(this).on('click',function(){
+				location.href="/class/classDetail?classId="+$(this).attr("id");
+			})
+		})
+
+		function dataMake() {
+			let data = {};
+			if ($(".addr").val()) {
+				data['classAddr'] = $(".addr").val();
 			}
-			// 검색
-			$(".site-btn").on("click",function(){
-				nowData = dataMake();
-				newClassList(1);
-			});
-
-			// 페이지 이동
-			$(".classList").find("#pageNum").on("click",function(){
-				newClassList($(this).text());
-			});
-
-			// 다음 페이징 목록 이동
-			$(".classList").find("#nextPaging").on("click",function(){
-				newClassList("[[${page.startPage+page.pageSize}]]");
-			});
-
-			// 이전 페이징 목록 이동
-			$(".classList").find("#prevPaging").on("click",function(){
-				newClassList("[[${page.startPage-page.pageSize}]]");
-			});
-			
-			// 정렬 변경
-			function newOrder(){
-				nowData['orderId'] = $(".orderId").val();
-				newClassList(1);
+			if ($("#minamount").val().slice(0, -1)) {
+				data['minPrice'] = $("#minamount").val().slice(0, -1);
 			}
-			
-			// 페이징 만들기 이건 본인 css나 html에 맞춰서 할것
-			function makePageing(page){
-				// 가져온 결과값이 0개면 리턴
-				if(page.totalRecord == 0){
-					return;
-				}
-				// 페이징을 넣을 div, ul 생성
-				let pagination = $("<div/>").addClass("pagination p1");
-				let ul = $("<ul/>");
-				// 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) <<
-				if(page.startPage > 1){
-					$(ul).append($("<li/>").html("&laquo;").css("font-size","30px").on("click",function(){newClassList(page.startPage-page.pageSize)}));
-				}
-				// 페이지 생성  ex) 1 2 3 4 5
-				for(let i = page.startPage; i <= page.endPage; i++){
-					if(page.page == i){
-						// 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성
-						$(ul).append($("<li/>").text(i).css("background-color","#2ecc71").css("border-radius","100%").css("color","#fff"));
-					}else {
-						$(ul).append($("<li/>").text(i).attr("id","pageNum").on("click",function(){newClassList($(this).text());}));
-					}
-				}
-				// 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >>
-				if(page.endPage < page.lastPage){
-					$(ul).append($("<li/>").html("&raquo;").css("font-size","30px").on("click",function(){newClassList(page.startPage+page.pageSize)}));
-				}
-				// 완성된 페이징을 넣기
-				pagination.append(ul);
-				return pagination;
+			if ($("#maxamount").val().slice(0, -1)) {
+				data['maxPrice'] = $("#maxamount").val().slice(0, -1);;
 			}
-
-			// 강의 리스트 만들기
-			function makeList(item){
-					let makeClone = $(listClone).clone();
-					$(makeClone).find(".product__item__pic").attr("data-setbg","/fileView/"+item.media.fileRoute);
-					$(makeClone).find(".product__item__pic").css("background-image","url(/fileView/"+item.media.fileRoute+")");
-					$(makeClone).find("h5").text(item.price+"원");
-					$(makeClone).find(".product__item__text").find("a").attr("href","/class/classDetail?classId="+item.classId);
-					$(makeClone).find(".product__item__text").find("a").text(item.className);
-					$(makeClone).find(".product__item__text").find("i").remove();
-					for( let i = 1; i <= item.star; i++){
-						$(makeClone).find(".product__item__text").append($("<i/>").addClass('fa-solid fa-star').css("color","#ffe949"));
-					}
-					if(item.star%1 >= 0.5){
-						$(makeClone).find(".product__item__text").append($("<i/>").addClass('fa-solid fa-star-half').css("color","#ffe949"));
-					}
-					return makeClone;
+			if ($(".startDate").val()) {
+				data['startDate'] = $(".startDate").val();
 			}
+			if ($(".endDate").val()) {
+				data['endDate'] = $(".endDate").val();
+			}
+			if ($(".searchWord").val()) {
+				data['className'] = $(".searchWord").val();
+			}
+			data['orderId'] = $(".orderId").val();
+			return data;
+		}
+		// 검색
+		$(".site-btn").on("click", function () {
+			nowData = dataMake();
+			newClassList(1);
+		});
 
-			// 강의목록 가져오기
-			function newClassList(page){
-				let data = nowData;
-				data['page'] = page;
-		         console.log(data);
-				$.ajax({
-			      url: '/class/classSearch',
-			      method: 'GET',
-			      contentType: 'application/x-www-form-urlencoded',
-			      data: data,
-			      success: function (result) {
-					 $(".row").find(".col-sm-6").detach();
-					 $(".row").find(".pagination").detach();
-					 $(result["classList"]).each(function(index, item){
+		// 페이지 이동
+		$("#pageNum").each(function(){
+			$(this).on("click", function () {
+			newClassList($(this).text());
+		});
+		})
+
+		// 다음 페이징 목록 이동
+		$("#nextPaging").on("click", function () {
+			newClassList("[[${page.startPage+page.pageSize}]]");
+		});
+
+		// 이전 페이징 목록 이동
+		$("#prevPaging").on("click", function () {
+			newClassList("[[${page.startPage-page.pageSize}]]");
+		});
+
+		// 정렬 변경
+		function newOrder() {
+			nowData['orderId'] = $(".orderId").val();
+			newClassList(1);
+		}
+
+		// 페이징 만들기 이건 본인 css나 html에 맞춰서 할것
+		function makePageing(page) {
+			// 가져온 결과값이 0개면 리턴
+			if (page.totalRecord == 0) {
+				return;
+			}
+			// 페이징을 넣을 div, ul 생성
+			let pagination = $("<div/>").addClass("pagination p1");
+			let ul = $("<ul/>");
+			// 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) <<
+			if (page.startPage > 1) {
+				$(ul).append($("<li/>").html("&laquo;").css("font-size", "30px").on("click", function () { newClassList(page.startPage - page.pageSize) }));
+			}
+			// 페이지 생성  ex) 1 2 3 4 5
+			for (let i = page.startPage; i <= page.endPage; i++) {
+				if (page.page == i) {
+					// 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성
+					$(ul).append($("<li/>").text(i).css("background-color", "#2ecc71").css("border-radius", "100%").css("color", "#fff"));
+				} else {
+					$(ul).append($("<li/>").text(i).attr("id", "pageNum").on("click", function () { newClassList($(this).text()); }));
+				}
+			}
+			// 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >>
+			if (page.endPage < page.lastPage) {
+				$(ul).append($("<li/>").html("&raquo;").css("font-size", "30px").on("click", function () { newClassList(page.startPage + page.pageSize) }));
+			}
+			// 완성된 페이징을 넣기
+			pagination.append(ul);
+			return pagination;
+		}
+
+		// 강의 리스트 만들기
+		function makeList(item) {
+			let makeClone = $(`<div class="products-row" th:id="${item.classId}">
+								<img src="/fileView/${item.media.fileRoute}" alt="product">
+								<div class="product-cell" >${item.className}
+								</div>
+								<div class="product-cell" >${item.price}원
+								</div>
+								<div class="product-cell">
+								</div>
+							</div>`);
+			for (let i = 1; i <= item.star; i++) {
+				$(makeClone).children(".product-cell").eq(2).append($("<i/>").addClass('fa-solid fa-star').css("color", "#ffe949"));
+			}
+			if (item.star % 1 >= 0.5) {
+				$(makeClone).children(".product-cell").eq(2).append($("<i/>").addClass('fa-solid fa-star-half').css("color", "#ffe949"));
+			}
+			return makeClone;
+		}
+
+		// 강의목록 가져오기
+		function newClassList(page) {
+			let data = nowData;
+			data['page'] = page;
+			$.ajax({
+				url: '/class/classSearch',
+				method: 'GET',
+				contentType: 'application/x-www-form-urlencoded',
+				data: data,
+				success: function (result) {
+					$(".classList").children().detach();
+					$(".row").find(".pagination").detach();
+					$(result["classList"]).each(function (index, item) {
 						$(".classList").append(makeList(item));
-					 })
-					 // 페이징 새로 생성
-					 $(".classList").append(makePageing(result["newPaging"]));
-			      },
-			      error: function (error) {
-			         console.log(error);
-			         alert('실패');
-			      }
-			   })
-			}
-			
-		</script>
+					})
+					// 페이징 새로 생성
+					$(".classList").after(makePageing(result["newPaging"]));
+				},
+				error: function (error) {
+					console.log(error);
+					alert('실패');
+				}
+			})
+		}
+
+	</script>
 
 	<!-- JS -->
 	<th:block layout:fragment="script">
@@ -459,4 +511,5 @@
 		<script th:src="@{/shoptemplate/js/main.js}"></script>
 	</th:block>
 </div>
+
 </html>

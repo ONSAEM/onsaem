@@ -112,7 +112,7 @@
 .profile {
 	width: 93%;
 	position: relative;
-	height: 40vh;
+	height: 500px;
 	min-height: 250px;
 	max-height: 350px;
 	z-index: 1;
