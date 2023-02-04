@@ -133,6 +133,81 @@
 			let token = $("meta[name='_csrf']").attr("content");
 			let header = $("meta[name='_csrf_header']").attr("content");
 			let memberId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}]]";
+		
+			//모달창 생성
+			document.querySelectorAll(".openBtn").forEach((openBtn) => {
+				console.log(openBtn);
+				openBtn.addEventListener("click", displayModal);
+				
+			})
+			const modal = document.querySelector(".modal");
+			const closeButton = modal.querySelector(".closeBtn");
+			const modalBackground = modal.querySelector(".modal__background");
+
+			function displayModal() {
+				modal.classList.toggle("hidden");
+			}
+
+			
+			closeButton.addEventListener("click", displayModal)
+			modalBackground.addEventListener("click", displayModal);
+			//=----모달창관련 스크립트 끝
+			
+			//모달창에서 사진 미리보기 띄우기 
+			function readImage(input) {
+			    // 인풋 태그에 파일이 있는 경우
+			    if(input.files && input.files[0]) {
+			        // 이미지 파일인지 검사 (생략)
+			        // FileReader 인스턴스 생성
+			        const reader = new FileReader()
+			        // 이미지가 로드가 된 경우
+			        reader.onload = e => {
+			            const previewImage = document.getElementById("preview-image")
+			            previewImage.src = e.target.result
+			        }
+			        // reader가 이미지 읽도록 하기
+			        reader.readAsDataURL(input.files[0])
+			    }
+			}
+			
+			//모달창한테 값넘기기 ㅋㅋ
+			
+			// input file에 change 이벤트 부여
+			const inputImage = document.getElementById("input-image")
+			inputImage.addEventListener("change", e => {
+			    readImage(e.target)
+			})
+
+		function cancelChal(data){
+				let paymentId = data.paymentId;
+				let refundMethod = data.paymentMethod;
+				let groupId = data.chalId;
+				let refundAccount = document.getElementById("refundAccount").value;
+
+				 $.ajax({
+		    		url:'/mypage/myBeforeChal',
+		    		method: 'post',
+		    		beforeSend : function(xhr)
+		               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+		               xhr.setRequestHeader(header, token);
+		               },
+		    		contentType : 'application/json',
+		    		data: JSON.stringify({paymentId:paymentId,
+		    			refundMethod:refundMethod,
+		    			groupId:groupId,
+		    			refundAccount : refundAccount}),
+		    		success : function(result){
+		    			console.log(result);
+		    			alert('챌린지 취소가 완료되었습니다');
+		    			//
+		    			location.href="http://localhost/mypage/myBeforeChal";
+		    		},
+		    		error : function(error){
+		    			console.log(error);
+		    		}
+		    	}) 
+			}	
+			
 		</script>
 		
 
