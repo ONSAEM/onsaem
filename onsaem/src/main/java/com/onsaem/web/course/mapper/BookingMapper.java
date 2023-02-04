@@ -36,4 +36,7 @@ public interface BookingMapper {
 
 	// 포인트 조회
 	public Integer getPoint(String MemberId);
+	
+	// 강사 예약 전체조회
+	public List<BookingVO> getMyClassBookingList(BookingVO vo);
 }

@@ -28,8 +28,9 @@
 		parameterType="BookingVO">
 		SELECT COUNT(*) AS TOTALRECORD
 		FROM BOOKINDS
-		WHERE ORDERER_ID = #{ordererId}
-		</select>
+		WHERE
+		ORDERER_ID = #{ordererId}
+	</select>
 
 	<!-- 예약 등록 -->
 	<insert id="insertBooking" parameterType="BookingVO">
@@ -81,5 +82,18 @@
 		FROM MEMBERS
 		WHERE MEMBER_ID =
 		#{MemberId}
+	</select>
+
+	<!-- 강사 예약 전체조회 -->
+	<select id="getMyClassBookingList" resultType="BookingVO"
+		parameterType="BookingVO">
+		SELECT *
+		FROM BOOKINDS
+		WHERE
+		C_NO IN (SELECT C_NO FROM
+		CLASSES WHERE CLASS_ID IN (SELECT CLASS_ID FROM CLASS_INFO WHERE
+		MEMBER_ID = #{memberId}))
+		AND ORDER_DATE > (CURRENT_DATE - 30)
+		ORDER BY ORDER_DATE DESC
 	</select>
 </mapper>

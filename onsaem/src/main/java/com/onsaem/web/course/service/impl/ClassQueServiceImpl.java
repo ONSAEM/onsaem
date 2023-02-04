@@ -12,6 +12,7 @@ import com.onsaem.web.common.service.MediaVO;
 import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.QuestionVO;
 import com.onsaem.web.course.mapper.ClassQueMapper;
+import com.onsaem.web.course.service.BookingVO;
 import com.onsaem.web.course.service.ClassInfoVO;
 import com.onsaem.web.course.service.ClassQueService;
 import com.onsaem.web.course.service.ClassService;
@@ -113,10 +114,26 @@ public class ClassQueServiceImpl implements ClassQueService{
 			cvo.setClassId(que.getGroupId());
 			que.setClassInfo(classService.getClassInfo(cvo));
 		}
-		System.out.println(qList);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("qList", qList);
 		result.put("qPaging", newPaging);
 		return result;
+	}
+	
+	@Override
+	public List<QuestionVO> getMyClassQueList(QuestionVO qvo) {
+		List<QuestionVO> qList = classQMapper.getMyClassQueList(qvo);
+		for(QuestionVO que : qList) {
+			if(que.getAnsContent() != null) {
+				que.setStatus("답변완료");
+			}else {
+				que.setStatus("답변대기");
+			}
+			ClassInfoVO cvo = new ClassInfoVO();
+			cvo.setClassId(que.getGroupId());
+			que.setClassInfo(classService.getClassInfo(cvo));
+			que.setNickname(memberService.getMember(que.getWriterId()).getNickname());
+		}
+		return qList;
 	}
 }

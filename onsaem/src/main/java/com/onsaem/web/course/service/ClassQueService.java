@@ -1,5 +1,6 @@
 package com.onsaem.web.course.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.onsaem.web.common.service.QuestionVO;
@@ -27,4 +28,8 @@ public interface ClassQueService {
 
 	// 회원문의 전체조회
 	public Map<String, Object> getMyQuestionList(QuestionVO vo, Paging paging);
+	
+	// 강사 문의 전체조회
+	public List<QuestionVO> getMyClassQueList(QuestionVO vo);
+
 }

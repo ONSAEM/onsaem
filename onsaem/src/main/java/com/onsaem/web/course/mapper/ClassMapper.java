@@ -46,17 +46,19 @@ public interface ClassMapper {
 
 	// 클래스 목록 가져오기
 	public List<ClassVO> getclassList(ClassVO vo);
-	
+
 	// 클래스 신고
 	public int insertReport(ReportVO vo);
 
 	// 좋아요 전체조회
 	public List<LikeVO> getLikeList(LikeVO vo);
-	
+
 	// 좋아요 전체삭제
 	public int delAllLike(LikeVO vo);
 
-	
+	// 강사클래스정보 전체조회
+	public List<ClassInfoVO> getMyClassInfoList(ClassInfoVO vo);
+
 	// [위는 완성 아래는 미완성]
 
 	// 인기강의목록조회
