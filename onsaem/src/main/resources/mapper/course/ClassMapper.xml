@@ -230,6 +230,29 @@
 		]]>
 	</select>
 
+	<!-- 강사클래스정보 전체조회 -->
+	<select id="getAdminClassList" resultType="ClassInfoVO"
+		parameterType="ClassInfoVO">
+	<![CDATA[
+		SELECT *
+		FROM CLASS_INFO
+		WHERE CLASS_DATE > (CURRENT_DATE - 30)
+		ORDER BY CLASS_DATE DESC
+		]]>
+	</select>
+
+	<!-- 강사클래스정보 전체조회 -->
+	<select id="getAdminCApplyList" resultType="ClassInfoVO"
+		parameterType="ClassInfoVO">
+	<![CDATA[
+		SELECT *
+		FROM CLASS_INFO
+		WHERE CLASS_DATE > (CURRENT_DATE - 30)
+		AND STATUS in ('신청','수정')
+		ORDER BY CLASS_DATE DESC
+		]]>
+	</select>
+
 	<!-- [위는 완성 아래는 미완성] -->
 	<select id="popularClassList">
 

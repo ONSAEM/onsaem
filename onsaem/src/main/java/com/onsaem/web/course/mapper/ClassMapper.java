@@ -76,4 +76,10 @@ public interface ClassMapper {
 	// 클래스 수정
 	public int classUpdate(ClassInfoVO vo);
 
+	// 강사클래스정보 전체조회
+	public List<ClassInfoVO> getAdminClassList();
+
+	// 강사클래스정보 전체조회
+	public List<ClassInfoVO> getAdminCApplyList();
+
 }
