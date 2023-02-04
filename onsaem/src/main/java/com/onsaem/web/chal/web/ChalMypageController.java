@@ -146,7 +146,7 @@ public class ChalMypageController {
 		partService.updateForRefund(yvo);
 		
 
-		return "content/challengers/MyBeforeChal";
+		return "content/challengers/MypageBeforeChal";
 	}
 		
 		

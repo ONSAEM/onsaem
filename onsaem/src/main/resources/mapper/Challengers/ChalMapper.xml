@@ -98,13 +98,17 @@
 	<select id="myBeforeChal" resultType="ChalVO" parameterType="ChalVO">
 		SELECT C.CHAL_ID, C.SUB_CLASS, C.FREQUENCY, C.MEMBER_ID
 						, C.CHAL_NAME, C.START_DATE, C.END_DATE
-                ,P.PRIVATE_DONATE, Y.PAYMENT_ID, Y.PAYMENT_METHOD, ( C.START_DATE - CURRENT_DATE +1) dday
+                ,P.PRIVATE_DONATE, Y.PAYMENT_ID, Y.PAYMENT_METHOD, ( C.START_DATE - CURRENT_DATE +1) dday,
+         		M.FILE_ROUTE       
 		FROM CHALLENGES C JOIN PARTICIPANTS P
 		ON C.CHAL_ID = P.CHAL_ID
         JOIN PAYMENTS Y
         ON P.CHAL_ID = Y.GROUP_ID
+        JOIN MEDIA M
+         ON C.CHAL_ID = M.GROUP_ID
 		WHERE P.PARTICIPANT_ID = #{participantId}
 		AND C.START_DATE > CURRENT_DATE
+		AND M.SUB_GROUP = '썸네일'
 	</select>
 	
 	<select id="myEndChal" resultType="ChalVO" parameterType="ChalVO">

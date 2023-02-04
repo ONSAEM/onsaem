@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/AdminLayout}">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+</th:block>
+
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<meta charset="UTF-8">
+
+<style type="text/css">
+	button {
+	   cursor: pointer;
+	}
+	
+	.btn {
+	   margin-top: 60px;
+	}
+	
+	.modal {
+	   display: flex;
+	   justify-content: center;
+	   align-items: center;
+	   position: fixed;
+	   top: 0;
+	   left: 0;
+	   width: 100%;
+	   height: 100%;
+	}
+	
+	.modal__background {
+	   background-color: rgba(0, 0, 0, 0.6);
+	   width: 100%;
+	   height: 100%;
+	   position: absolute;
+	}
+	
+	.modal__content {
+	   text-align: center;
+	   position: relative;
+	   background-color: white;
+	   border-radius: 10px;
+	   top: 0;
+	   padding: 10px 25px;
+	   width: 20%;
+	}
+	
+	h1 {
+	   margin: 0;
+	   margin-bottom: 13px;
+	}
+	
+	.hidden {
+	   display: none;
+	}
+</style>
+</head>
+
+<body>
+	<div layout:fragment="content" class="app-content" id="app">
+		<div class="app-content-header">
+			<h1 class="app-content-headerText">Challengers</h1>
+			<button class="mode-switch" title="Switch Theme">
+				<svg class="moon" fill="none" stroke="currentColor"
+					stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+					width="24" height="24" viewBox="0 0 24 24">
+            <defs></defs>
+            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+          </svg>
+			</button>
+			<button class="app-content-headerButton">Add Product</button>
+		</div>
+		<div class="app-content-actions">
+			<input class="search-bar" placeholder="Search..." type="text">
+			<div class="app-content-actions-wrapper">
+				<div class="filter-button-wrapper">
+					<button class="action-button filter jsFilter">
+						<span>Filter</span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 24 24" fill="none" stroke="currentColor"
+							stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+							class="feather feather-filter">
+							<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" /></svg>
+					</button>
+					<div class="filter-menu">
+						<label>상태</label> <select name="status" id=status>
+							<option>전체</option>
+							<option>영수증 첨부필요</option>
+							<option>포인트 정산필요</option>
+							<option>전체 필요</option>
+							<option>전체 완료</option>
+						</select>
+						<label for="white"> 시작 <input id="startDate" type="date"></label>
+						<label for="gray"> 종료 <input id="endDate" type="date">
+						<div class="filter-menu-buttons">
+							<button class="filter-button reset" onclick="location.reload()">Reset</button>
+							<button class="filter-button apply" @click="apply()">Apply</button>
+						</div>
+					</div>
+				</div>
+				<button class="action-button list active" title="List View">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+						viewBox="0 0 24 24" fill="none" stroke="currentColor"
+						stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+						class="feather feather-list">
+						<line x1="8" y1="6" x2="21" y2="6" />
+						<line x1="8" y1="12" x2="21" y2="12" />
+						<line x1="8" y1="18" x2="21" y2="18" />
+						<line x1="3" y1="6" x2="3.01" y2="6" />
+						<line x1="3" y1="12" x2="3.01" y2="12" />
+						<line x1="3" y1="18" x2="3.01" y2="18" /></svg>
+				</button>
+				<button class="action-button grid" title="Grid View">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+						viewBox="0 0 24 24" fill="none" stroke="currentColor"
+						stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+						class="feather feather-grid">
+						<rect x="3" y="3" width="7" height="7" />
+						<rect x="14" y="3" width="7" height="7" />
+						<rect x="14" y="14" width="7" height="7" />
+						<rect x="3" y="14" width="7" height="7" /></svg>
+				</button>
+			</div>
+		</div>
+		<div class="products-area-wrapper tableView">
+			<div class="products-header">
+				<div class="product-cell image">
+					챌린지 번호
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
+					</button>
+				</div>
+				<div class="product-cell category">
+					챌린지 명
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
+					</button>
+				</div>
+				<div class="product-cell status-cell">
+					기부처 명
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
+					</button>
+				</div>
+				<div class="product-cell sales">
+					기간
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
+					</button>
+				</div>
+				<div class="product-cell price">
+					개최자
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
+					</button>
+				</div>
+				<div class="product-cell price">
+					영수증 첨부
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
+					</button>
+				</div>
+				<div class="product-cell stock">
+					포인트 정산
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+							viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" /></svg>
+					</button>
+				</div>
+			</div>
+		
+			<div class="products-row" v-for="chal in chals">
+				<button class="cell-more-button">
+					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+						viewBox="0 0 24 24" fill="none" stroke="currentColor"
+						stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+						class="feather feather-more-vertical">
+						<circle cx="12" cy="12" r="1" />
+						<circle cx="12" cy="5" r="1" />
+						<circle cx="12" cy="19" r="1" /></svg>
+				</button>
+				<div class="product-cell image">
+					<img
+						src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+						alt="product"> <span id="teamChalId">{{chal.chalId}}</span>
+				</div>
+				<div class="product-cell category">
+					<span class="cell-label">Category:</span>{{chal.chalName}}
+				</div>
+				<div class="product-cell sales">
+					<span class="cell-label">Sales:</span>{{chal.ngoName}}
+				</div>
+				<div class="product-cell sales">
+					<span class="cell-label">Sales:</span>{{chal.term}}
+				</div>
+				<div class="product-cell stock">
+					<span class="cell-label">Stock:</span>{{chal.memberId}}
+				</div>
+				<div class="product-cell status-cell">
+					<span class="cell-label">Status:</span> <span class="status active" v-if="chal.receipt == '미첨부'" @click="displayModal('receiptTeam', chal.chalId)"  id="receiptTeam" style="background-color: #F78181; color: #A4A4A4">첨부하기</span>
+															<span class="status active"  v-if="chal.receipt == '첨부완료'"  id="receiptTeam" >첨부완료</span>
+				</div>
+				<div class="product-cell status-cell">
+					<span class="cell-label">Status:</span> <span class="status active"   v-if="chal.sharepoint == '미정산' " @click="displayModal('pointTeam', chal.chalId)" style="background-color: #F78181; color: #A4A4A4">정산하기</span>
+															<span class="status active"   v-if="chal.sharepoint == '정산완료'">정산완료</span>
+				</div>
+			</div>
+		   </div>
+		
+			<!-- 모달창 ! -->
+				<div class="modal hidden">
+							<div class="modal__background"></div>
+							
+								<div id="receiptFrm" class="modal__content"  v-if="modalCheck=='receiptTeam'" >
+									<form action="/mypage/inputReceipt" method="post" enctype="multipart/form-data" id="receiptDetail" name="receiptDetail">
+										<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
+										<label>기부영수증 첨부하기</label>
+										<input type="hidden" id="groupId" name="groupId" v-bind:value="chalId">
+										<input type="file" id="uploadFile" name="uploadFile">
+										<button type="button" @click="inputReceipt()">첨부하기</button>
+										<button type="button" class="closeBtn" id="closeModals" @click="displayModal('closeModals')">닫기</button>
+									</form>
+								</div>
+								
+								<div id ="teamPoint" class="modal__content" v-if="modalCheck=='pointTeam'">
+									<h5>포인트정산</h5>
+							
+									<input type="hidden" id="pp" :text="teamInfo.pp">
+									
+									<div style="float: left; width: 50%; padding:1px; "><p>총 기부금</p></div><div style="float: left; width: 50%; padding:1px;"><p id="donationFee" />{{teamInfo.totalInfo.donationFee}}</div>
+									<div style="float: left; width: 50%; padding:1px;"><p>총 내기 포인트</p></div><div style="float: left; width: 50%; padding:1px;"><p id="sumBetPoint" v-text="betPoints"/></div>
+									<select id="teamChoose" @change="setWinner()">
+										<option>==우승팀 고르기==</option>
+										<option value="A">A팀</option>
+										<option value="B">B팀</option>
+									</select>
+									<div style="float: right; width: 50%; padding:10px;">
+							            <canvas id="Achart"></canvas>
+							        </div>
+							        <div style="float: right; width: 50%; padding:10px;">
+							            <canvas id="Bchart"></canvas>
+							         </div>
+									<button type="button" @click="teamPointInput(chalId, winner, loser)">정산</button>
+									<button type="button" class="closeBtn" id="closeModals" @click="displayModal('closeModals')">닫기</button>
+								</div>
+							
+						</div>
+					<!-- 모달창 끝! -->
+	
+			<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+			
+		<script>
+		/* let winner;
+		let loser;
+		//select값 가져오기
+		$("select[id=teamChoose]").change(function(){
+		  //console.log($(this).val()); //value값 가져오기
+		  winner = $(this).val();
+		  //eq() => 인덱스 요소에 해당되는거 찾기
+		  loser = $('#teamChoose option:not(:selected)').eq(1).val();
+		}); */
+		
+		//csrf설정
+		 var token = $("meta[name='_csrf']").attr("content");
+		 var header = $("meta[name='_csrf_header']").attr("content");	
+		
+		// 차트 설정
+		var colors = ['#b4a7d6','#eae5e1','#333333','#c3e6cb','#dc3545','#6c757d'];
+		var donutOptions = {
+			  cutoutPercentage: 85, 
+			  legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
+			};
+			
+		//모달창 생성
+		document.querySelectorAll(".openBtn").forEach((openBtn) => {
+			console.log(openBtn);
+			openBtn.addEventListener("click", displayModal);
+			
+		})
+		//chalId 정의
+		let chalId;
+		let Asize;
+		let Bsize;
+
+		let modal = document.querySelector(".modal");
+		//let closeButton = modal.querySelector(".closeBtn");
+		let modalBackground = modal.querySelector(".modal__background");
+		//뷰 아작스용
+		const app = Vue.createApp({
+              data() {
+                  return {
+                      chals:[],
+                      modalCheck : '',
+                      teamInfo :[],
+                      betPoints : '',
+                      chalId : '',
+                      winner : '',
+                      loser : ''
+                  };
+              },
+              created () {
+                  this.fetchComments();
+              },              
+              methods: {
+            	  apply : function(){
+            		  let sharepoint; 
+            		  let receipt;
+            		  let status = $("#status").val();
+            		  console.log(status);
+            		  //상태구분
+            		  switch(status) {
+							  case '전체':  // if (x === 'value1') 
+							    break;						
+							  case '영수증 첨부필요':  // if (x === 'value2')
+							    //sharepoint = '정산완료';
+							  	receipt = '미첨부';
+							    break;
+							  case '포인트 정산필요':
+								//receipt = '첨부완료';
+								sharepoint ='미정산'
+							    break;
+							  case '전체 필요' :
+								  receipt = '미첨부';
+								  sharepoint = '미정산';
+								break;
+							  case '전체 완료' :
+								  receipt ='첨부완료';
+								  sharepoint = '정산완료';
+								  break;
+						}
+            		  	console.log(sharepoint);
+            		  	let startDate=$("#startDate").val();
+		            	let endDate=$("#endDate").val();
+		            	let is=this;
+		            	 $.ajax({
+								type : 'post', 
+								url : '/mypage/searchTeamChals', 										
+								beforeSend : function(xhr)
+					            {
+					            	xhr.setRequestHeader(header, token);
+					            },		      
+					            data:{"receipt":receipt,
+					            	"sharepoint":sharepoint,
+					            	"startDate":startDate,
+					            	"endDate":endDate,
+					            	},
+								success : function(result) {									
+									console.log(result)
+									is.chals=result;   
+								},
+								error : function(error) { 
+									console.log(error)
+								}
+							})
+            	  }
+            	  ,setWinner : function(){
+            		  this.winner =  $('#teamChoose').val()
+            		  //eq() => 인덱스 요소에 해당되는거 찾기
+            		  this.loser = $('#teamChoose option:not(:selected)').eq(1).val();
+            	  },
+            	  teamPointInput : function(chal,winner,loser){
+            		//팀포인튜 정산 
+            		//분모 mom - 개별 팀 인원수
+					let mom = 0;
+            		console.log(chal);
+            		console.log(winner);
+            		console.log(loser);
+            		console.log(this.teamInfo.Asize);
+            		if(winner == 'A'){
+        				mom = this.teamInfo.Asize;
+        				console.log(mom);
+        			}else {
+        				mom = this.teamInfo.Bsize;
+        			}
+            		mom=10;
+            		let sharePoint = this.betPoints/mom;
+            		console.log(sharePoint);
+            		   $.ajax({
+            				url : '/mypage/sharePoint',
+            				method :'POST',
+            				contentType:'application/json',
+            				data : JSON.stringify({"thatPoint":sharePoint, "chalId" : chal, "winner" : winner, "loser" : loser }),
+            				beforeSend : function(xhr)
+          				                {   
+          				                xhr.setRequestHeader(header, token);
+          				                },
+            				success:function(result){
+            					alert("정산 완료 되었습니다.");
+            					location.href ="/mypage/AdminEndTeam";
+            				},
+            				error : function(error){
+            					console.log()
+            				}
+            			})  
+            	  },
+            	  makeChart : function(){
+            		//차트만들기  
+            	  },
+            	  inputReceipt:function(){
+            		  var receiptData =  new FormData(document.receiptDetail);
+            		  
+            		  $.ajax({
+            			  url:'/mypage/inputReceipt',
+            			  method:'POST',
+            			  enctype: 'multipart/form-data',
+            			  processData: false,
+						   contentType: false,
+			               beforeSend : function(xhr)
+				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				              	 xhr.setRequestHeader(header, token);
+				               },
+            			  data : receiptData,
+            			  dataType:'json',
+            			  success : function(result){
+            				alert("성공");
+        					location.href ="/mypage/AdminEndTeam";
+
+            			  },
+            			  error : function(error){
+            				  alert('실패');
+            			  }
+            		  })//end of ajax
+            		  
+            	  } // end of function inputReceipt
+            	  ,
+            	   displayModal:function(obj,chal){
+            		   console.log(obj)
+            		   console.log(chal);
+            		   let infoes= this;
+            		   this.chalId = chal;
+            		   this.modalCheck= obj;
+		        		const modal = document.querySelector(".modal");
+		    			switch(obj){
+		    				case "receiptTeam" :
+		    					console.log("팀영수증");
+		    					chalId = chal;
+		    					console.log(chalId);
+								$('#groupId').val(chalId);
+		    					modal.classList.toggle("hidden");
+		    					
+		    					break;
+		    				case "pointTeam" :
+		    					console.log("팀 포인트정산");
+		    					
+		    					
+		    					//팀전 포인트 계산 위해서 
+		    					//a팀 정보, b팀 정보 가져오는 아작스필요
+		    					  $.ajax({
+		    							url:'/mypage/getTeams',
+		    							method : 'POST',
+		    							data : {chalId: chal},
+		    							beforeSend : function(xhr)
+		    				               {   
+		    				               xhr.setRequestHeader(header, token);
+		    				               },
+		    							success : function(result){
+		    			        			console.log(result);
+		    			        		//전체 모금
+		    			        		let donationFee = result.totalInfo.donationFee;
+		    			        		console.log(donationFee);
+		    			        		let betPoints = Number(donationFee)*0.01;     
+		    			        		infoes.betPoints = betPoints;
+		    			        		infoes.teamInfo = result;
+		    			        		console.log(infoes.teamInfo);
+		    			        		
+		    			        		
+		    			        		//팀별 인원수
+		    			        		Asize = Number(result.Asize);
+		    			        		Bsize = Number(result.Bsize);
+		    			        		console.log(Asize);
+		    			        		//팀별 정상 인증 갯수
+		    			        		let Acnt = Number(result.A);
+		    			        		let Bcnt = Number(result.B);
+		    			        		console.log(Acnt);
+		    			        		//팀별 100%일시 총 전체 인증수  
+		    			        		let Aall = Math.abs(Number(result.totalInfo.total))*Asize;
+		    			        		let Ball = Math.abs(Number(result.totalInfo.total))*Bsize;
+		    			        		console.log(Aall);
+		    			        		//팀별 평균 성취율
+		    			        		let Apercent = 25;
+		    			        			//(Acnt/Aall)*100;
+		    			        		let Bpercent = 80;//(Bcnt/Ball)*100;
+		    			        		console.log(Apercent);
+		    			        		//A차트 만들기
+		    			        		let Alist = new Array();
+		    			        		Alist.push(Apercent);
+		    			        		Alist.push(100-Apercent);
+		    			        		var Adata = {
+		    			                        labels: ['A팀 평균달성률'],
+		    			                        datasets: [{
+		    			                              backgroundColor: ['#b4a7d6','#eae5e1'],
+		    			                              data : Alist
+		    			                        }],
+		    			                        options : {
+		    			                              title : {
+		    			                              display : true,
+		    			                              text: 'A팀 달성률'
+		    			                              }
+		    			                        }
+		    			                  };
+		    			        		 var ctx1 = document.getElementById('Achart').getContext('2d');
+		    			                 new Chart(ctx1, {
+		    			                          type: 'doughnut',
+		    			                         data: Adata
+		    			                 });
+		    			            
+		    			        		
+		    			        		//B차트 만들기 렛츠고 
+		    			                let Blist = new Array();
+		    			        		Blist.push(Bpercent);
+		    			        		Blist.push(100-Bpercent);
+		    			               var Bdata = {
+		    			                        labels: ['B팀 평균달성률'],
+		    			                        datasets: [{
+		    			                              backgroundColor: ['#b4a7d6','#eae5e1'],
+		    			                              data : Blist
+		    			                        }],
+		    			                        options : {
+		    			                              title : {
+		    			                              display : true,
+		    			                              text: 'B팀 달성률'
+		    			                              }
+		    			                        }
+		    			                  }
+		    			               var ctx2 = document.getElementById('Bchart').getContext('2d');
+		    			                 new Chart(ctx2, {
+		    			                          type: 'doughnut',
+		    			                         data: Bdata
+		    			                 });
+		    						},error : function(error){
+		    		        			console.log(error);
+		    		        		}
+		    						}) 
+		    						$("#receiptFrm").hide();
+		    						$("#teamPoint").show();	
+		    						
+		    						modal.classList.toggle("hidden")
+		    						break;
+		    				case "closeModals" :
+		    					modal.classList.toggle("hidden");
+		    		}
+		        	}, 
+                  fetchComments: function () {
+                     let is=this;
+                      $.ajax({
+                          url: '/mypage/getTeamChals',
+                          method: 'GET',
+                          success: function (data) {                             
+                             console.log(data);
+                        	  is.chals=data;                                                       
+                          }
+                      });
+                  }
+              }
+          });       
+			app.mount('#app');	   
+		
+		</script>
+		<script type="text/javascript">
+			document.querySelector(".jsFilter").addEventListener(
+					"click",
+					function() {
+						document.querySelector(".filter-menu").classList
+								.toggle("active");
+					});
+
+			document
+					.querySelector(".grid")
+					.addEventListener(
+							"click",
+							function() {
+								document.querySelector(".list").classList
+										.remove("active");
+								document.querySelector(".grid").classList
+										.add("active");
+								document
+										.querySelector(".products-area-wrapper").classList
+										.add("gridView");
+								document
+										.querySelector(".products-area-wrapper").classList
+										.remove("tableView");
+							});
+
+			document
+					.querySelector(".list")
+					.addEventListener(
+							"click",
+							function() {
+								document.querySelector(".list").classList
+										.add("active");
+								document.querySelector(".grid").classList
+										.remove("active");
+								document
+										.querySelector(".products-area-wrapper").classList
+										.remove("gridView");
+								document
+										.querySelector(".products-area-wrapper").classList
+										.add("tableView");
+							});
+
+			var modeSwitch = document.querySelector('.mode-switch');
+			modeSwitch.addEventListener('click', function() {
+				document.documentElement.classList.toggle('light');
+				modeSwitch.classList.toggle('active');
+			});
+		</script>
+		</div>
+		<!-- JS -->
+		<th:block layout:fragment="script">
+		</th:block>
+
+
+</body>
+
+</html>
