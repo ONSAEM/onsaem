@@ -181,6 +181,18 @@ public class ClassServiceImpl implements ClassService {
 		return classMapper.classUpdate(vo);
 	}
 
+	@Override
+	public List<ClassInfoVO> getMyClassInfoList(ClassInfoVO vo) {
+		List<ClassInfoVO> list = classMapper.getMyClassInfoList(vo);
+		for(ClassInfoVO info : list) {
+			MediaVO media = new MediaVO();
+			media.setGroupId(info.getClassId());
+			info.setMedia(mediaService.getMedia(media));
+		}
+		System.out.println(list);
+		return list;
+	}
+
 
 
 

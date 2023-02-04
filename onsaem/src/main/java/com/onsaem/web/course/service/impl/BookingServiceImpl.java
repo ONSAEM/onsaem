@@ -18,6 +18,7 @@ import com.onsaem.web.course.service.BookingVO;
 import com.onsaem.web.course.service.ClassInfoVO;
 import com.onsaem.web.course.service.ClassService;
 import com.onsaem.web.course.service.ClassVO;
+import com.onsaem.web.member.service.MemberService;
 
 @Service
 public class BookingServiceImpl implements BookingService{
@@ -31,6 +32,9 @@ public class BookingServiceImpl implements BookingService{
 	@Autowired
 	ClassService classService;
 	
+	@Autowired
+	MemberService memberService;
+	
 	@Override
 	public Map<String, Object> getBookingList(BookingVO vo, Paging paging) {
 		Paging newPaging = bookingMapper.BookingCount(vo);
@@ -38,8 +42,8 @@ public class BookingServiceImpl implements BookingService{
 		newPaging.setTotalRecord(newPaging.getTotalRecord());
 		vo.setFirst(newPaging.getFirst());
 		vo.setLast(newPaging.getLast());
-		List<BookingVO> reviewList = bookingMapper.getBookingList(vo);
-		for(BookingVO bvo : reviewList) {
+		List<BookingVO> List = bookingMapper.getBookingList(vo);
+		for(BookingVO bvo : List) {
 			ClassVO cvo = new  ClassVO();
 			cvo.setCNo(bvo.getCNo());
 			bvo.setBClass(classService.getClass(cvo));
@@ -48,7 +52,7 @@ public class BookingServiceImpl implements BookingService{
 			bvo.getBClass().setClassInfo(classService.getClassInfo(clvo));
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("bList", reviewList);
+		result.put("bList", List);
 		result.put("bPaging", newPaging);
 		return result;
 	}
@@ -123,6 +127,21 @@ public class BookingServiceImpl implements BookingService{
 	public Integer getPoint(String MemberId) {
 
 		return bookingMapper.getPoint(MemberId);
+	}
+
+	@Override
+	public List<BookingVO> getMyClassBookingList(BookingVO vo) {
+		List<BookingVO> List = bookingMapper.getMyClassBookingList(vo);
+		for(BookingVO bvo : List) {
+			ClassVO cvo = new ClassVO();
+			cvo.setCNo(bvo.getCNo());
+			bvo.setBClass(classService.getClass(cvo));
+			ClassInfoVO clvo = new ClassInfoVO();
+			clvo.setClassId(bvo.getBClass().getClassId());
+			bvo.getBClass().setClassInfo(classService.getClassInfo(clvo));
+			bvo.setNickname(memberService.getMember(bvo.getOrdererId()).getNickname());
+		}
+		return List;
 	}
 
 }

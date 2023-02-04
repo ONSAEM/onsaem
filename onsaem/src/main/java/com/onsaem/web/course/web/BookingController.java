@@ -91,7 +91,11 @@ public class BookingController {
 	
 	// 강사 예약관리 페이지 이동
 	@RequestMapping(value = "/bookingMGMT", method = RequestMethod.GET)
-	public String bookingMGMT(ClassInfoVO vo, Model model) {
+	public String bookingMGMT(Model model, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		BookingVO vo = new BookingVO();
+		vo.setMemberId(userDetails.getUsername());
+		model.addAttribute("bookingList", bookingService.getMyClassBookingList(vo));
 		return "content/course/bookingMGMT";
 	}
 

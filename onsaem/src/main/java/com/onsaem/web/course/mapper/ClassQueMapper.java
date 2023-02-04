@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.onsaem.web.common.service.Paging;
 import com.onsaem.web.common.service.QuestionVO;
+import com.onsaem.web.course.service.BookingVO;
 
 public interface ClassQueMapper {
 	// 문의 전체조회
@@ -26,4 +27,7 @@ public interface ClassQueMapper {
 
 	// 문의 전체조회
 	public List<QuestionVO> getMyQuestionList(QuestionVO vo);
+
+	// 강사 문의 전체조회
+	public List<QuestionVO> getMyClassQueList(QuestionVO vo);
 }

@@ -77,7 +77,11 @@ public class ClassQueController {
 
 	// 강사 문의관리 페이지 이동
 	@RequestMapping(value = "/queMGMT", method = RequestMethod.GET)
-	public String queMGMT(ClassInfoVO vo, Model model) {
+	public String queMGMT(Model model, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		QuestionVO vo = new QuestionVO();
+		vo.setMemberId(userDetails.getUsername());
+		model.addAttribute("queList", classQueService.getMyClassQueList(vo));
 		return "content/course/queMGMT";
 	}
 }

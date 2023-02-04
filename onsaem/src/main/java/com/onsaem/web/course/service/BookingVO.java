@@ -22,6 +22,9 @@ public class BookingVO {
 	private String paymentId;
 	private String status;
 	
+	private String memberId;
+	
+	private String nickname;
 	private ClassVO bClass;
 	private PaymentVO payment;
 

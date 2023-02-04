@@ -135,7 +135,11 @@ public class ClassController {
 
 	// 강사 클래스관리 페이지 이동
 	@RequestMapping(value = "/classMGMT", method = RequestMethod.GET)
-	public String courseMGMT(ClassInfoVO vo, Model model) {
+	public String courseMGMT(Model model, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		ClassInfoVO vo = new ClassInfoVO();
+		vo.setMemberId(userDetails.getUsername());
+		model.addAttribute("classList", classService.getMyClassInfoList(vo));
 		return "content/course/classMGMT";
 	}
 	
