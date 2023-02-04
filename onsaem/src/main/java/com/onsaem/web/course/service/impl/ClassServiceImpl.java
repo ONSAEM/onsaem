@@ -193,6 +193,18 @@ public class ClassServiceImpl implements ClassService {
 		return list;
 	}
 
+	@Override
+	public List<ClassInfoVO> getAdminClassList() {
+		
+		return classMapper.getAdminClassList();
+	}
+
+	@Override
+	public List<ClassInfoVO> getAdminCApplyList() {
+		
+		return classMapper.getAdminCApplyList();
+	}
+
 
 
 

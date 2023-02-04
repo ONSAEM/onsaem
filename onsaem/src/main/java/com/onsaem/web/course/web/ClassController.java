@@ -143,6 +143,21 @@ public class ClassController {
 		return "content/course/classMGMT";
 	}
 	
+	// 관리자 클래스 전체조회
+	@RequestMapping(value = "/adminClass", method = RequestMethod.GET)
+	public String adminClass(Model model) {
+//		model.addAttribute("classList", classService.getAdminClassList(vo));
+		return "content/course/adminClass";
+	}
+	
+	//관리자 클래스 신청 전체조회
+	// 관리자 클래스 전체조회
+	@RequestMapping(value = "/adminClassApply", method = RequestMethod.GET)
+	public String adminClassApply(Model model) {
+//		model.addAttribute("classList", classService.getAdminCApplyList(vo));
+		return "content/course/adminClassApply";
+	}
+	
 	// 강의 등록
 	
 	// 강의 수정
