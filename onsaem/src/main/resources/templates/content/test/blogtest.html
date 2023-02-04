@@ -11,6 +11,34 @@
 </th:block>
 <head>
 <meta charset="UTF-8">
+<style>
+caption.dots {
+  color: #5c5e6e;
+  border:bottom;
+  border-width: 0 0 8px;
+  border-style: solid;
+  border-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 1" width="5" height="4"><circle fill="gray" cx="1" cy="0.5" r="0.4"/></svg>') 0 0 100% repeat;
+  width: 199px;
+}
+/* GENERAL STYLES */
+.pagination ul {
+	margin: auto;
+	padding: 0;
+	list-style: none;
+}
+
+/* ONE */
+.p1 li {
+	font-size: 14px;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	padding: 0;
+	text-align: center;
+	float: left;
+	cursor: pointer;
+}
+</style>
 </head>
 <body>
 	<div layout:fragment="content">
@@ -34,13 +62,10 @@
 		        <!-- 헤더 끝 -->
 		        
 		        <div class="profile-menu">
-		          <a class="profile-menu-link active">Timeline</a>
-		          <a class="profile-menu-link">About</a>
-		          <a class="profile-menu-link">Friends</a>
-		          <a class="profile-menu-link">Photos</a>
-		          <a class="profile-menu-link">More</a>
+		          <a class="profile-menu-link active">구독하기</a>
+		          <a class="profile-menu-link">블로그 관리</a>
 		          <!-- 검색바 -->
-		          <a><input type="text" placeholder="Search..." id="searchWord" style="width:150px;height:30px;position:relative;margin-top:17px;margin-left:440px;overflow:auto;">
+		          <a><input type="text" placeholder="Search..." id="searchWord" style="width:150px;height:30px;position:relative;margin-top:17px;margin-left:671px;overflow:auto;">
 						<button type="button" class="btn btn-light" id="searchBtn" style="width:40px;height:30px;position:absolute;border-radius:2px;border:1px solid gray;margin-top:17px;">
 							<i class="fa-solid fa-magnifying-glass"></i>
 						</button>
@@ -107,18 +132,20 @@
 			    
 			    <!-- 구독 목록 -->
 			    <div class="side-wrapper">
-			      <div class="side-title">SUB LIST</div>
-			      <div class="side-menu">
-		        	<a th:href="@{/blog/myblog/blogSubscribe(blogId=${blogInfo.blogId})}" 
-					   style="float: right;margin-right:50px;" 
-					   th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}">목록 더보기 ➕</a>
-					<a th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}" style="display:none;"></a>
-					<div class="blog__sidebar__recent">
+			      <div class="side-title">SUB LIST
+				      <div class="side-menu" style="float:right;">
+			        	<a th:href="@{/blog/myblog/blogSubscribe(blogId=${blogInfo.blogId})}" 
+						   th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"><i class="fa-regular fa-square-plus"></i>&nbsp;MORE</a>
+						<a th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}" style="display:none;"></a>
+					  </div>
+					</div>
+					<div>
 						<table id="submeTable">
+							<caption class="side-title dots" style="caption-side: top;text-align:center;margin-bottom:0px;">SUB ME</caption>
 							<thead>
 								<tr>
 									<th></th>
-									<th class="shoping__product">나를 구독한 사람ID</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -127,39 +154,38 @@
 										<td>
 											<img th:if="${subMe.fileRoute == null}"
 												th:src="@{/images/defaulltProfile.png}"
-												alt="profile-sample5"
-												style="height:10px;width:10px;"/>
+												style="height:50px;width:50px;border-radius:10px;"/>
 											<img th:if="${subMe.fileRoute != null}"
 												th:src="'/fileView/'+${subMe.fileRoute}"
-												alt="profile-sample5"
-												style="height:10px;width:10px;"/>
+												style="height:50px;width:50px;border-radius:10px;"/>
 										</td>
-										<td><a th:href="@{/blog/myblog(userId=${subMe.memberId})}"><h5 th:text="${subMe.memberId}"></h5></a></td>
+										<td><a th:href="@{/blog/myblog(userId=${subMe.memberId})}" style="margin-left:5px;">[[${subMe.memberId}]]</a></td>
 									</tr>
 								</th:block>
 							</tbody>
 						</table>
-
+						<br/>
 						<table id="mySubTable">
+							<caption class="side-title dots" style="caption-side: top;text-align:center;margin-bottom:0px;">MY SUB</caption>
 							<thead>
 								<tr>
 									<th></th>
-									<th class="shoping__product">내가 구독한 사람ID</th>
+									<th></th>
 								</tr>
 							</thead>
+							
 							<tbody>
-								<th:block th:each="mySub:${mySubList}" > 
+								<th:block th:each="mySub:${mySubList}" >
 									<tr>
-										<td class="shoping__cart__item"
-											style="width: 70px; height: 70px; padding: 5px 0px;">
+										<td>
 											<img th:if="${mySub.fileRoute == null}"
 												th:src="@{/images/defaulltProfile.png}"
-												class="profile" />
+												style="height:50px;width:50px;border-radius:10px;"/>
 											<img th:if="${mySub.fileRoute != null}"
 												th:src="'/fileView/'+${mySub.fileRoute}"
-												class="profile" />
+												style="height:50px;width:50px;border-radius:10px;"/>
 										</td>
-										<td><a th:href="@{/blog/myblog(userId=${mySub.groupId})}"><h5 th:text="${mySub.groupId}"></h5></a></td>
+										<td><a th:href="@{/blog/myblog(userId=${mySub.groupId})}" style="margin-left:5px;">[[${mySub.groupId}]]</a></td>
 									</tr>
 								</th:block>
 							</tbody>
@@ -201,34 +227,43 @@
 				      </div>
 		        <!-- 모먼트 끝 -->
 		        
-		        <!-- 페이징 해야함 -->
-		          <div class="album box">
-		            <div class="album-content">글제목1
-		              <div class="album-photos">
-		                <img src="https://images.unsplash.com/photo-1508179719682-dbc62681c355?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2378&q=80" alt="" class="album-photo" />
-		              </div>
-		            </div>
-		            <div class="album-actions">
-		              <a href="#" class="album-action">
-		                <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-		                  <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
-		                </svg>
-		                87
-		              </a>
-		              <a href="#" class="album-action">
-		                <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1" viewBox="0 0 24 24">
-		                  <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
-		                </svg>
-		                20
-		              </a>
-		            </div>
-		          </div>
-		          <!-- 페이징 해야함 -->
+			        <!-- 페이징 해야함 -->
+			        <div class="col-lg-8 col-md-7">
+			          <div class="row blogList">
+							
+					  </div>
+					</div>
+					 <!-- 페이징 해야함 --> 
 		        </div>
 		      </div>
 		    </div>
 		  </div>
 		</div>
+				<!-- 클론 -->
+				<div class="template" style="display:none">
+			          <div class="album box" >
+			            <div class="album-content">글제목1
+			              <div class="album-photos" onclick="scopeCheck(this)">
+			              	<input type="hidden" class="thumbnail">
+							<!-- 썸네일 -->
+							<img id="thumbImg" class="album-photo">
+			              </div>
+			            </div>
+			            <div class="album-actions">
+			              <a href="#" class="album-action">
+			                <i class="fa fa-calendar-o"></i>
+			              </a>
+			              <a href="#" class="album-action">
+			                <i class="fa fa-comment-o"></i>
+			              </a>
+			              <a href="#" class="album-action">
+			                <i class="fa-solid fa-eye"></i>
+			              </a>
+			            </div>
+			          </div>
+		          </div>
+				<!-- 클론 끝 -->
+
 
 <!-- 모달창 조회 -->
 		<div class="modal fade" id="exampleModal" tabindex="-1"
@@ -337,52 +372,50 @@
 			 var token = $("meta[name='_csrf']").attr("content");
 			 var header = $("meta[name='_csrf_header']").attr("content");	
 			
-// 			// 블로그 아이디 가져오기
-// 			let blogId = $('#getblogId').val();
-// // 			console.log("블로그 아이디 찾아요~!"+blogId);
-// 			// 세션 아이디 값
-// 			let sessionId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
+			// 블로그 아이디 가져오기
+			let blogId = $('#getblogId').val();
+// 			console.log("블로그 아이디 찾아요~!"+blogId);
+			// 세션 아이디 값
+			let sessionId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
 
-// 			// 검색할 때 값 넣기
-// 			let nowData = {"writeTitle" : null, 
-// 						   "blogId": blogId}; 
+			// 검색할 때 값 넣기
+			let nowData = {"writeTitle" : null, 
+						   "blogId": blogId}; 
 			
-// 			// 구독했는지 확인하기
-// 			let subTF = $('.follow').attr('value');
+			// 구독했는지 확인하기
+			let subTF = $('.follow').attr('value');
 			
-// 			// 페이징 할 때 리스트 클론하기
-// 			let listClone = $(".template").find(".col-md-6").first();
+			// 페이징 할 때 리스트 클론하기
+			let listClone = $(".template").find(".album").first();
 			
-// 			// 좋아요 조회
-// 			let likeTF = $('.blogLike').val();
+			// 좋아요 조회
+			let likeTF = $('.blogLike').val();
 			
-// 			// 검색할때 값 넣는 곳
-// 			function dataMake(){
-// 				let data = {};
-// 				if($("#searchWord").val()){
-// 					data['writeTitle'] = $("#searchWord").val();
-// 					data['blogId'] = blogId;
-// 				}
-// 				return data;
-// 			}
+			// 검색할때 값 넣는 곳
+			function dataMake(){
+				let data = {};
+				if($("#searchWord").val()){
+					data['writeTitle'] = $("#searchWord").val();
+					data['blogId'] = blogId;
+				}
+				return data;
+			}
 			
-// 			// 제목 검색
-// 			$("#searchBtn").on("click", function(){
-// 				nowData = dataMake();
-// 				newBlogList(1);
-// 			})
+			// 제목 검색
+			$("#searchBtn").on("click", function(){
+				nowData = dataMake();
+				newBlogList(1);
+			})
 			
-// 			// 카테고리 검색
-// 			$(".searchCate").each(function(){
-// 				$(this).on("click", function(){
-// 					let categoryId = $(this).attr("value"); // value는 input아니면 attr로 가져오기!!!!!
-// 					nowData = {"categoryId" : categoryId,
-// 							   "blogId" : blogId};
-// 					newBlogList(1);
-// 				})
-// 			})
-			
-			
+			// 카테고리 검색
+			$(".searchCate").each(function(){
+				$(this).on("click", function(){
+					let categoryId = $(this).attr("value"); // value는 input아니면 attr로 가져오기!!!!!
+					nowData = {"categoryId" : categoryId,
+							   "blogId" : blogId};
+					newBlogList(1);
+				})
+			})
 
 			
 // 			// moment 모달
@@ -579,109 +612,108 @@
 			});
 			
 			
-// 			// 페이지 이동
-// 			$(".blogList").on("click","#pageNum",function(e){
-// 				newBlogList($(e.target).text());
-// 			});
+			// 페이지 이동
+			$(".blogList").on("click","#pageNum",function(e){
+				newBlogList($(e.target).text());
+			});
 
 		
 			
 			
-// 			// 페이징 만들기 이건 본인 css나 html에 맞춰서 할것
-// 			function makePageing(page){
-// 				// 가져온 결과값이 0개면 리턴
-// 				if(page.totalRecord == 0){
-// 					return;
-// 				}
-// 				// 페이징을 넣을 div, ul 생성
-// 				let pagination = $("<div/>").addClass("pagination p1");
-// 				let ul = $("<ul/>");
-// 				// 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) <<
-// 				if(page.startPage > 1){
-// 					$(ul).append($("<li/>").html("&laquo;").css("font-size","30px").on("click",function(){newBlogList(page.startPage-page.pageSize)}));
-// 				}
-// 				// 페이지 생성  ex) 1 2 3 4 5
-// 				for(let i = page.startPage; i <= page.endPage; i++){
-// 					if(page.page == i){
-// 						// 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성
-// 						$(ul).append($("<li/>").text(i).css("background-color","#2ecc71").css("border-radius","100%").css("color","#fff"));
-// 					}else {
-// 						$(ul).append($("<li/>").text(i).attr("id","pageNum").on("click",function(){newBlogList($(this).text());}));
-// 					}
-// 				}
-// 				// 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >>
-// 				if(page.endPage < page.lastPage){
-// 					$(ul).append($("<li/>").html("&raquo;").css("font-size","30px").on("click",function(){newBlogList(page.startPage+page.pageSize)}));
-// 				}
-// 				// 완성된 페이징을 넣기
-// 				pagination.append(ul);
-// 				return pagination;
-// 			}
+			// 페이징 만들기 이건 본인 css나 html에 맞춰서 할것
+			function makePageing(page){
+				// 가져온 결과값이 0개면 리턴
+				if(page.totalRecord == 0){
+					return;
+				}
+				// 페이징을 넣을 div, ul 생성
+				let pagination = $("<div/>").addClass("pagination p1");
+				let ul = $("<ul/>");
+				// 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) <<
+				if(page.startPage > 1){
+					$(ul).append($("<li/>").html("&laquo;").css("font-size","30px").on("click",function(){newBlogList(page.startPage-page.pageSize)}));
+				}
+				// 페이지 생성  ex) 1 2 3 4 5
+				for(let i = page.startPage; i <= page.endPage; i++){
+					if(page.page == i){
+						// 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성
+						$(ul).append($("<li/>").text(i).css("background-color","#2ecc71").css("border-radius","100%").css("color","#fff"));
+					}else {
+						$(ul).append($("<li/>").text(i).attr("id","pageNum").on("click",function(){newBlogList($(this).text());}));
+					}
+				}
+				// 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >>
+				if(page.endPage < page.lastPage){
+					$(ul).append($("<li/>").html("&raquo;").css("font-size","30px").on("click",function(){newBlogList(page.startPage+page.pageSize)}));
+				}
+				// 완성된 페이징을 넣기
+				pagination.append(ul);
+				return pagination;
+			}
 			
 			
-// 			// 블로그 리스트 만들기
-// 			function makeBlogList(item){
-// 				console.log("이야!!!!!!!!!!!!!!!!!!!!!!!!!"+item.blogId);
-// 				let makeClone = $(listClone).clone();
-// 				$(makeClone).find(".blog__item__pic").find("input[type=hidden].thumbnail").val(item.blogWrite);
-// 				$(makeClone).find(".blog__item__pic").find("img").attr("src",item.fileRoute);
-// 				$(makeClone).find(".blog__item__text").find("i.fa-calendar-o").text(" "+item.writeDate.substr(0,10));
-// 				$(makeClone).find(".blog__item__text").find("i.fa-comment-o").text(" "+item.replyCnt);
-// 				$(makeClone).find(".blog__item__text").find("i.fa-eye").text(" "+item.cnt);
-// 				$(makeClone).find(".blog__item__text").find("a:eq(0)").data("writeid",item.writeId).data("scope",item.publicScope).data("userid",item.blogId).text(item.writeTitle);
-// 				$(makeClone).find(".blog__item__text").find("p").text(item.subTitle);
-// 				$(makeClone).find(".blog__item__text").find("a.blog__btn").attr("href","/blog/myblog/blogWrite?bno="+item.writeId).text("READ MORE");
+			// 블로그 리스트 만들기
+			function makeBlogList(item){
+				console.log("이야!!!!!!!!!!!!!!!!!!!!!!!!!"+item.fileRoute);
+				let makeClone = $(listClone).clone();
+				$(makeClone).find(".album-content").data("writeid",item.writeId).data("scope",item.publicScope).data("userid",item.blogId).text(item.writeTitle+" "+item.subTitle);
+				$(makeClone).find(".album-photos").find("input[type=hidden].thumbnail").val(item.blogWrite);
+				$(makeClone).find(".album-photos").data("writeid",item.writeId).data("scope",item.publicScope).data("userid",item.blogId);
+				$(makeClone).find("img").attr("src",item.fileRoute);
+				$(makeClone).find(".album-action").find("i.fa-calendar-o").text(" "+item.writeDate.substr(0,10));
+				$(makeClone).find(".album-action").find("i.fa-comment-o").text(" "+item.replyCnt);
+				$(makeClone).find(".album-action").find("i.fa-eye").text(" "+item.cnt);
 			
-// 				return makeClone;
-// 			}
+				return makeClone;
+			}
 			
-// 			function scopeCheck(obj){
-// 				let subTF = "[[${subCount}]]";
-// 				let writeId = $(obj).data("writeid");
-// 				let blogId = $(obj).data("userid");
-// 				let scope = $(obj).data("scope");
-// 				let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
+			function scopeCheck(obj){
+				let subTF = "[[${subCount}]]";
+				let writeId = $(obj).data("writeid");
+				let blogId = $(obj).data("userid");
+				let scope = $(obj).data("scope");
+				let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
 			
-// 				console.log("공개범위"+subTF);
-// 				if(scope == "public" || scope =="partial" && subTF == "T" || blogId == id){  // 구독여부 체크
-// 					location.href="/blog/myblog/blogWrite?bno="+writeId+"&userId="+blogId
-// 				}else if(scope == "private" && blogId == id){
-// 					location.href="/blog/myblog/blogWrite?bno="+writeId+"&userId="+blogId
-// 				}else{
-// 					alert("일부공개 된 글입니다.");
-// 				} 
+				console.log("공개범위"+subTF);
+				if(scope == "public" || scope =="partial" && subTF == "T" || blogId == id){  // 구독여부 체크
+					location.href="/blog/myblog/blogWrite?bno="+writeId+"&userId="+blogId
+				}else if(scope == "private" && blogId == id){
+					location.href="/blog/myblog/blogWrite?bno="+writeId+"&userId="+blogId
+				}else{
+					alert("일부공개 된 글입니다.");
+				} 
 				
-// 			}
+			}
 			
-// 			// 블로그 리스트 가져오기
-// 			function newBlogList(page){
-// 				let data = nowData;
-// 				data['page'] = page;
+			// 블로그 리스트 가져오기
+			function newBlogList(page){
+				let data = nowData;
+				data['page'] = page;
 				
-// 		        console.log(data);
-// 		        $.ajax({
-// 		        	url: '/blog/blogSearch',
-// 			      method: 'GET',
-// 			      contentType: 'application/x-www-form-urlencoded',
-// 			      data: data,
-// 			      success: function (result) {
-// 					 $(".row").find(".col-sm-6").detach();
-// 					 $(".row").find(".pagination").detach();
-// 					 $(result["blogList"]).each(function(index, item){
-// 						$(".blogList").append(makeBlogList(item));
-// 					 })
-// 					 // 페이징 새로 생성
-// 					 $(".blogList").append(makePageing(result["newPaging"]));
-// 			      },
-// 			      error: function (error) {
-// 			         console.log(error);
-// 			         alert('실패');
-// 			      }
-// 		        })
-// 			}
+		        console.log(data);
+		        $.ajax({
+		        	url: '/blog/blogSearch',
+			      method: 'GET',
+			      contentType: 'application/x-www-form-urlencoded',
+			      data: data,
+			      success: function (result) {
+					 $(".timeline-right").find(".album").detach();
+					 $(".timeline-right").find(".pagination").detach();
+					 $(result["blogList"]).each(function(index, item){
+						$(".blogList").append(makeBlogList(item));
+					 })
+					 // 페이징 새로 생성
+					 $(".blogList").append(makePageing(result["newPaging"]));
+			      },
+			      error: function (error) {
+			         console.log(error);
+			         alert('실패');
+			      }
+		        })
+			}
 			
-//  			// 마이블로그 들어오자마자 1페이지로 보여주기
-// 			newBlogList(1);
+ 			// 마이블로그 들어오자마자 1페이지로 보여주기
+			newBlogList(1);
 		</script>
 
 
@@ -690,16 +722,16 @@
         let Image = $(this).attr('data-image');
         let header = $(this).html();
         let template = `
-<div class="card-wrap">
-  <div class="card">
-    <div class="card-bg" style="background-image: url(` + Image + `)"></div>
-    <div class="card-info">` + header + `
-      <slot name="content"></slot>
-    </div>
-  </div>
-</div>`;
-        $(this).replaceWith($(template).on('mousemove', handleMouseMove).on('mouseleave', handleMouseLeave));
-    })
+		<div class="card-wrap">
+		  <div class="card">
+		    <div class="card-bg" style="background-image: url(` + Image + `)"></div>
+		    <div class="card-info">` + header + `
+		      <slot name="content"></slot>
+		    </div>
+		  </div>
+		</div>`;
+		        $(this).replaceWith($(template).on('mousemove', handleMouseMove).on('mouseleave', handleMouseLeave));
+		    })
 
     function handleMouseMove(e) {
         let mouseX = e.pageX - $(this).find('.card').offset().left - $(this).find('.card').outerWidth() / 2;
