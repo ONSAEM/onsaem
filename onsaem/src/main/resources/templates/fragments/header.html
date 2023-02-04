@@ -18,36 +18,10 @@
 
 
 			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav ms-auto">
-
-					<li class="nav-item dropdown"><a
-						class="nav-link click-scroll dropdown-toggle"
-						id="navbarLightDropdownMenuLink" role="button"
-						data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-						<ul class="dropdown-menu dropdown-menu-light"
-							aria-labelledby="navbarLightDropdownMenuLink">
-							<li><a class="dropdown-item" href="/shop">상품목록</a></li>
-							<li><a class="dropdown-item" href="/myOrder"
-								sec:authorize="isAuthenticated()">주문목록</a></li>
-							<li><a class="dropdown-item"
-								href="javascript:location.reload()"
-								sec:authorize="isAnonymous()" onclick="noLogin()">주문목록</a></li>
-							<li><a class="dropdown-item" href="/shopCart"
-								sec:authorize="isAuthenticated()">장바구니</a></li>
-							<li><a class="dropdown-item"
-								href="javascript:location.reload()"
-								sec:authorize="isAnonymous()" onclick="noLogin()">장바구니</a></li>
-							<li><a class="dropdown-item" href="/likeList"
-								sec:authorize="isAuthenticated()">관심상품</a></li>
-							<li><a class="dropdown-item"
-								href="javascript:location.reload()"
-								sec:authorize="isAnonymous()" onclick="noLogin()">관심상품</a></li>
-							<li><a class="dropdown-item" href="/sellerMain"
-								sec:authorize="hasRole('SELLER')">판매자</a></li>
-							<li><a class="dropdown-item" href="/shop/test"
-								sec:authorize="hasRole('SELLER')">Vue테스트</a></li>
-						</ul></li>
-
+				<ul class="navbar-nav ms-auto">					
+					<li class="nav-item"><a class="nav-link click-scroll"
+						href="/shop">Shop</a></li>
+					
 					<li class="nav-item"><a class="nav-link click-scroll"
 						href="/class/classList">Class</a></li>
 
@@ -95,12 +69,5 @@
 			</div>
 		</div>
 	</nav>
-
-	<script type="text/javascript">
-		//로그인 안했을때 알람발생
-		function noLogin() {
-			alert("로그인 후 이용가능 합니다.")
-		}
-	</script>
 </div>
 </html>
