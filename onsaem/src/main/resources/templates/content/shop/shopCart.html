@@ -104,7 +104,7 @@
 									</td>
 									<td class="shoping__cart__total" id="totalPrice"
 										th:text="${cart.cartPrice}*${cart.cartAmount}+원">$39.99</td>
-									<td class="shoping__cart__item__close" value=${cart.productId}
+									<td class="shoping__cart__item__close" th:value=${cart.productId}
 										th:onclick="delCart([[${cart}]])"><span
 										class="icon_close"></span></td>
 
@@ -149,6 +149,7 @@
 	<script type="text/javascript">
 	 var token = $("meta[name='_csrf']").attr("content");
 	 var header = $("meta[name='_csrf_header']").attr("content");
+	
 	 
 	//상품상세보기페이지이동
 	 function detailFnc(data){

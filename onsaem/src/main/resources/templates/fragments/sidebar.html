@@ -45,12 +45,11 @@
 				class="menu__icon fa fa-envelope"></i> <span class="menu__text">
 					내 쇼핑몰</span>
 			</a>
-			<ul>
-				<li><a href="/myOrder" sec:authorize="isAuthenticated()">주문목록1</a></li>
-				<li><a href="/shop/shopMyOrder" sec:authorize="isAuthenticated()">주문목록2</a></li>
+			<ul>				
+				<li><a href="/shop/shopMyOrder" sec:authorize="isAuthenticated()">주문목록</a></li>
 				<li><a href="javascript:location.reload()"
 					sec:authorize="isAnonymous()" onclick="noLogin()">주문목록</a></li>
-				<li><a href="/shopCart" sec:authorize="isAuthenticated()">장바구니</a></li>
+				<li><a href="/shop/shopMyCart" sec:authorize="isAuthenticated()">장바구니</a></li>
 				<li><a href="javascript:location.reload()"
 					sec:authorize="isAnonymous()" onclick="noLogin()">장바구니</a></li>
 				<li><a href="/likeList" sec:authorize="isAuthenticated()">관심상품</a></li>

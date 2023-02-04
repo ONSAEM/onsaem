@@ -88,6 +88,7 @@ h1 {
 	background: white;
 	border-radius: 5px;
 	padding: 30px;
+	text-align:center;
 }
 
 /* 별점 */
@@ -196,7 +197,7 @@ h1 {
 					</div>
 
 				</div>
-				<div class="product-cell" id="reviewModal">
+				<div id="reviewModal">
 					<div class="black-bg">
 						<div class="white-bg">
 							<h4>리뷰작성</h4>
@@ -388,8 +389,8 @@ h1 {
 			
 			//리뷰 모달창 생성
 			  $(".modals").click(function () {
-				  console.log(this.parentNode.parentNode.parentNode.querySelector(".black-bg"))
-			        this.parentNode.parentNode.parentNode.querySelector(".black-bg").style.display="block";
+				  console.log(this.parentNode.parentNode.parentNode.parentNode.querySelector(".black-bg"))   
+				  this.parentNode.parentNode.parentNode.parentNode.querySelector(".black-bg").style.display="block"
 			      });  
 			      $(".btn-danger").click(function () {
 			        $(".black-bg").fadeOut(); 

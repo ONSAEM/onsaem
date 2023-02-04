@@ -1,10 +1,208 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout2}">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/myClass.css}" type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
+		type="text/css">
+</th:block>
+
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+
+	
 </head>
+
 <body>
+	<div layout:fragment="content">
+		<div class="title">장바구니</div>
+		<div class="app-content-actions">
+			<div class="app-content-actions-wrapper">
+				<div class="filter-button-wrapper">
+				<div>					
+					<button style="display:inline-block" class="action-button filter jsFilter" th:onclick="selectDel()">선택삭제</button>					
+					<button  class="action-button filter jsFilter" th:onclick="allDel([[${myCartList}]])">전체삭제</button>
+				</div>
+				
+					
+					<div class="filter-menu">
+						<label>Category</label> <select>
+							<option>All Categories</option>
+							<option>Furniture</option>
+							<option>Decoration</option>
+							<option>Kitchen</option>
+							<option>Bathroom</option>
+						</select> <label>Status</label> <select>
+							<option>All Status</option>
+							<option>Active</option>
+							<option>Disabled</option>
+						</select>
+						<div class="filter-menu-buttons">
+							<button class="filter-button reset">Reset</button>
+							<button class="filter-button apply">Apply</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="products-area-wrapper tableView">
+			<div class="products-header">
+				<div class="product-cell category">
+					<input type="checkbox" th:onclick="checkBoxAll(this)"></input>
+				</div>
+				<div class="product-cell image">상품이미지</div>
+				<div class="product-cell">상품명</div>
+				<div class="product-cell">가격</div>
+				<div class="product-cell">옵션</div>
+				<div class="product-cell">수량</div>
+				<div class="product-cell">총가격</div>
+				<div class="product-cell"></div>
+			</div>
+			<div class="products-row" th:each="cart:${myCartList}">
+				<div class="product-cell">
+					<input type="checkbox" name="checkBox"
+						th:onchange="saveList([[${cart}]])"></input>
+				</div>
+				<div class="product-cell">
+					<img
+						th:src="@{/fileView/{fileRoute}/
+									(fileRoute=${cart.fileRoute})}"
+						alt="" th:onclick="detailFnc([[${cart.productId}]])">
+				</div>
+				<div class="product-cell">
+					<p th:text="${cart.productName}" id="productName">Fresh
+						Garden Vegetable</p>
+				</div>
+				<div class="product-cell">
+					<p id="cartPrice" th:value="${cart.cartPrice}" th:text="${cart.cartPrice}+원">Fresh Garden
+						Vegetable</p>
+				</div>
+				<div class="product-cell">					
+					<p >[[${cart.cartOption}]]</p>
+				</div>
+				<div class="product-cell">
+					<div class="shoping__cart__quantity">
+						<div class="quantity">
+							<div class="pro-qty">
+								<input type="text" id="cartAmount" th:value="${cart.cartAmount}" >
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="product-cell">
+					<p id="totalPrice" th:text="${cart.cartPrice}*${cart.cartAmount}+원">Fresh
+						Garden Vegetable</p>
+				</div>
+				<div class="product-cell">
+					<span class="icon_close" th:value=${cart.productId}
+						th:onclick="delCart([[${cart}]])"></span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+
+			<div class="col-lg-6">
+				<div class="shoping__checkout">
+					<h5>장바구니 내역</h5>
+					<ul>
+						<li>총상품가격 <span>$454.98</span></li>
+						<li>배송비 <span>$454.98</span></li>
+						<li>총가격 <span>$454.98</span></li>
+					</ul>
+					<a href="#" class="primary-btn" style="background-color: #bed8cd">구매하기</a>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- JS -->
+		<th:block layout:fragment="script">
+			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery-ui.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.slicknav.js}"></script>
+			<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/main.js}"></script>
+		</th:block>
+		<script type="text/javascript">
+	 var token = $("meta[name='_csrf']").attr("content");
+	 var header = $("meta[name='_csrf_header']").attr("content");	
+	 
+	//상품상세보기페이지이동
+	 function detailFnc(data){
+		 location.href='/shopDetail?data='+data
+	 }
+		
+		//장바구니삭제
+		function delCart(data){
+			console.log(data.productId);	
+			let productId=data.productId;
+			let cartOption=data.cartOption;
+			let cartAmount=data.cartAmount;
+			
+			 fetch('/delCart',{
+					headers: {
+					    "Content-Type": "application/json",
+					    "X-CSRF-TOKEN":token
+					  },
+					method:"post",
+					body: JSON.stringify({
+						productId: productId,
+						cartOption: cartOption,
+						cartAmount:cartAmount						
+					  })
+					})
+			  .then((response) => console.log('삭제되었습니다.'))
+			  .then((data)=>location.reload()) 
+		}
+		//전체체크박스 클릭
+		function checkBoxAll(checkBoxAll){
+			let checkboxes=document.getElementsByName('checkBox');			
+			checkboxes.forEach((checkbox) => {
+			    checkbox.checked = checkBoxAll.checked;
+			  })
+		}
+		
+		let carts=[];
+		//선택된 상품데이터 저장
+		function saveList(cart){			
+			carts.push(cart);
+		}
+		
+		//선택된 장바구니삭제
+		function selectDel(){
+			console.log(carts)
+			carts.forEach((cart)=>{
+				delCart(cart);
+			})
+		}
+		//전체 장바구니 삭제
+		function allDel(cartList){
+			console.log(cartList)
+			cartList.forEach((cart)=>{
+				delCart(cart)
+			}) 
+		}
+	</script>
+	</div>
 
 </body>
+
 </html>
