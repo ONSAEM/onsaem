@@ -123,7 +123,7 @@ public class ChalMypageController {
 		//개인 정보 가져오기
 		model.addAttribute("user", memService.getMember("hodu"));
 		
-		return "content/challengers/MyBeforeChal";
+		return "content/challengers/MypageBeforeChal";
 	}
 	
 	//마이페이지 시작전 챌린지 모음 - 취소하기
@@ -157,7 +157,7 @@ public class ChalMypageController {
 		vo.setParticipantId(userDetails.getUsername());
 		model.addAttribute("chals", chalService.myEndChal(vo));
 		
-		return "content/challengers/MyEndChal2";
+		return "content/challengers/MypageEndChal";
 	}
 	
 	//마이페이지의 나의 인증현황
