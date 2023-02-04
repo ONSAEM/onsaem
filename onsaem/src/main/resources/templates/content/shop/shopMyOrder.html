@@ -23,7 +23,7 @@
 /* 교환환불모달창 */
 button {
 	all: unset;
-	background-color: mediumslateblue;
+	background-color: #bed8cd;
 	color: white;
 	padding: 5px 25px;
 	border-radius: 10px;
@@ -185,9 +185,9 @@ h1 {
 								name="t_invoice" id="t_invoice" placeholder="운송장 번호"
 								value="570110926163">
 							<button type="submit" class="btn btn-default"
-								style="all: unset; background-color: mediumslateblue; color: white; padding: 5px 25px; border-radius: 10px; cursor: pointer;">배송조회</button>
+								style="all: unset; background-color: #bed8cd; color: white; padding: 5px 25px; border-radius: 10px; cursor: pointer;">배송조회</button>
 						</form>
-						 <br> <span th:if="${order.orderStatus=='배송완료'}">
+						<br> <span th:if="${order.orderStatus=='배송완료'}">
 							<button th:onclick="displayModal([[${order}]])">교환/반품</button> <br>
 							<br>
 							<button class="modals">리뷰작성</button> <input type="hidden"
@@ -195,6 +195,34 @@ h1 {
 						</span>
 					</div>
 
+				</div>
+				<div class="product-cell" id="reviewModal">
+					<div class="black-bg">
+						<div class="white-bg">
+							<h4>리뷰작성</h4>
+							<br> 별점<br>
+							<form name="myform" id="myform" method="post" action="./save">
+								<fieldset>
+									<label for="rate1">⭐</label><input type="radio" name="rating"
+										value="5" id="rate1"> <label for="rate2">⭐</label><input
+										type="radio" name="rating" value="4" id="rate2"> <label
+										for="rate3">⭐</label><input type="radio" name="rating"
+										value="3" id="rate3"> <label for="rate4">⭐</label><input
+										type="radio" name="rating" value="2" id="rate4"> <label
+										for="rate5">⭐</label><input type="radio" name="rating"
+										value="1" id="rate5">
+
+								</fieldset>
+							</form>
+							상세리뷰<br>
+							<textarea rows="10" cols="40" id="reviewContent"></textarea>
+							<div>
+								<button class="btn btn-danger"
+									th:onclick="submitReview([[${order.productId}]])">작성</button>
+								<button class="btn btn-danger" id="close">닫기</button>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
