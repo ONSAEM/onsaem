@@ -844,7 +844,12 @@
 					   </svg>
 					</button>
 					<button class="profile-btn">
-						<img src="https://assets.codepen.io/3306515/IMG_2025.jpg" /> <span>[[${#authentication.principal.nickname}]]</span>
+						<img th:if="${blogInfos.fileRoute == null}"
+							th:src="@{/images/defaulltProfile.png}"
+							class="profile" />
+						<img th:if="${blogInfos.fileRoute != null}"
+							th:src="'/fileView/'+${blogInfos.fileRoute}"
+							class="profile" /> <span>[[${blogInfos.nickname}]]</span>
 						<!-- 닉네임 -->
 					</button>
 				</div>
@@ -860,16 +865,7 @@
 					          <polyline points="9 22 9 12 15 12 15 22" />
 					</svg>
 					</a>
-					<!-- 차트 -->
-					<a class="app-sidebar-link" id="blogChart" th:href="@{/blog/myblog/blogChart(blogId=${#authentication.principal.memberId})}"> 
-					<svg class="link-icon feather feather-pie-chart"
-							th:xmlns="@{http://www.w3.org/2000/svg}" width="24" height="24"
-							fill="none" stroke="currentColor" stroke-linecap="round"
-							stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
-          					<defs />
-          					<path d="M21.21 15.89A10 10 0 118 2.83M22 12A10 10 0 0012 2v10z" />
-        			</svg>
-					</a>
+					
 					<!-- 구독 관리 -->
 					<a class="app-sidebar-link" id="blogSub" th:href="@{/blog/myblog/blogSubscribe(blogId=${#authentication.principal.memberId})}"> 
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -896,50 +892,7 @@
 				</div>
 				<div class="projects-section">
 					<div class="projects-section-header">
-						<p>내 블로그 관리</p>
-						<p class="time">December, 12</p>
-					</div>
-					<div class="projects-section-line">
-						<div class="projects-status">
-							<div class="item-status">
-								<span class="status-number">45</span> 
-								<span class="status-type">In Progress</span>
-							</div>
-							<div class="item-status">
-								<span class="status-number">24</span> 
-								<span class="status-type">Upcoming</span>
-							</div>
-							<div class="item-status">
-								<span class="status-number">62</span> 
-								<span class="status-type">Total Projects</span>
-							</div>
-						</div>
-						<div class="view-actions">
-							<button class="view-btn list-view" title="List View">
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-									viewBox="0 0 24 24" fill="none" stroke="currentColor"
-									stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-									class="feather feather-list">
-					              <line x1="8" y1="6" x2="21" y2="6" />
-					              <line x1="8" y1="12" x2="21" y2="12" />
-					              <line x1="8" y1="18" x2="21" y2="18" />
-					              <line x1="3" y1="6" x2="3.01" y2="6" />
-					              <line x1="3" y1="12" x2="3.01" y2="12" />
-					              <line x1="3" y1="18" x2="3.01" y2="18" />
-					            </svg>
-							</button>
-							<button class="view-btn grid-view active" title="Grid View">
-								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-									viewBox="0 0 24 24" fill="none" stroke="currentColor"
-									stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-									class="feather feather-grid">
-						              <rect x="3" y="3" width="7" height="7" />
-						              <rect x="14" y="3" width="7" height="7" />
-						              <rect x="14" y="14" width="7" height="7" />
-						              <rect x="3" y="14" width="7" height="7" />
-						        </svg>
-							</button>
-						</div>
+						<p>카테고리 관리</p>
 					</div>
 					
 					<div class="project-boxes jsGridView">

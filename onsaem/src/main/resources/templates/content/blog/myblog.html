@@ -3,324 +3,23 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/layout}">
-<head>
-<meta charset="UTF-8">
-<meta name="description" content="Ogani Template">
-<meta name="keywords" content="Ogani, unica, creative, html">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
 <!-- Css  -->
 <th:block layout:fragment="css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
+	<link rel="stylesheet" th:href="@{/css/blog.css}"
 		type="text/css">
 </th:block>
-
+<head>
+<meta charset="UTF-8">
 <style>
-/* 모먼트 */
-@import
-	url("https://fonts.googleapis.com/css?family=Cardo:400i|Rubik:400,700&display=swap")
-	;
-
-:root {
-	-d: 700ms;
-	-e: cubic-bezier(0.19, 1, 0.22, 1);
-	-font-sans: "Rubik", sans-serif;
-	-font-serif: "Cardo", serif;
+caption.dots {
+  color: #5c5e6e;
+  border:bottom;
+  border-width: 0 0 8px;
+  border-style: solid;
+  border-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 1" width="5" height="4"><circle fill="gray" cx="1" cy="0.5" r="0.4"/></svg>') 0 0 100% repeat;
+  width: 199px;
 }
-
-* {
-	box-sizing: border-box;
-}
-
-.mmtpage-content {
-	display: grid;
-	grid-gap: 1rem;
-	padding: 1rem;
-	max-width: 1024px;
-	margin: 0 auto;
-	font-family: var(- -font-sans);
-}
-
-@media ( min-width : 600px) {
-	.mmtpage-content {
-		grid-template-columns: repeat(2, 1fr);
-	}
-}
-
-@media ( min-width : 800px) {
-	.mmtpage-content {
-		grid-template-columns: repeat(4, 1fr);
-	}
-}
-
-.mmtcard {
-	position: relative;
-	display: flex;
-	align-items: flex-end;
-	overflow: hidden;
-	padding: 1rem;
-	width: 100%;
-	text-align: center;
-	color: whitesmoke;
-	background-color: whitesmoke;
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 2px 2px rgba(0, 0, 0, 0.1),
-		0 4px 4px rgba(0, 0, 0, 0.1), 0 8px 8px rgba(0, 0, 0, 0.1), 0 16px
-		16px rgba(0, 0, 0, 0.1);
-}
-
-@media ( min-width : 600px) {
-	.mmtcard {
-		height: 350px;
-		background-repeat: no-repeat;
-		background-size: cover;
-	}
-}
-
-.mmtcard:before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 110%;
-	background-size: cover;
-	background-position: 0 0;
-	transition: transform calc(var(- -d)* 1.5) var(- -e);
-	pointer-events: none;
-}
-
-.mmtcard:after {
-	content: "";
-	display: block;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 200%;
-	pointer-events: none;
-	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%,
-		rgba(0, 0, 0, 0.009) 11.7%, rgba(0, 0, 0, 0.034) 22.1%,
-		rgba(0, 0, 0, 0.072) 31.2%, rgba(0, 0, 0, 0.123) 39.4%,
-		rgba(0, 0, 0, 0.182) 46.6%, rgba(0, 0, 0, 0.249) 53.1%,
-		rgba(0, 0, 0, 0.32) 58.9%, rgba(0, 0, 0, 0.394) 64.3%,
-		rgba(0, 0, 0, 0.468) 69.3%, rgba(0, 0, 0, 0.54) 74.1%,
-		rgba(0, 0, 0, 0.607) 78.8%, rgba(0, 0, 0, 0.668) 83.6%,
-		rgba(0, 0, 0, 0.721) 88.7%, rgba(0, 0, 0, 0.762) 94.1%,
-		rgba(0, 0, 0, 0.79) 100%);
-	transform: translateY(-50%);
-	transition: transform calc(var(- -d)* 2) var(- -e);
-}
-
-.mmtcard:before {
-	/*   background-image: url(https://images.unsplash.com/photo-1517021897933-0e0319cfbc28?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ); */
-	
-}
-
-.mmtcontent {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
-	padding: 1rem;
-	transition: transform var(- -d) var(- -e);
-	z-index: 1;
-}
-
-.mmtcontent>*+* {
-	margin-top: 1rem;
-}
-
-.mmttitle {
-	font-size: 1.3rem;
-	font-weight: bold;
-	line-height: 1.2;
-}
-
-.mmtcopy {
-	font-family: var(- -font-serif);
-	font-size: 1.125rem;
-	font-style: italic;
-	line-height: 1.35;
-}
-
-.mmtbtn {
-	cursor: pointer;
-	margin-top: 1.5rem;
-	padding: 0.75rem 1.5rem;
-	font-size: 0.65rem;
-	font-weight: bold;
-	letter-spacing: 0.025rem;
-	text-transform: uppercase;
-	color: white;
-	background-color: black;
-	border: none;
-}
-
-.mmtbtn:hover {
-	background-color: #0d0d0d;
-}
-
-.mmtbtn:focus {
-	outline: 1px dashed yellow;
-	outline-offset: 3px;
-}
-
-@media ( hover : hover) and (min-width: 600px) {
-	.mmtcard:after {
-		transform: translateY(0);
-	}
-	.mmtcontent {
-		transform: translateY(calc(100% - 4.5rem));
-	}
-	.mmtcontent>*:not(.mmttitle) {
-		opacity: 0;
-		transform: translateY(1rem);
-		transition: transform var(- -d) var(- -e), opacity var(- -d) var(- -e);
-	}
-	.mmtcard:hover, .mmtcard:focus-within {
-		align-items: center;
-	}
-	.mmtcard:hover:before, .mmtcard:focus-within:before {
-		transform: translateY(-4%);
-	}
-	.mmtcard:hover:after, .mmtcard:focus-within:after {
-		transform: translateY(-50%);
-	}
-	.mmtcard:hover .mmtcontent, .mmtcard:focus-within .mmtcontent {
-		transform: translateY(0);
-	}
-	.mmtcard:hover .mmtcontent>*:not(.mmttitle), .mmtcard:focus-within .mmtcontent>*:not(.mmttitle)
-		{
-		opacity: 1;
-		transform: translateY(0);
-		transition-delay: calc(var(- -d)/8);
-	}
-	.mmtcard:focus-within:before, .mmtcard:focus-within:after, .mmtcard:focus-within .mmtcontent,
-		.mmtcard:focus-within .mmtcontent>*:not(.mmttitle) {
-		transition-duration: 0s;
-	}
-}
-
-/* 프로필카드 */
-@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,600);
-
-.snip1336 {
-	font-family: 'Roboto', Arial, sans-serif;
-	position: relative;
-	overflow: hidden;
-	margin: 10px;
-	min-width: 230px;
-	max-width: 315px;
-	width: 100%;
-	color: #ffffff;
-	text-align: left;
-	line-height: 1.4em;
-	background-color: #141414;
-}
-
-.snip1336 * {
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	-webkit-transition: all 0.25s ease;
-	transition: all 0.25s ease;
-}
-
-.snip1336 img {
-	max-width: 100%;
-	vertical-align: top;
-	opacity: 0.85;
-}
-
-.snip1336 figcaption {
-	width: 100%;
-	background-color: #141414;
-	padding: 25px;
-	position: relative;
-}
-
-.snip1336 figcaption:before {
-	position: absolute;
-	content: '';
-	bottom: 100%;
-	left: 0;
-	width: 0;
-	height: 0;
-	border-style: solid;
-	border-width: 55px 0 0 400px;
-	border-color: transparent transparent transparent #141414;
-}
-
-.snip1336 figcaption a {
-	padding: 5px;
-	border: 1px solid #ffffff;
-	color: #ffffff;
-	font-size: 0.7em;
-	text-transform: uppercase;
-	margin: 10px 0;
-	display: inline-block;
-	opacity: 0.65;
-	width: 47%;
-	text-align: center;
-	text-decoration: none;
-	font-weight: 600;
-	letter-spacing: 1px;
-}
-
-.snip1336 figcaption a:hover {
-	opacity: 1;
-}
-
-.snip1336 .profile {
-	border-radius: 50%;
-	position: absolute;
-	bottom: 100%;
-	left: 25px;
-	z-index: 1;
-	max-width: 90px;
-	opacity: 1;
-	box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-}
-
-.snip1336 .follow {
-	margin-right: 4%;
-	border-color: #2980b9;
-	color: #2980b9;
-}
-
-.snip1336 h2 {
-	margin: 0 0 5px;
-	font-weight: 300;
-	color: white;
-}
-
-.snip1336 h2 span {
-	display: block;
-	font-size: 0.5em;
-	color: #2980b9;
-}
-
-.snip1336 p {
-	margin: 0 0 10px;
-	font-size: 0.8em;
-	letter-spacing: 1px;
-	opacity: 0.8;
-}
-
 /* GENERAL STYLES */
 .pagination ul {
 	margin: auto;
@@ -339,249 +38,257 @@
 	float: left;
 	cursor: pointer;
 }
+/* 팔로우버튼 */
+.follow {
+	margin-right: 10%;
+	border-color: #5F9999;
+	z-index: 30;
+	border: 1px solid #ffffff;
+	color: #ffffff;
+	opacity: 0.65;
+	text-align: center;
+	text-decoration: none;
+
+}
+.follow:hover {
+	opacity: 1;
+}
 </style>
 </head>
 <body>
-	<!-- Content -->
-
 	<div layout:fragment="content">
-
-		<!-- Breadcrumb Section Begin -->
-		<section class="breadcrumb-section set-bg"
-			th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12 text-center">
-						<div class="breadcrumb__text">
-							<h2>Blog</h2>
-							<div class="breadcrumb__option">
-								<a href="./index.html">Home</a> <span>Blog</span>
+		<div class="container" x-data="{ rightSide: false, leftSide: false }">
+		  <div class="main">
+		    <div class="main-container">
+		    <!-- 프로필 -->
+		      <div class="profile">
+		        <div class="profile-avatar">
+		        	<img th:if="${blogInfo.fileRoute != null}"
+						th:src="'/fileView/'+${blogInfo.fileRoute}"
+						alt="profile-sample5" class="profile-img" />
+					<img th:if="${blogInfo.fileRoute == null}"
+						th:src="@{/images/defaulltProfile.png}"
+						alt="profile-sample5" class="profile-img" />
+		          <div class="profile-name">[[${blogInfo.nickname}]] <span style="font-size:20px">@[[${blogInfo.blogId}]]</span> <br><p>[[${blogInfo.introduction}]]</p></div>
+		        	
+		        </div>
+		        <!-- 헤더 -->
+		        <img src="/fileView/20230127/befd71a4-98a8-4042-a72a-07ff9c715e36.gif" alt="" class="profile-cover">
+		        <!-- 헤더 끝 -->
+		        
+		        <div class="profile-menu">
+		          <a type="button" class="profile-menu-link follow" th:value=${subCount} th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} != ${blogInfo.blogId}"><th:block th:if="${subCount=='F'}">구독하기</th:block><th:block th:unless="${subCount=='F'}">구독 중</th:block></a>
+		          <a type="button" class="profile-menu-link follow" th:value=${subCount} th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} != ${blogInfo.blogId}" style="display:none;">구독</a>
+		          <a th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
+						style="display:none"
+						th:href="@{/blog/myblog/blogTask(blogId=${blogInfo.blogId})}"
+						class="profile-menu-link info">블로그 관리 ⚙</a> 
+				  <a th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
+						style="z-index: 30;"
+						th:href="@{/blog/myblog/blogTask(blogId=${blogInfo.blogId})}"
+						class="profile-menu-link info">블로그 관리 ⚙</a>
+		          <!-- 검색바 -->
+		          <a><input type="text" placeholder="Search..." id="searchWord" style="width:150px;height:30px;position:relative;margin-top:17px;margin-left:671px;overflow:auto;">
+						<button type="button" class="btn btn-light" id="searchBtn" style="width:40px;height:30px;position:absolute;border-radius:2px;border:1px solid gray;margin-top:17px;">
+							<i class="fa-solid fa-magnifying-glass"></i>
+						</button>
+				  </a>
+				  <!-- 검색바 끝 -->
+		        </div>
+		      </div>
+		     <!-- 프로필 끝 -->
+		      <div class="timeline">
+			       <div class="left-side">
+					    <div class="left-side-button">
+					      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+					      <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+					  		<path d="M19 12H5M12 19l-7-7 7-7"/>
+						  </svg>
+					    </div>
+			    
+					    <!-- 사이드 바 -->
+					    <div class="side-wrapper">
+					    <div class="side-title" style="margin-bottom:0px;">
+					    	<div class="side-menu">
+					    	<a href="#"  style="display:inherit;">
+					          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="margin-right:2px;margin-bottom:4px;">
+					            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+					            <path d="M9 22V12h6v10" />
+					          </svg>
+					          Home
+						    </a>
+					    	
+							<a th:href="@{/blog/myblog/blogWrite/blogInsert}" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
+							   class="blog__btn" style="margin-left:150px;position:absolute;"><i class="fa-solid fa-pencil"></i> 글작성</a>
+							<a th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}" style="display:none;"></a>
 							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- Breadcrumb Section End -->
-		<!--  모먼트 -->
-		<div class="blog__sidebar">
-			<div class="blog__sidebar__item">
-				<h3 style="text-align: center; margin: 0 auto;">
-					MOMENT <a data-bs-toggle="modal" data-bs-target="#insertModal"
-						type="button" th:if="${mmtCnt<4} and ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}">▶</a> 
-						<a type="button"
-						th:if="${mmtCnt==4}"
-						onclick="alert('😥 저장 가능한 모먼트 용량이 초과되었습니다. 삭제 후 등록해주세요!')">✖</a>
-						<a type="button" th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}" style="display:none;"></a>
-				</h3>
-			</div>
-		</div>
-
-		<main class="mmtpage-content">
-
-			<!-- 모달창 띄우는 버튼 -->
-			<a th:each="moment : ${moments}" data-bs-toggle="modal" data-bs-target="#exampleModal" id="modalBtn"
-			 th:if="${moment.publicScope}=='public' or
-			  ${moment.publicScope}=='partial' and  ${subCount} =='T' or
-			  ${moment.blogId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}">
-			<a style="padding: 100px;"
-			 th:unless="${moment.publicScope}=='public' or
-			  ${moment.publicScope}=='partial' and  ${subCount} =='T' or
-			  ${moment.blogId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}"></a>
-			  
-			<input type="hidden" id="mmtId" th:value="${moment.momentId}">
-
-				<div class="mmtcard inputfield" id="preview-image"
-					th:style="'background: url('+@{'/fileView/'+${moment.fileRoute}}+');background-repeat:no-repeat;background-size:cover;'">
-				
-					<div class="mmtcontent">
-						<h2 class="mmttitle">@[[${moment.blogId}]]</h2>
-						<p class="mmtcopy">[[${moment.momentWrite}]]</p>
-						<button class="mmtbtn">more</button>
-					</div>
-				</div>
-			</a>
-		</main>
-		<!-- 모먼트 끝 -->
-		<!-- Blog Section Begin -->
-		<section class="blog spad">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-4 col-md-5">
-						<div class="blog__sidebar">
-
-							<!-- 프로필 카드 -->
-							<figure class="snip1336">
-								<img
-									src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample69.jpg"
-									alt="sample69" />
-								<figcaption>
-									
-									<img th:if="${blogInfo.fileRoute != null}"
-										th:src="'/fileView/'+${blogInfo.fileRoute}"
-										alt="profile-sample5" class="profile" />
-									<img th:if="${blogInfo.fileRoute == null}"
-										th:src="@{/images/defaulltProfile.png}"
-										alt="profile-sample5" class="profile" />
-									
-									
-									<h2>
-										[[${blogInfo.nickname}]]<span>@[[${blogInfo.blogId}]]</span>
-									</h2>
-									<p>[[${blogInfo.introduction}]]</p>
-									<a class="follow" type="button" th:value=${subCount} th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} != ${blogInfo.blogId}">구독</a>
-									<a class="follow" type="button" th:value=${subCount} th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} != ${blogInfo.blogId}" style="display:none;">구독</a>
-									<a  th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
-										style="display:none"
-										th:href="@{/blog/myblog/blogTask(blogId=${blogInfo.blogId})}"
-										class="info">블로그 관리 ⚙</a> 
-									<a  th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
-										th:href="@{/blog/myblog/blogTask(blogId=${blogInfo.blogId})}"
-										class="info">블로그 관리 ⚙</a>
-									<!-- 로그인한 아이디와 블로그 주인이 같으면 보이게 -->
-								</figcaption>
-							</figure>
-							<!-- 프로필 카드 끝 -->
-
-							<div class="blog__sidebar__search">
-									<input type="text" placeholder="Search..." id="searchWord">
-									<button type="button" id="searchBtn">
-										<span class="icon_search"></span>
-									</button>
-							</div>
-							<!--[[${param.userId}]]  유저 이름확인-->
-							<div class="blog__sidebar__item">
-								<a th:href="@{/blog/myblog/blogWrite/blogInsert}" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
-									class="blog__btn">글 작성<span class="arrow_right"></span></a>
-								<a th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}" style="display:none;"></a>
-								<h4>Categories</h4>
-								<ul th:each="cate:${category}">
+					    	
+						    
+						    <!-- 카테고리 -->
+						      <div class="side-title">CATEGORY</div>
+						      <div class="side-menu">
+						        <ul th:each="cate:${category}">
 									<li><a class="searchCate" th:value="${cate.categoryId}" style="cursor:pointer">[[${cate.categoryName}]]</a></li>
 								</ul>
+						      </div>
+					    </div>
+			    		<!-- 카테고리 끝 -->
+			    
+			    <!-- 최신글 -->
+			    <div class="side-wrapper">
+			    	<div class="side-title">RECENT NEWS</div>
+			    	<div class="side-menu" >
+			    		<a href="#" class="blog__sidebar__recent__item"
+							th:each="rW:${recentWrite}">
+							<div style="margin-top:15px;">
+								<h6 style="font-size:16px;color: #9c9cab;">[[${#dates.format(rW.writeDate, 'MM/dd')}]] </h6>
 							</div>
-							<div class="blog__sidebar__item">
-								<h4>Recent News</h4>
-								<div class="blog__sidebar__recent">
-									<a href="#" class="blog__sidebar__recent__item"
-										th:each="rW:${recentWrite}">
-										<div class="blog__sidebar__recent__item__pic" style="margin-top:15px;">
-<!-- 											<img th:src="@{/shoptemplate/img/blog/sidebar/sr-1.jpg}" -->
-<!-- 												alt=""> -->
-											<h6>[[${#dates.format(rW.writeDate, 'MM/dd')}]] </h6>
-										</div>
-										<div class="blog__sidebar__recent__item__text">
-										
-											<h6 th:onclick="|location.href='@{/blog/myblog/blogWrite(bno=${rW.writeId})}'|">
-												[[${rW.writeTitle}]] <span> [[${rW.subTitle}]]</span><br /></h6> <span><i class="fa-solid fa-eye"></i> [[${rW.cnt}]]</span>
-											
-											
-											
-										</div>
-									</a>
-								</div>
+							<div style="margin-left:10px;">
+								<h6 th:onclick="|location.href='@{/blog/myblog/blogWrite(bno=${rW.writeId})}'|" style="font-size:16px;color: #9c9cab;">
+									[[${rW.writeTitle}]] <span> [[${rW.subTitle}]]</span><br /></h6> <span><i class="fa-solid fa-eye" style="font-size:16px;"></i> [[${rW.cnt}]]</span>
 							</div>
-							<!-- 구독자 목록 -->
-							<div class="blog__sidebar__item">
-								<h4>구독자 목록</h4>
-								<a th:href="@{/blog/myblog/blogSubscribe(blogId=${blogInfo.blogId})}" 
-								   style="float: right;margin-right:50px;" 
-								   th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}">목록 더보기 ➕</a>
-								<a th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}" style="display:none;"></a>
-								<div class="blog__sidebar__recent">
-									<table id="submeTable">
-										<thead>
-											<tr>
-												<th></th>
-												<th class="shoping__product">나를 구독한 사람ID</th>
-											</tr>
-										</thead>
-										<tbody>
-											<th:block th:each="subMe:${subMeList}">
-												<tr>
-													<td class="shoping__cart__item"
-														style="width: 70px; height: 70px; padding: 5px 0px;">
-														<img th:if="${subMe.fileRoute == null}"
-															th:src="@{/images/defaulltProfile.png}"
-															alt="profile-sample5" class="profile" />
-														<img th:if="${subMe.fileRoute != null}"
-															th:src="'/fileView/'+${subMe.fileRoute}"
-															alt="profile-sample5" class="profile" />
-													</td>
-													<td><a th:href="@{/blog/myblog(userId=${subMe.memberId})}"><h5 th:text="${subMe.memberId}"></h5></a></td>
-												</tr>
-											</th:block>
-										</tbody>
-									</table>
-
-									<table id="mySubTable">
-										<thead>
-											<tr>
-												<th></th>
-												<th class="shoping__product">내가 구독한 사람ID</th>
-											</tr>
-										</thead>
-										<tbody>
-											<th:block th:each="mySub:${mySubList}" > 
-												<tr>
-													<td class="shoping__cart__item"
-														style="width: 70px; height: 70px; padding: 5px 0px;">
-														<img th:if="${mySub.fileRoute == null}"
-															th:src="@{/images/defaulltProfile.png}"
-															class="profile" />
-														<img th:if="${mySub.fileRoute != null}"
-															th:src="'/fileView/'+${mySub.fileRoute}"
-															class="profile" />
-													</td>
-													<td><a th:href="@{/blog/myblog(userId=${mySub.groupId})}"><h5 th:text="${mySub.groupId}"></h5></a></td>
-												</tr>
-											</th:block>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<!-- 구독자 목록 끝 -->
-						</div>
+						</a>	
+			    	</div>
+			    </div>
+			    <!-- 최신글 끝 -->
+			    
+			    <!-- 구독 목록 -->
+			    <div class="side-wrapper">
+			      <div class="side-title">SUB LIST
+				      <div class="side-menu" style="float:right;">
+			        	<a th:href="@{/blog/myblog/blogSubscribe(blogId=${blogInfo.blogId})}" 
+						   th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"><i class="fa-regular fa-square-plus"></i>&nbsp;MORE</a>
+						<a th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}" style="display:none;"></a>
+					  </div>
 					</div>
-					<div class="col-lg-8 col-md-7">
-						<div class="row blogList">
-						
+					<div>
+						<table id="submeTable">
+							<caption class="side-title dots" style="caption-side: top;text-align:center;margin-bottom:0px;">SUB ME</caption>
+							<thead>
+								<tr>
+									<th></th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<th:block th:each="subMe:${subMeList}">
+									<tr>
+										<td>
+											<img th:if="${subMe.fileRoute == null}"
+												th:src="@{/images/defaulltProfile.png}"
+												style="height:50px;width:50px;border-radius:10px;"/>
+											<img th:if="${subMe.fileRoute != null}"
+												th:src="'/fileView/'+${subMe.fileRoute}"
+												style="height:50px;width:50px;border-radius:10px;"/>
+										</td>
+										<td><a th:href="@{/blog/myblog(userId=${subMe.memberId})}" style="margin-left:5px;">[[${subMe.memberId}]]</a></td>
+									</tr>
+								</th:block>
+							</tbody>
+						</table>
+						<br/>
+						<table id="mySubTable">
+							<caption class="side-title dots" style="caption-side: top;text-align:center;margin-bottom:0px;">MY SUB</caption>
+							<thead>
+								<tr>
+									<th></th>
+									<th></th>
+								</tr>
+							</thead>
 							
-						</div>
+							<tbody>
+								<th:block th:each="mySub:${mySubList}" >
+									<tr>
+										<td>
+											<img th:if="${mySub.fileRoute == null}"
+												th:src="@{/images/defaulltProfile.png}"
+												style="height:50px;width:50px;border-radius:10px;"/>
+											<img th:if="${mySub.fileRoute != null}"
+												th:src="'/fileView/'+${mySub.fileRoute}"
+												style="height:50px;width:50px;border-radius:10px;"/>
+										</td>
+										<td><a th:href="@{/blog/myblog(userId=${mySub.groupId})}" style="margin-left:5px;">[[${mySub.groupId}]]</a></td>
+									</tr>
+								</th:block>
+							</tbody>
+						</table>
+			      </div>
+			    </div>
+			    <!-- 구독 목록 끝 -->
+			  </div>
+		        <div class="timeline-right">
+		        <!-- 모먼트 -->
+		        		<h3 style="text-align: center; margin: 0 auto;">
+							MOMENT <a data-bs-toggle="modal" data-bs-target="#insertModal"
+								type="button" th:if="${mmtCnt<4} and ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}">▶</a> 
+								<a type="button"
+								th:if="${mmtCnt==4}"
+								onclick="alert('😥 저장 가능한 모먼트 용량이 초과되었습니다. 삭제 후 등록해주세요!')">✖</a>
+								<a type="button" th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}" style="display:none;"></a>
+						</h3>
+				      <div id="card-app" class="card-container mmtpage-content">
+				      	<!-- 모달창 띄우는 버튼 -->
+						<a th:each="moment : ${moments}" data-bs-toggle="modal" data-bs-target="#exampleModal" id="modalBtn"
+						 th:if="${moment.publicScope}=='public' or
+						  ${moment.publicScope}=='partial' and  ${subCount} =='T' or
+						  ${moment.blogId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}">
+						<a style="padding: 100px;"
+						 th:unless="${moment.publicScope}=='public' or
+						  ${moment.publicScope}=='partial' and  ${subCount} =='T' or
+						  ${moment.blogId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}"></a>
+						  
+							<input type="hidden" id="mmtId" th:value="${moment.momentId}">
+					      
+					        <card th:data-image="@{'/fileView/'+${moment.fileRoute}}"
+					            class="mmtcard inputfield" id="preview-image"
+								th:style="'background: url('+@{'/fileView/'+${moment.fileRoute}}+');background-repeat:no-repeat;background-size:cover;'">
+					            <h1 class="mmttitle">@[[${moment.blogId}]]</h1>
+					            <p class="mmtcopy">[[${moment.momentWrite}]]</p>
+					        </card>
+				        </a>
+				      </div>
+		        <!-- 모먼트 끝 -->
+		        
+			        <!-- 페이징 해야함 -->
+			        <div class="col-lg-8 col-md-7">
+			          <div class="row blogList">
+							
+					  </div>
 					</div>
-					
-					
-					
-				</div>
-			</div>
-		</section>
-		<!-- Blog Section End -->
-
-		<!-- 클론 -->
-		<div class="template" style="display:none">
-			<div class="col-lg-6 col-md-6 col-sm-6">
-				<div class="blog__item">
-					<div class="blog__item__pic">
-						<input type="hidden" class="thumbnail">
-						<!-- 썸네일 -->
-						<img id="thumbImg">
-					</div>
-					<div class="blog__item__text">
-						<ul>
-							<li><i class="fa fa-calendar-o"></i></li>
-							<li><i class="fa fa-comment-o"></i></li>
-							<li><i class="fa-solid fa-eye"></i></li>
-						</ul>
-						<h5>
-							<a href="#" onclick="scopeCheck(this)"></a>
-						</h5>
-						<p/>
-						<a class="blog__btn">READ MORE <span class="arrow_right"></span></a>
-					</div>
-				</div>
-			</div>
+					 <!-- 페이징 해야함 --> 
+		        </div>
+		      </div>
+		    </div>
+		  </div>
 		</div>
+				<!-- 클론 -->
+				<div class="template" style="display:none">
+			          <div class="album box">
+			            <div class="album-content"><a></a>
+			              <div class="album-photos" onclick="scopeCheck(this)">
+			              	<input type="hidden" class="thumbnail">
+							<!-- 썸네일 -->
+							<img id="thumbImg" class="album-photo">
+			              </div>
+			            </div>
+			            <div class="album-actions">
+			              <a href="#" class="album-action">
+			                <i class="fa fa-calendar-o"></i>
+			              </a>
+			              <a href="#" class="album-action">
+			                <i class="fa fa-comment-o"></i>
+			              </a>
+			              <a href="#" class="album-action">
+			                <i class="fa-solid fa-eye"></i>
+			              </a>
+			            </div>
+			          </div>
+		          </div>
+				<!-- 클론 끝 -->
 
-		<!-- 모달창 조회 -->
+
+<!-- 모달창 조회 -->
 		<div class="modal fade" id="exampleModal" tabindex="-1"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-xl modal-dialog-scrollable">
@@ -627,7 +334,7 @@
 			</div>
 		</div>
 		<!-- 모달창 끝 -->
-
+		
 		<!-- 모먼트 작성 -->
 		<div class="modal fade" id="insertModal" tabindex="-1"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -681,20 +388,7 @@
 		</div>
 		<!-- 모먼트 작성 끝 -->
 
-		<!-- JS -->
-		<th:block layout:fragment="script">
-			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
-			<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
-			<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
-			<script th:src="@{/shoptemplate/js/jquery-ui.min.js}"></script>
-			<script th:src="@{/shoptemplate/js/jquery.slicknav.js}"></script>
-			<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
-			<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
-			<script th:src="@{/shoptemplate/js/main.js}"></script>
-			<script src="https://kit.fontawesome.com/fef5f4c5da.js" crossorigin="anonymous"></script>
-		</th:block>
-
-		<!-- moment -->
+	<!-- moment -->
 		<script type="text/javascript">
 			
 			//csrf설정
@@ -715,7 +409,7 @@
 			let subTF = $('.follow').attr('value');
 			
 			// 페이징 할 때 리스트 클론하기
-			let listClone = $(".template").find(".col-md-6").first();
+			let listClone = $(".template").find(".album").first();
 			
 			// 좋아요 조회
 			let likeTF = $('.blogLike').val();
@@ -745,11 +439,9 @@
 					newBlogList(1);
 				})
 			})
-			
-			
 
 			
-			// moment 모달
+// 			// moment 모달
 			//moment 등록버튼을 누르면, 입력된 값을 DB로 보내기
 			$("#mmtInsertBtn").on("click", function(){
 				let data = new FormData($('#momentFrm')[0]); //아이디가 momentFrm을 가져온다.
@@ -775,7 +467,7 @@
 					dataType:'json',
 					success : function(result) {
 						alert('성공');
-						location.href="/blog/myblog?userId=[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
+						location.reload();
 					},
 					error : function(error) {
 						console.log(error);
@@ -823,7 +515,7 @@
 			// 모달 끝
 			
 			
-			// input file에 change 이벤트 부여
+// 			// input file에 change 이벤트 부여
 			const inputImage = document.getElementById("input-image")
 			inputImage.addEventListener("change", function(e) {
 				console.log('확인');
@@ -849,7 +541,7 @@
 			    }
 			}
 			
-			// 구독
+// 			// 구독
 			if(subTF == 'T'){ // 만약 값이 있다면
 				$(".follow").css({'background-color':'#2980b9','color':'white','border-color':'white'});
 			}else{
@@ -862,6 +554,7 @@
 				let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
 				if(id!=""){
 					if(subTF =='F'){ // 구독하지 않았다면~
+						let th =$(this);
 						$(this).css({'background-color':'#2980b9','color':'white','border-color':'white'});
 						
 						$.ajax({
@@ -876,7 +569,7 @@
 							success: function(result){
 								console.log(result);
 								alert("구독 완료");
-								
+								th.text('구독중');
 								subTF = 'T';
 							},
 							error: function(error){
@@ -887,7 +580,7 @@
 				}else{
 				//구독 취소
 		 				$(this).css({'background-color':'','color':'#2980b9','border-color':'#2980b9'});
-						
+		 				let th =$(this);
 		 				$.ajax({
 		 					url: '/blog/delSub',
 		 					method: 'post',
@@ -900,7 +593,7 @@
 							success: function(result){
 								console.log(result);
 								alert("구독 취소");
-								
+								th.text('구독하기');
 								subTF = 'F';
 							},
 							error: function(error){
@@ -933,7 +626,7 @@
 	 					success: function(result){
 	 						console.log(result);
 	 						alert("삭제완료");
-	 						location.href="/blog/myblog?userId=[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
+	 						location.reload();
 	 					},
 	 					error: function(error){
 	 						console.log(error);
@@ -985,16 +678,16 @@
 			
 			// 블로그 리스트 만들기
 			function makeBlogList(item){
-				console.log("이야!!!!!!!!!!!!!!!!!!!!!!!!!"+item.blogId);
+				console.log("이야!!!!!!!!!!!!!!!!!!!!!!!!!"+item.fileRoute);
 				let makeClone = $(listClone).clone();
-				$(makeClone).find(".blog__item__pic").find("input[type=hidden].thumbnail").val(item.blogWrite);
-				$(makeClone).find(".blog__item__pic").find("img").attr("src",item.fileRoute);
-				$(makeClone).find(".blog__item__text").find("i.fa-calendar-o").text(" "+item.writeDate.substr(0,10));
-				$(makeClone).find(".blog__item__text").find("i.fa-comment-o").text(" "+item.replyCnt);
-				$(makeClone).find(".blog__item__text").find("i.fa-eye").text(" "+item.cnt);
-				$(makeClone).find(".blog__item__text").find("a:eq(0)").data("writeid",item.writeId).data("scope",item.publicScope).data("userid",item.blogId).text(item.writeTitle);
-				$(makeClone).find(".blog__item__text").find("p").text(item.subTitle);
-				$(makeClone).find(".blog__item__text").find("a.blog__btn").attr("href","/blog/myblog/blogWrite?bno="+item.writeId).text("READ MORE");
+				$(makeClone).find(".album-content").data("writeid",item.writeId).data("scope",item.publicScope).data("userid",item.blogId);
+				$(makeClone).find(".album-content").find('a').text(item.writeTitle+" "+item.subTitle);
+				$(makeClone).find(".album-photos").find("input[type=hidden].thumbnail").val(item.blogWrite);
+				$(makeClone).find(".album-photos").data("writeid",item.writeId).data("scope",item.publicScope).data("userid",item.blogId);
+				$(makeClone).find(".album-photos").find("img").attr("src",item.fileRoute);
+				$(makeClone).find(".album-action").find("i.fa-calendar-o").text(" "+item.writeDate.substr(0,10));
+				$(makeClone).find(".album-action").find("i.fa-comment-o").text(" "+item.replyCnt);
+				$(makeClone).find(".album-action").find("i.fa-eye").text(" "+item.cnt);
 			
 				return makeClone;
 			}
@@ -1029,8 +722,8 @@
 			      contentType: 'application/x-www-form-urlencoded',
 			      data: data,
 			      success: function (result) {
-					 $(".row").find(".col-sm-6").detach();
-					 $(".row").find(".pagination").detach();
+					 $(".timeline-right").find(".album").detach();
+					 $(".timeline-right").find(".pagination").detach();
 					 $(result["blogList"]).each(function(index, item){
 						$(".blogList").append(makeBlogList(item));
 					 })
@@ -1047,6 +740,64 @@
  			// 마이블로그 들어오자마자 1페이지로 보여주기
 			newBlogList(1);
 		</script>
+
+
+	<script type="text/javascript">
+	$('card').each(function () {
+        let Image = $(this).attr('data-image');
+        let header = $(this).html();
+        let template = `
+		<div class="card-wrap">
+		  <div class="card">
+		    <div class="card-bg" style="background-image: url(` + Image + `)"></div>
+		    <div class="card-info">` + header + `
+		      <slot name="content"></slot>
+		    </div>
+		  </div>
+		</div>`;
+		        $(this).replaceWith($(template).on('mousemove', handleMouseMove).on('mouseleave', handleMouseLeave));
+		    })
+
+    function handleMouseMove(e) {
+        let mouseX = e.pageX - $(this).find('.card').offset().left - $(this).find('.card').outerWidth() / 2;
+        let mouseY = e.pageY - $(this).find('.card').offset().top - $(this).find('.card').outerHeight() / 2;
+        let mousePX = mouseX / $(this).find('.card').outerWidth();
+        let mousePY = mouseY / $(this).find('.card').outerHeight();
+        let tX = mousePX * -40;
+        let tY = mousePY * -40;
+        let rX = mousePX * 30;
+        let rY = mousePY * -30;
+        $(this).find('.card').css('transform', `rotateY(${rX}deg) rotateX(${rY}deg)`);
+        $(this).find('.card-bg').css('transform', `translateX(${tX}px) translateY(${tY}px)`);
+    };
+    function handleMouseLeave() {
+        setTimeout(() => {
+            let mouseX = 0;
+            let mouseY = 0;
+            let mousePX = mouseX / $(this).find('.card').outerWidth();
+            let mousePY = mouseY / $(this).find('.card').outerHeight();
+            let tX = mousePX * -40;
+            let tY = mousePY * -40;
+            let rX = mousePX * 30;
+            let rY = mousePY * -30;
+            $(this).find('.card').css('transform', `rotateY(${rX}deg) rotateX(${rY}deg)`);
+            $(this).find('.card-bg').css('transform', `translateX(${tX}px) translateY(${tY}px)`);
+        }, 1500);
+    }
+	</script>
+		<!-- JS -->
+		<th:block layout:fragment="script">
+			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery-ui.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.slicknav.js}"></script>
+			<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/main.js}"></script>
+			<script src="https://kit.fontawesome.com/fef5f4c5da.js" crossorigin="anonymous"></script>
+		</th:block>
 	</div>
+
 </body>
 </html>

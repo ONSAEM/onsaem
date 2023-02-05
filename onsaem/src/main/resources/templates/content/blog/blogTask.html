@@ -843,7 +843,6 @@
 
 		<div class="app-container">
 			<div class="app-header">
-
 				<div class="app-header-right">
 					<button class="mode-switch" title="Switch Theme">
 						<svg class="moon" fill="none" stroke="currentColor"
@@ -893,16 +892,6 @@
 						          <polyline points="9 22 9 12 15 12 15 22" />
 						</svg>
 					</a>
-					<!-- 차트 -->
-					<a class="app-sidebar-link" id="blogChart" th:href="@{/blog/myblog/blogChart(blogId=${#authentication.principal.memberId})}"> 
-					<svg class="link-icon feather feather-pie-chart"
-							th:xmlns="@{http://www.w3.org/2000/svg}" width="24" height="24"
-							fill="none" stroke="currentColor" stroke-linecap="round"
-							stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
-          					<defs />
-          					<path d="M21.21 15.89A10 10 0 118 2.83M22 12A10 10 0 0012 2v10z" />
-        			</svg>
-					</a>
 					<!-- 구독 관리 -->
 					<a class="app-sidebar-link" id="blogSub" th:href="@{/blog/myblog/blogSubscribe(blogId=${#authentication.principal.memberId})}"> 
 						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -930,7 +919,7 @@
 				<div class="projects-section">
 					<div class="projects-section-header">
 						<p>내 블로그 관리</p>
-						<p class="time">December, 12</p>
+						<p class="time" id="current_date">December, 12</p>
 					</div>
 					<div class="projects-section-line">
 						<div class="projects-status">
@@ -946,32 +935,7 @@
 									Projects</span>
 							</div>
 						</div>
-						<div class="view-actions">
-							<button class="view-btn list-view" title="List View">
-								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-									viewBox="0 0 24 24" fill="none" stroke="currentColor"
-									stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-									class="feather feather-list">
-					              <line x1="8" y1="6" x2="21" y2="6" />
-					              <line x1="8" y1="12" x2="21" y2="12" />
-					              <line x1="8" y1="18" x2="21" y2="18" />
-					              <line x1="3" y1="6" x2="3.01" y2="6" />
-					              <line x1="3" y1="12" x2="3.01" y2="12" />
-					              <line x1="3" y1="18" x2="3.01" y2="18" /></svg>
-							</button>
-							<button class="view-btn grid-view active" title="Grid View">
-								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-									viewBox="0 0 24 24" fill="none" stroke="currentColor"
-									stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-									class="feather feather-grid">
-						              <rect x="3" y="3" width="7" height="7" />
-						              <rect x="14" y="3" width="7" height="7" />
-						              <rect x="14" y="14" width="7" height="7" />
-						              <rect x="3" y="14" width="7" height="7" /></svg>
-							</button>
-						</div>
 					</div>
-
 					<div class="project-boxes jsGridView">
 						<div class="taskHome">
 							<div class="project-box-wrapper">
@@ -1032,7 +996,6 @@
 									</div>
 								</form>
 							</div>
-
 							<!-- 인풋 상자 끝 -->
 						</div>
 					</div>
@@ -1146,7 +1109,12 @@
 					
 				})
 			})
-		
+			// 오늘 날짜 가져오기
+			date = new Date();
+			year = date.getFullYear();
+			month = date.getMonth() + 1;
+			day = date.getDate();
+			document.getElementById("current_date").innerHTML = year + "/0"+ month +"/"+ day;  
 		
 		
 		</script>

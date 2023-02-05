@@ -43,17 +43,12 @@ public class BlogController {
 			System.out.println("블로그 인포: "+model.getAttribute("blogInfos"));
 		return "content/blog/blogTask";
 	}
-	// 블로그 통계 페이지로 이동
-	@RequestMapping(value="/myblog/blogChart", method=RequestMethod.GET)
-	public String getBlogChart(Model model, String blogId) {
-		
-		return "content/blog/blogChart";
-	}
 	// 블로그 구독 관리 페이지로 이동
 	@RequestMapping(value="/myblog/blogSubscribe", method=RequestMethod.GET)
 	public String getBlogSub(Model model, String blogId, LikeVO vo) {
 		vo.setGroupId(blogId);
 		vo.setMemberId(blogId);
+		model.addAttribute("blogInfos", blogService.getBlogInfo(blogId));
 		model.addAttribute("subMeList", blogService.subMeList(vo)); // 나를 구독한
 		model.addAttribute("mySubList", blogService.mySubList(vo)); // 내가 구독한
 		return "content/blog/blogSubscribe";
@@ -63,6 +58,7 @@ public class BlogController {
 	public String getBlogCate(Model model, String blogId, CategoriesVO vo) {
 		vo.setBlogId(blogId); // 세션에 있는 값이랑 비교해서 본인 여부 확인 필요
 		model.addAttribute("cateList",blogWriteService.cateList(vo));
+		model.addAttribute("blogInfos", blogService.getBlogInfo(blogId));
 		return "content/blog/blogCategory";
 	}
 	
