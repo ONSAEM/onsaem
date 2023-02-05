@@ -154,6 +154,7 @@
 		FROM CHALLENGES C JOIN MEDIA M
 		ON C.CHAL_ID = M.GROUP_ID
         WHERE M.SUB_GROUP = '썸네일'
+         <include refid="condition2"/>
         AND C.START_DATE > CURRENT_DATE
 		ORDER BY CHAL_ID DESC
         <![CDATA[
@@ -169,6 +170,7 @@
 		ON C.CHAL_ID = M.GROUP_ID
         WHERE M.SUB_GROUP = '썸네일'
         AND CURRENT_DATE > C.END_DATE
+         <include refid="condition2"/>
 		ORDER BY CHAL_ID DESC
         <![CDATA[
 				)A WHERE ROWNUM <= #{last} ) WHERE RN >= #{first}
