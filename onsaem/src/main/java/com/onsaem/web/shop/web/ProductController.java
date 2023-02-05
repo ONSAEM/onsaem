@@ -70,19 +70,7 @@ public class ProductController {
 		} else {
 			return "가능";
 		}
-	}
-
-	// 주간베스트 데이터 가져오기
-	@RequestMapping(value = "/shop/weekBestProduct", method = RequestMethod.POST)
-	@ResponseBody
-	public List<ProductVO> weekBestProduct(@RequestBody List<ProductVO> vo) {
-		List<String> list = new ArrayList<String>();
-		for (int i = 0; i < vo.size(); i++) {
-			list.add(vo.get(i).getProductId());
-		}
-		return proService.selectProduct(list);
-	}
-	
+	}	
 
 	// 쇼핑몰페이지이동,최신순,인기순 목록나열
 	@RequestMapping(value = "/shop", method = RequestMethod.GET)
@@ -107,7 +95,9 @@ public class ProductController {
 		for (int i = 0; i < proService.weekBest().size(); i++) {
 			list.add(proService.weekBest().get(i).getProductId());
 		}
-		model.addAttribute("weekList",proService.selectProduct(list)); 
+		if(list.isEmpty()==false) {
+			model.addAttribute("weekList",proService.selectProduct(list)); 
+		}	
 		return "content/shop/shopMain";
 	}
 

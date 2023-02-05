@@ -16,7 +16,8 @@
 	</insert>
 	
 	<!-- 장바구니 리스트 -->
-	<select id="cartList" resultType="CartVO">
+	<select id="cartList" resultType="CartVO" >
+		
 		SELECT PRODUCT_ID,
 		CART_AMOUNT,
 		CART_OPTION,
@@ -30,6 +31,7 @@
 		CART_PRICE,
 		MEMBER_ID
 	</select>
+
 
 	<!-- 나의 장바구니 리스트 -->
 	<select id="myCartList"

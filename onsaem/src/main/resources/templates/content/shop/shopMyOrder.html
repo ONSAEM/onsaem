@@ -88,6 +88,7 @@ h1 {
 	background: white;
 	border-radius: 5px;
 	padding: 30px;
+	text-align:center;
 }
 
 /* 별점 */
@@ -190,13 +191,13 @@ h1 {
 						<br> <span th:if="${order.orderStatus=='배송완료'}">
 							<button th:onclick="displayModal([[${order}]])">교환/반품</button> <br>
 							<br>
-							<button class="modals">리뷰작성</button> <input type="hidden"
+							<button class="modals" >리뷰작성</button> <input type="hidden"
 							th:value="${order.productId}" id="productId">
 						</span>
 					</div>
 
 				</div>
-				<div class="product-cell" id="reviewModal">
+				<div id="reviewModal">
 					<div class="black-bg">
 						<div class="white-bg">
 							<h4>리뷰작성</h4>
@@ -218,8 +219,8 @@ h1 {
 							<textarea rows="10" cols="40" id="reviewContent"></textarea>
 							<div>
 								<button class="btn btn-danger"
-									th:onclick="submitReview([[${order.productId}]])">작성</button>
-								<button class="btn btn-danger" id="close">닫기</button>
+									th:onclick="submitReview([[${order.productId}]])" style="background-color:#bed8cd; border:0px">작성</button>
+								<button class="btn btn-danger" id="close" style="background-color:#bed8cd; border:0px">닫기</button>
 							</div>
 						</div>
 					</div>
@@ -251,7 +252,7 @@ h1 {
 					<br>
 					<p>
 						회수시 요청사항<br>
-						<textarea rows="" cols="" id="please"></textarea>
+						<textarea rows="4" cols="50" id="please"></textarea>
 						<br>
 						<button th:onclick="submitBtn()">신청하기</button>
 						<button class="closeBtn">닫기</button>
@@ -388,8 +389,8 @@ h1 {
 			
 			//리뷰 모달창 생성
 			  $(".modals").click(function () {
-				  console.log(this.parentNode.parentNode.parentNode.querySelector(".black-bg"))
-			        this.parentNode.parentNode.parentNode.querySelector(".black-bg").style.display="block";
+				  console.log(this.parentNode.parentNode.parentNode.parentNode.querySelector(".black-bg"))   
+				  this.parentNode.parentNode.parentNode.parentNode.querySelector(".black-bg").style.display="block"
 			      });  
 			      $(".btn-danger").click(function () {
 			        $(".black-bg").fadeOut(); 

@@ -76,10 +76,12 @@
 		P.MEMBER_ID,
 		M.FILE_ROUTE FROM PRODUCTS P,MEDIA M
 		WHERE P.PRODUCT_ID IN
-		<foreach item="list" index="index" collection="list" open="("
-			separator="," close=")">
-			#{list}
-		</foreach>
+		<if test="list != null and list != ''">
+			<foreach item="list" index="index" collection="list" open="("
+				separator="," close=")">
+				#{list}
+			</foreach>
+		</if>
 		AND M.GROUP_ID=P.PRODUCT_ID AND
 		M.SUB_GROUP='대표이미지'
 	</select>
@@ -87,15 +89,15 @@
 	<!-- 주간베스트 목록 -->
 	<select id="weekBest"
 		resultType="com.onsaem.web.shop.service.ProductVO">
-		SELECT product_id
-		, COUNT(*) AS cnt
-		FROM orders
-		where <![CDATA[TO_CHAR(ORDER_DATE,'yyyy-MM-dd')>=TO_CHAR( CURRENT_DATE-( (SELECT
+		SELECT PRODUCT_ID
+		, COUNT(*) AS CNT
+		FROM ORDERS
+		WHERE <![CDATA[TO_CHAR(ORDER_DATE,'yyyy-MM-dd')>=TO_CHAR( CURRENT_DATE-( (SELECT
 	TO_CHAR(CURRENT_DATE,'D') FROM DUAL) -2 )-1, 'yyyy-mm-dd' ) AND
 	TO_CHAR(ORDER_DATE,'yyyy-MM-dd')<=TO_CHAR( CURRENT_DATE-( (SELECT
 	TO_CHAR(CURRENT_DATE,'D') FROM DUAL) -2 )+5, 'yyyy-mm-dd' )]]>
-		GROUP BY product_id
-		order by cnt desc
+		GROUP BY PRODUCT_ID
+		ORDER BY CNT DESC
 	</select>
 
 
