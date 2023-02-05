@@ -191,7 +191,7 @@ h1 {
 						<br> <span th:if="${order.orderStatus=='배송완료'}">
 							<button th:onclick="displayModal([[${order}]])">교환/반품</button> <br>
 							<br>
-							<button class="modals">리뷰작성</button> <input type="hidden"
+							<button class="modals" >리뷰작성</button> <input type="hidden"
 							th:value="${order.productId}" id="productId">
 						</span>
 					</div>
@@ -219,8 +219,8 @@ h1 {
 							<textarea rows="10" cols="40" id="reviewContent"></textarea>
 							<div>
 								<button class="btn btn-danger"
-									th:onclick="submitReview([[${order.productId}]])">작성</button>
-								<button class="btn btn-danger" id="close">닫기</button>
+									th:onclick="submitReview([[${order.productId}]])" style="background-color:#bed8cd; border:0px">작성</button>
+								<button class="btn btn-danger" id="close" style="background-color:#bed8cd; border:0px">닫기</button>
 							</div>
 						</div>
 					</div>
@@ -252,7 +252,7 @@ h1 {
 					<br>
 					<p>
 						회수시 요청사항<br>
-						<textarea rows="" cols="" id="please"></textarea>
+						<textarea rows="4" cols="50" id="please"></textarea>
 						<br>
 						<button th:onclick="submitBtn()">신청하기</button>
 						<button class="closeBtn">닫기</button>
