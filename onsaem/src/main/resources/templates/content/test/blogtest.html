@@ -38,6 +38,21 @@ caption.dots {
 	float: left;
 	cursor: pointer;
 }
+/* 팔로우버튼 */
+.follow {
+	margin-right: 10%;
+	border-color: #5F9999;
+	z-index: 30;
+	border: 1px solid #ffffff;
+	color: #ffffff;
+	opacity: 0.65;
+	text-align: center;
+	text-decoration: none;
+
+}
+.follow:hover {
+	opacity: 1;
+}
 </style>
 </head>
 <body>
@@ -62,8 +77,15 @@ caption.dots {
 		        <!-- 헤더 끝 -->
 		        
 		        <div class="profile-menu">
-		          <a class="profile-menu-link active">구독하기</a>
-		          <a class="profile-menu-link">블로그 관리</a>
+		          <a type="button" class="profile-menu-link follow" th:value=${subCount} th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} != ${blogInfo.blogId}"><th:block th:if="${subCount=='F'}">구독하기</th:block><th:block th:unless="${subCount=='F'}">구독 중</th:block></a>
+		          <a type="button" class="profile-menu-link follow" th:value=${subCount} th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} != ${blogInfo.blogId}" style="display:none;">구독</a>
+		          <a th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
+						style="display:none"
+						th:href="@{/blog/myblog/blogTask(blogId=${blogInfo.blogId})}"
+						class="profile-menu-link info">블로그 관리 ⚙</a> 
+				  <a th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
+						th:href="@{/blog/myblog/blogTask(blogId=${blogInfo.blogId})}"
+						class="profile-menu-link info">블로그 관리 ⚙</a>
 		          <!-- 검색바 -->
 		          <a><input type="text" placeholder="Search..." id="searchWord" style="width:150px;height:30px;position:relative;margin-top:17px;margin-left:671px;overflow:auto;">
 						<button type="button" class="btn btn-light" id="searchBtn" style="width:40px;height:30px;position:absolute;border-radius:2px;border:1px solid gray;margin-top:17px;">
@@ -241,7 +263,7 @@ caption.dots {
 		</div>
 				<!-- 클론 -->
 				<div class="template" style="display:none">
-			          <div class="album box" >
+			          <div class="album box">
 			            <div class="album-content">글제목1
 			              <div class="album-photos" onclick="scopeCheck(this)">
 			              	<input type="hidden" class="thumbnail">
@@ -519,68 +541,69 @@ caption.dots {
 			}
 			
 // 			// 구독
-// 			if(subTF == 'T'){ // 만약 값이 있다면
-// 				$(".follow").css({'background-color':'#2980b9','color':'white','border-color':'white'});
-// 			}else{
-// 				$(".follow").css({'background-color':'','color':'#2980b9','border-color':'#2980b9'});
-// 			}
+			if(subTF == 'T'){ // 만약 값이 있다면
+				$(".follow").css({'background-color':'#2980b9','color':'white','border-color':'white'});
+			}else{
+				$(".follow").css({'background-color':'','color':'#2980b9','border-color':'#2980b9'});
+			}
 			
 			
-// 			//구독 저장
-// 			$(".follow").on("click", function(){
-// 				let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
-// 				if(id!=""){
-// 					if(subTF =='F'){ // 구독하지 않았다면~
-// 						$(this).css({'background-color':'#2980b9','color':'white','border-color':'white'});
+			//구독 저장
+			$(".follow").on("click", function(){
+				let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
+				if(id!=""){
+					if(subTF =='F'){ // 구독하지 않았다면~
+						let th =$(this);
+						$(this).css({'background-color':'#2980b9','color':'white','border-color':'white'});
 						
-// 						$.ajax({
-// 							url: '/blog/addSub',
-// 							method: 'post',
-// 							contentType: 'application/x-www-form-urlencoded',
-// 							data: {"groupId":blogId},
-// 							beforeSend : function(xhr)
-// 				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-// 				               xhr.setRequestHeader(header, token);
-// 				               },
-// 							success: function(result){
-// 								console.log(result);
-// 								alert("구독 완료");
-								
-// 								subTF = 'T';
-// 							},
-// 							error: function(error){
-// 								console.log(error);
-// 							}
-// 						})
+						$.ajax({
+							url: '/blog/addSub',
+							method: 'post',
+							contentType: 'application/x-www-form-urlencoded',
+							data: {"groupId":blogId},
+							beforeSend : function(xhr)
+				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				               xhr.setRequestHeader(header, token);
+				               },
+							success: function(result){
+								console.log(result);
+								alert("구독 완료");
+								th.text('구독중');
+								subTF = 'T';
+							},
+							error: function(error){
+								console.log(error);
+							}
+						})
 					
-// 				}else{
-// 				//구독 취소
-// 		 				$(this).css({'background-color':'','color':'#2980b9','border-color':'#2980b9'});
-						
-// 		 				$.ajax({
-// 		 					url: '/blog/delSub',
-// 		 					method: 'post',
-// 		 					contentType: 'application/x-www-form-urlencoded',
-// 							data: {"groupId":blogId, "memberId": id},
-// 							beforeSend : function(xhr)
-// 				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-// 				               xhr.setRequestHeader(header, token);
-// 				               },
-// 							success: function(result){
-// 								console.log(result);
-// 								alert("구독 취소");
-								
-// 								subTF = 'F';
-// 							},
-// 							error: function(error){
-// 								console.log(error);
-// 							}
-// 		 				});
-// 				}
-// 			}else{
-// 					alert('로그인이 필요합니다');
-// 				}
-// 			});
+				}else{
+				//구독 취소
+		 				$(this).css({'background-color':'','color':'#2980b9','border-color':'#2980b9'});
+		 				let th =$(this);
+		 				$.ajax({
+		 					url: '/blog/delSub',
+		 					method: 'post',
+		 					contentType: 'application/x-www-form-urlencoded',
+							data: {"groupId":blogId, "memberId": id},
+							beforeSend : function(xhr)
+				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				               xhr.setRequestHeader(header, token);
+				               },
+							success: function(result){
+								console.log(result);
+								alert("구독 취소");
+								th.text('구독하기');
+								subTF = 'F';
+							},
+							error: function(error){
+								console.log(error);
+							}
+		 				});
+				}
+			}else{
+					alert('로그인이 필요합니다');
+				}
+			});
 			
 			
 			
@@ -659,7 +682,7 @@ caption.dots {
 				$(makeClone).find(".album-content").data("writeid",item.writeId).data("scope",item.publicScope).data("userid",item.blogId).text(item.writeTitle+" "+item.subTitle);
 				$(makeClone).find(".album-photos").find("input[type=hidden].thumbnail").val(item.blogWrite);
 				$(makeClone).find(".album-photos").data("writeid",item.writeId).data("scope",item.publicScope).data("userid",item.blogId);
-				$(makeClone).find("img").attr("src",item.fileRoute);
+				$(makeClone).find(".album-photos").find("img").attr("src",item.fileRoute);
 				$(makeClone).find(".album-action").find("i.fa-calendar-o").text(" "+item.writeDate.substr(0,10));
 				$(makeClone).find(".album-action").find("i.fa-comment-o").text(" "+item.replyCnt);
 				$(makeClone).find(".album-action").find("i.fa-eye").text(" "+item.cnt);
