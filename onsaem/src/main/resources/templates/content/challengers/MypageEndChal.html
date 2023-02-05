@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" class="light" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout2}">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/management.css}" type="text/css">
+	
+</th:block>
+
+<head>
+	<meta charset="UTF-8">
+	<style>
+		.gridView .products-row {
+    margin: 8px;
+    width: calc(25% - 16px);
+    background-color: #f3f6fd;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    position: relative;
+	}
+	/* 모달 */
+	button {
+		all: unset;
+		background-color: rgb(242, 210, 215);
+		color: white;
+		padding: 5px 25px;
+		border-radius: 10px;
+		cursor: pointer;
+	}
+	
+	.btn {
+		margin-top: 60px;
+	}
+	
+	.modal {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+	
+	.modal__background {
+		background-color: rgba(0, 0, 0, 0.6);
+		width: 100%;
+		height: 100%;
+		position: absolute;
+	}
+	
+	.modal__content {
+		text-align: center;
+		position: relative;
+		background-color: white;
+		border-radius: 10px;
+		top: 0;
+		padding: 10px 25px;
+		width: 20%;
+	}
+	
+	h1 {
+		margin: 0;
+		margin-bottom: 13px;
+	}
+	
+	.hidden {
+		display: none;
+	}	
+	</style>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="title">진행 중 챌린저스</div>
+		<div class="products-area-wrapper gridView">
+
+			<div class="products-row" th:each = "chal : ${chals}">
+				<div class="product-cell image">
+					<input type="hidden" th:name="chalId" th:value="${chal.chalId}">
+					<img th:src="'/fileView/'+${chal.fileRoute}"
+						alt="product"><a th:href="@{/mypage/myChalStatus(chalId = ${chal.chalId})}"> <span th:text="${chal.chalName}">Ocean</span>
+				</div>
+				<div class="product-cell category">
+					<span class="cell-label">분류:</span><span th:text="${chal.subClass}+'전'"></span>
+				</div>
+				<div class="product-cell sales">
+					<span class="cell-label">기간:</span><span th:text="${#dates.format(chal.startDate, 'MM월 dd일')} + ' ~ ' + ${#dates.format(chal.endDate, 'MM월 dd일')}"></span>
+				</div>
+				<div class="product-cell price">
+					<span class="cell-label">인증요일:</span><span th:text="${chal.frequency}"></span>
+				</div>
+				<div class="product-cell status-cell">
+					 <input type="hidden" th:name="chalId" th:value="${chal.chalId}">
+                       		<input type="hidden" th:name="subClass" th:value="${chal.subClass}" id="subClass">
+							<button th:if="${chal.receipt} !=null" class="modal-custom-button" th:value="${chal.chalId}" name="영수증" th:onclick="displayModal(this)">기부영수증 ⭕</button>
+							<button th:if="${chal.receipt} == null" class="modal-custom-button" th:value="${chal.chalId}" name="영수증">기부영수증 ❌</button>
+							<button th:if="${chal.resultPoint} !=null" class="modal-custom-button" name="포인트" th:onclick="displayModal(this)" th:value="${chal.chalId}">포인트 확인</button>
+							<button th:if="${chal.resultPoint} ==null" class="modal-custom-button" name="포인트" th:onclick="displayModal(this)" th:value="${chal.chalId}">포인트 미정산</button>
+				</div>
+			</div>
+			
+			<!--모달창  --> 
+			<div class="modal hidden">
+				<div class="modal__background"></div>
+				
+					<div id="receiptFrm" class="modal__content">
+							<h5>기부 영수증</h5>
+							<img id="receipt">
+							<button type="button" class="closeBtn" id="closeModals">닫기</button>
+					</div>
+					<div id ="point" class="modal__content">
+						<h4>포인트정산</h4>
+						<input type="hidden" id="groupId" name="groupId">
+		
+						<!-- 본인 기부금 띄우기  -->
+						<b>나의 기부금</b><p id="privateDonate"></p>									
+						<!-- 프로그레스바 -->
+						<b>나의 달성률</b><p id="successPC"></p>
+						<progress id="progress" min="0" max="100" style=width:100%></progress>
+						
+						<!-- 정산 포인트 띄우기 --> 
+						<b>나의 결과 포인트 </b><p id="resultPoint"></p>	
+						
+						<button type="button" class="closeBtn" id="closeModals">닫기</button>
+					</div>
+					
+					<div id ="teamPoint" class="modal__content">
+						<h5>포인트정산</h5>
+						<input type="hidden" id="groupId" name="groupId">
+						<input type="hidden" id="pp">
+						<b>챌린지 결과 </b><p id="teamResult"></p>
+						<b>전체 모금 금액</b><p id="donationFee"></p>
+						<b>포인트 결과</b><p id="teamPoint"></p>
+
+						<!-- 차트 -->
+						<b>우리팀 평균 달성률</b><p id="successPC"></p>
+						<progress id="MyTeamBar" min="0" max="100" style=width:100%></progress>
+						<b>상대팀 평균 달성률</b><p id="successPC"></p>
+						<progress id="EnemyBar" min="0" max="100" style=width:100%></progress>
+						
+						<button type="button" class="closeBtn" id="closeModals">닫기</button>
+					</div>
+				
+			</div>
+			<!--모달창 끝  -->
+                  
+		</div>
+		<script type="text/javascript">
+			let token = $("meta[name='_csrf']").attr("content");
+			let header = $("meta[name='_csrf_header']").attr("content");
+			let memberId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}]]";
+		
+			//모달창 생성
+			document.querySelectorAll(".openBtn").forEach((openBtn) => {
+				console.log(openBtn);
+				openBtn.addEventListener("click", displayModal);
+				
+			})
+			const modal = document.querySelector(".modal");
+			const closeButton = modal.querySelector(".closeBtn");
+			const modalBackground = modal.querySelector(".modal__background");
+
+			function displayModal(data) {
+				
+				console.log(data);
+				let name = data.name;
+				let groupId = data.value;
+				 //let subClassVal = $(data).closest("tr").find('#teamChalId').text();
+				 let subClassVal = $(data).closest("div.participants").find("input[name='subClass']").val()
+				 
+				if(name == '영수증'){
+					//영수증 불러오기 이미지파일,,
+		        	$.ajax({
+		        		url:'/mypage/seeRecepit',
+		        		method : 'POST',
+		        		  beforeSend : function(xhr)
+		                  {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+		                  xhr.setRequestHeader(header, token);
+		                  },
+		        		data : {groupId, groupId},
+		        		success : function(result){
+		        			//console.log(result);
+		        			let imgsrc = result.fileRoute;
+		        			$('#receipt').attr("src", '/fileView/'+imgsrc);
+		        			
+		        		},
+		        		error : function(error){
+		        			console.log(error);
+		        		}
+		        	})
+		        	$('#receiptFrm').show();
+	    			$("#point").hide();
+					$("#teamPoint").hide();
+					modal.classList.toggle("hidden");
+				}else if(name =='포인트' && subClassVal=='개인'){
+					console.log(subClassVal);
+					console.log(groupId);
+					//개인전  포인트 가져오기
+					$.ajax({
+						url : '/mypage/checkPoint',
+		  				method :'POST',
+		  				data : {chalId : groupId},
+		  				beforeSend : function(xhr)
+			                {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+			                xhr.setRequestHeader(header, token);
+			                },
+		  				success:function(result){
+		  					console.log(result);
+		  					//받아온 데이터를 필요한 곳에 넣기
+		  					let percent = result.user.result;
+		  					let resultPoint = result.user.resultPoint;
+		  					let money = result.user.privateDonate;
+		  					let length = percent.length-1
+		  					let pp = Number(percent.substr(0,length));
+		  					$('#privateDonate').text(money);
+		  					$('#resultPoint').text(resultPoint);
+		  					$('#successPC').text(percent);
+		  					$('#progress').val(pp);
+		  					
+		  				},
+		  				error : function(error){
+		  					console.log(error);
+		  				}
+					})
+					$('#receiptFrm').hide();
+	    			$("#point").show();
+					$("#teamPoint").hide();
+					modal.classList.toggle("hidden");
+				}else if(name =='포인트' && subClassVal=='팀'){
+					//팀꺼 가져오기
+					$.ajax({
+						url : '/mypage/checkPoint',
+		  				method :'POST',
+		  				data : {chalId : groupId},
+		  				beforeSend : function(xhr)
+			                {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+			                xhr.setRequestHeader(header, token);
+			                },
+		  				success:function(result){
+		  					console.log(result);
+		  					//받아온 데이터를 필요한 곳에 넣기
+		  					//총 기부금
+		  					let donationFee = result.totalInfo.donationFee;
+		  					$('#donationFee').text(donationFee);
+		  					//나의 팀 결과
+		  					let teamResult = result.user.result;
+		  					$('#teamResult').text(teamResult);
+		  					//나의 팀
+		  					let myTeam = result.user.team;
+		  					//나의 resultPoint
+		  					resultPoint = result.user.resultPoint;
+		  					console.log(resultPoint);
+		  					//$('#teamPoint').text(resultPoint);
+		  					if(myTeam=='A'){
+		  						//평균 달성률
+		  						let Amom = Math.abs(Number(result.totalInfo.total))*result.Asize;
+		  						let Ason = result.cntA;
+		  						let Apct = (Ason/Amom)*100;
+		  						//고쳐야함 임의로 띄운것 - Apct로
+		  						$('#MyTeamBar').val(70);
+		  						
+		  						let Bmom = Math.abs(Number(result.totalInfo.total))*result.Bsize; 
+		  						let Bson = result.cntB;
+		  						let Bpct = (Bson/Bmom)*100;
+		  						//임의로 띄운거 Bpct로 고쳐야함 
+		  						$('#EnemyBar').val(30);
+		  					}else {
+		  						//내 팀이 B팀일때
+			  					//평균 달성률
+			  						let Amom = Math.abs(Number(result.totalInfo.total))*result.Asize;
+			  						let Ason = result.cntA;
+			  						let Apct = (Ason/Amom)*100;
+			  						
+			  						$('#EnemyBar').val(Apct);
+			  						
+			  						let Bmom = Math.abs(Number(result.totalInfo.total))*result.Bsize; 
+			  						let Bson = result.cntB;
+			  						let Bpct = (Bson/Bmom)*100;
+			  						$('#MyTeamBar').val(Bpct);  						
+		  					}
+	
+		  				},
+		  				error : function(error){
+		  					console.log(error);
+		  				}
+					})
+					
+					$('#receiptFrm').hide();
+	    			$("#point").hide();
+					$("#teamPoint").show();
+					modal.classList.toggle("hidden");
+				}
+				
+			}
+	
+			
+			closeButton.addEventListener("click", displayModal)
+			modalBackground.addEventListener("click", displayModal);
+			//=----모달창관련 스크립트 끝
+			
+			</script>
+		
+
+		<!-- JS -->
+		<th:block layout:fragment="script">
+		</th:block>
+	</div>
+
+</body>
+
+</html>
