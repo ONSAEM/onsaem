@@ -33,70 +33,211 @@
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
 		type="text/css">
 </th:block>
+<style>
+	/* GENERAL STYLES */
+		.pagination ul {
+			margin: auto;
+			padding: 0;
+			list-style: none;
+		}
+
+		/* ONE */
+		.p1 li {
+			font-size: 14px;
+			width: 40px;
+			height: 40px;
+			line-height: 40px;
+			padding: 0;
+			text-align: center;
+			float: left;
+			cursor: pointer;
+		}
+
+		.main {
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+			min-width: 1400px;
+		}
+
+		.main-container {
+			padding: 20px;
+			flex-grow: 1;
+			overflow: auto;
+			background-color: #FCFBFC;
+		}
+
+		.profile-cover {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: center;
+			border-radius: 4px;
+		}
+
+		.subheader {
+			position: relative;
+			height: 300px;
+			min-height: 250px;
+			z-index: 1;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-size: cover;
+			background-position: center;
+		}
+
+		.subheader:before {
+			content: "";
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			z-index: -1;
+			left: 0;
+			top: 0;
+			background-image:
+				url("/course/test.gif");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center;
+			filter: blur(30px);
+			opacity: 0.7;
+		}
+
+		.glass {
+			height: 100%;
+			width: 100%;
+			background-image: url("/blog/test2.gif");
+			background-size: cover;
+			background-position: center;
+			clip-path: inset(10em);
+			filter: blur(5px);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.drop-shadow {
+			height: 155%;
+			width: 100%;
+			filter: drop-shadow(0px 20px 10px rgba(0, 0, 0, 0.3));
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.drop-shadow:before {
+			display: block;
+			content: "";
+			position: absolute;
+			top: 10em;
+			height: calc(100% - 20em);
+			width: calc(100% - 20em);
+			border-top: 2px solid rgba(225, 225, 225, 0.2);
+			border-left: 1px solid rgba(225, 225, 225, 0.1);
+			border-right: 1px solid rgba(225, 225, 225, 0.3);
+			z-index: 2;
+		}
+
+		.drop-shadow>span {
+			position: absolute;
+			z-index: 5;
+			color: white;
+			font-size: 4em;
+			letter-spacing: 0.75em;
+			padding-left: 0.375em;
+		}
+
+		.sidebar {
+			padding: 20px 30px;
+			background-color: #ffffff;
+			border-radius: 10px;
+			margin-bottom: 10px;
+		}
+
+		.col-lg-9 {
+			background-color: #ffffff;
+			padding: 20px 30px;
+			border-radius: 20px;
+			margin-bottom: 10px;
+		}
+
+		.product {
+			padding-top: 0px;
+			padding-bottom: 80px;
+			position: relative;
+			z-index: 1;
+		}
+
+		.gridView .products-row {
+			margin: 8px;
+			width: calc(100% - 16px);
+			background-color: #f3f6fd;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: transform 0.2s;
+			position: relative;
+			padding-bottom: 8px;
+		}
+
+		.products-row img {
+			border-radius: 4px 4px 0px 0px;
+			height: 70%;
+			width: 100%;
+		}
+
+		.product-cell {
+			margin: 8px;
+			text-align: end;
+		}
+
+		.classList .products-row {
+			margin: 15px 26px;
+			width: calc(30% - 16px);
+			background-color: #f3f6fd;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: transform 0.2s;
+			position: relative;
+			padding-bottom: 8px;
+			margin-bottom: 20px;
+			height: 400px;
+		}
+
+		.classList {
+			flex-shrink: 0;
+			width: 100%;
+			max-width: 100%;
+			padding-right: calc(var(--bs-gutter-x) * .5);
+			padding-left: calc(var(--bs-gutter-x) * .5);
+			margin-top: var(--bs-gutter-y);
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		.sidebar__item h4 {
+			color: #1c1c1c;
+			font-weight: 700;
+			margin-bottom: 13px;
+		}
+</style>
 </head>
 <!-- Content -->
 
 <div layout:fragment="content">
-
-    <!-- Hero Section Begin -->
-    <section class="hero">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="hero__categories">
-                        <div class="hero__categories__all">
-                            <i class="fa fa-bars"></i>
-                            <span>All departments</span>
-                        </div>
-                        <ul>
-                            <li th:if="${session.member}!=null"><a th:href="@{/blog/myblog(userId=${session.member.memberId})}">내 블로그</a></li>
-                            <li><a th:href="@{/blog/myblog(userId=user)}">User의 블로그 바로가기</a></li>
-                            <li><a th:href="@{/blog/myblog(userId=hyeon00)}">test01의 블로그 바로가기</a></li>
-                            <li><a href="#">Fresh Berries</a></li>
-                            <li><a href="#">Ocean Foods</a></li>
-                            <li><a href="#">Butter & Eggs</a></li>
-                            <li><a href="#">Fastfood</a></li>
-                            <li><a href="#">Fresh Onion</a></li>
-                            <li><a href="#">Papayaya & Crisps</a></li>
-                            <li><a href="#">Oatmeal</a></li>
-                            <li><a href="#">Fresh Bananas</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-9">
-                    <div class="hero__search">
-                        <div class="hero__search__form">
-                            <form action="#">
-                                <div class="hero__search__categories">
-                                    All Categories
-                                    <span class="arrow_carrot-down"></span>
-                                </div>
-                                <input type="text" placeholder="What do yo u need?">
-                                <button type="submit" class="site-btn">SEARCH</button>
-                            </form>
-                        </div>
-                        <div class="hero__search__phone">
-                            <div class="hero__search__phone__icon">
-                                <i class="fa fa-phone"></i>
-                            </div>
-                            <div class="hero__search__phone__text">
-                                <h5>+65 11.188.888</h5>
-                                <span>support 24/7 time</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="hero__item set-bg" th:data-setbg="@{/shoptemplate/img/hero/banner.jpg}">
-                        <div class="hero__text">
-                            <span>FRUIT FRESH</span>
-                            <h2>Vegetable <br />100% Organic</h2>
-                            <p>Free Pickup and Delivery Available</p>
-                            <a href="#" class="primary-btn">SHOP NOW</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="main">
+		<div class="main-container">
+			<div class="subheader">
+				<img src="/blog/test2.gif" alt="" class="profile-cover">
+				<div class="drop-shadow">
+					<div class="glass"></div>
+					<span>BLOG</span>
+				</div>
+			</div>
+			<br>
     <!-- Hero Section End -->
 
     <!-- Categories Section Begin -->
@@ -134,7 +275,8 @@
         </div>
     </section>
     <!-- Categories Section End -->
-
+	</div>
+	</div>
     <!-- Featured Section Begin -->
     <section class="featured spad">
         <div class="container">
@@ -563,7 +705,7 @@
         </div>
     </section>
     <!-- Blog Section End -->
-
+	
     <!-- JS -->
 		<th:block layout:fragment="script">
 			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
