@@ -353,7 +353,7 @@ public class ChalMypageController {
 			model.addAttribute("ngoes", ngoService.myApplies(id));
 		}
 		
-		return "content/challengers/MyApplyNgo";
+		return "content/challengers/MypageApplyNgo";
 	}
 	
 	//ngo 재신청

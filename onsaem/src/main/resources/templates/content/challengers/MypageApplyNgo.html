@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" class="light"
+ xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout3}">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+</th:block>
+
+<head>
+	<meta charset="UTF-8">
+	<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+	<style>
+		button {
+			all: unset;
+			background-color: rgb(242, 210, 215);
+			color: white;
+			padding: 5px 25px;
+			border-radius: 10px;
+			cursor: pointer;
+		}
+		
+		.btn {
+			margin-top: 60px;
+		}
+		
+		.modal {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+		
+		.modal__background {
+			background-color: rgba(0, 0, 0, 0.6);
+			width: 100%;
+			height: 100%;
+			position: absolute;
+		}
+		
+		.modal__content {
+			text-align: center;
+			position: relative;
+			background-color: white;
+			border-radius: 10px;
+			top: 0;
+			padding: 10px 25px;
+			width: 20%;
+		}
+		
+		h1 {
+			margin: 0;
+			margin-bottom: 13px;
+		}
+		
+		.hidden {
+			display: none;
+		}	
+	</style>
+</head>
+
+<body>
+	<div layout:fragment="content" class="app-content">
+		<div class="app-content-header">
+			<h1 class="app-content-headerText">Products</h1>
+			<button class="mode-switch" title="Switch Theme">
+				<svg class="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+					stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
+					<defs></defs>
+					<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+				</svg>
+			</button>
+			<button class="app-content-headerButton">Add Product</button>
+		</div>
+		<div class="app-content-actions">
+			<input class="search-bar" placeholder="Search..." type="text">
+			<div class="app-content-actions-wrapper">
+				<div class="filter-button-wrapper">
+					<button class="action-button filter jsFilter">
+						<span>Filter</span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+							stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+							class="feather feather-filter">
+							<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+						</svg>
+					</button>
+					<div class="filter-menu">
+						<label>Category</label> <select>
+							<option>All Categories</option>
+							<option>Furniture</option>
+							<option>Decoration</option>
+							<option>Kitchen</option>
+							<option>Bathroom</option>
+						</select> <label>Status</label> <select>
+							<option>All Status</option>
+							<option>Active</option>
+							<option>Disabled</option>
+						</select>
+						<div class="filter-menu-buttons">
+							<button class="filter-button reset">Reset</button>
+							<button class="filter-button apply">Apply</button>
+						</div>
+					</div>
+				</div>
+				<button class="action-button list active" title="List View">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+						stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+						class="feather feather-list">
+						<line x1="8" y1="6" x2="21" y2="6" />
+						<line x1="8" y1="12" x2="21" y2="12" />
+						<line x1="8" y1="18" x2="21" y2="18" />
+						<line x1="3" y1="6" x2="3.01" y2="6" />
+						<line x1="3" y1="12" x2="3.01" y2="12" />
+						<line x1="3" y1="18" x2="3.01" y2="18" />
+					</svg>
+				</button>
+				<button class="action-button grid" title="Grid View">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+						stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+						class="feather feather-grid">
+						<rect x="3" y="3" width="7" height="7" />
+						<rect x="14" y="3" width="7" height="7" />
+						<rect x="14" y="14" width="7" height="7" />
+						<rect x="3" y="14" width="7" height="7" />
+					</svg>
+				</button>
+			</div>
+		</div>
+		<div class="products-area-wrapper tableView">
+			<div class="products-header">
+				<div class="product-cell image">
+					신청 번호
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" />
+						</svg>
+					</button>
+				</div>
+				<div class="product-cell category">
+					기부처 명
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" />
+						</svg>
+					</button>
+				</div>
+				<div class="product-cell sales">
+					신청 상태
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" />
+						</svg>
+					</button>
+				</div>
+				<div class="product-cell sales">
+					신청서 확인
+					<button class="sort-button">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 512 512">
+							<path fill="currentColor"
+								d="M496.1 138.3L375.7 17.9c-7.9-7.9-20.6-7.9-28.5 0L226.9 138.3c-7.9 7.9-7.9 20.6 0 28.5 7.9 7.9 20.6 7.9 28.5 0l85.7-85.7v352.8c0 11.3 9.1 20.4 20.4 20.4 11.3 0 20.4-9.1 20.4-20.4V81.1l85.7 85.7c7.9 7.9 20.6 7.9 28.5 0 7.9-7.8 7.9-20.6 0-28.5zM287.1 347.2c-7.9-7.9-20.6-7.9-28.5 0l-85.7 85.7V80.1c0-11.3-9.1-20.4-20.4-20.4-11.3 0-20.4 9.1-20.4 20.4v352.8l-85.7-85.7c-7.9-7.9-20.6-7.9-28.5 0-7.9 7.9-7.9 20.6 0 28.5l120.4 120.4c7.9 7.9 20.6 7.9 28.5 0l120.4-120.4c7.8-7.9 7.8-20.7-.1-28.5z" />
+						</svg>
+					</button>
+				</div>
+			</div>
+			<div class="products-row" th:each="ngo : ${ngoes}" th:id="${ngo.ngoId}">
+				<div class="product-cell image">
+					<span
+						th:text="${ngo.ngoId}">Ocean</span>
+				</div>
+				<div class="product-cell" th:text="${ngo.ngoName}">
+
+				</div>
+				<div class="product-cell status-cell">
+					<span class="status active" th:text="${ngo.condition}" id="condition"></span>
+				</div>
+				<div class="product-cell status-cell">
+					<span class="status active" th:onclick="displayModal([[${ngo}]])">확인</span>
+				</div>
+			</div>
+			
+					<!--모달창  --> 
+						<div class="modal hidden">
+							<div class="modal__background"></div>
+							<div class="modal__content">
+
+								<div class="modalText" id="applyFrm">
+										<div id="reason">
+											<p>반려사유 : </p>
+											<p id="rejectReason"></p>
+										</div>
+										<h4>기부 신청서</h4>
+										<input type="hidden" id="ngoId">
+										<label>기부처 명 : </label><input type="text" id="ngoName" name="ngoName" readOnly>
+										<br>
+										<label for="ngoNo">사업자 등록번호</label>
+										<input type="number" id="ngoNo" name="ngoNo">
+										<br>
+										<label for="ngoNo">신청자</label>
+										<input type="text" id="writerId" name="writerId">
+										<br>
+										
+										<div id="address">
+											<label>주소</label>
+											<input type="text" name="postalCode" id="postalCode">
+											<input type="text" name="addr" id="addr">
+											<input type="text" name="detailAddr" id="detailAddr">
+											<br>
+										</div>
+										
+										<div id = "apiAddress">
+											<input type="text" id="sample6_postcode" placeholder="우편번호" name="postalCode">
+											<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+											<input type="text" id="sample6_address" placeholder="주소" name="addr"><br>
+											<input type="text" id="sample6_detailAddress" placeholder="상세주소" name="detailAddr">
+											<input type="text" id="sample6_extraAddress" placeholder="참고항목">
+											<br>
+										</div>
+												
+										<label>이메일</label>
+										<input type="email" name="email" id="email">
+										<br>
+												
+										<label>연락처</label>
+										<input type="text" name="phone" id="phone">
+										<br>
+												
+										<label>계좌</label>
+										<input type="text" name="bank" id="bank">
+										<input type="text" name="bankAccount" id="bankAccount">
+										<br>
+										
+										<button type="button" id="reSubmit" onclick="reSubmit()">재신청</button>
+										<span id="msg"><p>재반려된 건은 재 신청이 불가능 합니다</p></span>
+										<button type="button" class="closeBtn">닫기</button>
+										</div>
+										
+										
+							
+							</div>
+						</div>
+						<!--모달창 끛  -->			
+		</div>
+
+		<script type="text/javascript">
+			document.querySelector(".jsFilter").addEventListener(
+				"click",
+				function () {
+					document.querySelector(".filter-menu").classList
+						.toggle("active");
+				});
+
+			document
+				.querySelector(".grid")
+				.addEventListener(
+					"click",
+					function () {
+						document.querySelector(".list").classList
+							.remove("active");
+						document.querySelector(".grid").classList
+							.add("active");
+						document
+							.querySelector(".products-area-wrapper").classList
+							.add("gridView");
+						document
+							.querySelector(".products-area-wrapper").classList
+							.remove("tableView");
+					});
+
+			document
+				.querySelector(".list")
+				.addEventListener(
+					"click",
+					function () {
+						document.querySelector(".list").classList
+							.add("active");
+						document.querySelector(".grid").classList
+							.remove("active");
+						document
+							.querySelector(".products-area-wrapper").classList
+							.remove("gridView");
+						document
+							.querySelector(".products-area-wrapper").classList
+							.add("tableView");
+					});
+
+			var modeSwitch = document.querySelector('.mode-switch');
+			modeSwitch.addEventListener('click', function () {
+				document.documentElement.classList.toggle('light');
+				modeSwitch.classList.toggle('active');
+			});
+			
+			//우편번호
+			function sample6_execDaumPostcode() {
+	        new daum.Postcode({
+	            oncomplete: function(data) {
+	                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+	                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+	                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+	                var addr = ''; // 주소 변수
+	                var extraAddr = ''; // 참고항목 변수
+
+	                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+	                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+	                    addr = data.roadAddress;
+	                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+	                    addr = data.jibunAddress;
+	                }
+
+	                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+	                if(data.userSelectedType === 'R'){
+	                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+	                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+	                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+	                        extraAddr += data.bname;
+	                    }
+	                    // 건물명이 있고, 공동주택일 경우 추가한다.
+	                    if(data.buildingName !== '' && data.apartment === 'Y'){
+	                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+	                    }
+	                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+	                    if(extraAddr !== ''){
+	                        extraAddr = ' (' + extraAddr + ')';
+	                    }
+	                    // 조합된 참고항목을 해당 필드에 넣는다.
+	                    document.getElementById("sample6_extraAddress").value = extraAddr;
+	                
+	                } else {
+	                    document.getElementById("sample6_extraAddress").value = '';
+	                }
+
+	                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	                document.getElementById('sample6_postcode').value = data.zonecode;
+	                document.getElementById("sample6_address").value = addr;
+	                // 커서를 상세주소 필드로 이동한다.
+	                document.getElementById("sample6_detailAddress").focus();
+	            }
+	        }).open();
+	    };
+			//모달창 생성
+			document.querySelectorAll(".openBtn").forEach((openBtn) => {
+				console.log(openBtn);
+				openBtn.addEventListener("click", displayModal);
+				
+			})
+			const modal = document.querySelector(".modal");
+			const closeButton = modal.querySelector(".closeBtn");
+			const modalBackground = modal.querySelector(".modal__background");
+
+			function displayModal(data) {
+				let con = $('#condition').text();
+				if(con =='반려'){
+					$('#rejectReason').text(data.reason);
+					$('#reason').show();
+					$('#reSubmit').show();
+					$('#msg').hide();
+					$('#address').hide();
+					$('#sample6_postcode').val(data.postalCode);
+					$('#sample6_address').val(data.addr);
+					$('#sample6_detailAddress').val(data.detailAddr);
+					$('#apiAddress').show();
+					$("input").attr("readOnly", false);
+				}else if( con == '재반려'){
+					$('#reason').show();
+					$('#reSubmit').hide();
+					$('#msg').show();
+					$('#postalCode').val(data.postalCode);
+					$('#addr').val(data.addr);
+					$('#detailAddr').val(data.detailAddr);
+					$('#address').show();
+					$('#apiAddress').hide();
+					$("input").attr("readOnly", true);
+				}else{
+					$('#reason').hide();
+					$('#reSubmit').hide();
+					$('#msg').hide();
+					$('#postalCode').val(data.postalCode);
+					$('#addr').val(data.addr);
+					$('#detailAddr').val(data.detailAddr);
+					$('#address').show();
+					$('#apiAddress').hide();
+					$("input").attr("readOnly", true);
+				}
+				
+				$('#ngoName').val(data.ngoName);
+				$('#ngoNo').val(data.ngoNo);
+				$('#writerId').val(data.writerId);
+				$('#email').val(data.email);
+				$('#phone').val(data.phone);
+				$('#bank').val(data.bank);
+				$('#bankAccount').val(data.bankAccount);
+				$('#ngoId').val(data.ngoId);
+
+				modal.classList.toggle("hidden");
+			}
+
+			
+			closeButton.addEventListener("click", displayModal)
+			modalBackground.addEventListener("click", displayModal);
+			//=----모달창관련 스크립트 끝
+			
+			//재신청 ㅋㅋ
+			function reSubmit(){
+				
+				let ngoName = $('#ngoName').val();
+				console.log(ngoName);
+				let ngoNo = $('#ngoNo').val();
+				let writerId = $('#writerId').val();
+				let postalCode = $('#sample6_postcode').val();
+				let addr = $('#sample6_address').val();
+				let detailAddr = $('#sample6_detailAddress').val();
+				let email = $('#email').val();
+				let phone = $('#phone').val();
+				let bank = $('#bank').val();
+				let bankAccount = $('#bankAccount').val();
+				let ngoId = $('#ngoId').val();
+				
+				$.ajax({
+		    		  url : '/mypage/reSubmit',
+		    		  method : 'POST',
+		    		  beforeSend : function(xhr)
+		               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+		               xhr.setRequestHeader(header, token);
+		               },
+		    		  contentType: 'application/json',
+					  data: JSON.stringify({ngoId:ngoId, condition : "재신청" , ngoName : ngoName,
+						  		writerId : writerId, postalCode:postalCode, addr : addr, detailAddr : detailAddr,
+						  		email : email, phone:phone, bank : bank, bankAccount:bankAccount}),
+					  success:function(result){
+						  alert("재신청 완료");
+						  
+					  }, 
+		    		 error : function(error){
+		    			 console.log(error);
+		    		 }
+				})	 
+			}
+
+		</script>
+		<!-- JS -->
+		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		<th:block layout:fragment="script">
+		</th:block>
+	</div>
+
+</body>
+
+</html>
