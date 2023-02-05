@@ -34,7 +34,7 @@ body, html {
 }
 
 .logo {
-    width: 50px;
+    width: 170px;
     height: auto;
     vertical-align: bottom;
 }
@@ -272,8 +272,8 @@ body, html {
 .action-button {
   border-radius: 4px;
   height: 32px;
-  background-color: #bed8cd;
-  border: 1px solid #bed8cd;
+  background-color: #9dc2c0;;
+  border: 1px solid #9dc2c0;;
   display: flex;
   align-items: center;
   font-size: 14px;
@@ -378,10 +378,10 @@ body, html {
   color: #fff;
 }
 .filter-button.apply {
-  background-color: #5f8b78;
+  background-color: #9dc2c0;
 }
 .filter-button.reset {
-  background-color: #5f8b78;
+  background-color: #9dc2c0;
 }
 
 .products-area-wrapper {
@@ -395,7 +395,7 @@ body, html {
   display: flex;
   align-items: center;
   border-radius: 4px;
-  background-color: #bed8cd;
+  background-color: #9dc2c0;
   position: sticky;
   top: 0;
 }
@@ -406,7 +406,7 @@ body, html {
 }
 .tableView .products-row:hover {
   box-shadow: var(--filter-shadow);
-  background-color: #d4e5de;
+  background-color: #d6e6e3;
 }
 .tableView .products-row .cell-more-button {
   display: none;
@@ -594,4 +594,16 @@ body, html {
 }
 .gridView .cell-label {
   opacity: 0.6;
+}
+a {
+  color:#717275;
+  text-decoration: none;
+}
+.wrapper .title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #5f9999;
+  text-transform: uppercase;
+  text-align: center;
 }

@@ -1,14 +1,13 @@
 .modal-wrapper {
 	width: 100%;
 	background: #fff;
-	margin: 5% auto;
 }
 
 .modal-wrapper .title {
 	font-size: 24px;
 	font-weight: 700;
 	margin-bottom: 25px;
-	color: #5bc1ac;
+	color: #5f9999;
 	text-transform: uppercase;
 	text-align: center;
 }
@@ -136,7 +135,7 @@
 
 .modal-wrapper .modal-form .inputfield .check input[type="checkbox"]:checked 
 	 ~.checkmark {
-	background: #5bc1ac;
+	background: #9dc2c0;
 }
 
 .modal-wrapper .modal-form .inputfield .check input[type="checkbox"]:checked 
@@ -150,7 +149,7 @@
 	padding: 8px 10px;
 	font-size: 15px;
 	border: 0px;
-	background: #5bc1ac;
+	background: #9dc2c0;
 	color: #fff;
 	cursor: pointer;
 	border-radius: 3px;
@@ -167,7 +166,7 @@
 
 .modal-wrapper .modal-form .inputfield .btn:hover, .modal-wrapper .modal-form .inputfield .checkBtn:hover
 	{
-	background: #42a18d;
+	background: #5f9999;
 }
 
 .modal-wrapper .modal-form .inputfield:last-child {
