@@ -62,7 +62,7 @@ public class ChalController {
 		model.addAttribute("paging", paging);
 		//기부금 순위로
 		model.addAttribute("ranks", chalService.donateRank());
-		return "content/challengers/chalMain";
+		return "content/challengers/NewChalMain";
 	}
 	
 	//검색ㅎㅎ
@@ -129,7 +129,8 @@ public class ChalController {
 	@RequestMapping(value="/detailChal",method=RequestMethod.GET)
 	public String chalDetail(Model model, MediaVO vo, @RequestParam(value="chalId", required= true)String chalId, ParticipantVO pvo
 			,Authentication authentication) {
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		
+		
 		model.addAttribute("chals", chalService.getChal(chalId));
 		
 		//썸네일가져오기
@@ -137,11 +138,17 @@ public class ChalController {
 		//인증샷예시 가져오기
 		model.addAttribute("proofEx", chalService.proofEx(chalId));
 		
-		//아이디가 참가했는지 안했는지 확인,,- 수로 보냄
-		pvo.setChalId(chalId);
-		pvo.setParticipantId(userDetails.getUsername());
-		//참가안했으면 0, 참가했으면 1
-		model.addAttribute("cnt", partService.cntParticipant(pvo));
+		if(authentication != null ) {
+			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			//아이디가 참가했는지 안했는지 확인,,- 수로 보냄
+			pvo.setChalId(chalId);
+			pvo.setParticipantId(userDetails.getUsername());
+			//참가안했으면 0, 참가했으면 1
+			model.addAttribute("cnt", partService.cntParticipant(pvo));
+			//회원정보 가져가기
+			model.addAttribute("user", memberService.getMember(userDetails.getUsername()));
+		}
+		
 		
 		//
 		Integer nowStart = chalService.getChal(chalId).getNowStart();
@@ -164,8 +171,7 @@ public class ChalController {
 		//상세 밑에 추천 컨텐츠로 넣을 조만간 시작하는 챌린지 모음들
 		model.addAttribute("ddays", chalService.ddayStartRank());
 		
-		//회원정보 가져가기
-		model.addAttribute("user", memberService.getMember(userDetails.getUsername()));
+		
 		
 		return "content/challengers/chalDetail";
 	}
