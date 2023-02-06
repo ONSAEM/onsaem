@@ -16,6 +16,7 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
 	rel="stylesheet">
+	
 
 <!-- Css  -->
 <th:block layout:fragment="css">
@@ -36,11 +37,15 @@
 		type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
 		type="text/css">
+	
 </th:block>
 
 
 <head>
 	<style>
+	
+	@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+	
 		/* GENERAL STYLES */
 		.pagination ul {
 			margin: auto;
@@ -224,6 +229,61 @@
 			display: flex;
 			flex-wrap: wrap;
 		}
+		
+		
+	#menu {
+	    /* 색 줄높이를 미리 잡고 시작한다 */
+	    font-family: 'Noto Sans KR', sans-serif;
+	    color : #222;
+	    line-height: 1.5em;
+	}
+	/* 보통 바디태그에 주고나서 a태그에 색상을 주는게 기본이다!!! (상속이 안되니까 별도로) */
+	a {
+	    color : #222;
+	    text-decoration: none;
+	}
+	
+	.dropdown {
+	    /* 보더를 통해서 틀을 봐주는게 좋다 ! */
+	    /* border: 1px solid #000; */
+	    /* width: 200px; */
+	    display: inline-block;
+	}
+	.dropdown-btn {
+	    width: 200px;
+	    height : 50px;
+	    /* 패딩으로 크기 늘려주기 */
+	    padding : 10px;
+	    font-size: 18px;
+	    background-color: #9dc2c0;
+	    color : #fff;
+	    border: none;
+	    cursor: pointer;
+	}
+	
+	.dropdown-submenu{
+	    /* border: 1px solid #000; */
+	    width:200px;
+	    box-shadow: 0 0 10px rgba(0, 0, 0, 0.192);
+	    display: none;
+	}
+	
+	.dropdown-submenu a {
+	    display: block;
+	    padding: 7px;
+	    text-align: center;
+	}
+	
+	.dropdown-submenu a:hover{
+	    background-color: #eee;
+	}
+	/* hover 뒤에 다른 selector가 이어지면 앞이 명령의 대상, 뒤에가 style이 수행되고 적용되는 부분 */
+	/* dropdown-btn 과 dropdown-sumbenu는 둘이 같은 계층이다 그래서 동작 안하는거임 (상하관계가 되어야 동작함)
+	한칸을 띄운다 = 상하관계가 전제가 되어있다는거임 !!!!!*/
+	.dropdown:hover .dropdown-submenu {
+	    display: block;
+	
+	}
 	</style>
 </head>
 <!-- Content -->
@@ -243,7 +303,7 @@
 		<!-- Breadcrumb Section End -->
 		<br>
 		<!-- Hero Section Begin -->
-		<section class="hero hero-normal">
+		<section class="hero hero-normal" style="position: relative; z-index: 1;">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-3">
@@ -270,9 +330,14 @@
 								</form>
 							</div>
 							<div class="hero__search__phone">
-								<div class="hero__search__phone__text">
-									<button type="submit" class="site-btn" onclick=location.href="http://localhost/inputChal">새 챌린저스 만들기</button>
-								</div>
+							      <div class="dropdown" id="menu">
+							        <button class="dropdown-btn">새 챌린저스 만들기</button>
+							        <div class="dropdown-submenu">
+							            <a href="http://localhost/inputNormalChal">개인전 챌린저스 만들기🙋‍♂️</a>
+							        	<a href="http://localhost/inputTeamChal">팀전 챌린저스 만들기🤼‍♀️</a>
+							        </div>
+							    </div>
+							    
 							</div>
 						</div>
 					</div>
@@ -355,6 +420,7 @@
 								
 							</div>
 						</div>
+					<div class="classList_container">
 						<div class="filter__item">
 							<div class="row">
 								<div class="col-lg-4 col-md-5">
@@ -380,6 +446,7 @@
 								</div>
 							</div>
 						</div>
+					
 						<div class="row">
 							<div class="col-lg-4 col-md-6 col-sm-6" th:each="chal : ${chals}">
 								<div class="product__item">
@@ -401,7 +468,9 @@
 								</div>
 							</div>
 							<!-- 페이징 -->
+							
 							<th:block th:replace="fragments/paging :: component(${paging}, 'gopage')">
+						</div>
 					</div>
 				</div>
 			</div>
@@ -433,6 +502,7 @@
 		</Script>
 		<!-- JS -->
 		<th:block layout:fragment="script">
+		
 			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>

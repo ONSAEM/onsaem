@@ -88,7 +88,7 @@ caption.dots {
 						th:href="@{/blog/myblog/blogTask(blogId=${blogInfo.blogId})}"
 						class="profile-menu-link info">블로그 관리 ⚙</a>
 		          <!-- 검색바 -->
-		          <a><input type="text" placeholder="Search..." id="searchWord" style="width:150px;height:30px;position:relative;margin-top:17px;margin-left:671px;overflow:auto;">
+		          <a><input type="text" placeholder="Search..." id="searchWord" style="width:150px;height:30px;position:relative;margin-top:17px;margin-left:844px;overflow:auto;">
 						<button type="button" class="btn btn-light" id="searchBtn" style="width:40px;height:30px;position:absolute;border-radius:2px;border:1px solid gray;margin-top:17px;">
 							<i class="fa-solid fa-magnifying-glass"></i>
 						</button>
@@ -110,7 +110,7 @@ caption.dots {
 					    <div class="side-wrapper">
 					    <div class="side-title" style="margin-bottom:0px;">
 					    	<div class="side-menu">
-					    	<a href="#"  style="display:inherit;">
+					    	<a th:href="@{/blog/myblog(userId=${blogInfo.blogId})}" style="display:inherit;">
 					          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="margin-right:2px;margin-bottom:4px;">
 					            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
 					            <path d="M9 22V12h6v10" />
@@ -251,7 +251,7 @@ caption.dots {
 		        <!-- 모먼트 끝 -->
 		        
 			        <!-- 페이징 해야함 -->
-			        <div class="col-lg-8 col-md-7">
+			        <div class="col-lg-8 col-md-7" style="width:90%;margin:30px auto;">
 			          <div class="row blogList">
 							
 					  </div>
@@ -661,7 +661,7 @@ caption.dots {
 				for(let i = page.startPage; i <= page.endPage; i++){
 					if(page.page == i){
 						// 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성
-						$(ul).append($("<li/>").text(i).css("background-color","#2ecc71").css("border-radius","100%").css("color","#fff"));
+						$(ul).append($("<li/>").text(i).css("background-color","#9dc2c0").css("border-radius","100%").css("color","#fff"));
 					}else {
 						$(ul).append($("<li/>").text(i).attr("id","pageNum").on("click",function(){newBlogList($(this).text());}));
 					}

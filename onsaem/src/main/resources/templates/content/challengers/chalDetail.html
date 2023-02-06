@@ -272,6 +272,9 @@
 		</th:block>
 		
 		<script type="text/javascript">
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		
 		//내기 포인트 계산후 넣어주기
 		$('#betPoint').text(parseInt($('#teamFee').text())*0.01+'원');
 		
@@ -330,6 +333,10 @@
 		              url:'/inputReport',
 		              method: 'post',
 		              contentType : 'application/json',
+		              beforeSend : function(xhr)
+		               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+		              	 xhr.setRequestHeader(header, token);
+		               },
 		              data: JSON.stringify({groupId:groupId,
 		                 toId:toId,
 		                 detailReason:detailReason,

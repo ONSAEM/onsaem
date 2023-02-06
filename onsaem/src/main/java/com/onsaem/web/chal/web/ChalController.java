@@ -204,7 +204,7 @@ public class ChalController {
 	@RequestMapping(value="/inputNormalChal", method=RequestMethod.POST)
 	@ResponseBody
 	public String insertNormalChal(ChalVO vo, ParticipantVO pvo
-			,  MultipartFile[] uploadFile, Authentication authentication) throws IllegalStateException, IOException {
+			,  MultipartFile[] applyFile, MultipartFile[] uploadFile, Authentication authentication) throws IllegalStateException, IOException {
 		
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
@@ -213,7 +213,8 @@ public class ChalController {
 		vo.setSubClass("개인");
 		vo.setClasses("등록");
 		vo.setTeamFee(0);
-		vo.setReceipt(null);
+		vo.setReceipt("미신청");
+		vo.setSharepoint("미정산");
 		vo.setUsercnt(0);
 		chalService.inputChal(vo);
 		
@@ -233,13 +234,15 @@ public class ChalController {
 		MediaVO mvo = new MediaVO();
 		mvo.setGroupId(vo.getChalId());
 		mvo.setGroups("챌린저스");
-        for(int i=0;i<uploadFile.length;i++) {
+        for(int i=0;i<applyFile.length;i++) {
 			if(i==0) {
 				mvo.setSubGroup("인증예시");
+			}else if(i==1) {
+					mvo.setSubGroup("상세설명");
 			}else {
 				mvo.setSubGroup("썸네일");
 			}			
-			MultipartFile[] upload= {uploadFile[i]};
+			MultipartFile[] upload= {applyFile[i]};
 			mediaService.uploadMedia(upload, mvo);
 		}		
         
@@ -268,7 +271,8 @@ public class ChalController {
 		vo.setMemberId(userDetails.getUsername());
 		vo.setSubClass("팀");
 		vo.setDonationFee(vo.getTeamFee());
-		vo.setReceipt(null);
+		vo.setReceipt("미신청");
+		vo.setSharepoint("미정산");
 		chalService.inputChal(vo);
 		
 		//Participant에 챌린저스 개최자 등록

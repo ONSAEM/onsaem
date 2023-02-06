@@ -72,6 +72,8 @@ public interface ChalMapper {
 	MediaVO thumnail(String groupId);
 	//인증예시 가져오기
 	MediaVO proofEx(String groupId);
+	//상세설명 사진파일 가져오기
+	MediaVO detailPic(String groupId);
 	
 	//관리자용
 	List<ChalVO> AdminEndChals(String subClass);
@@ -87,6 +89,7 @@ public interface ChalMapper {
 	
 	//관리자용 - 종료된 팀챌린지 검색 리스트
 	List<ChalVO> adminSearchChals(ChalVO vo);
+	
 	
 	
 }	
