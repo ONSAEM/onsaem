@@ -6,6 +6,112 @@
 
 <head>
 <style type="text/css">
+.main {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	min-width: 1400px;
+}
+
+.main-container {
+	padding: 20px;
+	flex-grow: 1;
+	overflow: auto;
+	background-color: #FCFBFC;
+}
+
+.profile-cover {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	border-radius: 4px;
+}
+
+.subheader {
+	position: relative;
+	height: 300px;
+	min-height: 250px;
+	z-index: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-size: cover;
+	background-position: center;
+}
+
+.subheader:before {
+	content: "";
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: -1;
+	left: 0;
+	top: 0;
+	background-image: url("/course/test.gif");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	filter: blur(30px);
+	opacity: 0.7;
+}
+
+.glass {
+	height: 100%;
+	width: 100%;
+	background-image: url("/course/test.gif");
+	background-size: cover;
+	background-position: center;
+	clip-path: inset(10em);
+	filter: blur(5px);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.drop-shadow {
+	height: 155%;
+	width: 100%;
+	filter: drop-shadow(0px 20px 10px rgba(0, 0, 0, 0.3));
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.drop-shadow:before {
+	display: block;
+	content: "";
+	position: absolute;
+	top: 10em;
+	height: calc(100% - 20em);
+	width: calc(100% - 20em);
+	border-top: 2px solid rgba(225, 225, 225, 0.2);
+	border-left: 1px solid rgba(225, 225, 225, 0.1);
+	border-right: 1px solid rgba(225, 225, 225, 0.3);
+	z-index: 2;
+}
+
+.drop-shadow>span {
+	position: absolute;
+	z-index: 5;
+	color: white;
+	font-size: 4em;
+	letter-spacing: 0.75em;
+	padding-left: 0.375em;
+}
+
+.product-details {
+	position: relative;
+    z-index: 1;
+    background-color: #ffffff;
+    padding: 50px 20px;
+    width: 1400px;
+    border-radius: 20px;
+    margin: 30px auto;
+}
 /* VARIABLES -  START */
 /* COLORS  */
 /* DIMENSIONS */
@@ -94,10 +200,6 @@
 	cursor: pointer;
 }
 
-.selectedClass {
-	background-color: #2ecc71;
-}
-
 #reportModal .modal-dialog {
 	min-width: 350px;
 }
@@ -111,13 +213,91 @@
 .modal-wrapper label {
 	color: #5f9999;
 	margin-top: 10px;
-    margin-bottom: 5px;
-    font-weight: bold;
+	margin-bottom: 5px;
+	font-weight: bold;
 }
 
 .modal-wrapper button {
 	background-color: #9dc2c0;
 	color: white;
+}
+
+#bookingModal .modal-dialog {
+	width: 570px;
+}
+
+#bookingModal .classTable {
+	height: 200px;
+	width: 100%;
+	text-align: center;
+	margin-top: 45px;
+}
+
+#bookingModal table {
+	width: 100%;
+	text-align: center;
+}
+
+#bookingModal .classTable tr {
+	height: 35px;
+}
+
+#bookingModal .classTable th {
+	color: #ffffff;
+	background-color: #5f9999;
+	width: 50%;
+}
+
+.selectedClass {
+	background-color: #9dc2c0;
+}
+
+#bookingModal label {
+	width: 80px;
+	text-align: center;
+}
+
+#bookingModal input {
+	text-align: end;
+	width: 150px;
+}
+
+.inputfield button {
+	width: 100px;
+	float: right;
+}
+
+.tab-pane {
+	margin-top: 30px;
+}
+
+.tab-pane .col-lg-7 {
+	width: 100%;
+}
+
+#tabs-3 .row {
+	margin: auto;
+	width: 80%;
+}
+
+.tab-pane button {
+	float: right;
+}
+
+.product__details__tab__desc {
+	width: 80%;
+	margin: auto;
+}
+
+.product__details__text ul {
+	margin-top: 0px;
+	height: 100px;
+	background-color: #f6f8f9;
+	border-radius: 19px;
+	padding: 10px 20px;
+	width: 300px;
+	margin-bottom: 20px;
+	border: none;
 }
 </style>
 </head>
@@ -145,204 +325,219 @@
 </th:block>
 
 <div layout:fragment="content">
-	<!-- Product Details Section Begin -->
-	<section class="product-details spad">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6 col-md-6">
-					<div class="product__details__pic">
-						<div class="product__details__pic__item">
-							<img class="product__details__pic__item--large"
-								th:src="'/fileView/'+${class.mediaList[0].fileRoute}" alt="">
-						</div>
-						<div class="product__details__pic__slider owl-carousel">
-							<img th:each="media : ${class.mediaList}"
-								th:data-imgbigurl="'/fileView/'+${media.fileRoute}"
-								th:src="'/fileView/'+${media.fileRoute}" alt="">
-						</div>
-					</div>
+	<div class="main">
+		<div class="main-container">
+			<div class="subheader">
+				<img src="/course/test.gif" alt="" class="profile-cover">
+				<div class="drop-shadow">
+					<div class="glass"></div>
+					<span>CLASS</span>
 				</div>
-				<div class="col-lg-6 col-md-6">
-					<div class="product__details__text">
-						<h3 th:text="${class.className}"></h3>
-						<div class="product__details__rating">
-							<i class="fa-solid fa-star" th:if="${class.star != 0}"
-								th:each="num:${#numbers.sequence(1,class.star)}"
-								style="color: #ffe949"></i><i class="fa-solid fa-star-half"
-								th:if="${class.star%1 >= 0.5}" style="color: #ffe949"></i> <span>([[${class.reviewCount}]]
-								reviews)</span>
-						</div>
-						<div class="product__details__price">[[${#numbers.formatInteger(class.price,
-							3, 'COMMA')}]]원</div>
-						<ul>
-							<li><b>소요시간</b> <span>[[${class.classTime}]]시간</span></li>
-							<li><b>난이도</b> <span>[[${class.difficulty}]]</span></li>
-						</ul>
-						<a href="/loginPage" class="primary-btn"
-							sec:authorize="isAnonymous()">예약하기</a> <a href="/loginPage"
-							class="primary-btn" sec:authorize="isAnonymous()">신고하기</a> <a
-							href="#" class="primary-btn bookingModal"
-							sec:authorize="hasRole('USER')">예약하기</a> <a href="#"
-							class="primary-btn" sec:authorize="hasRole('USER')"
-							data-bs-toggle="modal" data-bs-target="#reportModal">신고하기</a>
-						<div class="wrapper">
-							<div class="button-container">
-								<div class="heartbutton">
-									<span class="content"> <i class="icon fa fa-heart"
-										aria-hidden="true"></i> <i class="icon far fa-heart"
-										aria-hidden="true"></i> <span class="text like">Like<span
-											class="text d">d</span></span> <span class="text number"
-										th:text="${like.cnt}"></span>
-									</span> <input type="hidden" class="ClassLike" th:value=${like.likeCk}>
+			</div>
+			<!-- Product Details Section Begin -->
+			<section class="product-details spad">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-6 col-md-6">
+							<div class="product__details__pic">
+								<div class="product__details__pic__item">
+									<img class="product__details__pic__item--large"
+										th:src="'/fileView/'+${class.mediaList[0].fileRoute}" alt="">
+								</div>
+								<div class="product__details__pic__slider owl-carousel">
+									<img th:each="media : ${class.mediaList}"
+										th:data-imgbigurl="'/fileView/'+${media.fileRoute}"
+										th:src="'/fileView/'+${media.fileRoute}" alt="">
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-				<div class="col-lg-12">
-					<div class="product__details__tab">
-						<ul class="nav nav-tabs" role="tablist">
-							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tabs-1" role="tab" aria-selected="false">Information</a>
-							</li>
-							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tabs-2" role="tab" aria-selected="false">Reviews <span>([[${class.reviewCount}]])</span></a>
-							</li>
-							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tabs-3" role="tab" aria-selected="false">Questions <span>([[${class.queCount}]])</span></a>
-							</li>
-						</ul>
-						<div class="tab-content">
-							<div class="tab-pane active" id="tabs-1" role="tabpanel">
-								<div class="product__details__tab__desc">
-									<h6>Products Infomation</h6>
-									<p th:text="${class.explanation}"></p>
-									<img th:src="@{/images/classRefund.png}" style="width: 60%;">
-									<div id="map" style="width: 60%; height: 350px;"></div>
+						<div class="col-lg-6 col-md-6">
+							<div class="product__details__text">
+								<h3 th:text="${class.className}"></h3>
+								<div class="product__details__rating">
+									<i class="fa-solid fa-star" th:if="${class.star != 0}"
+										th:each="num:${#numbers.sequence(1,class.star)}"
+										style="color: #ffe949"></i><i class="fa-solid fa-star-half"
+										th:if="${class.star%1 >= 0.5}" style="color: #ffe949"></i> <span>([[${class.reviewCount}]]
+										reviews)</span>
+								</div>
+								<div class="product__details__price">[[${#numbers.formatInteger(class.price,
+									3, 'COMMA')}]]원</div>
+								<ul>
+									<li><b>소요시간</b> <span>[[${class.classTime}]]시간</span></li>
+									<li><b>난이도</b> <span>[[${class.difficulty}]]</span></li>
+								</ul>
+								<a href="/loginPage" class="primary-btn"
+									sec:authorize="isAnonymous()">예약하기</a> <a href="/loginPage"
+									class="primary-btn" sec:authorize="isAnonymous()">신고하기</a> <a
+									href="#" class="primary-btn bookingModal"
+									sec:authorize="hasRole('USER')">예약하기</a> <a href="#"
+									class="primary-btn" sec:authorize="hasRole('USER')"
+									data-bs-toggle="modal" data-bs-target="#reportModal">신고하기</a>
+								<div class="wrapper">
+									<div class="button-container">
+										<div class="heartbutton">
+											<span class="content"> <i class="icon fa fa-heart"
+												aria-hidden="true"></i> <i class="icon far fa-heart"
+												aria-hidden="true"></i> <span class="text like">Like<span
+													class="text d">d</span></span> <span class="text number"
+												th:text="${like.cnt}"></span>
+											</span> <input type="hidden" class="ClassLike"
+												th:value=${like.likeCk}>
+										</div>
+									</div>
 								</div>
 							</div>
-							<div class="tab-pane" id="tabs-2" role="tabpanel">
-								<div class="product__details__tab__desc">
-									<div class="container">
-										<div class="row">
+						</div>
+						<div class="col-lg-12">
+							<div class="product__details__tab">
+								<ul class="nav nav-tabs" role="tablist">
+									<li class="nav-item"><a class="nav-link" data-toggle="tab"
+										href="#tabs-1" role="tab" aria-selected="false">Information</a>
+									</li>
+									<li class="nav-item"><a class="nav-link" data-toggle="tab"
+										href="#tabs-2" role="tab" aria-selected="false">Reviews <span>([[${class.reviewCount}]])</span></a>
+									</li>
+									<li class="nav-item"><a class="nav-link" data-toggle="tab"
+										href="#tabs-3" role="tab" aria-selected="false">Questions
+											<span>([[${class.queCount}]])</span>
+									</a></li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tabs-1" role="tabpanel">
+										<div class="product__details__tab__desc">
+											<h6>Products Infomation</h6>
+											<p th:text="${class.explanation}"></p>
+											<img th:src="@{/images/classRefund.png}" style="width: 60%;">
+											<div id="map" style="width: 60%; height: 350px;"></div>
+										</div>
+									</div>
+									<div class="tab-pane" id="tabs-2" role="tabpanel">
+										<div class="product__details__tab__desc">
+											<div class="container">
+												<div class="row">
 
-											<div class="col-lg-7 col-12">
-												<div class="news-block">
+													<div class="col-lg-7 col-12">
+														<div class="news-block">
 
-													<div class="news-block-info rList">
+															<div class="news-block-info rList">
 
-														<div class="author-comment d-flex mt-3 mb-4 viewReview"
-															th:each="review : ${review.rList}"
-															th:id="${review.reviewId}">
-															<img th:if="${review.profile != null}"
-																th:src="@{'/fileView/'+${review.profile.fileRoute}}"
-																class="img-fluid avatar-image"> <img
-																th:unless="${review.profile != null}"
-																th:src="@{/images/defaulltProfile.png}"
-																class="img-fluid avatar-image">
+																<div class="author-comment d-flex mt-3 mb-4 viewReview"
+																	th:each="review : ${review.rList}"
+																	th:id="${review.reviewId}">
+																	<img th:if="${review.profile != null}"
+																		th:src="@{'/fileView/'+${review.profile.fileRoute}}"
+																		class="img-fluid avatar-image"> <img
+																		th:unless="${review.profile != null}"
+																		th:src="@{/images/defaulltProfile.png}"
+																		class="img-fluid avatar-image">
 
-															<div class="author-comment-info ms-3">
-																<h6 class="mb-1" th:text="${review.nickname}"></h6>
-																<i class="fa-solid fa-star"
-																	th:if="${review.reviewStar != 0}"
-																	th:each="num:${#numbers.sequence(1,review.reviewStar)}"
-																	style="color: #ffe949"></i><i
-																	class="fa-solid fa-star-half"
-																	th:if="${review.reviewStar%1 >= 0.5}"
-																	style="color: #ffe949"></i> <img
-																	th:if="${review.reviewMedia != null}"
-																	th:src="@{'/fileView/'+${review.reviewMedia.fileRoute}}">
-																<p class="mb-0" th:text="${review.reviewContent}"></p>
+																	<div class="author-comment-info ms-3">
+																		<h6 class="mb-1" th:text="${review.nickname}"></h6>
+																		<i class="fa-solid fa-star"
+																			th:if="${review.reviewStar != 0}"
+																			th:each="num:${#numbers.sequence(1,review.reviewStar)}"
+																			style="color: #ffe949"></i><i
+																			class="fa-solid fa-star-half"
+																			th:if="${review.reviewStar%1 >= 0.5}"
+																			style="color: #ffe949"></i> <img
+																			th:if="${review.reviewMedia != null}"
+																			th:src="@{'/fileView/'+${review.reviewMedia.fileRoute}}">
+																		<p class="mb-0" th:text="${review.reviewContent}"></p>
+																	</div>
+																</div>
+
+															</div>
+															<!-- 페이징 부분 -->
+															<div class="pagination p1 rPaging"
+																th:if="${review.rPaging.totalRecord != 0}">
+																<ul>
+																	<!-- 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) << -->
+																	<li id="prevPaging"
+																		th:if="${review.rPaging.startPage > 1}"
+																		style="font-size: 30px;">&laquo;</li>
+																	<th:block
+																		th:each="num : ${#numbers.sequence(review.rPaging.startPage,review.rPaging.endPage)}">
+																		<!-- 페이지 생성  ex) 1 2 3 4 5-->
+																		<li id="pageNum" th:if="${review.rPaging.page != num}"
+																			th:text=${num}></li>
+																		<!-- 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성-->
+																		<li th:if="${review.rPaging.page == num}"
+																			th:text=${num}
+																			style="background-color: #9dc2c0; border-radius: 100%; color: #fff;"></li>
+																	</th:block>
+																	<!-- 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >> -->
+																	<li id="nextPaging"
+																		th:if="${review.rPaging.endPage < review.rPaging.lastPage}"
+																		style="font-size: 30px;">&raquo;</li>
+																</ul>
+															</div>
+															<!-- 페이징 끝 -->
+														</div>
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane" id="tabs-3" role="tabpanel">
+										<div class="container">
+											<div class="row">
+
+												<div class="col-lg-7 col-12">
+													<button type="button" class="primary-btn addQue">문의
+														등록</button>
+													<div class="news-block qList">
+														<div class="news-block-info "
+															th:each="que : ${question.qList}">
+															<div class="author-comment d-flex mt-3 mb-4 viewQue"
+																th:id="${que.queId}"
+																th:if="${que.writerId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null} or ${class.memberId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}">
+																<img th:if="${que.profile != null}"
+																	th:src="@{'/fileView/'+${que.profile.fileRoute}}"
+																	class="img-fluid avatar-image"> <img
+																	th:unless="${que.profile != null}"
+																	th:src="@{/images/defaulltProfile.png}"
+																	class="img-fluid avatar-image">
+																<div class="author-comment-info ms-3">
+																	<h6 class="mb-1" th:text="${que.nickname}"></h6>
+																	<p class="mb-0" th:text="${que.queContent}"></p>
+																</div>
+															</div>
+
+															<div class="author-comment d-flex mt-3 mb-4"
+																th:unless="${que.writerId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null} or ${class.memberId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}">
+																<p class="mb-0">작성자만 볼 수 있습니다</p>
 															</div>
 														</div>
-
 													</div>
 													<!-- 페이징 부분 -->
-													<div class="pagination p1 rPaging"
-														th:if="${review.rPaging.totalRecord != 0}">
+													<div class="pagination p1 qPaging"
+														th:if="${question.qPaging.totalRecord != 0}">
 														<ul>
 															<!-- 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) << -->
 															<li id="prevPaging"
-																th:if="${review.rPaging.startPage > 1}"
+																th:if="${question.qPaging.startPage > 1}"
 																style="font-size: 30px;">&laquo;</li>
 															<th:block
-																th:each="num : ${#numbers.sequence(review.rPaging.startPage,review.rPaging.endPage)}">
+																th:each="num : ${#numbers.sequence(question.qPaging.startPage,question.qPaging.endPage)}">
 																<!-- 페이지 생성  ex) 1 2 3 4 5-->
-																<li id="pageNum" th:if="${review.rPaging.page != num}"
+																<li id="pageNum" th:if="${question.qPaging.page != num}"
 																	th:text=${num}></li>
 																<!-- 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성-->
-																<li th:if="${review.rPaging.page == num}" th:text=${num}
+																<li th:if="${question.qPaging.page == num}"
+																	th:text=${num}
 																	style="background-color: #9dc2c0; border-radius: 100%; color: #fff;"></li>
 															</th:block>
 															<!-- 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >> -->
 															<li id="nextPaging"
-																th:if="${review.rPaging.endPage < review.rPaging.lastPage}"
+																th:if="${question.qPaging.endPage < question.qPaging.lastPage}"
 																style="font-size: 30px;">&raquo;</li>
 														</ul>
 													</div>
 													<!-- 페이징 끝 -->
 												</div>
 											</div>
-
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="tab-pane" id="tabs-3" role="tabpanel">
-								<div class="container">
-									<div class="row">
-
-										<div class="col-lg-7 col-12">
-											<button type="button" class="primary-btn addQue">문의
-												등록</button>
-											<div class="news-block qList">
-												<div class="news-block-info "
-													th:each="que : ${question.qList}">
-													<div class="author-comment d-flex mt-3 mb-4 viewQue"
-														th:id="${que.queId}"
-														th:if="${que.writerId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null} or ${class.memberId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}">
-														<img th:if="${que.profile != null}"
-															th:src="@{'/fileView/'+${que.profile.fileRoute}}"
-															class="img-fluid avatar-image"> <img
-															th:unless="${que.profile != null}"
-															th:src="@{/images/defaulltProfile.png}"
-															class="img-fluid avatar-image">
-														<div class="author-comment-info ms-3">
-															<h6 class="mb-1" th:text="${que.nickname}"></h6>
-															<p class="mb-0" th:text="${que.queContent}"></p>
-														</div>
-													</div>
-
-													<div class="author-comment d-flex mt-3 mb-4"
-														th:unless="${que.writerId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null} or ${class.memberId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}">
-														<p class="mb-0">작성자만 볼 수 있습니다</p>
-													</div>
-												</div>
-											</div>
-											<!-- 페이징 부분 -->
-											<div class="pagination p1 qPaging"
-												th:if="${question.qPaging.totalRecord != 0}">
-												<ul>
-													<!-- 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) << -->
-													<li id="prevPaging"
-														th:if="${question.qPaging.startPage > 1}"
-														style="font-size: 30px;">&laquo;</li>
-													<th:block
-														th:each="num : ${#numbers.sequence(question.qPaging.startPage,question.qPaging.endPage)}">
-														<!-- 페이지 생성  ex) 1 2 3 4 5-->
-														<li id="pageNum" th:if="${question.qPaging.page != num}"
-															th:text=${num}></li>
-														<!-- 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성-->
-														<li th:if="${question.qPaging.page == num}" th:text=${num}
-															style="background-color: #9dc2c0; border-radius: 100%; color: #fff;"></li>
-													</th:block>
-													<!-- 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >> -->
-													<li id="nextPaging"
-														th:if="${question.qPaging.endPage < question.qPaging.lastPage}"
-														style="font-size: 30px;">&raquo;</li>
-												</ul>
-											</div>
-											<!-- 페이징 끝 -->
 										</div>
 									</div>
 								</div>
@@ -350,14 +545,13 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</section>
 		</div>
-	</section>
+	</div>
 	<!-- Product Details Section End -->
 	<div class="modal fade" id="viewReview" data-bs-keyboard="false"
 		aria-hidden="true" tabindex="-1">
-		<div class="modal-dialog modal-dialog-centered"
-			style="min-width: 1000px">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -375,8 +569,7 @@
 	</div>
 	<div class="modal fade" id="viewReview" data-bs-keyboard="false"
 		aria-hidden="true" tabindex="-1">
-		<div class="modal-dialog modal-dialog-centered"
-			style="min-width: 1000px">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -389,8 +582,7 @@
 	</div>
 	<div class="modal fade" id="inputModal" data-bs-keyboard="false"
 		aria-hidden="true" tabindex="-1">
-		<div class="modal-dialog modal-dialog-centered"
-			style="min-width: 1000px">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -414,8 +606,7 @@
 	</div>
 	<div class="modal fade" id="viewQue" data-bs-keyboard="false"
 		aria-hidden="true" tabindex="-1">
-		<div class="modal-dialog modal-dialog-centered"
-			style="min-width: 1000px">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -433,8 +624,7 @@
 	</div>
 	<div class="modal fade" id="modifyQue" data-bs-keyboard="false"
 		aria-hidden="true" tabindex="-1">
-		<div class="modal-dialog modal-dialog-centered"
-			style="min-width: 1000px">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -458,8 +648,7 @@
 	</div>
 	<div class="modal fade" id="addAns" data-bs-keyboard="false"
 		aria-hidden="true" tabindex="-1">
-		<div class="modal-dialog modal-dialog-centered"
-			style="min-width: 1000px">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -483,8 +672,7 @@
 	</div>
 	<div class="modal fade" id="modifyAns" data-bs-keyboard="false"
 		aria-hidden="true" tabindex="-1">
-		<div class="modal-dialog modal-dialog-centered"
-			style="min-width: 1000px">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -537,8 +725,7 @@
 	</div>
 	<div class="modal fade" id="bookingModal" data-bs-keyboard="false"
 		aria-hidden="true" tabindex="-1">
-		<div class="modal-dialog modal-dialog-centered"
-			style="min-width: 1000px">
+		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="btn-close" data-bs-dismiss="modal"

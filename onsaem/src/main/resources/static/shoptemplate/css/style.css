@@ -1766,13 +1766,13 @@ ol {
 }
 
 .product__details__text .product__details__rating span {
-	color: #dd2222;
+	color: #9dc2c0;
 	margin-left: 4px;
 }
 
 .product__details__text .product__details__price {
 	font-size: 30px;
-	color: #dd2222;
+	color: #5f9999;
 	font-weight: 600;
 	margin-bottom: 15px;
 }
@@ -1785,6 +1785,7 @@ ol {
 	padding: 16px 28px 14px;
 	margin-right: 6px;
 	margin-bottom: 5px;
+	border-radius: 10px;
 }
 
 .product__details__text .heart-icon {
