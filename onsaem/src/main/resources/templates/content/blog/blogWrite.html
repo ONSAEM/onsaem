@@ -120,6 +120,13 @@
 }
 .hidden {
 	display: none;
+}
+
+.row .btn{
+	background-color: #9dc2c0;
+	color:white;
+	text-align: center;
+	margin-right: 5px;
 } 
 </style>
 
@@ -165,10 +172,10 @@
 					</div>
 				</div>
 				<div class="col-lg-8 col-md-7 order-md-1 order-1"> <!--------------------------신고!!!!! -->
-					<i type="button" class="fa-solid fa-triangle-exclamation openBtn" style="float:right;"
-					th:value1="${blogWrite.writeId}" th:value2="${blogWrite.blogId}">신고하기</i>
-					<button style="float:right;" id="blogUpdate" th:onclick="|location.href='@{/blog/myblog/blogWrite/blogUpdate(bno=${blogWrite.writeId})}'|" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogWrite.blogId}">수정</button>
-					<button style="float:right;" id="blogDelete" th:value="${blogWrite.writeId}" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogWrite.blogId}">삭제</button>
+					<button class="btn"><i type="button" class="fa-solid fa-triangle-exclamation openBtn" style="float:right;"
+					th:value1="${blogWrite.writeId}" th:value2="${blogWrite.blogId}">신고하기</i></button>
+					<button style="float:right;" class="btn" id="blogUpdate" th:onclick="|location.href='@{/blog/myblog/blogWrite/blogUpdate(bno=${blogWrite.writeId})}'|" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogWrite.blogId}">수정</button>
+					<button style="float:right;" class="btn" id="blogDelete" th:value="${blogWrite.writeId}" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogWrite.blogId}">삭제</button>
 					<div class="blog__details__text">
 						 [(${blogWrite.blogWrite})]
 					</div>
@@ -192,13 +199,13 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-6">
+							<div class="col-lg-6" style="margin-top:14px;">
 								<div class="blog__details__widget">
 									<ul>
 					<!-------------------- 하트 ------------------------->
 										<li><div class="wrapper" >
 												<div class="button-container">
-													<div class="heartbutton">
+													<div class="heartbutton" style="margin-bottom: -45px;">
 														<span class="content"> <i class="icon fa fa-heart"
 															aria-hidden="true"></i> <i class="icon far fa-heart"
 															aria-hidden="true"></i> <span class="text like">Like<span
@@ -213,9 +220,9 @@
 									</ul>
 								</div>
 								<!-- 카톡 -->
-								<a id="kakaotalk-sharing-btn" href="javascript:;">
+								<a id="kakaotalk-sharing-btn" href="javascript:;" style="margin-left:148px;">
 								  <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
-								    alt="카카오톡 공유 보내기 버튼" />
+								    alt="카카오톡 공유 보내기 버튼" style="width: 40px;" />
 								</a>
 							</div>
 						</div>
