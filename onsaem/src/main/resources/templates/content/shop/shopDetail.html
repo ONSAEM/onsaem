@@ -481,12 +481,12 @@ h1 {
 					const urlParams = new URL(location.href).searchParams;
 					const name = urlParams.get('data');	
 					if(data.innerText=="♡"){						
-						fetch('http://localhost/likeAdd?data='+name)						
+						fetch('/likeAdd?data='+name)						
 						  .then((response) => console.log('success'))
 						  .then((data) => console.log(data));		
 						data.innerText="♥";				
 					}else{					
-						fetch('http://localhost/likeDel?data='+name)
+						fetch('/likeDel?data='+name)
 						  .then((response) => console.log('success'))
 						  .then((data) => console.log(data));
 						data.innerText="♡";
@@ -505,7 +505,7 @@ h1 {
 					let urlParams = new URL(location.href).searchParams;
 					let productId = urlParams.get('data');		
 					console.log(cartOption)
-					 fetch('http://localhost/cartAdd?productId='+productId+'&cartAmount='+cartAmount+'&cartOption='+cartOption)
+					 fetch('/cartAdd?productId='+productId+'&cartAmount='+cartAmount+'&cartOption='+cartOption)
 					  .then((response) => alert('장바구니에 담겼습니다.'))		
 				}
 			
@@ -551,7 +551,7 @@ h1 {
        				let detailReason=document.getElementById("detailReason").value;
        				let fromId="[[${session.id}]]";
     				let groupId="[[${param.data}]]";
-       				fetch('http://localhost/addBan',{
+       				fetch('/addBan',{
        					headers: {
        					    "Content-Type": "application/json",
        					    "X-CSRF-TOKEN":token

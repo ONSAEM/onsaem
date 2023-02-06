@@ -24,10 +24,10 @@
                <!--================ 페이지 이동 1_2_3_4_5  =================-->
                <th:block  th:each="pag:${#numbers.sequence(paging.startPage,paging.endPage)}">
                   <li  th:if="${pag != paging.page}">
-                     <a class="page-link" th:href="|javascript:${gopage}(${pag})|" th:text="${#numbers.formatInteger(pag,2)}"></a>
+                     <a class="page-link" th:href="|javascript:${gopage}(${pag})|" th:text="${#numbers.formatInteger(pag,1)}" style="background-color: white; border-radius: 100%; color: #717275; border:none"></a>
                   </li>
                   <li class="active" th:if="${pag==paging.page}">
-                     <a class="page-link" th:text="${#numbers.formatInteger(pag,2)}"  style="background-color: #9dc2c0; border-radius: 100%; color: #fff;"></a>
+                     <a class="page-link" th:text="${#numbers.formatInteger(pag,1)}"  style="background-color: #9dc2c0; border-radius: 100%; color: #fff; border:none"></a>
                   </li>
                </th:block>
                <!--================ 페이지 이동 1_2_3_4_5 끝 =================-->
