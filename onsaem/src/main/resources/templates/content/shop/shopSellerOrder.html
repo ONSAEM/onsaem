@@ -247,7 +247,7 @@ h1 {
 				<div class="product-cell status-cell">
 					<span class="cell-label">Status:</span> <span class="status active"
 						v-if="order.orderStatus === '주문대기'">{{order.orderStatus}}
-						<button @click="shippingNum(this,order)"
+						<input> <button @click="shippingNum(this,order)"
 							style="margin-left: 14px;">송장번호입력</button>
 					</span> <span class="status active" v-else>{{order.orderStatus}} </span>
 				</div>
@@ -281,13 +281,22 @@ h1 {
 			 const app = Vue.createApp({
 			        data() {
 			            return {	
-			            	orders:[]           	
+			            	orders:[] , 
+			            shippingData:[]
 			            };
 			        },
 			        created() {
 						this.orderList();						
 			        },
 			        methods: {
+			        	//송장번호 입력
+			        	shippingNum:function(data,data2){
+			        		this.shippingData=data2;
+			        		console.log(data.parentElement)
+							let shippingNum=`<td>주문대기<div>
+							<button>송장번호입력</button><br><input type="text" id="shippingNum"><br><button onclick="submitShipping()" >발송완료</button></div></td>`;
+							data.parentElement.innerHTML=shippingNum;	
+			        	},
 			        	//날짜조회
 			        	orderList:function(){
 			        		let is=this;			        		

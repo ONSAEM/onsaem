@@ -67,7 +67,7 @@
 				<div class="product-cell">총가격</div>
 				<div class="product-cell"></div>
 			</div>
-			<div class="products-row" th:each="cart:${myCartList}">
+			<div class="products-row" th:each="cart:${myCartList}" style="text-align:center">
 				<div class="product-cell">
 					<input type="checkbox" name="checkBox"
 						th:onchange="saveList([[${cart}]])"></input>
@@ -76,7 +76,7 @@
 					<img
 						th:src="@{/fileView/{fileRoute}/
 									(fileRoute=${cart.fileRoute})}"
-						alt="" th:onclick="detailFnc([[${cart.productId}]])">
+						alt="" th:onclick="detailFnc([[${cart.productId}]])" style="width: 75px; height: 75px; ">
 				</div>
 				<div class="product-cell">
 					<p th:text="${cart.productName}" id="productName">Fresh Garden

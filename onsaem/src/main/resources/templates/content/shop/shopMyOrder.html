@@ -88,7 +88,7 @@ h1 {
 	background: white;
 	border-radius: 5px;
 	padding: 30px;
-	text-align:center;
+	text-align: center;
 }
 
 /* 별점 */
@@ -159,15 +159,19 @@ h1 {
 
 		<div class="products-area-wrapper tableView">
 			<div class="products-header">
-				<div class="product-cell category">전체</div>
-				<div class="product-cell image">배송중</div>
-				<div class="product-cell">배송완료</div>
+				<div class="product-cell category" onclick="location.href='/shop/shopMyOrder'">전체</div>
+				<div class="product-cell image" onclick="location.href='/shop/shopMyOrder?orderStatus=배송중'">배송중</div>
+				<div class="product-cell" onclick="location.href='/shop/shopMyOrder?orderStatus=배송완료'">배송완료</div>
 			</div>
-			<div class="products-row" th:each="order:${myOrderList}">
+			<div class="products-row" th:each="order:${myOrderList}" style="text-align:center">
 				<div class="product-cell">
-					주문일자 [[${order.orderDate}]]<br> <img id="preview-image"
-						th:src="'/fileView/'+${order.fileRoute}"
-						th:onclick="detailFnc([[${order.productId}]])">
+					<div>
+						주문일자 [[${order.orderDate}]]<br> <img id="preview-image"
+							th:src="'/fileView/'+${order.fileRoute}"
+							th:onclick="detailFnc([[${order.productId}]])"
+							style="width: 100px; height: 100px; ">
+					</div>
+
 				</div>
 				<div class="product-cell">
 					배송상태 [[${order.orderStatus}]]<br> <br>상품명
@@ -191,7 +195,7 @@ h1 {
 						<br> <span th:if="${order.orderStatus=='배송완료'}">
 							<button th:onclick="displayModal([[${order}]])">교환/반품</button> <br>
 							<br>
-							<button class="modals" >리뷰작성</button> <input type="hidden"
+							<button class="modals">리뷰작성</button> <input type="hidden"
 							th:value="${order.productId}" id="productId">
 						</span>
 					</div>
@@ -219,8 +223,10 @@ h1 {
 							<textarea rows="10" cols="40" id="reviewContent"></textarea>
 							<div>
 								<button class="btn btn-danger"
-									th:onclick="submitReview([[${order.productId}]])" style="background-color:#bed8cd; border:0px">작성</button>
-								<button class="btn btn-danger" id="close" style="background-color:#bed8cd; border:0px">닫기</button>
+									th:onclick="submitReview([[${order.productId}]])"
+									style="background-color: #bed8cd; border: 0px">작성</button>
+								<button class="btn btn-danger" id="close"
+									style="background-color: #bed8cd; border: 0px">닫기</button>
 							</div>
 						</div>
 					</div>

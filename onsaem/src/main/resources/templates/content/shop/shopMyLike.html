@@ -64,7 +64,7 @@
 				<div class="product-cell">가격</div>
 				<div class="product-cell">선택</div>
 			</div>
-			<div class="products-row" th:each="like:${likeList}">
+			<div class="products-row" th:each="like:${likeList}" style="text-align:center">
 				<div class="product-cell">
 					<input type="checkbox" name="checkBox"
 						th:onchange="saveList([[${like}]])"></input>
@@ -73,7 +73,7 @@
 					<img
 						th:src="@{/fileView/{fileRoute}/
 									(fileRoute=${like.fileRoute})}"
-						alt="" th:onclick="detailFnc([[${like.productId}]])">
+						alt="" th:onclick="detailFnc([[${like.productId}]])" style="width: 100px; height: 100px; ">
 				</div>
 				<div class="product-cell">
 					<p th:text="${like.productName}"
