@@ -5,8 +5,7 @@
 	<nav class="navbar navbar-expand-lg bg-light shadow-lg">
 		<div class="container">
 			<a class="navbar-brand" th:href="@{/}"> <img
-				th:src="@{/images/logo.png}" class="logo img-fluid"> <!-- 				<span> -->
-				<!-- 					ONSAEM </span> -->
+				th:src="@{/images/logo.png}" class="logo img-fluid">
 			</a>
 
 			<button class="navbar-toggler" type="button"
@@ -18,10 +17,10 @@
 
 
 			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav ms-auto">					
+				<ul class="navbar-nav ms-auto">
 					<li class="nav-item"><a class="nav-link click-scroll"
 						href="/shop">Shop</a></li>
-					
+
 					<li class="nav-item"><a class="nav-link click-scroll"
 						href="/class/classList">Class</a></li>
 
@@ -44,8 +43,6 @@
 							<li><a class="dropdown-item"
 								th:href="@{/blog/myblog(userId=${#authentication.principal.memberId})}">MY
 									BLOG</a></li>
-							<li><a class="dropdown-item"
-								th:href="@{/mypage/myCurrentChal}">MY PAGE 챌린저스</a></li>
 							<li><form class="logoutFrm" method="post" action="/logout">
 									<input type="hidden" id="token"
 										th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
@@ -53,6 +50,10 @@
 								</form></li>
 							<li><a class="dropdown-item" th:href="@{/errorPage}">404</a></li>
 							<li><a class="dropdown-item" th:href="@{/class/classMGMT}">MANAGEMENT</a></li>
+              
+							<li><a class="dropdown-item"
+								th:href="@{/blog/testblog(userId=${#authentication.principal.memberId})}">blogtest</a></li>
+
 							<li><a class="dropdown-item" th:href="@{/testVue}">vueTest</a></li>
 							<li><a class="dropdown-item"
 								th:href="@{/mypage/AdminEndChals}">chalAdmin</a></li>
@@ -61,9 +62,11 @@
 						</ul></li>
 					<li class="nav-item" sec:authorize="isAnonymous()"><a
 						class="nav-link click-scroll" th:href="@{/loginPage}">Login</a></li>
-					<li class="nav-item ms-3"><a
+					<li class="nav-item" sec:authorize="isAuthenticated()"><a
 						class="nav-link custom-btn custom-border-btn btn"
-						th:href="@{/mediaTest}">사진등록테스트</a></li>
+						th:href="@{/shop/shopMyCart}"><span class="cart"> <i
+								class="fa-solid fa-cart-shopping"></i><span class="cart__count">5</span>
+						</span></a></li>
 				</ul>
 			</div>
 		</div>

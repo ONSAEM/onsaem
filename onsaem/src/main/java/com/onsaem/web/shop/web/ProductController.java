@@ -233,7 +233,7 @@ public class ProductController {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		likeVo.setLikeId(userDetails.getUsername());
 		model.addAttribute("likeList", proService.likeList(likeVo));
-		return "content/shop/shopLike";
+		return "content/shop/shopMyLike";
 	}
 
 	// 버튼찜클릭 삭제

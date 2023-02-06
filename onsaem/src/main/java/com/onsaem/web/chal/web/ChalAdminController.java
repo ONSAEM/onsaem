@@ -204,7 +204,7 @@ public class ChalAdminController {
 	
 	//신고 제재
 	
-	//ngo관리리스트
+	//ngo관리리스트 - 신청 승인 받지 않은 리스트 ㅎㅎ
 	@RequestMapping(value="/ApplyNgoList", method=RequestMethod.GET)
 	public String applyNgoLIst(Model model) {
 		//승인받지 않은 리스트
@@ -213,7 +213,17 @@ public class ChalAdminController {
 		//승인 받은 리스트
 		model.addAttribute("ngoes", ngoService.listNgo("승인"));
 		
-		return "content/challengers/AdminNgoList";
+		return "content/challengers/AdminApplyNgoList";
+	}
+	
+	//ngo 관리 리스트 - 승인 받은 리스트
+	@RequestMapping(value="/AdminNgoList", method=RequestMethod.GET)
+	public String adminNgoLIst(Model model) {
+		
+		//승인 받은 리스트
+		model.addAttribute("ngoes", ngoService.listNgo("승인"));
+		
+		return "content/challengers/AdminJjinNgoList";
 	}
 	
 	//ngo신청 승인
