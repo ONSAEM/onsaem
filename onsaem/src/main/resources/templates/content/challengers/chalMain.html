@@ -333,8 +333,8 @@
 							      <div class="dropdown" id="menu">
 							        <button class="dropdown-btn">새 챌린저스 만들기</button>
 							        <div class="dropdown-submenu">
-							            <a href="http://localhost/inputNormalChal">개인전 챌린저스 만들기🙋‍♂️</a>
-							        	<a href="http://localhost/inputTeamChal">팀전 챌린저스 만들기🤼‍♀️</a>
+							            <a href="/inputNormalChal">개인전 챌린저스 만들기🙋‍♂️</a>
+							        	<a href="/inputTeamChal">팀전 챌린저스 만들기🤼‍♀️</a>
 							        </div>
 							    </div>
 							    
@@ -383,7 +383,7 @@
 								</div>
 							</div>
 							<div class="sidebar__item">
-								<button type="submit" class="site-btn" onclick=location.href="http://localhost/inputNgo">기부처 신청하기</button>	
+								<button type="submit" class="site-btn" onclick=location.href="/inputNgo">기부처 신청하기</button>	
 							</div>
 							
 						</div>
@@ -487,9 +487,9 @@
 			function changeOption(data){
 				console.log(data);
 				if(data == 'All'){
-					location.href="http://localhost/chalList";
+					location.href="/chalList";
 				}else{
-					location.href ="http://localhost/chalListOption?ngoName="+data;
+					location.href ="/chalListOption?ngoName="+data;
 				}	
 			}
 			

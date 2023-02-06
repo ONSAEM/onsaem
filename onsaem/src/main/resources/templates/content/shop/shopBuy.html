@@ -340,7 +340,7 @@
 			$(function() {
 				$('#apibtn').click(function() {
 					$.ajax({
-						url : 'http://localhost/orderPay',
+						url : '/orderPay',
 						dataType : 'json',
 						success : function(data) {
 							console.log(data)
