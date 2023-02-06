@@ -250,7 +250,7 @@
 	    display: inline-block;
 	}
 	.dropdown-btn {
-	    width: 200px;
+	    width: 210px;
 	    height : 50px;
 	    /* 패딩으로 크기 늘려주기 */
 	    padding : 10px;
@@ -263,7 +263,7 @@
 	
 	.dropdown-submenu{
 	    /* border: 1px solid #000; */
-	    width:200px;
+	    width:210px;
 	    box-shadow: 0 0 10px rgba(0, 0, 0, 0.192);
 	    display: none;
 	}
@@ -333,8 +333,11 @@
 							      <div class="dropdown" id="menu">
 							        <button class="dropdown-btn">새 챌린저스 만들기</button>
 							        <div class="dropdown-submenu">
-							            <a href="/inputNormalChal">개인전 챌린저스 만들기🙋‍♂️</a>
-							        	<a href="/inputTeamChal">팀전 챌린저스 만들기🤼‍♀️</a>
+							            <a href="/inputNormalChal" sec:authorize="isAuthenticated()">개인전 챌린저스 만들기🙋‍♂️</a>
+							             <a sec:authorize="isAnonymous()" onclick="noLogin()">개인전 챌린저스 만들기🙋‍♂️</a>
+										<a href="/inputTeamChal" sec:authorize="isAuthenticated()">팀전 챌린저스 만들기🤼‍♀️</a>
+							             <a sec:authorize="isAnonymous()" onclick="noLogin()">팀전 챌린저스 만들기🤼‍♀️</a>
+							      
 							        </div>
 							    </div>
 							    
@@ -498,6 +501,9 @@
 				location.href='/chalList?page='+i;
 			}
 			
+			function noLogin(){
+				alert("로그인 후 이용가능합니다!")
+			}
 			
 		</Script>
 		<!-- JS -->
