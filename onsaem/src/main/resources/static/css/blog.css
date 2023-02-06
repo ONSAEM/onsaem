@@ -113,8 +113,8 @@
 	width: 100%;
 	position: relative;
 	height: 500px;
-	min-height: 250px;
-	max-height: 350px;
+/* 	min-height: 250px; */
+/* 	max-height: 350px; */
 	z-index: 1;
 }
 
