@@ -43,22 +43,18 @@
 							<li><a class="dropdown-item"
 								th:href="@{/blog/myblog(userId=${#authentication.principal.memberId})}">MY
 									BLOG</a></li>
+							<li><a class="dropdown-item" th:href="@{/class/classMGMT}"
+								sec:authorize="hasRole('TEACHER')">클래스관리</a></li>
+							<li><a class="dropdown-item" th:href="@{/testVue}"
+								sec:authorize="hasRole('ADMIN')">관리자메뉴</a></li>
+							<li><a class="dropdown-item" href="/shop/shopSellerMain"
+								sec:authorize="hasRole('SELLER')">쇼핑몰관리</a></li>
 							<li><form class="logoutFrm" method="post" action="/logout">
 									<input type="hidden" id="token"
 										th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 									<a class="dropdown-item" id="logout" href="#">LOGOUT</a>
 								</form></li>
-							<li><a class="dropdown-item" th:href="@{/errorPage}">404</a></li>
-							<li><a class="dropdown-item" th:href="@{/class/classMGMT}">MANAGEMENT</a></li>
-
-							<li><a class="dropdown-item"
-								th:href="@{/blog/testblog(userId=${#authentication.principal.memberId})}">blogtest</a></li>
-
-							<li><a class="dropdown-item" th:href="@{/testVue}">vueTest</a></li>
-							<li><a class="dropdown-item"
-								th:href="@{/mypage/AdminEndChals}">chalAdmin</a></li>
-							<li><a class="dropdown-item" href="/shop/shopSellerMain">MY
-									PAGE 쇼핑몰</a></li>
+							<!-- 							<li><a class="dropdown-item" th:href="@{/errorPage}">404</a></li> -->
 						</ul></li>
 					<li class="nav-item" sec:authorize="isAnonymous()"><a
 						class="nav-link click-scroll" th:href="@{/loginPage}">Login</a></li>
@@ -77,8 +73,8 @@
 		window.onload = function() {
 			$.ajax({
 				type : 'get',
-				url : '/shop/cartNum',					
-				success : function(result) {					
+				url : '/shop/cartNum',
+				success : function(result) {
 					$(".cart__count").text(result.length)
 				},
 				error : function(error) {
