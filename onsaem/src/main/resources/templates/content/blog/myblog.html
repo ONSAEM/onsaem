@@ -6,19 +6,20 @@
 
 <!-- Css  -->
 <th:block layout:fragment="css">
-	<link rel="stylesheet" th:href="@{/css/blog.css}"
-		type="text/css">
+	<link rel="stylesheet" th:href="@{/css/blog.css}" type="text/css">
 </th:block>
 <head>
 <meta charset="UTF-8">
 <style>
 caption.dots {
-  color: #5c5e6e;
-  border:bottom;
-  border-width: 0 0 8px;
-  border-style: solid;
-  border-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 1" width="5" height="4"><circle fill="gray" cx="1" cy="0.5" r="0.4"/></svg>') 0 0 100% repeat;
-  width: 199px;
+	color: #5c5e6e;
+	border: bottom;
+	border-width: 0 0 8px;
+	border-style: solid;
+	border-image:
+		url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2 1" width="5" height="4"><circle fill="gray" cx="1" cy="0.5" r="0.4"/></svg>')
+		0 0 100% repeat;
+	width: 199px;
 }
 /* GENERAL STYLES */
 .pagination ul {
@@ -48,271 +49,353 @@ caption.dots {
 	opacity: 0.65;
 	text-align: center;
 	text-decoration: none;
-
 }
+
 .follow:hover {
 	opacity: 1;
+}
+
+#modalImg {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+#mmtDelBtn {
+	margin-left: 205px;
+	position: absolute;
+	margin-top: -47px;
+}
+
+.form-control {
+	width: 280px;
+	margin-left: -8px;
+}
+
+#exampleModal .modal-dialog {
+	--bs-modal-bg: #fff0;
+	--bs-modal-border-color:#fff0;
+	width: 900px;
+}
+
+#exampleModal .modal-image {
+	width: 65%;
+	height: 600px;
+}
+
+#exampleModal .col-md-6 {
+	width: 35%;
+	margin: auto;
+	background-color: #ffffff;
+    border-radius: 20px;
+}
+#exampleModal #uploadDate {
+ text-align: end;
+ margin-bottom: 0px;
 }
 </style>
 </head>
 <body>
 	<div layout:fragment="content">
 		<div class="container" x-data="{ rightSide: false, leftSide: false }">
-		  <div class="main">
-		    <div class="main-container">
-		    <!-- 프로필 -->
-		      <div class="profile">
-		        <div class="profile-avatar">
-		        	<img th:if="${blogInfo.fileRoute != null}"
-						th:src="'/fileView/'+${blogInfo.fileRoute}"
-						alt="profile-sample5" class="profile-img" />
-					<img th:if="${blogInfo.fileRoute == null}"
-						th:src="@{/images/defaulltProfile.png}"
-						alt="profile-sample5" class="profile-img" />
-		          <div class="profile-name">[[${blogInfo.nickname}]] <span style="font-size:20px">@[[${blogInfo.blogId}]]</span> <br><p>[[${blogInfo.introduction}]]</p></div>
-		        	
-		        </div>
-		        <!-- 헤더 -->
-		        <img src="/fileView/20230127/befd71a4-98a8-4042-a72a-07ff9c715e36.gif" alt="" class="profile-cover">
-		        <!-- 헤더 끝 -->
-		        
-		        <div class="profile-menu">
-		          <a type="button" class="profile-menu-link follow" th:value=${subCount} th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} != ${blogInfo.blogId}"><th:block th:if="${subCount=='F'}">구독하기</th:block><th:block th:unless="${subCount=='F'}">구독 중</th:block></a>
-		          <a type="button" class="profile-menu-link follow" th:value=${subCount} th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} != ${blogInfo.blogId}" style="display:none;">구독</a>
-		          <a th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
-						style="display:none"
-						th:href="@{/blog/myblog/blogTask(blogId=${blogInfo.blogId})}"
-						class="profile-menu-link info">블로그 관리 ⚙</a> 
-				  <a th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
-						style="z-index: 30;"
-						th:href="@{/blog/myblog/blogTask(blogId=${blogInfo.blogId})}"
-						class="profile-menu-link info">블로그 관리 ⚙</a>
-		          <!-- 검색바 -->
-		          <a><input type="text" placeholder="Search..." id="searchWord" style="width:150px;height:30px;position:relative;margin-top:17px;margin-left:844px;overflow:auto;">
-						<button type="button" class="btn btn-light" id="searchBtn" style="width:40px;height:30px;position:absolute;border-radius:2px;border:1px solid gray;margin-top:17px;">
-							<i class="fa-solid fa-magnifying-glass"></i>
-						</button>
-				  </a>
-				  <!-- 검색바 끝 -->
-		        </div>
-		      </div>
-		     <!-- 프로필 끝 -->
-		      <div class="timeline">
-			       <div class="left-side">
-					    <div class="left-side-button">
-					      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-					      <svg stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-					  		<path d="M19 12H5M12 19l-7-7 7-7"/>
+			<div class="main">
+				<div class="main-container">
+					<!-- 프로필 -->
+					<div class="profile">
+						<div class="profile-avatar">
+							<img th:if="${blogInfo.fileRoute != null}"
+								th:src="'/fileView/'+${blogInfo.fileRoute}"
+								alt="profile-sample5" class="profile-img" /> <img
+								th:if="${blogInfo.fileRoute == null}"
+								th:src="@{/images/defaulltProfile.png}" alt="profile-sample5"
+								class="profile-img" />
+							<div class="profile-name">
+								[[${blogInfo.nickname}]] <span style="font-size: 20px">@[[${blogInfo.blogId}]]</span>
+								<br>
+								<p>[[${blogInfo.introduction}]]</p>
+							</div>
+
+						</div>
+						<!-- 헤더 -->
+						<img
+							src="/fileView/20230127/befd71a4-98a8-4042-a72a-07ff9c715e36.gif"
+							alt="" class="profile-cover">
+						<!-- 헤더 끝 -->
+
+						<div class="profile-menu">
+							<a type="button" class="profile-menu-link follow"
+								th:value=${subCount}
+								th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} != ${blogInfo.blogId}"><th:block
+									th:if="${subCount=='F'}">구독하기</th:block>
+								<th:block th:unless="${subCount=='F'}">구독 중</th:block></a> <a
+								type="button" class="profile-menu-link follow"
+								th:value=${subCount}
+								th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} != ${blogInfo.blogId}"
+								style="display: none;">구독</a> <a
+								th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
+								style="display: none"
+								th:href="@{/blog/myblog/blogTask(blogId=${blogInfo.blogId})}"
+								class="profile-menu-link info">블로그 관리 ⚙</a> <a
+								th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
+								style="z-index: 30;"
+								th:href="@{/blog/myblog/blogTask(blogId=${blogInfo.blogId})}"
+								class="profile-menu-link info">블로그 관리 ⚙</a>
+							<!-- 검색바 -->
+							<a><input type="text" placeholder="Search..." id="searchWord"
+								style="width: 150px; height: 30px; position: relative; margin-top: 17px; margin-left: 844px; overflow: auto;">
+								<button type="button" class="btn btn-light" id="searchBtn"
+									style="width: 40px; height: 30px; position: absolute; border-radius: 2px; border: 1px solid gray; margin-top: 17px;">
+									<i class="fa-solid fa-magnifying-glass"></i>
+								</button> </a>
+							<!-- 검색바 끝 -->
+						</div>
+					</div>
+					<!-- 프로필 끝 -->
+					<div class="timeline">
+						<div class="left-side">
+							<div class="left-side-button">
+								<svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+									fill="none" stroke-linecap="round" stroke-linejoin="round">
+									<line x1="3" y1="12" x2="21" y2="12"></line>
+									<line x1="3" y1="6" x2="21" y2="6"></line>
+									<line x1="3" y1="18" x2="21" y2="18"></line></svg>
+								<svg stroke="currentColor" stroke-width="2" fill="none"
+									stroke-linecap="round" stroke-linejoin="round"
+									viewBox="0 0 24 24">
+					  		<path d="M19 12H5M12 19l-7-7 7-7" />
 						  </svg>
-					    </div>
-			    
-					    <!-- 사이드 바 -->
-					    <div class="side-wrapper">
-					    <div class="side-title" style="margin-bottom:0px;">
-					    	<div class="side-menu">
-					    	<a th:href="@{/blog/myblog(userId=${blogInfo.blogId})}" style="display:inherit;">
-					          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" style="margin-right:2px;margin-bottom:4px;">
+							</div>
+
+							<!-- 사이드 바 -->
+							<div class="side-wrapper">
+								<div class="side-title" style="margin-bottom: 0px;">
+									<div class="side-menu">
+										<a th:href="@{/blog/myblog(userId=${blogInfo.blogId})}"
+											style="display: inherit;"> <svg
+												xmlns="http://www.w3.org/2000/svg" fill="none"
+												stroke="currentColor" stroke-width="2"
+												stroke-linecap="round" stroke-linejoin="round"
+												viewBox="0 0 24 24"
+												style="margin-right: 2px; margin-bottom: 4px;">
 					            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
 					            <path d="M9 22V12h6v10" />
-					          </svg>
-					          Home
-						    </a>
-					    	
-							<a th:href="@{/blog/myblog/blogWrite/blogInsert}" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
-							   class="blog__btn" style="margin-left:150px;position:absolute;"><i class="fa-solid fa-pencil"></i> 글작성</a>
-							<a th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}" style="display:none;"></a>
+					          </svg> Home
+										</a> <a th:href="@{/blog/myblog/blogWrite/blogInsert}"
+											th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
+											class="blog__btn"
+											style="margin-left: 150px; position: absolute;"><i
+											class="fa-solid fa-pencil"></i> 글작성</a> <a
+											th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
+											style="display: none;"></a>
+									</div>
+								</div>
+
+
+								<!-- 카테고리 -->
+								<div class="side-title">CATEGORY</div>
+								<div class="side-menu">
+									<ul th:each="cate:${category}">
+										<li><a class="searchCate" th:value="${cate.categoryId}"
+											style="cursor: pointer">[[${cate.categoryName}]]</a></li>
+									</ul>
+								</div>
 							</div>
+							<!-- 카테고리 끝 -->
+
+							<!-- 최신글 -->
+							<div class="side-wrapper">
+								<div class="side-title">RECENT NEWS</div>
+								<div class="side-menu">
+									<a href="#" class="blog__sidebar__recent__item"
+										th:each="rW:${recentWrite}">
+										<div style="margin-top: 15px;">
+											<h6 style="font-size: 16px; color: #9c9cab;">[[${#dates.format(rW.writeDate,
+												'MM/dd')}]]</h6>
+										</div>
+										<div style="margin-left:10px;">
+											<h6
+												th:onclick="|location.href='@{/blog/myblog/blogWrite(bno=${rW.writeId})}'|"
+												style="font-size: 16px;color: #9c9cab;">
+												[[${rW.writeTitle}]] <span> [[${rW.subTitle}]]</span><br />
+											</h6>
+											<span><i class="fa-solid fa-eye"
+												style="font-size: 16px;"></i> [[${rW.cnt}]]</span>
+										</div>
+									</a>
+								</div>
+							</div>
+							<!-- 최신글 끝 -->
+
+							<!-- 구독 목록 -->
+							<div class="side-wrapper">
+								<div class="side-title">
+									SUB LIST
+									<div class="side-menu" style="float: right;">
+										<a
+											th:href="@{/blog/myblog/blogSubscribe(blogId=${blogInfo.blogId})}"
+											th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"><i
+											class="fa-regular fa-square-plus"></i>&nbsp;MORE</a> <a
+											th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
+											style="display: none;"></a>
+									</div>
+								</div>
+								<div>
+									<table id="submeTable">
+										<caption class="side-title dots"
+											style="caption-side: top; text-align: center; margin-bottom: 0px;">SUB
+											ME</caption>
+										<thead>
+											<tr>
+												<th></th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+											<th:block th:each="subMe:${subMeList}">
+												<tr>
+													<td><img th:if="${subMe.fileRoute == null}"
+														th:src="@{/images/defaulltProfile.png}"
+														style="height: 50px; width: 50px; border-radius: 10px;" />
+														<img th:if="${subMe.fileRoute != null}"
+														th:src="'/fileView/'+${subMe.fileRoute}"
+														style="height: 50px; width: 50px; border-radius: 10px;" />
+													</td>
+													<td><a
+														th:href="@{/blog/myblog(userId=${subMe.memberId})}"
+														style="margin-left: 5px;">[[${subMe.memberId}]]</a></td>
+												</tr>
+											</th:block>
+										</tbody>
+									</table>
+									<br />
+									<table id="mySubTable">
+										<caption class="side-title dots"
+											style="caption-side: top; text-align: center; margin-bottom: 0px;">MY
+											SUB</caption>
+										<thead>
+											<tr>
+												<th></th>
+												<th></th>
+											</tr>
+										</thead>
+
+										<tbody>
+											<th:block th:each="mySub:${mySubList}">
+												<tr>
+													<td><img th:if="${mySub.fileRoute == null}"
+														th:src="@{/images/defaulltProfile.png}"
+														style="height: 50px; width: 50px; border-radius: 10px;" />
+														<img th:if="${mySub.fileRoute != null}"
+														th:src="'/fileView/'+${mySub.fileRoute}"
+														style="height: 50px; width: 50px; border-radius: 10px;" />
+													</td>
+													<td><a
+														th:href="@{/blog/myblog(userId=${mySub.groupId})}"
+														style="margin-left: 5px;">[[${mySub.groupId}]]</a></td>
+												</tr>
+											</th:block>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<!-- 구독 목록 끝 -->
 						</div>
-					    	
-						    
-						    <!-- 카테고리 -->
-						      <div class="side-title">CATEGORY</div>
-						      <div class="side-menu">
-						        <ul th:each="cate:${category}">
-									<li><a class="searchCate" th:value="${cate.categoryId}" style="cursor:pointer">[[${cate.categoryName}]]</a></li>
-								</ul>
-						      </div>
-					    </div>
-			    		<!-- 카테고리 끝 -->
-			    
-			    <!-- 최신글 -->
-			    <div class="side-wrapper">
-			    	<div class="side-title">RECENT NEWS</div>
-			    	<div class="side-menu" >
-			    		<a href="#" class="blog__sidebar__recent__item"
-							th:each="rW:${recentWrite}">
-							<div style="margin-top:15px;">
-								<h6 style="font-size:16px;color: #9c9cab;">[[${#dates.format(rW.writeDate, 'MM/dd')}]] </h6>
-							</div>
-							<div style="margin-left:10px;">
-								<h6 th:onclick="|location.href='@{/blog/myblog/blogWrite(bno=${rW.writeId})}'|" style="font-size:16px;color: #9c9cab;">
-									[[${rW.writeTitle}]] <span> [[${rW.subTitle}]]</span><br /></h6> <span><i class="fa-solid fa-eye" style="font-size:16px;"></i> [[${rW.cnt}]]</span>
-							</div>
-						</a>	
-			    	</div>
-			    </div>
-			    <!-- 최신글 끝 -->
-			    
-			    <!-- 구독 목록 -->
-			    <div class="side-wrapper">
-			      <div class="side-title">SUB LIST
-				      <div class="side-menu" style="float:right;">
-			        	<a th:href="@{/blog/myblog/blogSubscribe(blogId=${blogInfo.blogId})}" 
-						   th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"><i class="fa-regular fa-square-plus"></i>&nbsp;MORE</a>
-						<a th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}" style="display:none;"></a>
-					  </div>
-					</div>
-					<div>
-						<table id="submeTable">
-							<caption class="side-title dots" style="caption-side: top;text-align:center;margin-bottom:0px;">SUB ME</caption>
-							<thead>
-								<tr>
-									<th></th>
-									<th></th>
-								</tr>
-							</thead>
-							<tbody>
-								<th:block th:each="subMe:${subMeList}">
-									<tr>
-										<td>
-											<img th:if="${subMe.fileRoute == null}"
-												th:src="@{/images/defaulltProfile.png}"
-												style="height:50px;width:50px;border-radius:10px;"/>
-											<img th:if="${subMe.fileRoute != null}"
-												th:src="'/fileView/'+${subMe.fileRoute}"
-												style="height:50px;width:50px;border-radius:10px;"/>
-										</td>
-										<td><a th:href="@{/blog/myblog(userId=${subMe.memberId})}" style="margin-left:5px;">[[${subMe.memberId}]]</a></td>
-									</tr>
-								</th:block>
-							</tbody>
-						</table>
-						<br/>
-						<table id="mySubTable">
-							<caption class="side-title dots" style="caption-side: top;text-align:center;margin-bottom:0px;">MY SUB</caption>
-							<thead>
-								<tr>
-									<th></th>
-									<th></th>
-								</tr>
-							</thead>
-							
-							<tbody>
-								<th:block th:each="mySub:${mySubList}" >
-									<tr>
-										<td>
-											<img th:if="${mySub.fileRoute == null}"
-												th:src="@{/images/defaulltProfile.png}"
-												style="height:50px;width:50px;border-radius:10px;"/>
-											<img th:if="${mySub.fileRoute != null}"
-												th:src="'/fileView/'+${mySub.fileRoute}"
-												style="height:50px;width:50px;border-radius:10px;"/>
-										</td>
-										<td><a th:href="@{/blog/myblog(userId=${mySub.groupId})}" style="margin-left:5px;">[[${mySub.groupId}]]</a></td>
-									</tr>
-								</th:block>
-							</tbody>
-						</table>
-			      </div>
-			    </div>
-			    <!-- 구독 목록 끝 -->
-			  </div>
-		        <div class="timeline-right">
-		        <!-- 모먼트 -->
-		        		<h3 style="text-align: center; margin: 0 auto;">
-							MOMENT <a data-bs-toggle="modal" data-bs-target="#insertModal"
-								type="button" th:if="${mmtCnt<4} and ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}">▶</a> 
+						<div class="timeline-right">
+							<!-- 모먼트 -->
+							<h3 style="text-align: center; margin: 0 auto;">
+								MOMENT <a data-bs-toggle="modal" data-bs-target="#insertModal"
+									type="button"
+									th:if="${mmtCnt<4} and ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}">▶</a>
+								<a type="button" th:if="${mmtCnt==4}"
+									onclick="alert('😥 저장 가능한 모먼트 용량이 초과되었습니다. 삭제 후 등록해주세요!')">✖</a>
 								<a type="button"
-								th:if="${mmtCnt==4}"
-								onclick="alert('😥 저장 가능한 모먼트 용량이 초과되었습니다. 삭제 후 등록해주세요!')">✖</a>
-								<a type="button" th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}" style="display:none;"></a>
-						</h3>
-				      <div id="card-app" class="card-container mmtpage-content">
-				      	<!-- 모달창 띄우는 버튼 -->
-						<a th:each="moment : ${moments}" data-bs-toggle="modal" data-bs-target="#exampleModal" id="modalBtn"
-						 th:if="${moment.publicScope}=='public' or
+									th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
+									style="display: none;"></a>
+							</h3>
+							<div id="card-app" class="card-container mmtpage-content">
+								<!-- 모달창 띄우는 버튼 -->
+								<a th:each="moment : ${moments}" data-bs-toggle="modal"
+									data-bs-target="#exampleModal" id="modalBtn"
+									th:if="${moment.publicScope}=='public' or
 						  ${moment.publicScope}=='partial' and  ${subCount} =='T' or
 						  ${moment.blogId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}">
-						<a style="padding: 100px;"
-						 th:unless="${moment.publicScope}=='public' or
+									<a style="padding: 100px;"
+									th:unless="${moment.publicScope}=='public' or
 						  ${moment.publicScope}=='partial' and  ${subCount} =='T' or
 						  ${moment.blogId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}"></a>
-						  
-							<input type="hidden" id="mmtId" th:value="${moment.momentId}">
-					      
-					        <card th:data-image="@{'/fileView/'+${moment.fileRoute}}"
-					            class="mmtcard inputfield" id="preview-image"
-								th:style="'background: url('+@{'/fileView/'+${moment.fileRoute}}+');background-repeat:no-repeat;background-size:cover;'">
-					            <h1 class="mmttitle">@[[${moment.blogId}]]</h1>
-					            <p class="mmtcopy">[[${moment.momentWrite}]]</p>
-					        </card>
-				        </a>
-				      </div>
-		        <!-- 모먼트 끝 -->
-		        
-			        <!-- 페이징 해야함 -->
-			        <div class="col-lg-8 col-md-7" style="width:90%;margin:30px auto;">
-			          <div class="row blogList">
-							
-					  </div>
+
+									<input type="hidden" id="mmtId" th:value="${moment.momentId}">
+
+									<card th:data-image="@{'/fileView/'+${moment.fileRoute}}"
+										class="mmtcard inputfield" id="preview-image"
+										th:style="'background: url('+@{'/fileView/'+${moment.fileRoute}}+');background-repeat:no-repeat;background-size:cover;'">
+									<h1 class="mmttitle">@[[${moment.blogId}]]</h1>
+									<p class="mmtcopy">[[${moment.momentWrite}]]</p>
+									</card>
+								</a>
+							</div>
+							<!-- 모먼트 끝 -->
+
+							<!-- 페이징 해야함 -->
+							<div class="col-lg-8 col-md-7"
+								style="width: 90%; margin: 30px auto;">
+								<div class="row blogList"></div>
+							</div>
+							<!-- 페이징 해야함 -->
+						</div>
 					</div>
-					 <!-- 페이징 해야함 --> 
-		        </div>
-		      </div>
-		    </div>
-		  </div>
+				</div>
+			</div>
 		</div>
-				<!-- 클론 -->
-				<div class="template" style="display:none">
-			          <div class="album box">
-			            <div class="album-content"><a></a>
-			              <div class="album-photos" onclick="scopeCheck(this)">
-			              	<input type="hidden" class="thumbnail">
-							<!-- 썸네일 -->
-							<img id="thumbImg" class="album-photo">
-			              </div>
-			            </div>
-			            <div class="album-actions">
-			              <a href="#" class="album-action">
-			                <i class="fa fa-calendar-o"></i>
-			              </a>
-			              <a href="#" class="album-action">
-			                <i class="fa fa-comment-o"></i>
-			              </a>
-			              <a href="#" class="album-action">
-			                <i class="fa-solid fa-eye"></i>
-			              </a>
-			            </div>
-			          </div>
-		          </div>
-				<!-- 클론 끝 -->
+		<!-- 클론 -->
+		<div class="template" style="display: none">
+			<div class="album box">
+				<div class="album-content">
+					<a></a>
+					<div class="album-photos" onclick="scopeCheck(this)">
+						<input type="hidden" class="thumbnail">
+						<!-- 썸네일 -->
+						<img id="thumbImg" class="album-photo">
+					</div>
+				</div>
+				<div class="album-actions">
+					<a href="#" class="album-action"> <i class="fa fa-calendar-o"></i>
+					</a> <a href="#" class="album-action"> <i class="fa fa-comment-o"></i>
+					</a> <a href="#" class="album-action"> <i class="fa-solid fa-eye"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+		<!-- 클론 끝 -->
 
 
-<!-- 모달창 조회 -->
+		<!-- 모달창 조회 -->
 		<div class="modal fade" id="exampleModal" tabindex="-1"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-xl modal-dialog-scrollable">
-				<div class="modal-content">
-
+				<div class="modal-content" style="padding: 15px;">
 					<div class="modal-body row">
-						<div class="col-md-6 modal-image sticky-top">
+						<div class="modal-image sticky-top">
 							<img id="modalImg"
 								src="https://unsplash.it/800/1200.jpg?image=256"
 								class="img-fluid sticky-top">
 						</div>
 						<div class="col-md-6 p-3">
-							<span class="round">
-								<img th:if="${blogInfo.fileRoute != null}"
-										th:src="'/fileView/'+${blogInfo.fileRoute}"
-										alt="profile-sample5" class="profile" width="70" style="border-radius:100px"/>
-								<img th:if="${blogInfo.fileRoute == null}"
-										th:src="@{/images/defaulltProfile.png}"
-										alt="profile-sample5" class="profile" width="70" style="border-radius:100px"/>
-								<a class="mt-3" style="font-weight: bold;font-size:20px;">닉네임</a>
+							<span class="round"> <img
+								th:if="${blogInfo.fileRoute != null}"
+								th:src="'/fileView/'+${blogInfo.fileRoute}"
+								alt="profile-sample5" class="profile modalP"
+								style="border-radius: 100px; width: 70px; height: 70px;" /> <img
+								th:if="${blogInfo.fileRoute == null}"
+								th:src="@{/images/defaulltProfile.png}" alt="profile-sample5"
+								class="profile modalP"
+								style="border-radius: 100px; width: 70px; height: 70px;" /> <a
+								class="mt-3" style="font-weight: bold; font-size: 20px;">닉네임</a>
 							</span>
 
 							<p id="nickname">Edited · 1d</p>
-							<button class="mmtbtn" style="color: red;" id="mmtDelBtn">delete</button>
+							<button class="mmtbtn btn"
+								style="color: white; background-color: #9dc2c0;" id="mmtDelBtn">delete</button>
 							<div class="mt-2 mx-2">
 								<input type="text" class="form-control"
 									placeholder="type comment" id="addUrl" readonly>
@@ -321,12 +404,12 @@ caption.dots {
 							<div class="d-flex flex-row comment-row mt-2">
 								<div class="p-2"></div>
 								<div class="comment-text active w-100">
-									<h5 id="mmtWrite">내용</h5>
+									<p id="mmtWrite" style="margin-top: 12px; margin-left: -18px;">내용</p>
 								</div>
 							</div>
 							<p id="uploadDate"></p>
 							<!-- 하트 시간 남으면-->
-							
+
 							<!-- 하트 끝 -->
 						</div>
 					</div>
@@ -334,13 +417,12 @@ caption.dots {
 			</div>
 		</div>
 		<!-- 모달창 끝 -->
-		
+
 		<!-- 모먼트 작성 -->
 		<div class="modal fade" id="insertModal" tabindex="-1"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-xl modal-dialog-scrollable">
-				<div class="modal-content">
-
+				<div class="modal-content" style="padding: 15px;">
 					<div class="modal-body row">
 						<div class="col-md-6 modal-image sticky-top">
 							<h3>상세 내용</h3>
@@ -388,7 +470,7 @@ caption.dots {
 		</div>
 		<!-- 모먼트 작성 끝 -->
 
-	<!-- moment -->
+		<!-- moment -->
 		<script type="text/javascript">
 			
 			//csrf설정
@@ -742,7 +824,7 @@ caption.dots {
 		</script>
 
 
-	<script type="text/javascript">
+		<script type="text/javascript">
 	$('card').each(function () {
         let Image = $(this).attr('data-image');
         let header = $(this).html();
@@ -795,7 +877,8 @@ caption.dots {
 			<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/main.js}"></script>
-			<script src="https://kit.fontawesome.com/fef5f4c5da.js" crossorigin="anonymous"></script>
+			<script src="https://kit.fontawesome.com/fef5f4c5da.js"
+				crossorigin="anonymous"></script>
 		</th:block>
 	</div>
 
