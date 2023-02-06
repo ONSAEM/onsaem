@@ -239,13 +239,14 @@
 			<!-- Breadcrumb Section End -->
 			<br>
 			<!-- Hero Section Begin -->
-			<section class="hero hero-normal">
+			<section class="hero hero-normal"
+				style="position: relative; z-index: 2;">
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-3">
 							<div class="hero__categories">
 								<div class="hero__categories__all">
-									<i class="fa fa-bars"></i> <span style="text-align: center">카테고리</span>
+									<i class="fa fa-bars"></i> <span style="text-align: center;">카테고리</span>
 								</div>
 								<ul>
 									<li><a href="/shop">전체</a></li>
@@ -265,19 +266,7 @@
 										<input type="text" placeholder="검색어를 입력해 주세요." name="data">
 										<button type="submit" class="site-btn">🐼</button>
 									</form>
-								</div>
-								<div class="header__cart">
-									<ul>
-										<li><a href="/likeList"><i class="fa fa-heart"
-												sec:authorize="isAuthenticated()"></i> <span
-												th:text="${#lists.size(likeList)}"
-												sec:authorize="isAuthenticated()">1</span></a></li>
-										<li><a th:href="@{/shopCart}"><i
-												class="fa fa-shopping-bag" sec:authorize="isAuthenticated()"></i>
-												<span th:text="${#lists.size(cartList)}"
-												sec:authorize="isAuthenticated()">3</span></a></li>
-									</ul>
-								</div>
+								</div>								
 							</div>
 						</div>
 					</div>
@@ -287,10 +276,10 @@
 
 
 			<!-- Product Section Begin -->
-			<section class="product spad" style="padding: 0">
+			<section class="product spad" style="padding: 0;" >
 				<div class="container">
 					<div class="row">
-						<div class="col-lg-3 col-md-5">
+						<div class="col-lg-3 col-md-5" style="position:relative;z-index:1">
 							<div class="sidebar">
 								<div class="sidebar__item">
 									<div class="latest-product__text">
@@ -409,25 +398,24 @@
 					</div>
 				</div>
 				<input type="hidden" value="${session.id}" id="id">
-		</div>
-	</div>
-	</section>
-	<!-- Product Section End -->
+
+			</section>
+			<!-- Product Section End -->
 
 
 
-	<!-- JS -->
-	<th:block layout:fragment="script">
-		<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
-		<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
-		<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
-		<script th:src="@{/shoptemplate/js/jquery-ui.min.js}"></script>
-		<script th:src="@{/shoptemplate/js/jquery.slicknav.js}"></script>
-		<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
-		<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
-		<script th:src="@{/shoptemplate/js/main.js}"></script>
+			<!-- JS -->
+			<th:block layout:fragment="script">
+				<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
+				<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
+				<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
+				<script th:src="@{/shoptemplate/js/jquery-ui.min.js}"></script>
+				<script th:src="@{/shoptemplate/js/jquery.slicknav.js}"></script>
+				<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
+				<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
+				<script th:src="@{/shoptemplate/js/main.js}"></script>
 
-		<script type="text/javascript">
+				<script type="text/javascript">
 		var token = $("meta[name='_csrf']").attr("content");
 		var header = $("meta[name='_csrf_header']").attr("content");
 		 
@@ -525,8 +513,9 @@
 				location.href = '/shopDetail?data=' + data
 			}			
 		</script>
-	</th:block>
+			</th:block>
 
-
+		</div>
+	</div>
 </div>
 </html>

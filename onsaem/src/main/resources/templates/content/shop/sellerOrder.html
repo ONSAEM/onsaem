@@ -201,7 +201,7 @@ label {
 									<td>[[${order.productId}]]</td>
 									<td>[[${order.orderDate}]]</td>
 									<td th:if=${order.orderStatus=='주문대기'}>[[${order.orderStatus}]]
-										<button th:onclick="shippingNum(this,[[${order}]])">송장번호입력</button>
+										  <button th:onclick="shippingNum(this,[[${order}]])" >송장번호입력</button>
 									</td>
 									<td th:unless=${order.orderStatus=='주문대기'}>[[${order.orderStatus}]]</td>
 									<td>[[${order.recivName}]]</td>

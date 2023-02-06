@@ -100,6 +100,22 @@ public class ProductController {
 		}	
 		return "content/shop/shopMain";
 	}
+	
+	//장바구니 수량가져오기
+	@RequestMapping(value = "/shop/cartNum", method = RequestMethod.GET)
+	@ResponseBody
+	public List<CartVO> cartNum(Authentication authentication) {
+		List<CartVO> list=new ArrayList<CartVO>();
+		if(authentication!=null) {
+			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			cartVo.setMemberId(userDetails.getUsername());
+			return cartService.cartList(cartVo);
+		}else {
+			return list;
+		}
+	
+		
+	}
 
 	// 상세설명페이지이동
 	@RequestMapping(value = "/shopDetail", method = RequestMethod.GET)

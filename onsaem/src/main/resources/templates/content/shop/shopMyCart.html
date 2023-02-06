@@ -103,7 +103,7 @@
 						Garden Vegetable</p>
 				</div>
 				<div class="product-cell" style="display: block;">
-					<button th:onclick="buyPage([[${cart}]])"
+					<button th:onclick="buyPage([[${cart}]],this)"
 						style="background-color: #bed8cd; width: 100px; height: 30px; border: 0px;">주문하기</button>
 					<br> <br>
 					<button th:onclick="delCart([[${cart}]])"
@@ -136,9 +136,9 @@
 	 var header = $("meta[name='_csrf_header']").attr("content");
 	 
 	//주문페이지이동
-		function buyPage(data){			
+		function buyPage(data,data2){
 			let productId=data.productId;
-			location.href='/buyProduct?productId='+productId+'&amount=1&option=기본';	
+			location.href='/buyProduct?productId='+productId+'&amount='+data2.parentNode.parentNode.querySelector("#cartAmount").value+'&option=기본';	
 		}
 	 
 	//상품상세보기페이지이동
