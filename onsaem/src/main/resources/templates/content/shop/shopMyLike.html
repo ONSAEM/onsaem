@@ -29,7 +29,7 @@
 
 <body>
 	<div layout:fragment="content">
-		<div class="title">장바구니</div>
+		<div class="title">관심상품</div>
 		<div class="app-content-actions">
 			<div class="app-content-actions-wrapper">
 				<div class="filter-button-wrapper">
@@ -62,62 +62,42 @@
 				<div class="product-cell image">상품이미지</div>
 				<div class="product-cell">상품명</div>
 				<div class="product-cell">가격</div>
-				<div class="product-cell">옵션</div>
-				<div class="product-cell">수량</div>
-				<div class="product-cell">총가격</div>
-				<div class="product-cell"></div>
+				<div class="product-cell">선택</div>
 			</div>
-			<div class="products-row" th:each="cart:${myCartList}">
+			<div class="products-row" th:each="like:${likeList}">
 				<div class="product-cell">
 					<input type="checkbox" name="checkBox"
-						th:onchange="saveList([[${cart}]])"></input>
+						th:onchange="saveList([[${like}]])"></input>
 				</div>
 				<div class="product-cell">
 					<img
 						th:src="@{/fileView/{fileRoute}/
-									(fileRoute=${cart.fileRoute})}"
-						alt="" th:onclick="detailFnc([[${cart.productId}]])">
+									(fileRoute=${like.fileRoute})}"
+						alt="" th:onclick="detailFnc([[${like.productId}]])">
 				</div>
 				<div class="product-cell">
-					<p th:text="${cart.productName}" id="productName">Fresh Garden
-						Vegetable</p>
+					<p th:text="${like.productName}"
+						th:onclick="location.href='/shopDetail?data='+[[${like.groupId}]]"
+						id="productName">Fresh Garden Vegetable</p>
 				</div>
 				<div class="product-cell">
-					<p id="cartPrice" th:value="${cart.cartPrice}"
-						th:text="${cart.cartPrice}+원">Fresh Garden Vegetable</p>
+					<p id="cartPrice" >
+						[[${like.price}]]원</p>
 				</div>
-				<div class="product-cell">
-					<p>[[${cart.cartOption}]]</p>
-				</div>
-				<div class="product-cell">
-					<div class="shoping__cart__quantity">
-						<div class="quantity">
-							<div class="pro-qty">
-								<input type="text" id="cartAmount" th:value="${cart.cartAmount}">
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="product-cell">
-					<p id="totalPrice" th:text="${cart.cartPrice}*${cart.cartAmount}+원">Fresh
-						Garden Vegetable</p>
-				</div>
-				<div class="product-cell" style="display: block;">
-					<button th:onclick="buyPage([[${cart}]])"
-						style="background-color: #bed8cd; width: 100px; height: 30px; border: 0px;">주문하기</button>
-					<br> <br>
-					<button th:onclick="delCart([[${cart}]])"
-						style="background-color: #bed8cd; width: 100px; height: 30px; border: 0px;">삭제</button>
-					<br> <br>
+				<div class="product-cell" style="display:block;">
+					<button th:onclick="buyPage([[${like}]])" style="background-color:#bed8cd; width:100px; height:30px; border:0px;">주문하기</button>
+					<br><br>
+					<button th:onclick="addCart([[${like}]])" style="background-color:#bed8cd; width:100px; height:30px; border:0px;">장바구니담기</button>
+					<br><br>
+					<button th:onclick="delLike([[${like}]])" style="background-color:#bed8cd; width:100px; height:30px; border:0px;">삭제</button>
+					<br><br>
 				</div>
 			</div>
 		</div>
-
-		<button th:onclick="selectDel()"
-			style="background-color: #bed8cd; width: 100px; height: 30px; border: 0px;">선택삭제</button>
+		<button th:onclick="selectDel()" style="background-color:#bed8cd; width:100px; height:30px; border:0px;">선택삭제</button>
 		&nbsp
-		<button th:onclick="allDel([[${myCartList}]])"
-			style="background-color: #bed8cd; width: 100px; height: 30px; border: 0px;">전체삭제</button>
+		<button th:onclick="allDel([[${likeList}]])" style="background-color:#bed8cd; width:100px; height:30px; border:0px;">전체삭제</button>
+
 
 
 		<!-- JS -->
@@ -135,39 +115,42 @@
 	 var token = $("meta[name='_csrf']").attr("content");
 	 var header = $("meta[name='_csrf_header']").attr("content");
 	 
-	//주문페이지이동
+	//상품상세보기페이지이동
+	 function detailFnc(data){
+		 location.href='/shopDetail?data='+data
+	 }
+	 
+	//장바구니 담기
+		function addCart(data){		
+			alert("장바구니에 담겼습니다.")
+			let productId=data.productId;			
+			location.href='/cartAdd?productId='+productId;	
+		}
+	 
+		//주문페이지이동
 		function buyPage(data){			
 			let productId=data.productId;
 			location.href='/buyProduct?productId='+productId+'&amount=1&option=기본';	
 		}
 	 
-	//상품상세보기페이지이동
-	 function detailFnc(data){
-		 location.href='/shopDetail?data='+data
-	 }
-		
-		//장바구니삭제
-		function delCart(data){
-			console.log(data.productId);	
-			let productId=data.productId;
-			let cartOption=data.cartOption;
-			let cartAmount=data.cartAmount;
-			
-			 fetch('/delCart',{
+		//찜삭제
+		function delLike(data){
+			let likeId=data.likeId;			
+			 fetch('/delMyLike',{
 					headers: {
 					    "Content-Type": "application/json",
 					    "X-CSRF-TOKEN":token
 					  },
 					method:"post",
 					body: JSON.stringify({
-						productId: productId,
-						cartOption: cartOption,
-						cartAmount:cartAmount						
+						likeId:likeId			
 					  })
 					})
 			  .then((response) => console.log('삭제되었습니다.'))
-			  .then((data)=>location.reload()) 
+			  .then((data)=>location.reload())  			
+			
 		}
+		
 		//전체체크박스 클릭
 		function checkBoxAll(checkBoxAll){
 			let checkboxes=document.getElementsByName('checkBox');			
@@ -176,24 +159,24 @@
 			  })
 		}
 		
-		let carts=[];
+		
+		let likes=[];
 		//선택된 상품데이터 저장
-		function saveList(cart){			
-			carts.push(cart);
+		function saveList(data){			
+			likes.push(data);
 		}
 		
 		//선택된 장바구니삭제
 		function selectDel(){
-			console.log(carts)
-			carts.forEach((cart)=>{
-				delCart(cart);
+			likes.forEach((like)=>{
+				delLike(like);
 			})
 		}
 		//전체 장바구니 삭제
-		function allDel(cartList){
-			console.log(cartList)
-			cartList.forEach((cart)=>{
-				delCart(cart)
+		function allDel(likeList){
+			console.log(likeList)
+			likeList.forEach((like)=>{
+				delLike(like)
 			}) 
 		}
 	</script>
