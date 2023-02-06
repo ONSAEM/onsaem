@@ -36,16 +36,18 @@
 		parameterType="ClassInfoVO">
 		SELECT * FROM ( SELECT ROWNUM RN, A.* FROM (
 		SELECT C.CLASS_ID,
-		C.CLASS_NAME, C.PRICE, C.CLASS_TIME,
+		C.CLASS_NAME, C.PRICE,
 		NVL(TRUNC(AVG(R.REVIEW_STAR),1),0) AS STAR
-		FROM CLASS_INFO C, REVIEWS
+		FROM
+		CLASS_INFO C, REVIEWS
 		R, CLASSES L
 		WHERE
 		C.CLASS_ID = R.GROUP_ID(+)
-		AND C.CLASS_ID =
+		AND
+		C.CLASS_ID =
 		L.CLASS_ID(+)
 		<include refid="condition" />
-		GROUP BY C.CLASS_ID, C.CLASS_NAME, C.PRICE, C.CLASS_TIME
+		GROUP BY C.CLASS_ID, C.CLASS_NAME, C.PRICE
 		<choose>
 			<when test="'OD0'.equals(orderId)"> ORDER BY C.CLASS_ID </when>
 			<when test="'OD1'.equals(orderId)"> ORDER BY STAR DESC </when>
@@ -230,18 +232,19 @@
 		]]>
 	</select>
 
-	<!-- 강사클래스정보 전체조회 -->
+	<!-- 관리자 등록중인 클래스 전체조회 -->
 	<select id="getAdminClassList" resultType="ClassInfoVO"
 		parameterType="ClassInfoVO">
 	<![CDATA[
 		SELECT *
 		FROM CLASS_INFO
 		WHERE CLASS_DATE > (CURRENT_DATE - 30)
+		AND STATUS = '등록'
 		ORDER BY CLASS_DATE DESC
 		]]>
 	</select>
 
-	<!-- 강사클래스정보 전체조회 -->
+	<!-- 관리자 신청중인 클래스 전체조회 -->
 	<select id="getAdminCApplyList" resultType="ClassInfoVO"
 		parameterType="ClassInfoVO">
 	<![CDATA[
@@ -253,10 +256,23 @@
 		]]>
 	</select>
 
-	<!-- [위는 완성 아래는 미완성] -->
-	<select id="popularClassList">
-
+	<!-- 인기강의목록조회 -->
+	<select id="popularClassList" resultType="ClassInfoVO">
+	<![CDATA[
+		SELECT ROWNUM RN, A.* FROM (SELECT C.CLASS_ID,
+		C.CLASS_NAME, C.PRICE,
+		NVL(TRUNC(AVG(R.REVIEW_STAR),1),0) AS STAR, (SELECT COUNT(*) FROM BOOKINDS WHERE C_NO IN (SELECT C_NO FROM CLASSES WHERE CLASS_ID = C.CLASS_ID)AND ORDER_DATE > TO_DATE(CURRENT_DATE-30, 'YYYY-MM-DD HH24:MI:SS')) AS BOOKING_COUNT
+		FROM CLASS_INFO C, REVIEWS
+		R, CLASSES L
+		WHERE
+		C.CLASS_ID = R.GROUP_ID(+)
+		AND C.CLASS_ID = L.CLASS_ID(+)
+		GROUP BY C.CLASS_ID, C.CLASS_NAME, C.PRICE
+        ORDER BY BOOKING_COUNT DESC)A WHERE ROWNUM <= 6
+        ]]>
 	</select>
+
+	<!-- [위는 완성 아래는 미완성] -->
 
 	<insert id="classInfoInsert">
 

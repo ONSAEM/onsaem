@@ -76,6 +76,7 @@
 	align-items: center;
 	background-size: cover;
 	background-position: center;
+	margin-bottom: 30px;
 }
 
 .subheader:before {
@@ -151,7 +152,7 @@
 
 .col-lg-9 {
 	background-color: #ffffff;
-	padding: 20px 30px;
+	padding: 10px 30px;
 	border-radius: 20px;
 	margin-bottom: 10px;
 }
@@ -172,6 +173,7 @@
 	transition: transform 0.2s;
 	position: relative;
 	padding-bottom: 8px;
+	height: 350px;
 }
 
 .products-row img {
@@ -213,7 +215,7 @@
 .sidebar__item h4 {
 	color: #1c1c1c;
 	font-weight: 700;
-	margin-bottom: 13px;
+	margin-bottom: 5px;
 }
 
 #minamount {
@@ -235,6 +237,27 @@
 
 .pagination {
 	margin-bottom: 20px;
+}
+
+.product__discount__slider.owl-carousel .owl-dots {
+	margin-top: 0px;
+}
+
+.product__discount {
+	padding-bottom: 5px;
+}
+
+.product__discount__title {
+	margin-bottom: 30px;
+	margin-top: 30px;
+}
+
+.sidebar__item {
+	margin-bottom: 32px;
+}
+
+.classList_container .col-md-5 {
+	margin-left: 27px;
 }
 </style>
 </head>
@@ -323,13 +346,18 @@
 								</div>
 								<div class="row">
 									<div class="product__discount__slider owl-carousel gridView">
-										<div class="products-row">
-											<img
-												src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+										<div class="products-row" th:each="class : ${popularClass}"
+											th:id="${class.classId}">
+											<img th:src="'/fileView/'+${class.media.fileRoute}"
 												alt="product">
-											<div class="product-cell">Ocean</div>
-											<div class="product-cell">$560</div>
-											<div class="product-cell">11</div>
+											<div class="product-cell" th:text="${class.className}"></div>
+											<div class="product-cell" th:text="${class.price}+'원'"></div>
+											<div class="product-cell">
+												<i class="fa-solid fa-star" th:if="${class.star} != 0"
+													th:each="num:${#numbers.sequence(1,class.star)}"
+													style="color: #ffe949"></i><i class="fa-solid fa-star-half"
+													th:if="${class.star%1 >= 0.5}" style="color: #ffe949"></i>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -399,9 +427,9 @@
 	<script type="text/javascript">
 		let nowData = {};
 
-		$('.products-row').each(function(){
-			$(this).on('click',function(){
-				location.href="/class/classDetail?classId="+$(this).attr("id");
+		$('.products-row').each(function () {
+			$(this).on('click', function () {
+				location.href = "/class/classDetail?classId=" + $(this).attr("id");
 			})
 		})
 
@@ -435,10 +463,10 @@
 		});
 
 		// 페이지 이동
-		$("#pageNum").each(function(){
+		$("#pageNum").each(function () {
 			$(this).on("click", function () {
-			newClassList($(this).text());
-		});
+				newClassList($(this).text());
+			});
 		})
 
 		// 다음 페이징 목록 이동
@@ -505,8 +533,8 @@
 			if (item.star % 1 >= 0.5) {
 				$(makeClone).children(".product-cell").eq(2).append($("<i/>").addClass('fa-solid fa-star-half').css("color", "#ffe949"));
 			}
-			$(makeClone).on('click',function(){
-				location.href="/class/classDetail?classId="+$(this).attr("id");
+			$(makeClone).on('click', function () {
+				location.href = "/class/classDetail?classId=" + $(this).attr("id");
 			})
 			return makeClone;
 		}

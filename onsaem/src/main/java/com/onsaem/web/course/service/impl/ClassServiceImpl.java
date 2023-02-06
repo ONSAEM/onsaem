@@ -34,7 +34,7 @@ public class ClassServiceImpl implements ClassService {
 
 	@Autowired
 	MemberService memberService;
-	
+
 	@Autowired
 	MediaService mediaService;
 
@@ -47,7 +47,7 @@ public class ClassServiceImpl implements ClassService {
 		vo.setFirst(newPaging.getFirst());
 		vo.setLast(newPaging.getLast());
 		List<ClassInfoVO> list = classMapper.getClassInfoList(vo);
-		for(ClassInfoVO info : list) {
+		for (ClassInfoVO info : list) {
 			MediaVO media = new MediaVO();
 			media.setGroupId(info.getClassId());
 			info.setMedia(mediaService.getMedia(media));
@@ -106,7 +106,6 @@ public class ClassServiceImpl implements ClassService {
 		classMapper.delClassLike(vo);
 		return classMapper.LikeCount(vo);
 	}
-	
 
 	@Override
 	public boolean insertReport(ReportVO vo) {
@@ -129,20 +128,20 @@ public class ClassServiceImpl implements ClassService {
 
 	@Override
 	public List<ClassVO> getDateList(ClassVO vo) {
-	
+
 		return classMapper.getDateList(vo);
 	}
 
 	@Override
 	public List<ClassVO> getclassList(ClassVO vo) {
-		
+
 		return classMapper.getclassList(vo);
 	}
-	
+
 	@Override
 	public List<LikeVO> getLikeList(LikeVO vo) {
 		List<LikeVO> list = classMapper.getLikeList(vo);
-		for(LikeVO like : list) {
+		for (LikeVO like : list) {
 			ClassInfoVO cvo = new ClassInfoVO();
 			cvo.setClassId(like.getGroupId());
 			like.setClassInfo(classMapper.getClassInfo(cvo));
@@ -152,23 +151,60 @@ public class ClassServiceImpl implements ClassService {
 		}
 		return list;
 	}
-	
 
 	@Override
 	public int delAllLike(LikeVO vo) {
-		
+
 		return classMapper.delAllLike(vo);
 	}
 
-	
-	// [위는 완성 아래는 미완성]
-
 	@Override
-	public List<ClassInfoVO> popularClassList() {
-
-		return null;
+	public List<ClassInfoVO> getMyClassInfoList(ClassInfoVO vo) {
+		List<ClassInfoVO> list = classMapper.getMyClassInfoList(vo);
+		for (ClassInfoVO info : list) {
+			MediaVO media = new MediaVO();
+			media.setGroupId(info.getClassId());
+			info.setMedia(mediaService.getMedia(media));
+		}
+		return list;
 	}
 
+	@Override
+	public List<ClassInfoVO> getAdminClassList(ClassInfoVO vo) {
+		List<ClassInfoVO> list = classMapper.getAdminClassList(vo);
+		for (ClassInfoVO info : list) {
+			MediaVO media = new MediaVO();
+			media.setGroupId(info.getClassId());
+			info.setMedia(mediaService.getMedia(media));
+		}
+		return list;
+	}
+
+	@Override
+	public List<ClassInfoVO> getAdminCApplyList(ClassInfoVO vo) {
+		List<ClassInfoVO> list = classMapper.getAdminCApplyList(vo);
+		for (ClassInfoVO info : list) {
+			MediaVO media = new MediaVO();
+			media.setGroupId(info.getClassId());
+			info.setMedia(mediaService.getMedia(media));
+		}
+		return list;
+	}
+
+	
+	@Override
+	public List<ClassInfoVO> popularClassList() {
+		List<ClassInfoVO> list = classMapper.popularClassList();
+		for (ClassInfoVO info : list) {
+			MediaVO media = new MediaVO();
+			media.setGroupId(info.getClassId());
+			info.setMedia(mediaService.getMedia(media));
+		}
+		return list;
+	}
+	
+	
+	// [위는 완성 아래는 미완성]
 	@Override
 	public int classInsert(ClassInfoVO vo) {
 
@@ -180,33 +216,5 @@ public class ClassServiceImpl implements ClassService {
 
 		return classMapper.classUpdate(vo);
 	}
-
-	@Override
-	public List<ClassInfoVO> getMyClassInfoList(ClassInfoVO vo) {
-		List<ClassInfoVO> list = classMapper.getMyClassInfoList(vo);
-		for(ClassInfoVO info : list) {
-			MediaVO media = new MediaVO();
-			media.setGroupId(info.getClassId());
-			info.setMedia(mediaService.getMedia(media));
-		}
-		System.out.println(list);
-		return list;
-	}
-
-	@Override
-	public List<ClassInfoVO> getAdminClassList() {
-		
-		return classMapper.getAdminClassList();
-	}
-
-	@Override
-	public List<ClassInfoVO> getAdminCApplyList() {
-		
-		return classMapper.getAdminCApplyList();
-	}
-
-
-
-
 
 }

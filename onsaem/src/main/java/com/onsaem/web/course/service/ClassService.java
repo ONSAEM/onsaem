@@ -52,21 +52,21 @@ public interface ClassService {
 	// 강사클래스정보 전체조회
 	public List<ClassInfoVO> getMyClassInfoList(ClassInfoVO vo);
 
-	// [위는 완성 아래는 미완성]
+	// 관리자 등록중인 클래스 전체조회
+	public List<ClassInfoVO> getAdminClassList(ClassInfoVO vo);
+
+	// 관리자 신청중인 클래스 전체조회
+	public List<ClassInfoVO> getAdminCApplyList(ClassInfoVO vo);
 
 	// 인기클래스목록조회
 	public List<ClassInfoVO> popularClassList();
+	
+	// [위는 완성 아래는 미완성]
 
 	// 클래스 등록
 	public int classInsert(ClassInfoVO vo);
 
 	// 클래스 수정
 	public int classUpdate(ClassInfoVO vo);
-
-	// 강사클래스정보 전체조회
-	public List<ClassInfoVO> getAdminClassList();
-
-	// 강사클래스정보 전체조회
-	public List<ClassInfoVO> getAdminCApplyList();
 
 }

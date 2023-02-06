@@ -50,6 +50,7 @@ public class ClassController {
 		model.addAttribute("maxPrice", classService.classMaxPrice(vo));
 		model.addAttribute("minPrice", classService.classMinPrice(vo));
 		model.addAttribute("page", classService.getClassInfoList(vo, paging).get("newPaging"));
+		model.addAttribute("popularClass", classService.popularClassList());
 		return "content/course/classList";
 	}
 
@@ -146,12 +147,12 @@ public class ClassController {
 	// 관리자 클래스 전체조회
 	@RequestMapping(value = "/adminClass", method = RequestMethod.GET)
 	public String adminClass(Model model) {
-//		model.addAttribute("classList", classService.getAdminClassList(vo));
+		ClassInfoVO vo = new ClassInfoVO();
+		model.addAttribute("classList", classService.getAdminClassList(vo));
 		return "content/course/adminClass";
 	}
 	
 	//관리자 클래스 신청 전체조회
-	// 관리자 클래스 전체조회
 	@RequestMapping(value = "/adminClassApply", method = RequestMethod.GET)
 	public String adminClassApply(Model model) {
 //		model.addAttribute("classList", classService.getAdminCApplyList(vo));
