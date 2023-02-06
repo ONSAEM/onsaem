@@ -11,7 +11,7 @@
 			font-size: 24px;
 			font-weight: 700;
 			margin-bottom: 25px;
-			color: #5bc1ac;
+			color: #5f9999;
 			text-transform: uppercase;
 			text-align: center;
 		}
@@ -117,7 +117,7 @@
 		.wrapper .form .inputfield .check .checkmark {
 			width: 15px;
 			height: 15px;
-			border: 1px solid #5bc1ac;
+			border: 1px solid #9dc2c0;
 			display: block;
 			position: relative;
 		}
@@ -136,7 +136,7 @@
 		}
 
 		.wrapper .form .inputfield .check input[type="checkbox"]:checked~.checkmark {
-			background: #5bc1ac;
+			background: #9dc2c0;
 		}
 
 		.wrapper .form .inputfield .check input[type="checkbox"]:checked~.checkmark:before {
@@ -149,7 +149,7 @@
 			padding: 8px 10px;
 			font-size: 15px;
 			border: 0px;
-			background: #5bc1ac;
+			background: #9dc2c0;
 			color: #fff;
 			cursor: pointer;
 			border-radius: 3px;
@@ -166,7 +166,7 @@
 
 		.wrapper .form .inputfield .btn:hover,
 		.wrapper .form .inputfield .checkBtn:hover {
-			background: #42a18d;
+			background: #5f9999;
 		}
 
 		.wrapper .form .inputfield:last-child {
@@ -217,7 +217,7 @@
 			padding: 8px 10px;
 			font-size: 15px;
 			border: 0px;
-			background: #5bc1ac;
+			background: #9dc2c0;
 			color: #fff;
 			cursor: pointer;
 			border-radius: 3px;
@@ -226,7 +226,7 @@
 		}
 
 		.filebox .filelabel:hover {
-			background: #42a18d;
+			background: #5f9999;
 		}
 
 		.filebox #file {
@@ -250,15 +250,15 @@
 		.btn-primary {
 			width: 50%;
 			margin: auto;
-			background-color: #5bc1ac;
+			background-color: #9dc2c0;
 			border: none
 		}
 
 		.btn-primary:hover {
-			background-color: #44525d;
+			background-color: #5f9999;
 		}
 
 		.text-center a {
-			color: #5bc1ac;
+			color: #9dc2c0;
 		}
 		
