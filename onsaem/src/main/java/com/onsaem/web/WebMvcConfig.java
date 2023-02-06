@@ -9,6 +9,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
    @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/fileView/**")
-              .addResourceLocations("file:////home/onsaem_media/");
+              .addResourceLocations("file:////home/ubuntu/onsaem_media/");
     }
 }
