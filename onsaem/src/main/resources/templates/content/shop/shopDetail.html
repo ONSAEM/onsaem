@@ -6,9 +6,200 @@
 
 <head>
 <style type="text/css">
+/* GENERAL STYLES */
+.pagination ul {
+	margin: auto;
+	padding: 0;
+	list-style: none;
+}
+
+/* ONE */
+.p1 li {
+	font-size: 14px;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	padding: 0;
+	text-align: center;
+	float: left;
+	cursor: pointer;
+}
+
+.main {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	min-width: 1400px;
+}
+
+.main-container {
+	padding: 20px;
+	flex-grow: 1;
+	overflow: auto;
+	background-color: #FCFBFC;
+}
+
+.profile-cover {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	border-radius: 4px;
+}
+
+.subheader {
+	position: relative;
+	height: 300px;
+	min-height: 250px;
+	z-index: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-size: cover;
+	background-position: center;
+}
+
+.subheader:before {
+	content: "";
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: -1;
+	left: 0;
+	top: 0;
+	background-image: url("/course/사막여우.gif");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	filter: blur(30px);
+	opacity: 0.7;
+}
+
+.glass {
+	height: 100%;
+	width: 100%;
+	background-image: url("/course/사막여우.gif");
+	background-size: cover;
+	background-position: center;
+	clip-path: inset(10em);
+	filter: blur(5px);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.drop-shadow {
+	height: 155%;
+	width: 100%;
+	filter: drop-shadow(0px 20px 10px rgba(0, 0, 0, 0.3));
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.drop-shadow:before {
+	display: block;
+	content: "";
+	position: absolute;
+	top: 10em;
+	height: calc(100% - 20em);
+	width: calc(100% - 20em);
+	border-top: 2px solid rgba(225, 225, 225, 0.2);
+	border-left: 1px solid rgba(225, 225, 225, 0.1);
+	border-right: 1px solid rgba(225, 225, 225, 0.3);
+	z-index: 2;
+}
+
+.drop-shadow>span {
+	position: absolute;
+	z-index: 5;
+	color: white;
+	font-size: 4em;
+	letter-spacing: 0.75em;
+	padding-left: 0.375em;
+}
+
+.sidebar {
+	padding: 20px 30px;
+	background-color: #ffffff;
+	border-radius: 10px;
+	margin-bottom: 10px;
+}
+
+.col-lg-9 {
+	background-color: #ffffff;
+	padding: 20px 30px;
+	border-radius: 20px;
+	margin-bottom: 10px;
+}
+
+.product {
+	padding-top: 0px;
+	padding-bottom: 80px;
+	position: relative;
+	z-index: 1;
+}
+
+.gridView .products-row {
+	margin: 8px;
+	width: calc(100% - 16px);
+	background-color: #f3f6fd;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: transform 0.2s;
+	position: relative;
+	padding-bottom: 8px;
+}
+
+.products-row img {
+	border-radius: 4px 4px 0px 0px;
+	height: 70%;
+	width: 100%;
+}
+
+.product-cell {
+	margin: 8px;
+	text-align: end;
+}
+
+.classList .products-row {
+	margin: 15px 26px;
+	width: calc(30% - 16px);
+	background-color: #f3f6fd;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: transform 0.2s;
+	position: relative;
+	padding-bottom: 8px;
+	margin-bottom: 20px;
+	height: 400px;
+}
+
+.classList {
+	flex-shrink: 0;
+	width: 100%;
+	max-width: 100%;
+	padding-right: calc(var(- -bs-gutter-x)* .5);
+	padding-left: calc(var(- -bs-gutter-x)* .5);
+	margin-top: var(- -bs-gutter-y);
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.product__discount {
+	margin-top: 104px;
+}
+
+#categoryList {
+	margin-top: 18px;
+}
+
 button {
 	all: unset;
-	background-color: mediumslateblue;
+	background-color: #9dc2c0;
 	color: white;
 	padding: 5px 25px;
 	border-radius: 10px;
@@ -56,7 +247,8 @@ h1 {
 	display: none;
 }
 </style>
-<script type="text/javascript" th:src="@{/smarteditor/js/HuskyEZCreator.js}"></script>
+<script type="text/javascript"
+	th:src="@{/smarteditor/js/HuskyEZCreator.js}"></script>
 </head>
 
 
@@ -89,25 +281,13 @@ h1 {
 </th:block>
 
 <div layout:fragment="content">
-	<!-- Breadcrumb Section Begin -->
-	<section class="breadcrumb-section set-bg"
-		th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 text-center">
-					<div class="breadcrumb__text">
-						<h2>Vegetable’s Package</h2>
-						<div class="breadcrumb__option">
-							<a href="./index.html">Home</a> <a href="./index.html">Vegetables</a>
-							<span>Vegetable’s Package</span>
-						</div>
-					</div>
-				</div>
-			</div>
+	<div class="subheader">
+		<img src="/course/사막여우.gif" alt="" class="profile-cover">
+		<div class="drop-shadow">
+			<div class="glass"></div>
+			<span>SHOP</span>
 		</div>
-	</section>
-	<!-- Breadcrumb Section End -->
-
+	</div>	
 	<!-- Product Details Section Begin -->
 	<section class="product-details spad" th:each="product:${productList}">
 		<div class="container">
@@ -132,10 +312,11 @@ h1 {
 									th:each="num:${#numbers.sequence(1,product.star)}"></i> <i
 									class="fa-solid fa-star-half" th:if="${product.star%1 >= 0.5}"></i>
 							</div>
-							<span id="totalReview2">(18
-								reviews)</span><br>
-							<button class="openBtn" sec:authorize="isAuthenticated()">신고하기</button>
-							<button sec:authorize="isAnonymous()" onclick="noLogin()">신고하기</button>
+							<span id="totalReview2">(18 reviews)</span>
+							<button class="openBtn" sec:authorize="isAuthenticated()"
+								style="background-color: #9dc2c0">신고하기</button>
+							<button sec:authorize="isAnonymous()" onclick="noLogin()"
+								style="background-color: #9dc2c0">신고하기</button>
 
 						</div>
 						<div class="product__details__price" th:text=${product.price}>$50.00</div>
@@ -144,7 +325,7 @@ h1 {
 							quam vehicula elementum sed sit amet dui. Sed porttitor lectus
 							nibh. Vestibulum ac diam sit amet quam vehicula elementum sed sit
 							amet dui. Proin eget tortor risus.</p>
-						<div>
+						<div style="margin: auto">
 							<div class="product__details__quantity">
 								<div class="quantity">
 									<div class="pro-qty">
@@ -158,18 +339,18 @@ h1 {
 									th:value="${option != null ? option.optionContent : null}"
 									th:text="${option != null ? option.optionContent : null}"></option>
 							</select> <a th:onclick="cartEvent(this)" class="primary-btn"
-								sec:authorize="isAuthenticated()" style="cursor:pointer">장바구니 담기</a> <a
-								onclick="noLogin()" class="primary-btn"
-								href="javascript:location.reload()"
-								sec:authorize="isAnonymous()" style="cursor:pointer">장바구니 담기</a>
+								sec:authorize="isAuthenticated()" style="cursor: pointer">장바구니
+								담기</a> <a onclick="noLogin()" class="primary-btn"
+								sec:authorize="isAnonymous()" style="cursor: pointer">장바구니
+								담기</a>
 							<button th:onclick="changeHeart(this)" style="border: solid 0px;"
 								class="change-heart" sec:authorize="isAuthenticated()">♡</button>
 							<br>
 						</div>
 						<a th:onclick="buyProduct([[${productList}]])" class="primary-btn"
-							sec:authorize="isAuthenticated()" style="cursor:pointer">구매하기</a> <a
-							href="javascript:location.reload()" class="primary-btn"
-							sec:authorize="isAnonymous()" onclick="noLogin()" style="cursor:pointer">구매하기</a>
+							sec:authorize="isAuthenticated()" style="cursor: pointer">구매하기</a>
+						<a class="primary-btn" sec:authorize="isAnonymous()"
+							onclick="noLogin()" style="cursor: pointer;">구매하기</a>
 						<ul>
 							<li><b>Shipping</b> <span>01 day shipping. </span>
 						</ul>
@@ -187,7 +368,7 @@ h1 {
 								href="#tabs-2" role="tab" aria-selected="false">상품후기<span
 									id="totalReview">(1)</span></a></li>
 							<li class="nav-item"><a class="nav-link" data-toggle="tab"
-								href="#tabs-3" role="tab" aria-selected="false" >상품문의 </a></li>
+								href="#tabs-3" role="tab" aria-selected="false">상품문의 </a></li>
 
 						</ul>
 
@@ -208,12 +389,13 @@ h1 {
 
 									<div>
 										<img alt="" th:src="@{/shoptemplate/img/product/회원혜택.jpg}">
-									</div>									
-									<p>[(${product.productInfo})]</p>									
+									</div>
+									<p>[(${product.productInfo})]</p>
 									<div th:each="nature : ${natureImg}">
-										<img alt="" th:src="@{/fileView/{fileRoute}/
+										<img alt=""
+											th:src="@{/fileView/{fileRoute}/
 									(fileRoute=${nature.fileRoute})}">
-										
+
 									</div>
 								</div>
 							</div>
@@ -285,11 +467,12 @@ h1 {
 														</div>
 													</div>
 												</div>
-												<div style="text-align:center">
+												<div style="text-align: center">
 													<a th:onclick="reviewWrite()" class="primary-btn"
-														sec:authorize="isAuthenticated()" style="cursor:pointer">리뷰작성하기</a> <a
-														href="javascript:location.reload()" class="primary-btn"
-														sec:authorize="isAnonymous()" onclick="noLogin()" style="cursor:pointer">리뷰작성하기</a>
+														sec:authorize="isAuthenticated()" style="cursor: pointer">리뷰작성하기</a>
+													<a href="javascript:location.reload()" class="primary-btn"
+														sec:authorize="isAnonymous()" onclick="noLogin()"
+														style="cursor: pointer">리뷰작성하기</a>
 												</div>
 											</div>
 										</section>
@@ -472,8 +655,7 @@ h1 {
 		 
 		 //로그인 안햇을때 실행
 		 function noLogin(){
-			 alert("로그인 후 이용가능 합니다.")
-			 location.reload();
+			 alert("로그인 후 이용가능 합니다.")			 
 		 }
 		 
 				//찜선택
@@ -535,7 +717,7 @@ h1 {
 					})						
 					element.checked = true;
 					let span=element.nextElementSibling;
-					span.innerHTML="<br><textarea name='text' placeholder='상세설명' id='detailReason'></textarea>";										
+					span.innerHTML="<br><textarea cols='40' rows='5'  name='text' placeholder='상세설명' id='detailReason'></textarea>";										
 				}
 				
 				//신고제출

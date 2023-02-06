@@ -13,7 +13,7 @@
 <style type="text/css">
 button {
 	all: unset;
-	background-color: mediumslateblue;
+	background-color: #9dc2c0;
 	color: white;
 	padding: 5px 25px;
 	border-radius: 10px;
@@ -155,12 +155,10 @@ ul.imgs li {
 	z-index: 1;
 }
 
-.splide__slide img {
-	width: 100%;
-	height: auto;
-}
-</style>
 
+.mySlides {display:none;}
+</style>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
 	<div layout:fragment="content" class="app-content" id="app">
@@ -300,7 +298,7 @@ ul.imgs li {
 						<circle cx="12" cy="19" r="1" /></svg>
 				</button>
 				<div class="product-cell image">
-					<img :src="'/fileView/'+product.fileRoute" alt="product"> <span
+					<img :src="'/fileView/'+product.fileRoute" alt="product" @click="displayModal(product)"> <span
 						@click="displayModal(product)">{{product.productName}}</span>
 				</div>
 				<div class="product-cell category">
@@ -331,67 +329,19 @@ ul.imgs li {
 					승인요청일 {{selectProduct.registerDate}} 승인요청인아이디
 					{{selectProduct.memberId}}
 
-
-					<div class="slider">
-						<input type="radio" name="slide" id="slide1" checked> <input
-							type="radio" name="slide" id="slide2"> <input
-							type="radio" name="slide" id="slide3"> <input
-							type="radio" name="slide" id="slide4">
-						<ul id="imgholder" class="imgs">
-							<li><img :src="'/fileView/'+selectProduct.fileRoute"
-								style="width: 200px; height: 200px;"></li>
-							<li v-for="add in addImg"><img
-								:src="'/fileView/'+add.fileRoute"
-								style="width: 200px; height: 200px;"></li>
-							<li v-for="nat in nature"><img
-								:src="'/fileView/'+nat.fileRoute"
-								style="width: 200px; height: 200px;"></li>
-						</ul>
-						<div class="bullets">
-							<label for="slide1">&nbsp;</label> <label for="slide2">&nbsp;</label>
-							<label for="slide3">&nbsp;</label> <label for="slide4">&nbsp;</label>
-						</div>
-					</div>
-
-
-					<div id="image-slider" class="splide">
-						<div class="splide__track">
-							<ul class="splide__list">
-								<li class="splide__slide"><img src="image01.jpg"></li>
-								<li class="splide__slide"><img src="image02.jpg"></li>
-								<li class="splide__slide"><img src="image03.jpg"></li>
-							</ul>
-						</div>
-					</div>
-
-
-
-					<table style="text-align: center">
-						<thead>
-							<tr>
-								<th>대표이미지</th>
-								<th>추가이미지</th>
-								<th>친환경인증증서</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td><img alt="" :src="'/fileView/'+selectProduct.fileRoute"
-									style="width: 200px; height: 200px;"></td>
-								<td v-for="add in addImg"><img alt=""
-									:src="'/fileView/'+add.fileRoute"
-									style="width: 200px; height: 200px;"></td>
-								<td v-for="nat in nature"><img alt=""
-									:src="'/fileView/'+nat.fileRoute"
-									style="width: 200px; height: 200px;"></td>
-							</tr>
-						</tbody>
-					</table>
+					<div class="w3-content w3-display-container" >
+						<img class="mySlides" :src="'/fileView/'+selectProduct.fileRoute" style="width: 350px;height:350px; margin:auto">
+						<span v-for="add in addImg"> <img  class="mySlides" :src="'/fileView/'+add.fileRoute" style="width: 350px;height:350px;margin:auto"></span>
+						<span v-for="nat in nature"> <img  class="mySlides" :src="'/fileView/'+nat.fileRoute" style="width: 350px;height:350px;margin:auto"></span>
+						<button class="w3-button w3-black w3-display-left"
+							onclick="plusDivs(-1)">&#10094;</button>
+						<button class="w3-button w3-black w3-display-right"
+							onclick="plusDivs(1)">&#10095;</button>
+					</div>					
 					<ul style="list-style-type: none;">
 						<li>상품명 {{selectProduct.productName}}</li>
 						<li>상품상세설명 {{selectProduct.productDetail}}</li>
-						<li>가격 {{selectProduct.price}}</li>
-						<li>카테고리 {{selectProduct.category}}</li>
+						<li>카테고리 {{selectProduct.category}} 가격 {{selectProduct.price}}  </li>						
 					</ul>
 					<button @click="approProduct(selectProduct.productId)">승인</button>
 					&nbsp&nbsp&nbsp&nbsp
@@ -405,15 +355,30 @@ ul.imgs li {
 
 
 
-		<script>
+		<script>	
 		//csrf설정
 		 var token = $("meta[name='_csrf']").attr("content");
 		 var header = $("meta[name='_csrf_header']").attr("content");			 
 		
+		
+		 var slideIndex = 1;
+		 showDivs(slideIndex);
+
+		 function plusDivs(n) {
+		   showDivs(slideIndex += n);
+		 }
+
+		 function showDivs(n) {
+		   var i;
+		   var x = document.getElementsByClassName("mySlides");
+		   if (n > x.length) {slideIndex = 1}
+		   if (n < 1) {slideIndex = x.length}
+		   for (i = 0; i < x.length; i++) {
+		     x[i].style.display = "none";  
+		   }
+		   x[slideIndex-1].style.display = "block";  
+		 }
 		 
-		 document.addEventListener( 'DOMContentLoaded', function () {
-			    new Splide( '#image-slider' ).mount();
-			  } );
 		 
 		 //뷰 사용
 		 const app = Vue.createApp({
