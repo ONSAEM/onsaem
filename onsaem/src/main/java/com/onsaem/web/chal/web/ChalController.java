@@ -93,6 +93,19 @@ public class ChalController {
 		return "content/challengers/chalMain";
 	}
 	
+	//챌린지 조건 리스트 보기 - ngo별 
+		@RequestMapping(value="/chalListDays",method=RequestMethod.GET)
+		public String chalListDays(Model model,@RequestParam(value="frequency", required=false)String frequency, ChalVO vo,  Paging paging){
+			String classes = "항시";
+			model.addAttribute("ngoes", ngoService.listNgoClass(classes));
+			vo.setFrequency(frequency);
+			model.addAttribute("chals", chalService.beforeChals(vo, paging));
+			
+			//기부금 순위로
+			model.addAttribute("ranks", chalService.donateRank());
+			return "content/challengers/chalMain";
+		}
+	
 	//팀별
 	@RequestMapping(value="/chalDepart",method=RequestMethod.GET)
 	public String chalListTeam(Model model,@RequestParam(value="data", required=false)String data,  Paging paging){
@@ -176,13 +189,7 @@ public class ChalController {
 		return "content/challengers/chalDetail";
 	}
 	
-	//등록페이지 일단,,
-	@RequestMapping(value="/inputChal",method=RequestMethod.GET)
-	public String inputChal(Model model, Authentication authentication) {
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		model.addAttribute("user", userDetails.getUsername());
-		return "content/challengers/inputChal";
-	}
+	
 	
 	//개인전 등록 페이지 이동
 	@RequestMapping(value="/inputNormalChal",method=RequestMethod.GET)
@@ -210,7 +217,7 @@ public class ChalController {
 	@RequestMapping(value="/inputNormalChal", method=RequestMethod.POST)
 	@ResponseBody
 	public String insertNormalChal(ChalVO vo, ParticipantVO pvo
-			,  MultipartFile[] applyFile, MultipartFile[] uploadFile, Authentication authentication) throws IllegalStateException, IOException {
+			,  MultipartFile[] uploadFile, Authentication authentication) throws IllegalStateException, IOException {
 		
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
@@ -240,7 +247,7 @@ public class ChalController {
 		MediaVO mvo = new MediaVO();
 		mvo.setGroupId(vo.getChalId());
 		mvo.setGroups("챌린저스");
-        for(int i=0;i<applyFile.length;i++) {
+        for(int i=0;i<uploadFile.length;i++) {
 			if(i==0) {
 				mvo.setSubGroup("인증예시");
 			}else if(i==1) {
@@ -248,7 +255,7 @@ public class ChalController {
 			}else {
 				mvo.setSubGroup("썸네일");
 			}			
-			MultipartFile[] upload= {applyFile[i]};
+			MultipartFile[] upload= {uploadFile[i]};
 			mediaService.uploadMedia(upload, mvo);
 		}		
         
@@ -293,19 +300,21 @@ public class ChalController {
 		partService.inputParticipant(pvo);
 		
 		
-		//사진 업로드
+		 //사진 업로드
 		MediaVO mvo = new MediaVO();
 		mvo.setGroupId(vo.getChalId());
 		mvo.setGroups("챌린저스");
         for(int i=0;i<uploadFile.length;i++) {
 			if(i==0) {
 				mvo.setSubGroup("인증예시");
+			}else if(i==1) {
+					mvo.setSubGroup("상세설명");
 			}else {
 				mvo.setSubGroup("썸네일");
 			}			
 			MultipartFile[] upload= {uploadFile[i]};
 			mediaService.uploadMedia(upload, mvo);
-		}
+		}		
         
       //결제 테이블
         PaymentVO yvo = new PaymentVO();

@@ -367,8 +367,20 @@ a {
 										</ul>
 									</div>
 									<div class="sidebar__item">
-										<button type="submit" class="site-btn" onclick=location.href="/inputNgo"  sec:authorize="isAuthenticated()">기부처 신청하기</button>
-										<button type="button" class="site-btn" sec:authorize="isAnonymous()"  onclick="noLogin()">기부처 신청하기</button>	
+										<h4>참가요일</h4>
+										<input type="checkbox" value="월" name="days">월요일</input>
+										<input type="checkbox" value="화" name="days">화요일</input>
+										<input type="checkbox" value="수" name="days">수요일</input><br>
+										<input type="checkbox" value="목" name="days">목요일</input>
+										<input type="checkbox" value="금" name="days">금요일</input>
+										<input type="checkbox" value="토" name="days">토요일</input><br>
+										<input type="checkbox" value="일" name="days">일요일</input><br>
+										<p>모집 중인 챌린지 한해 검색 결과가 나타납니다</p>
+										<button type="button" class="site-btn" onclick="daySearch()"  style="width:200px">Search</button>
+									</div>
+									<div class="sidebar__item">
+										<button type="submit" class="site-btn" onclick=location.href="/inputNgo"  sec:authorize="isAuthenticated()" style="width:200px">기부처 신청하기</button>
+										<button type="button" class="site-btn" sec:authorize="isAnonymous()"  onclick="noLogin()" style="width:200px">기부처 신청하기</button>	
 									</div>
 								</div>
 
@@ -382,20 +394,18 @@ a {
 									<h2 class="ko-h2">기부금 순위</h2>
 								</div>
 								<div class="row">
-									<div class="product__discount__slider owl-carousel gridView" th:each="rank :${ranks}">
-										<div class="products-row" >
-											<img th:src="'/fileView/'+${rank.fileRoute}" alt="product">
-											<div class="product-cell">
-												<a th:href="@{/detailChal(chalId = ${rank.chalId})}"
-													th:text="${rank.chalName}">Ocean</a>
-											</div>
-											<div class="product-cell">
-												<span th:text="'기부금 : ' + ${rank.donationFee} + '원'"></span>
-											</div>
-
+									<div class="product__discount__slider owl-carousel gridView">
+										<div class="products-row">
+											<img
+												src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+												alt="product">
+											<div class="product-cell">Ocean</div>
+											<div class="product-cell">$560</div>
+											<div class="product-cell">11</div>
 										</div>
 									</div>
 								</div>
+
 							</div>
 						</div>
 						</div>
@@ -407,7 +417,7 @@ a {
 							<div class="col-lg-4 col-md-5">
 								<div class="filter__sort">
 									<span>Sort By</span> <select id="changeOption"
-										th:onchange="changeOption(this.value)">>
+										th:onchange="changeOption(this.value)">
 										<option value="All">All</option>
 										<option th:each="ngo:${ngoes}" th:value="${ngo.ngoName}"
 											name="ngoName" th:text="${ngo.ngoName}"></option>
@@ -426,7 +436,13 @@ a {
 									th:text=${chal.chalName}>Oing</a>
 							</div>
 							<div class="product-cell"
+								th:text="${chal.subClass}+'전'">
+							</div>
+							<div class="product-cell"
 								th:text="${#dates.format(chal.startDate, 'MM월 dd일')}+'부터 시작!'">
+							</div>
+							<div class="product-cell"
+								th:text="'인증 요일 : ' + ${chal.frequency}">
 							</div>
 						</div>
 					</div>
@@ -435,11 +451,24 @@ a {
 						th:replace="fragments/paging :: component(${paging}, 'gopage')">
 				</div>
 		</div>
+		</section>
 	</div>
-	</section>
+	
 </div>
 <!-- Product Section End -->
 <script type="text/javascript">
+	//해당 요일에 인증날자인 챌린지스 검색 
+	let checkedDays = [];
+	function daySearch(){
+		$('input[name=days]:checked').each(function(){
+			var checked = $(this).val();
+			checkedDays.push(checked);
+		})
+		
+		var res = checkedDays.join('');
+		console.log(res);
+		location.href = "/chalListDays?frequency=" + res;
+	}
 	function searchList() {
 
 		let searchText = $('#searchText').val();

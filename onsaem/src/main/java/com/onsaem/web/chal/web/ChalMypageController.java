@@ -208,7 +208,7 @@ public class ChalMypageController {
 		
 		model.addAttribute("cntBad", proofService.countProof(pvo));
 		
-		return "content/challengers/MyChalStatus1";
+		return "content/challengers/MypageChalStauts1";
 	}
 	
 	
@@ -218,7 +218,7 @@ public class ChalMypageController {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
 		model.addAttribute("chal",chalService.getChal(chalId));
-		chalId = "CH1";
+		
 		if(chalService.getChal(chalId).getSubClass()=="팀") {
 			//팀전
 			ParticipantVO pvo = new ParticipantVO();

@@ -78,6 +78,32 @@
 	.hidden {
 	   display: none;
 	}
+	#detailReason{
+		width: 100%;
+		background-color : #F9F9F2;
+			height: 200px;
+			padding: 10px;
+			box-sizing: border-box;
+			border: none;
+			border-radius: 5px;
+			font-size: 16px;
+			resize: both;
+	}
+	.modalBtns{
+		border-radius : 5px;
+		width : 85px;
+		height : 40px;
+		background-color:#9dc2c0;
+		border : none;
+		color : white;
+		font-weight : bold;
+			
+	}
+	.modalBtns:hover{
+		background-color:#DBC8E8;
+		color : #717275;
+		font-weight : bold;
+	}
 	</style>
 
   
@@ -223,13 +249,13 @@
                      <div class="modal__background"></div>
                      <div class="modal__content">
 
-                        <h3>신고하기</h3>
+                        <h3 style="color:#717275">신고하기</h3>
                      
                         <p th:text="'챌린지 명 : '+${chals.chalName}"></p>
                         <div class="modalText">
-                           <textarea id="detailReason" name="detailReason"></textarea>
-                           <button type="button" th:onclick="inputReport()">신고하기</button>
-                           <button type="button" class="closeBtn">닫기</button>
+                           <textarea id="detailReason" name="detailReason"></textarea><br>
+                           <button type="button" th:onclick="inputReport()" class="modalBtns">신고하기</button>
+                           <button type="button" class="closeBtn modalBtns">닫기</button>
                         </div>
                      
                      </div>
