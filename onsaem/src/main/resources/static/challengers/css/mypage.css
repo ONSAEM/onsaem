@@ -59,7 +59,8 @@ img {
 /* Profile Section */
 
 .profile {
-    padding: 5rem 0;
+    padding: 20px 10px;
+   
 }
 
 .profile::after {
@@ -222,6 +223,7 @@ img {
         display: flex;
         flex-wrap: wrap;
         padding: 4rem 0;
+    	background: url("/challengers/postit.png");
     }
 
     .profile::after {
