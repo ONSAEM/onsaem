@@ -251,7 +251,6 @@
 					<span>CLASS</span>
 				</div>
 			</div>
-			<br>
 			<!-- Product Section Begin -->
 			<section class="product spad">
 				<div class="container">
@@ -491,7 +490,7 @@
 
 		// 강의 리스트 만들기
 		function makeList(item) {
-			let makeClone = $(`<div class="products-row" th:id="${item.classId}">
+			let makeClone = $(`<div class="products-row" id="${item.classId}">
 								<img src="/fileView/${item.media.fileRoute}" alt="product">
 								<div class="product-cell" >${item.className}
 								</div>
@@ -506,6 +505,9 @@
 			if (item.star % 1 >= 0.5) {
 				$(makeClone).children(".product-cell").eq(2).append($("<i/>").addClass('fa-solid fa-star-half').css("color", "#ffe949"));
 			}
+			$(makeClone).on('click',function(){
+				location.href="/class/classDetail?classId="+$(this).attr("id");
+			})
 			return makeClone;
 		}
 
