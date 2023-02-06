@@ -6,7 +6,6 @@
 
 <!-- index.html 고유 CSS 추가 -->
 <th:block layout:fragment="css">
-    <!--    <link rel="stylesheet" th:href="@{/css/page/home.css}" >-->
     <link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
 		type="text/css">
 	<link rel="stylesheet"
@@ -16,14 +15,12 @@
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
 		type="text/css">
 	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}"
-		type="text/css">
-	<link rel="stylesheet"
 		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
 		type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
 		type="text/css">
+	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
 </th:block>
     
 <!-- index.html 고유 스크립트 추가 -->
@@ -32,6 +29,44 @@
 	<script type="text/javascript" th:src="@{/smarteditor/js/HuskyEZCreator.js}"></script>
 </th:block>
 
+<head>
+	<meta charset="UTF-8">
+<style>
+.wrapper .btn {
+	background-color: #9dc2c0;
+	color:white;
+	text-align: center;
+	margin-left: 400px;
+	margin-top: 10px;
+}
+.wrapper label {
+	width: 80px;
+	color: #757575;
+}
+.inputfield {
+	margin-bottom: 6px;
+}
+.inputfield input {
+	width: 752px;
+	border: 1px solid #d5dbd9;
+	border-radius: 3px;
+	line-height: 40px;
+	margin-bottom: 5px;
+	padding: 0 10px;
+}
+.nice-select {
+	display: inline;
+	margin: 5px 0px;
+	margin-right: 12px;
+    width: 185px;
+    text-align: center;
+    clear: none;
+    float: none;
+    color: #757575;
+}
+
+</style>
+</head>
 
 
 <!-- Content -->
@@ -39,35 +74,44 @@
 		<headers>
 			<frame-options disabled="true"/>
 		</headers>
-	<h1>글 수정</h1>
-	<form method="post" action="/blog/blogInsert" name="myfrm">
-		<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-		<input type="hidden" name="writeId" th:value="${blogUpdate.writeId}"/> 
-		<ul>
-			<li>글 제목 : <input type="text" name="writeTitle" th:value="${blogUpdate.writeTitle}"></li>
-			<li>소제목 : <input type="text" name="subTitle" th:value="${blogUpdate.subTitle}"></li>
-			<li>카테고리<select name="categoryId"> <!-- 카테고리 부분 나중에 value 수정 필요 -->
-				<option value="" style="text-align:center;">::::::  카테고리  ::::::</option>
-			    <div th:each="cate : ${category}">
-			    	<option th:value="${cate.categoryId}" th:data-scope="${cate.publicScope}">[[${cate.categoryName}]] ([[${cate.publicScope}]])</option>
-			    </div>
-				</select>
-			</li>
+	<div class="wrapper">
+		<div class="title">글 수정</div>
+		<form method="post" action="/blog/blogInsert" name="myfrm">
+			<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+			<input type="hidden" name="writeId" th:value="${blogUpdate.writeId}"/> 
 			
-			<li>공개범위<select name="publicScope"> <!-- 공개범위 부분 나중에 value 수정 필요 -->
-				<option value="">:::공개범위:::</option>
-			    <option value="public">전체공개</option>
-			    <option value="partial">일부공개</option>
-			    <option value="private">비공개</option>
-				</select>
-			</li>	
-		
-		<li><textarea name="blogWrite" id="ir1" rows="10" cols="100" th:text="${blogUpdate.blogWrite}"></textarea></li>
-		<li><button type="button" class="btn">수정</button></li>
-		</ul>
-		
-	</form>
-	
+			<div class="inputfield">
+				<label>글 제목&nbsp;&nbsp;</label><input type="text" name="writeTitle" th:value="${blogUpdate.writeTitle}">
+			</div>
+			<div class="inputfield">
+				<label>소제목&nbsp;&nbsp;&nbsp;</label><input type="text" name="subTitle" th:value="${blogUpdate.subTitle}">
+			</div>
+			<div class="inputfield">
+				<label>카테고리</label><select name="categoryId" class="nice-select"> <!-- 카테고리 부분 나중에 value 수정 필요 -->
+					<option value="" style="text-align:center;">::::::&nbsp;&nbsp;카테고리&nbsp;&nbsp;::::::</option>
+				    <div th:each="cate : ${category}">
+				    	<option th:value="${cate.categoryId}" th:data-scope="${cate.publicScope}">[[${cate.categoryName}]] ([[${cate.publicScope}]])</option>
+				    </div>
+					</select>
+			
+				
+				<label>공개범위&nbsp;&nbsp;</label><select name="publicScope" class="nice-select"> <!-- 공개범위 부분 나중에 value 수정 필요 -->
+					<option value="">::::::&nbsp;&nbsp;공개범위&nbsp;&nbsp;::::::</option>
+				    <option value="public">전체공개</option>
+				    <option value="partial">일부공개</option>
+				    <option value="private">비공개</option>
+					</select>
+			</div>	
+			
+			<div class="inputfield">
+				<textarea name="blogWrite" id="ir1" rows="10" cols="90" th:text="${blogUpdate.blogWrite}"></textarea>
+			</div>
+			<div class="inputfield">
+				<button type="button" class="btn">수정</button>
+			</div>
+			
+		</form>
+	</div>
 	
 	
 	<!--  Naver Editor -->

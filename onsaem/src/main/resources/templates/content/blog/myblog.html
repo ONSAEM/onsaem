@@ -79,12 +79,12 @@ caption.dots {
 }
 
 #exampleModal .modal-image {
-	width: 65%;
+	width: 64%;
 	height: 600px;
 }
 
 #exampleModal .col-md-6 {
-	width: 35%;
+	width: 36%;
 	margin: auto;
 	background-color: #ffffff;
     border-radius: 20px;
@@ -350,18 +350,18 @@ caption.dots {
 		<!-- 클론 -->
 		<div class="template" style="display: none">
 			<div class="album box">
-				<div class="album-content">
+				<div class="album-content" onclick="scopeCheck(this)" style="cursor:pointer">
 					<a></a>
-					<div class="album-photos" onclick="scopeCheck(this)">
+					<div class="album-photos" onclick="scopeCheck(this)" style="cursor:pointer">
 						<input type="hidden" class="thumbnail">
 						<!-- 썸네일 -->
 						<img id="thumbImg" class="album-photo">
 					</div>
 				</div>
 				<div class="album-actions">
-					<a href="#" class="album-action"> <i class="fa fa-calendar-o"></i>
-					</a> <a href="#" class="album-action"> <i class="fa fa-comment-o"></i>
-					</a> <a href="#" class="album-action"> <i class="fa-solid fa-eye"></i>
+					<a class="album-action"> <i class="fa fa-calendar-o"></i>
+					</a> <a class="album-action"> <i class="fa fa-comment-o"></i>
+					</a> <a class="album-action"> <i class="fa-solid fa-eye"></i>
 					</a>
 				</div>
 			</div>
