@@ -682,6 +682,7 @@ ol {
 	font-family: "ElegantIcons";
 	font-size: 18px;
 	color: #ffffff;
+	
 }
 
 .hero__categories ul {
@@ -689,10 +690,12 @@ ol {
 	padding-left: 40px;
 	padding-top: 10px;
 	padding-bottom: 12px;
+	
 }
 
 .hero__categories ul li {
 	list-style: none;
+	
 }
 
 .hero__categories ul li a {

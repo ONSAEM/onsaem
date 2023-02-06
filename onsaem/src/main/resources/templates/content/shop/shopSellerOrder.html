@@ -10,9 +10,8 @@
 <style type="text/css">
 button {
 	all: unset;
-	background-color: mediumslateblue;
+	background-color: #9dc2c0;
 	color: white;
-	padding: 5px 25px;
 	border-radius: 10px;
 	cursor: pointer;
 }
@@ -65,9 +64,9 @@ h1 {
 <script src="https://kit.fontawesome.com/8ae463e53a.js"
 	crossorigin="anonymous"></script>
 </head>
-<body >
+<body>
 	<div layout:fragment="content" class="app-content" id="app">
-		<div class="app-content-header" >
+		<div class="app-content-header">
 			<h1 class="app-content-headerText">Products</h1>
 			<button class="mode-switch" title="Switch Theme">
 				<svg class="moon" fill="none" stroke="currentColor"
@@ -231,7 +230,7 @@ h1 {
 			</div>
 			<div class="products-row" v-for="(order,index) in orders">
 				<div class="product-cell image">
-					 <span>{{index}}</span>
+					<span>{{index}}</span>
 				</div>
 				<div class="product-cell category">
 					<span class="cell-label">Category:</span>{{order.orderId}}
@@ -243,19 +242,23 @@ h1 {
 					<span class="cell-label">Price:</span>$560
 				</div>
 				<div class="product-cell status-cell">
-					 <span >{{order.orderDate}}</span>
+					<span>{{order.orderDate}}</span>
 				</div>
 				<div class="product-cell status-cell">
-					<span class="cell-label">Status:</span> <span class="status active">{{order.orderStatus}}</span>
+					<span class="cell-label">Status:</span> <span class="status active"
+						v-if="order.orderStatus === '주문대기'">{{order.orderStatus}}
+						<button @click="shippingNum(this,order)"
+							style="margin-left: 14px;">송장번호입력</button>
+					</span> <span class="status active" v-else>{{order.orderStatus}} </span>
 				</div>
 				<div class="product-cell status-cell">
-					 <span >{{order.memberId}}</span>
+					<span>{{order.memberId}}</span>
 				</div>
 				<div class="product-cell status-cell">
-					 <span >{{order.detailAmount}}</span>
+					<span>{{order.detailAmount}}</span>
 				</div>
 				<div class="product-cell status-cell">
-					 <span >{{order.detailOption}}</span>
+					<span>{{order.detailOption}}</span>
 				</div>
 			</div>
 		</div>
@@ -265,6 +268,15 @@ h1 {
 		 var token = $("meta[name='_csrf']").attr("content");
 		 var header = $("meta[name='_csrf_header']").attr("content");	
 		
+		//송장번호 입력
+			let shippingData;
+			function shippingNum(data,data2){		
+				shippingData=data2;
+				let shippingNum=`<td>주문대기<div>
+				<button>송장번호입력</button><br><input type="text" id="shippingNum"><br><button onclick="submitShipping()" >발송완료</button></div></td>`;
+				data.parentElement.innerHTML=shippingNum;		
+			}	
+		 
 			 //뷰 사용
 			 const app = Vue.createApp({
 			        data() {

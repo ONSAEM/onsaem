@@ -50,7 +50,7 @@
 								</form></li>
 							<li><a class="dropdown-item" th:href="@{/errorPage}">404</a></li>
 							<li><a class="dropdown-item" th:href="@{/class/classMGMT}">MANAGEMENT</a></li>
-              
+
 							<li><a class="dropdown-item"
 								th:href="@{/blog/testblog(userId=${#authentication.principal.memberId})}">blogtest</a></li>
 
@@ -71,5 +71,21 @@
 			</div>
 		</div>
 	</nav>
+
+	<script type="text/javascript">
+		//장바구니 갯수 호출
+		window.onload = function() {
+			$.ajax({
+				type : 'get',
+				url : '/shop/cartNum',					
+				success : function(result) {					
+					$(".cart__count").text(result.length)
+				},
+				error : function(error) {
+					console.log(error)
+				}
+			})
+		}
+	</script>
 </div>
 </html>
