@@ -61,16 +61,6 @@ public class OrderController {
 		model.addAttribute("productList", proService.selectPro(vo.getProductId()));
 		return "content/shop/shopBuy";
 	}
-
-	// 나의 주문목록(가짜)
-	@RequestMapping(value = "/myOrder", method = RequestMethod.GET)
-	public String myOrder(Model model, OrderVO orderVO, Authentication authentication) {		
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		orderVO.setMemberId(userDetails.getUsername());
-		model.addAttribute("myOrderList", orderService.myOrderList(orderVO));
-		model.addAttribute("myReviewList",proService.myReviewList(userDetails.getUsername()));
-		return "content/shop/myOrder";
-	}
 	
 	//나의 주문목록
 	@RequestMapping(value = "/shop/shopMyOrder", method = RequestMethod.GET)

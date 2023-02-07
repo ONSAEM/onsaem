@@ -70,7 +70,7 @@ public class ProductController {
 		} else {
 			return "가능";
 		}
-	}	
+	}
 
 	// 쇼핑몰페이지이동,최신순,인기순 목록나열
 	@RequestMapping(value = "/shop", method = RequestMethod.GET)
@@ -90,31 +90,30 @@ public class ProductController {
 			model.addAttribute("productList", proService.proList(vo, paging));
 			model.addAttribute("paging", paging);
 		}
-		//주간베스트목록보내주기
+		// 주간베스트목록보내주기
 		List<String> list = new ArrayList<String>();
 		for (int i = 0; i < proService.weekBest().size(); i++) {
 			list.add(proService.weekBest().get(i).getProductId());
 		}
-		if(list.isEmpty()==false) {
-			model.addAttribute("weekList",proService.selectProduct(list)); 
-		}	
+		if (list.isEmpty() == false) {
+			model.addAttribute("weekList", proService.selectProduct(list));
+		}
 		return "content/shop/shopMain";
 	}
-	
-	//장바구니 수량가져오기
+
+	// 장바구니 수량가져오기
 	@RequestMapping(value = "/shop/cartNum", method = RequestMethod.GET)
 	@ResponseBody
 	public List<CartVO> cartNum(Authentication authentication) {
-		List<CartVO> list=new ArrayList<CartVO>();
-		if(authentication!=null) {
+		List<CartVO> list = new ArrayList<CartVO>();
+		if (authentication != null) {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 			cartVo.setMemberId(userDetails.getUsername());
 			return cartService.cartList(cartVo);
-		}else {
+		} else {
 			return list;
 		}
-	
-		
+
 	}
 
 	// 상세설명페이지이동
@@ -131,7 +130,7 @@ public class ProductController {
 	// 리뷰갯수가져오기
 	@RequestMapping(value = "/shop/totalReview", method = RequestMethod.GET)
 	@ResponseBody
-	public List<ReviewVO> totalReview(ReviewVO vo) {		
+	public List<ReviewVO> totalReview(ReviewVO vo) {
 		return proService.totalReview(vo);
 	}
 
@@ -155,6 +154,14 @@ public class ProductController {
 		model.addAttribute("productList", proService.proCategory(data, paging, vo));
 		model.addAttribute("categoryList", proService.categoryList()); // 카테고리 리스트
 		model.addAttribute("paging", paging);
+		// 주간베스트목록보내주기
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < proService.weekBest().size(); i++) {
+			list.add(proService.weekBest().get(i).getProductId());
+		}
+		if (list.isEmpty() == false) {
+			model.addAttribute("weekList", proService.selectProduct(list));
+		}
 		return "content/shop/shopMain";
 	}
 
@@ -170,6 +177,14 @@ public class ProductController {
 			model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
 		}
 		model.addAttribute("productList", proService.searchProduct(data, paging, vo));
+		// 주간베스트목록보내주기
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < proService.weekBest().size(); i++) {
+			list.add(proService.weekBest().get(i).getProductId());
+		}
+		if (list.isEmpty() == false) {
+			model.addAttribute("weekList", proService.selectProduct(list));
+		}
 		return "content/shop/shopMain";
 	}
 
@@ -204,7 +219,7 @@ public class ProductController {
 		vo.setMemberId(userDetails.getUsername());
 		proService.addProduct(vo);
 		ovo.setProductId(vo.getProductId());
-		System.out.println("====================="+applyFile[0].getOriginalFilename());
+		System.out.println("=====================" + applyFile[0].getOriginalFilename());
 		// 옵션목록 넣기
 		String[] array = ovo.getOptionContent().split(",");
 		for (int i = 0; i < array.length; i++) {

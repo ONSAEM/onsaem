@@ -14,23 +14,210 @@
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
 		type="text/css">
 </th:block>
+<head>
+<style type="text/css">
+/* GENERAL STYLES */
+.pagination ul {
+	margin: auto;
+	padding: 0;
+	list-style: none;
+}
 
+/* ONE */
+.p1 li {
+	font-size: 14px;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	padding: 0;
+	text-align: center;
+	float: left;
+	cursor: pointer;
+}
+
+.main {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	min-width: 1400px;
+}
+
+.main-container {
+	padding: 20px;
+	flex-grow: 1;
+	overflow: auto;
+	background-color: #FCFBFC;
+}
+
+.profile-cover {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	border-radius: 4px;
+}
+
+.subheader {
+	position: relative;
+	height: 300px;
+	min-height: 250px;
+	z-index: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-size: cover;
+	background-position: center;
+}
+
+.subheader:before {
+	content: "";
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: -1;
+	left: 0;
+	top: 0;
+	background-image: url("/course/펭귄.gif");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	filter: blur(30px);
+	opacity: 0.7;
+}
+
+.glass {
+	height: 100%;
+	width: 100%;
+	background-image: url("/course/펭귄.gif");
+	background-size: cover;
+	background-position: center;
+	clip-path: inset(10em);
+	filter: blur(5px);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.drop-shadow {
+	height: 155%;
+	width: 100%;
+	filter: drop-shadow(0px 20px 10px rgba(0, 0, 0, 0.3));
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.drop-shadow:before {
+	display: block;
+	content: "";
+	position: absolute;
+	top: 10em;
+	height: calc(100% - 20em);
+	width: calc(100% - 20em);
+	border-top: 2px solid rgba(225, 225, 225, 0.2);
+	border-left: 1px solid rgba(225, 225, 225, 0.1);
+	border-right: 1px solid rgba(225, 225, 225, 0.3);
+	z-index: 2;
+}
+
+.drop-shadow>span {
+	position: absolute;
+	z-index: 5;
+	color: white;
+	font-size: 4em;
+	letter-spacing: 0.75em;
+	padding-left: 0.375em;
+}
+
+.sidebar {
+	padding: 20px 30px;
+	background-color: #ffffff;
+	border-radius: 10px;
+	margin-bottom: 10px;
+}
+
+.col-lg-9 {
+	background-color: #ffffff;
+	padding: 20px 30px;
+	border-radius: 20px;
+	margin-bottom: 10px;
+}
+
+.product {
+	padding-top: 0px;
+	padding-bottom: 80px;
+	position: relative;
+	z-index: 1;
+}
+
+.gridView .products-row {
+	margin: 8px;
+	width: calc(100% - 16px);
+	background-color: #f3f6fd;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: transform 0.2s;
+	position: relative;
+	padding-bottom: 8px;
+}
+
+.products-row img {
+	border-radius: 4px 4px 0px 0px;
+	height: 70%;
+	width: 100%;
+}
+
+.product-cell {
+	margin: 8px;
+	text-align: end;
+}
+
+.classList .products-row {
+	margin: 15px 26px;
+	width: calc(30% - 16px);
+	background-color: #f3f6fd;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: transform 0.2s;
+	position: relative;
+	padding-bottom: 8px;
+	margin-bottom: 20px;
+	height: 400px;
+}
+
+.classList {
+	flex-shrink: 0;
+	width: 100%;
+	max-width: 100%;
+	padding-right: calc(var(- -bs-gutter-x)* .5);
+	padding-left: calc(var(- -bs-gutter-x)* .5);
+	margin-top: var(- -bs-gutter-y);
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.product__discount {
+	margin-top: 104px;
+}
+
+#categoryList {
+	margin-top: 18px;
+}
+</style>
+</head>
 
 
 <div layout:fragment="content">
-	<!-- Breadcrumb Section Begin -->
-	<section class="breadcrumb-section set-bg"
-		th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 text-center">
-					<div class="breadcrumb__text">
-						<h2>주문이 완료되었습니다.</h2>
-					</div>
+	<div class="subheader">
+				<img src="/course/펭귄.gif" alt="" class="profile-cover">
+				<div class="drop-shadow">
+					<div class="glass"></div>
+					<span>주문 완료</span>
 				</div>
 			</div>
-		</div>
-	</section>
 	<!-- Breadcrumb Section End -->
 	<th:block layout:fragment="script">
 		<script th:src="@{/shoptemplate/js/main.js}"></script>
