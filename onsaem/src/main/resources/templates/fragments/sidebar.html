@@ -14,11 +14,11 @@
 	</div>
 	<nav class="menu" id="leftside-navigation">
 		<div class="sub-menu">
-			<a class="menu__item" th:href="@{/myInfo}"><i class="fa-solid fa-circle-user"></i><span class="menu__text">내 정보관리</span>
+			<a class="menu__item" th:href="@{/myInfo}"><i class="fa-regular fa-circle-user"></i><span class="menu__text">내 정보관리</span>
 			</a>
 		</div>
-		<div class="sub-menu">
-			<a class="menu__item" href="avascript:void(0);"><i class="fa-solid fa-shop"></i><span class="menu__text">내 쇼핑몰</span>
+		<div class="sub-menu" sec:authorize="hasRole('USER')">
+			<a class="menu__item" href="avascript:void(0);"><i class="fa-solid fa-gift"></i><span class="menu__text">내 쇼핑몰</span>
 			</a>
 			<ul>
 				<li><a href="/shop/shopMyOrder"
@@ -34,8 +34,8 @@
 					sec:authorize="isAnonymous()" onclick="noLogin()">관심상품</a></li>
 			</ul>
 		</div>
-		<div class="sub-menu">
-			<a class="menu__item" href="avascript:void(0);"><i class="fa-solid fa-shapes"></i><span class="menu__text">내
+		<div class="sub-menu" sec:authorize="hasRole('USER')">
+			<a class="menu__item" href="avascript:void(0);"><i class="fa-solid fa-brush"></i><span class="menu__text">내
 					클래스</span>
 			</a>
 			<ul>
@@ -45,7 +45,7 @@
 			</ul>
 		</div>
 		<div class="sub-menu">
-			<a class="menu__item" href="avascript:void(0);"><i class="fa-solid fa-chart-pie"></i><span class="menu__text">내
+			<a class="menu__item" href="avascript:void(0);"><i class="fa-regular fa-square-check"></i><span class="menu__text">내
 					챌린저스</span>
 			</a>
 			<ul>
