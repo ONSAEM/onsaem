@@ -170,7 +170,7 @@
 		WHERE C_NO = #{cNo}
 	</select>
 
-	<!-- 클래스 목록 가져오기 -->
+	<!-- 클래스 날짜 가져오기 -->
 	<select id="getDateList" resultType="ClassVO"
 		parameterType="ClassVO">
 		<![CDATA[
@@ -195,8 +195,8 @@
 		C_NO = CLASSES.C_NO) AS BOOKING_PEOPLE
 		FROM CLASSES
 		WHERE CLASS_ID = #{classId}
-		AND TO_CHAR(START_DATE, 'YYYY-MM-DD') = TO_DATE(#{classDate}, 'YYYY-MM-DD')
-		AND TO_CHAR(START_DATE, 'YYYY-MM-DD HH24') > TO_CHAR(CURRENT_DATE, 'YYYY-MM-DD HH24')
+		AND START_DATE = #{classDate}
+		AND START_DATE > CURRENT_DATE
 		AND STATUS = '등록') C
         WHERE C.TOTAL_PEOPLE > C.BOOKING_PEOPLE
 		]]>

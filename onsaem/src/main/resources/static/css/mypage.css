@@ -1,0 +1,235 @@
+
+/**
+ * ALL the UI design credit goes to:
+ * https://www.sketchappsources.com/free-source/2676-calendar-template-sketch-freebie-resource.html
+ */
+
+/* WRAPPER */
+body {
+	min-width: 700px;
+}
+
+.wrapper {
+	display: flex;
+	width: 80%;
+	margin: 3% auto;
+	min-width: 1300px;
+}
+
+/* SIDEBAR */
+main {
+	padding: 3%;
+	width: 100%;
+	min-width: 500px;
+}
+
+.avatar {
+	grid-area: avatar;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	width: 100%;
+	margin: auto;
+}
+
+.avatar__img {
+	width: 80%;
+	margin: auto;
+}
+
+.avatar__img>img {
+	display: block;
+	width: 150px;
+	margin-bottom: 20px;
+	border-radius: 30%;
+	height: 150px;
+}
+
+.menu {
+	display: flex;
+	flex-direction: column;
+	align-items: normal;
+	justify-content: flex-start;
+}
+
+/* COSMETIC STYLING */
+:root {
+	red: #ED5454;
+}
+
+.sidebar {
+	background-color: white;
+	box-shadow: 5px 0px 20px rgba(0, 0, 0, 0.2);
+}
+
+.sbar {
+	width: 243px;
+	padding: 3% 1%;
+}
+
+main {
+	background-color: #FCFBFC;
+}
+
+.avatar__name {
+	font-size: 0.8rem;
+	margin: 1em 0;
+	flex: 1;
+	text-align: right;
+}
+
+.menu__item--active .menu__icon {
+	color: var(- -red);
+}
+
+.menu__item--active .menu__text {
+	display: inline-block;
+	color: black;
+}
+
+.menu__item:hover {
+	color: black;
+}
+
+.menu__icon {
+	font-size: 1.2rem;
+	padding-right: 16px;
+}
+
+.menu__item--active {
+	border-left: 4px solid var(- -red);
+	box-shadow: inset 10px 0px 17px -13px var(- -red);
+}
+
+#leftside-navigation div ul {
+	display: none;
+}
+
+ul {
+	list-style-type: none
+}
+
+.menu__item {
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 16px 16px 16px 14px;
+    border-left: 4px solid transparent;
+    color: inherit;
+    text-decoration: none;
+    transition: color ease 0.3s;
+}
+
+.menu__item span{
+    vertical-align: middle;
+
+}
+
+.menu__item i {
+    width: 40px;
+    font-size: 20px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.sub-menu ul {
+    margin-top: 15px;
+    padding-left: 33px;
+}
+
+.sub-menu ul li{
+    margin-bottom: 10px;
+    padding-left: 25px;
+}
+
+.sub-menu ul li a{
+    color: #717275;
+    font-size: 16px;
+    font-weight: 400;
+}
+.sub-menu ul li a:hover{
+    color: #9dc2c0;
+}
+.avatar p {
+    font-size: 20px;
+    margin: auto;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.sub-menu {
+    margin-bottom: 25px;
+}
+
+.navbar .ms-auto {
+    margin-left: auto !important;
+}
+
+.navbar-nav {
+    --bs-nav-link-padding-x: 0;
+    --bs-nav-link-padding-y: 0.5rem;
+    --bs-nav-link-font-weight: ;
+    --bs-nav-link-color: var(--bs-navbar-color);
+    --bs-nav-link-hover-color: var(--bs-navbar-hover-color);
+    --bs-nav-link-disabled-color: var(--bs-navbar-disabled-color);
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.navbar .dropdown-menu {
+    background: var(--white-color);
+    box-shadow: 0 1rem 3rem rgb(0 0 0 / 18%);
+    border: 0;
+    min-width: 10rem;
+    margin-top: 20px;
+    padding: 15px 5px;
+    --bs-dropdown-min-width: 8rem;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 10rem;
+    margin: 0.125rem 0 0;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    border-radius: 0.25rem;
+}
+
+.navbar .dropdown-item {
+    display: inline-block;
+    color: var(--p-bg-color);
+    font-size: var(--menu-font-size);
+    font-weight: var(--font-weight-medium);
+    position: relative;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.navbar .dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: var(--primary-color);
+}
+
+.navbar .dropdown-toggle::after {
+    content: "\f282";
+    display: inline-block;
+    font-family: bootstrap-icons !important;
+    font-size: var(--copyright-font-size);
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    vertical-align: -0.125em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: relative;
+    left: 2px;
+    border: 0;
+}

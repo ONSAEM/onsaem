@@ -4297,6 +4297,56 @@ fieldset:disabled .btn {
     display: block
 }
 
+.navbar-nav {
+    --bs-nav-link-padding-x: 0;
+    --bs-nav-link-padding-y: 0.5rem;
+    --bs-nav-link-font-weight: ;
+    --bs-nav-link-color: var(--bs-navbar-color);
+    --bs-nav-link-hover-color: var(--bs-navbar-hover-color);
+    --bs-nav-link-disabled-color: var(--bs-navbar-disabled-color);
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.navbar .dropdown-menu {
+    background: var(--white-color);
+    box-shadow: 0 1rem 3rem rgb(0 0 0 / 18%);
+    border: 0;
+    min-width: 10rem;
+    margin-top: 20px;
+    padding: 15px 5px;
+    --bs-dropdown-min-width: 8rem;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 10rem;
+    margin: 0.125rem 0 0;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    border-radius: 0.25rem;
+}
+
+.navbar .dropdown-item {
+    display: inline-block;
+    color: var(--p-bg-color);
+    font-size: var(--menu-font-size);
+    font-weight: var(--font-weight-medium);
+    position: relative;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.navbar .dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: var(--primary-color);
+}
 .navbar {
     --bs-navbar-padding-x: 0;
     --bs-navbar-padding-y: 0.5rem;

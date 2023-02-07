@@ -55,6 +55,7 @@
     background: transparent;
     border: 2px solid #5f7b88;
 	border-radius: 100px;
+	line-height: normal;
 }
 
 @font-face {
