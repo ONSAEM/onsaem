@@ -45,7 +45,6 @@ public class MomentController {
 	@ResponseBody
 	public MomentsVO getMoment(Model model, String momentId, LikeVO lvo ) {
 		MomentsVO vo = momentService.getMoment(momentId);
-		
 		return vo;
 	}
 	

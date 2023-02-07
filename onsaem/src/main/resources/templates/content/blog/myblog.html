@@ -431,8 +431,10 @@ caption.dots {
 							</span>
 
 							<p id="nickname">Edited · 1d</p>
-							<button class="mmtbtn btn"
+							<button class="mmtbtn btn" th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
 								style="color: white; background-color: #9dc2c0;" id="mmtDelBtn">delete</button>
+							<button class="mmtbtn btn" th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
+								style="color: white; background-color: #9dc2c0;display:none;" id="mmtDelBtn">delete</button>
 							<div class="mt-2 mx-2">
 								<input type="text" class="form-control"
 									placeholder="type comment" id="addUrl" readonly>

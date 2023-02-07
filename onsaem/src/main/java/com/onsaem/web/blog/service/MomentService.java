@@ -2,6 +2,7 @@ package com.onsaem.web.blog.service;
 
 import java.util.List;
 
+import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
 
 public interface MomentService {
@@ -17,4 +18,6 @@ public interface MomentService {
 	int momentDel(String momentId);
 	// 모먼트 수 조회
 	int momentCnt(String blogId);
+	// 내가 구독한 사람들의 최신 모먼트 (5개 출력)
+	public List<MomentsVO> mySubMoment(LikeVO likeVO);
 }

@@ -91,4 +91,33 @@
 		]]>
 		order by upload_start DESC
 	</select>
+	
+	<!--내가 구독하는 사람들의 모먼트 조회 5개(최신순)-->
+	<select id="mySubMoment" parameterType="LikeVO" resultType="MomentsVO">
+		select  M.MOMENT_ID,
+		        M.BLOG_ID,
+		        L.group_id,
+		        B.nickname,
+		        M.ADD_URL,
+		        M.UPLOAD_START,
+		        M.UPLOAD_END,
+		        M.PUBLIC_SCOPE,
+		        M.MOMENT_WRITE,
+		        M.WRITE_DATE,
+		        A.FILE_NAME,
+		        A.FILE_ROUTE,
+		        A.MEDIA_NAME
+		from moments M, members B, media A, (select * from likes
+		                            where member_id = #{memberId}
+		                            and groups = '구독') L
+		where M.moment_id=A.group_id
+		and M.blog_id=L.group_id
+		and M.blog_id=B.member_id
+		and M.upload_end >= trunc(current_date)
+		<![CDATA[
+		and rownum <= 5
+		]]>
+		order by upload_start DESC
+	</select>
+	
  </mapper>
