@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" class="light" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout2}">
+
+<!-- Css  -->
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/management.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/challengers/css/mycss.css}">
+	<!-- <link rel="stylesheet" th:href="@{/challengers/css/nomargin.css}" type="text/css"> -->
+	<link rel="stylesheet" th:href="@{/challengers/css/mypage.css}" >
+	
+</th:block>
+
+<head>
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<meta charset="UTF-8">
+	<style>
+	p{
+		display:inline-block;
+	}
+	.boldFont{
+		font-size : 20px;
+	}
+	/* GENERAL STYLES */
+.pagination ul {
+	margin: auto;
+	padding: 0;
+	list-style: none;
+}
+
+/* ONE */
+.p1 li {
+	font-size: 14px;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	padding: 0;
+	text-align: center;
+	float: left;
+	cursor: pointer;
+}
+
+.main {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	min-width: 1400px;
+}
+
+.main-container {
+	padding: 20px;
+	flex-grow: 1;
+	overflow: auto;
+	background-color: #FCFBFC;
+}
+
+.profile-cover {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	border-radius: 4px;
+}
+
+.subheader {
+	position: relative;
+	height: 300px;
+	min-height: 250px;
+	z-index: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-size: cover;
+	background-position: center;
+}
+
+.subheader:before {
+	content: "";
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: -1;
+	left: 0;
+	top: 0;
+	background-image: url("/course/chal.gif");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	filter: blur(30px);
+	opacity: 0.7;
+}
+
+.glass {
+	height: 100%;
+	width: 100%;
+	background-image: url("/course/chal.gif");
+	background-size: cover;
+	background-position: center;
+	clip-path: inset(10em);
+	filter: blur(5px);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.drop-shadow {
+	height: 155%;
+	width: 100%;
+	filter: drop-shadow(0px 20px 10px rgba(0, 0, 0, 0.3));
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.drop-shadow:before {
+	display: block;
+	content: "";
+	position: absolute;
+	top: 10em;
+	height: calc(100% - 20em);
+	width: calc(100% - 20em);
+	border-top: 2px solid rgba(225, 225, 225, 0.2);
+	border-left: 1px solid rgba(225, 225, 225, 0.1);
+	border-right: 1px solid rgba(225, 225, 225, 0.3);
+	z-index: 2;
+}
+
+.drop-shadow>span {
+	position: absolute;
+	z-index: 5;
+	color: white;
+	font-size: 4em;
+	letter-spacing: 0.75em;
+	padding-left: 0.375em;
+}
+
+.col-lg-3 {
+	padding-left: 0px;
+}
+
+.sidebar {
+	padding: 20px 30px;
+	margin-bottom: 10px;
+	background-color: #ffffff;
+	border-radius: 20px;
+}
+
+.col-lg-9 {
+	background-color: #ffffff;
+	padding: 20px 30px;
+	border-radius: 20px;
+	margin-bottom: 10px;
+	margin: 0, auto;
+	width: 100%;
+	max-width: 100%;
+}
+
+.product {
+	padding-top: 0px;
+	padding-bottom: 80px;
+	position: relative;
+	z-index: 1;
+}
+
+.gridView .products-row {
+	margin: 8px;
+	width: calc(100% - 16px);
+	background-color: #f9f9f9;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: transform 0.2s;
+	position: relative;
+	padding-bottom: 8px;
+}
+
+.products-row img {
+	border-radius: 4px 4px 0px 0px;
+	height: 70%;
+	width: 100%;
+}
+
+.product-cell {
+	margin: 8px;
+	text-align: end;
+}
+
+.classList .products-row {
+	margin: 15px 26px;
+	width: calc(30% - 16px);
+	background-color: #f9f9f9;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: transform 0.2s;
+	position: relative;
+	padding-bottom: 8px;
+	margin-bottom: 20px;
+	height: 400px;
+	border-radius: 4px;
+}
+
+.classList {
+	flex-shrink: 0;
+	width: 100%;
+	max-width: 100%;
+	padding-right: calc(var(- -bs-gutter-x)* .5);
+	padding-left: calc(var(- -bs-gutter-x)* .5);
+	margin-top: var(- -bs-gutter-y);
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.sidebar__item h4 {
+	color: #1c1c1c;
+	font-weight: 700;
+	margin-bottom: 13px;
+}
+
+#minamount {
+	text-align: right;
+}
+
+#maxamount {
+	text-align: left;
+}
+
+.price-input .fa-solid {
+	margin: 0px 10px;
+}
+
+.classList_container {
+	background-color: #ffffff;
+	border-radius: 20px;
+}
+
+.pagination {
+	margin-bottom: 20px;
+}
+	
+.gridView .products-row {
+    margin: 8px;
+    width: calc(25% - 16px);
+    background-color: #f3f6fd;
+    padding: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    position: relative;
+}
+
+
+	button {
+	all: unset;
+	background-color: rgb(242, 210, 215);
+	color: white;
+	padding: 5px 25px;
+	border-radius: 10px;
+	cursor: pointer;
+}
+
+.btn {
+	margin-top: 60px;
+}
+
+.modal {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+	.modal__background {
+		background-color: rgba(0, 0, 0, 0.6);
+		width: 100%;
+		height: 100%;
+		position: absolute;
+	}
+	
+	.modal__content {
+		text-align: center;
+		position: relative;
+		background-color: white;
+		border-radius: 10px;
+		top: 0;
+		padding: 10px 25px;
+		width: 20%;
+	}
+	
+	h1 {
+		margin: 0;
+		margin-bottom: 13px;
+	}
+	
+	.hidden {
+		display: none;
+	}
+	
+	div{
+		overflow-y:auto;
+		overflow-x: hidden"
+	}
+	#section{
+		
+	  /* background: url("/challengers/mypageBack.jpg");  */
+	  	background-color : rgba(248,  242, 222, 0.2);
+	  	background-size : 100% 100%;
+		 
+	}
+	.profile{
+		background-color : hsla(175, 5%, 93%, 0.8);
+		border-radius : 5px;
+		/* background: url("/challengers/postit.png"); */
+	  	background-size : 100% 100%;
+	  	padding : 20px;
+	}
+	.liLIst{
+		float : left;
+		margin-right : 20px;
+	}
+	.gallery-item{
+		width: 100%;	
+	}
+	</style>
+</head>
+
+<body style="overflow-x:hidden; overflow-y:auto;">
+	<div layout:fragment="content" >
+		<div class="projects-section" id="section">				
+			<div class="project-boxes jsGridView">
+			
+				<div class="container" style="margin: 10px">
+					<div class="profile">
+						<div class="profile-image">
+							<img src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt="">
+						</div>
+						<div class="profile-user-settings">
+							<h1 class="profile-user-name" th:text="${chal.chalName}">janedoe_</h1>
+						</div>
+						<div class="profile-stats">
+							<ul>
+								<li>시작일 <span class="profile-stat-count" th:text="${#dates.format(chal.startDate, 'MM월 dd일')}" id="startDate" >164</span></li>
+								<li>종료일 <span class="profile-stat-count" th:text="${#dates.format(chal.endDate, 'MM월 dd일')}" id="endDate" th:value="${chal.endDate}">188</span></li>
+							</ul>
+						</div>
+						<div class="profile-bio">
+							<p style="margin:1px">챌린지 <span class="profile-real-name" th:text="${chal.chalName}">Jane Doe</span>이/가 종료일까지 <span class="profile-real-name" th:text="${dday}">Jane Doe</span>일 남았어요.</p>
+							<br>
+							<p>남은 도전도 화이팅!!!</p>
+						</div>
+			
+					</div>
+					
+					<!-- End of profile section -->
+					<ul>
+						<li class="liLIst">section 1</li>
+						<li class="liLIst" th:onclick="move()">section 2</li>
+					</ul>
+			
+				</div>
+				</div>
+				<!-- End of container -->
+			
+					<!-- 도넛차트 -->
+						<div id="chart" th:if="${chal.subClass} =='팀'" style=" text-align : center; width:500px; margin-left:300px;">
+							<h3>우리 [[${myTeam}]]의 달성률</h3>	
+							<canvas id="chDonut1" ></canvas>
+						</div>
+						<div id="chart" th:if="${chal.subClass} =='개인'" style=" text-align : center; width:500px; margin-left:300px;">
+							<h3>[[${chal.chalName}]] 참가자 달성률</h3>	
+							<canvas id="chDonut2" ></canvas>
+						</div>		
+					
+				<div class="container">
+				<div style="text-align : center; margin-top : 30px; margin-bottom : 30px">
+					<span style="margin: 10px"><b class="boldFont">✨총 횟수 :</b> <p>[[${chal.total}]] 회</p></span>
+					<span style="margin: 10px"><b class="boldFont">✨성공 횟수 :</b> <p>[[${cntGood}]] 회</p></span>
+					<span style="margin: 10px"><b class="boldFont">✨실패 횟수 :</b><p id="badCnt"></p></span>
+					<span style="margin: 10px"><b class="boldFont">✨남은 횟수 : </b><p th:text="${chal.dday}+' 회'"></p></span>
+					<br>
+					<span style="margin: 10px"><b class="boldFont">✨성공률 :</b><p id="successPercent"></p><p>%</p></span>
+					<span style="margin: 10px"><b class="boldFont">✨에상 성공률 :</b><p id="expectPC"></p><p>%</p></span>
+					<span style="margin: 10px"><b class="boldFont">✨에상 획득 포인트 :</b><p id="expectPT"></p><p>원</p></span></span>
+				</div>	
+					<div class="gallery">
+			
+						<div class="gallery-item" tabindex="0" th:each="myphoto : ${myPhotoes}" th:onclick="displayModal([[${myphoto}]])">
+							<div class="row row-cols-3">
+							<img src="'/fileView/'+${proof.fileRoute}" class="gallery-image">
+								<input type="hidden" id="chalId" th:value="${proof.chalId}">
+							<div class="gallery-item-info">
+			
+								<ul>
+									<li class="gallery-item-likes" ><span class="visually-hidden" ></span><i class="fas fa-heart" aria-hidden="true" th:text="' '+ ${#dates.format(myphoto.writeDate, 'yyyy-MM-dd')}" style="color:white"></i></li>
+									<!-- <li class="gallery-item-comments"><span class="visually-hidden" >Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li> -->
+								</ul>
+							</div>
+							</div>
+			
+						</div>
+			
+						 <th:block th:if="${myPhotoes} ==null">
+						 		<h5>아직 등록된 인증 샷이 없습니다!</h5>	
+						 </th:block>
+			
+					</div>
+					<!-- End of gallery -->
+						</div>	    
+		</div>
+	
+		<!-- 모달창 -->
+       <div class="modal hidden">
+          <div class="modal__background"></div>
+          <div class="modal__content" id="insta">
+         
+             	<span><p id="writer"></p></span>
+             	<button id="on" onclick="openFrm()" style="display: on;">신고</button>	
+             	<input type="hidden" id="theId">
+                <img style="width: 500px;" id="image">
+          		<p id="contents"></p>      
+                <table>
+                <thead><tr>
+                			<th>댓쓴이</th>
+                			<td>댓글내용</td>
+                		</tr></thead>
+                		<tbody class="replies">
+                		</tbody>
+                </table>
+                <span><p id="redHeart" th:onclick="delLike()">❤</p><p id="whiteHeart" th:onclick="addLike()">🤍</p>좋아요 <p id="cnt"></p></span>
+                <input type="text" id="content" name="content">
+                <button type="button" th:onclick="inputReply()">댓글쓰기</button>
+                <button type="button" class="closeBtn">닫기</button>
+             
+          </div>
+          <div id="reportFrm" style="display : none;" class="modal__content">
+          <!-- 신고폼 -->
+             <form >
+             	<input type="hidden" id="theId">
+                	<select id="reason">
+                		<option value="">==신고 사유 고르기==</option>
+                		<option value="악성댓글">악성댓글</option>
+                		<option value="주제와관련없는인증">주제와 관련 없는 인증</option>
+                	</select>
+                	<label>신고대상</label><input type="text" id="toId" placeholder="신고대상의 아이디">
+                	<textarea id="detailReason" placeholder="상세 사유를 작성해주세요"></textarea>
+                <button type="button" th:onclick="inputReport()">신고</button>
+                <button type="button" class="closeBtn" onclick="offFrm()">닫기</button>
+               </form>
+          </div>
+       </div>
+       <!-- 모달창 끛-->
+		
+		
+	<
+		<script type="text/javascript">
+			let token = $("meta[name='_csrf']").attr("content");
+			let header = $("meta[name='_csrf_header']").attr("content");
+			let memberId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}]]";
+		
+			//성공률 계산위해
+	      	let privateDonation = Number("[[${user.privateDonate}]]");
+	      	console.log(privateDonation);
+	      	let good = Number("[[${cntGood}]]"); 
+	     	let total = Number("[[${chal.total}]]");
+	     	let dday = Number("[[${chal.dday}]]");
+	     	
+	     	let bad = total-good-dday;
+	     	console.log(bad);
+	     	$('#badCnt').text(bad+' 회');
+	     	let success = Math.abs((good/total)*100);
+	     	$("#successPercent").text(success);
+	     	//예상달성률
+	     	let expectedSuccess = ((good+dday)/total)*100;
+	     	$("#expectPC").text(expectedSuccess);
+	     	//예상 달성률은 total분모로 good더하고,,bad빼고,, 남은dday넣으면 되나?
+	     	//예상 포인트 예상 달성률의 1퍼
+	     	//예상 포인트 달성률,,- if구문 쓰기..아마도..?0
+	     	let expectedPoint = 0;
+	     	 if(expectedSuccess>=85){
+	     		let expectedPoint = privateDonation*0.005;
+	     		$("#expectPT").text(expectedPoint);
+	     		
+	     	}else if(expectedSuccess==1){
+	     		let expectedPoint = privateDonation*0.01;
+	     		$("#expectPT").text(expectedPoint);
+	     	}else{
+	     		let expectedPoint =0;
+	     		$("#expectPT").text(expectedPoint);
+	     	}
+	     	
+	     	console.log(success);
+	      	
+	     	//차트
+			//차트관련
+			 let subClass = "[[${chal.subClass}]]";
+			console.log(subClass+"subClass");
+			if(subClass == '팀'){
+				 let myteamcnt = Number("[[${MyTeamCnt}]]");
+				 let myteamsize = Number("[[${MyTeamSize}]]");
+				 let total = Number("[[${chal.total}]]")*myteamsize;
+				 let pteam = (myteamcnt/total).toFixed(1)*100;
+				 console.log(myteamcnt);
+				 var colors = ['#b4a7d6','#eae5e1','#333333','#c3e6cb','#dc3545','#6c757d'];
+				var donutOptions = {
+					  cutoutPercentage: 85, 
+					  legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
+					};
+			
+				var data = new Array();
+				data.push(pteam);
+				data.push(100-pteam);
+					// donut 1
+					var chDonutData1 = {
+					    labels: ['평균달성률'],
+					    datasets: [
+					      {
+					        backgroundColor: colors.slice(0,2),
+					        borderWidth: 0,
+					        data: data
+					      }
+					    ]
+					};
+					
+					var chDonut1 = document.getElementById("chDonut1");
+					if (chDonut1) {
+					  new Chart(chDonut1, {
+					      type: 'doughnut',
+					      data: chDonutData1,
+					      options: donutOptions
+					  });
+					} 
+					
+			}else{
+				 let chalSize = Number("[[${ChalSize}]]");
+				 let chalCnt = Number("[[${ChalCnt}]]");
+				 let total = Number("[[${chal.total}]]")*chalSize;
+				 let pt = (chalCnt/total).toFixed(1)*100;
+				 var colors = ['#b4a7d6','#eae5e1','#333333','#c3e6cb','#dc3545','#6c757d'];
+					var donutOptions = {
+						  cutoutPercentage: 85, 
+						  legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
+						};
+				
+					var data = new Array();
+					data.push(pt);
+					data.push(100-pt);
+						// donut 1
+						var chDonutData2 = {
+						    labels: ['평균달성률'],
+						    datasets: [
+						      {
+						        backgroundColor: colors.slice(0,2),
+						        borderWidth: 0,
+						        data: data
+						      }
+						    ]
+						};
+						
+						var chDonut2 = document.getElementById("chDonut2");
+						if (chDonut2) {
+						  new Chart(chDonut2, {
+						      type: 'doughnut',
+						      data: chDonutData2,
+						      options: donutOptions
+						  });
+						} 
+				 
+			}
+	     	//모달창
+	     	const modal = document.querySelector(".modal");
+	      const closeButton = modal.querySelector(".closeBtn");
+	      const modalBackground = modal.querySelector(".modal__background");
+
+	      function displayModal(data) {
+	    	  console.log(data)
+	    	  let proofId = data.proofId;
+	    	  $('#theId').val(data.proofId);
+	    	  console.log(proofId,'=======');
+	    	 
+	    	  $(".replies").val();
+		       //ajax 호출 
+		       		$.ajax({
+		      			url: '/mypage/proofDetail',
+					      method: 'POST',
+					      beforeSend : function(xhr)
+			               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+			               xhr.setRequestHeader(header, token);
+			               },
+					      //contentType: 'application/plain',
+					      data: {proofId : proofId},
+					      success: function (result) {
+					    	  console.log(result);
+					    	  console.log(result.repllies);
+					    	  console.log(result.brd.content);
+					    	  console.log(result.brd.proofWriter);
+					    	  $('#image').attr("src", '/fileView/'+result.brd.fileRoute);
+					    	  
+					    	$('.replies').html("");
+					    	  let list = result.repllies;
+					    	  console.log(list.writerId);
+					    	  let brd = result.brd;
+					    	  var str = '<TR>';
+					    	  let tbl =  $.each(list , function(i){
+					    		  str += '<TD>' + list[i].writerId + '</TD><TD>' + list[i].content+'</TD><TD>'+list[i].replyDate+ '</TD>';
+					                  str += '</TR>';
+					             });
+					    	  $(".replies").append(str);
+
+					    	 $("#cnt").text(result.likeCnt);
+					    	 //인증글 내용 넣기
+					    	  document.querySelector("#contents").innerText=result.brd.content;
+					    	 //글쓴이 넣기
+					    	  document.querySelector("#writer").innerText=result.brd.proofWriter;
+					    	 //좋아요 여부 확인
+					    	 let check = result.checkLike;
+					    	 if(check == 0){
+					    		 $("#whiteHeart").show();
+					    		 $("#redHeart").hide();
+					    	 }else{
+					    		 $("#redHeart").show();
+					    		 $("#whiteHeart").hide();	 
+					    	 }
+					    	  
+					      },
+					      error: function (error) {
+					         console.log(error);
+					      }
+		      		})
+		      		
+	         modal.classList.toggle("hidden");
+	       
+	      }
+
+	      
+	      closeButton.addEventListener("click", displayModal)
+	      modalBackground.addEventListener("click", displayModal);
+	      //=----모달창관련 스크립트 끝
+	      
+	      //댓글 달기
+	      function inputReply(){
+	    	let content = $('#content').val();
+	    	let id = document.querySelector('#theId').value;
+	    	//아쟉스 아자자
+	    	$.ajax({
+	    		url : '/mypage/inputReply',
+	    		method : 'POST',
+	    		  beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
+	    		contentType: 'application/json',
+			    data: JSON.stringify({content:content, groupId : id}),
+			    success:function(result){
+			    	console.log(result);
+			    	$('.replies').html("");
+			    	  let list = result;
+			    	  console.log(list.writerId);
+			    	  let brd = result.brd;
+			    	  var str = '<TR>';
+			    	  let tbl =  $.each(list , function(i){
+			                  str += '<TD>' + list[i].writerId + '</TD><TD>' + list[i].content+'</TD><TD>'+list[i].replyDate+ '</TD>';
+			                  str += '</TR>';
+			             });
+			    	  $(".replies").append(str);
+			    },
+			    error : function(error){
+			    	console.log(error);
+			    }
+	    		
+	    	})
+		      						
+	      }
+	      
+	      //좋아요 하기
+	      function addLike(){
+	    	  let groupId = document.querySelector('#theId').value;
+	    	  console.log(groupId);
+	    	  
+	    	  $.ajax({
+	    		  url : '/mypage/addChalLike',
+	    		  method : 'POST',
+	    		  beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
+	    		  data : {groupId : groupId},
+	    		  success:function(result){
+	    			  console.log(result);
+	    			  //좋아요 갯수 변경
+	    			  $("#cnt").text(result.likeCnt);
+	    			  //하트 변경
+	    			  let check = result.checkLike;
+				    	 if(check == 0){
+				    		 $("#whiteHeart").show();
+				    		 $("#redHeart").hide();
+				    	 }else{
+				    		 $("#redHeart").show();
+				    		 $("#whiteHeart").hide();	 
+				    	 } 
+	    		  },
+	    		  error : function(){
+	    			  console.log(error);
+	    		  }
+	    	  })
+	      }
+	      //좋아요 삭제 ㅎㅎ
+	      function delLike(){
+	    	  let groupId = document.querySelector('#theId').value;
+	    	  console.log(groupId);
+	    	  
+	    	  $.ajax({
+	    		  url : '/mypage/delChalLike',
+	    		  method : 'POST',
+	    		  beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
+	    		  data : {groupId : groupId},
+	    		  success:function(result){
+	    			  console.log(result);
+	    			  //좋아요 갯수 변경
+	    			  $("#cnt").text(result.likeCnt);
+	    			  //하트 변경
+	    			  let check = result.checkLike;
+				    	 if(check == 0){
+				    		 $("#whiteHeart").show();
+				    		 $("#redHeart").hide();
+				    	 }else{
+				    		 $("#redHeart").show();
+				    		 $("#whiteHeart").hide();	 
+				    	 } 
+	    		  },
+	    		  error : function(){
+	    			  console.log(error);
+	    		  }
+	    	  })
+	    	  
+	      }
+	      
+	      //신고하기 폼 열기
+	      function openFrm(){
+	    	  $("#insta").hide();
+	    	  $("#on").hide();
+	    	  $("#reportFrm").show();
+	    	  
+	      }
+	      
+	      //신고하기 폼닫기
+	      function offFrm(){
+	    	  $("#insta").show();
+	    	  $("#on").show();
+	    	  $("#reportFrm").hide();
+	      }
+	      
+	      //신고하기
+	      function inputReport(){
+	    	  let toId = $("#toId").val();
+	    	  let groupId = document.querySelector('#theId').value;
+	    	  let reason = $("#reason").val();
+			  let detailReason = $("#detailReason").val();
+	    	  console.log(groupId);
+	    	  
+	    	 	$.ajax({
+	    		  url : '/mypage/inputReport',
+	    		  method : 'POST',
+	    		  beforeSend : function(xhr)
+	               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	               xhr.setRequestHeader(header, token);
+	               },
+	    		  contentType: 'application/json',
+				  data: JSON.stringify({reason:reason, toId : toId, detailReason:detailReason}),
+				  success:function(result){
+					  alert(result.msg);
+					  $("#detailReason").val(""); //초기화
+					  $("#reason").val(""); //초기화
+					  $("#toId").val("");
+					  
+				  }, 
+	    		 error : function(error){
+	    			 console.log(error);
+	    		 }
+	    		  
+	    	  }) 
+	      }
+	      
+	      //페이지 이동 - 남들 인증샷, 같은 참가자 인증샷 보는 곳으루 ㅎ 랫츠고 !
+	      function move(){
+	    	  let chalId = '[[${chal.chalId}]]';
+	    	  console.log(chalId);
+	    	  location.href="/mypage/myChalStatus2?chalId="+chalId;
+	      }
+		</script>
+		
+
+		<!-- JS -->
+		<th:block layout:fragment="script">
+		</th:block>
+	</div>
+
+</body>
+
+</html>

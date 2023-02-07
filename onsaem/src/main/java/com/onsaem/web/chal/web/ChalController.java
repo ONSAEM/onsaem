@@ -103,7 +103,7 @@ public class ChalController {
 			
 			//기부금 순위로
 			model.addAttribute("ranks", chalService.donateRank());
-			return "content/challengers/chalMain";
+			return "content/challengers/NewChalMain";
 		}
 	
 	//팀별
@@ -135,7 +135,7 @@ public class ChalController {
 				model.addAttribute("ranks", chalService.donateRank());
 				break;
 		}
-		return "content/challengers/chalMain";
+		return "content/challengers/NewChalMain";
 	}
 			
 	//챌린지 한건 상세보기
