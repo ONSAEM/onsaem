@@ -95,7 +95,7 @@
 }
 
 .side-menu a:hover {
-	color: #5bc1ac;
+	color: #9dc2c0;;
 }
 
 .side-menu a:not(:last-child) {
@@ -164,7 +164,8 @@
 }
 
 .profile-menu-link.active, .profile-menu-link:hover {
-	color: #5bc1ac;
+	background-color: #9dc2c0;
+	color: white;
 }
 
 .profile-avatar {
@@ -216,7 +217,7 @@
 .timeline-right {
 	flex-grow: 1;
 	padding-left: 20px;
-	display: flex;
+/* 	display: flex; */
 	flex-wrap: wrap;
 }
 
