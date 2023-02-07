@@ -64,7 +64,15 @@ public class BlogWriteController {
 	
 	// 블로그 메인으로 이동 (조회)
 	@RequestMapping(value = "/blogMain", method = RequestMethod.GET)
-	public String blogWriteList(Model model) {
+	public String blogWriteList(Model model,Authentication authentication, LikeVO vo) {
+		if(authentication != null) {
+			UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+			String id = userDetails.getUsername();
+			vo.setMemberId(id);
+			model.addAttribute("moments",momentService.mySubMoment(vo));
+			System.out.println("moments정보:"+model.addAttribute("moments"));
+		}
+		
 		model.addAttribute("blogList", blogWriteService.getBlogList(null));
 		return "content/blog/blogMain";
 	}

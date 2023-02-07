@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.onsaem.web.blog.mapper.MomentMapper;
 import com.onsaem.web.blog.service.MomentService;
 import com.onsaem.web.blog.service.MomentsVO;
+import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
 
 @Service
@@ -48,6 +49,12 @@ public class MomentServiceImpl implements MomentService {
 	public int momentCnt(String blogId) {
 		// 모먼트 수 조회
 		return momentMapper.momentCnt(blogId);
+	}
+
+	@Override
+	public List<MomentsVO> mySubMoment(LikeVO likeVO) {
+		// 내가 구독한 사람들의 최신 모먼트 5개 조회
+		return momentMapper.mySubMoment(likeVO);
 	}
 
 }
