@@ -70,7 +70,7 @@
 	z-index: -1;
 	left: 0;
 	top: 0;
-	background-image: url("/course/사막여우.gif");
+	background-image: url("/course/펭귄.gif");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
@@ -81,7 +81,7 @@
 .glass {
 	height: 100%;
 	width: 100%;
-	background-image: url("/course/사막여우.gif");
+	background-image: url("/course/펭귄.gif");
 	background-size: cover;
 	background-position: center;
 	clip-path: inset(10em);
@@ -282,12 +282,12 @@ h1 {
 
 <div layout:fragment="content">
 	<div class="subheader">
-		<img src="/course/사막여우.gif" alt="" class="profile-cover">
+		<img src="/course/펭귄.gif" alt="" class="profile-cover">
 		<div class="drop-shadow">
 			<div class="glass"></div>
 			<span>SHOP</span>
 		</div>
-	</div>	
+	</div>
 	<!-- Product Details Section Begin -->
 	<section class="product-details spad" th:each="product:${productList}">
 		<div class="container">
@@ -328,7 +328,7 @@ h1 {
 						<div style="margin: auto">
 							<div class="product__details__quantity">
 								<div class="quantity">
-									<div class="pro-qty">
+									<div class="pro-qty" style="margin-left: 10px;">
 										<input type="text" value="1" class="proAmount">
 									</div>
 								</div>

@@ -72,14 +72,6 @@ public class SellerController {
 		return sellService.sellerReviewContent(vo);
 	}
 
-	// 판매자 리뷰페이지이동(가짜)
-	@RequestMapping(value = "/sellerReview", method = RequestMethod.GET)
-	public String sellerReview(Authentication authentication, Model model) {
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		model.addAttribute("reviewList", sellService.sellerReview(userDetails.getUsername()));
-		return "content/shop/sellerReview";
-	}
-
 	// 판매자 리뷰페이지이동
 	@RequestMapping(value = "/shop/shopSellerReview", method = RequestMethod.GET)
 	public String shopSellerReview() {
