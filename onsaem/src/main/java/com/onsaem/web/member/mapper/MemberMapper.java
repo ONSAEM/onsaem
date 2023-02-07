@@ -2,6 +2,7 @@ package com.onsaem.web.member.mapper;
 
 import java.util.List;
 
+import com.onsaem.web.member.service.ApplyMemberVO;
 import com.onsaem.web.member.service.MemberVO;
 
 public interface MemberMapper {
@@ -20,7 +21,7 @@ public interface MemberMapper {
 
 	// 회원등록
 	public int insertMember(MemberVO member);
-	
+
 	// 블로그등록
 	public int inserBlog(MemberVO member);
 
@@ -29,13 +30,19 @@ public interface MemberMapper {
 
 	// 회원정보변경
 	public int updateMember(MemberVO member);
-	
+
 	// 회원 탈퇴
 	public int deleteMember(MemberVO member);
-	
+
 	// 회원정보리스트
 	public List<MemberVO> memberList();
-	
+
 	// 회원리스트(필터링)
-	public List<MemberVO> searchList(MemberVO vo,String startDate, String endDate);
+	public List<MemberVO> searchList(MemberVO vo, String startDate, String endDate);
+
+	// 승인요청건
+	public List<ApplyMemberVO> waitApprove();
+
+	// 승인요청건 이미지
+	public List<ApplyMemberVO> approveImg(ApplyMemberVO vo);
 }

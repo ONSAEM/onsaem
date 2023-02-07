@@ -38,5 +38,10 @@ public interface MemberService {
 	
 	// 회원리스트 (필터링)
 	public List<MemberVO> searchList(MemberVO vo,String startDate,String endDate);
-
+	
+	// 승인요청건
+	public List<ApplyMemberVO> waitApprove();
+	
+	// 승인요청건 이미지
+	public List<ApplyMemberVO> approveImg(ApplyMemberVO vo);
 }

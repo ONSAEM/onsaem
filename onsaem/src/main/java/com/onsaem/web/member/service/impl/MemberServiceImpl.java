@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,14 +13,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.onsaem.web.common.service.MailDTO;
 import com.onsaem.web.common.service.MailService;
 import com.onsaem.web.common.service.MediaService;
 import com.onsaem.web.common.service.MediaVO;
-import com.onsaem.web.common.service.MailDTO;
 import com.onsaem.web.member.mapper.MemberMapper;
+import com.onsaem.web.member.service.ApplyMemberVO;
 import com.onsaem.web.member.service.MemberService;
 import com.onsaem.web.member.service.MemberVO;
 
@@ -207,5 +205,15 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 		System.out.println(startDate);
 		System.out.println(endDate);
 		return memberMapper.searchList(vo,startDate,endDate);
+	}
+
+	@Override
+	public List<ApplyMemberVO> waitApprove() {		
+		return memberMapper.waitApprove();
+	}
+
+	@Override
+	public List<ApplyMemberVO> approveImg(ApplyMemberVO vo) {
+		return memberMapper.approveImg(vo);
 	}
 }

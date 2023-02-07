@@ -7,6 +7,8 @@
 <meta charset="UTF-8">
 <title>뷰테스트</title>
 <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
 <style type="text/css">
 button {
 	all: unset;
@@ -56,12 +58,111 @@ h1 {
 .hidden {
 	display: none;
 }
+
+li {
+	list-style-type: none;
+}
+
+.slider {
+	width: 640px;
+	height: 480px;
+	position: relative;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+.slider input[type=radio] {
+	display: none;
+}
+
+ul.imgs {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+ul.imgs li {
+	position: absolute;
+	left: 640px;
+	transition-delay: 1s;
+	padding: 0;
+	margin: 0;
+}
+
+.bullets {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	bottom: 20px;
+	z-index: 2;
+}
+
+.bullets label {
+	display: inline-block;
+	border-radius: 50%;
+	background-color: rgba(0, 0, 0, 0.55);
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+}
+
+.slider input[type=radio]:nth-child(1):checked ~.bullets>label:nth-child(1)
+	{
+	background-color: #fff;
+}
+
+.slider input[type=radio]:nth-child(2):checked ~.bullets>label:nth-child(2)
+	{
+	background-color: #fff;
+}
+
+.slider input[type=radio]:nth-child(3):checked ~.bullets>label:nth-child(3)
+	{
+	background-color: #fff;
+}
+
+.slider input[type=radio]:nth-child(4):checked ~.bullets>label:nth-child(4)
+	{
+	background-color: #fff;
+}
+
+.slider input[type=radio]:nth-child(1):checked ~ul.imgs>li:nth-child(1)
+	{
+	left: 0;
+	transition: 0.5s;
+	z-index: 1;
+}
+
+.slider input[type=radio]:nth-child(2):checked ~ul.imgs>li:nth-child(2)
+	{
+	left: 0;
+	transition: 0.5s;
+	z-index: 1;
+}
+
+.slider input[type=radio]:nth-child(3):checked ~ul.imgs>li:nth-child(3)
+	{
+	left: 0;
+	transition: 0.5s;
+	z-index: 1;
+}
+
+.slider input[type=radio]:nth-child(4):checked ~ul.imgs>li:nth-child(4)
+	{
+	left: 0;
+	transition: 0.5s;
+	z-index: 1;
+}
+
+.mySlides {
+	display: none;
+}
 </style>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
 	<div layout:fragment="content" class="app-content" id="app">
 		<div class="app-content-header">
-			<h1 class="app-content-headerText">Products</h1>
 			<button class="mode-switch" title="Switch Theme">
 				<svg class="moon" fill="none" stroke="currentColor"
 					stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -70,10 +171,10 @@ h1 {
             <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
           </svg>
 			</button>
-			<button class="app-content-headerButton">Add Product</button>
+
 		</div>
 		<div class="app-content-actions">
-			<input class="search-bar" placeholder="Search..." type="text">
+			<button @click="waitApprove()">승인요청건</button>
 			<div class="app-content-actions-wrapper">
 				<div class="filter-button-wrapper">
 					<button class="action-button filter jsFilter">
@@ -150,7 +251,6 @@ h1 {
 				</div>
 				<div class="product-cell image">
 					회원이름
-					<option>TRUE</option>
 					<button class="sort-button">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 							viewBox="0 0 512 512">
@@ -214,33 +314,35 @@ h1 {
 				</div>
 			</div>
 
-				<div class="products-row" v-for="(member,index) in members">
-					<button class="cell-more-button">
-						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-							viewBox="0 0 24 24" fill="none" stroke="currentColor"
-							stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-							class="feather feather-more-vertical">
+			<div class="products-row" v-for="(member,index) in members">
+				<button class="cell-more-button">
+					<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+						viewBox="0 0 24 24" fill="none" stroke="currentColor"
+						stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+						class="feather feather-more-vertical">
 						<circle cx="12" cy="12" r="1" />
 						<circle cx="12" cy="5" r="1" />
 						<circle cx="12" cy="19" r="1" /></svg>
-					</button>
-					<div class="product-cell image">
-						<span>{{index}}</span>
-					</div>
-					<div class="product-cell category" @click="displayModal()">{{member.memberId}}</div>
-					<div class="product-cell category">{{member.name}}</div>
-					<div class="product-cell status-cell">{{member.email}}</div>
-					<div class="product-cell status-cell">{{member.phone}}</div>
-					<div class="product-cell status-cell">{{member.signupdate}}</div>
-					<div class="product-cell sales">{{member.bandate}}</div>
-					<div class="product-cell stock">{{member.role}}</div>
-					<div class="product-cell price">
-						<span class="status active" v-if="member.status=='true'">{{member.status}}</span>
-						<span class="status active" v-else="member.status=='true'"
-							style="background-color: #F78181; color: #A4A4A4">{{member.status}}</span>
-					</div>
+				</button>
+				<div class="product-cell image">
+					<span>{{index}}</span>
 				</div>
-			
+				<div class="product-cell category"
+					@click="displayModal(member)">{{member.memberId}}</div>
+				<div class="product-cell category">{{member.name}}</div>
+				<div class="product-cell status-cell">{{member.email}}</div>
+				<div class="product-cell status-cell">{{member.phone}}</div>
+				<div class="product-cell status-cell">{{dateTime(member.signupdate)}}</div>
+				<div class="product-cell sales">{{dateTime(member.bandate)}}</div>
+				<div class="product-cell stock">{{member.role}}</div>
+				<div class="product-cell price">
+					<span class="status active" v-if="member.status=='true'">{{member.status}}</span>
+					<span class="status active" v-else="member.status=='true'"
+						style="background-color: #F78181; color: #A4A4A4">{{member.status}}</span>
+				</div>
+			</div>
+
+
 
 
 
@@ -248,35 +350,108 @@ h1 {
 			<div class="modal hidden">
 				<div class="modal__background"></div>
 				<div class="modal__content" text-align:center>
-					ta
-					<button>승인</button>
+					승인요청일{{dateTime(approve.applyDate)}} 승인요청인아이디 {{approve.memberId}}
+
+
+					<div class="w3-content w3-display-container">
+
+						<img v-for="img in imgs" class="mySlides"
+							:src="'/fileView/'+img.fileRoute"
+							style="width: 350px; height: 350px; margin: auto">
+
+						<button class="w3-button w3-black w3-display-left"
+							onclick="plusDivs(-1)">&#10094;</button>
+						<button class="w3-button w3-black w3-display-right"
+							onclick="plusDivs(1)">&#10095;</button>
+					</div>
+					<ul style="list-style-type: none;">
+						<li>상품명</li>
+						<li>상품상세설명</li>
+						<li>카테고리</li>
+					</ul>
+					<button @click="approProduct(selectProduct.productId)">승인</button>
 					&nbsp&nbsp&nbsp&nbsp
-					<button class="closeBtn" @click="displayModal()">닫기</button>
+					<button class="closeBtn" @click="closeModal()">닫기</button>
 				</div>
 			</div>
 		</div>
 
 		<script>
+		
 		//csrf설정
 		 var token = $("meta[name='_csrf']").attr("content");
-		 var header = $("meta[name='_csrf_header']").attr("content");			 
+		 var header = $("meta[name='_csrf_header']").attr("content");
+		 
+		 var slideIndex = 1;
+		 showDivs(slideIndex);
+
+		 function plusDivs(n) {
+		   showDivs(slideIndex += n);
+		 }
+
+		 function showDivs(n) {
+		   var i;
+		   var x = document.getElementsByClassName("mySlides");
+		   if (n > x.length) {slideIndex = 1}
+		   if (n < 1) {slideIndex = x.length}
+		   for (i = 0; i < x.length; i++) {
+		     x[i].style.display = "none";  
+		   }
+		   x[slideIndex-1].style.display = "block";  
+		 }
 		 
 		  //뷰 사용
 		 const app = Vue.createApp({
 		        data() {
 		            return {	
-		            	members:[]
+		            	members:[],
+		            	approve:[],
+		            	imgs:[]
 		            };
 		        },
 		        created() {
 		            this.fetchComments();		            
 		        },
-		        methods: {		
+		       
+		        methods: {
+		        	//날짜포맷
+		        	dateTime:function(value){
+		        		 return moment(value).format("YYYY-MM-DD");
+		        	},
+		        	//승인요청건 가져오기
+		        	waitApprove:function(){
+		        		let is=this;
+		        		 $.ajax({
+			                    url: '/admin/waitApprove',
+			                    method: 'GET',
+			                    success: function (data) {	
+			                    	console.log(data)
+			                    	is.members=data;			                    	
+			                    }
+			                });
+		        	},
 		        	//모달창띄우기
-		        	displayModal:function(){	        				        		
+		        	displayModal:function(data){	        		
+		        		this.approve=data
 		        		const modal = document.querySelector(".modal");
 		        		modal.classList.toggle("hidden");
-		        		let is=this;		        		
+		        		let is=this;
+		        		//승인요청건 이미지가져오기
+		        		 $.ajax({
+								type : 'post', 
+								url : '/admin/approveImg', 										
+								beforeSend : function(xhr)
+					            {
+					            	xhr.setRequestHeader(header, token);
+					            },		      
+					            data:{"memberId":data.memberId},
+								success : function(result) {								
+									is.imgs=result;
+								},
+								error : function(error) { 
+									console.log(error)
+								}
+							})
 		        	},
 		        	//모달창닫기
 		        	closeModal:function(){
@@ -292,7 +467,8 @@ h1 {
 		                    method: 'GET',
 		                    success: function (data) {	
 		                    	console.log(data)
-		                    	is.members=data;		                    		                       
+		                    	is.members=data;
+		                    	
 		                    }
 		                });
 		            },

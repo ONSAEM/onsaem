@@ -16,9 +16,11 @@
 		FROM MEMBERS M , (select* from MEDIA
 		WHERE STATUS = 'true'
 		AND SUB_GROUP = '프로필이미지') F, COMMONS C
-		WHERE M.MEMBER_ID = F.GROUP_ID(+)
+		WHERE
+		M.MEMBER_ID = F.GROUP_ID(+)
 		AND M.BANK = C.CODE_ID(+)
-		AND M.MEMBER_ID = #{memberId}
+		AND M.MEMBER_ID =
+		#{memberId}
 		AND M.STATUS !=
 		'false'
 		<![CDATA[
@@ -145,5 +147,21 @@
 			</if>
 		</where>
 		ORDER BY SIGNUPDATE DESC
+	</select>
+
+	<!-- 승인요청건 -->
+	<select id="waitApprove"
+		resultType="com.onsaem.web.member.service.ApplyMemberVO">
+		SELECT *
+		FROM APPLY_MEMBERS
+		ORDER BY APPLY_DATE
+	</select>
+
+	<!-- 승인요청 이미지 -->
+	<select id="approveImg"
+		resultType="com.onsaem.web.member.service.ApplyMemberVO">
+		SELECT M.FILE_ROUTE 
+		FROM APPLY_MEMBERS A,MEDIA M 
+		WHERE A.APPLY_ID=M.GROUP_ID AND A.MEMBER_ID=#{memberId}
 	</select>
 </mapper>
