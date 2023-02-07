@@ -13,13 +13,29 @@
 		</div>
 	</div>
 	<nav class="menu" id="leftside-navigation">
-
-		<a class="menu__item" th:href="@{/myInfo}"> <i
-			class="menu__icon fa fa-home"></i> <span class="menu__text">내정보관리</span>
-		</a>
 		<div class="sub-menu">
-			<a class="menu__item" href="avascript:void(0);"> <i
-				class="menu__icon fa fa-envelope"></i> <span class="menu__text">내
+			<a class="menu__item" th:href="@{/myInfo}"><i class="fa-solid fa-circle-user"></i><span class="menu__text">내 정보관리</span>
+			</a>
+		</div>
+		<div class="sub-menu">
+			<a class="menu__item" href="avascript:void(0);"><i class="fa-solid fa-shop"></i><span class="menu__text">내 쇼핑몰</span>
+			</a>
+			<ul>
+				<li><a href="/shop/shopMyOrder"
+					sec:authorize="isAuthenticated()">주문목록</a></li>
+				<li><a href="javascript:location.reload()"
+					sec:authorize="isAnonymous()" onclick="noLogin()">주문목록</a></li>
+				<li><a href="/shop/shopMyCart"
+					sec:authorize="isAuthenticated()">장바구니</a></li>
+				<li><a href="javascript:location.reload()"
+					sec:authorize="isAnonymous()" onclick="noLogin()">장바구니</a></li>
+				<li><a href="/likeList" sec:authorize="isAuthenticated()">관심상품</a></li>
+				<li><a href="javascript:location.reload()"
+					sec:authorize="isAnonymous()" onclick="noLogin()">관심상품</a></li>
+			</ul>
+		</div>
+		<div class="sub-menu">
+			<a class="menu__item" href="avascript:void(0);"><i class="fa-solid fa-shapes"></i><span class="menu__text">내
 					클래스</span>
 			</a>
 			<ul>
@@ -29,43 +45,17 @@
 			</ul>
 		</div>
 		<div class="sub-menu">
-			<a class="menu__item" href="avascript:void(0);"> <i
-				class="menu__icon fa fa-envelope"></i> <span class="menu__text">내
+			<a class="menu__item" href="avascript:void(0);"><i class="fa-solid fa-chart-pie"></i><span class="menu__text">내
 					챌린저스</span>
 			</a>
 			<ul>
 				<li><a th:href="@{/mypage/myCurrentChal}">진행 중 챌린저스 </a></li>
 				<li><a th:href="@{/mypage/myBeforeChal}">시작 전 챌린저스</a></li>
 				<li><a th:href="@{/mypage/myEndChal}">완료 챌린저스</a></li>
-				<li><a th:href="@{/mypage/myApplyNgo}">내가 신청한 기부처</a></li>
+				<li><a th:href="@{/mypage/myApplyNgo}">신청한 기부처</a></li>
 			</ul>
 		</div>
-		<div class="sub-menu">
-			<a class="menu__item" href="avascript:void(0);"> <i
-				class="menu__icon fa fa-envelope"></i> <span class="menu__text">
-					내 쇼핑몰</span>
-			</a>
-			<ul>				
-				<li><a href="/shop/shopMyOrder" sec:authorize="isAuthenticated()">주문목록</a></li>
-				<li><a href="javascript:location.reload()"
-					sec:authorize="isAnonymous()" onclick="noLogin()">주문목록</a></li>
-				<li><a href="/shop/shopMyCart" sec:authorize="isAuthenticated()">장바구니</a></li>
-				<li><a href="javascript:location.reload()"
-					sec:authorize="isAnonymous()" onclick="noLogin()">장바구니</a></li>
-				<li><a href="/likeList" sec:authorize="isAuthenticated()">관심상품</a></li>
-				<li><a href="javascript:location.reload()"
-					sec:authorize="isAnonymous()" onclick="noLogin()">관심상품</a></li>
-			</ul>
-		</div>
-		<a class="menu__item menu__item--active" href="javascript:void(0);">
-			<i class="menu__icon fa fa-calendar"></i> <span class="menu__text">calendar</span>
-		</a> <a class="menu__item" href="#"> <i
-			class="menu__icon fa fa-bar-chart"></i> <span class="menu__text">goals</span>
-		</a> <a class="menu__item" href="#"> <i
-			class="menu__icon fa fa-trophy"></i> <span class="menu__text">achivements</span>
-		</a> <a class="menu__item" href="#"> <i
-			class="menu__icon fa fa-sliders"></i> <span class="menu__text">measurements</span>
-		</a>
+
 	</nav>
 	<script type="text/javascript">
 		//로그인 안했을때 알람발생

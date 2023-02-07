@@ -8,12 +8,11 @@
 <meta name="viewport"
 	content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
 <!-- CSS -->
+<link th:href="@{/css/mypage.css}" rel="stylesheet">
 <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 <link th:href="@{/css/bootstrap-icons.css}" rel="stylesheet">
 <link th:href="@{/css/templatemo-kind-heart-charity.css}"
 	rel="stylesheet">
-<script th:src="@{https://kit.fontawesome.com/6094ba072a.js}"
-	crossorigin="anonymous"></script>
 <!-- JAVASCRIPT -->
 <script th:src="@{/js/jquery.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
@@ -27,133 +26,7 @@
 <script
 	th:src="@{https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.4/TextPlugin.min.js}"></script>
 <style type="text/css">
-/**
- * ALL the UI design credit goes to:
- * https://www.sketchappsources.com/free-source/2676-calendar-template-sketch-freebie-resource.html
- */
 
-/* WRAPPER */
-body {
-	min-width: 700px;
-}
-
-.wrapper {
-	display: flex;
-	width: 80%;
-	margin: 3% auto;
-	min-width: 1300px;
-}
-
-/* SIDEBAR */
-main {
-	padding: 3%;
-	width: 100%;
-	min-width: 500px;
-}
-
-.avatar {
-	grid-area: avatar;
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	width: 100%;
-	margin: auto;
-}
-
-.avatar__img {
-	width: 80%;
-	margin: auto;
-}
-
-.avatar__img>img {
-	display: block;
-	width: 150px;
-	margin-bottom: 20px;
-	border-radius: 30%;
-	height: 150px;
-}
-
-.avatar p {
-	font-size: 20px;
-	margin: auto;
-	font-weight: bold;
-	margin-bottom: 5px;
-}
-
-.menu {
-	display: flex;
-	flex-direction: column;
-	align-items: normal;
-	justify-content: flex-start;
-}
-
-/* COSMETIC STYLING */
-:root {
-	red: #ED5454;
-}
-
-sidebar {
-	background-color: white;
-	box-shadow: 5px 0px 20px rgba(0, 0, 0, 0.2);
-}
-
-.sbar {
-	width: 243px;
-	padding: 3% 1%;
-}
-
-main {
-	background-color: #FCFBFC;
-}
-
-.avatar__name {
-	font-size: 0.8rem;
-	margin: 1em 0;
-	flex: 1;
-	text-align: right;
-}
-
-.menu__item {
-	text-transform: uppercase;
-	font-size: 0.8rem;
-	font-weight: 500;
-	padding: 16px 16px 16px 14px;
-	border-left: 4px solid transparent;
-	color: inherit;
-	text-decoration: none;
-	transition: color ease 0.3s;
-}
-
-.menu__item--active .menu__icon {
-	color: var(- -red);
-}
-
-.menu__item--active .menu__text {
-	display: inline-block;
-	color: black;
-}
-
-.menu__item:hover {
-	color: black;
-}
-
-.menu__icon {
-	font-size: 1.2rem;
-	padding-right: 16px;
-}
-
-.menu__item--active {
-	border-left: 4px solid var(- -red);
-	box-shadow: inset 10px 0px 17px -13px var(- -red);
-}
-
-#leftside-navigation div ul {
-	display: none;
-}
-
-ul {
-	list-style-type: none
-}
 </style>
 <!-- content script -->
 <th:block layout:fragment="css"></th:block>
@@ -175,6 +48,8 @@ ul {
 
 	</div>
 	<!-- footer fragment 사용 -->
+	<script th:src="@{https://kit.fontawesome.com/6094ba072a.js}"
+		crossorigin="anonymous"></script>
 	<th:block th:replace="fragments/footer :: footerFragment"></th:block>
 	<script th:src="@{/js/onsaem.js}"></script>
 </body>

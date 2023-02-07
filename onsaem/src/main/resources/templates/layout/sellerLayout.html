@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" class="light">
 <head>
 <meta charset="UTF-8" />
 <title>ONSAEM</title>
@@ -20,6 +20,5 @@
 		<th:block th:replace="fragments/sellerSidebar :: sidebarFragment"></th:block>
 		<th:block layout:fragment="content"></th:block>
 	</div>
-	<script th:src="@{/js/onsaem.js}"></script>
 </body>
 </html>
