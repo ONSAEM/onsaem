@@ -57,4 +57,10 @@ public class MomentServiceImpl implements MomentService {
 		return momentMapper.mySubMoment(likeVO);
 	}
 
+	@Override
+	public MomentsVO getMySubMoment(String momentId) {
+		// TODO Auto-generated method stub
+		return momentMapper.getMySubMoment(momentId);
+	}
+
 }

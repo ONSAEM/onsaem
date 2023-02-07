@@ -48,25 +48,26 @@ public class MomentController {
 		return vo;
 	}
 	
+	// 모먼트 상세보기(메인)
+		@RequestMapping(value="/getMySubMoment", method= RequestMethod.POST)
+		@ResponseBody
+		public MomentsVO getMySubMoment(Model model, String momentId) {
+			MomentsVO vo = momentService.getMySubMoment(momentId);
+			return vo;
+		}
+	
 	
 	// 모먼트 등록(글,사진)
 
 	@RequestMapping(value = "/insertMoment", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> insertMoment(@RequestParam("uploadfile")MultipartFile[] uploadfile,
-										   // @RequestParam("momentWrite") String momentWrite,
 										    MomentsVO momentsVO,
 										    Authentication authentication) throws IllegalStateException, IOException, ParseException{    
 		// 등록
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-		//MomentsVO momentsVO = new MomentsVO();
-//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-//		Date date = formatter.parse(uploadEnd);
 		momentsVO.setBlogId(userDetails.getUsername());
-//		momentsVO.setUploadEnd(date);
-//		momentsVO.setMomentWrite(momentWrite);
-//		momentsVO.setAddUrl(addUrl);
-//		momentsVO.setPublicScope(publicScope);
+
 		
 		momentService.momentInsert(momentsVO);
 		

@@ -17,6 +17,8 @@ public interface BlogWriteMapper {
 	// 블로그 글 갯수 조회
 	public Paging blogCount(BlogWriteVO blogWriteVO);
 	
+	// 메인 블로그 인기글 6개
+	public List<BlogWriteVO> hotBlogList(BlogWriteVO blogWriteVO);
 	
 	// 블로그 글 전체 조회
 	public List<BlogWriteVO> getBlogList(BlogWriteVO blogWriteVO);
