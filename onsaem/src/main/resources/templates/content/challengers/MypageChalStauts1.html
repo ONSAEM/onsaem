@@ -296,6 +296,16 @@
 		padding: 10px 25px;
 		width: 500px;
 	}
+	.modal__content2 {
+		text-align: center;
+		position: relative;
+		background-color: white;
+		border-radius: 10px;
+		top: 0;
+		padding: 10px 25px;
+		width: 500px;
+		height: 500px;
+	}
 	
 	h1 {
 		margin: 0;
@@ -338,6 +348,17 @@
 	#subMenu>ul{
 		background-color :  hsla(175, 5%, 93%, 0.8);
 		width: 100%;
+	}
+	#detailReason{
+	width: 100%;
+	background-color : #F9F9F2;
+		height: 200px;
+		padding: 10px;
+		box-sizing: border-box;
+		border: none;
+		border-radius: 5px;
+		font-size: 16px;
+		resize: both;
 	}
 	</style>
 </head>
@@ -458,17 +479,20 @@
                 <button type="button" class="closeBtn">닫기</button>
              
           </div>
-          <div id="reportFrm" style="display : none;" class="modal__content">
+          <div id="reportFrm" style="display : none;" class="modal__content2">
           <!-- 신고폼 -->
              <form >
+             	<p style="font-size:large">신고하기</p><Br>
              	<input type="hidden" id="theId">
                 	<select id="reason">
                 		<option value="">==신고 사유 고르기==</option>
                 		<option value="악성댓글">악성댓글</option>
                 		<option value="주제와관련없는인증">주제와 관련 없는 인증</option>
                 	</select>
-                	<label>신고대상</label><input type="text" id="toId" placeholder="신고대상의 아이디">
+                	<br>
+                	<label>신고대상</label><input type="text" id="toId" placeholder="신고대상의 아이디"><br>
                 	<textarea id="detailReason" placeholder="상세 사유를 작성해주세요"></textarea>
+                	<br>
                 <button type="button" th:onclick="inputReport()">신고</button>
                 <button type="button" class="closeBtn" onclick="offFrm()">닫기</button>
                </form>

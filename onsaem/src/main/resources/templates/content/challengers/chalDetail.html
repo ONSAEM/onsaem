@@ -178,8 +178,8 @@
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
                                     aria-selected="true">상세보기</a>
                             </li>
-                            <li class="nav-item" th:if="${receipt} !=null "><a class="nav-link" data-toggle="tab"
-								href="#tabs-2" role="tab" aria-selected="false">흠냐</a>
+                            <li class="nav-item" th:if="${receipt} !=null ">
+                            <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab" aria-selected="false">영수증</a>
 							</li>
                         </ul>
                         <div class="tab-content">
@@ -195,6 +195,9 @@
                                 <div class="product__details__tab__desc">
                                     <h6>챌린지 소개</h6>
                                     <p th:text="${chal.contents}">챌린지 소개</p>
+                                    <div th:if="${detailPic} != null" style="text-align:center">
+                                    	<img th:src=${detailPic.fileRoute}>
+                                    </div>
                                 </div>
                                 
                                 <div class="product__details__tab__desc">

@@ -193,4 +193,10 @@ public class CharServiceImpl implements ChalService {
 		return chalMapper.adminSearchChals(vo);
 	}
 
+	@Override
+	public MediaVO detailPic(String groupId) {
+		// TODO Auto-generated method stub
+		return chalMapper.detailPic(groupId);
+	}
+
 }

@@ -66,66 +66,9 @@
 		<div class="app-content-header">
 			<h1 class="app-content-headerText">Challengers</h1>
 			<h2 class="app-content-headerText">기부처 관리- 기부처 신청 목록</h2>
-			<button class="mode-switch" title="Switch Theme">
-				<svg class="moon" fill="none" stroke="currentColor"
-					stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-					width="24" height="24" viewBox="0 0 24 24">
-            <defs></defs>
-            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
-          </svg>
-			</button>
 		</div>
 		<div class="app-content-actions">
-			<input class="search-bar" placeholder="Search..." type="text">
-			<div class="app-content-actions-wrapper">
-				<div class="filter-button-wrapper">
-					<button class="action-button filter jsFilter">
-						<span>Filter</span>
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-							viewBox="0 0 24 24" fill="none" stroke="currentColor"
-							stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-							class="feather feather-filter">
-							<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" /></svg>
-					</button>
-					<div class="filter-menu">
-						<label>상태</label> <select name="status" id=status>
-							<option>전체</option>
-							<option>영수증 첨부필요</option>
-							<option>포인트 정산필요</option>
-							<option>전체 필요</option>
-							<option>전체 완료</option>
-						</select>
-						<label for="white"> 시작 <input id="startDate" type="date"></label>
-						<label for="gray"> 종료 <input id="endDate" type="date">
-						<div class="filter-menu-buttons">
-							<button class="filter-button reset" onclick="location.reload()">Reset</button>
-							<button class="filter-button apply" @click="apply()">Apply</button>
-						</div>
-					</div>
-				</div>
-				<button class="action-button list active" title="List View">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-						viewBox="0 0 24 24" fill="none" stroke="currentColor"
-						stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-						class="feather feather-list">
-						<line x1="8" y1="6" x2="21" y2="6" />
-						<line x1="8" y1="12" x2="21" y2="12" />
-						<line x1="8" y1="18" x2="21" y2="18" />
-						<line x1="3" y1="6" x2="3.01" y2="6" />
-						<line x1="3" y1="12" x2="3.01" y2="12" />
-						<line x1="3" y1="18" x2="3.01" y2="18" /></svg>
-				</button>
-				<button class="action-button grid" title="Grid View">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-						viewBox="0 0 24 24" fill="none" stroke="currentColor"
-						stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-						class="feather feather-grid">
-						<rect x="3" y="3" width="7" height="7" />
-						<rect x="14" y="3" width="7" height="7" />
-						<rect x="14" y="14" width="7" height="7" />
-						<rect x="3" y="14" width="7" height="7" /></svg>
-				</button>
-			</div>
+			
 		</div>
 		<div class="products-area-wrapper tableView">
 			<div class="products-header">
