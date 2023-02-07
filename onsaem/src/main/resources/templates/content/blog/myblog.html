@@ -39,20 +39,23 @@ caption.dots {
 	float: left;
 	cursor: pointer;
 }
-/* 팔로우버튼 */
-.follow {
-	margin-right: 10%;
-	border-color: #5F9999;
-	z-index: 30;
-	border: 1px solid #ffffff;
-	color: #ffffff;
-	opacity: 0.65;
-	text-align: center;
-	text-decoration: none;
-}
 
-.follow:hover {
-	opacity: 1;
+/* 블로그관리버튼 */
+.info, .follow {
+	font-size: 15px;
+	background: #FCFBFC;
+	color: #9dc2c0;
+	cursor: pointer;
+	outline: none;
+    font-weight: bold;
+    border: 2px solid #9dc2c0;
+    border-radius: 40px;
+    padding: 10px;
+    text-align: center;
+    line-height: 29px;
+    margin: 6px 3px;
+    z-index: 30;
+    width: 130px;
 }
 
 #modalImg {
@@ -72,7 +75,7 @@ caption.dots {
 	margin-left: -8px;
 }
 
-#exampleModal .modal-dialog {
+#exampleModal .modal-dialog{
 	--bs-modal-bg: #fff0;
 	--bs-modal-border-color:#fff0;
 	width: 900px;
@@ -90,8 +93,32 @@ caption.dots {
     border-radius: 20px;
 }
 #exampleModal #uploadDate {
- text-align: end;
- margin-bottom: 0px;
+	text-align: end;
+	margin-bottom: 0px;
+}
+#searchWord {
+	width: 50%;
+	outline: none;
+	border: 1px solid #d5dbd9;
+	font-size: 15px;
+	padding: 8px 10px;
+	border-radius: 3px 0px 0px 3px;
+}
+#searchBtn {
+	margin: 0px auto;
+	padding: 4px 10px;
+	font-size: 19px;
+	border: 0px;
+	background: #9dc2c0;
+	color: #fff;
+	cursor: pointer;
+	border-radius: 0px 3px 3px 0px;
+	outline: none;
+}
+.pagination{
+	position: absolute;
+    bottom: 10px;
+    width: 72%;
 }
 </style>
 </head>
@@ -123,30 +150,36 @@ caption.dots {
 						<!-- 헤더 끝 -->
 
 						<div class="profile-menu">
-							<a type="button" class="profile-menu-link follow"
+							<a  type="button" class="profile-menu-link follow"
 								th:value=${subCount}
-								th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} != ${blogInfo.blogId}"><th:block
-									th:if="${subCount=='F'}">구독하기</th:block>
-								<th:block th:unless="${subCount=='F'}">구독 중</th:block></a> <a
-								type="button" class="profile-menu-link follow"
+								th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} != ${blogInfo.blogId}">
+								<th:block th:if="${subCount=='F'}">구독하기</th:block>
+								<th:block th:unless="${subCount=='F'}">구독 중</th:block>
+							</a> 
+							<a  type="button" class="profile-menu-link follow"
 								th:value=${subCount}
 								th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} != ${blogInfo.blogId}"
-								style="display: none;">구독</a> <a
-								th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
+								style="display: none;">구독
+							</a> 
+							<a  th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
 								style="display: none"
 								th:href="@{/blog/myblog/blogTask(blogId=${blogInfo.blogId})}"
-								class="profile-menu-link info">블로그 관리 ⚙</a> <a
-								th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
-								style="z-index: 30;"
+								class="profile-menu-link info">블로그 관리 ⚙
+							</a> 
+							<a  th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
 								th:href="@{/blog/myblog/blogTask(blogId=${blogInfo.blogId})}"
-								class="profile-menu-link info">블로그 관리 ⚙</a>
+								class="profile-menu-link info">블로그 관리 ⚙
+							</a>
 							<!-- 검색바 -->
-							<a><input type="text" placeholder="Search..." id="searchWord"
-								style="width: 150px; height: 30px; position: relative; margin-top: 17px; margin-left: 844px; overflow: auto;">
-								<button type="button" class="btn btn-light" id="searchBtn"
-									style="width: 40px; height: 30px; position: absolute; border-radius: 2px; border: 1px solid gray; margin-top: 17px;">
-									<i class="fa-solid fa-magnifying-glass"></i>
-								</button> </a>
+							<div>
+								<a><input type="text" placeholder="Search..." id="searchWord"
+									style="width: 150px; height: 30px; position: relative; margin-top: 17px; margin-left: 844px; overflow: auto;">
+									<button type="button" class="btn btn-light" id="searchBtn"
+										style="width: 40px; height: 30px; position: absolute; margin-top: 17px;">
+										<i class="fa-solid fa-magnifying-glass"></i>
+									</button> 
+								</a>
+							</div>
 							<!-- 검색바 끝 -->
 						</div>
 					</div>
@@ -194,9 +227,10 @@ caption.dots {
 								<!-- 카테고리 -->
 								<div class="side-title">CATEGORY</div>
 								<div class="side-menu">
-									<ul th:each="cate:${category}">
-										<li><a class="searchCate" th:value="${cate.categoryId}"
-											style="cursor: pointer">[[${cate.categoryName}]]</a></li>
+<!-- 									<i class="fa-solid fa-seedling"></i> -->
+									<ul th:each="cate:${category}" style="list-style:none;margin-left: -27px;">
+										<li><a class="searchCate fa-solid fa-seedling" th:value="${cate.categoryId}"
+											style="cursor: pointer;float:left;">&nbsp; [[${cate.categoryName}]]</a></li>
 									</ul>
 								</div>
 							</div>
@@ -303,14 +337,17 @@ caption.dots {
 						<div class="timeline-right">
 							<!-- 모먼트 -->
 							<h3 style="text-align: center; margin: 0 auto;">
-								MOMENT <a data-bs-toggle="modal" data-bs-target="#insertModal"
+								MOMENT 
+								<a data-bs-toggle="modal" data-bs-target="#insertModal"
 									type="button"
-									th:if="${mmtCnt<4} and ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}">▶</a>
-								<a type="button" th:if="${mmtCnt==4}"
-									onclick="alert('😥 저장 가능한 모먼트 용량이 초과되었습니다. 삭제 후 등록해주세요!')">✖</a>
+									th:if="${mmtCnt<4} and ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"><i class="fa-solid fa-comment-medical"></i></a>
 								<a type="button"
-									th:unless="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
-									style="display: none;"></a>
+									th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} != ${blogInfo.blogId}"
+									disabled><i class="fa-solid fa-comment"></i></a>
+								<a type="button" th:if="${mmtCnt==4} and ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
+									onclick="alert('😥 저장 가능한 모먼트 용량이 초과되었습니다. 삭제 후 등록해주세요!')"><i class="fa-solid fa-comment-slash"></i></a>
+								
+								
 							</h3>
 							<div id="card-app" class="card-container mmtpage-content">
 								<!-- 모달창 띄우는 버튼 -->
@@ -339,7 +376,7 @@ caption.dots {
 							<!-- 페이징 해야함 -->
 							<div class="col-lg-8 col-md-7"
 								style="width: 90%; margin: 30px auto;">
-								<div class="row blogList"></div>
+								<div class="row blogList" style="margin-bottom: 90px;"></div> 
 							</div>
 							<!-- 페이징 해야함 -->
 						</div>
@@ -426,7 +463,7 @@ caption.dots {
 					<div class="modal-body row">
 						<div class="col-md-6 modal-image sticky-top">
 							<h3>상세 내용</h3>
-							<textarea id="momentWrite" cols="58" rows="20"
+							<textarea id="momentWrite" cols="40" rows="25"
 								placeholder="500자 미만으로 입력해주세요"></textarea>
 						</div>
 						<div class="col-md-6 p-3">
@@ -440,7 +477,6 @@ caption.dots {
 									required /> <br>
 								<h3>공개범위</h3>
 								<select name="publicScope" id="scope">
-									<!-- 공개범위 부분 나중에 value 수정 필요 -->
 									<option value="public">전체공개</option>
 									<option value="partial" selected>일부공개</option>
 									<option value="private">비공개</option>
@@ -453,7 +489,7 @@ caption.dots {
 									<div class="p-2">
 										이미지 미리보기
 										<div class="image-container">
-											<img style="width: 500px;" id="preview-image2"
+											<img style="width: 250px;" id="preview-image2"
 												src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
 											<input style="display: block;" type="file" name="uploadfile"
 												multiple="multiple" id="input-image">
@@ -625,9 +661,9 @@ caption.dots {
 			
 // 			// 구독
 			if(subTF == 'T'){ // 만약 값이 있다면
-				$(".follow").css({'background-color':'#2980b9','color':'white','border-color':'white'});
+				$(".follow").css({'background-color':'#9dc2c0','color':'white','border-color':'white'});
 			}else{
-				$(".follow").css({'background-color':'','color':'#2980b9','border-color':'#2980b9'});
+				$(".follow").css({'background-color':'','color':'','border-color':'#9dc2c0'});
 			}
 			
 			
@@ -637,7 +673,7 @@ caption.dots {
 				if(id!=""){
 					if(subTF =='F'){ // 구독하지 않았다면~
 						let th =$(this);
-						$(this).css({'background-color':'#2980b9','color':'white','border-color':'white'});
+						$(this).css({'background-color':'#9dc2c0','color':'white','border-color':'white'});
 						
 						$.ajax({
 							url: '/blog/addSub',
@@ -651,7 +687,7 @@ caption.dots {
 							success: function(result){
 								console.log(result);
 								alert("구독 완료");
-								th.text('구독중');
+								th.text('구독 중');
 								subTF = 'T';
 							},
 							error: function(error){
@@ -661,7 +697,7 @@ caption.dots {
 					
 				}else{
 				//구독 취소
-		 				$(this).css({'background-color':'','color':'#2980b9','border-color':'#2980b9'});
+		 				$(this).css({'background-color':'','color':'#9dc2c0','border-color':'#9dc2c0'});
 		 				let th =$(this);
 		 				$.ajax({
 		 					url: '/blog/delSub',
