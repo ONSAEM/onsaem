@@ -342,15 +342,15 @@
 				<div class="container" style="margin: 10px">
 					<div class="profile">
 						<div class="profile-image">
-							<img src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces" alt="">
+							<img th:src="'/fileView/'+${thumbnail.fileRoute}" alt="" style="aspect-ratio: 1 / 1; width:150px">
 						</div>
 						<div class="profile-user-settings">
 							<h1 class="profile-user-name" th:text="${chal.chalName}">janedoe_</h1>
 						</div>
 						<div class="profile-stats">
 							<ul>
-								<li>시작일 <span class="profile-stat-count" th:text="${#dates.format(chal.startDate, 'MM월 dd일')}" id="startDate" >164</span></li>
-								<li>종료일 <span class="profile-stat-count" th:text="${#dates.format(chal.endDate, 'MM월 dd일')}" id="endDate" th:value="${chal.endDate}">188</span></li>
+								<li style="font-size:large">📆시작일 <span class="profile-stat-count" th:text="${#dates.format(chal.startDate, 'MM월 dd일')}" id="startDate" >164</span></li>
+								<li style="font-size:large">📆종료일 <span class="profile-stat-count" th:text="${#dates.format(chal.endDate, 'MM월 dd일')}" id="endDate" th:value="${chal.endDate}">188</span></li>
 							</ul>
 						</div>
 						<div class="profile-bio">
@@ -363,8 +363,8 @@
 					
 					<!-- End of profile section -->
 					<ul>
-						<li class="liLIst">section 1</li>
-						<li class="liLIst" th:onclick="move()">section 2</li>
+						<li class="liLIst" th:onclick="move1()">section 1</li>
+						<li class="liLIst" th:onclick="move2()">section 2</li>
 					</ul>
 			
 				</div>
@@ -372,11 +372,11 @@
 				<!-- End of container -->
 			
 					<!-- 도넛차트 -->
-						<div id="chart" th:if="${chal.subClass} =='팀'" style=" text-align : center; width:500px; margin-left:300px;">
+						<div id="chart" th:if="${chal.subClass} =='팀'" style=" text-align : center; width:500px;  margin-left:200px;">
 							<h3>우리 [[${myTeam}]]의 달성률</h3>	
 							<canvas id="chDonut1" ></canvas>
 						</div>
-						<div id="chart" th:if="${chal.subClass} =='개인'" style=" text-align : center; width:500px; margin-left:300px;">
+						<div id="chart" th:if="${chal.subClass} =='개인'" style=" text-align : center; width:500px;  margin-left:200px;">
 							<h3>[[${chal.chalName}]] 참가자 달성률</h3>	
 							<canvas id="chDonut2" ></canvas>
 						</div>		
@@ -468,9 +468,7 @@
 			let memberId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}]]";
 		
 			//성공률 계산위해
-	      	let privateDonation = Number("[[${user.privateDonate}]]");
-	      	console.log(privateDonation);
-	      	let good = Number("[[${cntGood}]]"); 
+	      	/* let good = Number("[[${cntGood}]]"); 
 	     	let total = Number("[[${chal.total}]]");
 	     	let dday = Number("[[${chal.dday}]]");
 	     	
@@ -498,7 +496,7 @@
 	     		$("#expectPT").text(expectedPoint);
 	     	}
 	     	
-	     	console.log(success);
+	     	console.log(success); */
 	      	
 	     	//차트
 			//차트관련
@@ -526,7 +524,8 @@
 					      {
 					        backgroundColor: colors.slice(0,2),
 					        borderWidth: 0,
-					        data: data
+					        data: data,
+					        cutout: "60%"
 					      }
 					    ]
 					};
@@ -561,7 +560,8 @@
 						      {
 						        backgroundColor: colors.slice(0,2),
 						        borderWidth: 0,
-						        data: data
+						        data: data,
+						        cutout: "60%"
 						      }
 						    ]
 						};
@@ -794,10 +794,15 @@
 	      }
 	      
 	      //페이지 이동 - 남들 인증샷, 같은 참가자 인증샷 보는 곳으루 ㅎ 랫츠고 !
-	      function move(){
+	      function move2(){
 	    	  let chalId = '[[${chal.chalId}]]';
 	    	  console.log(chalId);
 	    	  location.href="/mypage/myChalStatus2?chalId="+chalId;
+	      }
+	      function move1(){
+	    	  let chalId = '[[${chal.chalId}]]';
+	    	  console.log(chalId);
+	    	  location.href="/mypage/myChalStatus?chalId="+chalId;
 	      }
 		</script>
 		

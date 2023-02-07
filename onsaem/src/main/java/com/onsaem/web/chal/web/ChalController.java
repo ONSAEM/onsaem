@@ -98,7 +98,8 @@ public class ChalController {
 		public String chalListDays(Model model,@RequestParam(value="frequency", required=false)String frequency, ChalVO vo,  Paging paging){
 			String classes = "항시";
 			model.addAttribute("ngoes", ngoService.listNgoClass(classes));
-			vo.setFrequency(frequency);
+			String frequencies = "[^"+frequency+"]";
+			vo.setFrequency(frequencies);
 			model.addAttribute("chals", chalService.beforeChals(vo, paging));
 			
 			//기부금 순위로
