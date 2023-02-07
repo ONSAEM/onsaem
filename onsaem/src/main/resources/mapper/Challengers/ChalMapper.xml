@@ -18,7 +18,7 @@
 				 AND CHAL_NAME LIKE '%' || #{chalName} || '%'
 		</if>
 		<if test="frequency">
-				AND INSTR(C.FREQUENCY,  #{frequency}) >0
+				AND regexp_like(C.FREQUENCY,  #{frequency})
 			</if>
 	</sql>
 	
@@ -152,12 +152,16 @@
 	</select>
 	
 	<select id="beforeChals" resultType="ChalVO" parameterType="ChalVO">
-		SELECT * FROM (SELECT ROWNUM RN, A.* FROM( SELECT C.CHAL_ID,
-		C.CLASSES, C.SUB_CLASS, C.CHAL_NAME, C.START_DATE, C.END_DATE,
-		M.FILE_ROUTE, M.MEDIA_NAME, C.FREQUENCY
-		FROM CHALLENGES C JOIN MEDIA M
-		ON C.CHAL_ID = M.GROUP_ID
-        WHERE M.SUB_GROUP = '썸네일'
+		SELECT * 
+			FROM (SELECT 
+					ROWNUM RN,
+					 A.*
+					  FROM( SELECT C.CHAL_ID,
+							C.CLASSES, C.SUB_CLASS, C.CHAL_NAME, C.START_DATE, C.END_DATE,
+							M.FILE_ROUTE, M.MEDIA_NAME, C.FREQUENCY
+							FROM CHALLENGES C JOIN MEDIA M
+							ON C.CHAL_ID = M.GROUP_ID
+		        			WHERE M.SUB_GROUP = '썸네일'
          <include refid="condition2"/>
         AND C.START_DATE > CURRENT_DATE
 		ORDER BY CHAL_ID DESC

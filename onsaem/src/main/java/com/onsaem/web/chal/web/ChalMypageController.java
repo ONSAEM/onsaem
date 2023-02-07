@@ -170,6 +170,9 @@ public class ChalMypageController {
 //		//챌린저스 한건 정보
 		model.addAttribute("chal",chalService.getChal(chalId));
 		
+		//썸네일 가져오기
+		model.addAttribute("thumbnail", chalService.thumnail(chalId));
+		
 		ParticipantVO tvo = new ParticipantVO();
 		tvo.setChalId(chalId);
 		tvo.setParticipantId(id);
@@ -218,6 +221,8 @@ public class ChalMypageController {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
 		model.addAttribute("chal",chalService.getChal(chalId));
+		//썸네일 가져오기
+		model.addAttribute("thumbnail", chalService.thumnail(chalId));
 		
 		if(chalService.getChal(chalId).getSubClass()=="팀") {
 			//팀전
@@ -244,7 +249,7 @@ public class ChalMypageController {
 		}
 		//한 챌린지에 대한 모든 사람들의 인증글 가져오기
 		model.addAttribute("proofs", proofService.listProofAll(chalId));
-		return "content/challengers/MyChalStatus2";
+		return "content/challengers/MypageChalStatus2";
 	}
 	
 	//마이페이지 2번쨰 페이지의 모달창내용 ㅎㅎ
