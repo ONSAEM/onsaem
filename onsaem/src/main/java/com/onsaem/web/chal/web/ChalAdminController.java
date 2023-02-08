@@ -66,7 +66,7 @@ public class ChalAdminController {
 	public String inputReceipt(MediaVO vo,Authentication authentication,  MultipartFile[] uploadFile) throws IllegalStateException, IOException {
 		//세션에서 가져온 로그인 된 id값 
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		System.out.println(vo);
+		
 		//이미지 첨부
 
 		vo.setGroups("챌린저스");
@@ -77,7 +77,7 @@ public class ChalAdminController {
 		ChalVO cvo = new ChalVO();
 		cvo.setChalId(vo.getGroupId());
 		cvo.setReceipt("첨부완료");
-		System.out.println(cvo);
+		
 		chalService.updateRecipt(cvo);
 		
 		
@@ -164,7 +164,7 @@ public class ChalAdminController {
 	@RequestMapping(value="/sharePoint", method=RequestMethod.POST)
 	@ResponseBody
 	public String sharePoint(@RequestBody ParticipantVO vo){
-		System.out.println("------"+vo);
+		
 		String winner = vo.getWinner();
 		String loser = vo.getLoser();
 		Integer thatPoint = vo.getThatPoint();
@@ -182,7 +182,7 @@ public class ChalAdminController {
 		
 		//패팀 포인트 정산
 		Integer losePoint = vo.getThatPoint()*-1;
-		System.out.println(losePoint);
+		
 		pvo.setChalId(chalId);
 		pvo.setTeam(loser);
 		pvo.setResult("패배");
@@ -242,7 +242,7 @@ public class ChalAdminController {
 	@RequestMapping(value="/rejectNgo", method=RequestMethod.POST)
 	@ResponseBody
 	public String rejectNgo(@RequestBody NgoVO vo){
-			System.out.println("vovovovo"+vo);
+			
 		ngoService.rejectNgo(vo);
 		
 
@@ -261,7 +261,7 @@ public class ChalAdminController {
 	@RequestMapping(value="/AdminEndTeam", method=RequestMethod.GET)
 	public String AdminEndTeam() {
 
-		return "content/challengers/AdminChalView";
+		return "content/challengers/AdminChalVIew";
 	}
 	
 	//종료 팀 챌린지 목록 가져오기
@@ -291,7 +291,7 @@ public class ChalAdminController {
 	@RequestMapping(value="/searchTeamChals", method=RequestMethod.POST)
 	@ResponseBody
 	public List<ChalVO> getTeamChals(ChalVO vo){
-		System.out.println(vo);
+		
 		vo.setSubClass("팀");
 		return chalService.adminSearchChals(vo);
 	}

@@ -210,7 +210,6 @@
 		
 		//모달창 생성
 			document.querySelectorAll(".openBtn").forEach((openBtn) => {
-				console.log(openBtn);
 				openBtn.addEventListener("click", displayModal);
 				
 			})
@@ -255,10 +254,8 @@
 			//반려
 			function rejectApply(){
 				let ngoId=$('#ngoId').val();
-				console.log(ngoId);
 				let con = $('#condition1').text();
 				let reason = $('#reason').val();
-				console.log(reason);
 				let condition = '';
 				if(con=='신청'){
 					condition = '반려';
@@ -266,7 +263,7 @@
 					condition = '재반려';
 				}
 				
-				console.log(condition);
+			
 				 $.ajax({
 		    		  url : '/mypage/rejectNgo',
 		    		  method : 'POST',
@@ -294,7 +291,6 @@
 			//승인
 			function approveApply(){
 				let ngoId=$('#ngoId').val();
-				console.log(ngoId);
 				let condition= "승인";
 				 $.ajax({
 			  		  url : '/mypage/approveNgo',

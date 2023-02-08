@@ -66,7 +66,8 @@ public class ChalMypageController {
 		vo.setParticipantId(userDetails.getUsername());
 		//로그인 유저가 참가중인 챌린저들,,,
 		model.addAttribute("chals", chalService.myCurentChal(vo));
-		
+		//썸네일 조회
+		model.addAttribute("pics", proofService.myChalThumnails(vo));
 		
 		return "content/challengers/MypageCurrentChal";
 	}
@@ -105,8 +106,7 @@ public class ChalMypageController {
 		vo.setParticipantId(userDetails.getUsername());
 		//이용자가 참가한 시작 전인 챌린지들 가져오기.
 		List<ChalVO> list=chalService.myBeforeChal(vo);
-		System.out.println(list);
-		System.out.println(list.size());
+		
 		
 		if(list.size()>0){
 			model.addAttribute("chals", list);
@@ -263,9 +263,9 @@ public class ChalMypageController {
 		 Map<String, Object> map = new HashMap<String, Object>();
 		 
 		  //게시글 한개 내용 가져오기, 인증샷 model.addAttribute("proof",
-		 System.out.println(proofId);
+		
 		 map.put("brd",proofService.getProof(proofId));
-		 System.out.println("//////////////////////"+proofService.getProof(proofId));
+		 
 		 //댓글 리스트 
 		 map.put("repllies",proofService.listReply(proofId));
 		//좋아요 수
@@ -332,11 +332,9 @@ public class ChalMypageController {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		String id = userDetails.getUsername();
 		vo.setWriterId(id);
-		System.out.println(vo.getGroupId());
-		
+
 		proofService.inputReply(vo);
-		
-		
+
 		//댓글 리스트 가져오기? 
 		List<RepliesVO> list = proofService.listReply(vo.getGroupId());
 
@@ -366,7 +364,6 @@ public class ChalMypageController {
 	public String reSubmit(@RequestBody NgoVO vo, Authentication authentication) {
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		String id = userDetails.getUsername();
-		System.out.println(vo);
 		vo.setClasses("항시");
 		ngoService.updateNgo(vo);
 		return "redirect:/mypage/myApplyNgo";

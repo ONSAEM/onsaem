@@ -360,6 +360,13 @@
 		font-size: 16px;
 		resize: both;
 	}
+	#content{
+		width : 60%;
+	}
+	#replyContent{
+		width : 70%;
+		text-align : left;
+	}
 	</style>
 </head>
 
@@ -460,20 +467,26 @@
           <div class="modal__background"></div>
           <div class="modal__content" id="insta">
          
-             	<span style="float:left";><p id="writer"></p></span>
+             	<span style="float:left; text-align : left">
+             		<p id="writer" style="text-align : left"></p>
+	             	
+	             	<p id="writeDate"></p>
+             	</span>
              	<button id="on" onclick="openFrm()" style="display: on; float:right">신고</button>	
              	<input type="hidden" id="theId">
                 <img style="width: 500px;" id="image">
           		<p id="contents"></p>      
-                <table>
+                <table style="overflow-y:auto">
                 <thead><tr>
                 			<th>댓쓴이</th>
-                			<td>댓글내용</td>
+                			<th>댓글내용</th>
+                			<th>작성일자</th>
                 		</tr></thead>
                 		<tbody class="replies">
                 		</tbody>
                 </table>
-                <span><p id="redHeart" th:onclick="delLike()">❤</p><p id="whiteHeart" th:onclick="addLike()">🤍</p>좋아요 <p id="cnt"></p></span>
+                <span><img src="/challengers/redheart.png" id="redHeart"  th:onclick="delLike()" type="button" style="width:4%">
+                		<img src="/challengers/heart.png" th:onclick="addLike()" type="button" style="width:4%" id="whiteHeart" >좋아요 <p id="cnt"></p></span>
                 <input type="text" id="content" name="content">
                 <button type="button" th:onclick="inputReply()">댓글쓰기</button>
                 <button type="button" class="closeBtn">닫기</button>
@@ -509,13 +522,11 @@
 		
 			//성공률 계산위해
 	      	let privateDonation = Number("[[${user.privateDonate}]]");
-	      	console.log(privateDonation);
 	      	let good = Number("[[${cntGood}]]"); 
 	     	let total = Number("[[${chal.total}]]");
 	     	let dday = Number("[[${chal.dday}]]");
 	     	
 	     	let bad = total-good-dday;
-	     	console.log(bad);
 	     	$('#badCnt').text(bad+' 회');
 	     	let success = (good/total).toFixed()*100;
 	     	$("#successPercent").text(success);
@@ -537,9 +548,7 @@
 	     		let expectedPoint =0;
 	     		$("#expectPT").text(expectedPoint);
 	     	}
-	     	
-	     	console.log(success);
-	      	
+
 	     	//차트
 			var colors = ['#b4a7d6','#eae5e1','#333333','#c3e6cb','#dc3545','#6c757d'];
 			var donutOptions = {
@@ -578,11 +587,8 @@
 	      const modalBackground = modal.querySelector(".modal__background");
 
 	      function displayModal(data) {
-	    	  console.log(data)
 	    	  let proofId = data.proofId;
 	    	  $('#theId').val(data.proofId);
-	    	  console.log(proofId,'=======');
-	    	 
 	    	  $(".replies").val();
 		       //ajax 호출 
 		       		$.ajax({
@@ -595,19 +601,16 @@
 					      //contentType: 'application/plain',
 					      data: {proofId : proofId},
 					      success: function (result) {
-					    	  console.log(result);
-					    	  console.log(result.repllies);
-					    	  console.log(result.brd.content);
-					    	  console.log(result.brd.proofWriter);
+
 					    	  $('#image').attr("src", '/fileView/'+result.brd.fileRoute);
 					    	  
 					    	$('.replies').html("");
 					    	  let list = result.repllies;
-					    	  console.log(list.writerId);
+
 					    	  let brd = result.brd;
 					    	  var str = '<TR>';
 					    	  let tbl =  $.each(list , function(i){
-					    		  str += '<TD>' + list[i].writerId + '</TD><TD>' + list[i].content+'</TD><TD>'+list[i].replyDate+ '</TD>';
+					    		  str += '<TD>' + list[i].writerId + '</TD><TD id="replyContent">' + list[i].content+'</TD><TD id="charDate">'+list[i].charDate+ '</TD>';
 					                  str += '</TR>';
 					             });
 					    	  $(".replies").append(str);
@@ -617,6 +620,8 @@
 					    	  document.querySelector("#contents").innerText=result.brd.content;
 					    	 //글쓴이 넣기
 					    	  document.querySelector("#writer").innerText=result.brd.proofWriter;
+					    	//작성일자 넣기
+					    	  document.querySelector("#writeDate").innerText=result.brd.writeDate;
 					    	 //좋아요 여부 확인
 					    	 let check = result.checkLike;
 					    	 if(check == 0){
@@ -657,10 +662,8 @@
 	    		contentType: 'application/json',
 			    data: JSON.stringify({content:content, groupId : id}),
 			    success:function(result){
-			    	console.log(result);
 			    	$('.replies').html("");
 			    	  let list = result;
-			    	  console.log(list.writerId);
 			    	  let brd = result.brd;
 			    	  var str = '<TR>';
 			    	  let tbl =  $.each(list , function(i){
@@ -680,8 +683,7 @@
 	      //좋아요 하기
 	      function addLike(){
 	    	  let groupId = document.querySelector('#theId').value;
-	    	  console.log(groupId);
-	    	  
+
 	    	  $.ajax({
 	    		  url : '/mypage/addChalLike',
 	    		  method : 'POST',
@@ -691,7 +693,6 @@
 	               },
 	    		  data : {groupId : groupId},
 	    		  success:function(result){
-	    			  console.log(result);
 	    			  //좋아요 갯수 변경
 	    			  $("#cnt").text(result.likeCnt);
 	    			  //하트 변경
@@ -712,8 +713,7 @@
 	      //좋아요 삭제 ㅎㅎ
 	      function delLike(){
 	    	  let groupId = document.querySelector('#theId').value;
-	    	  console.log(groupId);
-	    	  
+
 	    	  $.ajax({
 	    		  url : '/mypage/delChalLike',
 	    		  method : 'POST',
@@ -723,7 +723,6 @@
 	               },
 	    		  data : {groupId : groupId},
 	    		  success:function(result){
-	    			  console.log(result);
 	    			  //좋아요 갯수 변경
 	    			  $("#cnt").text(result.likeCnt);
 	    			  //하트 변경
@@ -764,8 +763,7 @@
 	    	  let groupId = document.querySelector('#theId').value;
 	    	  let reason = $("#reason").val();
 			  let detailReason = $("#detailReason").val();
-	    	  console.log(groupId);
-	    	  
+
 	    	 	$.ajax({
 	    		  url : '/mypage/inputReport',
 	    		  method : 'POST',
@@ -792,11 +790,9 @@
 	      //페이지 이동 - 남들 인증샷, 같은 참가자 인증샷 보는 곳으루 ㅎ 랫츠고 !
 	      function move2(){
 	    	  let chalId = '[[${chal.chalId}]]';
-	    	  console.log(chalId);
 	    	  location.href="/mypage/myChalStatus2?chalId="+chalId;
 	      }function move1(){
 	    	  let chalId = '[[${chal.chalId}]]';
-	    	  console.log(chalId);
 	    	  location.href="/mypage/myChalStatus?chalId="+chalId;
 	      }
 		</script>

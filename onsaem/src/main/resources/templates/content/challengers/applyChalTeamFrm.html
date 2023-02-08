@@ -137,21 +137,16 @@
 		
 			var privateDonation = Number(document.getElementById("privateDonate").value);
 			/* var donation = Number(document.getElementById("donation").value); */
-			console.log(privateDonation);
 			
 			var currentFee = Number(document.getElementById("currentFee").value);
-			console.log("현재기부금모인거"+currentFee);
 			
 			let donationFee = currentFee+privateDonation;
 			let betPoint = document.getElementById("betPoint");
 			betPoint.value = privateDonation*0.01;
-			console.log(betPoint.value);
 			
 //결제 및 테이블 등록 ㅎㅎ 
 			
 			$("#paymentBtn").on("click",function() {
-		      console.log('확인')
-		      console.log(donationFee);
 		      let privateDonate = $('#privateDonate').val();
 		      let betPoint = $('#betPoint').val()
 		      let chalId = $('#chalId').val();
@@ -161,11 +156,8 @@
 		      let userAddr ='[[${user.addr}]]';
 		      let userpostalCode ='[[${user.postalCode}]]';
 		      let userTel = '[[${user.phone}]]'; 
-		    
-		      
-		      console.log(userId);
-		      
-		      console.log(value);
+
+		     
 		      IMP.init('imp54500213');
 			      IMP.request_pay({
 			          pg : 'html5_inicis',

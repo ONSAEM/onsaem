@@ -19,4 +19,6 @@ public class RepliesVO {
 	
 	int level;
 	String fileRoute;
+	
+	String charDate;
 }

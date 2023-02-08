@@ -246,15 +246,6 @@
 			<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 			
 		<script>
-		/* let winner;
-		let loser;
-		//select값 가져오기
-		$("select[id=teamChoose]").change(function(){
-		  //console.log($(this).val()); //value값 가져오기
-		  winner = $(this).val();
-		  //eq() => 인덱스 요소에 해당되는거 찾기
-		  loser = $('#teamChoose option:not(:selected)').eq(1).val();
-		}); */
 		
 		//csrf설정
 		 var token = $("meta[name='_csrf']").attr("content");
@@ -269,7 +260,6 @@
 			
 		//모달창 생성
 		document.querySelectorAll(".openBtn").forEach((openBtn) => {
-			console.log(openBtn);
 			openBtn.addEventListener("click", displayModal);
 			
 		})
@@ -302,7 +292,6 @@
             		  let sharepoint; 
             		  let receipt;
             		  let status = $("#status").val();
-            		  console.log(status);
             		  //상태구분
             		  switch(status) {
 							  case '전체':  // if (x === 'value1') 
@@ -324,7 +313,6 @@
 								  sharepoint = '정산완료';
 								  break;
 						}
-            		  	console.log(sharepoint);
             		  	let startDate=$("#startDate").val();
 		            	let endDate=$("#endDate").val();
 		            	let is=this;
@@ -341,7 +329,6 @@
 					            	"endDate":endDate,
 					            	},
 								success : function(result) {									
-									console.log(result)
 									is.chals=result;   
 								},
 								error : function(error) { 
@@ -358,19 +345,13 @@
             		//팀포인튜 정산 
             		//분모 mom - 개별 팀 인원수
 					let mom = 0;
-            		console.log(chal);
-            		console.log(winner);
-            		console.log(loser);
-            		console.log(this.teamInfo.Asize);
             		if(winner == 'A'){
         				mom = this.teamInfo.Asize;
-        				console.log(mom);
         			}else {
         				mom = this.teamInfo.Bsize;
         			}
             		mom=10;
             		let sharePoint = this.betPoints/mom;
-            		console.log(sharePoint);
             		   $.ajax({
             				url : '/mypage/sharePoint',
             				method :'POST',
@@ -385,7 +366,7 @@
             					location.href ="/mypage/AdminEndTeam";
             				},
             				error : function(error){
-            					console.log()
+            					console.log(error);
             				}
             			})  
             	  },
@@ -420,25 +401,18 @@
             	  } // end of function inputReceipt
             	  ,
             	   displayModal:function(obj,chal){
-            		   console.log(obj)
-            		   console.log(chal);
             		   let infoes= this;
             		   this.chalId = chal;
             		   this.modalCheck= obj;
 		        		const modal = document.querySelector(".modal");
 		    			switch(obj){
 		    				case "receiptTeam" :
-		    					console.log("팀영수증");
 		    					chalId = chal;
-		    					console.log(chalId);
 								$('#groupId').val(chalId);
 		    					modal.classList.toggle("hidden");
 		    					
 		    					break;
 		    				case "pointTeam" :
-		    					console.log("팀 포인트정산");
-		    					
-		    					
 		    					//팀전 포인트 계산 위해서 
 		    					//a팀 정보, b팀 정보 가져오는 아작스필요
 		    					  $.ajax({
@@ -450,33 +424,26 @@
 		    				               xhr.setRequestHeader(header, token);
 		    				               },
 		    							success : function(result){
-		    			        			console.log(result);
 		    			        		//전체 모금
 		    			        		let donationFee = result.totalInfo.donationFee;
-		    			        		console.log(donationFee);
 		    			        		let betPoints = Number(donationFee)*0.01;     
 		    			        		infoes.betPoints = betPoints;
 		    			        		infoes.teamInfo = result;
-		    			        		console.log(infoes.teamInfo);
 		    			        		
 		    			        		
 		    			        		//팀별 인원수
 		    			        		Asize = Number(result.Asize);
 		    			        		Bsize = Number(result.Bsize);
-		    			        		console.log(Asize);
 		    			        		//팀별 정상 인증 갯수
 		    			        		let Acnt = Number(result.A);
 		    			        		let Bcnt = Number(result.B);
-		    			        		console.log(Acnt);
 		    			        		//팀별 100%일시 총 전체 인증수  
 		    			        		let Aall = Math.abs(Number(result.totalInfo.total))*Asize;
 		    			        		let Ball = Math.abs(Number(result.totalInfo.total))*Bsize;
-		    			        		console.log(Aall);
 		    			        		//팀별 평균 성취율
 		    			        		let Apercent = 25;
 		    			        			//(Acnt/Aall)*100;
 		    			        		let Bpercent = 80;//(Bcnt/Ball)*100;
-		    			        		console.log(Apercent);
 		    			        		//A차트 만들기
 		    			        		let Alist = new Array();
 		    			        		Alist.push(Apercent);
@@ -542,7 +509,6 @@
                           url: '/mypage/getTeamChals',
                           method: 'GET',
                           success: function (data) {                             
-                             console.log(data);
                         	  is.chals=data;                                                       
                           }
                       });

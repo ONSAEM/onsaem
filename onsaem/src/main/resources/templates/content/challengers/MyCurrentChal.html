@@ -297,7 +297,6 @@ h1 {
 
       //모달창 생성
       document.querySelectorAll(".openBtn").forEach((openBtn) => {
-         console.log(openBtn);
          openBtn.addEventListener("click", displayModal);
          
       })
@@ -354,7 +353,6 @@ h1 {
              data: formData,
              dataType:'json',
              success : function(result){
-                console.log(result);
                 alert('인증 첨부 성공❤❤');
                 
              },
