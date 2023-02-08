@@ -25,4 +25,5 @@ public class MomentsVO {
 	String fileRoute;
 	String mediaName;
 	String nickname;
+	String profileImg;
 }

@@ -128,6 +128,13 @@ public class BlogWriteServiceImpl implements BlogWriteService {
 	}
 
 
+	@Override
+	public List<BlogWriteVO> hotBlogList(BlogWriteVO blogWriteVO) {
+		// TODO Auto-generated method stub
+		return blogWriteMapper.hotBlogList(blogWriteVO);
+	}
+
+
 	
 
 }

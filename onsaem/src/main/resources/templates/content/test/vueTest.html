@@ -67,15 +67,6 @@ h1 {
 
 		<div class="app-content-header">
 			<h1 class="app-content-headerText">신고관리페이지</h1>
-			<button class="mode-switch" title="Switch Theme">
-				<svg class="moon" fill="none" stroke="currentColor"
-					stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-					width="24" height="24" viewBox="0 0 24 24">
-            <defs></defs>
-            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
-          </svg>
-			</button>
-			<button class="app-content-headerButton">Add Product</button>
 		</div>
 		<div class="app-content-actions">
 			
@@ -262,7 +253,6 @@ h1 {
 									</thead>
 									<tbody>
 										<tr>
-											
 											<td></td>
 											<td></td>
 											<td></td>
@@ -278,7 +268,6 @@ h1 {
 										</tr>
 									</tbody>
 								</table>
-								
 									<button @click="banUpdate()">변경사항 저장</button>
 									<button class="closeBtn" @click="displayModal()">닫기</button>
 								</div>
@@ -299,12 +288,6 @@ h1 {
 			 
 			document.querySelector(".jsFilter").addEventListener("click", function() {
 				document.querySelector(".filter-menu").classList.toggle("active");
-			});
-
-			var modeSwitch = document.querySelector('.mode-switch');
-			modeSwitch.addEventListener('click', function() {
-				document.documentElement.classList.toggle('light');
-				modeSwitch.classList.toggle('active');
 			});
 			
 					const app = Vue.createApp({   // 뷰 생성

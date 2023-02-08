@@ -74,6 +74,14 @@ public class BlogWriteController {
 		}
 		
 		model.addAttribute("blogList", blogWriteService.getBlogList(null));
+		System.out.println("blogList정보:"+model.addAttribute("blogList"));
+		
+		model.addAttribute("hotList", blogWriteService.hotBlogList(null));
+		System.out.println("hotList정보:"+model.addAttribute("hotList"));
+
+		
+		
+		
 		return "content/blog/blogMain";
 	}
 	

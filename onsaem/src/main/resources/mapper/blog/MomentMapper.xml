@@ -92,6 +92,7 @@
 		order by upload_start DESC
 	</select>
 	
+	<!-- 메인 -->
 	<!--내가 구독하는 사람들의 모먼트 조회 5개(최신순)-->
 	<select id="mySubMoment" parameterType="LikeVO" resultType="MomentsVO">
 		select  M.MOMENT_ID,
@@ -119,5 +120,28 @@
 		]]>
 		order by upload_start DESC
 	</select>
-	
+	<!-- 한 블로거의 모먼트 단건 조회 -->
+ 	<select id="getMySubMoment" resultType="MomentsVO" parameterType="String">
+ 		select  M.MOMENT_ID,
+		        M.BLOG_ID,
+		        M.ADD_URL,
+		        M.UPLOAD_START,
+		        M.UPLOAD_END,
+		        M.PUBLIC_SCOPE,
+		        M.LIKE_NUMBER,
+		        M.MOMENT_WRITE,
+		        M.WRITE_DATE,
+		        A.FILE_NAME,
+		        A.FILE_ROUTE,
+		        A.MEDIA_NAME,
+		        B.NICKNAME,
+                (select A.file_route from media A
+                    where M.blog_id = A.group_id
+                    and A.sub_group = '프로필이미지'
+                    and A.status = 'true') as profileImg
+		from moments M, media A, members B
+		where M.moment_id=A.group_id
+		and M.BLOG_ID = B.MEMBER_ID
+		and moment_id = #{momentId}
+ 	</select>
  </mapper>

@@ -206,7 +206,27 @@
 		where write_id = #{writeId}
 	</update>
  	
- 	
+ 	<!-- 메인 인기글 6개 -->
+ 	<select id="hotBlogList" resultType="BlogWriteVO" parameterType="BlogWriteVO">
+		SELECT 	b.WRITE_ID,b.BLOG_ID,b.WRITE_TITLE,b.SUBTITLE,b.CATEGORY_ID,
+    			b.PUBLIC_SCOPE,b.BLOG_WRITE,b.CNT,b.LIKE_NUMBER,b.WRITE_DATE,m.nickname,
+    			(select count(r.reply_id)
+    			from replies r 
+    			START WITH b.write_id = r.group_id
+    			CONNECT BY PRIOR r.reply_id = r.group_id )as replyCnt,
+                (select count(l.like_id) from likes l
+                 where groups = '블로그'
+                 and b.write_id = l.group_id)as likeCnt
+		  FROM  BLOG_WRITES b, members m
+		 WHERE  b.blog_id = m.member_id
+           and  public_scope = 'public'
+           and  b.write_date >= current_date-30
+           <![CDATA[
+           and  b.write_date <= current_date
+           and  rownum <= 6
+           ]]>
+ 		 order  by b.cnt+replyCnt+likeCnt DESC 
+	</select>
  	
  	
 <!--  	밑에는 수정중 -->

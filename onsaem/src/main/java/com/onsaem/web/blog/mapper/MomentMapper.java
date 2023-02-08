@@ -27,5 +27,8 @@ public interface MomentMapper {
 	// 내가 구독한 사람들의 최신 모먼트 (5개 출력)
 	public List<MomentsVO> mySubMoment(LikeVO likeVO);
 	
+	// 한 블로거의 모먼트 단건 조회(프로필 사진 포함)
+	public MomentsVO getMySubMoment(String momentId);
+	
 	
 }
