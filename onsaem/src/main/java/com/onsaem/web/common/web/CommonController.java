@@ -23,11 +23,7 @@ public class CommonController {
 	public String errorPage() {
 		return "content/error/404";
 	}
-	
-//	@RequestMapping(value="/testblog", method = RequestMethod.GET)
-//	public String testblog() {
-//		return "content/test/blogtest";
-//	}
+
 	@RequestMapping(value="/testVue", method = RequestMethod.GET)
 	public String testVue(Model model) {
 		return "content/test/vueTest";
