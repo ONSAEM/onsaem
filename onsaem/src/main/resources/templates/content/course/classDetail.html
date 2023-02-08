@@ -1,325 +1,354 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 
 <head>
-<style type="text/css">
-.main {
-	flex-grow: 1;
-	display: flex;
-	flex-direction: column;
-	min-width: 1400px;
-}
+	<style type="text/css">
+		.main {
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+			min-width: 1400px;
+		}
 
-.main-container {
-	padding: 20px;
-	flex-grow: 1;
-	overflow: auto;
-	background-color: #FCFBFC;
-}
+		.main-container {
+			padding: 20px;
+			flex-grow: 1;
+			overflow: auto;
+			background-color: #FCFBFC;
+		}
 
-.profile-cover {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	object-position: center;
-	border-radius: 4px;
-}
+		.profile-cover {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: center;
+			border-radius: 4px;
+		}
 
-.subheader {
-	position: relative;
-	height: 300px;
-	min-height: 250px;
-	z-index: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background-size: cover;
-	background-position: center;
-}
+		.subheader {
+			position: relative;
+			height: 300px;
+			min-height: 250px;
+			z-index: 1;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-size: cover;
+			background-position: center;
+		}
 
-.subheader:before {
-	content: "";
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	z-index: -1;
-	left: 0;
-	top: 0;
-	background-image: url("/course/test.gif");
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center;
-	filter: blur(30px);
-	opacity: 0.7;
-}
+		.subheader:before {
+			content: "";
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			z-index: -1;
+			left: 0;
+			top: 0;
+			background-image: url("/course/test.gif");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center;
+			filter: blur(30px);
+			opacity: 0.7;
+		}
 
-.glass {
-	height: 100%;
-	width: 100%;
-	background-image: url("/course/test.gif");
-	background-size: cover;
-	background-position: center;
-	clip-path: inset(10em);
-	filter: blur(5px);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
+		.glass {
+			height: 100%;
+			width: 100%;
+			background-image: url("/course/test.gif");
+			background-size: cover;
+			background-position: center;
+			clip-path: inset(10em);
+			filter: blur(5px);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
 
-.drop-shadow {
-	height: 155%;
-	width: 100%;
-	filter: drop-shadow(0px 20px 10px rgba(0, 0, 0, 0.3));
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
+		.drop-shadow {
+			height: 155%;
+			width: 100%;
+			filter: drop-shadow(0px 20px 10px rgba(0, 0, 0, 0.3));
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
 
-.drop-shadow:before {
-	display: block;
-	content: "";
-	position: absolute;
-	top: 10em;
-	height: calc(100% - 20em);
-	width: calc(100% - 20em);
-	border-top: 2px solid rgba(225, 225, 225, 0.2);
-	border-left: 1px solid rgba(225, 225, 225, 0.1);
-	border-right: 1px solid rgba(225, 225, 225, 0.3);
-	z-index: 2;
-}
+		.drop-shadow:before {
+			display: block;
+			content: "";
+			position: absolute;
+			top: 10em;
+			height: calc(100% - 20em);
+			width: calc(100% - 20em);
+			border-top: 2px solid rgba(225, 225, 225, 0.2);
+			border-left: 1px solid rgba(225, 225, 225, 0.1);
+			border-right: 1px solid rgba(225, 225, 225, 0.3);
+			z-index: 2;
+		}
 
-.drop-shadow>span {
-	position: absolute;
-	z-index: 5;
-	color: white;
-	font-size: 4em;
-	letter-spacing: 0.75em;
-	padding-left: 0.375em;
-}
+		.drop-shadow>span {
+			position: absolute;
+			z-index: 5;
+			color: white;
+			font-size: 4em;
+			letter-spacing: 0.75em;
+			padding-left: 0.375em;
+		}
 
-.product-details {
-	position: relative;
-    z-index: 1;
-    background-color: #ffffff;
-    padding: 50px 20px;
-    width: 1400px;
-    border-radius: 20px;
-    margin: 30px auto;
-}
-/* VARIABLES -  START */
-/* COLORS  */
-/* DIMENSIONS */
-/* FONTS */
-@import
-	url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap")
-	;
+		.product-details {
+			position: relative;
+			z-index: 1;
+			background-color: #ffffff;
+			padding: 50px 20px;
+			width: 1400px;
+			border-radius: 20px;
+			margin: 30px auto;
+		}
 
-/* VARIABLES - END */
-/* COMMONS - START */
-.flex-center, .wrapper .button-container, .wrapper {
-	justiy-content: center;
-	align-items: center;
-}
+		/* VARIABLES -  START */
+		/* COLORS  */
+		/* DIMENSIONS */
+		/* FONTS */
+		@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap");
 
-* {
-	box-sizing: border-box;
-	margin: 0;
-}
+		/* VARIABLES - END */
+		/* COMMONS - START */
+		.flex-center,
+		.wrapper .button-container,
+		.wrapper {
+			justiy-content: center;
+			align-items: center;
+		}
 
-/* COMMONS - END */
-/* STYLES -  START */
-.wrapper {
-	font-family: "Lato", sans-serif;
-	font-weight: 400;
-}
+		* {
+			box-sizing: border-box;
+			margin: 0;
+		}
 
-.heartbutton {
-	height: 50px;
-	width: 170px;
-	background-color: #fefefe;
-	border-radius: 5px;
-	padding: 12.5px;
-	cursor: pointer;
-}
+		/* COMMONS - END */
+		/* STYLES -  START */
+		.wrapper {
+			font-family: "Lato", sans-serif;
+			font-weight: 400;
+		}
 
-.content .icon {
-	font-size: 25px;
-	color: #ea4a87;
-}
+		.heartbutton {
+			height: 50px;
+			width: 170px;
+			background-color: #fefefe;
+			border-radius: 5px;
+			padding: 12.5px;
+			cursor: pointer;
+		}
 
-.content .icon.fa {
-	display: none;
-}
+		.content .icon {
+			font-size: 25px;
+			color: #ea4a87;
+		}
 
-.content .text {
-	font-size: 25px;
-	color: #2f3537;
-}
+		.content .icon.fa {
+			display: none;
+		}
 
-.content .text.like {
-	margin-left: 10px;
-}
+		.content .text {
+			font-size: 25px;
+			color: #2f3537;
+		}
 
-.content .text.d {
-	opacity: 0;
-	display: inline-block;
-	transform: translateX(12px);
-}
+		.content .text.like {
+			margin-left: 10px;
+		}
 
-.content .text.number {
-	margin-left: 10px;
-	color: #7a7c81;
-}
+		.content .text.d {
+			opacity: 0;
+			display: inline-block;
+			transform: translateX(12px);
+		}
 
-/* GENERAL STYLES */
-.pagination ul {
-	margin: auto;
-	padding: 0;
-	list-style: none;
-}
+		.content .text.number {
+			margin-left: 10px;
+			color: #7a7c81;
+		}
 
-/* ONE */
-.p1 li {
-	font-size: 14px;
-	width: 40px;
-	height: 40px;
-	line-height: 40px;
-	padding: 0;
-	text-align: center;
-	float: left;
-	cursor: pointer;
-}
+		/* GENERAL STYLES */
+		.pagination ul {
+			margin: auto;
+			padding: 0;
+			list-style: none;
+		}
 
-.dayClass {
-	cursor: pointer;
-}
+		/* ONE */
+		.p1 li {
+			font-size: 14px;
+			width: 40px;
+			height: 40px;
+			line-height: 40px;
+			padding: 0;
+			text-align: center;
+			float: left;
+			cursor: pointer;
+		}
 
-#reportModal .modal-dialog {
-	min-width: 350px;
-}
+		.dayClass {
+			cursor: pointer;
+		}
 
-#reportModal .inputfield {
-	margin: auto;
-	width: 70%;
-	line-height: 30px;
-}
+		#reportModal .modal-dialog {
+			min-width: 350px;
+		}
 
-.modal-wrapper label {
-	color: #5f9999;
-	margin-top: 10px;
-	margin-bottom: 5px;
-	font-weight: bold;
-}
+		#reportModal .inputfield {
+			margin: auto;
+			width: 70%;
+			line-height: 30px;
+		}
 
-.modal-wrapper button {
-	background-color: #9dc2c0;
-	color: white;
-}
+		.modal-wrapper label {
+			color: #5f9999;
+			margin-top: 10px;
+			margin-bottom: 5px;
+			font-weight: bold;
+		}
 
-#bookingModal .modal-dialog {
-	width: 570px;
-}
+		.modal-wrapper button {
+			background-color: #9dc2c0;
+			color: white;
+		}
 
-#bookingModal .classTable {
-	height: 200px;
-	width: 100%;
-	text-align: center;
-	margin-top: 45px;
-}
+		#bookingModal .modal-dialog {
+			width: 570px;
+		}
 
-#bookingModal table {
-	width: 100%;
-	text-align: center;
-}
+		#bookingModal .classTable {
+			height: 200px;
+			width: 100%;
+			text-align: center;
+			margin-top: 45px;
+		}
 
-#bookingModal .classTable tr {
-	height: 35px;
-}
+		#bookingModal table {
+			width: 100%;
+			text-align: center;
+		}
 
-#bookingModal .classTable th {
-	color: #ffffff;
-	background-color: #5f9999;
-	width: 50%;
-}
+		#bookingModal .classTable tr {
+			height: 35px;
+		}
 
-.selectedClass {
-	background-color: #9dc2c0;
-}
+		#bookingModal .classTable th {
+			color: #ffffff;
+			background-color: #5f9999;
+			width: 50%;
+		}
 
-#bookingModal label {
-	width: 80px;
-	text-align: center;
-}
+		.selectedClass {
+			background-color: #9dc2c0;
+		}
 
-#bookingModal input {
-	text-align: end;
-	width: 150px;
-}
+		#bookingModal label {
+			width: 80px;
+			text-align: center;
+		}
 
-.inputfield button {
-	width: 100px;
-	float: right;
-}
+		#bookingModal input {
+			text-align: end;
+			width: 150px;
+		}
 
-.tab-pane {
-	margin-top: 30px;
-}
+		.inputfield button {
+			width: 100px;
+			float: right;
+		}
 
-.tab-pane .col-lg-7 {
-	width: 100%;
-}
+		.tab-pane {
+			margin-top: 30px;
+		}
 
-#tabs-3 .row {
-	margin: auto;
-	width: 80%;
-}
+		.tab-pane .col-lg-7 {
+			width: 100%;
+		}
 
-.tab-pane button {
-	float: right;
-}
+		#tabs-3 .row {
+			margin: auto;
+			width: 80%;
+		}
 
-.product__details__tab__desc {
-	width: 80%;
-	margin: auto;
-}
+		.tab-pane button {
+			float: right;
+			margin-bottom: 10px;
+			border-radius: 10px;
+		}
 
-.product__details__text ul {
-	margin-top: 0px;
-	height: 100px;
-	background-color: #f6f8f9;
-	border-radius: 19px;
-	padding: 10px 20px;
-	width: 300px;
-	margin-bottom: 20px;
-	border: none;
-}
-</style>
+		.product__details__tab__desc {
+			width: 80%;
+			margin: auto;
+		}
+
+		.product__details__text ul {
+			margin-top: 0px;
+			height: 100px;
+			background-color: #f6f8f9;
+			border-radius: 19px;
+			padding: 10px 20px;
+			width: 300px;
+			margin-bottom: 20px;
+			border: none;
+		}
+
+		#viewReview .modal-dialog{
+			width: 600px;
+		}
+		
+		.rList .viewReview {
+			background-color: #f6f8f9;
+			padding: 15px;
+			border-radius: 20px;
+			align-items: center;
+			margin-bottom: 10px !important;
+			margin-top: 0px !important;
+		}
+
+		.qList .news-block-info {
+			background-color: #f6f8f9;
+			padding: 15px;
+			border-radius: 20px;
+			align-items: center;
+			margin-bottom: 10px !important;
+			margin-top: 0px !important;
+		}
+
+		.qList {
+			clear: both;
+		}
+
+		.qList .viewQue {
+			margin-bottom: 0px !important;
+			margin-top: 0px !important;
+		}
+
+		textarea {
+			border: 1px solid #bdbdbd;
+			border-radius: 10px;
+			padding: 5px;
+		}
+	</style>
 </head>
 <!-- Css  -->
 <th:block layout:fragment="css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/course/courseStyle.css}"
-		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/course/courseStyle.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/css/calendar.css}" type="text/css">
 </th:block>
@@ -355,8 +384,7 @@
 							<div class="product__details__text">
 								<h3 th:text="${class.className}"></h3>
 								<div class="product__details__rating">
-									<i class="fa-solid fa-star" th:if="${class.star != 0}"
-										th:each="num:${#numbers.sequence(1,class.star)}"
+									<i class="fa-solid fa-star" th:if="${class.star != 0}" th:each="num:${#numbers.sequence(1,class.star)}"
 										style="color: #ffe949"></i><i class="fa-solid fa-star-half"
 										th:if="${class.star%1 >= 0.5}" style="color: #ffe949"></i> <span>([[${class.reviewCount}]]
 										reviews)</span>
@@ -487,6 +515,7 @@
 												<div class="col-lg-7 col-12">
 													<button type="button" class="primary-btn addQue">문의
 														등록</button>
+													<br>
 													<div class="news-block qList">
 														<div class="news-block-info "
 															th:each="que : ${question.qList}">
@@ -549,24 +578,7 @@
 		</div>
 	</div>
 	<!-- Product Details Section End -->
-	<div class="modal fade" id="viewReview" data-bs-keyboard="false"
-		aria-hidden="true" tabindex="-1">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<div class="modal-wrapper">
-						<div class="title">강의상세</div>
 
-					</div>
-				</div>
-				<div class="modal-footer"></div>
-			</div>
-		</div>
-	</div>
 	<div class="modal fade" id="viewReview" data-bs-keyboard="false"
 		aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
@@ -576,6 +588,7 @@
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body"></div>
+
 				<div class="modal-footer"></div>
 			</div>
 		</div>
@@ -592,8 +605,8 @@
 					<div class="modal-wrapper">
 						<div class="title">문의 작성</div>
 						<div class="inputfield">
-							<label>문의내용</label>
-							<textarea name="queContent" class="input"></textarea>
+							<label>문의내용</label><br>
+							<textarea name="queContent" id="ir1" rows="10" cols="50"></textarea>
 						</div>
 						<div class="inputfield">
 							<button type="button" class="btn insertQue">문의등록</button>
@@ -774,6 +787,7 @@
 		let groupId = "[[${class.classId}]]";
 		let addr = "[[${class.addr}]]";
 		let DateList = [];
+		
 			// 예약모달창
 			$('.bookingModal').on('click',function(){
 				$('#bookingModal').modal("show");
@@ -1189,8 +1203,7 @@
 							contentType: 'application/x-www-form-urlencoded',
 							data: {"reviewId" : reviewId},
 							success: function (result) {
-								console.log(result);
-								$('#viewQue').find('.modal-body').children().remove();
+								$('#viewReview').find('.modal-body').children().remove();
 								let img = '';
 								if(result.profile != null){
 								img = '/fileView/'+result.profile.fileRoute;
@@ -1198,12 +1211,27 @@
 								img = '/images/defaulltProfile.png';
 								}
 								let content = $(`<div class="modal-wrapper">
-								<div class="title">리뷰 상세</div>
+									<div class="title">리뷰 상세</div>
+								<div class="product__details__pic">
+										<div class="product__details__pic__item">
+										<img class="product__details__pic__item--large"
+											src="/shoptemplate/img/product/details/product-details-1.jpg" alt="">
+									</div>
+									<div class="product__details__pic__slider owl-carousel">
+										<img data-imgbigurl="/shoptemplate/img/product/details/product-details-2.jpg"
+											src="/shoptemplate/img/product/details/thumb-1.jpg" alt="">
+										<img data-imgbigurl="/shoptemplate/img/product/details/product-details-3.jpg"
+											src="/shoptemplate/img/product/details/thumb-2.jpg" alt="">
+										<img data-imgbigurl="/shoptemplate/img/product/details/product-details-5.jpg"
+											src="/shoptemplate/img/product/details/thumb-3.jpg" alt="">
+										<img data-imgbigurl="/shoptemplate/img/product/details/product-details-4.jpg"
+											src="/shoptemplate/img/product/details/thumb-4.jpg" alt="">
+									</div>
+								</div>
 								<img src="${img}" class="img-fluid avatar-image">
 								<p>작성자 : ${result.nickname}</p>
 								<p>내용 : ${result.reviewContent}</p>
 								<p>작성일자 : ${result.reviewDate}</p></div>`);
-								console.log($(content).eq(4));
 								if(result.reviewStar != 0){
 									for(let i=1; i<=result.reviewStar; i++){
 										$(content).find('p').eq(1).before(`<i class="fa-solid fa-star"
@@ -1217,8 +1245,28 @@
 								for(let media of result.reviewMediaList){
 									$(content).find('p').eq(2).after(`<img src="/fileView/${media.fileRoute}" style="width : 300px">`);
 								}
-								$('#viewQue').find('.modal-body').append(content);
-								$('#viewQue').modal("show")
+								$(content).find('.product__details__pic__slider img').each(function(){
+									$(this).on('click', function() {
+									var imgurl = $(this).data('imgbigurl');
+									var bigImg = $('#viewReview').find('.product__details__pic__item--large').attr('src');
+									if (imgurl != bigImg) {
+										$('.product__details__pic__item--large').attr({
+											src: imgurl
+										});
+									}
+									});
+								})
+								$('#viewReview').find('.modal-body').append(content);
+								$('#viewReview').modal("show");
+								$('#viewReview').find(".product__details__pic__slider").owlCarousel({
+									loop: true,
+									margin: 20,
+									items: 4,
+									dots: true,
+									smartSpeed: 1200,
+									autoHeight: false,
+									autoplay: true
+								});
 							},
 							error: function (error) {
 								console.log(error);
@@ -1238,6 +1286,15 @@
 							}
 						})
 		
+		function textEditer(text){
+			let textList = text.split("\n");
+			let result = "";
+			for(t of textList){
+				result += `<p>${t}</p><br>`;
+			}
+			return result;
+		}
+						
 		// 문의등록
 		$(".insertQue")
 				.click(
@@ -1249,7 +1306,7 @@
 							let data = {
 									"groupId" : groupId,
 									"writerId" : memberId,
-									"queContent" : $(this).parentsUntil('.modal-body').find("textarea[name='queContent']").val()
+									"queContent" : textEditer($(this).parentsUntil('.modal-body').find("textarea[name='queContent']").val())
 								}
 							$.ajax({
 							      url: '/class/insertQue',

@@ -47,63 +47,159 @@
 	min-width: 600px;
 	max-width: 600px;
 }
+
+.main {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	min-width: 1400px;
+}
+
+.main-container {
+	padding: 20px;
+	flex-grow: 1;
+	overflow: auto;
+	background-color: #FCFBFC;
+}
+
+.profile-cover {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	border-radius: 4px;
+}
+
+.subheader {
+	position: relative;
+	height: 300px;
+	min-height: 250px;
+	z-index: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-size: cover;
+	background-position: center;
+	margin-bottom: 30px;
+}
+
+.subheader:before {
+	content: "";
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: -1;
+	left: 0;
+	top: 0;
+	background-image: url("/course/member.gif");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	filter: blur(30px);
+	opacity: 0.7;
+}
+
+.glass {
+	height: 100%;
+	width: 100%;
+	background-image: url("/course/member.gif");
+	background-size: cover;
+	background-position: center;
+	clip-path: inset(10em);
+	filter: blur(5px);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.drop-shadow {
+	height: 155%;
+	width: 100%;
+	filter: drop-shadow(0px 20px 10px rgba(0, 0, 0, 0.3));
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.drop-shadow:before {
+	display: block;
+	content: "";
+	position: absolute;
+	top: 10em;
+	height: calc(100% - 20em);
+	width: calc(100% - 20em);
+	border-top: 2px solid rgba(225, 225, 225, 0.2);
+	border-left: 1px solid rgba(225, 225, 225, 0.1);
+	border-right: 1px solid rgba(225, 225, 225, 0.3);
+	z-index: 2;
+}
+
+.drop-shadow>span {
+	position: absolute;
+	z-index: 5;
+	color: white;
+	font-size: 4em;
+	letter-spacing: 0.75em;
+	padding-left: 0.375em;
+}
+
 </style>
 </head>
 
 <body>
 	<div layout:fragment="content">
-
-		<!-- Breadcrumb Section Begin -->
-		<section class="breadcrumb-section set-bg"
-			th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12 text-center">
-						<div class="breadcrumb__text">
-							<h2>Onsaem Login</h2>
-						</div>
+		<div class="main">
+			<div class="main-container">
+				<div class="subheader">
+					<img src="/course/member.gif" alt="" class="profile-cover">
+					<div class="drop-shadow">
+						<div class="glass"></div>
+						<span>LOGIN</span>
 					</div>
 				</div>
+				<!-- Breadcrumb Section End -->
+				<br>
+				<div class="wrapper">
+					<div class="title">로그인</div>
+					<form th:action="@{/login}" method="post" name="myfrm" class="form">
+						<div class="inputfield">
+							<label>아이디</label> <input type="text" name="memberId"
+								class="input">
+						</div>
+						<div class="inputfield">
+							<label>비밀번호</label> <input type="password" name="password"
+								class="input">
+						</div>
+						<div th:if="${error}" style="text-align: center">
+							<p id="valid" style="color: red; font-size: 13px;"
+								th:text="${exception}"></p>
+						</div>
+						<input type="hidden" id="token" th:name="${_csrf.parameterName}"
+							th:value="${_csrf.token}" />
+						<!-- Submit button -->
+						<button type="submit" class="btn btn-primary btn-block mb-4">로그인</button>
+						<!-- Register buttons -->
+						<div class="text-center">
+							<p>
+								도움이 필요하신가요? <a href="javascript:void(0);" data-bs-toggle="modal"
+									data-bs-target="#searchId">아이디찾기</a>/<a
+									href="javascript:void(0);" data-bs-toggle="modal"
+									data-bs-target="#searchPw">비밀번호찾기</a>
+							</p>
+							<p>
+								아직 회원이 아니신가요? <a th:href="@{/SignUpPage}">회원가입</a>
+							</p>
+							<p>
+								온샘과 파트너가 되고싶으신가요? <a th:href="@{/applyForm}">판매자/강사 신청</a>
+							</p>
+						</div>
+					</form>
+				</div>
 			</div>
-		</section>
-		<!-- Breadcrumb Section End -->
-		<br>
-		<div class="wrapper">
-			<div class="title">로그인</div>
-			<form th:action="@{/login}" method="post" name="myfrm" class="form">
-				<div class="inputfield">
-					<label>아이디</label> <input type="text" name="memberId" class="input">
-				</div>
-				<div class="inputfield">
-					<label>비밀번호</label> <input type="password" name="password"
-						class="input">
-				</div>
-				<div th:if="${error}" style="text-align: center">
-					<p id="valid" style="color: red; font-size: 13px;"
-						th:text="${exception}"></p>
-				</div>
-				<input type="hidden" id="token" th:name="${_csrf.parameterName}"
-					th:value="${_csrf.token}" />
-				<!-- Submit button -->
-				<button type="submit" class="btn btn-primary btn-block mb-4">로그인</button>
-				<!-- Register buttons -->
-				<div class="text-center">
-					<p>
-						도움이 필요하신가요? <a href="javascript:void(0);" data-bs-toggle="modal"
-							data-bs-target="#searchId">아이디찾기</a>/<a
-							href="javascript:void(0);" data-bs-toggle="modal"
-							data-bs-target="#searchPw">비밀번호찾기</a>
-					</p>
-					<p>
-						아직 회원이 아니신가요? <a th:href="@{/SignUpPage}">회원가입</a>
-					</p>
-					<p>
-						온샘과 파트너가 되고싶으신가요? <a th:href="@{/applyForm}">판매자/강사 신청</a>
-					</p>
-				</div>
-			</form>
 		</div>
-
 		<!-- Modal -->
 		<div class="modal fade" id="searchId" data-bs-backdrop="static"
 			data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
@@ -294,7 +390,7 @@
 					data : {
 						"email" : email
 					},
-					beforeSend : function(xhr) { 
+					beforeSend : function(xhr) {
 						xhr.setRequestHeader(header, token);
 					},
 					contentType : 'application/x-www-form-urlencoded;',
@@ -338,7 +434,7 @@
 					data : {
 						"email" : email
 					},
-					beforeSend : function(xhr) { 
+					beforeSend : function(xhr) {
 						xhr.setRequestHeader(header, token);
 					},
 					contentType : 'application/x-www-form-urlencoded;',
@@ -460,7 +556,7 @@
 							processData : false,
 							contentType : false,
 							data : data,
-							beforeSend : function(xhr) { 
+							beforeSend : function(xhr) {
 								xhr.setRequestHeader(header, token);
 							},
 							dataType : 'text',

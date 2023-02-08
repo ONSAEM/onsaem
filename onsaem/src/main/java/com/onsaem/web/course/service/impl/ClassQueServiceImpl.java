@@ -3,6 +3,8 @@ package com.onsaem.web.course.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +49,14 @@ public class ClassQueServiceImpl implements ClassQueService{
 			mvo.setGroupId(que.getWriterId());
 			que.setProfile(mediaService.getMedia(mvo));
 			que.setNickname(memberService.getMember(que.getWriterId()).getNickname());
+			Pattern pattern  =  Pattern.compile("<p[^>]");
+	        // 내용 중에서 이미지 태그를 찾아라!
+	        Matcher match = pattern.matcher(que.getQueContent());
+	        String text = null;
+	        if(match.find()){ // 이미지 태그를 찾았다면,,
+	            text = match.group(1); // 글 내용 중에 첫번째 이미지 태그를 뽑아옴.
+	            que.setQueContent(text);
+	        }
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("qList", qList);
