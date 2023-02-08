@@ -56,14 +56,11 @@ public interface ClassMapper {
 	// 좋아요 전체삭제
 	public int delAllLike(LikeVO vo);
 
-	// 강사클래스정보 전체조회
+	// 강사 클래스정보 전체조회
 	public List<ClassInfoVO> getMyClassInfoList(ClassInfoVO vo);
 
-	// 관리자 등록중인 클래스 전체조회
+	// 관리자 클래스 전체조회
 	public List<ClassInfoVO> getAdminClassList(ClassInfoVO vo);
-
-	// 관리자 신청중인 클래스 전체조회
-	public List<ClassInfoVO> getAdminCApplyList(ClassInfoVO vo);
 
 	// 인기강의목록조회
 	public List<ClassInfoVO> popularClassList();

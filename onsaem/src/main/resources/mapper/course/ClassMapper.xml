@@ -16,7 +16,7 @@
 		</if>
 		<if test="endDate != null and endDate !=''">
 			<![CDATA[
-				AND L.END_DATE < #{endDate}
+				AND L.END_DATE <= #{endDate}
 				]]>
 		</if>
 		<if test="minPrice != null and minPrice !=''">
@@ -179,7 +179,7 @@
 		C_NO = CLASSES.C_NO) AS BOOKING_PEOPLE
 		FROM CLASSES
 		WHERE CLASS_ID = #{classId}
-		AND TO_CHAR(START_DATE, 'YYYY-MM-DD HH24') > TO_CHAR(CURRENT_DATE, 'YYYY-MM-DD HH24')
+		AND START_DATE > CURRENT_DATE
 		AND STATUS = '등록') C
 		WHERE C.TOTAL_PEOPLE > C.BOOKING_PEOPLE
 		]]>
@@ -195,7 +195,7 @@
 		C_NO = CLASSES.C_NO) AS BOOKING_PEOPLE
 		FROM CLASSES
 		WHERE CLASS_ID = #{classId}
-		AND START_DATE = #{classDate}
+		AND TO_CHAR(START_DATE, 'FMYYYY/MM/DD') = #{classDate}
 		AND START_DATE > CURRENT_DATE
 		AND STATUS = '등록') C
         WHERE C.TOTAL_PEOPLE > C.BOOKING_PEOPLE
@@ -232,28 +232,28 @@
 		]]>
 	</select>
 
-	<!-- 관리자 등록중인 클래스 전체조회 -->
+	<!-- 관리자 클래스 전체조회 -->
 	<select id="getAdminClassList" resultType="ClassInfoVO"
 		parameterType="ClassInfoVO">
-	<![CDATA[
 		SELECT *
 		FROM CLASS_INFO
+		<![CDATA[
 		WHERE CLASS_DATE > (CURRENT_DATE - 30)
-		AND STATUS = '등록'
-		ORDER BY CLASS_DATE DESC
 		]]>
-	</select>
-
-	<!-- 관리자 신청중인 클래스 전체조회 -->
-	<select id="getAdminCApplyList" resultType="ClassInfoVO"
-		parameterType="ClassInfoVO">
-	<![CDATA[
-		SELECT *
-		FROM CLASS_INFO
-		WHERE CLASS_DATE > (CURRENT_DATE - 30)
-		AND STATUS in ('신청','수정')
-		ORDER BY CLASS_DATE DESC
+		<if test="status">
+		AND STATUS = #{status}
+		</if>
+		<if test="startDate">
+		<![CDATA[
+		AND CLASS_DATE >= #{startDate}
 		]]>
+		</if>
+		<if test="endDate">
+		<![CDATA[
+		AND CLASS_DATE <= #{endDate}
+		]]>
+		</if>
+		ORDER BY CLASS_DATE DESC
 	</select>
 
 	<!-- 인기강의목록조회 -->
