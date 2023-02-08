@@ -383,14 +383,10 @@
 					
 				<div class="container">
 				<div style="text-align : center; margin-top : 30px; margin-bottom : 30px">
-					<span style="margin: 10px"><b class="boldFont">✨총 횟수 :</b> <p>[[${chal.total}]] 회</p></span>
-					<span style="margin: 10px"><b class="boldFont">✨성공 횟수 :</b> <p>[[${cntGood}]] 회</p></span>
-					<span style="margin: 10px"><b class="boldFont">✨실패 횟수 :</b><p id="badCnt"></p></span>
-					<span style="margin: 10px"><b class="boldFont">✨남은 횟수 : </b><p th:text="${chal.dday}+' 회'"></p></span>
+					<span style="margin: 10px" th:if="${chal.subClass} == '개인'"><b class="boldFont">▪ 참여 인원 :</b> <p>[[${ChalSize}]] 명</p></span>
+					<span style="margin: 10px" th:if="${chal.subClass} == '팀'"><b class="boldFont">▪우리팀 인원 :</b> <p>[[${chal.usercnt}]] 명</p></span>
+					<span style="margin: 10px"><b class="boldFont">▪ 평균 달성률 :</b> <p id="average"></p></span>
 					<br>
-					<span style="margin: 10px"><b class="boldFont">✨성공률 :</b><p id="successPercent"></p><p>%</p></span>
-					<span style="margin: 10px"><b class="boldFont">✨에상 성공률 :</b><p id="expectPC"></p><p>%</p></span>
-					<span style="margin: 10px"><b class="boldFont">✨에상 획득 포인트 :</b><p id="expectPT"></p><p>원</p></span></span>
 				</div>	
 					<div class="gallery">
 			
@@ -472,10 +468,12 @@
 			//차트관련
 			 let subClass = "[[${chal.subClass}]]";
 			if(subClass == '팀'){
+								
 				 let myteamcnt = Number("[[${MyTeamCnt}]]");
 				 let myteamsize = Number("[[${MyTeamSize}]]");
 				 let total = Number("[[${chal.total}]]")*myteamsize;
 				 let pteam = (myteamcnt/total).toFixed(1)*100;
+				 $('#average').text(pteam + ' %');
 				 var colors = ['#b4a7d6','#eae5e1','#333333','#c3e6cb','#dc3545','#6c757d'];
 				var donutOptions = {
 					  cutoutPercentage: 85, 
@@ -512,6 +510,7 @@
 				 let chalCnt = Number("[[${ChalCnt}]]");
 				 let total = Number("[[${chal.total}]]")*chalSize;
 				 let pt = (chalCnt/total).toFixed(1)*100;
+				 $('#average').text(pt+' %');
 				 var colors = ['#b4a7d6','#eae5e1','#333333','#c3e6cb','#dc3545','#6c757d'];
 					var donutOptions = {
 						  cutoutPercentage: 85, 

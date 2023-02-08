@@ -234,6 +234,41 @@
 		color : #717275;
 		font-weight : bold;
 	}
+	
+	/*상세화면 css  */
+	#chalInfo{
+		background-color:#f6f8f9;
+		border : none;
+		border-radius : 19px;
+		margin : 5px;
+		padding : 20px;
+		width: 500px;
+		
+	}
+	.liStyle{
+		font-size : 20px;
+	}
+	.separate{
+		margin : 20px;
+	}
+	.detailMenuTitle{
+		font-size : 35px;
+	}
+	.pointRule{
+		font-size : 20px;
+	}
+	.detailContent{
+		background-color : #F5F5ED;
+		width : 95%;
+		margin : 0 auto;
+		padding : 30px;
+		border-radius : 20px
+	}
+	input[type=checkbox] {
+		
+		zoom: 2;
+		
+	}
 	</style>
 
   
@@ -269,28 +304,24 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="product__details__text">
-                        <h3 th:text="${chal.chalName}">Vetgetable’s Package</h3>
-                        
+                        <h3 th:text="${chal.chalName}">Vetgetable’s Package
+                        	<button class="openBtn" style="background-color:red; color:white; width:120px; height:51px; border:none" sec:authorize="isAuthenticated()">신고하기</button>	
+							<button  style="background-color:red; color:white; width:120px; height:51px; border:none" sec:authorize="isAnonymous()"  onclick="noLogin()">신고하기</button>	
+                        	
+                        </h3>
+
                         <div class="product__details__price"><span th:text="'기부처 : ' + ${chal.ngoName}">$50.00</span></div>
-                        	<ul>
-                        	<input type="hidden" id="chalId" th:value="${chal.chalId}">
-                            <li><b>시작일</b> <span th:text="${#dates.format(chal.startDate, 'yyyy년 MM월 dd일')}" ></span></li>
-                            <li><b>종료일</b> <span th:text="${#dates.format(chal.endDate, 'yyyy년 MM월 dd일')}"> <samp>Free pickup today</samp></span></li>
-                            <li><b>유형</b> <span id="subClass" th:text="${chal.subClass}"></span></li>
-                            <li th:if="${chal.subClass} == '팀'"><b>고정 기부금</b> <span id="teamFee" th:text="${chal.teamFee}+'원'"></span></li>
-                            <li th:if="${chal.subClass} == '팀'"><b>내기 포인트</b> <span id="betPoint" th:text="${chal.teamFee}+'원'"></span></li>
-                            <li><b>참가 요일</b> <span th:text="${chal.frequency}"></span></li>
+                        	<ul id="chalInfo">
+	                        	<input type="hidden" id="chalId" th:value="${chal.chalId}">
+	                            <li><b class="liStyle">시작일</b> <span th:text="${#dates.format(chal.startDate, 'yyyy년 MM월 dd일')}" ></span></li>
+	                            <li><b class="liStyle">종료일</b> <span th:text="${#dates.format(chal.endDate, 'yyyy년 MM월 dd일')}"> <samp>Free pickup today</samp></span></li>
+	                            <li><b class="liStyle">유형</b> <span id="subClass" th:text="${chal.subClass}"></span></li>
+	                            <li th:if="${chal.subClass} == '팀'"><b class="liStyle">고정 기부금</b> <span id="teamFee" th:text="${chal.teamFee}+'원'"></span></li>
+	                            <li th:if="${chal.subClass} == '팀'"><b class="liStyle">내기 포인트</b> <span id="betPoint" th:text="${chal.teamFee}+'원'"></span></li>
+	                            <li><b class="liStyle">참가 요일</b> <span th:text="${chal.frequency}"></span></li>
                        		</ul>
 							
-							<div th:if="${cnt}!=null">
-							<span th:if="${cnt.cnt} >0 and ${chal.nowStart} >=0 and ${chal.nowEnd}<0" class="primary-btn" >이미 참가 중인 챌린지 입니다</span>
-							<button th:if="${cnt.cnt} >0 and ${chal.nowStart}<0 and ${chal.nowEnd}<0" onclick = "goPage()" class="primary-btn">참가하기</button>
-							</div>
-							<button th:if = "${chal.nowEnd} >0 " class="primary-btn" style="background-color : #E6E0F8 ">이미 종료된 챌린지 입니다</button>
-							<button th:if = "${chal.nowStart} >=0 and ${chal.nowEnd} <=0" class="primary-btn" style="background-color : blue ">이미 시작된 챌린지 입니다</button>
-							
-							<button class="openBtn" style="background-color:red; color:white; width:120px; height:51px; border:none" sec:authorize="isAuthenticated()">신고하기</button>	
-							<button  style="background-color:red; color:white; width:120px; height:51px; border:none" sec:authorize="isAnonymous()"  onclick="noLogin()">신고하기</button>						 	
+											 	
                     </div>
                 </div>
                 <div class="col-lg-12">
@@ -306,40 +337,53 @@
                         </ul>
                         <div class="tab-content">
                         	<div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                <div class="product__details__tab__desc">
-                                    <h6>환급 안내</h6>
-                                    <p>100% 성공 : 예치금 전액 기부 + 예치금의 1% 포인트 적립</p>
-                                    <p>85% 이상 성공 : 예치금 전액 기부 + 예치금 0.5% 포인트 적립</p>
-                                    <p>85% 미만 성공 : 예치금 전액 기부</p>
+                                <div class="product__details__tab__desc" style="width: 100%; display:inline-block; padding : 30px 0;">
+                                    <h6 class="detailMenuTitle">환급 안내</h6>
+                                    <div class="detailContent">
+	                                    <p class = "pointRule">✔  100% 성공 : 예치금 전액 기부 + 예치금의 1% 포인트 적립</p>
+	                                    <p class = "pointRule">✔  85% 이상 성공 : 예치금 전액 기부 + 예치금 0.5% 포인트 적립</p>
+	                                    <p class = "pointRule">✔  85% 미만 성공 : 예치금 전액 기부</p>
+                                    </div>
                                     <img src="/challengers/chart.png">
                                 </div>
                                   
-                                <div class="product__details__tab__desc">
-                                    <h6>챌린지 소개</h6>
-                                    <p th:text="${chal.contents}">챌린지 소개</p>
-                                    <div th:if="${detailPic} != null" style="text-align:center">
-                                    	<img  th:src="'/fileView/'+${detailPic.fileRoute}"}>
-                                    	
+                                <div class="product__details__tab__desc" style="width: 100%; display:inline-block; padding : 30px 0">
+                                    <h6 class="detailMenuTitle">챌린지 소개</h6>
+                                    <div class="detailContent">
+	                                    <p th:text="${chal.contents}" class = "pointRule">챌린지 소개</p>
+	                                    <div th:if="${detailPic} != null" style="text-align:center">
+	                                    	<img  th:src="'/fileView/'+${detailPic.fileRoute}"}>
+                                    </div>
                                     </div>
                                 </div>
                                 
-                                <div class="product__details__tab__desc">
-                                    <h6>인증샷 예시</h6>
+                                <div class="product__details__tab__desc" style="width: 100%; display:inline-block; padding : 30px 0">
+                                    <h6 class="detailMenuTitle">인증샷 예시</h6>
                                     <img th:src="'/fileView/'+${proofEx.fileRoute}" class="rounded float-start" style="width:300px;height:300px;">
                                     <p th:text="${chal.proofContent}">인증 샷 예시</p>
                                 </div>
-                                
-                                <div class="product__details__tab__desc">
-                                    <h6>동의사항 요건</h6>
-                                    	<p>챌린지에 참가하시기 전에 동의사항에 체크해 주세요</p>
-                                     	<label><input type="checkbox" name="check" class="checkList">모든 예치금은 성취퍼센트와 관계 없이 100% 기부됩니다.</label><br>
-                                     	<label><input type="checkbox" name="check" class="checkList">참가하셨을 시에 등록하신 인증 사진은 모든 유저가 조회 가능 합니다.</label><br>
-                                     	<label><input type="checkbox" name="check" class="checkList">챌린지 참가 취소는 마이페이지에서 가능하며, 시작일 하루 전 까지 가능합니다.</label><br>
-                               			<th:block th:if="${chal.subClass} == '팀'">
-                               				<label><input type="checkbox"  name="check" class="checkList">고정 기부금의 1%에 해당하는 포인트를 배팅해야 합니다.</label>
-                               			</th:block>
-                                </div>
                                 <br>
+                                <div class="product__details__tab__desc" style="width: 100%; display:inline-block; padding : 30px 0 ">
+                                    <h6 class="detailMenuTitle" style="color : #E07070">동의사항 요건</h6>
+                                    	<p style="font-weight:bold; font-size : 25px; font-family: Georgia">📌 챌린지에 참가하시기 전에 동의사항에 체크해 주세요 ❗❗</p>
+                                    	<div class="detailContent">
+	                                     	<label class = "pointRule"><input type="checkbox" name="check" class="checkList"> 모든 예치금은 성취퍼센트와 관계 없이 100% 기부됩니다.</label><br>
+	                                     	<label class = "pointRule"><input type="checkbox" name="check" class="checkList"> 참가하셨을 시에 등록하신 인증 사진은 모든 유저가 조회 가능 합니다.</label><br>
+	                                     	<label class = "pointRule"><input type="checkbox" name="check" class="checkList"> 챌린지 참가 취소는 마이페이지에서 가능하며, 시작일 하루 전 까지 가능합니다.</label><br>
+	                               			<th:block th:if="${chal.subClass} == '팀'">
+	                               				<label class = "pointRule"><input type="checkbox"  name="check" class="checkList"> 고정 기부금의 1%에 해당하는 포인트를 배팅해야 합니다.</label>
+	                               				<br>
+	                               				<label class = "pointRule"><input type="checkbox"  name="check" class="checkList"> 배팅 포인트 만큼의 포인트가 없으실 경우 참가하실 수 없습니다.</label>
+	                               			</th:block>
+                               			</div>
+                                </div>
+                                <div th:if="${cnt}!=null">
+									<span th:if="${cnt.cnt} >0 and ${chal.nowStart} >=0 and ${chal.nowEnd}<0" class="primary-btn" >이미 참가 중인 챌린지 입니다</span>
+									<button th:if="${cnt.cnt} >0 and ${chal.nowStart}<0 and ${chal.nowEnd}<0" onclick = "goPage()" class="primary-btn">참가하기</button>
+								</div>
+								<button th:if = "${chal.nowEnd} >0 " class="primary-btn" style="background-color : #E6E0F8 ">이미 종료된 챌린지 입니다</button>
+								<button th:if = "${chal.nowStart} >=0 and ${chal.nowEnd} <=0" class="primary-btn" style="background-color : blue ">이미 시작된 챌린지 입니다</button>
+							
                                 
 							
                                 <!-- 팀전 참가시 포인트 없으면 참가 불가 위해서  -->

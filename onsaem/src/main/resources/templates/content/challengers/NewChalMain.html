@@ -297,6 +297,12 @@ a {
 .hero__search__form {
 	width: 80%;
 }
+
+/*라벨 스타일  */
+.chalLabel{
+	float:left;
+	font-weight : bold;
+}
 </style>
 </head>
 
@@ -379,7 +385,7 @@ a {
 										<button type="button" class="site-btn" onclick="daySearch()"  style="width:200px">Search</button>
 									</div>
 									<div class="sidebar__item">
-										<button type="submit" class="site-btn" onclick=location.href="/inputNgo"  sec:authorize="isAuthenticated()" style="width:200px">기부처 신청하기</button>
+										<button type="submit" class="site-btn" onclick=location.href="/inputNgo"  sec:authorize="isAuthenticated()" style="width:200px;">기부처 신청하기</button>
 										<button type="button" class="site-btn" sec:authorize="isAnonymous()"  onclick="noLogin()" style="width:200px">기부처 신청하기</button>	
 									</div>
 								</div>
@@ -387,7 +393,7 @@ a {
 
 							
 						</div>
-						<div style="width:100%; height:300px">
+						<div style="width:75%; height:300px">
 						<div class="col-lg-9 col-md-7">
 							<div class="product__discount">
 								<div class="section-title product__discount__title">
@@ -396,11 +402,14 @@ a {
 								<div class="row">
 									<div class="product__discount__slider owl-carousel gridView">
 										<div class="products-row" th:each="rank : ${ranks}">
-											<img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
-												alt="product">
-											<div class="product-cell" th:text=${rank.chalName}>Ocean</div>
-											<div class="product-cell" th:text="'기부금 : ' + ${rank.donationFee}">$560</div>
-											<div class="product-cell">11</div>
+											<img th:src="'/fileView/'+${rank.fileRoute}" alt="product">
+											<div class="product-cell category" >
+												<span class="chalLabel" >챌린지 명</span><span th:text=${rank.chalName}></span>
+											</div>
+											<div class="product-cell category">
+												<span class="chalLabel">기부금</span><span th:text="${rank.donationFee} + '원'"></span>
+											</div>
+											
 										</div>
 									</div>
 								</div>
@@ -428,20 +437,20 @@ a {
 
 					<div class="classList">
 						<div class="products-row" th:each="chal : ${chals}">
+						<a th:href="@{/detailChal(chalId = ${chal.chalId})}">
 							<img th:src="'/fileView/'+${chal.fileRoute}" alt="product">
-
 							<div class="product-cell">
-								<a th:href="@{/detailChal(chalId = ${chal.chalId})}"
-									th:text=${chal.chalName}>Oing</a>
+								<span class="chalLabel" >챌린지 명</span><span th:text=${chal.chalName}></span>
 							</div>
-							<div class="product-cell"
-								th:text="${chal.subClass}+'전'">
+							</a>
+							<div class="product-cell" >
+								<span class="chalLabel" >분류</span><span th:text="${chal.subClass}+'전'"></span>
 							</div>
-							<div class="product-cell"
-								th:text="${#dates.format(chal.startDate, 'MM월 dd일')}+'부터 시작!'">
+							<div class="product-cell">
+								<span class="chalLabel" >기간</span><span th:text="${#dates.format(chal.startDate, 'MM월 dd일')}+' ~ ' +  ${#dates.format(chal.endDate, 'MM월 dd일')}"></span>
 							</div>
-							<div class="product-cell"
-								th:text="'인증 요일 : ' + ${chal.frequency}">
+							<div class="product-cell">
+								<span class="chalLabel" >인증 요일</span><span th:text=${chal.frequency}></span>
 							</div>
 						</div>
 					</div>
