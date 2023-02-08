@@ -74,7 +74,6 @@ public class BookingServiceImpl implements BookingService{
 		PaymentVO pvo = new PaymentVO();
 		pvo.setPaymentId(bvo.getPaymentId());
 		bvo.setPayment(bookingMapper.getPayment(pvo));
-		System.out.println(bvo);
 		return bvo;
 	}
 

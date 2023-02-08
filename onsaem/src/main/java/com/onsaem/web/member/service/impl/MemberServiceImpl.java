@@ -152,7 +152,6 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 	public MemberVO updateMember(MultipartFile[] profileFile, MemberVO member)
 			throws IllegalStateException, IOException {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
-		System.out.println(member.getPassword());
 		member.setPassword(encoder.encode(member.getPassword()));
 		if (member.getBank() == null || member.getBankAccount() == null) {
 			member.setBank(null);
@@ -201,9 +200,6 @@ public class MemberServiceImpl implements MemberService, UserDetailsService {
 
 	@Override
 	public List<MemberVO> searchList(MemberVO vo, String startDate, String endDate) {
-		System.out.println(vo);
-		System.out.println(startDate);
-		System.out.println(endDate);
 		return memberMapper.searchList(vo,startDate,endDate);
 	}
 

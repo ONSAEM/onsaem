@@ -36,7 +36,6 @@ public class MediaController {
 	@ResponseBody
 	public List<MediaVO>  mediaTest(MultipartFile[] uploadfile, String groupId, String groups, String subGroup) throws IllegalStateException, IOException{    
 	  List<MediaVO> list= new ArrayList<MediaVO>();
-	  System.out.println(uploadfile);
 	  MediaVO vo = new MediaVO();
 	  vo.setGroupId(groupId);
 	  vo.setGroups(groups);

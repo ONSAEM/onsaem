@@ -118,7 +118,6 @@ public class MemberController {
 	@RequestMapping(value = "/updateMember", method = RequestMethod.POST)
 	@ResponseBody
 	public String updateMember(MultipartFile[] profileFile, MemberVO member) throws IllegalStateException, IOException {
-		System.out.println(member);
 		MemberVO result = memberService.updateMember(profileFile, member);
 		if (result != null) {
 			return "success";
