@@ -76,12 +76,21 @@ public class BlogWriteController {
 		model.addAttribute("blogList", blogWriteService.getBlogList(null));
 		System.out.println("blogList정보:"+model.addAttribute("blogList"));
 		
-		model.addAttribute("hotList", blogWriteService.hotBlogList(null));
-		System.out.println("hotList정보:"+model.addAttribute("hotList"));
-
 		
+		List<BlogWriteVO> list = blogWriteService.hotBlogList(null);
+		// 글 내용중에 첫번째 이미지 주소 받아오기
+			for(BlogWriteVO blog : list ) {
+				Pattern pattern  =  Pattern.compile("<img[^>]*src=[\\\"']?([^>\\\"']+)[\\\"']?[^>]*>");
+		        // 내용 중에서 이미지 태그를 찾아라!
+		        Matcher match = pattern.matcher(blog.getBlogWrite());
+		        String imgTag = null;
+		        if(match.find()){ // 이미지 태그를 찾았다면,,
+		            imgTag = match.group(1); // 글 내용 중에 첫번째 이미지 태그를 뽑아옴.
+		            blog.setFileRoute(imgTag);
+		        }
+			}
 		
-		
+			model.addAttribute("hotList", list);	
 		return "content/blog/blogMain";
 	}
 	
@@ -171,10 +180,20 @@ public class BlogWriteController {
 		if(authentication != null) {
 			UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 			String id = userDetails.getUsername();
-			vo.setMemberId(id);
+//			vo.setMemberId(id);
 			
 		}
 		
+		model.addAttribute("blogInfo", blogService.getBlogInfo(userId)); // 방문한 블로그 정보
+		vo.setGroupId(userId); // 구독 당한 사람
+		 // 구독 한 사람
+		model.addAttribute("subCount", blogService.subCount(vo)); // 구독정보
+		model.addAttribute("recentWrite", blogWriteService.recentWrite(userId)); // 최신글 조회
+		vo.setRownum(3);
+		model.addAttribute("subMeList", blogService.subMeList(vo)); // 나를 구독한
+		System.out.println("나를 구독한 사람: " + model.getAttribute("subMeList"));
+		vo.setMemberId(userId);
+		model.addAttribute("mySubList", blogService.mySubList(vo)); // 내가 구독한
 		
 		
 		model.addAttribute("blogWrite", blogWriteService.getBlog(bno)); // 블로그 단건 조회
@@ -190,6 +209,7 @@ public class BlogWriteController {
 		System.out.println("댓글 정보: "+ model.getAttribute("replyList"));
 		cVo.setBlogId(userId);
 		model.addAttribute("category", blogWriteService.cateList(cVo) ); // 카테고리 조회
+		System.out.println("카테고리 네임!:"+model.addAttribute("category"));
 		
 		
 		bVo.setWriteId(bno);

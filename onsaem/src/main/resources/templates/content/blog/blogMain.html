@@ -419,9 +419,10 @@
 }
 
 .gridgrid img {
-  height: auto;
-  max-width: 100%;
+  height: 245px;
+  width: 375px;
   vertical-align: middle;
+  object-fit: cover;
 }
 
 .gridgrid .btn {
@@ -478,7 +479,7 @@
 
 .gridgrid .card_content {
   padding: 1rem;
-  background: linear-gradient(to bottom left, gray 40%, #ccc 100%);
+  background: linear-gradient(to bottom left, gray 40%, #ccc 100%); 
 }
 
 .gridgrid .card_title {
@@ -602,11 +603,11 @@
                     	<ul class="cards">
 						    <li class="cards_item" th:each="hot : ${hotList}">
 						      <div class="card">
-						        <div class="card_image"><img src="https://picsum.photos/500/300/?image=10"></div>
+						        <div class="card_image"><img th:if="${hot.fileRoute != null}" th:src="${hot.fileRoute}"><img th:unless="${hot.fileRoute != null}" src="/blog/img/blogDefault.png"></div>
 						        <div class="card_content">
 						          <h2 class="card_title">[[${hot.writeTitle}]]</h2>
 						          <p class="card_text">[[${hot.subTitle}]]</p>
-						          <button class="btn card_btn">Read More</button>
+						          <button class="btn card_btn" th:onclick="|location.href='@{/blog/myblog/blogWrite(bno=${hot.writeId},userId=${hot.blogId})}'|">Read More</button>
 						        </div>
 						      </div>
 						    </li>
@@ -774,6 +775,7 @@
 				})
 			})
 		})
+		
 	
 	</script>
 </div>
