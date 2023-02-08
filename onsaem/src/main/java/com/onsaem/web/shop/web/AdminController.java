@@ -33,11 +33,13 @@ public class AdminController {
 	@Autowired
 	AdminShopService service;
 
-	// 승인처리
+	// 상품상태변경
 	@RequestMapping(value = "/admin/approProduct", method = RequestMethod.POST)
 	@ResponseBody
 	public String adminApproProduct(ProductVO vo) {
-		vo.setProductStatus("판매중");
+		if(vo.getProductStatus()==null) {
+			vo.setProductStatus("판매중");
+		}		
 		service.adminApproProduct(vo);
 		return "성공";
 	}
@@ -53,19 +55,19 @@ public class AdminController {
 	@ResponseBody
 	public List<ProductVO> approProduct(ProductVO vo, Paging paging) {
 		return proService.proList(vo, paging); // 승인대기품목
-	}	
+	}
 
 	// 추가이미지가져오기
 	@RequestMapping(value = "/admin/addImg", method = RequestMethod.POST)
 	@ResponseBody
-	public List<ProductVO> addImg(String data) {	
+	public List<ProductVO> addImg(String data) {
 		return proService.addImg(data); // 추가이미지
 	}
-	
-	//친환경이미지가져오기
+
+	// 친환경이미지가져오기
 	@RequestMapping(value = "/admin/natureImg", method = RequestMethod.POST)
 	@ResponseBody
-	public List<ProductVO> natureImg(String data) {		
-		return proService.natureImg(data); 
-	}
+	public List<ProductVO> natureImg(String data) {
+		return proService.natureImg(data);
+	}	
 }

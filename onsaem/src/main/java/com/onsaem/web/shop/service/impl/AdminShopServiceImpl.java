@@ -16,5 +16,7 @@ public class AdminShopServiceImpl implements AdminShopService{
 		// 승인처리하기
 		return mapper.adminApproProduct(vo);
 	}
+
+
 	
 }

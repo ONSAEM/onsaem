@@ -76,7 +76,7 @@
 	z-index: -1;
 	left: 0;
 	top: 0;
-	background-image: url("/course/펭귄.gif");
+	background-image: url("/course/산.gif");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
@@ -87,7 +87,7 @@
 .glass {
 	height: 100%;
 	width: 100%;
-	background-image: url("/course/펭귄.gif");
+	background-image: url("/course/산.gif");
 	background-size: cover;
 	background-position: center;
 	clip-path: inset(10em);
@@ -230,7 +230,7 @@
 	<div class="main">
 		<div class="main-container">
 			<div class="subheader">
-				<img src="/course/펭귄.gif" alt="" class="profile-cover">
+				<img src="/course/산.gif" alt="" class="profile-cover">
 				<div class="drop-shadow">
 					<div class="glass"></div>
 					<span>SHOP</span>
@@ -322,7 +322,7 @@
 													<a th:onclick="productDetail([[${week.productId}]])"
 														style="cursor: pointer">[[${week.productName}]]</a>
 												</h5>
-												<div class="product__item__price">[[${week.price}]]</div>
+												<div class="product__item__price">[[${week.price}]]원</div>
 											</div>
 										</div>
 									</div>
@@ -429,8 +429,7 @@
 		}
 		
 		 window.onload = function() {
-			 function gopage(i){
-					console.log(i);
+			 function gopage(i){					
 					location.href='/shop?page='+i;
 				}				
 				
@@ -458,8 +457,7 @@
 						"session4" : data4,
 						"session5" : data5
 					}),
-					success : function(result) {
-						console.log(result)
+					success : function(result) {						
 						$("#watchList").html("");
 						for(let i=0; i<result.length;i++){
 							let watchList=`<div class="latest-prdouct__slider__item">
@@ -470,7 +468,7 @@
 								</div>
 								<div class="latest-product__item__text">
 									<h6>`+result[i].productName+`</h6>
-									<span>`+result[i].price+`</span>
+									<span>`+result[i].price+`원</span>
 								</div>
 							</a>
 						</div>`;	
@@ -486,8 +484,7 @@
 		
 			let id = '[[${session.id}]]';
 			// 상품 상태별 조회
-			function changeList(data) {
-				console.log(data);
+			function changeList(data) {			
 				if (data == 'new') {
 					//신상품순으로 목록표시
 					location.href = "/shop?data=" + data;

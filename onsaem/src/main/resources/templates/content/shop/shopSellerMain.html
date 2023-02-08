@@ -328,9 +328,7 @@ h1 {
 						<li>가격 {{selectProduct.price}}</li>
 						<li>카테고리 {{selectProduct.category}}</li>
 					</ul>
-
-					<button @click="approProduct(selectProduct.productId)">승인</button>
-					&nbsp&nbsp&nbsp&nbsp
+										
 					<button class="closeBtn" @click="closeModal()">닫기</button>
 				</div>
 			</div>
@@ -391,8 +389,7 @@ h1 {
 					            	xhr.setRequestHeader(header, token);
 					            },		      
 					            data:{"data":data.productId},
-								success : function(result) {
-									console.log(result)
+								success : function(result) {									
 									is.addImg=result									
 								},
 								error : function(error) { 
@@ -408,8 +405,7 @@ h1 {
 					            	xhr.setRequestHeader(header, token);
 					            },		      
 					            data:{"data":data.productId},
-								success : function(result) {
-									console.log(result)
+								success : function(result) {									
 									is.nature=result																	
 								},
 								error : function(error) { 
@@ -424,9 +420,7 @@ h1 {
 		        	},
 		        	//날짜조회
 		        	apply:function(){
-		        		let is=this;
-		        		console.log( $("#startDate").val())
-		        		console.log( $("#endDate").val())
+		        		let is=this;		        		
 		        		$.ajax({
 	        				type : 'post', 
 	        				url : '/shop/dateProduct',	        				
@@ -648,7 +642,6 @@ h1 {
 					            	xhr.setRequestHeader(header, token);
 					            },
 								success : function(result) {									
-									console.log(result)
 									is.products=result
 								},
 								error : function(error) { 
@@ -666,8 +659,7 @@ h1 {
 					            {
 					            	xhr.setRequestHeader(header, token);
 					            },
-								success : function(result) {									
-									console.log(result)
+								success : function(result) {										
 									is.products=result
 								},
 								error : function(error) { 
@@ -703,8 +695,7 @@ h1 {
 					            {
 					            	xhr.setRequestHeader(header, token);
 					            },
-								success : function(result) {	
-									console.log(result)
+								success : function(result) {									
 									is.products=result
 								},
 								error : function(error) { 

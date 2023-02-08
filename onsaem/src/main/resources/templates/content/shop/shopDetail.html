@@ -70,7 +70,7 @@
 	z-index: -1;
 	left: 0;
 	top: 0;
-	background-image: url("/course/펭귄.gif");
+	background-image: url("/course/산.gif");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
@@ -81,7 +81,7 @@
 .glass {
 	height: 100%;
 	width: 100%;
-	background-image: url("/course/펭귄.gif");
+	background-image: url("/course/산.gif");
 	background-size: cover;
 	background-position: center;
 	clip-path: inset(10em);
@@ -282,7 +282,7 @@ h1 {
 
 <div layout:fragment="content">
 	<div class="subheader">
-		<img src="/course/펭귄.gif" alt="" class="profile-cover">
+		<img src="/course/산.gif" alt="" class="profile-cover">
 		<div class="drop-shadow">
 			<div class="glass"></div>
 			<span>SHOP</span>
@@ -319,7 +319,7 @@ h1 {
 								style="background-color: #9dc2c0">신고하기</button>
 
 						</div>
-						<div class="product__details__price" th:text=${product.price}>$50.00</div>
+						<div class="product__details__price" th:text="${product.price}+원">$50.00</div>
 						<p th:text=${product.productDetail}>Mauris blandit aliquet
 							elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet
 							quam vehicula elementum sed sit amet dui. Sed porttitor lectus
@@ -387,11 +387,14 @@ h1 {
 									</div>
 									<br>
 
-									<div>
+									<div style="margin-left: 193px; width: 100%; height: 558px;">
 										<img alt="" th:src="@{/shoptemplate/img/product/회원혜택.jpg}">
 									</div>
-									<p>[(${product.productInfo})]</p>
-									<div th:each="nature : ${natureImg}">
+									<div style="margin-left: 402px;">
+										<p>[(${product.productInfo})]</p>
+									</div>
+									<div th:each="nature : ${natureImg}"
+										style="margin-left: 231px; width: 100%;">
 										<img alt=""
 											th:src="@{/fileView/{fileRoute}/
 									(fileRoute=${nature.fileRoute})}">
@@ -436,13 +439,16 @@ h1 {
 														th:each=" review : ${reviewList}">
 														<div th:if="${review.level}==1">
 															<div class="author-comment-info ms-3">
-																<div style="float: left">
+																<div style="float: left; text-align: center;">
 																	<i class="fa fa-star"
 																		th:each="num:${#numbers.sequence(1,review.reviewStar)}"></i>
 																	<i class="fa-solid fa-star-half"
-																		th:if="${review.reviewStar%1 >= 0.5}"></i> <br>[[${#dates.format(review.reviewDate,
+																		th:if="${review.reviewStar%1 >= 0.5}"></i><br> <img
+																		th:src="@{/shoptemplate/소비자.jpg}"
+																		class="img-fluid avatar-image" alt=""> <br>[[${#dates.format(review.reviewDate,
 																	'YY.MM.DD HH:mm')}]]
 																</div>
+
 																<p style="margin-left: 200px">
 																	[[${review.writerId}]]<br>[[${review.reviewContent}]]
 																</p>
@@ -450,20 +456,18 @@ h1 {
 														</div>
 														<div th:unless="${review.level}==1"
 															style="margin-left: 100px">
-
-															<img
-																th:src="@{/images/avatar/studio-portrait-emotional-happy-funny.jpg}"
-																class="img-fluid avatar-image" alt=""> 판매자
 															<div class="author-comment-info ms-3">
-																<h6 class="mb-1">
-																	<span style="font-weight: bold">[[${review.writerId}]]</span>
-																	([[${#dates.format(review.reviewDate, 'YY.MM.DD
-																	HH:mm')}]])
-																</h6>
-																<p class="mb-0">[[${review.reviewContent}]]</p>
+																<div style="float: left; text-align: center;">
+																	 <img
+																		th:src="@{/shoptemplate/판매자.jpg}"
+																		class="img-fluid avatar-image" alt=""> <br>[[${#dates.format(review.reviewDate,
+																	'YY.MM.DD HH:mm')}]]
+																</div>
 
+																<p style="margin-left: 200px">
+																	[[${review.writerId}]]<br>[[${review.reviewContent}]]
+																</p>
 															</div>
-
 														</div>
 													</div>
 												</div>
@@ -635,7 +639,6 @@ h1 {
 		            },		      
 		            data:{"productId":productId},
 					success : function(result) {					
-						console.log(result)		
 						if(result=='불가능'){
 							alert("구매 후 작성 가능합니다.")
 						}else{
@@ -685,8 +688,7 @@ h1 {
 					let cartAmount=document.querySelector(".proAmount").value;
 					let cartOption=document.querySelector(".options").value;
 					let urlParams = new URL(location.href).searchParams;
-					let productId = urlParams.get('data');		
-					console.log(cartOption)
+					let productId = urlParams.get('data');							
 					 fetch('/cartAdd?productId='+productId+'&cartAmount='+cartAmount+'&cartOption='+cartOption)
 					  .then((response) => alert('장바구니에 담겼습니다.'))		
 				}
@@ -717,19 +719,17 @@ h1 {
 					})						
 					element.checked = true;
 					let span=element.nextElementSibling;
-					span.innerHTML="<br><textarea cols='40' rows='5'  name='text' placeholder='상세설명' id='detailReason'></textarea>";										
+					span.innerHTML="<br><textarea style='width: 100%;' cols='40' rows='5'  name='text' placeholder='상세설명' id='detailReason'></textarea>";										
 				}
 				
 				//신고제출
 				function banSubmit(){			
 					let reasonLength = document.getElementsByName("reason").length;  
        				for (var i=0; i<reasonLength; i++) {
-            			if (document.getElementsByName("reason")[i].checked == true) {
-                			console.log(document.getElementsByName("reason")[i].value); 
+            			if (document.getElementsByName("reason")[i].checked == true) {                			
                 			var reason=document.getElementsByName("reason")[i].value
             			}
-					}
-       				console.log(document.getElementById("detailReason").value);
+					}       				
        				let detailReason=document.getElementById("detailReason").value;
        				let fromId="[[${session.id}]]";
     				let groupId="[[${param.data}]]";

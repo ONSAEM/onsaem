@@ -80,7 +80,7 @@
 	z-index: -1;
 	left: 0;
 	top: 0;
-	background-image: url("/course/펭귄.gif");
+	background-image: url("/course/산.gif");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
@@ -91,7 +91,7 @@
 .glass {
 	height: 100%;
 	width: 100%;
-	background-image: url("/course/펭귄.gif");
+	background-image: url("/course/산.gif");
 	background-size: cover;
 	background-position: center;
 	clip-path: inset(10em);
@@ -212,7 +212,7 @@
 
 <div layout:fragment="content">
 	<div class="subheader">
-		<img src="/course/펭귄.gif" alt="" class="profile-cover">
+		<img src="/course/산.gif" alt="" class="profile-cover">
 		<div class="drop-shadow">
 			<div class="glass"></div>
 			<span>SHOP</span>
@@ -324,7 +324,7 @@
 									<li>배송금액 <span>[[${product.deliveryFee}]] 원</span></li>
 									<li th:each="user:${userData}">사용할포인트 <input
 										style="width: 50px; height: 30px"
-										onkeyup="usePoint(this.value)" value="0" id="usePo"> <span
+										onchange="usePoint(this.value)" value="0" id="usePo"> <span
 										id="myPoint">보유한포인트[[${user.point}]]</span></li>
 								</ul>
 								<div class="checkout__order__subtotal">
@@ -359,8 +359,7 @@
 			var token = $("meta[name='_csrf']").attr("content");
 			var header = $("meta[name='_csrf_header']").attr("content");
 			window.onload = function() {
-				document.querySelector("#productId").value;
-				console.log(document.querySelector("#deliveryFee").value)
+				document.querySelector("#productId").value;				
 			}
 
 			//결제API
@@ -379,7 +378,7 @@
 										+ $("#sample6_detailAddress").val();
 								let recivName = $("#reciveName").val();
 
-								console.log('확인')
+								
 								IMP.init('imp54500213');
 								IMP
 										.request_pay(
@@ -528,8 +527,7 @@
 					$.ajax({
 						url : '/orderPay',
 						dataType : 'json',
-						success : function(data) {
-							console.log(data)
+						success : function(data) {							
 							alert("hi");
 							var box = data.next_redirect_pc_url;
 							window.open(box);

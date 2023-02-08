@@ -445,7 +445,8 @@ ul.imgs li {
 					            	xhr.setRequestHeader(header, token);
 					            },		      
 					            data:{"memberId":data.memberId},
-								success : function(result) {								
+								success : function(result) {	
+									console.log(result)
 									is.imgs=result;
 								},
 								error : function(error) { 

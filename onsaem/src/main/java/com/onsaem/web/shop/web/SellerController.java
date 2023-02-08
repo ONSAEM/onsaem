@@ -55,10 +55,6 @@ public class SellerController {
 	public List<ProductVO> dateProduct(Authentication authentication, String startDate, String endDate, ProductVO vo) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		vo.setMemberId(userDetails.getUsername());
-		System.out.println(vo);
-		System.out.println(startDate);
-		System.out.println(endDate);
-
 		return sellService.dateProduct(vo, startDate, endDate);
 	}
 

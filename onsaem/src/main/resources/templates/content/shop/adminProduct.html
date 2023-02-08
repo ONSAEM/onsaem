@@ -155,8 +155,9 @@ ul.imgs li {
 	z-index: 1;
 }
 
-
-.mySlides {display:none;}
+.mySlides {
+	display: none;
+}
 </style>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
@@ -173,12 +174,12 @@ ul.imgs li {
             <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
           </svg>
 			</button>
-			<button class="app-content-headerButton">Add Product</button>
+			
 		</div>
 		<div class="app-content-actions">
-			<input class="search-bar" placeholder="Search..." type="text">
+			<input class="search-bar" placeholder="Search..." type="text"  style="display:none">
 			<div class="app-content-actions-wrapper">
-				<div class="filter-button-wrapper">
+				<div class="filter-button-wrapper" style="display:none">
 					<button class="action-button filter jsFilter">
 						<span>Filter</span>
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -187,7 +188,7 @@ ul.imgs li {
 							class="feather feather-filter">
 							<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" /></svg>
 					</button>
-					<div class="filter-menu">
+					<div class="filter-menu"  style="display:none">
 						<label>Category</label> <select>
 							<option>All Categories</option>
 							<option>Furniture</option>
@@ -205,7 +206,7 @@ ul.imgs li {
 						</div>
 					</div>
 				</div>
-				<button class="action-button list active" title="List View">
+				<button class="action-button list active" title="List View"  style="display:none">
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 						viewBox="0 0 24 24" fill="none" stroke="currentColor"
 						stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -217,7 +218,7 @@ ul.imgs li {
 						<line x1="3" y1="12" x2="3.01" y2="12" />
 						<line x1="3" y1="18" x2="3.01" y2="18" /></svg>
 				</button>
-				<button class="action-button grid" title="Grid View">
+				<button class="action-button grid" title="Grid View"  style="display:none">
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 						viewBox="0 0 24 24" fill="none" stroke="currentColor"
 						stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -299,15 +300,26 @@ ul.imgs li {
 						<circle cx="12" cy="19" r="1" /></svg>
 				</button>
 				<div class="product-cell image">
-					<img :src="'/fileView/'+product.fileRoute" alt="product" @click="displayModal(product)"> <span
-						@click="displayModal(product)">{{product.productName}}</span>
+					<img :src="'/fileView/'+product.fileRoute" alt="product"
+						@click="displayModal(product)" style="cursor:pointer"> <span
+						@click="displayModal(product)" style="cursor:pointer">{{product.productName}}</span>
 				</div>
 				<div class="product-cell category">
 					<span class="cell-label">Category:</span>{{product.category}}
 				</div>
 				<div class="product-cell status-cell">
 					<span class="cell-label">Status:</span> <span class="status active">
-						{{product.productStatus}} </span>
+						<select @change="productStatus(product)" id="productStatus"
+						style="color: #2ba972; background-color: rgba(43, 169, 114, 0.2);border: none;">
+							<option>{{product.productStatus}}</option>
+							<option>판매대기</option>
+							<option>판매중</option>
+							<option>품절</option>
+							<option>승인대기</option>
+							<option>판매중지</option>
+							<option>판매정지</option>
+					</select>
+					</span>
 				</div>
 				<div class="product-cell sales">
 					<span class="cell-label">요청날짜:</span>{{product.registerDate}}
@@ -330,19 +342,25 @@ ul.imgs li {
 					승인요청일 {{selectProduct.registerDate}} 승인요청인아이디
 					{{selectProduct.memberId}}
 
-					<div class="w3-content w3-display-container" >
-						<img class="mySlides" :src="'/fileView/'+selectProduct.fileRoute" style="width: 350px;height:350px; margin:auto">
-						<span v-for="add in addImg"> <img  class="mySlides" :src="'/fileView/'+add.fileRoute" style="width: 350px;height:350px;margin:auto"></span>
-						<span v-for="nat in nature"> <img  class="mySlides" :src="'/fileView/'+nat.fileRoute" style="width: 350px;height:350px;margin:auto"></span>
+					<div class="w3-content w3-display-container">
+						<img class="mySlides" :src="'/fileView/'+selectProduct.fileRoute"
+							style="width: 350px; height: 350px; margin: auto"> <span
+							v-for="add in addImg"> <img class="mySlides"
+							:src="'/fileView/'+add.fileRoute"
+							style="width: 350px; height: 350px; margin: auto"></span> <span
+							v-for="nat in nature"> <img class="mySlides"
+							:src="'/fileView/'+nat.fileRoute"
+							style="width: 350px; height: 350px; margin: auto"></span>
 						<button class="w3-button w3-black w3-display-left"
 							onclick="plusDivs(-1)">&#10094;</button>
 						<button class="w3-button w3-black w3-display-right"
 							onclick="plusDivs(1)">&#10095;</button>
-					</div>					
+					</div>
 					<ul style="list-style-type: none;">
 						<li>상품명 {{selectProduct.productName}}</li>
 						<li>상품상세설명 {{selectProduct.productDetail}}</li>
-						<li>카테고리 {{selectProduct.category}} 가격 {{selectProduct.price}}  </li>						
+						<li>카테고리 {{selectProduct.category}} 가격
+							{{selectProduct.price}}</li>
 					</ul>
 					<button @click="approProduct(selectProduct.productId)">승인</button>
 					&nbsp&nbsp&nbsp&nbsp
@@ -396,6 +414,33 @@ ul.imgs li {
 		            
 		        },
 		        methods: {
+		        	//관리자 상품에 대한 상태 변경
+		        	productStatus:function(data){
+		        		if (!confirm("상태를 변경하시겠습니까?")) {
+					        // 취소(아니오) 버튼 클릭 시 이벤트
+					    } else {
+					        // 확인(예) 버튼 클릭 시 이벤트
+					         $.ajax({
+									type : 'post', 
+									url : '/admin/approProduct', 										
+									beforeSend : function(xhr)
+						            {
+						            	xhr.setRequestHeader(header, token);
+						            },		      
+						            data:{"productId":data.productId,
+						            	"productStatus":$("#productStatus").val()},
+									success : function(result) {									
+										if(result=='성공'){
+											alert("상태가 변경되었습니다.")
+										}
+										location.reload();
+									},
+									error : function(error) { 
+										console.log(error)
+									}
+								})
+							 }
+		        	},
 		        	//승인하기
 		        	approProduct:function(data){
 		        		if (!confirm("승인처리 하시겠습니까?")) {
