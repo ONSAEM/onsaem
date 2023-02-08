@@ -111,7 +111,7 @@
 					<label for="ngoName">기부처</label>
 			        <select name="ngoName">
 			        	<option value="">==기부처 선택==</option>
-			        	<option th:each="ngo : ${ngoes}" th:value="${ngo.ngoId}"
+			        	<option th:each="ngo : ${ngoes}" th:value="${ngo.ngoName}"
 			                th:text="${ngo.ngoName}"></option>        	
 			        </select>
 				</div>
@@ -139,7 +139,10 @@
 					 <label for="detailPic">상세 설명 사진 첨부<span class="request">*</span></label>
 	        		<input type="file" id ="thumbnail" name="uploadFile" >
 				</div>
-				
+				<div class="inputfield">
+					 <label for="detailPic">상세 설명 사진 첨부<span class="request">*</span></label>
+	        		<input type="file" id ="thumbnail" name="uploadFile" >
+				</div>
 				<div class="inputfield">
 					 <label for="proofEx">썸네일 첨부</label>
 	        		<input type="file" id ="thumbnail" name="uploadFile" >

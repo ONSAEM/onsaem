@@ -152,6 +152,9 @@ public class ChalController {
 		//인증샷예시 가져오기
 		model.addAttribute("proofEx", chalService.proofEx(chalId));
 		
+		//사진 ㅎㅎ 
+		model.addAttribute("detailPic", chalService.detailPic(chalId));
+		
 		if(authentication != null ) {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 			//아이디가 참가했는지 안했는지 확인,,- 수로 보냄
