@@ -805,8 +805,7 @@ h1 {
 		
 	
 		
-		 $(".imgFile").on('change',".addImg", function(ev) {
-			console.log(ev);
+		 $(".imgFile").on('change',".addImg", function(ev) {			
 			var fileName = ev.target.value;
 			$(ev.target).prev().prev().val(fileName);			
 			readURL(ev.target);

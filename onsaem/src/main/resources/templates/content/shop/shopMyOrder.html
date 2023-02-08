@@ -302,21 +302,18 @@ h1 {
 				let reasonLength = document.getElementsByName("reason").length;  
 				let orderStatus;				
    				for (var i=0; i<reasonLength; i++) {
-        			if (document.getElementsByName("reason")[i].checked == true) {
-            			console.log(document.getElementsByName("reason")[i].value); 
+        			if (document.getElementsByName("reason")[i].checked == true) {            			
             			document.getElementsByName("reason")[i].value
         			}
 				}
    				let methodLength = document.getElementsByName("method").length; 
    				for (var i=0; i<methodLength; i++) {
-        			if (document.getElementsByName("method")[i].checked == true) {
-            			console.log(document.getElementsByName("method")[i].value); 
+        			if (document.getElementsByName("method")[i].checked == true) {            			
             			 orderStatus=document.getElementsByName("method")[i].value
         			}
 				}
    				let subRecivReq=document.getElementById("detailReason").value;    			
    				let recivReq=$("#please").val();
-   				console.log(modalData.orderId)
    		 		let orderId=modalData.orderId;
    				
    				$.ajax({
@@ -363,8 +360,7 @@ h1 {
 			}					
 			
 			//리뷰제출
-			function submitReview(data){
-				console.log(data)
+			function submitReview(data){				
 				let groupId=data;				
 				let reviewContent=$('#reviewContent').val();
 				let reviewStar=$('input[name="rating"]:checked').val();
@@ -394,8 +390,7 @@ h1 {
 			
 			
 			//리뷰 모달창 생성
-			  $(".modals").click(function () {
-				  console.log(this.parentNode.parentNode.parentNode.parentNode.querySelector(".black-bg"))   
+			  $(".modals").click(function () {				    
 				  this.parentNode.parentNode.parentNode.parentNode.querySelector(".black-bg").style.display="block"
 			      });  
 			      $(".btn-danger").click(function () {

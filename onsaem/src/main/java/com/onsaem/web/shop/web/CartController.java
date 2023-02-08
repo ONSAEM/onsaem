@@ -56,14 +56,7 @@ public class CartController {
 			UserDetails userDetails = (UserDetails)authentication.getPrincipal();			
 			cartVO.setMemberId(userDetails.getUsername());
 			cartService.myCartList(cartVO);
-			System.out.println(cartService.myCartList(cartVO));
 			model.addAttribute("myCartList",cartService.myCartList(cartVO));
-			/*
-			 * List<ProductVO> list=new ArrayList<ProductVO>(); for(int
-			 * i=0;i<cartService.myCartList(cartVO).size();i++) {
-			 * list.addAll(proService.optionList(cartService.myCartList(cartVO).get(i).
-			 * getProductId())); } model.addAttribute("optionList",list);
-			 */
 			return "content/shop/shopMyCart";
 		}
 
@@ -72,8 +65,7 @@ public class CartController {
 		public String changeAmount(Model model,HttpServletRequest request) {
 			HttpSession session=request.getSession();
 			String data=(String)session.getAttribute("id");
-			cartVO.setMemberId("user");
-			
+			cartVO.setMemberId("user");			
 			model.addAttribute("myCartList",cartService.myCartList(cartVO));
 			return "content/shop/shopCart";
 		}

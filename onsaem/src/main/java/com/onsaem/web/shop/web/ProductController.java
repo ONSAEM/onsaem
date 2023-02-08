@@ -219,7 +219,6 @@ public class ProductController {
 		vo.setMemberId(userDetails.getUsername());
 		proService.addProduct(vo);
 		ovo.setProductId(vo.getProductId());
-		System.out.println("=====================" + applyFile[0].getOriginalFilename());
 		// 옵션목록 넣기
 		String[] array = ovo.getOptionContent().split(",");
 		for (int i = 0; i < array.length; i++) {

@@ -147,8 +147,7 @@
 	 }
 		
 		//장바구니삭제
-		function delCart(data){
-			console.log(data.productId);	
+		function delCart(data){				
 			let productId=data.productId;
 			let cartOption=data.cartOption;
 			let cartAmount=data.cartAmount;
@@ -183,15 +182,13 @@
 		}
 		
 		//선택된 장바구니삭제
-		function selectDel(){
-			console.log(carts)
+		function selectDel(){			
 			carts.forEach((cart)=>{
 				delCart(cart);
 			})
 		}
 		//전체 장바구니 삭제
-		function allDel(cartList){
-			console.log(cartList)
+		function allDel(cartList){			
 			cartList.forEach((cart)=>{
 				delCart(cart)
 			}) 
