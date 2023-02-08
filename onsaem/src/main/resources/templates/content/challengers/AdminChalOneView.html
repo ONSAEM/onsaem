@@ -275,7 +275,6 @@
 			
 		//모달창 생성
 		document.querySelectorAll(".openBtn").forEach((openBtn) => {
-			console.log(openBtn);
 			openBtn.addEventListener("click", displayModal);
 			
 		})
@@ -347,7 +346,6 @@
 					            	"endDate":endDate,
 					            	},
 								success : function(result) {									
-									console.log(result)
 									is.chals=result;   
 								},
 								error : function(error) { 
@@ -360,8 +358,6 @@
             		  this.theUser =  $('#theUsers').val()
             		  let theUser = this.theUser;
             		  let chalId = this.chalId;
-            		  console.log(this.theUser);
-            		  console.log(this.chalId);
             		  //eq() => 인덱스 요소에 해당되는거 찾기
             		  $.ajax({
 			  				url : '/mypage/getInfo4Point',
@@ -374,7 +370,6 @@
 			                },
 			            	success:function(result){
 			            		is.userInfo = result.user;
-			            		console.log(result);
 			  					 let total = 4;//Number(result.total);
 			  					let cnt = Number(result.cnt);
 			  					let percent = Math.abs(cnt/total);
@@ -428,15 +423,10 @@
             		//포인튜 정산 
             		//분모 mom - 개별 팀 인원수
 					let mom = 0;
-            		console.log(this.chalId);
-            		console.log(this.userInfo.participantId);
-            		console.log(this.point);
-            		console.log(this.pp);
             		let chalId = this.chalId;
             		let participantId = this.userInfo.participantId;
             		let thatPoint = this.point;
             		let result = this.pp+'%';
-					console.log(result);
             		$.ajax({
           				url : '/mypage/inputPoint',
           				method :'POST',
@@ -451,7 +441,7 @@
           					location.href ="/mypage/AdminEndAlone";
           				},
           				error : function(error){
-          					console.log()
+          					console.log(error)
           				}
           			})  
             	  },
@@ -486,25 +476,19 @@
             	  } // end of function inputReceipt
             	  ,
             	   displayModal:function(obj,chal){
-            		   console.log(obj)
-            		   console.log(chal);
             		   let infoes= this;
             		   this.chalId = chal;
             		   this.modalCheck= obj;
 		        		const modal = document.querySelector(".modal");
 		    			switch(obj){
 		    				case "receiptAlone" :
-		    					console.log("팀영수증");
 		    					chalId = chal;
-		    					console.log(chalId);
 								$('#groupId').val(chalId);
 		    					modal.classList.toggle("hidden");
 		    					
 		    					break;
 		    				case "point" :
 		    					let is = this;
-		    					console.log("개인 포인트정산");
-		    					console.log(chal);
 		    					//개인 포인트 계산 위해서 
 		    					//챌린지 참여하는 모든 유저들 데려오기 
 		    					  $.ajax({
@@ -516,8 +500,6 @@
 		    				               xhr.setRequestHeader(header, token);
 		    				               },
 		    							success : function(result){
-		    			        			console.log(result);
-		    	
 		    			        		//result를 option에 둘둘 v-for돌리기
 		    			        		is.users = result;
 		    						},error : function(error){
@@ -539,7 +521,6 @@
                           url: '/mypage/getAloneChals',
                           method: 'GET',
                           success: function (data) {                             
-                             console.log(data);
                         	  is.chals=data;                                                       
                           }
                       });

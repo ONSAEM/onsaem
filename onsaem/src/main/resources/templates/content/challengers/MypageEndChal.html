@@ -131,14 +131,15 @@
 
 <body>
 	<div layout:fragment="content">
-		<div class="title">진행 중 챌린저스</div>
+		<div class="title">완료 챌린저스</div>
+			<h2 th:if="${#lists.isEmpty(chals)}" style="text-align : center; padding: 300px 0">완료한 챌린지가 없습니다</h2>
 		<div class="products-area-wrapper gridView">
 
 			<div class="products-row" th:each = "chal : ${chals}">
 				<div class="product-cell image">
 					<input type="hidden" th:name="chalId" th:value="${chal.chalId}">
-					<img th:src="'/fileView/'+${chal.fileRoute}"
-						alt="product"> <span th:text="${chal.chalName}" th:href="@{/mypage/myChalStatus(chalId = ${chal.chalId})}">Ocean</span>
+					<a th:href="@{/mypage/myChalStatus(chalId = ${chal.chalId})}">
+						<img th:src="'/fileView/'+${chal.fileRoute}" alt="product"></a> <span th:text="${chal.chalName}">Ocean</span>
 				</div>
 				<div class="product-cell category">
 					<span class="cell-label">분류:</span><span th:text="${chal.subClass}+'전'"></span>
@@ -168,7 +169,7 @@
 							<br>
 							<img id="receipt">
 							<br>
-							<button type="button" class="closeBtn" id="closeModals">닫기</button>
+							<button type="button" class="closeBtn" id="closeModals" name="close" onclick="displayModal(this)">닫기</button>
 					</div>
 					<div id ="point" class="modal__content">
 						<h4 class="titleDesign">포인트정산</h4>
@@ -183,7 +184,7 @@
 							<!-- 정산 포인트 띄우기 --> 
 							<b>나의 결과 포인트 </b><p id="resultPoint"></p>	
 						</div>
-						<button type="button" class="closeBtn" id="closeModals">닫기</button>
+						<button type="button" class="closeBtn" id="closeModals" name="close" onclick="displayModal(this)">닫기</button>
 					</div>
 					
 					<div id ="teamPoint" class="modal__content">
@@ -202,7 +203,7 @@
 							<b>상대팀 평균 달성률</b><p id="successPC"></p>
 							<progress id="EnemyBar" min="0" max="100" style=width:100% class="barDesign"></progress>
 						</div>
-						<button type="button" class="closeBtn" id="closeModals">닫기</button>
+						<button type="button" class="closeBtn" id="closeModals" name="close" onclick="displayModal(this)">닫기</button>
 					</div>
 				
 			</div>
@@ -216,7 +217,6 @@
 		
 			//모달창 생성
 			document.querySelectorAll(".openBtn").forEach((openBtn) => {
-				console.log(openBtn);
 				openBtn.addEventListener("click", displayModal);
 				
 			})
@@ -225,13 +225,11 @@
 			const modalBackground = modal.querySelector(".modal__background");
 
 			function displayModal(data) {
-				
-				console.log(data);
+
 				let name = data.name;
 				let groupId = data.value;
 				 //let subClassVal = $(data).closest("tr").find('#teamChalId').text();
 				 let subClassVal = $(data).parent().find("input[name='subClass']").val()
-				 console.log(subClassVal);
 				if(name == '영수증'){
 					//영수증 불러오기 이미지파일,,
 		        	$.ajax({
@@ -243,7 +241,6 @@
 		                  },
 		        		data : {groupId, groupId},
 		        		success : function(result){
-		        			//console.log(result);
 		        			let imgsrc = result.fileRoute;
 		        			$('#receipt').attr("src", '/fileView/'+imgsrc);
 		        			
@@ -257,8 +254,6 @@
 					$("#teamPoint").hide();
 					modal.classList.toggle("hidden");
 				}else if(name =='포인트' && subClassVal=='개인'){
-					console.log(subClassVal);
-					console.log(groupId);
 					//개인전  포인트 가져오기
 					$.ajax({
 						url : '/mypage/checkPoint',
@@ -269,7 +264,6 @@
 			                xhr.setRequestHeader(header, token);
 			                },
 		  				success:function(result){
-		  					console.log(result);
 		  					//받아온 데이터를 필요한 곳에 넣기
 		  					let percent = result.user.result;
 		  					let resultPoint = result.user.resultPoint;
@@ -301,7 +295,6 @@
 			                xhr.setRequestHeader(header, token);
 			                },
 		  				success:function(result){
-		  					console.log(result);
 		  					//받아온 데이터를 필요한 곳에 넣기
 		  					//총 기부금
 		  					let donationFee = result.totalInfo.donationFee;
@@ -313,7 +306,6 @@
 		  					let myTeam = result.user.team;
 		  					//나의 resultPoint
 		  					resultPoint = result.user.resultPoint;
-		  					console.log(resultPoint);
 		  					//$('#teamPoint').text(resultPoint);
 		  					if(myTeam=='A'){
 		  						//평균 달성률
@@ -342,6 +334,7 @@
 			  						let Bpct = (Bson/Bmom)*100;
 			  						$('#MyTeamBar').val(Bpct);  						
 		  					}
+		  					
 	
 		  				},
 		  				error : function(error){
@@ -352,6 +345,8 @@
 					$('#receiptFrm').hide();
 	    			$("#point").hide();
 					$("#teamPoint").show();
+					modal.classList.toggle("hidden");
+				}else if(name =="close"){
 					modal.classList.toggle("hidden");
 				}
 				

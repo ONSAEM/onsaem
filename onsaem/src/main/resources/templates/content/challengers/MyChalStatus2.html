@@ -68,6 +68,9 @@
 	.hidden {
 	   display: none;
 	}
+	#content{
+		width : 100%;
+	}
 </style>
 </head>
 
@@ -278,7 +281,8 @@
                            		<tbody class="replies">
                            		</tbody>
                            </table>
-                           <span><p id="redHeart" th:onclick="delLike()">❤</p><p id="whiteHeart" th:onclick="addLike()">🤍</p>좋아요 <p id="cnt"></p></span>
+                            <span><img src="/challengers/redheart.png" id="redHeart"  th:onclick="delLike()" type="button" style="width:5%">
+                				<img src="/challengers/heart.png" th:onclick="addLike()" type="button" style="width:5%" id="whiteHeart" >좋아요 <p id="cnt"></p></span>
                            <input type="text" id="content" name="content">
                            <button type="button" th:onclick="inputReply()">댓글쓰기</button>
                            <button type="button" class="closeBtn">닫기</button>
@@ -346,13 +350,11 @@
 			
 		//차트관련
 		 let subClass = "[[${chal.subClass}]]";
-		console.log(subClass+"subClass");
 		if(subClass == '팀'){
 			 let myteamcnt = Number("[[${MyTeamCnt}]]");
 			 let myteamsize = Number("[[${MyTeamSize}]]");
 			 let total = Number("[[${chal.total}]]")*myteamsize;
 			 let pteam = (myteamcnt/total).toFixed(1)*100;
-			 console.log(myteamcnt);
 			 var colors = ['#b4a7d6','#eae5e1','#333333','#c3e6cb','#dc3545','#6c757d'];
 			var donutOptions = {
 				  cutoutPercentage: 85, 
@@ -421,22 +423,14 @@
 		}
 			
 		//모달창 생성
-	     /*  document.querySelectorAll(".openDetail").forEach((openDetail) => {
-	         console.log(openDetail);
-	         
-	         
-	      }) */
-	      
-	     /*  openDetail.addEventListener("click", displayModal); */
+	    
 	      const modal = document.querySelector(".modal");
 	      const closeButton = modal.querySelector(".closeBtn");
 	      const modalBackground = modal.querySelector(".modal__background");
 
 	      function displayModal(data) {
-	    	  console.log(data)
 	    	  let proofId = data.proofId;
 	    	  $('#theId').val(data.proofId);
-	    	  console.log(proofId,'=======');
 	    	 
 	    	  $(".replies").val();
 		       //ajax 호출 
@@ -450,15 +444,10 @@
 					      //contentType: 'application/plain',
 					      data: {proofId : proofId},
 					      success: function (result) {
-					    	  console.log(result);
-					    	  console.log(result.repllies);
-					    	  console.log(result.brd.content);
-					    	  console.log(result.brd.proofWriter);
 					    	  $('#image').attr("src", '/fileView/'+result.brd.fileRoute);
 					    	  
 					    	$('.replies').html("");
 					    	  let list = result.repllies;
-					    	  console.log(list.writerId);
 					    	  let brd = result.brd;
 					    	  var str = '<TR>';
 					    	  let tbl =  $.each(list , function(i){
@@ -512,10 +501,8 @@
 	    		contentType: 'application/json',
 			    data: JSON.stringify({content:content, groupId : id}),
 			    success:function(result){
-			    	console.log(result);
 			    	$('.replies').html("");
 			    	  let list = result;
-			    	  console.log(list.writerId);
 			    	  let brd = result.brd;
 			    	  var str = '<TR>';
 			    	  let tbl =  $.each(list , function(i){
@@ -535,8 +522,7 @@
 	      //좋아요 하기
 	      function addLike(){
 	    	  let groupId = document.querySelector('#theId').value;
-	    	  console.log(groupId);
-	    	  
+
 	    	  $.ajax({
 	    		  url : '/mypage/addChalLike',
 	    		  method : 'POST',
@@ -546,7 +532,6 @@
 	               },
 	    		  data : {groupId : groupId},
 	    		  success:function(result){
-	    			  console.log(result);
 	    			  //좋아요 갯수 변경
 	    			  $("#cnt").text(result.likeCnt);
 	    			  //하트 변경
@@ -567,8 +552,7 @@
 	      //좋아요 삭제 ㅎㅎ
 	      function delLike(){
 	    	  let groupId = document.querySelector('#theId').value;
-	    	  console.log(groupId);
-	    	  
+
 	    	  $.ajax({
 	    		  url : '/mypage/delChalLike',
 	    		  method : 'POST',
@@ -578,7 +562,6 @@
 	               },
 	    		  data : {groupId : groupId},
 	    		  success:function(result){
-	    			  console.log(result);
 	    			  //좋아요 갯수 변경
 	    			  $("#cnt").text(result.likeCnt);
 	    			  //하트 변경
@@ -619,7 +602,6 @@
 	    	  let groupId = document.querySelector('#theId').value;
 	    	  let reason = $("#reason").val();
 			  let detailReason = $("#detailReason").val();
-	    	  console.log(groupId);
 	    	  
 	    	 	$.ajax({
 	    		  url : '/mypage/inputReport',

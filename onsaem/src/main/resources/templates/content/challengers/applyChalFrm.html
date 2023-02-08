@@ -155,13 +155,11 @@
 			
 			function changeMoney(){
 				money = currentFee+Number(output.value);
-				console.log(money);
 			}
 		
 			//결제 및 테이블 등록 ㅎㅎ 
 			
 			$("#paymentBtn").on("click",function() {
-		      console.log('확인')
 		      let value = $('#value').val();
 		      let chalId = $('#chalId').val();
 		      let userId = '[[${user.memberId}]]';
@@ -170,11 +168,7 @@
 		      let userAddr ='[[${user.addr}]]';
 		      let userpostalCode ='[[${user.postalCode}]]';
 		      let userTel = '[[${user.phone}]]'; 
-		    
-		      
-		      console.log(userId);
-		      
-		      console.log(value);
+
 		      IMP.init('imp54500213');
 			      IMP.request_pay({
 			          pg : 'html5_inicis',

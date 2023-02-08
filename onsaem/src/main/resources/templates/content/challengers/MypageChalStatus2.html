@@ -467,47 +467,15 @@
 			let header = $("meta[name='_csrf_header']").attr("content");
 			let memberId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}]]";
 		
-			//성공률 계산위해
-	      	/* let good = Number("[[${cntGood}]]"); 
-	     	let total = Number("[[${chal.total}]]");
-	     	let dday = Number("[[${chal.dday}]]");
-	     	
-	     	let bad = total-good-dday;
-	     	console.log(bad);
-	     	$('#badCnt').text(bad+' 회');
-	     	let success = Math.abs((good/total)*100);
-	     	$("#successPercent").text(success);
-	     	//예상달성률
-	     	let expectedSuccess = ((good+dday)/total)*100;
-	     	$("#expectPC").text(expectedSuccess);
-	     	//예상 달성률은 total분모로 good더하고,,bad빼고,, 남은dday넣으면 되나?
-	     	//예상 포인트 예상 달성률의 1퍼
-	     	//예상 포인트 달성률,,- if구문 쓰기..아마도..?0
-	     	let expectedPoint = 0;
-	     	 if(expectedSuccess>=85){
-	     		let expectedPoint = privateDonation*0.005;
-	     		$("#expectPT").text(expectedPoint);
-	     		
-	     	}else if(expectedSuccess==1){
-	     		let expectedPoint = privateDonation*0.01;
-	     		$("#expectPT").text(expectedPoint);
-	     	}else{
-	     		let expectedPoint =0;
-	     		$("#expectPT").text(expectedPoint);
-	     	}
-	     	
-	     	console.log(success); */
-	      	
+
 	     	//차트
 			//차트관련
 			 let subClass = "[[${chal.subClass}]]";
-			console.log(subClass+"subClass");
 			if(subClass == '팀'){
 				 let myteamcnt = Number("[[${MyTeamCnt}]]");
 				 let myteamsize = Number("[[${MyTeamSize}]]");
 				 let total = Number("[[${chal.total}]]")*myteamsize;
 				 let pteam = (myteamcnt/total).toFixed(1)*100;
-				 console.log(myteamcnt);
 				 var colors = ['#b4a7d6','#eae5e1','#333333','#c3e6cb','#dc3545','#6c757d'];
 				var donutOptions = {
 					  cutoutPercentage: 85, 
@@ -582,10 +550,9 @@
 	      const modalBackground = modal.querySelector(".modal__background");
 
 	      function displayModal(data) {
-	    	  console.log(data)
 	    	  let proofId = data.proofId;
 	    	  $('#theId').val(data.proofId);
-	    	  console.log(proofId,'=======');
+
 	    	 
 	    	  $(".replies").val();
 		       //ajax 호출 
@@ -599,15 +566,10 @@
 					      //contentType: 'application/plain',
 					      data: {proofId : proofId},
 					      success: function (result) {
-					    	  console.log(result);
-					    	  console.log(result.repllies);
-					    	  console.log(result.brd.content);
-					    	  console.log(result.brd.proofWriter);
 					    	  $('#image').attr("src", '/fileView/'+result.brd.fileRoute);
 					    	  
 					    	$('.replies').html("");
 					    	  let list = result.repllies;
-					    	  console.log(list.writerId);
 					    	  let brd = result.brd;
 					    	  var str = '<TR>';
 					    	  let tbl =  $.each(list , function(i){
@@ -661,10 +623,8 @@
 	    		contentType: 'application/json',
 			    data: JSON.stringify({content:content, groupId : id}),
 			    success:function(result){
-			    	console.log(result);
 			    	$('.replies').html("");
 			    	  let list = result;
-			    	  console.log(list.writerId);
 			    	  let brd = result.brd;
 			    	  var str = '<TR>';
 			    	  let tbl =  $.each(list , function(i){
@@ -684,8 +644,6 @@
 	      //좋아요 하기
 	      function addLike(){
 	    	  let groupId = document.querySelector('#theId').value;
-	    	  console.log(groupId);
-	    	  
 	    	  $.ajax({
 	    		  url : '/mypage/addChalLike',
 	    		  method : 'POST',
@@ -695,7 +653,6 @@
 	               },
 	    		  data : {groupId : groupId},
 	    		  success:function(result){
-	    			  console.log(result);
 	    			  //좋아요 갯수 변경
 	    			  $("#cnt").text(result.likeCnt);
 	    			  //하트 변경
@@ -716,8 +673,7 @@
 	      //좋아요 삭제 ㅎㅎ
 	      function delLike(){
 	    	  let groupId = document.querySelector('#theId').value;
-	    	  console.log(groupId);
-	    	  
+
 	    	  $.ajax({
 	    		  url : '/mypage/delChalLike',
 	    		  method : 'POST',
@@ -727,7 +683,6 @@
 	               },
 	    		  data : {groupId : groupId},
 	    		  success:function(result){
-	    			  console.log(result);
 	    			  //좋아요 갯수 변경
 	    			  $("#cnt").text(result.likeCnt);
 	    			  //하트 변경
@@ -768,8 +723,7 @@
 	    	  let groupId = document.querySelector('#theId').value;
 	    	  let reason = $("#reason").val();
 			  let detailReason = $("#detailReason").val();
-	    	  console.log(groupId);
-	    	  
+
 	    	 	$.ajax({
 	    		  url : '/mypage/inputReport',
 	    		  method : 'POST',
@@ -796,12 +750,10 @@
 	      //페이지 이동 - 남들 인증샷, 같은 참가자 인증샷 보는 곳으루 ㅎ 랫츠고 !
 	      function move2(){
 	    	  let chalId = '[[${chal.chalId}]]';
-	    	  console.log(chalId);
 	    	  location.href="/mypage/myChalStatus2?chalId="+chalId;
 	      }
 	      function move1(){
 	    	  let chalId = '[[${chal.chalId}]]';
-	    	  console.log(chalId);
 	    	  location.href="/mypage/myChalStatus?chalId="+chalId;
 	      }
 		</script>

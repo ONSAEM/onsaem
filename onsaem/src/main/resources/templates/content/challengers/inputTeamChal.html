@@ -140,11 +140,7 @@
 	        		<input type="file" id ="thumbnail" name="uploadFile" >
 				</div>
 				<div class="inputfield">
-					 <label for="detailPic">상세 설명 사진 첨부<span class="request">*</span></label>
-	        		<input type="file" id ="thumbnail" name="uploadFile" >
-				</div>
-				<div class="inputfield">
-					 <label for="proofEx">썸네일 첨부</label>
+					 <label for="proofEx">썸네일 첨부<span class="request">*</span></label>
 	        		<input type="file" id ="thumbnail" name="uploadFile" >
 				</div>
 				
@@ -164,7 +160,6 @@
 		var header = $("meta[name='_csrf_header']").attr("content");
 	
 		$("#paymentBtn").on("click",function() {
-		    console.log('확인')
 		    let value = $('#value').val();
 		    let userId = '[[${user.memberId}]]';
 		    let userName = '[[${user.name}]]';
@@ -172,11 +167,7 @@
 		    let userAddr ='[[${user.addr}]]';
 		    let userpostalCode ='[[${user.postalCode}]]';
 		    let userTel = '[[${user.phone}]]'; 
-		  
-		    
-		    console.log(userId);
-		    
-		    console.log(value);
+
 		    IMP.init('imp54500213');
 			      IMP.request_pay({
 			          pg : 'html5_inicis',
@@ -257,7 +248,6 @@
 		betPoint.value = Number(output.value)*0.01;
 		
 		function changePoint(money){
-			console.log(money);
 			betPoint.value = Number(money)*0.01;
 		}
 		

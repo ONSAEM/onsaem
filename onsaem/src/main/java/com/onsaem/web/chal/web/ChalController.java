@@ -69,8 +69,7 @@ public class ChalController {
 	@RequestMapping(value="/chalListSearch", method=RequestMethod.GET)
 	public String chalSearchList(@RequestParam(value="chalName", required=false)String chalName, Model model,ChalVO vo, Paging paging){
 		vo.setChalName(chalName);
-		System.out.println(chalName);
-		System.out.println(vo);
+		
 		String classes = "항시";
 		model.addAttribute("ngoes", ngoService.listNgoClass(classes));
 		model.addAttribute("chals", chalService.getChalAll(vo, paging));
@@ -110,7 +109,7 @@ public class ChalController {
 	//팀별
 	@RequestMapping(value="/chalDepart",method=RequestMethod.GET)
 	public String chalListTeam(Model model,@RequestParam(value="data", required=false)String data,  Paging paging){
-		System.out.println(data);
+		
 		ChalVO vo = new ChalVO();
 		switch(data) {
 			case "팀" :
@@ -170,10 +169,9 @@ public class ChalController {
 		//
 		Integer nowStart = chalService.getChal(chalId).getNowStart();
 		Integer nowEnd = chalService.getChal(chalId).getNowEnd();
-		System.out.println(nowStart);
-		System.out.println(nowEnd);
+		
 		if(nowStart>=0 && nowEnd<0) {
-			System.out.println("체크");
+			
 			//진행중인 챌린지
 			//인증샷 파티
 			model.addAttribute("proofs", proofService.listProofAll(chalId));
@@ -181,7 +179,7 @@ public class ChalController {
 			//완료된 챌린지
 			//영수증 이미지 파일 가져오기
 			model.addAttribute("receipt", proofService.getReceipt(chalId));
-			System.out.println("receipt : "+proofService.getReceipt(chalId));
+			
 			model.addAttribute("proofs", proofService.listProofAll(chalId));
 		}
 		
@@ -236,8 +234,7 @@ public class ChalController {
 		chalService.inputChal(vo);
 		
 		//Participant에 챌린저스 개최자 등록
-		System.out.println("아이디" + vo.getChalId());
-		System.out.println("기부금" + vo.getDonationFee());
+		
 		
 		pvo.setChalId(vo.getChalId());
 		pvo.setParticipantId(vo.getMemberId());
@@ -293,8 +290,7 @@ public class ChalController {
 		chalService.inputChal(vo);
 		
 		//Participant에 챌린저스 개최자 등록
-		System.out.println("아이디" + vo.getChalId());
-		System.out.println("기부금" + vo.getDonationFee());
+		
 		
 		pvo.setChalId(vo.getChalId());
 		pvo.setParticipantId(vo.getMemberId());
@@ -339,7 +335,7 @@ public class ChalController {
 	@RequestMapping(value="/applyChalFrm", method=RequestMethod.GET)
 	public String applyChalFrm(@RequestParam(value="chalId", required= true)String chalId, Model model,MediaVO vo, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		System.out.println(chalService.getChal(chalId));
+		
 		model.addAttribute("chal", chalService.getChal(chalId));
 		vo.setGroupId(chalId);
 		model.addAttribute("photoes", proofService.listMedia(vo));
@@ -370,7 +366,7 @@ public class ChalController {
 		vo.setChalId(payvo.getGroupId());
 		vo.setDonationFee(payvo.getDonationFee());
 		chalService.updateDonate(vo);
-		System.out.println("group_id" + pvo.getChalId());
+		
 
 		return "redirect:/chalList";
 	}
@@ -383,7 +379,7 @@ public class ChalController {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		//로그인 사용자 정보 조회
 		model.addAttribute("user", memberService.getMember(userDetails.getUsername()));
-		System.out.println(chalService.getChal(chalId));
+		
 		model.addAttribute("chal", chalService.getChal(chalId));
 		vo.setGroupId(chalId);
 		model.addAttribute("photoes", proofService.listMedia(vo));
@@ -452,7 +448,7 @@ public class ChalController {
 	public String inputNgoPg(NgoVO vo,MultipartFile[] uploadFile, Model model,  Authentication authentication) throws IllegalStateException, IOException {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		model.addAttribute("banks", bankService.listBank());
-		System.out.println("========================"+vo);
+		
 		//html페이지에서 받아오지 못하는 변수들 설정
 		vo.setClasses("항시");
 		vo.setCondition("신청");
@@ -462,7 +458,6 @@ public class ChalController {
 		//사진 업로드
 		MediaVO mvo = new MediaVO();
 		mvo.setGroupId(vo.getNgoId());
-		System.out.println(vo.getNgoId());
 		mvo.setGroups("기부처");
 		mvo.setSubGroup("고유번호증");
 		mediaService.uploadMedia(uploadFile, mvo);

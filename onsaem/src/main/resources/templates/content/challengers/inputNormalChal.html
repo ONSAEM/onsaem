@@ -77,11 +77,7 @@
 					<label for="chalName" id="chalName">챌린지 제목<span class="request">*</span></label>
 					<input type="text"  id="chalName" name="chalName" class="input">
 				</div>
-				<div class="inputfield">
-					<label>참가 인원<span class="request">*</span></label>
-					<input type="number"  id="usercnt" name="usercnt" class="input" 
-						placeholder="본인 포함 짝수로 입력해주세요" onchange="checkCnt()">
-				</div>
+				
 				<div class="inputfield">
 					<label for="frequency" id="frequency">인증 빈도<span class="request">*</span></label><br>
 	            	<input name="frequency" type="radio" value="월화수목금토일">매일
@@ -166,8 +162,6 @@
 	
 		//결제 및 post로 값보내기
 		$("#insertBtn").on("click",function(){
-			console.log('확인')
-		      
 		      let userId = '[[${user.memberId}]]';
 		      let userName = '[[${user.name}]]';
 		      let userEmail =  '[[${user.email}]]';
@@ -199,7 +193,6 @@
 			          if ( rsp.success ) {
 			             //아래 아작스부터는 본인의 컨트롤이나 구현에 맞게 적절히 사용할것
 			             // 결제성공하고 컨트롤에 넘어가서 DB에 정보저장를 위한 아작스
-			            console.log();
 			             let paymentId = rsp.imp_uid;
 			             let paymentMethod = rsp.pay_method;
 			             $('input[name=paymentId]').val(paymentId); 
@@ -265,7 +258,6 @@
 		betPoint.value = Number(output.value)*0.01;
 		
 		function changePoint(money){
-			console.log(money);
 			betPoint.value = Number(money)*0.01;
 		}
 		

@@ -49,7 +49,7 @@
 	
 	<!--한 인증글에 대한 댓글들 -->
 	<select id="listReply" resultType="RepliesVO">
-		SELECT * 
+		SELECT REPLY_ID, CONTENT, GROUPS, WRITER_ID, TO_CHAR(REPLY_DATE, 'YY-DD-MM hh:mm') charDate
 		FROM REPLIES
 		WHERE GROUP_ID = #{GROUPID}
 	</select>

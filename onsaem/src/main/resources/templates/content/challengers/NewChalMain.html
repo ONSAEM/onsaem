@@ -465,17 +465,14 @@ a {
 		})
 		
 		var res = checkedDays.join('');
-		console.log(res);
 		 location.href = "/chalListDays?frequency=" + res; 
 	}
 	function searchList() {
 
 		let searchText = $('#searchText').val();
-		console.log(searchText);
 		location.href = '/chalListSearch?chalName=' + searchText;
 	}
 	function changeOption(data) {
-		console.log(data);
 		if (data == 'All') {
 			location.href = "/chalList";
 		} else {
@@ -484,7 +481,6 @@ a {
 	}
 
 	function gopage(i) {
-		console.log(i);
 		location.href = '/chalList?page=' + i;
 	}
 
