@@ -53,7 +53,7 @@ public class AdminController {
 	@ResponseBody
 	public List<ProductVO> approProduct(ProductVO vo, Paging paging) {
 		return proService.proList(vo, paging); // 승인대기품목
-	}
+	}	
 
 	// 추가이미지가져오기
 	@RequestMapping(value = "/admin/addImg", method = RequestMethod.POST)

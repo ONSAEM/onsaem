@@ -29,6 +29,7 @@ public class ApplyMemberVO {
 	private String detailExplain;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH24:MI:SS")
 	private Date applyDate;
+	private String fileRoute;
 	
 	private List<MediaVO> appliyFileList;
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.onsaem.web.common.service.CommonService;
+import com.onsaem.web.member.service.ApplyMemberVO;
 import com.onsaem.web.member.service.MemberService;
 import com.onsaem.web.member.service.MemberVO;
 
@@ -156,6 +157,20 @@ public class MemberController {
 	@RequestMapping(value = "/approveMember", method = RequestMethod.GET)
 	public String approveMember(MemberVO member) {
 		return "content/member/approveMember";
+	}
+	
+	// 승인요청건
+	@RequestMapping(value = "/admin/waitApprove", method = RequestMethod.GET)
+	@ResponseBody
+	public List<ApplyMemberVO> waitApprove() {		
+		return memberService.waitApprove();
+	}
+	
+	// 승인요청건 이미지
+	@RequestMapping(value = "/admin/approveImg", method = RequestMethod.POST)
+	@ResponseBody
+	public List<ApplyMemberVO> approveImg(ApplyMemberVO vo) {		
+		return memberService.approveImg(vo);
 	}
 
 	// 회원정보리스트
