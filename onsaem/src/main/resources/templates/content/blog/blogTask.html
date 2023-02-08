@@ -28,6 +28,7 @@
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
 		type="text/css">
 	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/blog.css}" type="text/css">
 </th:block>
 
 <style>
@@ -727,114 +728,28 @@
 		top: 10px;
 	}
 }
-
-/* 프로필카드 */
-@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,600);
-
-.snip1336 {
-	font-family: 'Roboto', Arial, sans-serif;
-	position: relative;
-	overflow: hidden;
-	margin: 10px;
-	min-width: 230px;
-	max-width: 315px;
-	width: 100%;
-	color: #ffffff;
+/* 인풋 */
+.Iwrapper .btn {
+	background-color: #9dc2c0;
+	color:white;
 	text-align: center;
-	line-height: 1.4em;
-	background-color: #141414;
+	margin: 0 auto;
 }
-
-.snip1336 * {
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	-webkit-transition: all 0.25s ease;
-	transition: all 0.25s ease;
+.Iwrapper label {
+	width: 130px;
+	color: #757575;
 }
-
-.snip1336 img {
-	max-width: 100%;
-	vertical-align: top;
-	opacity: 0.85;
+.inputfield {
+	margin-bottom: 6px;
 }
-
-.snip1336 figcaption {
-	width: 100%;
-	background-color: #141414;
-	padding: 25px;
-	position: relative;
+.inputfield input {
+	width: 430px;
+	border: 1px solid #d5dbd9;
+	border-radius: 3px;
+	line-height: 40px;
+	margin-bottom: 5px;
+	padding: 0 10px;
 }
-
-.snip1336 figcaption:before {
-	position: absolute;
-	content: '';
-	bottom: 100%;
-	left: 0;
-	width: 0;
-	height: 0;
-	border-style: solid;
-	border-width: 55px 0 0 400px;
-	border-color: transparent transparent transparent #141414;
-}
-
-.snip1336 figcaption a {
-	padding: 5px;
-	border: 1px solid #ffffff;
-	color: #ffffff;
-	font-size: 0.7em;
-	text-transform: uppercase;
-	margin: 10px 0;
-	display: inline-block;
-	opacity: 0.65;
-	width: 47%;
-	text-align: center;
-	text-decoration: none;
-	font-weight: 600;
-	letter-spacing: 1px;
-}
-
-.snip1336 figcaption a:hover {
-	opacity: 1;
-}
-
-.snip1336 .profile {
-	border-radius: 50%;
-	position: absolute;
-	bottom: 100%;
-	left: 78px;
-	z-index: 1;
-	max-width: 162px;
-	opacity: 1;
-	box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-}
-
-.snip1336 .follow {
-	margin-right: 4%;
-	border-color: #2980b9;
-	color: #2980b9;
-}
-
-.snip1336 h2 {
-	margin: 0 0 5px;
-	font-weight: 300;
-	color: white;
-}
-
-.snip1336 h2 span {
-	display: block;
-	font-size: 0.5em;
-	color: #2980b9;
-}
-
-.snip1336 p {
-	margin: 0 0 10px;
-	font-size: 0.8em;
-	letter-spacing: 1px;
-	opacity: 0.8;
-}
-/* 프로필 카드 끝 */
-
-
 </style>
 </head>
 <body>
@@ -921,82 +836,74 @@
 						<p>내 블로그 관리</p>
 						<p class="time" id="current_date">December, 12</p>
 					</div>
-					<div class="projects-section-line">
-						<div class="projects-status">
-							<div class="item-status">
-								<span class="status-number">45</span> <span class="status-type">In
-									Progress</span>
-							</div>
-							<div class="item-status">
-								<span class="status-number">24</span> <span class="status-type">Upcoming</span>
-							</div>
-							<div class="item-status">
-								<span class="status-number">62</span> <span class="status-type">Total
-									Projects</span>
-							</div>
-						</div>
-					</div>
-					<div class="project-boxes jsGridView">
-						<div class="taskHome">
-							<div class="project-box-wrapper">
-
+					
+					<div class="container" x-data="{ rightSide: false, leftSide: false }">
+						<div class="main">
+							<div class="main-container">
 								<!-- 프로필 카드를 넣어보겠습니다 -->
-								<figure class="snip1336">
-									<img
-										src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample69.jpg"
-										alt="sample69" />
-									<figcaption>
-										<img th:if="${blogInfos.fileRoute == null}"
-											th:src="@{/images/defaulltProfile.png}"
-											class="profile" />
+								<div class="profile_before">
+								<div class="profile">
+									<div class="profile-avatar">
 										<img th:if="${blogInfos.fileRoute != null}"
 											th:src="'/fileView/'+${blogInfos.fileRoute}"
-											class="profile" />
-										<h2>
-											[[${blogInfos.nickname}]]<span>@[[${blogInfos.blogId}]]</span>
-										</h2>
-									</figcaption>
-								</figure>
-
-								<!-- 끝 -->
-							</div>
+											alt="profile-sample5" class="profile-img" /> 
+										<img th:if="${blogInfos.fileRoute == null}"
+											th:src="@{/images/defaulltProfile.png}" alt="profile-sample5"
+											class="profile-img" />
+										<div class="profile-name">
+											[[${blogInfos.nickname}]] <span style="font-size: 20px">@[[${blogInfos.blogId}]]</span>
+											<br>
+											<p>[[${blogInfos.introduction}]]</p>
+										</div>
+			
+									</div>
+									<!-- 헤더 -->
+									<img th:if="${blogInfos.headerImg == null}" 
+									th:src="@{/blog/img/header.gif}"
+										alt="" class="profile-cover" id="headerFile">
+									<img th:unless="${blogInfos.headerImg == null}" 
+									th:src="'/fileView/'+${blogInfos.headerImg}"
+										alt="" class="profile-cover" id="headerFile">
+									<!-- 헤더 끝 -->
+									<div class="profile-menu" style="height: 65px;">
+									</div>
+								</div>
+								</div>
+							
 							<!-- 인풋 상자를 넣어보겠습니다 -->
-							<div class="Iwrapper">
+							<div class="Iwrapper" style="text-align:center;margin-top:60px;">
 
 								<form class="form" name="taskFrm">
 										<input type="hidden" name="blogId" th:value="${blogInfos.blogId}">
 									<div class="inputfield">
 										<label>블로그 주소<span class="request"></span></label> <input
-											type="text" name="blogURL" class="input" readonly
+											type="text" name="blogURL" class="inputfile" readonly
 											th:value="'/blog/myblog/userId='+${blogInfos.blogId}">
 									</div>
 									<div class="inputfield">
 										<label>블로그 이름<span class="request"></span></label> <input
-											type="text" name="blogName" class="input"
+											type="text" name="blogName" class="inputfile"  maxlength="25"
 											th:value="${blogInfos.blogName}">
 									</div>
 									<div class="inputfield">
 										<label>소개글<span class="request"></span></label> <input
-											type="text" name="introduction" class="input"
+											type="text" name="introduction" class="inputfile" maxlength="25"
 											th:value="${blogInfos.introduction}">
 									</div>
 
-									<div class="inputfield">
-										<img id="preview-image"
-											src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
-									</div>
 									<div class="filebox">
-										<label style="width: 20%;"></label> <input class="inputfile"
-											placeholder="헤더사진" readonly> <label for="file"
-											class="filelabel">사진등록</label> <input name="headerFile" type="file" id="file" accept=".gif, .jpg, .png, .bmp">
+										<label></label> <input class="inputfile"
+											placeholder="헤더사진" readonly style="width: 550px;margin-left:283px;"> <label for="file"
+											class="filelabel" style="width:87px;margin: 0 10px;">사진등록</label> <input name="headerFile" type="file" id="file" accept=".gif, .jpg, .png, .bmp">
 									</div>
 
 									<div class="inputfield">
-										<input type="button" value="등록" class="btn" id="taskBtn">
+										<input type="button" value="등록" class="btn" id="taskBtn" style="width:69px;">
 									</div>
 								</form>
 							</div>
 							<!-- 인풋 상자 끝 -->
+							</div>
 						</div>
 					</div>
 				</div>
@@ -1066,7 +973,8 @@
 		        }
 		        reader.readAsDataURL(obj.files[0]);
 		        reader.onload = function (e) {
-		            $('#preview-image').attr('src', e.target.result);
+		            $('#headerFile').attr('src', e.target.result);
+		            $('.profile::before').css("background-image","url("+e.target.result+")");
 		        }
 		    }
 			

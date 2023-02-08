@@ -80,11 +80,11 @@
 			<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
 			
 				<div class="inputfield">
-					<label>글 제목&nbsp;&nbsp;</label><input type="text" name="writeTitle">
+					<label>글 제목&nbsp;&nbsp;</label><input type="text" name="writeTitle" maxlength="50">
 				</div>
 				
 				<div class="inputfield">
-					<label>소제목&nbsp;&nbsp;&nbsp;</label><input type="text" name="subTitle">
+					<label>소제목&nbsp;&nbsp;&nbsp;</label><input type="text" name="subTitle" maxlength="50">
 				</div>
 				
 				<div class="inputfield">
@@ -104,7 +104,7 @@
 				</div>	
 			
 			<div class="inputfield">
-				<textarea name="blogWrite" id="ir1" rows="10" cols="90"></textarea>
+				<textarea name="blogWrite" id="ir1" rows="10" cols="90" maxlength="1000"></textarea>
 			</div>
 			
 			<div class="inputfield">

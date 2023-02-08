@@ -522,7 +522,7 @@ caption.dots {
 																<input type="hidden" id="token"
 																	th:name="${_csrf.parameterName}"
 																	th:value="${_csrf.token}" />
-																<textarea name="content" rows="4"
+																<textarea name="content" rows="4" maxlength="300"
 																	class="form-control rereplyBox" id="comment-message"
 																	placeholder="온샘은 신고 관리를 철저하게 합니다. 댓글 작성 시, 한번 더 생각해주세요"></textarea>
 
@@ -604,7 +604,7 @@ caption.dots {
 											th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 										<h6 class="mb-3">댓글</h6>
 
-										<textarea name="content" rows="4" class="form-control"
+										<textarea name="content" rows="4" class="form-control" maxlength="300"
 											id="comment-message"
 											placeholder="온샘은 신고 관리를 철저하게 합니다. 댓글 작성 시, 한번 더 생각해주세요"></textarea>
 
@@ -612,8 +612,7 @@ caption.dots {
 											<input type="checkbox" name="publicScope" id="scopeReply"
 												value="public" /> <span
 												style="color: blue; font-weight: bold;">비밀댓글 🔒</span>
-											<button type="button" id="replyBtn" class="form-control" sec:authorize="isAuthenticated()">등록</button>
-											<button sec:authorize="isAnonymous()" disabled>로그인이 필요합니다.</button>
+											<button type="button" id="replyBtn" class="form-control">등록</button>
 										</div>
 										<input type="hidden" name="groupId"
 											th:value="${blogWrite.writeId}">
@@ -790,6 +789,7 @@ caption.dots {
             
             // 댓글 등록
          $('#replyBtn').on("click", function(){
+        	let userId = "[[${blogWrite.blogId}]]";
             let bno = "[[${blogWrite.writeId}]]";
             let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
             if(id!=null){ // 로그인 된 상태이면
@@ -804,8 +804,8 @@ caption.dots {
                   data: $('form[name="replyFrm"]').serialize(),
                   success: function (result) {
                         console.log(result);
-                        location.href='/blog/myblog/blogWrite?bno='+bno;   // 이거 빼고 어디에 뭐 넣어라~ 이런식으로
-                       
+                        location.href='/blog/myblog/blogWrite?bno='+bno+'&userId='+userId;   // 이거 빼고 어디에 뭐 넣어라~ 이런식으로
+                        
                   },
                      error: function (error) {
                         console.log(error);
@@ -823,6 +823,7 @@ caption.dots {
                console.log("대댓글");
                $(this).next().toggle('active'); // 댓글 쓰는 칸 열기
                $(this).next().find('.rereplyInsert').on('click', function(e){
+            	  let userId = "[[${blogWrite.blogId}]]";
                   let bno = "[[${blogWrite.writeId}]]";
                   let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
                   
@@ -838,7 +839,7 @@ caption.dots {
                         data: $(e.target).closest('form').serialize(),
                         success: function (result) {
                               console.log(result);
-                               location.href='/blog/myblog/blogWrite?bno='+bno;   // 이거 빼고 어디에 뭐 넣어라~ 이런식으로
+                               location.href='/blog/myblog/blogWrite?bno='+bno+'&userId='+userId;   // 이거 빼고 어디에 뭐 넣어라~ 이런식으로
                              
                         },
                            error: function (error) {

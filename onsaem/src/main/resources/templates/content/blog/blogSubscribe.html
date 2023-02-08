@@ -27,6 +27,7 @@
 		type="text/css">
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
 		type="text/css">
+	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
 </th:block>
 
 <style>
@@ -726,9 +727,44 @@
 		top: 10px;
 	}
 }
-
-
-
+/* 체크박스 */
+.containerCheck {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.control-group {
+  display: inline-block;
+  vertical-align: top;
+  background: #FFFFFF;
+  text-align: left;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  padding: 50px 50px;
+  width: 500px;
+  height: 500px;
+  margin: 50px;
+  text-align: center;
+}
+.control-group table{
+  margin:0 auto;
+}
+.control-group .btn {
+ 	background-color: #9dc2c0;
+	color:white;
+	margin-left: 15px;
+}
+img {
+    height: 60px;
+    width: 60px;
+    max-width: 100%;
+    border-radius: 100%;
+}
+h3{
+	margin-bottom: 20px;
+}
 </style>
 </head>
 <body>
@@ -817,70 +853,72 @@
 					</div>
 					
 					<div class="project-boxes jsGridView">
-						<div class="project-box-wrapper" style="float:left;width:400px;text-align:center;">
+						<div class="project-box-wrapper containerCheck" style="width:600px;text-align:center;">
 						<!-- 구독 목록 -->
-						<table id="submeTable">
-							<thead>
-								<h3>나를 구독한 사람</h3>
-								<tr>
-									<th></th>
-									<th>프로필사진</th>
-									<th class="shoping__product">나를 구독한 사람ID</th>
-									<th><button id="subMeDel">삭제</button></th>
-								</tr>
-							</thead>
-							<tbody>
-									<th:block th:each="subMe:${subMeList}">
+							<div class="control-group">
+								<table id="submeTable">
+									<thead>
+										<h3>나를 구독한 사람</h3>
 										<tr>
-										<td><input type="checkbox" name="checkBox" class="sMDel" th:value="${subMe.memberId}"></input></td>
-										<td class="shoping__cart__item" style="width: 100px">
-											<img th:if="${subMe.fileRoute == null}"
-												th:src="@{/images/defaulltProfile.png}"
-												class="profile" />
-											<img th:if="${subMe.fileRoute != null}"
-												th:src="'/fileView/'+${subMe.fileRoute}"
-												class="profile" />
-										</td>
-										<td><h5 th:text="${subMe.memberId}"></h5></td>
-										<td></td>
+											<th></th>
+											<th></th>
+											<th class="shoping__product">ID</th>
+											<th><button id="subMeDel" class="btn">삭제</button></th>
 										</tr>
-									</th:block>
-							</tbody>
-						</table>
+									</thead>
+									<tbody>
+											<th:block th:each="subMe:${subMeList}">
+												<tr>
+												<td><input type="checkbox" name="checkBox" class="sMDel" th:value="${subMe.memberId}"></input></td>
+												<td class="shoping__cart__item" style="width: 100px">
+													<img th:if="${subMe.fileRoute == null}"
+														th:src="@{/images/defaulltProfile.png}"
+														class="profile" />
+													<img th:if="${subMe.fileRoute != null}"
+														th:src="'/fileView/'+${subMe.fileRoute}"
+														class="profile" />
+												</td>
+												<td><h5 th:text="${subMe.memberId}"></h5></td>
+												<td></td>
+												</tr>
+											</th:block>
+									</tbody>
+								</table>
+							</div>
 						</div>
-						<div class="project-box-wrapper" style="float:right;width:400px;text-align:center;">
-						<table id="mySubTable">
-							<thead>
-								<h3>내가 구독한 사람</h3>
-								<tr>
-									<th></th>
-									<th>프로필사진</th>
-									<th class="shoping__product">내가 구독한 사람ID</th>
-									<th><button id="mySubDel">삭제</button></th>
-								</tr>
-							</thead>
-							<tbody>
-									<th:block th:each="mySub:${mySubList}">
+						<div class="project-box-wrapper containerCheck" style="width:600px;text-align:center;">
+							<div class="control-group">
+								<table id="mySubTable">
+									<thead>
+										<h3>내가 구독한 사람</h3>
 										<tr>
-										<td><input type="checkbox" name="checkBox" class="mSDel" th:value="${mySub.groupId}"></input></td>
-										<td class="shoping__cart__item" style="width: 100px">
-											<img th:if="${mySub.fileRoute == null}"
-												th:src="@{/images/defaulltProfile.png}"
-												class="profile" />
-											<img th:if="${mySub.fileRoute != null}"
-												th:src="'/fileView/'+${mySub.fileRoute}"
-												class="profile" />
-										</td>
-										<td><h5 th:text="${mySub.groupId}"></h5></td>
-										<td></td>
+											<th></th>
+											<th></th>
+											<th class="shoping__product">ID</th>
+											<th><button id="mySubDel" class="btn">삭제</button></th>
 										</tr>
-									</th:block>
-							</tbody>
-						</table>
+									</thead>
+									<tbody>
+											<th:block th:each="mySub:${mySubList}">
+												<tr>
+												<td><input type="checkbox" name="checkBox" class="mSDel" th:value="${mySub.groupId}"></input></td>
+												<td class="shoping__cart__item" style="width: 100px">
+													<img th:if="${mySub.fileRoute == null}"
+														th:src="@{/images/defaulltProfile.png}"
+														class="profile" />
+													<img th:if="${mySub.fileRoute != null}"
+														th:src="'/fileView/'+${mySub.fileRoute}"
+														class="profile" />
+												</td>
+												<td><h5 th:text="${mySub.groupId}"></h5></td>
+												<td></td>
+												</tr>
+											</th:block>
+									</tbody>
+								</table>
+							</div>
 						</div>
-						
 						<!-- 구독목록 끝 -->
-						
 					</div>
 				</div>
 			</div>

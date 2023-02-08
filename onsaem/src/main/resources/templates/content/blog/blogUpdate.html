@@ -81,10 +81,10 @@
 			<input type="hidden" name="writeId" th:value="${blogUpdate.writeId}"/> 
 			
 			<div class="inputfield">
-				<label>글 제목&nbsp;&nbsp;</label><input type="text" name="writeTitle" th:value="${blogUpdate.writeTitle}">
+				<label>글 제목&nbsp;&nbsp;</label><input type="text" name="writeTitle" th:value="${blogUpdate.writeTitle}" maxlength="50">
 			</div>
 			<div class="inputfield">
-				<label>소제목&nbsp;&nbsp;&nbsp;</label><input type="text" name="subTitle" th:value="${blogUpdate.subTitle}">
+				<label>소제목&nbsp;&nbsp;&nbsp;</label><input type="text" name="subTitle" th:value="${blogUpdate.subTitle}" maxlength="50">
 			</div>
 			<div class="inputfield">
 				<label>카테고리</label><select name="categoryId" class="nice-select"> <!-- 카테고리 부분 나중에 value 수정 필요 -->
@@ -104,7 +104,7 @@
 			</div>	
 			
 			<div class="inputfield">
-				<textarea name="blogWrite" id="ir1" rows="10" cols="90" th:text="${blogUpdate.blogWrite}"></textarea>
+				<textarea name="blogWrite" id="ir1" rows="10" cols="90" th:text="${blogUpdate.blogWrite}" maxlength="1000"></textarea>
 			</div>
 			<div class="inputfield">
 				<button type="button" class="btn">수정</button>
