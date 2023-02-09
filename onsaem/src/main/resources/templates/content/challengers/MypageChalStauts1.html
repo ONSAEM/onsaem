@@ -304,7 +304,7 @@
 		top: 0;
 		padding: 10px 25px;
 		width: 20%;
-		height: 16%;
+		height: 20%;
 	}
 	
 	h1 {
@@ -364,7 +364,7 @@
 	width: 100%;
 	background-color : #F9F9F2;
 		width : 70%;
-		height: 30%x;
+		height: 18%;
 		padding: 10px;
 		box-sizing: border-box;
 		border: none;
@@ -489,34 +489,35 @@
        <div class="modal hidden">
           <div class="modal__background"></div>
           <div class="modal__content" id="insta">
-         
-             	<span style="float:left; text-align : left">
-             		<p id="writer" style="text-align : left"></p>
-	             	
-	             	<p id="writeDate"></p>
-             	</span>
-             	<button id="on" onclick="openFrm()" style="display: on; float:right">신고</button>	
+         	<div style="text-align : center">
+             	<span id="writeDate" style="margin-right : 10px; font-size : 18px"></span>
+             	<span id="writer" style="margin-right : 10px; font-size : 18px"></span>
+             	<button id="on" onclick="openFrm()" style="float:right; margin-bottom : 10px">신고</button>	
+			</div>
+             	
              	<input type="hidden" id="theId">
                 <img style="width: 500px;" id="image">
-          		<p id="contents"></p>
+                <div style="width:100%; text-align:left; padding:5px; background-color : rgba(225, 214, 176, 0.3); margin : 2px">
+          			<p id="contents"></p>
+          		</div>
           		<br>
-          		
-          			<img src="/challengers/redheart.png" id="redHeart"  th:onclick="delLike()" type="button" style="width:4%;  display:inline-block; float:left; margin-right : 5px">
-                	<img src="/challengers/heart.png" th:onclick="addLike()" type="button" style="width:4%;  display:inline-block; float:left;  margin-right : 5px" id="whiteHeart" >
-                	<img src="/challengers/comment.png"  type="button" style="width:4%;  display:inline-block; float:left" id="bubble" >
-               
-                <Br>
-                	<p style="display:inline-block; float:left">좋아요 :</p> <p id="cnt" style=" display:inline-block; float:left"></p>           
-                <table style="overflow-y:auto; width : 100%; display:hide" id="replyTable">
-                <thead><tr>
-                			<th>댓쓴이</th>
-                			<th>댓글내용</th>
-                			<th>작성일자</th>
-                		</tr></thead>
-                		<tbody class="replies">
-                		</tbody>
-                </table>
-                
+          		<div style="text-align:left;">
+          			<img src="/challengers/redheart.png" id="redHeart"  th:onclick="delLike()" type="button" style="width:4%;  display:inline-block;  margin-right : 5px">
+                	<img src="/challengers/heart.png" th:onclick="addLike()" type="button" style="width:4%;display:inline-block;   margin-right : 5px" id="whiteHeart" >
+                	<img src="/challengers/comment.png"  type="button" style="width:4%; display:inline-block;" id="bubble" th:onclick="openReplies()">
+               </div>
+               <div style="text-align:left; margin : 3px">
+                	<span>좋아요 :</span> <span id="cnt" ></span>           
+               </div>
+	                <table style="overflow-y:auto; width : 100%; " id="replyTable">
+	                <thead><tr>
+	                			<th>댓쓴이</th>
+	                			<th>댓글내용</th>
+	                			<th>작성일자</th>
+	                		</tr></thead>
+	                		<tbody class="replies">
+	                		</tbody>
+	                </table>    
                 <input type="text" id="content" name="content">
                 <button type="button" th:onclick="inputReply()">댓글쓰기</button>
                 <button type="button" class="closeBtn">닫기</button>
@@ -525,9 +526,9 @@
           <div id="reportFrm" style="display : none;" class="modal__content2">
           <!-- 신고폼 -->
              <form >
-             	<p style="font-size:large">신고하기</p><Br>
+             	<p style="font-size:large; margin : 1% 0">신고하기</p><Br>
              	<input type="hidden" id="theId">
-                	<select id="reason">
+                	<select id="reason" style="margin : 5px; width : 100px; height : 20%">
                 		<option value="">==신고 사유 고르기==</option>
                 		<option value="악성댓글">악성댓글</option>
                 		<option value="주제와관련없는인증">주제와 관련 없는 인증</option>
@@ -550,7 +551,7 @@
 			let token = $("meta[name='_csrf']").attr("content");
 			let header = $("meta[name='_csrf_header']").attr("content");
 			let memberId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}]]";
-		
+			
 			//성공률 계산위해
 	      	let privateDonation = Number("[[${user.privateDonate}]]");
 	      	let good = Number("[[${cntGood}]]"); 
@@ -633,7 +634,7 @@
 					      data: {proofId : proofId},
 					      success: function (result) {
 
-					    	  $('#image').attr("src", '/fileView/'+result.brd.fileRoute);
+					    	 $('#image').attr("src", '/fileView/'+result.brd.fileRoute);
 					    	  
 					    	$('.replies').html("");
 					    	  let list = result.repllies;
@@ -651,8 +652,24 @@
 					    	  document.querySelector("#contents").innerText=result.brd.content;
 					    	 //글쓴이 넣기
 					    	  document.querySelector("#writer").innerText=result.brd.proofWriter;
+					    	 
 					    	//작성일자 넣기
-					    	  document.querySelector("#writeDate").innerText=result.brd.writeDate;
+					    	function leftPad(value) {
+							    if (value >= 10) {
+							        return value;
+							    }
+							
+							    return `0${value}`;
+							}
+					    	function toStringByFormatting(source, delimiter = '-') {
+								    const year = source.getFullYear();
+								    const month = leftPad(source.getMonth() + 1);
+								    const day = leftPad(source.getDate());
+								
+								    return [year, month, day].join(delimiter);
+								}
+					    	
+					    	  document.querySelector("#writeDate").innerHTML=toStringByFormatting(new Date(result.brd.writeDate),'-');
 					    	 //좋아요 여부 확인
 					    	 let check = result.checkLike;
 					    	 if(check == 0){
@@ -828,6 +845,8 @@
 	    	  let chalId = '[[${chal.chalId}]]';
 	    	  location.href="/mypage/myChalStatus?chalId="+chalId;
 	      }
+	      
+	     
 		</script>
 		
 

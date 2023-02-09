@@ -198,17 +198,17 @@
 						<option value="일">일요일</option>	
 					</select>
 				</div>
+				<p style="margin : 5px 0">📢 챌린지 리더님이 설정하시는 금액은 모든 팀원에게 적용 됩니다!</p>
+		        <p style="margin : 5px 0">📢 내기 포인트는 설정하시는 기부금액의 1%으로 설정됩니다!</p>
 				<div class="inputfield">
-					<div class="slideFee">
 		        	<label for="teamFee">기부금</label>
-		       	 	<p>챌린지 리더님이 설정하시는 금액은 모든 팀원에게 적용 됩니다!</p>
-		        	<p>내기 포인트는 설정하시는 기부금액의 1%으로 설정됩니다!</p>
-		        		<input id="value" value=5000 onchange="changePoint(this.value)" class="input"></input>
-		        		<input name="teamFee" type="range" min=1000 max=50000 value=5000
-		        			 id="teamFee" class="input" onchange="changePoint(this.value)">
-		        		<br>
-		        		<label>포인트</label><input name="betPoint" type="number" id="betPoint"  class="input" readonly>
-		       		 </div>
+		        	<input id="value" value=5000 onchange="changePoint(this.value)" class="input"  name="teamFee"></input>
+		        	<br>
+		       		
+				</div>
+				<div class="inputfield">
+		        	<label>포인트</label><input name="betPoint" type="number" id="betPoint"  class="input" readonly>
+		       		
 				</div>
 				<div class="inputfield">
 					<label for="ngoName">기부처</label>
