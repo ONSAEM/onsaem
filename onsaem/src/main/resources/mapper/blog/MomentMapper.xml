@@ -18,7 +18,7 @@
 		        A.FILE_ROUTE,
 		        A.MEDIA_NAME
 		from moments M, media A
-		where M.moment_id=A.group_id
+		where M.moment_id=A.group_id(+)
 		and M.blog_id=#{blogId}
 		and M.upload_end >= trunc(current_date)
 		<![CDATA[

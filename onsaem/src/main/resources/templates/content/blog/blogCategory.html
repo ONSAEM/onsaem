@@ -1023,7 +1023,7 @@ label input{
 // 				console.log(blogId);
 				$.ajax({
 					url: '/blog/cateInsert',
-					method: 'post',
+					method: 'POST',
 					contentType: 'application/x-www-form-urlencoded',
 					data : { "categoryName": cateName,
 							 "publicScope" : cateScope,
@@ -1034,9 +1034,8 @@ label input{
 		               },
 		            success: function(result){
 		            	console.log(result);
-		            	location.reload();
-						
-		            	
+// 		            	location.reload();
+		            	location.href='/blog/myblog/blogCategory?blogId='+blogId;
 		            },
 		            error: function(error){
 		            	console.log(error);
@@ -1044,27 +1043,6 @@ label input{
 				})
 				
 			})
-			
-// 			function newCateList(){
-// 				let blogId= $('#blogId').val();
-// 				$.ajax({
-// 					url: '/blog/myblog/blogCategory',
-// 					method: 'GET',
-// 					contentType: 'application/x-www-form-urlencoded',
-// 					data:{blogId:blogId},
-// 					success : function(result){
-// 						$('#cateCheck').find('.control-group').eq(0).find('label').remove();
-// 						$(result["cateList"].each(function(index, item){
-// 							$(".cateList").append(item.categoryName);
-// 							$(".cateList").append(item.publicScope);
-// 						}))
-						
-// 					},
-// 					error : function(error){
-// 						console.log(error);
-// 					}
-// 				})
-// 			}
 			
 			$('#cateDelete').on("click", function(){
 				$(".checkList").each(function(index,item){
