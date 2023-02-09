@@ -512,7 +512,10 @@
 					sessionStorage.setItem('productId', data + ",");
 				}
 				location.href = '/shopDetail?data=' + data
-			}			
+			}	
+			function gopage(i) {
+			      location.href = '/shop?page=' + i;
+			   }
 		</script>
 			</th:block>
 
