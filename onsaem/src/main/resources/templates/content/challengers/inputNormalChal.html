@@ -43,6 +43,114 @@
 		margin : 0, auto;
 		text-align : center;
 	}
+	/* ONE */
+	.p1 li {
+		font-size: 14px;
+		width: 40px;
+		height: 40px;
+		line-height: 40px;
+		padding: 0;
+		text-align: center;
+		float: left;
+		cursor: pointer;
+	}
+	
+	.main {
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+		min-width: 1400px;
+	}
+	
+	.main-container {
+		padding: 20px;
+		flex-grow: 1;
+		overflow: auto;
+		background-color: #FCFBFC;
+	}
+	
+	.profile-cover {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center;
+		border-radius: 4px;
+	}
+	
+	.subheader {
+		position: relative;
+		height: 300px;
+		min-height: 250px;
+		z-index: 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-size: cover;
+		background-position: center;
+	}
+	
+	.subheader:before {
+		content: "";
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		z-index: -1;
+		left: 0;
+		top: 0;
+		background-image: url("/course/chal.gif");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center;
+		filter: blur(30px);
+		opacity: 0.7;
+	}
+	
+	.glass {
+		height: 100%;
+		width: 100%;
+		background-image: url("/course/chal.gif");
+		background-size: cover;
+		background-position: center;
+		clip-path: inset(10em);
+		filter: blur(5px);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.drop-shadow {
+		height: 155%;
+		width: 100%;
+		filter: drop-shadow(0px 20px 10px rgba(0, 0, 0, 0.3));
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.drop-shadow:before {
+		display: block;
+		content: "";
+		position: absolute;
+		top: 10em;
+		height: calc(100% - 20em);
+		width: calc(100% - 20em);
+		border-top: 2px solid rgba(225, 225, 225, 0.2);
+		border-left: 1px solid rgba(225, 225, 225, 0.1);
+		border-right: 1px solid rgba(225, 225, 225, 0.3);
+		z-index: 2;
+	}
+	
+	.drop-shadow>span {
+		position: absolute;
+		z-index: 5;
+		color: white;
+		font-size: 4em;
+		letter-spacing: 0.75em;
+		padding-left: 0.375em;
+	}
 </style>
 
 	<link type="text/css" rel="stylesheet"
@@ -54,18 +162,13 @@
 	<div layout:fragment="content">
 
 		<!-- Breadcrumb Section Begin -->
-		<section class="breadcrumb-section set-bg"
-			th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12 text-center">
-						<div class="breadcrumb__text">
-							<h2>Challengers</h2>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+		<div class="subheader">
+		<img src="/course/chal.gif" alt="" class="profile-cover">
+		<div class="drop-shadow">
+			<div class="glass"></div>
+			<span>Challengers</span>
+		</div>
+	</div>
 		<!-- Breadcrumb Section End -->
 		<br>
 		<div class="wrapper">
@@ -117,13 +220,19 @@
 					<label for="proofEx">인증샷 예시<span class="request">*</span></label>
 	        		<input type="file" id ="proofEx" name="uploadFile" class="input">
 				</div>
-								
+				<div class="inputfield">
+					<label for="contents">인증 방법 소개<span class="request">*</span></label>
+	        		<textarea rows="5" cols="20" 
+	        		placeholder="예)이렇게 인증샷을 남겨주세요:)" id="proofContent"
+	        		 value="contents" name="proofContent" class="input"></textarea>	
+				</div>
 				<div class="inputfield">
 					<label for="contents">챌린지 소개<span class="request">*</span></label>
 	        		<textarea rows="5" cols="20" 
 	        		placeholder="예) 매일 1만보 걷고 건강해지기! 오늘부터 같이 해봐요 :)" id="contents"
 	        		 value="contents" name="contents" class="input"></textarea>	
 				</div>
+
 				<div class="inputfield">
 					 <label for="detailPic">상세 설명 사진 첨부<span class="request">*</span></label>
 	        		<input type="file" id ="thumbnail" name="uploadFile" >
@@ -138,11 +247,12 @@
 				<input type="hidden" name="paymentId">
 				<input type="hidden" name="paymentMethod">
 				
+				
 				<div class="inputfield">
+				
 					<label>기부금<span class="request">*</span></label>
 					<p>마지막으로 기부금을 결제하시면 등록이 완료 됩니다.
-					<br>
-					<input name="donationFee" id="donationFee" class="input">
+					<input name="donationFee" id="donationFee" class="input" placeholder="최소 금액은 1000원 입니다"><span style="font-size : 20px">원</span>
 				</div>
 					
 				<div id="btns">
@@ -289,8 +399,7 @@
 			let cnt = Number($('input[name=usercnt]').val());
 			if(cnt%2 ==1){
 				alert("짝수로 입력 해 주세요");
-				$('input[name=usercnt]').val("")
-				
+				$('input[name=usercnt]').val("")	
 			}
 			
 		}

@@ -303,8 +303,8 @@
 		border-radius: 10px;
 		top: 0;
 		padding: 10px 25px;
-		width: 500px;
-		height: 500px;
+		width: 20%;
+		height: 16%;
 	}
 	
 	h1 {
@@ -338,8 +338,19 @@
 		float : left;
 		margin : 20px 30px;
 		width : 40%;
+		height : 15%;
+		padding : 5px;
 		text-align : center;
 		background-color :  hsla(175, 5%, 93%, 0.8);
+	}
+	.liLIst:hover{
+		float : left;
+		margin : 20px 30px;
+		width : 40%;
+		height : 15%;
+		padding : 5px;
+		text-align : center;
+		background-color :  #EEC7C1;
 	}
 	.gallery-item{
 		width: 100%;	
@@ -352,7 +363,8 @@
 	#detailReason{
 	width: 100%;
 	background-color : #F9F9F2;
-		height: 200px;
+		width : 70%;
+		height: 30%x;
 		padding: 10px;
 		box-sizing: border-box;
 		border: none;
@@ -366,6 +378,14 @@
 	#replyContent{
 		width : 70%;
 		text-align : left;
+	}
+	.fontSizeUp{
+		font-size : 20px;
+		margin : 3px;
+	}
+	#makeBackGround{
+		background-color : rgba(255, 255, 255, 0.6);
+		padding : 1%;
 	}
 	</style>
 </head>
@@ -383,16 +403,18 @@
 						<div class="profile-user-settings">
 							<h1 class="profile-user-name" th:text="${chal.chalName}" style="font-weight:bold">janedoe_</h1>
 						</div>
-						<div class="profile-stats">
-							<ul>
-								<li style="font-size:large">📆시작일 <span class="profile-stat-count" th:text="${#dates.format(chal.startDate, 'MM월 dd일')}" id="startDate" >164</span></li>
-								<li style="font-size:large">📆종료일 <span class="profile-stat-count" th:text="${#dates.format(chal.endDate, 'MM월 dd일')}" id="endDate" th:value="${chal.endDate}">188</span></li>
-							</ul>
-						</div>
-						<div class="profile-bio">
-							<p style="margin:1px">챌린지 <span class="profile-real-name" th:text="${chal.chalName}">Jane Doe</span>이/가 종료일까지 <span class="profile-real-name" th:text="${dday}">Jane Doe</span>일 남았어요.</p>
-							<br>
-							<p>남은 도전도 화이팅!!!</p>
+						<div id="makeBackGround">
+							<div class="profile-stats">
+								<ul>
+									<li style="font-size:large; font-weight : bold" class="fontSizeUp">📆시작일 <span class="profile-stat-count fontSizeUp" th:text="${#dates.format(chal.startDate, 'MM월 dd일')}" id="startDate" >164</span></li>
+									<li style="font-size:large">📆종료일 <span class="profile-stat-count" th:text="${#dates.format(chal.endDate, 'MM월 dd일')}" id="endDate" th:value="${chal.endDate}">188</span></li>
+								</ul>
+							</div>
+							<div class="profile-bio">
+								<p style="margin:1px" class="fontSizeUp">챌린지 <span class="profile-real-name fontSizeUp" th:text="${chal.chalName}"></span>이/가 종료일까지 <span class="profile-real-name fontSizeUp" th:text="${dday}">Jane Doe</span>일 남았어요.</p>
+								<br>
+								<p class="fontSizeUp">남은 도전도 화이팅!!!</p>
+							</div>
 						</div>
 			
 					</div>
@@ -400,8 +422,9 @@
 					<!-- End of profile section -->
 					<nav id="subMenu">
 						<ul>
-							<li class="liLIst" th:onclick="move1()">⋆｡˚⋆˚✩·｡˚section 1⋆｡˚⋆˚✩·｡˚</li>
-							<li class="liLIst" th:onclick="move2()">⋆｡˚⋆˚✩·｡˚section 2⋆｡˚⋆˚✩·｡˚</li>
+							<li class="liLIst" th:onclick="move1()">나의 달성도</li>
+							<li th:if="${chal.subClass} == '팀'" class="liLIst" th:onclick="move2()">우리팀 달성도</li>
+							<li th:if="${chal.subClass} == '개인'" class="liLIst" th:onclick="move2()">타 유저 달성도</li>
 						</ul>
 					</nav>
 					
@@ -412,7 +435,7 @@
 			
 					<!-- 도넛차트 -->
 					<div id="chart" style=" text-align : center; width:500px; margin-left:200px;">
-						<h3>[[${user.participantId}]] 님의 달성률</h3>	
+						<h3>🍀 [[${user.participantId}]] 님의 달성률 🍀</h3>	
 						<canvas id="chDonut1" ></canvas>
 					</div>	
 					
@@ -475,8 +498,16 @@
              	<button id="on" onclick="openFrm()" style="display: on; float:right">신고</button>	
              	<input type="hidden" id="theId">
                 <img style="width: 500px;" id="image">
-          		<p id="contents"></p>      
-                <table style="overflow-y:auto">
+          		<p id="contents"></p>
+          		<br>
+          		
+          			<img src="/challengers/redheart.png" id="redHeart"  th:onclick="delLike()" type="button" style="width:4%;  display:inline-block; float:left; margin-right : 5px">
+                	<img src="/challengers/heart.png" th:onclick="addLike()" type="button" style="width:4%;  display:inline-block; float:left;  margin-right : 5px" id="whiteHeart" >
+                	<img src="/challengers/comment.png"  type="button" style="width:4%;  display:inline-block; float:left" id="bubble" >
+               
+                <Br>
+                	<p style="display:inline-block; float:left">좋아요 :</p> <p id="cnt" style=" display:inline-block; float:left"></p>           
+                <table style="overflow-y:auto; width : 100%; display:hide" id="replyTable">
                 <thead><tr>
                 			<th>댓쓴이</th>
                 			<th>댓글내용</th>
@@ -485,8 +516,7 @@
                 		<tbody class="replies">
                 		</tbody>
                 </table>
-                <span><img src="/challengers/redheart.png" id="redHeart"  th:onclick="delLike()" type="button" style="width:4%">
-                		<img src="/challengers/heart.png" th:onclick="addLike()" type="button" style="width:4%" id="whiteHeart" >좋아요 <p id="cnt"></p></span>
+                
                 <input type="text" id="content" name="content">
                 <button type="button" th:onclick="inputReply()">댓글쓰기</button>
                 <button type="button" class="closeBtn">닫기</button>
@@ -516,6 +546,7 @@
 		
 	<
 		<script type="text/javascript">
+		
 			let token = $("meta[name='_csrf']").attr("content");
 			let header = $("meta[name='_csrf_header']").attr("content");
 			let memberId = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}]]";
@@ -550,7 +581,7 @@
 	     	}
 
 	     	//차트
-			var colors = ['#b4a7d6','#eae5e1','#333333','#c3e6cb','#dc3545','#6c757d'];
+			var colors = ['#b4a7d6','#C4C4C4','#333333','#c3e6cb','#dc3545','#6c757d'];
 			var donutOptions = {
 				  cutoutPercentage: 85, 
 				  legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
@@ -646,6 +677,8 @@
 	      closeButton.addEventListener("click", displayModal)
 	      modalBackground.addEventListener("click", displayModal);
 	      //=----모달창관련 스크립트 끝
+	      
+	   
 	      
 	      //댓글 달기
 	      function inputReply(){

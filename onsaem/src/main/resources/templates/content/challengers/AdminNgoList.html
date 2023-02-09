@@ -88,6 +88,32 @@
 	.hidden {
 		display: none;
 	}
+	/*신청서 디자인*/
+	label{
+		display : inline-block;
+		width : 150px;
+		margin-bottom : 10px;
+	}
+	.titleDesign {
+		color : #3C3D3C;
+		font-size : 35px;
+		padding : 2px;
+		width : 300px;
+		margin : 5px auto;
+		border-radius : 10px;
+		font-weight : bold;
+	}
+	.contentDesign{
+		background-color : #F4F4E3;
+		padding : 20px 10px;
+		border-radius : 10px;
+		margin : 15px;
+	}
+	input{
+		border : none;
+		width : 250px;
+		
+	}
 	</style>
 </head>
 
@@ -144,35 +170,37 @@
 			
 											
 											<div class="modalText" id="applyFrm">
-												<h4>기부 신청서</h4>
-												<input type="hidden" id="ngoId">
-												<label>기부처 명 : </label><input type="text" id="ngoName" name="ngoName" readOnly>
-												<br>
-												<label for="ngoNo">사업자 등록번호</label>
-												<input type="number" id="ngoNo" name="ngoNo" readOnly>
-												  <img style="width: 500px;" id="image">  
-												<br>
-												<label for="ngoNo">신청자</label>
-												<input type="text" id="writerId" name="writerId" readOnly>
-												<br>
-												<label>주소</label>
-												<input type="text" name="postalCode" id="postalCode" readOnly>
-												<input type="text" name="addr" id="addr" readOnly>
-												<input type="text" name="detailAddr" id="detailAddr" readOnly>
-												<br>
-												
-												<label>이메일</label>
-												<input type="email" name="email" id="email" readOnly>
-												<br>
-												
-												<label>연락처</label>
-												<input type="text" name="phone" id="phone" readOnly>
-												<br>
-												
-												<label>계좌</label>
-												<input type="text" name="bank" id="bank" readOnly>
-												<input type="text" name="bankAccount" id="bankAccount" readOnly>
-												<br>
+												<h4 class="titleDesign">기부 신청서</h4>
+													<input type="hidden" id="ngoId">
+													<div class="contentDesign">
+													<label>기부처 명 : </label><input type="text" id="ngoName" name="ngoName" readOnly>
+													<br>
+													<label for="ngoNo">사업자 등록번호</label>
+													<input type="number" id="ngoNo" name="ngoNo" readOnly>
+													  <img style="width: 500px;" id="image">  
+													<br>
+													<label for="ngoNo">신청자</label>
+													<input type="text" id="writerId" name="writerId" readOnly>
+													<br>
+													<label>주소</label>
+													<input type="text" name="postalCode" id="postalCode" readOnly>
+													<input type="text" name="addr" id="addr" readOnly>
+													<input type="text" name="detailAddr" id="detailAddr" readOnly>
+													<br>
+													
+													<label>이메일</label>
+													<input type="email" name="email" id="email" readOnly>
+													<br>
+													
+													<label>연락처</label>
+													<input type="text" name="phone" id="phone" readOnly>
+													<br>
+													
+													<label>계좌</label>
+													<input type="text" name="bank" id="bank" readOnly>
+													<input type="text" name="bankAccount" id="bankAccount" readOnly>
+													<br>
+												</div>
 											<button type="button" onclick="openFrm()" id="reject">반려</button>
 											<button type="button" onclick="approveApply()" id="approve">승인</button>
 											<button type="button" class="closeBtn">닫기</button>
