@@ -13,4 +13,5 @@ public class BlogVO {
 	String blogUrl;
 	String nickname;
 	String fileRoute;
+	String headerImg;
 }

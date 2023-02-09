@@ -144,9 +144,12 @@ caption.dots {
 
 						</div>
 						<!-- 헤더 -->
-						<img
-							src="/fileView/20230127/befd71a4-98a8-4042-a72a-07ff9c715e36.gif"
-							alt="" class="profile-cover">
+						<img th:if="${blogInfo.headerImg == null}" 
+							 th:src="@{/blog/img/header.gif}"
+							 alt="" class="profile-cover" id="headerFile">
+						<img th:unless="${blogInfo.headerImg == null}" 
+							 th:src="'/fileView/'+${blogInfo.headerImg}"
+							 alt="" class="profile-cover" id="headerFile">
 						<!-- 헤더 끝 -->
 
 						<div class="profile-menu">
@@ -453,12 +456,12 @@ caption.dots {
 						<div class="col-md-6 modal-image sticky-top">
 							<h3>상세 내용</h3>
 							<textarea id="momentWrite" cols="40" rows="25"
-								placeholder="500자 미만으로 입력해주세요"></textarea>
+								placeholder="500자 미만으로 입력해주세요" maxlength="500"></textarea>
 						</div>
 						<div class="col-md-6 p-3">
 
 							<input type="text" class="form-control"
-								placeholder="첨부할 주소를 입력하세요" id="insertUrl"> <br>
+								placeholder="첨부할 주소를 입력하세요" id="insertUrl" maxlength="50"> <br>
 							<fieldset>
 								<h3>업로드 기간</h3>
 								<input type="date" id="date" placeholder="Select a date"
@@ -791,7 +794,11 @@ caption.dots {
 				$(makeClone).find(".album-content").find('a').text(item.writeTitle+" "+item.subTitle);
 				$(makeClone).find(".album-photos").find("input[type=hidden].thumbnail").val(item.blogWrite);
 				$(makeClone).find(".album-photos").data("writeid",item.writeId).data("scope",item.publicScope).data("userid",item.blogId);
-				$(makeClone).find(".album-photos").find("img").attr("src",item.fileRoute);
+				if(item.fileRoute != null){
+					$(makeClone).find(".album-photos").find("img").attr("src",item.fileRoute);
+				}else{
+					$(makeClone).find(".album-photos").find("img").attr("src","/blog/img/blogDefault.png");
+				}
 				$(makeClone).find(".album-action").find("i.fa-calendar-o").text(" "+item.writeDate.substr(0,10));
 				$(makeClone).find(".album-action").find("i.fa-comment-o").text(" "+item.replyCnt);
 				$(makeClone).find(".album-action").find("i.fa-eye").text(" "+item.cnt);

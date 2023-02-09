@@ -16,15 +16,21 @@
 		        B.INTRODUCTION,
 		        B.BLOG_URL,
 		        M.NICKNAME,
-		        F.file_route
+		        F.file_route,
+                H.file_route as headerImg
 		  FROM  BLOGS B,
 		        MEMBERS M, 
 		        (select * 
 		           from MEDIA
                   where STATUS = 'true' 
-                    and sub_group='프로필이미지') F
+                    and sub_group='프로필이미지') F,
+                (select * 
+		           from MEDIA
+                  where STATUS = 'true' 
+                    and sub_group='헤더이미지') H
 	     WHERE  B.BLOG_ID = M.MEMBER_ID
 		   and  M.member_id = F.group_id(+)
+           and  M.member_id = H.group_id(+)
 		   AND  M.member_id= #{memberId}
 	</select>
 	
