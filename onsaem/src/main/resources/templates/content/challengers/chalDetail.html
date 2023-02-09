@@ -316,7 +316,7 @@
 	                            <li><b class="liStyle">시작일</b> <span th:text="${#dates.format(chal.startDate, 'yyyy년 MM월 dd일')}" ></span></li>
 	                            <li><b class="liStyle">종료일</b> <span th:text="${#dates.format(chal.endDate, 'yyyy년 MM월 dd일')}"> <samp>Free pickup today</samp></span></li>
 	                            <li><b class="liStyle">유형</b> <span id="subClass" th:text="${chal.subClass}"></span></li>
-	                            <li th:if="${chal.subClass} == '팀'"><b class="liStyle">고정 기부금</b> <span id="teamFee" th:text="${chal.teamFee}+'원'"></span></li>
+	                            <li th:if="${chal.subClass} == '팀'"><b class="liStyle">고정 기부금</b> <span id="teamFee"  th:text="|${#numbers.formatInteger(chal.teamFee, 0, 'COMMA')}원|"></span></li>
 	                            <li th:if="${chal.subClass} == '팀'"><b class="liStyle">내기 포인트</b> <span id="betPoint" th:text="${chal.teamFee}+'원'"></span></li>
 	                            <li><b class="liStyle">참가 요일</b> <span th:text="${chal.frequency}"></span></li>
                        		</ul>

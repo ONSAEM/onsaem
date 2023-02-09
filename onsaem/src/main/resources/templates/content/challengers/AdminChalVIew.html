@@ -225,11 +225,13 @@
 									
 									<div style="float: left; width: 50%; padding:1px; "><p>총 기부금</p></div><div style="float: left; width: 50%; padding:1px;"><p id="donationFee" />{{teamInfo.totalInfo.donationFee}}</div>
 									<div style="float: left; width: 50%; padding:1px;"><p>총 내기 포인트</p></div><div style="float: left; width: 50%; padding:1px;"><p id="sumBetPoint" v-text="betPoints"/></div>
+									<div>
 									<select id="teamChoose" @change="setWinner()">
 										<option>==우승팀 고르기==</option>
 										<option value="A">A팀</option>
 										<option value="B">B팀</option>
 									</select>
+									</div>
 									<div style="float: right; width: 50%; padding:10px;">
 							            <canvas id="Achart"></canvas>
 							        </div>
