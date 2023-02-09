@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security" class="light">
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	class="light">
 <head>
 <meta charset="UTF-8" />
 <title>ONSAEM</title>
@@ -9,18 +10,49 @@
 	content="width=device-width, maximum-scale=1.0, minimum-scale=1, user-scalable=yes,initial-scale=1.0" />
 <!-- CSS -->
 <link rel="stylesheet" th:href="@{/css/management.css}" type="text/css">
+<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
+	type="text/css">
+<link rel="stylesheet"
+	th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
+<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
+	type="text/css">
+<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
+	type="text/css">
+<link rel="stylesheet"
+	th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}"
+	type="text/css">
+<link rel="stylesheet"
+	th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
+<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
+	type="text/css">
+<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
+	type="text/css">
+<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
+<link type="text/css" rel="stylesheet"
+	th:href="@{https://cdn.jsdelivr.net/npm/aksfileupload@1.0.0/dist/aksFileUpload.min.css}">
+<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
+<link rel="stylesheet" th:href="@{/css/calendar.css}" type="text/css">
 <!-- JAVASCRIPT -->
-<script th:src="@{/js/jquery.min.js}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script th:src="@{/js/fileupload.js}"></script>
+<script th:src="@{/js/calendar.js}"></script>
+<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
+<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
+<script th:src="@{/shoptemplate/js/jquery-ui.min.js}"></script>
+<script th:src="@{/shoptemplate/js/jquery.slicknav.js}"></script>
+<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
+<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
+<script th:src="@{/shoptemplate/js/main.js}"></script>
 <!-- csrf 설정 -->
 <meta name="_csrf" th:content="${_csrf.token}" />
 <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
 </head>
 <body>
 	<div class="app-container">
 		<th:block th:replace="fragments/sidebar2 :: sidebarFragment"></th:block>
 		<th:block layout:fragment="content"></th:block>
 	</div>
-	<script th:src="@{https://kit.fontawesome.com/6094ba072a.js}"
-		crossorigin="anonymous"></script>
+
 </body>
 </html>
