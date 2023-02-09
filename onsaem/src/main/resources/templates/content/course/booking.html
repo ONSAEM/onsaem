@@ -142,22 +142,6 @@
 						<span>CLASS</span>
 					</div>
 				</div>
-				<!-- Breadcrumb Section Begin -->
-				<section class="breadcrumb-section set-bg"
-					data-setbg="img/breadcrumb.jpg">
-					<div class="container">
-						<div class="row">
-							<div class="col-lg-12 text-center">
-								<div class="breadcrumb__text">
-									<h2>Checkout</h2>
-									<div class="breadcrumb__option">
-										<a href="./index.html">Home</a> <span>booking</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</section>
 				<!-- Breadcrumb Section End -->
 				<section class="shoping-cart spad">
 					<div class="container">
@@ -301,7 +285,6 @@
 										let price = "[[${class.classInfo.price*people}]]"
 												- $('input[name=usePoint]')
 														.val();
-										console.log(price);
 										$('input[name=price]').val(price);
 										$('#price').text(price + '원');
 									} else {
@@ -379,7 +362,6 @@
 								},
 								function(rsp) {
 									if (rsp.success) {
-										console.log(rsp);
 										//아래 아작스부터는 본인의 컨트롤이나 구현에 맞게 적절히 사용할것
 										// 결제성공하고 컨트롤에 넘어가서 DB에 정보저장를 위한 아작스
 										let data = {

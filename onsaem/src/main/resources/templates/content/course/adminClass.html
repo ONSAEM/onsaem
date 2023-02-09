@@ -179,7 +179,6 @@
 			                    url: '/class/getAdminClassList',
 			                    method: 'GET',
 			                    success: function (data) {	
-			                    	console.log(data);
 			                    	is.classList=data;		                    		                       
 			                    }
 			                });
@@ -216,12 +215,10 @@
 						            	"startDate":startDate,
 						            	"endDate":endDate,
 						            	},
-									success : function(result) {									
-										console.log(result)
+									success : function(result) {
 										is.members=result
 									},
 									error : function(error) { 
-										console.log(error)
 									}
 								})
 			            }

@@ -19,11 +19,6 @@ public class CommonController {
 		return "content/main";
 	}
 
-	@RequestMapping(value="/errorPage", method = RequestMethod.GET)
-	public String errorPage() {
-		return "content/error/404";
-	}
-
 	@RequestMapping(value="/testVue", method = RequestMethod.GET)
 	public String testVue(Model model) {
 		return "content/test/vueTest";

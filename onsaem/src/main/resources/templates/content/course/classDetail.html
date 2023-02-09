@@ -301,10 +301,10 @@
 			border: none;
 		}
 
-		#viewReview .modal-dialog{
+		#viewReview .modal-dialog {
 			width: 600px;
 		}
-		
+
 		.rList .viewReview {
 			background-color: #f6f8f9;
 			padding: 15px;
@@ -384,9 +384,10 @@
 							<div class="product__details__text">
 								<h3 th:text="${class.className}"></h3>
 								<div class="product__details__rating">
-									<i class="fa-solid fa-star" th:if="${class.star != 0}" th:each="num:${#numbers.sequence(1,class.star)}"
-										style="color: #ffe949"></i><i class="fa-solid fa-star-half"
-										th:if="${class.star%1 >= 0.5}" style="color: #ffe949"></i> <span>([[${class.reviewCount}]]
+									<i class="fa-solid fa-star" th:if="${class.star != 0}"
+										th:each="num:${#numbers.sequence(1,class.star)}" style="color: #ffe949"></i><i
+										class="fa-solid fa-star-half" th:if="${class.star%1 >= 0.5}"
+										style="color: #ffe949"></i> <span>([[${class.reviewCount}]]
 										reviews)</span>
 								</div>
 								<div class="product__details__price">[[${#numbers.formatInteger(class.price,
@@ -395,23 +396,19 @@
 									<li><b>소요시간</b> <span>[[${class.classTime}]]시간</span></li>
 									<li><b>난이도</b> <span>[[${class.difficulty}]]</span></li>
 								</ul>
-								<a href="/loginPage" class="primary-btn"
-									sec:authorize="isAnonymous()">예약하기</a> <a href="/loginPage"
-									class="primary-btn" sec:authorize="isAnonymous()">신고하기</a> <a
-									href="#" class="primary-btn bookingModal"
-									sec:authorize="hasRole('USER')">예약하기</a> <a href="#"
-									class="primary-btn" sec:authorize="hasRole('USER')"
-									data-bs-toggle="modal" data-bs-target="#reportModal">신고하기</a>
+								<a href="/loginPage" class="primary-btn" sec:authorize="isAnonymous()">예약하기</a> <a
+									href="/loginPage" class="primary-btn" sec:authorize="isAnonymous()">신고하기</a> <a
+									href="#" class="primary-btn bookingModal" sec:authorize="hasRole('USER')">예약하기</a>
+								<a href="#" class="primary-btn" sec:authorize="hasRole('USER')" data-bs-toggle="modal"
+									data-bs-target="#reportModal">신고하기</a>
 								<div class="wrapper">
 									<div class="button-container">
 										<div class="heartbutton">
-											<span class="content"> <i class="icon fa fa-heart"
-												aria-hidden="true"></i> <i class="icon far fa-heart"
-												aria-hidden="true"></i> <span class="text like">Like<span
-													class="text d">d</span></span> <span class="text number"
-												th:text="${like.cnt}"></span>
-											</span> <input type="hidden" class="ClassLike"
-												th:value=${like.likeCk}>
+											<span class="content"> <i class="icon fa fa-heart" aria-hidden="true"></i>
+												<i class="icon far fa-heart" aria-hidden="true"></i> <span
+													class="text like">Like<span class="text d">d</span></span> <span
+													class="text number" th:text="${like.cnt}"></span>
+											</span> <input type="hidden" class="ClassLike" th:value=${like.likeCk}>
 										</div>
 									</div>
 								</div>
@@ -420,16 +417,16 @@
 						<div class="col-lg-12">
 							<div class="product__details__tab">
 								<ul class="nav nav-tabs" role="tablist">
-									<li class="nav-item"><a class="nav-link" data-toggle="tab"
-										href="#tabs-1" role="tab" aria-selected="false">Information</a>
+									<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tabs-1" role="tab"
+											aria-selected="false">Information</a>
 									</li>
-									<li class="nav-item"><a class="nav-link" data-toggle="tab"
-										href="#tabs-2" role="tab" aria-selected="false">Reviews <span>([[${class.reviewCount}]])</span></a>
+									<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
+											aria-selected="false">Reviews <span>([[${class.reviewCount}]])</span></a>
 									</li>
-									<li class="nav-item"><a class="nav-link" data-toggle="tab"
-										href="#tabs-3" role="tab" aria-selected="false">Questions
+									<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
+											aria-selected="false">Questions
 											<span>([[${class.queCount}]])</span>
-									</a></li>
+										</a></li>
 								</ul>
 								<div class="tab-content">
 									<div class="tab-pane active" id="tabs-1" role="tabpanel">
@@ -461,7 +458,8 @@
 																		class="img-fluid avatar-image">
 
 																	<div class="author-comment-info ms-3">
-																		<h6 class="mb-1" th:text="${review.nickname}"></h6>
+																		<h6 class="mb-1" th:text="${review.nickname}">
+																		</h6>
 																		<i class="fa-solid fa-star"
 																			th:if="${review.reviewStar != 0}"
 																			th:each="num:${#numbers.sequence(1,review.reviewStar)}"
@@ -471,7 +469,8 @@
 																			style="color: #ffe949"></i> <img
 																			th:if="${review.reviewMedia != null}"
 																			th:src="@{'/fileView/'+${review.reviewMedia.fileRoute}}">
-																		<p class="mb-0" th:text="${review.reviewContent}"></p>
+																		<p class="mb-0"
+																			th:text="${review.reviewContent}"></p>
 																	</div>
 																</div>
 
@@ -487,12 +486,14 @@
 																	<th:block
 																		th:each="num : ${#numbers.sequence(review.rPaging.startPage,review.rPaging.endPage)}">
 																		<!-- 페이지 생성  ex) 1 2 3 4 5-->
-																		<li id="pageNum" th:if="${review.rPaging.page != num}"
+																		<li id="pageNum"
+																			th:if="${review.rPaging.page != num}"
 																			th:text=${num}></li>
 																		<!-- 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성-->
 																		<li th:if="${review.rPaging.page == num}"
 																			th:text=${num}
-																			style="background-color: #9dc2c0; border-radius: 100%; color: #fff;"></li>
+																			style="background-color: #9dc2c0; border-radius: 100%; color: #fff;">
+																		</li>
 																	</th:block>
 																	<!-- 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >> -->
 																	<li id="nextPaging"
@@ -517,8 +518,7 @@
 														등록</button>
 													<br>
 													<div class="news-block qList">
-														<div class="news-block-info "
-															th:each="que : ${question.qList}">
+														<div class="news-block-info " th:each="que : ${question.qList}">
 															<div class="author-comment d-flex mt-3 mb-4 viewQue"
 																th:id="${que.queId}"
 																th:if="${que.writerId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null} or ${class.memberId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}">
@@ -556,7 +556,8 @@
 																<!-- 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성-->
 																<li th:if="${question.qPaging.page == num}"
 																	th:text=${num}
-																	style="background-color: #9dc2c0; border-radius: 100%; color: #fff;"></li>
+																	style="background-color: #9dc2c0; border-radius: 100%; color: #fff;">
+																</li>
 															</th:block>
 															<!-- 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >> -->
 															<li id="nextPaging"
@@ -579,13 +580,11 @@
 	</div>
 	<!-- Product Details Section End -->
 
-	<div class="modal fade" id="viewReview" data-bs-keyboard="false"
-		aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="viewReview" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body"></div>
 
@@ -593,20 +592,18 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="inputModal" data-bs-keyboard="false"
-		aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="inputModal" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
 						<div class="title">문의 작성</div>
 						<div class="inputfield">
 							<label>문의내용</label><br>
-							<textarea name="queContent" id="ir1" rows="10" cols="50"></textarea>
+							<textarea name="queContent" rows="10" cols="50"></textarea>
 						</div>
 						<div class="inputfield">
 							<button type="button" class="btn insertQue">문의등록</button>
@@ -617,13 +614,11 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="viewQue" data-bs-keyboard="false"
-		aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="viewQue" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
@@ -635,20 +630,18 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="modifyQue" data-bs-keyboard="false"
-		aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="modifyQue" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
 						<div class="title">문의 수정</div>
 						<div class="inputfield">
-							<label>문의내용</label>
-							<textarea name="queContent" class="input"></textarea>
+							<label>문의내용</label><br>
+							<textarea name="queContent"  rows="10" cols="50"></textarea>
 						</div>
 						<div class="inputfield">
 							<button type="button" class="btn updateQue">문의수정</button>
@@ -659,13 +652,11 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="addAns" data-bs-keyboard="false"
-		aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="addAns" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
@@ -683,13 +674,11 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="modifyAns" data-bs-keyboard="false"
-		aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="modifyAns" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
@@ -707,21 +696,18 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="reportModal" data-bs-keyboard="false"
-		aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="reportModal" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
 						<div class="title">신고</div>
 						<div class="inputfield">
-							<label>신고종류</label><br> <input type="radio" name="reason"
-								value="욕설 및 비하 발언">욕설 및 비하 발언<br> <input
-								type="radio" name="reason" value="환경보호관련 클래스가 아님">환경보호관련
+							<label>신고종류</label><br> <input type="radio" name="reason" value="욕설 및 비하 발언">욕설 및 비하 발언<br>
+							<input type="radio" name="reason" value="환경보호관련 클래스가 아님">환경보호관련
 							클래스가 아님<br> <input type="radio" name="reason" value="설명과 다름">설명과
 							다름<br> <input type="radio" name="reason" value="기타">기타<br>
 							<label>신고상세내용</label><br>
@@ -736,13 +722,11 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="bookingModal" data-bs-keyboard="false"
-		aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="bookingModal" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
@@ -763,8 +747,7 @@
 								</table>
 							</div>
 							<div class="inputfield">
-								<label>예약인원</label> <input type="number" name="people" value="1"
-									min="1">
+								<label>예약인원</label> <input type="number" name="people" value="1" min="1">
 							</div>
 							<div class="inputfield">
 								<button type="button" class="btn BookingBtn">예약</button>
@@ -787,151 +770,156 @@
 		let groupId = "[[${class.classId}]]";
 		let addr = "[[${class.addr}]]";
 		let DateList = [];
-		
-			// 예약모달창
-			$('.bookingModal').on('click',function(){
-				$('#bookingModal').modal("show");
-			})
-			
-			// 강의 날짜 가져오기
-			function getDateList(){
-				$.ajax({
-			      url: '/class/getDateList',
-			      method: 'GET',
-			      contentType: 'application/x-www-form-urlencoded',
-			      data: {'classId' : groupId},
-				  async:false,
-			      success: function (result) {
-					DateList = result;
-			      },
-			      error: function (error) {
-			         console.log(error);
-			         alert('실패');
-			      }
-			   })
-			}
-			// 강의 있는 날짜 css 변경
-			function changeDate (date) {
-				let checked = false;
-				$(DateList).each(function(index, item){
-					if(date == item.classDate){
-						checked = true;
-						return;
-					}
-				})
-				return checked;
-			}
 
-			function getclassList(date){
-				console.log(date);
-				$.ajax({
-			      url: '/class/getclassList',
-			      method: 'GET',
-			      contentType: 'application/x-www-form-urlencoded',
-			      data: {'classId' : groupId,
-						'classDate' : date},
-				  async:false,
-			      success: function (result) {
+		// 예약모달창
+		$('.bookingModal').on('click', function () {
+			$('#bookingModal').modal("show");
+		})
+
+		// 강의 날짜 가져오기
+		function getDateList() {
+			$.ajax({
+				url: '/class/getDateList',
+				method: 'GET',
+				contentType: 'application/x-www-form-urlencoded',
+				data: { 'classId': groupId },
+				async: false,
+				success: function (result) {
+					DateList = result;
+				},
+				error: function (error) {
+					console.log(error);
+					alert('실패');
+				}
+			})
+		}
+		// 강의 있는 날짜 css 변경
+		function changeDate(date) {
+			let checked = false;
+			$(DateList).each(function (index, item) {
+				if (date == item.classDate) {
+					checked = true;
+					return;
+				}
+			})
+			return checked;
+		}
+
+		function getclassList(date) {
+			console.log(date);
+			$.ajax({
+				url: '/class/getclassList',
+				method: 'GET',
+				contentType: 'application/x-www-form-urlencoded',
+				data: {
+					'classId': groupId,
+					'classDate': date
+				},
+				async: false,
+				success: function (result) {
 					console.log(result);
 					$('.classTable').find('tbody').children().remove();
-					$(result).each(function(index, item){
+					$(result).each(function (index, item) {
 						let trDate = $(`<tr class="dayClass" id="${item.cno}">
 								<td>${item.startTime}</td>
 								<td><span>${item.bookingPeople}</span>/<span>${item.totalPeople}</span></td>
 								</tr>`);
-						$(trDate).on('click',function(){
-					$(this).addClass('selectedClass');
-					$('input[name=people]').attr('max',item.totalPeople-item.bookingPeople);
-				})
-					$('.classTable').find('tbody').append(trDate);
-				})
-			      },
-			      error: function (error) {
-			         console.log(error);
-			         alert('실패');
-			      }
-			   })
-			}
-
-			$('.BookingBtn').on('click',function(){
-				if ($(this).parents().prev().eq(0).prop('tagName') == 'P') {
-					$(this).parents().prev().eq(0).remove();
-				}
-				let cno = $('.selectedClass').attr('id')
-				console.log(cno);
-				if(!!cno){
-					location.href = "/class/booking?cNo=" + cno + "&people=" + $('input[name=people]').val();
-				}else{
-					$(this).parent().before($('<p/>').text("강의를 선택해주세요").css("color", "#f20000"));
+						$(trDate).on('click', function () {
+							$('.classTable').find('tbody').children().removeClass('selectedClass');
+							$(this).addClass('selectedClass');
+							$('input[name=people]').attr('max', item.totalPeople - item.bookingPeople);
+						})
+						$('.classTable').find('tbody').append(trDate);
+					})
+				},
+				error: function (error) {
+					console.log(error);
+					alert('실패');
 				}
 			})
+		}
+
+		$('.BookingBtn').on('click', function () {
+			if ($(this).parents().prev().eq(0).prop('tagName') == 'P') {
+				$(this).parents().prev().eq(0).remove();
+			}
+			let cno = $('.selectedClass').attr('id')
+			console.log(cno);
+			if (!!cno) {
+				location.href = "/class/booking?cNo=" + cno + "&people=" + $('input[name=people]').val();
+			} else {
+				$(this).parent().before($('<p/>').text("강의를 선택해주세요").css("color", "#f20000"));
+			}
+		})
 
 
 
 		//  리뷰 페이지 이동
-		$(".rPaging").find("#pageNum").on("click",function(){
-				newRList($(this).text());
-			});
+		$(".rPaging").find("#pageNum").on("click", function () {
+			newRList($(this).text());
+		});
 
-			// 리뷰 다음 페이징 목록 이동
-			$(".rPaging").find("#nextPaging").on("click",function(){
-				newRList("[[${review.rPaging.startPage+review.rPaging.pageSize}]]");
-			});
+		// 리뷰 다음 페이징 목록 이동
+		$(".rPaging").find("#nextPaging").on("click", function () {
+			newRList("[[${review.rPaging.startPage+review.rPaging.pageSize}]]");
+		});
 
-			// 리뷰 이전 페이징 목록 이동
-			$(".rPaging").find("#prevPaging").on("click",function(){
-				newRList("[[${review.rPaging.startPage-review.rPaging.pageSize}]]");
-			});
+		// 리뷰 이전 페이징 목록 이동
+		$(".rPaging").find("#prevPaging").on("click", function () {
+			newRList("[[${review.rPaging.startPage-review.rPaging.pageSize}]]");
+		});
 
-			//  문의 페이지 이동
-		$(".qPaging").find("#pageNum").on("click",function(){
-				newQList($(this).text());
-			});
+		//  문의 페이지 이동
+		$(".qPaging").find("#pageNum").on("click", function () {
+			newQList($(this).text());
+		});
 
-			// 문의 다음 페이징 목록 이동
-			$(".qPaging").find("#nextPaging").on("click",function(){
-				newQList("[[${question.qPaging.startPage+question.qPaging.pageSize}]]");
-			});
+		// 문의 다음 페이징 목록 이동
+		$(".qPaging").find("#nextPaging").on("click", function () {
+			newQList("[[${question.qPaging.startPage+question.qPaging.pageSize}]]");
+		});
 
-			// 문의 이전 페이징 목록 이동
-			$(".qPaging").find("#prevPaging").on("click",function(){
-				newQList("[[${question.qPaging.startPage-question.qPaging.pageSize}]]");
-			});
+		// 문의 이전 페이징 목록 이동
+		$(".qPaging").find("#prevPaging").on("click", function () {
+			newQList("[[${question.qPaging.startPage-question.qPaging.pageSize}]]");
+		});
 
-			// 리뷰 페이지 가져오기
-			function newRList(page) {
-				console.log('확인');
-				$.ajax({
-			      url: '/class/newRList',
-			      method: 'GET',
-			      contentType: 'application/x-www-form-urlencoded',
-			      data: {'page' : page,
-						'groupId' : groupId},
-			      success: function (result) {
-					 $(".rList").children().detach();
-					 $(".rPaging").children().detach();
-					 $(result["rList"]).each(function(index, item){
+		// 리뷰 페이지 가져오기
+		function newRList(page) {
+			console.log('확인');
+			$.ajax({
+				url: '/class/newRList',
+				method: 'GET',
+				contentType: 'application/x-www-form-urlencoded',
+				data: {
+					'page': page,
+					'groupId': groupId
+				},
+				success: function (result) {
+					$(".rList").children().detach();
+					$(".rPaging").children().detach();
+					$(result["rList"]).each(function (index, item) {
 						$(".rList").append(makeRList(item));
-					 })
-					 // 페이징 새로 생성
-					 $(".rPaging").append(makeRPageing(result["rPaging"]));
-			      },
-			      error: function (error) {
-			         console.log(error);
-			         alert('실패');
-			      }
-			   })
-			}
+					})
+					// 페이징 새로 생성
+					$(".rPaging").append(makeRPageing(result["rPaging"]));
+				},
+				error: function (error) {
+					console.log(error);
+					alert('실패');
+				}
+			})
+		}
 
-			// 리뷰 리스트만들기
-			function makeRList(item) {
-				let img = ``;
-					if(item.profile != null){
-						img = '/fileView/'+ item.profile.fileRoute;
-					}else{
-						img = '/images/defaulltProfile.png';
-					}
-				let	content = $(`<div class="news-block-info" th:id="${item.reviewId}">
+		// 리뷰 리스트만들기
+		function makeRList(item) {
+			let img = ``;
+			if (item.profile != null) {
+				img = '/fileView/' + item.profile.fileRoute;
+			} else {
+				img = '/images/defaulltProfile.png';
+			}
+			let content = $(`<div class="news-block-info" th:id="${item.reviewId}">
 													<div class="author-comment d-flex mt-3 mb-4 viewReview">
 															<img src="${img}"
 																class="img-fluid avatar-image">
@@ -941,85 +929,87 @@
 															</div>
 														</div>
 													</div>`);
-				if(item.reviewStar != 0){
-					for(let i=1; i<=item.reviewStar; i++){
-						$(content).find('.mb-0').before(`<i class="fa-solid fa-star"
-																	style="color: #ffe949"></i>`);
-					}
-				}
-				if(item.reviewStar%1 >= 0.5){
-					$(content).find('.mb-0').before(`<i class="fa-solid fa-star-half"
+			if (item.reviewStar != 0) {
+				for (let i = 1; i <= item.reviewStar; i++) {
+					$(content).find('.mb-0').before(`<i class="fa-solid fa-star"
 																	style="color: #ffe949"></i>`);
 				}
-				if(item.reviewMedia != null){
-					$(content).find('.mb-0').before(`<img src="/fileView/${item.reviewMedia.fileRoute}">`);
-				}
-				$(content).find('.viewReview').on('click',function(){
-					viewReview($(this).attr('id'));
-				})
-				console.log(content);
-				return content;							
 			}
-
-			// 리뷰페이징 만들기
-			function makeRPageing(page){
-				// 페이징을 넣을 div, ul 생성
-				let ul = $("<ul/>");
-				// 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) <<
-				if(page.startPage > 1){
-					$(ul).append($("<li/>").html("&laquo;").css("font-size","30px").on("click",function(){newRList(page.startPage-page.pageSize)}));
-				}
-				// 페이지 생성  ex) 1 2 3 4 5
-				for(let i = page.startPage; i <= page.endPage; i++){
-					if(page.page == i){
-						// 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성
-						$(ul).append($("<li/>").text(i).css("background-color","#9dc2c0").css("border-radius","100%").css("color","#fff"));
-					}else {
-						$(ul).append($("<li/>").text(i).attr("id","pageNum").on("click",function(){newRList($(this).text())}));
-					}
-				}
-				// 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >>
-				if(page.endPage < page.lastPage){
-					$(ul).append($("<li/>").html("&raquo;").css("font-size","30px").on("click",function(){newRList(page.startPage+page.pageSize)}));
-				}
-				return ul;
+			if (item.reviewStar % 1 >= 0.5) {
+				$(content).find('.mb-0').before(`<i class="fa-solid fa-star-half"
+																	style="color: #ffe949"></i>`);
 			}
+			if (item.reviewMedia != null) {
+				$(content).find('.mb-0').before(`<img src="/fileView/${item.reviewMedia.fileRoute}">`);
+			}
+			$(content).find('.viewReview').on('click', function () {
+				viewReview($(this).attr('id'));
+			})
+			console.log(content);
+			return content;
+		}
 
-			// 문의 페이지 가져오기
-			function newQList(page){
-				$.ajax({
-			      url: '/class/newQList',
-			      method: 'GET',
-			      contentType: 'application/x-www-form-urlencoded',
-			      data: {'page' : page,
-						'groupId' : groupId},
-			      success: function (result) {
-					 $(".qList").children().detach();
-					 $(".qPaging").children().detach();
-					 $(result["qList"]).each(function(index, item){
+		// 리뷰페이징 만들기
+		function makeRPageing(page) {
+			// 페이징을 넣을 div, ul 생성
+			let ul = $("<ul/>");
+			// 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) <<
+			if (page.startPage > 1) {
+				$(ul).append($("<li/>").html("&laquo;").css("font-size", "30px").on("click", function () { newRList(page.startPage - page.pageSize) }));
+			}
+			// 페이지 생성  ex) 1 2 3 4 5
+			for (let i = page.startPage; i <= page.endPage; i++) {
+				if (page.page == i) {
+					// 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성
+					$(ul).append($("<li/>").text(i).css("background-color", "#9dc2c0").css("border-radius", "100%").css("color", "#fff"));
+				} else {
+					$(ul).append($("<li/>").text(i).attr("id", "pageNum").on("click", function () { newRList($(this).text()) }));
+				}
+			}
+			// 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >>
+			if (page.endPage < page.lastPage) {
+				$(ul).append($("<li/>").html("&raquo;").css("font-size", "30px").on("click", function () { newRList(page.startPage + page.pageSize) }));
+			}
+			return ul;
+		}
+
+		// 문의 페이지 가져오기
+		function newQList(page) {
+			$.ajax({
+				url: '/class/newQList',
+				method: 'GET',
+				contentType: 'application/x-www-form-urlencoded',
+				data: {
+					'page': page,
+					'groupId': groupId
+				},
+				success: function (result) {
+					$(".qList").children().detach();
+					$(".qPaging").children().detach();
+					$(result["qList"]).each(function (index, item) {
 						$(".qList").append(makeQList(item));
-					 })
-					 // 페이징 새로 생성
-					 $(".qPaging").append(makeQPageing(result["qPaging"]));
-			      },
-			      error: function (error) {
-			         console.log(error);
-			         alert('실패');
-			      }
-			   })
-			}
+					})
+					// 페이징 새로 생성
+					$(".qPaging").append(makeQPageing(result["qPaging"]));
+				},
+				error: function (error) {
+					console.log(error);
+					alert('실패');
+				}
+			})
+		}
 
-			// 문의 리스트만들기
-			function makeQList(item) {
-				let content = ``;
-				let img = ``;
-				if(item.writerId == memberId || "[[${class.memberId}]]" == memberId){
-					if(item.profile != null){
-						img = '/fileView/'+ item.profile.fileRoute;
-					}else{
-						img = '/images/defaulltProfile.png';
-					}
-					content = $(`<div class="news-block-info">
+		// 문의 리스트만들기
+		function makeQList(item) {
+			let content = ``;
+			let img = ``;
+			if (item.writerId == memberId || "[[${class.memberId}]]" == memberId) {
+				if (item.profile != null) {
+					img = '/fileView/' + item.profile.fileRoute;
+				} else {
+					img = '/images/defaulltProfile.png';
+				}
+				content = $(`<div class="news-block-info">
 													<div class="author-comment d-flex mt-3 mb-4 viewQue"  id="${item.queId}">
 														<img src="${img}"
 															class="img-fluid avatar-image">
@@ -1029,79 +1019,79 @@
 														</div>
 													</div>
 												</div>`);
-					$(content).find('.viewQue').on('click',function(){
-						viewQueOpen($(this).attr('id'));
-					})						
-				}else{
-					content = `<div class="news-block-info">
+				$(content).find('.viewQue').on('click', function () {
+					viewQueOpen($(this).attr('id'));
+				})
+			} else {
+				content = `<div class="news-block-info">
 													<div class="author-comment d-flex mt-3 mb-4">
 														<p class="mb-0">작성자만 볼 수 있습니다</p>
 													</div>
 												</div>`;
-				}
-				return content;
 			}
+			return content;
+		}
 
-			// 문의 페이징 만들기
-			function makeQPageing(page){
-				// 페이징을 넣을 div, ul 생성
-				let ul = $("<ul/>");
-				// 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) <<
-				if(page.startPage > 1){
-					$(ul).append($("<li/>").html("&laquo;").css("font-size","30px").on("click",function(){newQList(page.startPage-page.pageSize)}));
-				}
-				// 페이지 생성  ex) 1 2 3 4 5
-				for(let i = page.startPage; i <= page.endPage; i++){
-					if(page.page == i){
-						// 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성
-						$(ul).append($("<li/>").text(i).css("background-color","#9dc2c0").css("border-radius","100%").css("color","#fff"));
-					}else {
-						$(ul).append($("<li/>").text(i).attr("id","pageNum").on("click",function(){newQList($(this).text())}));
-					}
-				}
-				// 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >>
-				if(page.endPage < page.lastPage){
-					$(ul).append($("<li/>").html("&raquo;").css("font-size","30px").on("click",function(){newQList(page.startPage+page.pageSize)}));
-				}
-				return ul;
+		// 문의 페이징 만들기
+		function makeQPageing(page) {
+			// 페이징을 넣을 div, ul 생성
+			let ul = $("<ul/>");
+			// 페이징 시작부분이 1보다 크면 이전으로 가기 버튼 생성 ex) <<
+			if (page.startPage > 1) {
+				$(ul).append($("<li/>").html("&laquo;").css("font-size", "30px").on("click", function () { newQList(page.startPage - page.pageSize) }));
 			}
-			
+			// 페이지 생성  ex) 1 2 3 4 5
+			for (let i = page.startPage; i <= page.endPage; i++) {
+				if (page.page == i) {
+					// 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성
+					$(ul).append($("<li/>").text(i).css("background-color", "#9dc2c0").css("border-radius", "100%").css("color", "#fff"));
+				} else {
+					$(ul).append($("<li/>").text(i).attr("id", "pageNum").on("click", function () { newQList($(this).text()) }));
+				}
+			}
+			// 페이징 끝부분이 페이징 마지막페이지보다 작으면 다음으로 가기 버튼 생성 ex) >>
+			if (page.endPage < page.lastPage) {
+				$(ul).append($("<li/>").html("&raquo;").css("font-size", "30px").on("click", function () { newQList(page.startPage + page.pageSize) }));
+			}
+			return ul;
+		}
+
 
 		var timeline1 = gsap.timeline({
-			repeatDelay : 0.7,
-			paused : true
+			repeatDelay: 0.7,
+			paused: true
 		}); //하트 효과
 		timeline1.to(".heartbutton", {
-			duration : 0.7,
-			width : 50,
-			ease : Back.easeIn
+			duration: 0.7,
+			width: 50,
+			ease: Back.easeIn
 		}).to(".like", {
-			duration : 0.2,
-			opacity : 0
+			duration: 0.2,
+			opacity: 0
 		}, "-=0.7").to(".number", {
-			duration : 0.2,
-			opacity : 0,
-			fontSize : 0
+			duration: 0.2,
+			opacity: 0,
+			fontSize: 0
 		}, "-=0.7").to(".far", {
-			duration : 0.4,
-			display : "none"
+			duration: 0.4,
+			display: "none"
 		}, "-=0.5").to(".fa", {
-			duration : 0.1,
-			display : "inline-block"
+			duration: 0.1,
+			display: "inline-block"
 		}, "-=0.1").to(".heartbutton", {
-			duration : 0.7,
-			width : 170
+			duration: 0.7,
+			width: 170
 		}).to(".like", {
-			opacity : 1
+			opacity: 1
 		}, "-=0.5").to(".d", {
-			duration : 0.3,
-			opacity : 1,
-			translateX : 0
+			duration: 0.3,
+			opacity: 1,
+			translateX: 0
 		}, "-=0.2").to(".number", {
-			duration : 0.2,
-			opacity : 1,
-			text : "[[${like.cnt}]]",
-			fontSize : 25
+			duration: 0.2,
+			opacity: 1,
+			text: "[[${like.cnt}]]",
+			fontSize: 25
 		}, "-=0.1");
 
 		if (likeTF == 'Y') { // like 테이블에 값이 있는지 확인하고, 값이 있으면 하트가 눌러진 상태로 표시 되게.
@@ -1111,10 +1101,10 @@
 		function timeline(e, tf) {
 			if (tf) { //만약 true이면,
 				timeline1.to(".number", {
-					duration : 0.2,
-					opacity : 1,
-					text : e,
-					fontSize : 25
+					duration: 0.2,
+					opacity: 1,
+					text: e,
+					fontSize: 25
 				}, "-=0.1"); //
 				timeline1.play(); // 버튼 눌림
 			} else {
@@ -1122,95 +1112,95 @@
 				$('.number').text(e);
 			}
 		}
-		
+
 		// 좋아요 이벤트
 		$(".heartbutton")
-				.click(
-						function() {
-							likeTF = $('.wrapper').find('input').val()
-							event.stopPropagation();
-							// 좋아요 디비 저장
-							
-							let data = {
-								"groupId" : groupId,
-								"memberId" : memberId,
-							}
-							if (memberId != "") { // 로그인 된 상태이면
-								if (likeTF == 'F') { // 테이블에 조회된 값이 없으면 db에 저장
-									//db에 저장하는 메서드 컨트롤러에 추가
-									$
-											.ajax({
-												url : '/class/addClassLike',
-												method : 'post',
-												contentType : 'application/x-www-form-urlencoded',
-												data : data, // 컨트롤러로 넘겨줄 값. 이 페이지의 글 번호
-												beforeSend : function(xhr) {
-													xhr.setRequestHeader(
-															header, token);
-												},
-												success : function(result) {
-													// Y를 F로
+			.click(
+				function () {
+					likeTF = $('.wrapper').find('input').val()
+					event.stopPropagation();
+					// 좋아요 디비 저장
 
-													$('.ClassLike').val('Y'); // blogLike인 클래스의 값을 불러와서 'Y'로 바꿔준다
-													timeline(result, true);
-												},
-												error : function(error) {
-													console.log(error);
-												}
-											})
+					let data = {
+						"groupId": groupId,
+						"memberId": memberId,
+					}
+					if (memberId != "") { // 로그인 된 상태이면
+						if (likeTF == 'F') { // 테이블에 조회된 값이 없으면 db에 저장
+							//db에 저장하는 메서드 컨트롤러에 추가
+							$
+								.ajax({
+									url: '/class/addClassLike',
+									method: 'post',
+									contentType: 'application/x-www-form-urlencoded',
+									data: data, // 컨트롤러로 넘겨줄 값. 이 페이지의 글 번호
+									beforeSend: function (xhr) {
+										xhr.setRequestHeader(
+											header, token);
+									},
+									success: function (result) {
+										// Y를 F로
 
-								} else { // db에 삭제
-									//db에서 삭제 또는 수정하는 메서드 컨트롤러에 추가
+										$('.ClassLike').val('Y'); // blogLike인 클래스의 값을 불러와서 'Y'로 바꿔준다
+										timeline(result, true);
+									},
+									error: function (error) {
+										console.log(error);
+									}
+								})
 
-									$
-											.ajax({
-												url : '/class/delClassLike',
-												method : 'post',
-												contentType : 'application/x-www-form-urlencoded',
-												data : data,
-												beforeSend : function(xhr) {
-													xhr.setRequestHeader(
-															header, token);
-												},
-												success : function(result) {
+						} else { // db에 삭제
+							//db에서 삭제 또는 수정하는 메서드 컨트롤러에 추가
 
-													// F를 Y로
-													$('.ClassLike').val('F'); // blogLike인 클래스의 값을 불러와서 'F'로 바꿔준다
-													timeline(result, false);
-												},
-												error : function(error) {
-													console.log(error);
-												}
-											})
-								}
-								;
-							} else { // 로그인 하지 않은 상태이면
-								alert('로그인이 필요합니다');
-							}
-						})
+							$
+								.ajax({
+									url: '/class/delClassLike',
+									method: 'post',
+									contentType: 'application/x-www-form-urlencoded',
+									data: data,
+									beforeSend: function (xhr) {
+										xhr.setRequestHeader(
+											header, token);
+									},
+									success: function (result) {
 
-				// 리뷰 상세
-				$('.viewReview').each(function(){
-					$(this).on('click',function(){
-						viewReview($(this).attr('id'));
-					})		
+										// F를 Y로
+										$('.ClassLike').val('F'); // blogLike인 클래스의 값을 불러와서 'F'로 바꿔준다
+										timeline(result, false);
+									},
+									error: function (error) {
+										console.log(error);
+									}
+								})
+						}
+						;
+					} else { // 로그인 하지 않은 상태이면
+						alert('로그인이 필요합니다');
+					}
 				})
 
-				function viewReview(reviewId){
-					$.ajax({
-							url: '/class/getReview',
-							method: 'GET',
-							contentType: 'application/x-www-form-urlencoded',
-							data: {"reviewId" : reviewId},
-							success: function (result) {
-								$('#viewReview').find('.modal-body').children().remove();
-								let img = '';
-								if(result.profile != null){
-								img = '/fileView/'+result.profile.fileRoute;
-								}else{
-								img = '/images/defaulltProfile.png';
-								}
-								let content = $(`<div class="modal-wrapper">
+		// 리뷰 상세
+		$('.viewReview').each(function () {
+			$(this).on('click', function () {
+				viewReview($(this).attr('id'));
+			})
+		})
+
+		function viewReview(reviewId) {
+			$.ajax({
+				url: '/class/getReview',
+				method: 'GET',
+				contentType: 'application/x-www-form-urlencoded',
+				data: { "reviewId": reviewId },
+				success: function (result) {
+					$('#viewReview').find('.modal-body').children().remove();
+					let img = '';
+					if (result.profile != null) {
+						img = '/fileView/' + result.profile.fileRoute;
+					} else {
+						img = '/images/defaulltProfile.png';
+					}
+					let content = $(`<div class="modal-wrapper">
 									<div class="title">리뷰 상세</div>
 								<div class="product__details__pic">
 										<div class="product__details__pic__item">
@@ -1232,308 +1222,316 @@
 								<p>작성자 : ${result.nickname}</p>
 								<p>내용 : ${result.reviewContent}</p>
 								<p>작성일자 : ${result.reviewDate}</p></div>`);
-								if(result.reviewStar != 0){
-									for(let i=1; i<=result.reviewStar; i++){
-										$(content).find('p').eq(1).before(`<i class="fa-solid fa-star"
+					if (result.reviewStar != 0) {
+						for (let i = 1; i <= result.reviewStar; i++) {
+							$(content).find('p').eq(1).before(`<i class="fa-solid fa-star"
 																					style="color: #ffe949"></i>`);
-									}
-								}
-								if(result.reviewStar%1 >= 0.5){
-									$(content).find('p').eq(1).before(`<i class="fa-solid fa-star-half"
+						}
+					}
+					if (result.reviewStar % 1 >= 0.5) {
+						$(content).find('p').eq(1).before(`<i class="fa-solid fa-star-half"
 																					style="color: #ffe949"></i>`);
-								}
-								for(let media of result.reviewMediaList){
-									$(content).find('p').eq(2).after(`<img src="/fileView/${media.fileRoute}" style="width : 300px">`);
-								}
-								$(content).find('.product__details__pic__slider img').each(function(){
-									$(this).on('click', function() {
-									var imgurl = $(this).data('imgbigurl');
-									var bigImg = $('#viewReview').find('.product__details__pic__item--large').attr('src');
-									if (imgurl != bigImg) {
-										$('.product__details__pic__item--large').attr({
-											src: imgurl
-										});
-									}
-									});
-								})
-								$('#viewReview').find('.modal-body').append(content);
-								$('#viewReview').modal("show");
-								$('#viewReview').find(".product__details__pic__slider").owlCarousel({
-									loop: true,
-									margin: 20,
-									items: 4,
-									dots: true,
-									smartSpeed: 1200,
-									autoHeight: false,
-									autoplay: true
+					}
+					for (let media of result.reviewMediaList) {
+						$(content).find('p').eq(2).after(`<img src="/fileView/${media.fileRoute}" style="width : 300px">`);
+					}
+					$(content).find('.product__details__pic__slider img').each(function () {
+						$(this).on('click', function () {
+							var imgurl = $(this).data('imgbigurl');
+							var bigImg = $('#viewReview').find('.product__details__pic__item--large').attr('src');
+							if (imgurl != bigImg) {
+								$('.product__details__pic__item--large').attr({
+									src: imgurl
 								});
-							},
-							error: function (error) {
-								console.log(error);
-								alert('실패');
 							}
-						})
+						});
+					})
+					$('#viewReview').find('.modal-body').append(content);
+					$('#viewReview').modal("show");
+					$('#viewReview').find(".product__details__pic__slider").owlCarousel({
+						loop: true,
+						margin: 20,
+						items: 4,
+						dots: true,
+						smartSpeed: 1200,
+						autoHeight: false,
+						autoplay: true
+					});
+				},
+				error: function (error) {
+					console.log(error);
+					alert('실패');
 				}
-					
+			})
+		}
+
 		// 문의 등록 모달
 		$(".addQue")
-				.click(
-						function() {
-							if (memberId != "") { // 로그인 된 상태이면
-								$('#inputModal').modal("show");
-							} else { // 로그인 하지 않은 상태이면
-								alert('로그인이 필요합니다');
-							}
-						})
-		
-		function textEditer(text){
+			.click(
+				function () {
+					if (memberId != "") { // 로그인 된 상태이면
+						$('#inputModal').modal("show");
+					} else { // 로그인 하지 않은 상태이면
+						alert('로그인이 필요합니다');
+					}
+				})
+
+		function textEditer(text) {
 			let textList = text.split("\n");
 			let result = "";
-			for(t of textList){
-				result += `<p>${t}</p><br>`;
-			}
+			textList.forEach((t, index) => {
+				if (index != textList.length - 1) {
+					result += `<p>${t}</p>`;
+				} else if (index == textList.length - 1 && t != "") {
+					result += `<p>${t}</p>`;
+				}
+			});
+			console.log(result);
 			return result;
 		}
-						
+
 		// 문의등록
 		$(".insertQue")
-				.click(
-						function() {
-							if($(this).parentsUntil('.modal-body').find("textarea[name='queContent']").val() == null){
-					alert("내용을 입력해주세요");
-					return;
-				}
-							let data = {
-									"groupId" : groupId,
-									"writerId" : memberId,
-									"queContent" : textEditer($(this).parentsUntil('.modal-body').find("textarea[name='queContent']").val())
-								}
-							$.ajax({
-							      url: '/class/insertQue',
-							      method: 'POST',
-							      contentType: 'application/x-www-form-urlencoded',
-							      data: data,
-							      beforeSend : function(xhr) {
-										xhr.setRequestHeader(
-												header, token);
-									},
-							      success: function (result) {
-							    	  console.log(result);
-							      },
-							      error: function (error) {
-							         console.log(error);
-							         alert('실패');
-							      }
-							   })
-						})
-		
+			.click(
+				function () {
+					if ($(this).parentsUntil('.modal-body').find("textarea[name='queContent']").val() == null) {
+						alert("내용을 입력해주세요");
+						return;
+					}
+					let data = {
+						"groupId": groupId,
+						"writerId": memberId,
+						"queContent": textEditer($(this).parentsUntil('.modal-body').find("textarea[name='queContent']").val())
+					}
+					$.ajax({
+						url: '/class/insertQue',
+						method: 'POST',
+						contentType: 'application/x-www-form-urlencoded',
+						data: data,
+						beforeSend: function (xhr) {
+							xhr.setRequestHeader(
+								header, token);
+						},
+						success: function (result) {
+							$('#inputModal').modal("hide");
+							newQList('1');
+						},
+						error: function (error) {
+							console.log(error);
+							alert('실패');
+						}
+					})
+				})
+
 		// 문의 상세 모달
-		$(".viewQue").each(function(){
+		$(".viewQue").each(function () {
 			$(this).on('click',
-						function() {
-							viewQueOpen($(this).attr('id'));
-						})
+				function () {
+					viewQueOpen($(this).attr('id'));
+				})
 		})
 
-		function viewQueOpen(queId){
+		function viewQueOpen(queId) {
 			$.ajax({
-							      url: '/class/getQue',
-							      method: 'GET',
-							      contentType: 'application/x-www-form-urlencoded',
-							      data: {"queId" : queId},
-							      success: function (result) {
-							    	  console.log(result);
-									  $('#viewQue').find('.modal-wrapper').children().remove();
-									  let img = '';
-									  if(result.profile != null){
-										img = '/fileView/'+result.profile.fileRoute;
-									  }else{
-										img = '/images/defaulltProfile.png';
-									  }  
-									  let content = `<img src="${img}" class="img-fluid avatar-image">
+				url: '/class/getQue',
+				method: 'GET',
+				contentType: 'application/x-www-form-urlencoded',
+				data: { "queId": queId },
+				success: function (result) {
+					console.log(result);
+					$('#viewQue').find('.modal-wrapper').children().remove();
+					let img = '';
+					if (result.profile != null) {
+						img = '/fileView/' + result.profile.fileRoute;
+					} else {
+						img = '/images/defaulltProfile.png';
+					}
+					let content = `<img src="${img}" class="img-fluid avatar-image">
 									  <p>작성자 : ${result.nickname}</p>
 									  <p>내용 : ${result.queContent}</p>
 									  <p>작성일자 : ${result.queDate}</p>
 									  <p>답변내용 : ${result.ansContent}</p>
 									  <p>답변일자 : ${result.ansDate}</p>`;
-									  let btn = $('<botton/>');
-									  if(result.writerId == memberId){
-										$(btn).text('문의 수정').on('click',function(){
-										if(result.ansContent != null){
-											alert('답변있는 문의는 수정할 수 없습니다');
-										}else{
-											modifyQueOpen(result.queContent, result.queId);
-										}
-									  })
-										
-									  }else{
-										if(result.ansContent != null){
-										$(btn).text('답변수정').on('click',function(){
-											modifyAnsOpen(result.ansContent,result.queId);
-									  	});
-										}else{
-											$(btn).text('답변등록').on('click',function(){
-											addAnsOpen(result.queId);
-										});
-										}
-									  }
-									  $('#viewQue').find('.modal-wrapper').append(content,btn);
-									  $('#viewQue').modal("show")
-							      },
-							      error: function (error) {
-							         console.log(error);
-							         alert('실패');
-							      }
-							   })
-								
+					let btn = $('<botton/>');
+					if (result.writerId == memberId) {
+						$(btn).text('문의 수정').on('click', function () {
+							if (result.ansContent != null) {
+								alert('답변있는 문의는 수정할 수 없습니다');
+							} else {
+								modifyQueOpen(result.queContent, result.queId);
+							}
+						})
+
+					} else {
+						if (result.ansContent != null) {
+							$(btn).text('답변수정').on('click', function () {
+								modifyAnsOpen(result.ansContent, result.queId);
+							});
+						} else {
+							$(btn).text('답변등록').on('click', function () {
+								addAnsOpen(result.queId);
+							});
+						}
+					}
+					$('#viewQue').find('.modal-wrapper').append(content, btn);
+					$('#viewQue').modal("show")
+				},
+				error: function (error) {
+					console.log(error);
+					alert('실패');
+				}
+			})
+
 		}
-		
+
 		// 문의수정모달창
-		function modifyQueOpen(content,queId){
+		function modifyQueOpen(content, queId) {
 			$('#modifyQue').find('textarea[name=queContent]').val(content);
-			$('#modifyQue').find('.updateQue').attr('id',queId);
+			$('#modifyQue').find('.updateQue').attr('id', queId);
 			$('#viewQue').modal("hide");
 			$('#modifyQue').modal("show");
 		}
 		// 답변수정모달창
-		function modifyAnsOpen(content,queId){
+		function modifyAnsOpen(content, queId) {
 			$('#modifyAns').find('textarea[name=ansContent]').val(content);
-			$('#modifyAns').find('.Answer').attr('id',queId);
+			$('#modifyAns').find('.Answer').attr('id', queId);
 			$('#viewQue').modal("hide");
 			$('#modifyAns').modal("show");
 		}
 		// 답변 등록모달창
-		function addAnsOpen(queId){
-			$('#addAns').find('.Answer').attr('id',queId);
+		function addAnsOpen(queId) {
+			$('#addAns').find('.Answer').attr('id', queId);
 			$('#viewQue').modal("hide");
 			$('#addAns').modal("show");
 		}
 		//문의 수정
-		$('.updateQue').on('click',function(){
-			if($(this).parentsUntil('.modal-body').find("textarea[name='queContent']").val() == null){
-					alert("내용을 입력해주세요");
-					return;
-				}
+		$('.updateQue').on('click', function () {
+			if ($(this).parentsUntil('.modal-body').find("textarea[name='queContent']").val() == null) {
+				alert("내용을 입력해주세요");
+				return;
+			}
 			let data = {
-									"queId" : $(this).attr('id'),
-									"queContent" : $(this).parentsUntil('.modal-body').find("textarea[name='queContent']").val()
-								}
-							$.ajax({
-							      url: '/class/updateQue',
-							      method: 'POST',
-							      contentType: 'application/x-www-form-urlencoded',
-							      data: data,
-							      beforeSend : function(xhr) {
-										xhr.setRequestHeader(
-												header, token);
-									},
-							      success: function (result) {
-							    	  console.log(result);
-							      },
-							      error: function (error) {
-							         console.log(error);
-							         alert('실패');
-							      }
-							   })
+				"queId": $(this).attr('id'),
+				"queContent": $(this).parentsUntil('.modal-body').find("textarea[name='queContent']").val()
+			}
+			$.ajax({
+				url: '/class/updateQue',
+				method: 'POST',
+				contentType: 'application/x-www-form-urlencoded',
+				data: data,
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader(
+						header, token);
+				},
+				success: function (result) {
+					console.log(result);
+				},
+				error: function (error) {
+					console.log(error);
+					alert('실패');
+				}
+			})
 		})
 
 		// 답변 등록,수정
-		$('.Answer').each(function(){
-			$(this).on('click',function(){
-				if($(this).parentsUntil('.modal-body').find("textarea[name='ansContent']").val() == null){
+		$('.Answer').each(function () {
+			$(this).on('click', function () {
+				if ($(this).parentsUntil('.modal-body').find("textarea[name='ansContent']").val() == null) {
 					alert("내용을 입력해주세요");
 					return;
 				}
-			let data = {"queId" : $(this).attr('id'),
-									"ansContent" : $(this).parentsUntil('.modal-body').find("textarea[name='ansContent']").val()
-								}
-							$.ajax({
-							      url: '/class/updateAnswer',
-							      method: 'POST',
-							      contentType: 'application/x-www-form-urlencoded',
-							      data: data,
-							      beforeSend : function(xhr) {
-										xhr.setRequestHeader(
-												header, token);
-									},
-							      success: function (result) {
-							    	  console.log(result);
-									  $('#addAns').modal("hide");
-									  $('#modifyAns').modal("hide");
-							      },
-							      error: function (error) {
-							         console.log(error);
-							         alert('실패');
-							      }
-							   })
+				let data = {
+					"queId": $(this).attr('id'),
+					"ansContent": $(this).parentsUntil('.modal-body').find("textarea[name='ansContent']").val()
+				}
+				$.ajax({
+					url: '/class/updateAnswer',
+					method: 'POST',
+					contentType: 'application/x-www-form-urlencoded',
+					data: data,
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader(
+							header, token);
+					},
+					success: function (result) {
+						console.log(result);
+						$('#addAns').modal("hide");
+						$('#modifyAns').modal("hide");
+					},
+					error: function (error) {
+						console.log(error);
+						alert('실패');
+					}
+				})
 			})
 		})
 
 		// 강의 신고
-		$('.insertReport').on('click',function(){
-			let data = {"fromId" : memberId,
-						"reason" : $('input:radio[name=reason]:checked').val(),
-						"detailReason" : $("textarea[name='detailReason']").val(),
-						"groupId" : groupId
-						}
-						$.ajax({
-								url: '/class/insertReport',
-								method: 'POST',
-								contentType: 'application/x-www-form-urlencoded',
-								data: data,
-								beforeSend : function(xhr) {
-									xhr.setRequestHeader(
-											header, token);
-								},
-								success: function (result) {
-									console.log(result);
-									$('#reportModal').modal("hide");
-								},
-								error: function (error) {
-									console.log(error);
-									alert('실패');
-								}
-							})
+		$('.insertReport').on('click', function () {
+			let data = {
+				"fromId": memberId,
+				"reason": $('input:radio[name=reason]:checked').val(),
+				"detailReason": $("textarea[name='detailReason']").val(),
+				"groupId": groupId
+			}
+			$.ajax({
+				url: '/class/insertReport',
+				method: 'POST',
+				contentType: 'application/x-www-form-urlencoded',
+				data: data,
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader(
+						header, token);
+				},
+				success: function (result) {
+					console.log(result);
+					$('#reportModal').modal("hide");
+				},
+				error: function (error) {
+					console.log(error);
+					alert('실패');
+				}
+			})
 		})
 
-		
+
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-		mapOption = { 
-			center: new kakao.maps.LatLng(37.54699, 127.09598), // 지도의 중심좌표
-			level: 4 // 지도의 확대 레벨
-		};
+			mapOption = {
+				center: new kakao.maps.LatLng(37.54699, 127.09598), // 지도의 중심좌표
+				level: 4 // 지도의 확대 레벨
+			};
 
 		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-		
+
 		// 주소-좌표 변환 객체를 생성합니다
 		var geocoder = new kakao.maps.services.Geocoder();
 		// 주소로 좌표를 검색합니다
-		geocoder.addressSearch(addr, function(result, status) {
+		geocoder.addressSearch(addr, function (result, status) {
 
-	    // 정상적으로 검색이 완료됐으면 
-	     if (status === kakao.maps.services.Status.OK) {
+			// 정상적으로 검색이 완료됐으면 
+			if (status === kakao.maps.services.Status.OK) {
 
-	        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-	        
-	        var imageSrc = '/images/marker.png', // 마커이미지의 주소입니다    
-			imageSize = new kakao.maps.Size(24, 29), // 마커이미지의 크기입니다
-			imageOption = {offset: new kakao.maps.Point(9, 22)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-			
-			// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
-	        // 결과값으로 받은 위치를 마커로 표시합니다
-	        var marker = new kakao.maps.Marker({
-	            map: map,
-	            position: coords,
- 	            image: markerImage // 마커이미지 설정 
-	        });
+				var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-	        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-	        map.setCenter(coords);
-	  }   
-		
-	
-});   
+				var imageSrc = '/images/marker.png', // 마커이미지의 주소입니다    
+					imageSize = new kakao.maps.Size(24, 29), // 마커이미지의 크기입니다
+					imageOption = { offset: new kakao.maps.Point(9, 22) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+				// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+				var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+				// 결과값으로 받은 위치를 마커로 표시합니다
+				var marker = new kakao.maps.Marker({
+					map: map,
+					position: coords,
+					image: markerImage // 마커이미지 설정 
+				});
+
+				// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+				map.setCenter(coords);
+			}
+
+
+		});   
 	</script>
 
 	<!-- JS -->

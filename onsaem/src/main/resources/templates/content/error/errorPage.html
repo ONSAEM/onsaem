@@ -36,7 +36,7 @@ Content
 	line-height: 1;
 	margin-bottom: -10px;
 	opacity: 0.6;
-	color:#3f5a8157
+	color:#ffffff87;
 }
 
 .content h2 {
@@ -44,6 +44,7 @@ Content
 	font-size: 34px;
 	margin-bottom: 6px;
 	opacity: 0.9;
+	color: #d6e6e3d1;
 }
 
 .content p {
@@ -51,6 +52,7 @@ Content
 	font-size: 14px;
 	opacity: 0.7;
 	margin-bottom: 140px;
+	color: #ffffff66;
 }
 
 .content a {
@@ -85,12 +87,10 @@ Image
 
 		<div class="page">
 			<div class="content">
-				<h1  th:if="${status!=null}" th:text="${status}">404</h1>
-				<h1  th:if="${status==null}">404</h1>
-				<h2 th:if="${error!=null}" th:text="${error}">Page not found</h2>
-				<h2 th:if="${error==null}">Page not found</h2>
+				<h1 th:text="${code}"></h1>
+				<h2 th:text="${msg}"></h2>
 				<p>I tried to catch some fog, but i mist</p>
-				<a>back to home</a>
+				<a th:href="@{/}">back to home</a>
 			</div>
 			<img src="http://www.supah.it/dribbble/008/008.jpg" class="img" />
 		</div>

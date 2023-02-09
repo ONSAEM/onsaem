@@ -49,7 +49,7 @@ public class ClassQueServiceImpl implements ClassQueService{
 			mvo.setGroupId(que.getWriterId());
 			que.setProfile(mediaService.getMedia(mvo));
 			que.setNickname(memberService.getMember(que.getWriterId()).getNickname());
-			Pattern pattern  =  Pattern.compile("<p[^>]");
+			Pattern pattern  =  Pattern.compile("<p>([^>\\\"']+)</p>");
 	        // 내용 중에서 이미지 태그를 찾아라!
 	        Matcher match = pattern.matcher(que.getQueContent());
 	        String text = null;
@@ -112,7 +112,6 @@ public class ClassQueServiceImpl implements ClassQueService{
 		newPaging.setTotalRecord(newPaging.getTotalRecord());
 		qvo.setFirst(newPaging.getFirst());
 		qvo.setLast(newPaging.getLast());
-		System.out.println(qvo);
 		List<QuestionVO> qList = classQMapper.getMyQuestionList(qvo);
 		for(QuestionVO que : qList) {
 			if(que.getAnsContent() != null) {
