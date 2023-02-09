@@ -238,7 +238,7 @@ caption.dots {
 										</div>
 										<div style="margin-left:10px;">
 											<h6
-												th:onclick="|location.href='@{/blog/myblog/blogWrite(bno=${rW.writeId})}'|"
+												th:onclick="|location.href='@{/blog/myblog/blogWrite(bno=${rW.writeId},userId=${rW.blogId})}'|"
 												style="font-size: 16px;color: #9c9cab;">
 												[[${rW.writeTitle}]] <span> [[${rW.subTitle}]]</span><br />
 											</h6>
@@ -353,9 +353,15 @@ caption.dots {
 
 									<input type="hidden" id="mmtId" th:value="${moment.momentId}">
 
-									<card th:data-image="@{'/fileView/'+${moment.fileRoute}}"
+									<card th:data-image="@{'/fileView/'+${moment.fileRoute}}" th:if="${moment.fileRoute != null}"
 										class="mmtcard inputfield" id="preview-image"
 										th:style="'background: url('+@{'/fileView/'+${moment.fileRoute}}+');background-repeat:no-repeat;background-size:cover;'">
+									<h1 class="mmttitle">@[[${moment.blogId}]]</h1>
+									<p class="mmtcopy">[[${moment.momentWrite}]]</p>
+									</card>
+									<card data-image="/blog/img/blogDefault.png" th:unless="${moment.fileRoute != null}"
+										class="mmtcard inputfield" id="preview-image"
+										th:style="'background: url('+'/blog/img/blogDefault.png'+');background-repeat:no-repeat;background-size:cover;'">
 									<h1 class="mmttitle">@[[${moment.blogId}]]</h1>
 									<p class="mmtcopy">[[${moment.momentWrite}]]</p>
 									</card>
@@ -561,29 +567,31 @@ caption.dots {
 				data.append("uploadEnd", $('#date').val());
 				data.append("publicScope",$('#scope').val());  //컨트롤러에 가져갈 내용을 담는다.
 				
-				console.log(data.get("uploadfile"));
-				
-				$.ajax({
-					url : '/blog/insertMoment',
-					enctype: 'multipart/form-data',
-					method : 'POST',
-					processData: false,
-					contentType: false,
-					data : data,
-					beforeSend : function(xhr)
-		               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-		               xhr.setRequestHeader(header, token);
-		               },
-					dataType:'json',
-					success : function(result) {
-						alert('성공');
-						location.reload();
-					},
-					error : function(error) {
-						console.log(error);
-						alert('실패');
-					}
-				})
+				if($('#date').val() != '' && $('#momentWrite').val() != ''){
+					$.ajax({
+						url : '/blog/insertMoment',
+						enctype: 'multipart/form-data',
+						method : 'POST',
+						processData: false,
+						contentType: false,
+						data : data,
+						beforeSend : function(xhr)
+			               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+			               xhr.setRequestHeader(header, token);
+			               },
+						dataType:'json',
+						success : function(result) {
+							alert('성공');
+							location.reload();
+						},
+						error : function(error) {
+							console.log(error);
+							alert('실패');
+						}
+					})
+				}else{
+					alert("등록기간과 내용을 입력해주세요");
+				}
 			})
 			
 			// moment 모달 상세보기 모먼트번호 보내기
@@ -606,7 +614,11 @@ caption.dots {
 	 						
 	 						console.log(result);
  	 						$(".mt-3").text(result.nickname);
- 	 						$("#modalImg").attr("src", "/fileView/"+result.fileRoute);
+ 	 						if(result.fileRoute != null){
+ 	 							$("#modalImg").attr("src", "/fileView/"+result.fileRoute);
+ 	 						}else{
+ 	 							$("#modalImg").attr("src", "/blog/img/blogDefault.png");
+ 	 						}
  	 						$("#addUrl").attr("placeholder",result.addUrl);
  	 						$("#mmtWrite").text(result.momentWrite);
 							$("#nickname").text("@"+result.blogId+" · "+result.writeDate.substr(0,10)+" "+result.writeDate.substr(11,5));

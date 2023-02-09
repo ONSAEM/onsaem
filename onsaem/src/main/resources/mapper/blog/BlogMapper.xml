@@ -130,7 +130,7 @@
 				 values (#{categoryId},
 				  		 #{categoryName},
 				  		 #{blogId}, 
-				  		 cate_order_seq.nextval, 
+				  		 0, 
 				  		 #{publicScope})
 	</insert>
 	

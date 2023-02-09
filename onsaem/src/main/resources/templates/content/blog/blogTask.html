@@ -892,7 +892,7 @@
 									</div>
 
 									<div class="filebox">
-										<label></label> <input class="inputfile"
+										<label></label> <input class="inputfile" id="inputfile"
 											placeholder="헤더사진" readonly style="width: 550px;margin-left:283px;"> <label for="file"
 											class="filelabel" style="width:87px;margin: 0 10px;">사진등록</label> <input name="headerFile" type="file" id="file" accept=".gif, .jpg, .png, .bmp">
 									</div>
@@ -962,7 +962,7 @@
 				// 헤더사진미리보기
 				$("#file").on('change',function(){
 				  var fileName = $("#file").val();
-				  $(".inputfile").val(fileName);
+				  $("#inputfile").val(fileName);
 				  readURL(this);
 				});
 			

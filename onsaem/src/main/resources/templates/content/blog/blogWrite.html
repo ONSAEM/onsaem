@@ -12,6 +12,7 @@
 
 <!-- Css  -->
 <th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/css/blog.css}" type="text/css">
 </th:block>
 
@@ -194,6 +195,12 @@ caption.dots {
 .blog__details__hero__text>h2, .blog__details__hero__text>ul>li {
 	color: black;
 }
+
+.rere img{
+	width: 70px;
+	height: 70px;
+	margin-right: 20px;
+}
 </style>
 
 </head>
@@ -314,7 +321,7 @@ caption.dots {
 												</div>
 												<div style="margin-left: 10px;">
 													<h6
-														th:onclick="|location.href='@{/blog/myblog/blogWrite(bno=${rW.writeId})}'|"
+														th:onclick="|location.href='@{/blog/myblog/blogWrite(bno=${rW.writeId},userId=${rW.blogId})}'|"
 														style="font-size: 16px; color: #9c9cab;">
 														[[${rW.writeTitle}]] <span> [[${rW.subTitle}]]</span><br />
 													</h6>
@@ -401,9 +408,9 @@ caption.dots {
 								</div>
 							</div>
 							<!-- 메인 글 -->
-							<div class="timeline-right" style="width: 1100px; margin: 30px auto;">
+							<div class="timeline-right" style="width: 1100px; margin: 30px auto;padding: 10px 20px;">
 								<!--------------------------신고!!!!! -->
-								<button class="btn">
+								<button class="btn" style="padding: 10px;float: right;">
 									<i type="button"
 										class="fa-solid fa-triangle-exclamation openBtn"
 										style="float: right;" th:value1="${blogWrite.writeId}"
@@ -416,15 +423,16 @@ caption.dots {
 									th:value="${blogWrite.writeId}"
 									th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogWrite.blogId}">삭제</button>
 								<div class="blog__details__hero__text">
-									<h3 style="text-align: center; margin: 0 auto;">[[${blogWrite.writeTitle}]]</h3>
-									<ul>
-										<li>By [[${blogWrite.nickname}]]</li>
-										<li>[[${#dates.format(blogWrite.writeDate,
-											'YYYY-MM-DD')}]]</li>
-										<li>[[${replyCnt.replyCnt}]] Comments</li>
+									<h3 style="text-align: center; margin: 65px 0 auto;">[[${blogWrite.writeTitle}]]</h3>
+									<h6 style="text-align: center; margin: 15px 0 auto;font-weight: normal;">[[${blogWrite.subTitle}]]</h6>
+									<ul style="text-align: center; list-style: none;margin-top: 10px;padding-left: 0px;">
+										<li>By [[${blogWrite.nickname}]]&nbsp;&nbsp;
+										<i class="fa fa-calendar-o"></i> [[${#dates.format(blogWrite.writeDate,
+											'YYYY-MM-DD')}]]&nbsp;&nbsp;
+										<i class="fa fa-comment-o"></i> [[${replyCnt.replyCnt}]] Comments</li>
 									</ul>
 								</div>
-								<div class="blog__details__text">
+								<div class="blog__details__text" style="padding: 10px 136px;">
 									[(${blogWrite.blogWrite})]</div>
 								<div class="blog__details__content">
 									<div class="row" style="margin-top: 60px;margin-left:200px;">
@@ -483,7 +491,7 @@ caption.dots {
 					<main>
 						<section class="news-section section-padding">
 							<div class="container">
-								<div class="row" style="margin-left: 300px;">
+								<div class="row" style="margin-left: 405px;padding:50px;background-color: #ffffff;border-radius:20px;margin-top: -70px;">
 									<div class="rere">
 										<div th:each=" reply : ${replyList}">
 											<div th:if="${reply.level} == 1">
@@ -491,19 +499,19 @@ caption.dots {
 													<div class="blog__details__author__pic">
 														<img th:if="${reply.fileRoute != null}"
 															th:src="'/fileView/'+${reply.fileRoute}"
-															alt="profile-sample5" class="profile" /> <img
+															 class="profile" /> <img
 															th:if="${reply.fileRoute == null}"
 															th:src="@{/images/defaulltProfile.png}"
-															alt="profile-sample5" class="profile" />
+															 class="profile" />
 													</div>
 
 													<div class="author-comment-info ms-3">
-														<h6 class="mb-1">
+														<p class="mb-1">
 															<span style="font-weight: bold" id="writerIdText">[[${reply.writerId}]]</span>
 															<a th:if="${blogWrite.blogId} == ${reply.writerId}"
 																style="color: #5bc1ac; font-weight: bold;">[작성자🍀]</a>
 															([[${#dates.format(reply.replyDate, 'YY.MM.dd HH:mm')}]])
-														</h6>
+														</p>
 
 														<p class="mb-0"
 															th:if="${reply.publicScope!='private'} or ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogWrite.blogId} or ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${reply.writerId}">
@@ -515,7 +523,7 @@ caption.dots {
 
 														<div class="d-flex mt-2">
 															<a type="button" class="author-comment-link rereplyBtn"
-																sec:authorize="isAuthenticated()">댓글달기</a>
+																sec:authorize="isAuthenticated()">댓글달기&nbsp;&nbsp;</a>
 															<!-- 대댓글 -->
 															<form class="custom-form comment-form mt-4 rereplyFrm"
 																role="form" name="rereplyFrm" style="display: none;">
@@ -523,15 +531,15 @@ caption.dots {
 																	th:name="${_csrf.parameterName}"
 																	th:value="${_csrf.token}" />
 																<textarea name="content" rows="4" maxlength="300"
-																	class="form-control rereplyBox" id="comment-message"
+																	class="form-control rereplyBox" id="comment-message" style="width:545px;position: absolute;"
 																	placeholder="온샘은 신고 관리를 철저하게 합니다. 댓글 작성 시, 한번 더 생각해주세요"></textarea>
 
-																<div class="col-lg-3 col-md-4 col-6 ms-auto">
+																<div class="col-lg-3 col-md-4 col-6 ms-auto" style="width:469px;">
 																	<!--                                                  <button type="button" id="replyBtn" class="form-control" sec:authorize="isAnonymous()" disabled>로그인이 필요합니다 <a th:href="@{/loginPage}">login</a></button> -->
-																	<input type="checkbox" name="publicScope"
+																	<input type="checkbox" name="publicScope" style="width:18px;margin-top:135px;"
 																		id="scopeReply" value="public" /> <span
 																		style="color: blue; font-weight: bold;">비밀댓글 🔒</span>
-																	<button type="button"
+																	<button type="button" style="width: 70px;"
 																		class="form-control rereplyInsert"
 																		th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}">등록</button>
 																</div>
@@ -543,7 +551,8 @@ caption.dots {
 																class="author-comment-link me-3 reDelBtn"
 																th:value="${reply.replyId}"
 																th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogWrite.blogId}"><span
-																style="color: red;">삭제</span></a> <a type="button"
+																style="color: red;">삭제</span></a> 
+																<a type="button"
 																class="author-comment-link me-3 openBtn" id="replyIdVal"
 																th:value1="${reply.replyId}"
 																th:value2="${reply.writerId}"
@@ -567,13 +576,13 @@ caption.dots {
 														</div>
 
 														<div class="author-comment-info ms-3">
-															<h6 class="mb-1">
+															<p class="mb-1">
 																<span style="font-weight: bold" id="writerIdText">[[${reply.writerId}]]</span>
 																<a th:if="${blogWrite.blogId} == ${reply.writerId}"
 																	style="color: #5bc1ac; font-weight: bold;">[작성자🍀]</a>
 																([[${#dates.format(reply.replyDate, 'YY.MM.dd
 																HH:mm')}]])
-															</h6>
+															</p>
 
 															<p class="mb-0"
 																th:if="${reply.publicScope!='private'} or ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogWrite.blogId} or ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${reply.writerId}">
@@ -585,8 +594,7 @@ caption.dots {
 																🤐 글 작성자와 본인만 볼 수 있는 댓글입니다.</p>
 
 															<div class="d-flex mt-2">
-																<a href="#" class="author-comment-link me-3">신고</a> <a
-																	type="button" class="author-comment-link me-3 reDelBtn"
+																<a type="button" class="author-comment-link me-3 reDelBtn"
 																	th:value="${reply.replyId}"><span
 																	style="color: red;">삭제</span></a>
 															</div>
@@ -599,7 +607,7 @@ caption.dots {
 										</div>
 									</div>
 									<form class="custom-form comment-form mt-4" role="form"
-										name="replyFrm" style="width: 85%;">
+										name="replyFrm" style="width: 100%;">
 										<input type="hidden" id="token"
 											th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 										<h6 class="mb-3">댓글</h6>
@@ -630,30 +638,34 @@ caption.dots {
 
 
 	<!-- 댓글신고모달창 -->
-	<div class="modal hidden">
+	<div class="modal hidden" id="reportModal">
 		<div class="modal__background"></div>
-		<div class="modal__content">
-			<h3>신고하기</h3>
-			<div class="modalText">
-				<p>사유선택</p>
-				<input type="checkbox" name="reason" id="ban1"
-					onclick="checkOnlyone(this)" value="욕설 및 비하 발언">욕설 및 비하 발언<span
-					id="1"></span><br> <input type="checkbox"
-					value="저작권,명예훼손 등 기타 권리 침해" id="ban2" name="reason"
-					onclick="checkOnlyone(this)">저작권,명예훼손 등 기타 권리 침해<span
-					id="2"></span><br> <input type="checkbox" value="불건전한 글 등록"
-					name="reason" id="ban3" onclick="checkOnlyone(this)"> 불건전한
-				글 등록 <span id="3"></span><br> <input type="checkbox"
-					value="광고,홍보성 내용" name="reason" id="ban4"
-					onclick="checkOnlyone(this)"> 광고,홍보성 내용 <span id="4"></span><br>
-				<input type="checkbox" value="기타" name="reason" id="ban5"
-					onclick="checkOnlyone(this)"> 기타 <span id="5"></span><br>
-
-				<button onclick="banSubmit()">신고하기</button>
-				<button class="closeBtn">닫기</button>
+			<div class="modal__content">
+				<div class="modal-body">
+					<div class="modal-wrapper">
+						<div class="title">신고</div>
+						<div class="inputfield">
+							<label>신고종류</label><br>
+							<input type="checkbox" name="reason" id="ban1"
+								onclick="checkOnlyone(this)" value="욕설 및 비하 발언">욕설 및 비하 발언<span
+								id="1"></span><br> 
+							<input type="checkbox" value="저작권,명예훼손 등 기타 권리 침해" id="ban2" name="reason"
+								onclick="checkOnlyone(this)">저작권,명예훼손 등 기타 권리 침해<span id="2"></span><br> 
+							<input type="checkbox" value="불건전한 글 등록" name="reason" id="ban3" onclick="checkOnlyone(this)"> 불건전한
+							글 등록 <span id="3"></span><br> 
+							<input type="checkbox" value="광고,홍보성 내용" name="reason" id="ban4"
+								onclick="checkOnlyone(this)"> 광고,홍보성 내용 <span id="4"></span><br>
+							<input type="checkbox" value="기타" name="reason" id="ban5"
+								onclick="checkOnlyone(this)"> 기타 <span id="5"></span><br>
+						</div>
+						<div class="inputfield">
+							<button onclick="banSubmit()" class="btn">신고하기</button>
+							<button class="closeBtn btn" >닫기</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
 
 	</section>
 	<!-- Related Blog Section End -->
@@ -792,25 +804,30 @@ caption.dots {
         	let userId = "[[${blogWrite.blogId}]]";
             let bno = "[[${blogWrite.writeId}]]";
             let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
+            let text = $('form[name="replyFrm"]').find('textarea').val();
             if(id!=null){ // 로그인 된 상태이면
-               $.ajax({
-                  url: '/blog/myblog/blogWrite/replyInsert',
-                  method: 'post',
-                  beforeSend : function(xhr)
-                        {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-                        xhr.setRequestHeader(header, token);
+            	if(text!=''){
+            		$.ajax({
+                        url: '/blog/myblog/blogWrite/replyInsert',
+                        method: 'post',
+                        beforeSend : function(xhr)
+                              {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+                              xhr.setRequestHeader(header, token);
+                              },
+                        contentType: 'application/x-www-form-urlencoded',
+                        data: $('form[name="replyFrm"]').serialize(),
+                        success: function (result) {
+                              console.log(result);
+                              location.href='/blog/myblog/blogWrite?bno='+bno+'&userId='+userId;   // 이거 빼고 어디에 뭐 넣어라~ 이런식으로
+                              
                         },
-                  contentType: 'application/x-www-form-urlencoded',
-                  data: $('form[name="replyFrm"]').serialize(),
-                  success: function (result) {
-                        console.log(result);
-                        location.href='/blog/myblog/blogWrite?bno='+bno+'&userId='+userId;   // 이거 빼고 어디에 뭐 넣어라~ 이런식으로
-                        
-                  },
-                     error: function (error) {
-                        console.log(error);
-                     }
-               });
+                           error: function (error) {
+                              console.log(error);
+                           }
+                     });
+            	}else{
+            		alert('댓글 내용을 입력해주세요.');
+            	}
             }else{
                alert('로그인이 필요합니다.');
             }
@@ -826,6 +843,7 @@ caption.dots {
             	  let userId = "[[${blogWrite.blogId}]]";
                   let bno = "[[${blogWrite.writeId}]]";
                   let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
+                  
                   
                   if(id!=null){ // 로그인 된 상태이면
                      $.ajax({
@@ -897,6 +915,7 @@ caption.dots {
          
          //신고제출
          function banSubmit(){
+        	let userId = "[[${blogWrite.blogId}]]";
             let bno = "[[${blogWrite.writeId}]]";
             console.log(contentId,writerId);
             let reasonLength = document.getElementsByName("reason").length;  
@@ -928,7 +947,7 @@ caption.dots {
                   success: function (result) {
                         console.log(result);
                        alert("신고 완료");
-                       location.href='/blog/myblog/blogWrite?bno='+bno;
+                       location.href='/blog/myblog/blogWrite?bno='+bno+'&userId='+userId;
                   },
                      error: function (error) {
                         console.log(error);
@@ -963,7 +982,7 @@ caption.dots {
                    success: function(result){
                       console.log(result);
                       alert("삭제완료");
-                      location.href="'/blog/myblog?userId='+'[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]'";
+                      location.href="/blog/myblog?userId=[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
                    },
                    error: function(error){
                       console.log(error);
@@ -1000,7 +1019,7 @@ caption.dots {
              templateArgs: {
                title: '라이언이 즐겨먹던 바로 그 틴케이스 치즈볼',
                description: '바라만 봐도 즐거워지는 힐링 패키지에는 시크릿 스토리가 숨어있어요.',
-               url: 'blog/myblog/blogWrite?bno=[[${blogWrite.writeId}]]'
+               url: 'blog/myblog/blogWrite?bno=[[${blogWrite.writeId}]]&userId=[[${blogWrite.blogId}]]'
              },
            });   
          
