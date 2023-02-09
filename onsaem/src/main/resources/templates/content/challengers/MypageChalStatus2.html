@@ -55,7 +55,7 @@
 .main-container {
 	padding: 20px;
 	flex-grow: 1;
-	overflow: auto;
+	overflow-x: auto;
 	background-color: #FCFBFC;
 }
 
@@ -294,7 +294,17 @@
 		border-radius: 10px;
 		top: 0;
 		padding: 10px 25px;
+		width: 500px;
+	}
+	.modal__content2 {
+		text-align: center;
+		position: relative;
+		background-color: white;
+		border-radius: 10px;
+		top: 0;
+		padding: 10px 25px;
 		width: 20%;
+		height: 20%;
 	}
 	
 	h1 {
@@ -307,12 +317,12 @@
 	}
 	
 	div{
-		overflow-y:auto;
+		
 		overflow-x: hidden"
 	}
 	#section{
 		
-	  /* background: url("/challengers/mypageBack.jpg");  */
+	  background: url("/challengers/mypageBack.jpg"); 
 	  	background-color : rgba(248,  242, 222, 0.2);
 	  	background-size : 100% 100%;
 		 
@@ -326,10 +336,56 @@
 	}
 	.liLIst{
 		float : left;
-		margin-right : 20px;
+		margin : 20px 30px;
+		width : 40%;
+		height : 15%;
+		padding : 5px;
+		text-align : center;
+		background-color :  hsla(175, 5%, 93%, 0.8);
+	}
+	.liLIst:hover{
+		float : left;
+		margin : 20px 30px;
+		width : 40%;
+		height : 15%;
+		padding : 5px;
+		text-align : center;
+		background-color :  #EEC7C1;
 	}
 	.gallery-item{
 		width: 100%;	
+	}
+	
+	#subMenu>ul{
+		background-color :  hsla(175, 5%, 93%, 0.8);
+		width: 100%;
+	}
+	#detailReason{
+	width: 100%;
+	background-color : #F9F9F2;
+		width : 70%;
+		height: 18%;
+		padding: 10px;
+		box-sizing: border-box;
+		border: none;
+		border-radius: 5px;
+		font-size: 16px;
+		resize: both;
+	}
+	#content{
+		width : 60%;
+	}
+	#replyContent{
+		width : 70%;
+		text-align : left;
+	}
+	.fontSizeUp{
+		font-size : 20px;
+		margin : 3px;
+	}
+	#makeBackGround{
+		background-color : rgba(255, 255, 255, 0.6);
+		padding : 1%;
 	}
 	</style>
 </head>
@@ -349,8 +405,8 @@
 						</div>
 						<div class="profile-stats">
 							<ul>
-								<li style="font-size:large">📆시작일 <span class="profile-stat-count" th:text="${#dates.format(chal.startDate, 'MM월 dd일')}" id="startDate" >164</span></li>
-								<li style="font-size:large">📆종료일 <span class="profile-stat-count" th:text="${#dates.format(chal.endDate, 'MM월 dd일')}" id="endDate" th:value="${chal.endDate}">188</span></li>
+								<li style="font-size:large; font-weight : bold">📆시작일 <span class="profile-stat-count" th:text="${#dates.format(chal.startDate, 'MM월 dd일')}" id="startDate" >164</span></li>
+								<li style="font-size:large; font-weight : bold">📆종료일 <span class="profile-stat-count" th:text="${#dates.format(chal.endDate, 'MM월 dd일')}" id="endDate" th:value="${chal.endDate}">188</span></li>
 							</ul>
 						</div>
 						<div class="profile-bio">
@@ -362,10 +418,13 @@
 					</div>
 					
 					<!-- End of profile section -->
-					<ul>
-						<li class="liLIst" th:onclick="move1()">section 1</li>
-						<li class="liLIst" th:onclick="move2()">section 2</li>
-					</ul>
+					<nav id="subMenu">
+						<ul>
+							<li class="liLIst" th:onclick="move1()">나의 달성도</li>
+							<li th:if="${chal.subClass} == '팀'" class="liLIst" th:onclick="move2()">우리팀 달성도</li>
+							<li th:if="${chal.subClass} == '개인'" class="liLIst" th:onclick="move2()">타 유저 달성도</li>
+						</ul>
+					</nav>
 			
 				</div>
 				</div>
@@ -390,14 +449,14 @@
 				</div>	
 					<div class="gallery">
 			
-						<div class="gallery-item" tabindex="0" th:each="myphoto : ${myPhotoes}" th:onclick="displayModal([[${myphoto}]])">
+						<div class="gallery-item" tabindex="0" th:each="proof : ${proofs}" th:onclick="displayModal([[${proof}]])">
 							<div class="row row-cols-3">
 							<img src="'/fileView/'+${proof.fileRoute}" class="gallery-image">
 								<input type="hidden" id="chalId" th:value="${proof.chalId}">
 							<div class="gallery-item-info">
 			
 								<ul>
-									<li class="gallery-item-likes" ><span class="visually-hidden" ></span><i class="fas fa-heart" aria-hidden="true" th:text="' '+ ${#dates.format(myphoto.writeDate, 'yyyy-MM-dd')}" style="color:white"></i></li>
+									<li class="gallery-item-likes" ><span class="visually-hidden" ></span><i class="fas fa-heart" aria-hidden="true" th:text="' '+ ${#dates.format(proof.writeDate, 'yyyy-MM-dd')}" style="color:white"></i></li>
 									<!-- <li class="gallery-item-comments"><span class="visually-hidden" >Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li> -->
 								</ul>
 							</div>
@@ -405,8 +464,8 @@
 			
 						</div>
 			
-						 <th:block th:if="${myPhotoes} ==null">
-						 		<h5>아직 등록된 인증 샷이 없습니다!</h5>	
+						 <th:block th:if="${#lists.isEmpty(proofs)}">
+						 		<h5 style="text-align : center; padding: 300px 0">아직 등록된 인증 샷이 없습니다!</h5>	
 						 </th:block>
 			
 					</div>
@@ -418,25 +477,38 @@
        <div class="modal hidden">
           <div class="modal__background"></div>
           <div class="modal__content" id="insta">
-         
-             	<span><p id="writer"></p></span>
-             	<button id="on" onclick="openFrm()" style="display: on;">신고</button>	
-             	<input type="hidden" id="theId">
-                <img style="width: 500px;" id="image">
-          		<p id="contents"></p>      
-                <table>
-                <thead><tr>
-                			<th>댓쓴이</th>
-                			<td>댓글내용</td>
-                		</tr></thead>
-                		<tbody class="replies">
-                		</tbody>
-                </table>
-                <span><p id="redHeart" th:onclick="delLike()">❤</p><p id="whiteHeart" th:onclick="addLike()">🤍</p>좋아요 <p id="cnt"></p></span>
-                <input type="text" id="content" name="content">
-                <button type="button" th:onclick="inputReply()">댓글쓰기</button>
-                <button type="button" class="closeBtn">닫기</button>
-             
+			<div style="text-align : center">
+		             	<span id="writeDate" style="margin-right : 10px; font-size : 18px"></span>
+		             	<span id="writer" style="margin-right : 10px; font-size : 18px"></span>
+		             	<button id="on" onclick="openFrm()" style="float:right; margin-bottom : 10px">신고</button>	
+					</div>
+		             	
+		             	<input type="hidden" id="theId">
+		                <img style="width: 500px;" id="image">
+		                <div style="width:100%; text-align:left; padding:5px; background-color : rgba(225, 214, 176, 0.3); margin : 2px">
+		          			<p id="contents"></p>
+		          		</div>
+		          		<br>
+		          		<div style="text-align:left;">
+		          			<img src="/challengers/redheart.png" id="redHeart"  th:onclick="delLike()" type="button" style="width:4%;  display:inline-block;  margin-right : 5px">
+		                	<img src="/challengers/heart.png" th:onclick="addLike()" type="button" style="width:4%;display:inline-block;   margin-right : 5px" id="whiteHeart" >
+		                	<img src="/challengers/comment.png"  type="button" style="width:4%; display:inline-block;" id="bubble" th:onclick="openReplies()">
+		               </div>
+		               <div style="text-align:left; margin : 3px">
+		                	<span>좋아요 :</span> <span id="cnt" ></span>           
+		               </div>
+			                <table style="overflow-y:auto; width : 100%; " id="replyTable">
+			                <thead><tr>
+			                			<th>댓쓴이</th>
+			                			<th>댓글내용</th>
+			                			<th>작성일자</th>
+			                		</tr></thead>
+			                		<tbody class="replies">
+			                		</tbody>
+			                </table>    
+		                <input type="text" id="content" name="content">
+		                <button type="button" th:onclick="inputReply()">댓글쓰기</button>
+		                <button type="button" class="closeBtn">닫기</button>
           </div>
           <div id="reportFrm" style="display : none;" class="modal__content">
           <!-- 신고폼 -->
@@ -582,6 +654,23 @@
 					    	  document.querySelector("#contents").innerText=result.brd.content;
 					    	 //글쓴이 넣기
 					    	  document.querySelector("#writer").innerText=result.brd.proofWriter;
+					    	//작성일자 넣기
+						    	function leftPad(value) {
+								    if (value >= 10) {
+								        return value;
+								    }
+								
+								    return `0${value}`;
+								}
+						    	function toStringByFormatting(source, delimiter = '-') {
+									    const year = source.getFullYear();
+									    const month = leftPad(source.getMonth() + 1);
+									    const day = leftPad(source.getDate());
+									
+									    return [year, month, day].join(delimiter);
+									}
+						    	
+						    	  document.querySelector("#writeDate").innerHTML=toStringByFormatting(new Date(result.brd.writeDate),'-');
 					    	 //좋아요 여부 확인
 					    	 let check = result.checkLike;
 					    	 if(check == 0){
