@@ -9,12 +9,12 @@
 		<if test="classAddr != null and classAddr !=''">
 			AND C.CLASS_ADDR LIKE '%' || #{classAddr} || '%'
 		</if>
-		<if test="startDate != null and startDate !=''">
+		<if test="startDate != null">
 			<![CDATA[
 				AND L.START_DATE >= #{startDate}
 				]]>
 		</if>
-		<if test="endDate != null and endDate !=''">
+		<if test="endDate != null">
 			<![CDATA[
 				AND L.END_DATE <= #{endDate}
 				]]>
@@ -261,7 +261,7 @@
 	<![CDATA[
 		SELECT ROWNUM RN, A.* FROM (SELECT C.CLASS_ID,
 		C.CLASS_NAME, C.PRICE,
-		NVL(TRUNC(AVG(R.REVIEW_STAR),1),0) AS STAR, (SELECT COUNT(*) FROM BOOKINDS WHERE C_NO IN (SELECT C_NO FROM CLASSES WHERE CLASS_ID = C.CLASS_ID)AND ORDER_DATE > TO_DATE(CURRENT_DATE-30, 'YYYY-MM-DD HH24:MI:SS')) AS BOOKING_COUNT
+		NVL(TRUNC(AVG(R.REVIEW_STAR),1),0) AS STAR, (SELECT COUNT(*) FROM BOOKINDS WHERE C_NO IN (SELECT C_NO FROM CLASSES WHERE CLASS_ID = C.CLASS_ID)AND ORDER_DATE > CURRENT_DATE-30) AS BOOKING_COUNT
 		FROM CLASS_INFO C, REVIEWS
 		R, CLASSES L
 		WHERE

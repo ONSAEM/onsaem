@@ -58,15 +58,15 @@ public class BookingController {
 	}
 
 	// 예약완료 페이지 이동
-	@RequestMapping(value = "/BookingCOM", method = RequestMethod.GET)
-	public String BookingCOM(BookingVO booking, Model model) {
+	@RequestMapping(value = "/bookingCOM", method = RequestMethod.GET)
+	public String bookingCOM(BookingVO booking, Model model) {
 		BookingVO bvo = bookingService.getBooking(booking);
 		model.addAttribute("booking", bvo);
 		PaymentVO pvo = new PaymentVO();
 		pvo.setPaymentId(bvo.getPaymentId());
 		model.addAttribute("payment", bookingService.getPayment(pvo));
 		model.addAttribute("point", bookingService.getPoint(bvo.getOrdererId()));
-		return "content/course/BookingCOM";
+		return "content/course/bookingCOM";
 	}
 
 	// 클래스예약조회 페이지 이동

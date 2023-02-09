@@ -12,7 +12,7 @@
     var i = a.extend({
       fileUpload: "",
       input: "#aksfileupload",
-      fileType: ["pdf", "docx", "rtf", "jpg", "jpeg", "png", "txt", "mpa", "ogg", "aif", "cda", "mid", "midi", "mp3", "wav", "wma", "wpl", "7z", "arj", "deb", "pkg", "rar", "rpm", "tar.gz", "z", "zip", "csv", "dat", "db", "dbf", "log", "mdb", "sav", "sql", "tar", "xml", "apk", "exe", "jar", "py", "fnt", "fon", "otf", "ttf", "ai", "bmp", "gif", "ico", "jpeg", "jpg", "png", "ps", "psd", "svg", "tif", "tiff", "asp", "aspx", "css", "htm", "html", "js", "jsp", "php", "rss", "pps", "ppt", "pptx", "avi", "flv", "mov", "mp4", "mpg", "mpeg", "vob", "wmv", "doc", "rtf", "eps", "opus", "aep", "fig", "sketch"],
+      fileType: ["jpg", "jpeg", "png"],
       multiple: !1,
       dragDrop: !0,
       maxFile: 1e19,
@@ -38,7 +38,7 @@
     return this.each(function (l) {
       var s = "";
       if (!0 === i.multiple) s = "multiple";
-      const o = '<div class="aks-file-upload"><input type="file" name="' + t + '[]" id="' + t + '" hidden ' + s + " /></div>";
+      const o = '<div class="aks-file-upload"><input type="file" name="' + t + '[]" id="' + t + '" hidden ' + s + "  accept='image/jpg, image/jpeg, image/png'/></div>";
 
       function f(a) {
         var l = '<div class="aks-file-upload-error">' + a + "</div>";

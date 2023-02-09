@@ -17,28 +17,28 @@
     this.$element = t(e), this.options = t.extend({}, t.fn.calendar.defaults, a), this.$element.addClass("calendar " + this.options.customClass), this.width = this.options.width, this.height = this.options.height, this.date = this.options.date, this.selectedRang = this.options.selectedRang, this.data = this.options.data, this.init()
   }
   var s = {
-      width: 280,
-      height: 280,
-      zIndex: 1,
-      trigger: null,
-      offset: [0, 1],
-      customClass: "",
-      view: "date",
-      date: new Date,
-      format: "yyyy/mm/dd",
-      startWeek: 0,
-      weekArray: ["日", "一", "二", "三", "四", "五", "六"],
-      monthArray: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
-      selectedRang: null,
-      data: null,
-      label: "{d}\n{v}",
-      prev: "&lt;",
-      next: "&gt;",
-      viewChange: t.noop,
-      onSelected: function (t, e, a) {},
-      onMouseenter: t.noop,
-      onClose: t.noop
-    },
+    width: 280,
+    height: 280,
+    zIndex: 1,
+    trigger: null,
+    offset: [0, 1],
+    customClass: "",
+    view: "date",
+    date: new Date,
+    format: "yyyy/mm/dd",
+    startWeek: 0,
+    weekArray: ["日", "一", "二", "三", "四", "五", "六"],
+    monthArray: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+    selectedRang: null,
+    data: null,
+    label: "{d}\n{v}",
+    prev: "&lt;",
+    next: "&gt;",
+    viewChange: t.noop,
+    onSelected: function (t, e, a) { },
+    onMouseenter: t.noop,
+    onClose: t.noop
+  },
     o = "data-calendar-",
     r = "[" + o + "display-date]",
     h = "[" + o + "display-month]",
@@ -151,27 +151,27 @@
     getDaysHtml: function (a, i) {
       var n, s, o, r, h, l, d = (this.date, t('<ol class="days"></ol>'));
       e(a) ? (n = a.getFullYear(), s = a.getMonth() + 1) : (n = Number(a), s = Number(i)), o = new Date(n, s - 1, 1).getDay() || 7, l = o - this.options.startWeek, r = Date.getDaysNum(n, s), h = Date.getPrevMonth(n, s), prevDaysNum = Date.getDaysNum(n, h.m), nextM = Date.getNextMonth(n, s);
-      for (var c = 1, u = 2, p = 3, m = 0, f = prevDaysNum - l + 1; f <= prevDaysNum; f++, m++){
-        if(changeDate(h.y+"/"+h.m+"/"+f)){
+      for (var c = 1, u = 2, p = 3, m = 0, f = prevDaysNum - l + 1; f <= prevDaysNum; f++, m++) {
+        if (changeDate(h.y + "/" + h.m + "/" + f)) {
           d.append(this.getDayItem(h.y, h.m, f, 5));
-        }else{
+        } else {
           d.append(this.getDayItem(h.y, h.m, f, c));
         };
-      } 
-      for (var g = 1; g <= r; g++, m++){
-        if(changeDate(n+"/"+s+"/"+g)){
+      }
+      for (var g = 1; g <= r; g++, m++) {
+        if (changeDate(n + "/" + s + "/" + g)) {
           d.append(this.getDayItem(n, s, g, 5));
-        }else{
-           d.append(this.getDayItem(n, s, g, u));
+        } else {
+          d.append(this.getDayItem(n, s, g, u));
         };
-      } 
-      for (var v = 1, D = 42 - m; v <= D; v++){
-        if(changeDate(nextM.y+"/"+nextM.m+"/"+v)){
+      }
+      for (var v = 1, D = 42 - m; v <= D; v++) {
+        if (changeDate(nextM.y + "/" + nextM.m + "/" + v)) {
           d.append(this.getDayItem(nextM.y, nextM.m, v, 5));
-        }else{
+        } else {
           d.append(this.getDayItem(nextM.y, nextM.m, v, p));
         };
-      } 
+      }
       return t("<li></li>").width(this.options.width).append(d)
     },
     getWeekHtml: function () {
@@ -315,7 +315,7 @@
         var o = this.updateDateView(i, n, {
           old: "prev",
           new: "next"
-        } [e], s);
+        }[e], s);
         i = o.y, n = o.m, this.options.viewChange("date", i, n)
       } else s.call(this);
 
@@ -362,12 +362,12 @@
         t = "prev" === n ? t - 1 : t + 1, e.updateMonthView(t), a("month", t)
       }), e.$element.on("click", "[" + c + "]", function () {
         let className = this.className;
-        if(className.includes('isClass')){
+        if (className.includes('isClass')) {
           getclassList(this.getAttribute('data-calendar-day'));
         }
         var a = parseInt(this.innerHTML),
-          n = i(this),S
-          s = /new|old/.test(n) ? n.match(/new|old/)[0] : "",
+          n = i(this), S
+        s = /new|old/.test(n) ? n.match(/new|old/)[0] : "",
           o = e.selectedDay(a, s);
         e.options.onSelected.call(this, "date", o, t(this).data(m)), e.$trigger && e.hide("date", o, t(this).data(m))
       }).on("click", "[" + u + "]", function () {
@@ -405,6 +405,7 @@
       if ("[object Function]" === V.call(this[t])) return this[t].apply(this, e)
     }
   }, t.fn.calendar = function (e) {
+    console.log(e);
     var i, s = this.data("calendar"),
       o = [].slice.call(arguments);
     return s ? a(e) ? (i = e, o.shift(), s.methods(i, o)) : this : this.each(function () {
@@ -419,3 +420,5 @@ $('#calendar').calendar({
   selectedRang: null,
   view: 'date',
 });
+
+
