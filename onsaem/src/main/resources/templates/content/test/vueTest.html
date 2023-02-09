@@ -7,7 +7,9 @@
 <meta charset="UTF-8">
 <title>신고관리페이지</title>
 	<th:block layout:fragment="css">
-<!-- 	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css"> -->
+	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
+	type="text/css">
 	</th:block>
 <style>
 button {
@@ -17,10 +19,6 @@ button {
 	padding: 5px 25px;
 	border-radius: 10px;
 	cursor: pointer;
-}
-
-.btn {
-	margin-top: 60px;
 }
 
 .modal {
@@ -47,9 +45,8 @@ button {
 	background-color: white;
 	border-radius: 10px;
 	top: 0;
-	padding: 10px 25px;
-	width: 500px;
-	height: 500px;
+	padding: 23px 25px;
+	width: 570px;
 }
 
 h1 {
@@ -59,6 +56,21 @@ h1 {
 
 .hidden {
 	display: none;
+}
+
+.modalText .btn {
+	background-color: #9dc2c0;
+	color: white;
+	text-align: center;
+	margin-right: 5px;
+	margin-top: 38px;
+	padding: 12px;
+}
+.modalText table {
+	margin: 0 auto;
+}
+table th{
+	padding: 20px;
 }
 </style>
 </head>
@@ -239,37 +251,41 @@ h1 {
 						<div class="modal hidden">
 							<div class="modal__background"></div>
 							<div class="modal__content">
-								<h3>회원 제재</h3>
-								<div class="modalText">
-								
-								<table>
-									<thead>
-										<tr>
-											<th>회원ID</th>
-											<th>닉네임</th>
-											<th>신고 누적횟수</th>
-											<th>제재 기간</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td>
-												<select id="banPeriod">
-											        <option value="">:::제재기간:::</option>
-											        <option value="30">1개월</option>
-											        <option value="180">6개월</option>
-											        <option value="9999999999999">영구정지</option>
-											     </select>
-											</td>
-											<td><input type="hidden"/></td>
-										</tr>
-									</tbody>
-								</table>
-									<button @click="banUpdate()">변경사항 저장</button>
-									<button class="closeBtn" @click="displayModal()">닫기</button>
+								<div class="modal-body">
+									<div class="modal-wrapper">
+										<div class="title">회원 제재</div>
+										<div class="modalText">
+										
+											<table>
+												<thead>
+													<tr>
+														<th>회원ID</th>
+														<th>닉네임</th>
+														<th>신고 누적횟수</th>
+														<th>제재 기간</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td>
+															<select id="banPeriod" class="nice-select">
+														        <option value="">:::제재기간:::</option>
+														        <option value="30">1개월</option>
+														        <option value="180">6개월</option>
+														        <option value="9999999999999">영구정지</option>
+														     </select>
+														</td>
+														<td><input type="hidden"/></td>
+													</tr>
+												</tbody>
+											</table>
+											<button @click="banUpdate()" class="btn">변경사항 저장</button>
+											<button class="closeBtn btn" @click="displayModal()">닫기</button>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -336,7 +352,7 @@ h1 {
 		                	  	console.log(data);
 		                	  	
 		                	  	if(data != null){
-		                	  		$('tbody td').eq(0).text(data.reportId);
+		                	  		$('tbody td').eq(0).text(data.toId);
 			                	  	$('tbody td').eq(1).text(data.nickname);
 			                	  	$('tbody td').eq(2).text(data.reportCnt + "회");
 			                	  	$('tbody td').eq(4).val(data.toId);

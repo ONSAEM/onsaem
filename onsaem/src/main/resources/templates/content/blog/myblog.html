@@ -7,6 +7,9 @@
 <!-- Css  -->
 <th:block layout:fragment="css">
 	<link rel="stylesheet" th:href="@{/css/blog.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
+	type="text/css">
 </th:block>
 <head>
 <meta charset="UTF-8">
@@ -84,17 +87,19 @@ caption.dots {
 #exampleModal .modal-image {
 	width: 64%;
 	height: 600px;
+	padding-right: 20px;
 }
 
 #exampleModal .col-md-6 {
 	width: 36%;
-	margin: auto;
 	background-color: #ffffff;
     border-radius: 20px;
 }
 #exampleModal #uploadDate {
 	text-align: end;
 	margin-bottom: 0px;
+	position: relative;
+	bottom: -347px;
 }
 #searchWord {
 	width: 50%;
@@ -120,6 +125,20 @@ caption.dots {
     bottom: 10px;
     width: 72%;
 }
+
+.col-md-6 .btn {
+	background-color: #9dc2c0;
+	color: white;
+	text-align: center;
+	margin-right: 5px;
+	margin-top: 38px;
+	padding: 12px;
+	position: relative;
+    left: -37px;
+}
+/* fieldset .modalText { */
+/* 	margin-left: 20px; */
+/* } */
 </style>
 </head>
 <body>
@@ -406,7 +425,7 @@ caption.dots {
 		<div class="modal fade" id="exampleModal" tabindex="-1"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-xl modal-dialog-scrollable">
-				<div class="modal-content" style="padding: 15px;">
+				<div class="modal-content" style="padding: 15px;background-color: white;">
 					<div class="modal-body row">
 						<div class="modal-image sticky-top">
 							<img id="modalImg"
@@ -435,7 +454,6 @@ caption.dots {
 								<input type="text" class="form-control"
 									placeholder="type comment" id="addUrl" readonly>
 							</div>
-
 							<div class="d-flex flex-row comment-row mt-2">
 								<div class="p-2"></div>
 								<div class="comment-text active w-100">
@@ -443,9 +461,6 @@ caption.dots {
 								</div>
 							</div>
 							<p id="uploadDate"></p>
-							<!-- 하트 시간 남으면-->
-
-							<!-- 하트 끝 -->
 						</div>
 					</div>
 				</div>
@@ -459,44 +474,57 @@ caption.dots {
 			<div class="modal-dialog modal-xl modal-dialog-scrollable">
 				<div class="modal-content" style="padding: 15px;">
 					<div class="modal-body row">
-						<div class="col-md-6 modal-image sticky-top">
-							<h3>상세 내용</h3>
-							<textarea id="momentWrite" cols="40" rows="25"
-								placeholder="500자 미만으로 입력해주세요" maxlength="500"></textarea>
+						<div class="modal-wrapper">
+							<div class="title">모먼트 작성</div>
 						</div>
-						<div class="col-md-6 p-3">
-
-							<input type="text" class="form-control"
-								placeholder="첨부할 주소를 입력하세요" id="insertUrl" maxlength="50"> <br>
-							<fieldset>
-								<h3>업로드 기간</h3>
-								<input type="date" id="date" placeholder="Select a date"
-									data-datepicker-events="{date: '2020-07-12T12:00', name: 'Business Lunch Zürich', type: 'holiday'}"
-									required /> <br>
-								<h3>공개범위</h3>
-								<select name="publicScope" id="scope">
-									<option value="public">전체공개</option>
-									<option value="partial" selected>일부공개</option>
-									<option value="private">비공개</option>
-								</select>
-							</fieldset>
-							<div class="mt-2 mx-2"></div>
-
-							<div class="d-flex flex-row comment-row mt-2">
-								<form id="momentFrm">
+						<div class="col-md-6 modal-image sticky-top">
+							<form id="momentFrm">
 									<div class="p-2">
-										이미지 미리보기
 										<div class="image-container">
-											<img style="width: 250px;" id="preview-image2"
+											<img style="width: 400px;" id="preview-image2"
 												src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image">
 											<input style="display: block;" type="file" name="uploadfile"
 												multiple="multiple" id="input-image">
 										</div>
 									</div>
 								</form>
-							</div>
+						</div>
+						<div class="col-md-6 p-3">
+							<div class="modalText">
+								<input type="text" class="form-control"
+									placeholder="첨부할 주소를 입력하세요" id="insertUrl" maxlength="50"> <br>
+							</div>	
+							<fieldset>
+								<div class="inputfield">
+									<div class="modal-wrapper">
+										<div class="title">업로드 기간</div>
+										<div class="modalText">
+											<input type="date" id="date" placeholder="Select a date" 
+												style="border:solid 1px #e8e8e8;border-radius:5px;background-color:#fff;height:42px;line-height:40px;padding-left: 18px;"
+												data-datepicker-events="{date: '2020-07-12T12:00', name: 'Business Lunch Zürich', type: 'holiday'}"
+												required /> <br>
+										</div>
+									
+										<div class="title">공개범위</div>
+										<div class="modalText">
+											<select name="publicScope" id="scope">
+												<option value="public">전체공개</option>
+												<option value="partial" selected>일부공개</option>
+												<option value="private">비공개</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<div class="d-flex flex-row comment-row mt-2">
+								<div class="modal-wrapper">
+									<div class="title">상세 내용</div>
+								
+								<textarea id="momentWrite" cols="15" rows="11" class="form-control"
+								placeholder="500자 미만으로 입력해주세요" maxlength="500"></textarea></div>
 							<input type="hidden" id="getblogId" th:value="${blogInfo.blogId}">
-							<button type="button" id="mmtInsertBtn">등록</button>
+							<button type="button" id="mmtInsertBtn" class="btn">등록</button>
 						</div>
 					</div>
 				</div>
