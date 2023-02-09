@@ -9,6 +9,9 @@ import com.onsaem.web.common.service.ReportVO;
 import com.onsaem.web.common.service.ReviewVO;
 
 public interface ProductService {
+	//좋아요체크
+	List<LikeVO> checkLike(LikeVO vo);
+	
 	//리뷰갯수
 	List<ReviewVO> totalReview(ReviewVO vo);
 	

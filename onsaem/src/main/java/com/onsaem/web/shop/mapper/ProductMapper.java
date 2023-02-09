@@ -12,6 +12,9 @@ import com.onsaem.web.shop.service.OrderVO;
 import com.onsaem.web.shop.service.ProductVO;
 
 public interface ProductMapper {
+	// 리뷰체크
+	List<LikeVO> checkLike(LikeVO vo);
+
 	// 리뷰갯수
 	List<ReviewVO> totalReview(ReviewVO vo);
 

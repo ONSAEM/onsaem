@@ -88,8 +88,9 @@ public class ProductController {
 			model.addAttribute("productList", proService.popList(vo, paging));
 		} else {
 			model.addAttribute("productList", proService.proList(vo, paging));
-			model.addAttribute("paging", paging);
+
 		}
+		model.addAttribute("paging", paging);
 		// 주간베스트목록보내주기
 		List<String> list = new ArrayList<String>();
 		for (int i = 0; i < proService.weekBest().size(); i++) {
@@ -132,6 +133,16 @@ public class ProductController {
 	@ResponseBody
 	public List<ReviewVO> totalReview(ReviewVO vo) {
 		return proService.totalReview(vo);
+	}
+
+	// 상품리뷰 체크
+	@RequestMapping(value = "/shop/checkLike", method = RequestMethod.GET)
+	@ResponseBody
+	public List<LikeVO> checkLike(LikeVO vo, Authentication authentication) {
+		System.out.println(vo);
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		vo.setMemberId(userDetails.getUsername());
+		return proService.checkLike(vo);
 	}
 
 	// 결제페이지이동
@@ -177,6 +188,7 @@ public class ProductController {
 			model.addAttribute("likeList", proService.likeList(likeVo)); // 찜 수량가져오기 위한 리스트
 		}
 		model.addAttribute("productList", proService.searchProduct(data, paging, vo));
+		model.addAttribute("categoryList", proService.categoryList()); // 카테고리 리스트
 		// 주간베스트목록보내주기
 		List<String> list = new ArrayList<String>();
 		for (int i = 0; i < proService.weekBest().size(); i++) {

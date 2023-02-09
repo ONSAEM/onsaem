@@ -210,6 +210,12 @@ public class ProductServiceImpl implements ProductService{
 		return proMapper.totalReview(vo);
 	}
 
+	@Override
+	public List<LikeVO> checkLike(LikeVO vo) {
+		// 좋아요 체크
+		return proMapper.checkLike(vo);
+	}
+
 	
 	
 }

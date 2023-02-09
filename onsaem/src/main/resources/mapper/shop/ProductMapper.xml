@@ -158,7 +158,7 @@
 		SELECT COUNT(PRODUCT_ID) AS
 		TOTAL
 		FROM PRODUCTS
-		WHERE CATEGORy=#{data}
+		WHERE CATEGORY=#{data}
 	</select>
 
 	<select id="popCount" resultType="int">
@@ -528,4 +528,11 @@
 		</if>
 	</select>
 
+
+	<!-- 좋아요 체크 -->
+	<select id="checkLike" resultType="com.onsaem.web.common.service.LikeVO">
+		SELECT * 
+		FROM LIKES 
+		WHERE GROUP_ID=#{groupId} AND MEMBER_ID=#{memberId}
+	</select>
 </mapper>

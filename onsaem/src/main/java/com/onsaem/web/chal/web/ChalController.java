@@ -65,7 +65,7 @@ public class ChalController {
 		return "content/challengers/NewChalMain";
 	}
 	
-	//검색ㅎㅎ
+	//검색
 	@RequestMapping(value="/chalListSearch", method=RequestMethod.GET)
 	public String chalSearchList(@RequestParam(value="chalName", required=false)String chalName, Model model,ChalVO vo, Paging paging){
 		vo.setChalName(chalName);

@@ -319,7 +319,7 @@ h1 {
 								style="background-color: #9dc2c0">신고하기</button>
 
 						</div>
-						<div class="product__details__price" th:text="${product.price}+원">$50.00</div>
+						<div class="product__details__price" th:text="|${#numbers.formatInteger(product.price, 0, 'COMMA')}원|">$50.00</div>
 						<p th:text=${product.productDetail}>Mauris blandit aliquet
 							elit, eget tincidunt nibh pulvinar a. Vestibulum ac diam sit amet
 							quam vehicula elementum sed sit amet dui. Sed porttitor lectus
@@ -344,7 +344,7 @@ h1 {
 								sec:authorize="isAnonymous()" style="cursor: pointer">장바구니
 								담기</a>
 							<button th:onclick="changeHeart(this)" style="border: solid 0px;"
-								class="change-heart" sec:authorize="isAuthenticated()">♡</button>
+								class="change-heart" sec:authorize="isAuthenticated()" id="heartCheck">🤍</button>
 							<br>
 						</div>
 						<a th:onclick="buyProduct([[${productList}]])" class="primary-btn"
@@ -444,7 +444,7 @@ h1 {
 																		th:each="num:${#numbers.sequence(1,review.reviewStar)}"></i>
 																	<i class="fa-solid fa-star-half"
 																		th:if="${review.reviewStar%1 >= 0.5}"></i><br> <img
-																		th:src="@{/shoptemplate/소비자.jpg}"
+																		src="/shoptemplate/소비자.jpg"
 																		class="img-fluid avatar-image" alt=""> <br>[[${#dates.format(review.reviewDate,
 																	'YY.MM.DD HH:mm')}]]
 																</div>
@@ -459,7 +459,7 @@ h1 {
 															<div class="author-comment-info ms-3">
 																<div style="float: left; text-align: center;">
 																	 <img
-																		th:src="@{/shoptemplate/판매자.jpg}"
+																		src="/shoptemplate/판매자.jpg"
 																		class="img-fluid avatar-image" alt=""> <br>[[${#dates.format(review.reviewDate,
 																	'YY.MM.DD HH:mm')}]]
 																</div>
@@ -625,6 +625,25 @@ h1 {
 						console.log(error)
 					}
 				}) 
+				 $.ajax({
+						type : 'get', 
+						url : '/shop/checkLike', 										
+						beforeSend : function(xhr)
+			            {
+			            	xhr.setRequestHeader(header, token);
+			            },
+			            data:{
+			            	"groupId":productId
+			            },
+						success : function(result) {							
+							if(result.length!=0){								
+								$("#heartCheck").text('❤');
+							}
+						},
+						error : function(error) { 
+							console.log(error)
+						}
+					}) 	
 		 } 
 		 
 		 //구매한 상품 리뷰작성
@@ -646,7 +665,7 @@ h1 {
 							        // 취소(아니오) 버튼 클릭 시 이벤트
 							    } else {
 							        // 확인(예) 버튼 클릭 시 이벤트
-							        location.href="/myOrder"
+							        location.href="/shop/shopMyOrder"
 							    }
 						}
 					},
@@ -665,16 +684,16 @@ h1 {
 				function changeHeart(data){	
 					const urlParams = new URL(location.href).searchParams;
 					const name = urlParams.get('data');	
-					if(data.innerText=="♡"){						
+					if(data.innerText=="🤍")	{				
 						fetch('/likeAdd?data='+name)						
 						  .then((response) => console.log('success'))
 						  .then((data) => console.log(data));		
-						data.innerText="♥";				
+						data.innerText="❤"				
 					}else{					
 						fetch('/likeDel?data='+name)
 						  .then((response) => console.log('success'))
 						  .then((data) => console.log(data));
-						data.innerText="♡";
+						data.innerText="🤍"
 					};					
 				}
 				
