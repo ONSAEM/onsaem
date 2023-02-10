@@ -45,7 +45,6 @@
 	flex-grow: 1;
 	display: flex;
 	flex-direction: column;
-	min-width: 1400px;
 }
 
 .main-container {
@@ -97,7 +96,7 @@
 
 .glass {
 	height: 100%;
-	width: 100%;
+  width: 100%;
 	background-image: url("/course/test.gif");
 	background-size: cover;
 	background-position: center;
@@ -137,6 +136,58 @@
 	font-size: 4em;
 	letter-spacing: 0.75em;
 	padding-left: 0.375em;
+}
+
+@media (max-width: 980px) {
+  .glass {
+    clip-path: inset(7em);
+  }
+
+  .drop-shadow:before {
+    top: 7em;
+    width: calc(100% - 14em);
+    height: calc(100% - 14em);
+  }
+  .drop-shadow > span {
+    font-size: 4em;
+  }
+}
+@media (max-width: 640px) {
+.drop-shadow{
+    height: 95%;
+  }
+.glass {
+    clip-path: inset(3em);
+  }
+ .drop-shadow:before {
+    top: 3em;
+    width: calc(100% - 6em);
+    height: calc(100% - 6em);
+  }
+  .drop-shadow > span {
+    font-size: 2em;
+  }
+}
+
+@media (max-width: 330px) {
+.subheader {
+height: 248px;
+}
+.drop-shadow{
+    height: 95%;
+  }
+.glass {
+    clip-path: inset(3em);
+  }
+ .drop-shadow:before {
+    top: 3em;
+    width: calc(100% - 6em);
+    height: calc(100% - 6em);
+  }
+  .drop-shadow > span {
+  padding-left: 0.75em;
+    font-size: 1.5em;
+  }
 }
 
 .col-lg-3 {
@@ -259,6 +310,8 @@
 .classList_container .col-md-5 {
 	margin-left: 27px;
 }
+
+
 </style>
 </head>
 

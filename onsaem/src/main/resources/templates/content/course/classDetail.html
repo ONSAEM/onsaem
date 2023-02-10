@@ -1,356 +1,418 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
 
 <head>
-	<style type="text/css">
-		.main {
-			flex-grow: 1;
-			display: flex;
-			flex-direction: column;
-			min-width: 1400px;
-		}
+<style type="text/css">
+.main {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
 
-		.main-container {
-			padding: 20px;
-			flex-grow: 1;
-			overflow: auto;
-			background-color: #FCFBFC;
-		}
+.main-container {
+	padding: 20px;
+	flex-grow: 1;
+	overflow: auto;
+	background-color: #FCFBFC;
+}
 
-		.profile-cover {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-			object-position: center;
-			border-radius: 4px;
-		}
+.profile-cover {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	border-radius: 4px;
+}
 
-		.subheader {
-			position: relative;
-			height: 300px;
-			min-height: 250px;
-			z-index: 1;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			background-size: cover;
-			background-position: center;
-		}
+.subheader {
+	position: relative;
+	height: 300px;
+	min-height: 250px;
+	z-index: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-size: cover;
+	background-position: center;
+}
 
-		.subheader:before {
-			content: "";
-			width: 100%;
-			height: 100%;
-			position: absolute;
-			z-index: -1;
-			left: 0;
-			top: 0;
-			background-image: url("/course/test.gif");
-			background-repeat: no-repeat;
-			background-size: cover;
-			background-position: center;
-			filter: blur(30px);
-			opacity: 0.7;
-		}
+.subheader:before {
+	content: "";
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: -1;
+	left: 0;
+	top: 0;
+	background-image: url("/course/test.gif");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	filter: blur(30px);
+	opacity: 0.7;
+}
 
-		.glass {
-			height: 100%;
-			width: 100%;
-			background-image: url("/course/test.gif");
-			background-size: cover;
-			background-position: center;
-			clip-path: inset(10em);
-			filter: blur(5px);
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
+.glass {
+	height: 100%;
+	width: 100%;
+	background-image: url("/course/test.gif");
+	background-size: cover;
+	background-position: center;
+	clip-path: inset(10em);
+	filter: blur(5px);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 
-		.drop-shadow {
-			height: 155%;
-			width: 100%;
-			filter: drop-shadow(0px 20px 10px rgba(0, 0, 0, 0.3));
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
+.drop-shadow {
+	height: 155%;
+	width: 100%;
+	filter: drop-shadow(0px 20px 10px rgba(0, 0, 0, 0.3));
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 
-		.drop-shadow:before {
-			display: block;
-			content: "";
-			position: absolute;
-			top: 10em;
-			height: calc(100% - 20em);
-			width: calc(100% - 20em);
-			border-top: 2px solid rgba(225, 225, 225, 0.2);
-			border-left: 1px solid rgba(225, 225, 225, 0.1);
-			border-right: 1px solid rgba(225, 225, 225, 0.3);
-			z-index: 2;
-		}
+.drop-shadow:before {
+	display: block;
+	content: "";
+	position: absolute;
+	top: 10em;
+	height: calc(100% - 20em);
+	width: calc(100% - 20em);
+	border-top: 2px solid rgba(225, 225, 225, 0.2);
+	border-left: 1px solid rgba(225, 225, 225, 0.1);
+	border-right: 1px solid rgba(225, 225, 225, 0.3);
+	z-index: 2;
+}
 
-		.drop-shadow>span {
-			position: absolute;
-			z-index: 5;
-			color: white;
-			font-size: 4em;
-			letter-spacing: 0.75em;
-			padding-left: 0.375em;
-		}
+.drop-shadow>span {
+	position: absolute;
+	z-index: 5;
+	color: white;
+	font-size: 4em;
+	letter-spacing: 0.75em;
+	padding-left: 0.375em;
+}
 
-		.product-details {
-			position: relative;
-			z-index: 1;
-			background-color: #ffffff;
-			padding: 50px 20px;
-			width: 1400px;
-			border-radius: 20px;
-			margin: 30px auto;
-		}
+@media ( max-width : 980px) {
+	.glass {
+		clip-path: inset(7em);
+	}
+	.drop-shadow:before {
+		top: 7em;
+		width: calc(100% - 14em);
+		height: calc(100% - 14em);
+	}
+	.drop-shadow>span {
+		font-size: 4em;
+	}
+}
 
-		/* VARIABLES -  START */
-		/* COLORS  */
-		/* DIMENSIONS */
-		/* FONTS */
-		@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap");
+@media ( max-width : 640px) {
+	.drop-shadow {
+		height: 95%;
+	}
+	.glass {
+		clip-path: inset(3em);
+	}
+	.drop-shadow:before {
+		top: 3em;
+		width: calc(100% - 6em);
+		height: calc(100% - 6em);
+	}
+	.drop-shadow>span {
+		font-size: 2em;
+	}
+}
 
-		/* VARIABLES - END */
-		/* COMMONS - START */
-		.flex-center,
-		.wrapper .button-container,
-		.wrapper {
-			justiy-content: center;
-			align-items: center;
-		}
+@media ( max-width : 330px) {
+	.subheader {
+		height: 248px;
+	}
+	.drop-shadow {
+		height: 95%;
+	}
+	.glass {
+		clip-path: inset(3em);
+	}
+	.drop-shadow:before {
+		top: 3em;
+		width: calc(100% - 6em);
+		height: calc(100% - 6em);
+	}
+	.drop-shadow>span {
+		padding-left: 0.75em;
+		font-size: 1.5em;
+	}
+}
 
-		* {
-			box-sizing: border-box;
-			margin: 0;
-		}
+.product-details {
+	position: relative;
+	z-index: 1;
+	background-color: #ffffff;
+	padding: 50px 20px;
+	width: 1400px;
+	border-radius: 20px;
+	margin: 30px auto;
+}
 
-		/* COMMONS - END */
-		/* STYLES -  START */
-		.wrapper {
-			font-family: "Lato", sans-serif;
-			font-weight: 400;
-		}
+/* VARIABLES -  START */
+/* COLORS  */
+/* DIMENSIONS */
+/* FONTS */
+@import
+	url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap")
+	;
 
-		.heartbutton {
-			height: 50px;
-			width: 170px;
-			background-color: #fefefe;
-			border-radius: 5px;
-			padding: 12.5px;
-			cursor: pointer;
-		}
+/* VARIABLES - END */
+/* COMMONS - START */
+.flex-center, .wrapper .button-container, .wrapper {
+	justiy-content: center;
+	align-items: center;
+}
 
-		.content .icon {
-			font-size: 25px;
-			color: #ea4a87;
-		}
+* {
+	box-sizing: border-box;
+	margin: 0;
+}
 
-		.content .icon.fa {
-			display: none;
-		}
+/* COMMONS - END */
+/* STYLES -  START */
+.wrapper {
+	font-family: "Lato", sans-serif;
+	font-weight: 400;
+}
 
-		.content .text {
-			font-size: 25px;
-			color: #2f3537;
-		}
+.heartbutton {
+	height: 50px;
+	width: 170px;
+	background-color: #fefefe;
+	border-radius: 5px;
+	padding: 12.5px;
+	cursor: pointer;
+}
 
-		.content .text.like {
-			margin-left: 10px;
-		}
+.content .icon {
+	font-size: 25px;
+	color: #ea4a87;
+}
 
-		.content .text.d {
-			opacity: 0;
-			display: inline-block;
-			transform: translateX(12px);
-		}
+.content .icon.fa {
+	display: none;
+}
 
-		.content .text.number {
-			margin-left: 10px;
-			color: #7a7c81;
-		}
+.content .text {
+	font-size: 25px;
+	color: #2f3537;
+}
 
-		/* GENERAL STYLES */
-		.pagination ul {
-			margin: auto;
-			padding: 0;
-			list-style: none;
-		}
+.content .text.like {
+	margin-left: 10px;
+}
 
-		/* ONE */
-		.p1 li {
-			font-size: 14px;
-			width: 40px;
-			height: 40px;
-			line-height: 40px;
-			padding: 0;
-			text-align: center;
-			float: left;
-			cursor: pointer;
-		}
+.content .text.d {
+	opacity: 0;
+	display: inline-block;
+	transform: translateX(12px);
+}
 
-		.dayClass {
-			cursor: pointer;
-		}
+.content .text.number {
+	margin-left: 10px;
+	color: #7a7c81;
+}
 
-		#reportModal .modal-dialog {
-			min-width: 350px;
-		}
+/* GENERAL STYLES */
+.pagination ul {
+	margin: auto;
+	padding: 0;
+	list-style: none;
+}
 
-		#reportModal .inputfield {
-			margin: auto;
-			width: 70%;
-			line-height: 30px;
-		}
+/* ONE */
+.p1 li {
+	font-size: 14px;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	padding: 0;
+	text-align: center;
+	float: left;
+	cursor: pointer;
+}
 
-		.modal-wrapper label {
-			color: #5f9999;
-			margin-top: 10px;
-			margin-bottom: 5px;
-			font-weight: bold;
-		}
+.dayClass {
+	cursor: pointer;
+}
 
-		.modal-wrapper button {
-			background-color: #9dc2c0;
-			color: white;
-		}
+#reportModal .modal-dialog {
+	min-width: 350px;
+}
 
-		#bookingModal .modal-dialog {
-			width: 570px;
-		}
+#reportModal .inputfield {
+	margin: auto;
+	width: 70%;
+	line-height: 30px;
+}
 
-		#bookingModal .classTable {
-			height: 200px;
-			width: 100%;
-			text-align: center;
-			margin-top: 45px;
-		}
+.modal-wrapper label {
+	color: #5f9999;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
 
-		#bookingModal table {
-			width: 100%;
-			text-align: center;
-		}
+.modal-wrapper button {
+	background-color: #9dc2c0;
+	color: white;
+}
 
-		#bookingModal .classTable tr {
-			height: 35px;
-		}
+#bookingModal .modal-dialog {
+	width: 570px;
+}
 
-		#bookingModal .classTable th {
-			color: #ffffff;
-			background-color: #5f9999;
-			width: 50%;
-		}
+#bookingModal .classTable {
+	height: 200px;
+	width: 100%;
+	text-align: center;
+	margin-top: 45px;
+}
 
-		.selectedClass {
-			background-color: #9dc2c0;
-		}
+#bookingModal table {
+	width: 100%;
+	text-align: center;
+}
 
-		#bookingModal label {
-			width: 80px;
-			text-align: center;
-		}
+#bookingModal .classTable tr {
+	height: 35px;
+}
 
-		#bookingModal input {
-			text-align: end;
-			width: 150px;
-		}
+#bookingModal .classTable th {
+	color: #ffffff;
+	background-color: #5f9999;
+	width: 50%;
+}
 
-		.inputfield button {
-			width: 100px;
-			float: right;
-		}
+.selectedClass {
+	background-color: #9dc2c0;
+}
 
-		.tab-pane {
-			margin-top: 30px;
-		}
+#bookingModal label {
+	width: 80px;
+	text-align: center;
+}
 
-		.tab-pane .col-lg-7 {
-			width: 100%;
-		}
+#bookingModal input {
+	text-align: end;
+	width: 150px;
+}
 
-		#tabs-3 .row {
-			margin: auto;
-			width: 80%;
-		}
+.inputfield button {
+	width: 100px;
+	float: right;
+}
 
-		.tab-pane button {
-			float: right;
-			margin-bottom: 10px;
-			border-radius: 10px;
-		}
+.tab-pane {
+	margin-top: 30px;
+}
 
-		.product__details__tab__desc {
-			width: 80%;
-			margin: auto;
-		}
+.tab-pane .col-lg-7 {
+	width: 100%;
+}
 
-		.product__details__text ul {
-			margin-top: 0px;
-			height: 100px;
-			background-color: #f6f8f9;
-			border-radius: 19px;
-			padding: 10px 20px;
-			width: 300px;
-			margin-bottom: 20px;
-			border: none;
-		}
+#tabs-3 .row {
+	margin: auto;
+	width: 80%;
+}
 
-		#viewReview .modal-dialog {
-			width: 600px;
-			margin-top: 7%;
-			margin-bottom: 7%;
-		}
+.tab-pane button {
+	float: right;
+	margin-bottom: 10px;
+	border-radius: 10px;
+}
 
-		.rList .viewReview {
-			background-color: #f6f8f9;
-			padding: 15px;
-			border-radius: 20px;
-			align-items: center;
-			margin-bottom: 10px !important;
-			margin-top: 0px !important;
-		}
+.product__details__tab__desc {
+	width: 80%;
+	margin: auto;
+}
 
-		.qList .news-block-info {
-			background-color: #f6f8f9;
-			padding: 15px;
-			border-radius: 20px;
-			align-items: center;
-			margin-bottom: 10px !important;
-			margin-top: 0px !important;
-		}
+.product__details__text ul {
+	margin-top: 0px;
+	height: 100px;
+	background-color: #f6f8f9;
+	border-radius: 19px;
+	padding: 10px 20px;
+	width: 300px;
+	margin-bottom: 20px;
+	border: none;
+}
 
-		.qList {
-			clear: both;
-		}
+#viewReview .modal-dialog {
+	width: 600px;
+	margin-top: 7%;
+	margin-bottom: 7%;
+}
 
-		.qList .viewQue {
-			margin-bottom: 0px !important;
-			margin-top: 0px !important;
-		}
+.rList .viewReview {
+	background-color: #f6f8f9;
+	padding: 15px;
+	border-radius: 20px;
+	align-items: center;
+	margin-bottom: 10px !important;
+	margin-top: 0px !important;
+}
 
-		textarea {
-			border: 1px solid #bdbdbd;
-			border-radius: 10px;
-			padding: 5px;
-		}
-	</style>
+.qList .news-block-info {
+	background-color: #f6f8f9;
+	padding: 15px;
+	border-radius: 20px;
+	align-items: center;
+	margin-bottom: 10px !important;
+	margin-top: 0px !important;
+}
+
+.qList {
+	clear: both;
+}
+
+.qList .viewQue {
+	margin-bottom: 0px !important;
+	margin-top: 0px !important;
+}
+
+textarea {
+	border: 1px solid #bdbdbd;
+	border-radius: 10px;
+	padding: 5px;
+}
+</style>
 </head>
 <!-- Css  -->
 <th:block layout:fragment="css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/course/courseStyle.css}" type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
+		type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}"
+		type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/course/courseStyle.css}"
+		type="text/css">
 	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/css/calendar.css}" type="text/css">
 </th:block>
@@ -386,7 +448,8 @@
 							<div class="product__details__text">
 								<h3 th:text="${class.className}"></h3>
 								<div class="product__details__rating">
-									<i class="fa-solid fa-star" th:if="${class.star != 0}" th:each="num:${#numbers.sequence(1,class.star)}"
+									<i class="fa-solid fa-star" th:if="${class.star != 0}"
+										th:each="num:${#numbers.sequence(1,class.star)}"
 										style="color: #ffe949"></i><i class="fa-solid fa-star-half"
 										th:if="${class.star%1 >= 0.5}" style="color: #ffe949"></i> <span>([[${class.reviewCount}]]
 										reviews)</span>
