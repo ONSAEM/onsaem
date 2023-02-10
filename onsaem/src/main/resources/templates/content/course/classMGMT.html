@@ -7,32 +7,34 @@
 	<!-- Css  -->
 	<th:block layout:fragment="css">
 		<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-		<link rel="stylesheet" th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
-		<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}" type="text/css">
 		<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}" type="text/css">
 		<link rel="stylesheet" th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}" type="text/css">
 		<link rel="stylesheet" th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
 		<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}" type="text/css">
 		<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
-		<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
 		<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
 		<link rel="stylesheet" th:href="@{/css/calendar.css}" type="text/css">
 	</th:block>
 	<style>
 		#addClassInfo .modal-dialog {
-			width: 600px;
+			width: 700px;
 		}
 
 		#addClassInfo .inputfield {
 			margin-bottom: 15px;
-			display: flex;
-			align-items: center;
+			display: flow-root;
+		}
+
+		#addClassInfo .inputfield p {
+			margin: 0px;
 		}
 
 		#addClassInfo .inputfield label {
 			width: 20%;
-			color: #757575;
-			font-size: 14px;
+			color: #629b9b;
+			font-size: 15px;
+			margin-bottom: 5px;
+			font-weight: bold;
 		}
 
 		#addClassInfo .inputfield .input {
@@ -48,17 +50,58 @@
 		#addClass .modal-dialog {
 			width: 600px;
 		}
+
+
+		#addClass .modal-dialog {
+			width: 570px;
+		}
+
+		#addClass .classTable {
+			height: 200px;
+			width: 100%;
+			text-align: center;
+			margin-top: 45px;
+		}
+
+		#addClass table {
+			width: 100%;
+			text-align: center;
+		}
+
+		#addClass .classTable tr {
+			height: 35px;
+		}
+
+		#addClass .classTable th {
+			color: #ffffff;
+			background-color: #5f9999;
+			width: 50%;
+		}
+
+		.selectedClass {
+			background-color: #9dc2c0;
+		}
+
+		#addClass label {
+			width: 80px;
+			text-align: center;
+		}
+
+		#addClass input {
+			text-align: end;
+			width: 150px;
+		}
 	</style>
 	<link type="text/css" rel="stylesheet"
-	th:href="@{https://cdn.jsdelivr.net/npm/aksfileupload@1.0.0/dist/aksFileUpload.min.css}">
-<script th:src="@{/js/fileupload.js}"></script>
-<script type="text/javascript" th:src="@{/smarteditor/js/HuskyEZCreator.js}"></script>
+		th:href="@{https://cdn.jsdelivr.net/npm/aksfileupload@1.0.0/dist/aksFileUpload.min.css}">
+	<script th:src="@{/js/fileupload.js}"></script>
+	<script type="text/javascript" th:src="@{/smarteditor/js/HuskyEZCreator.js}"></script>
 </head>
 
 <body>
 	<div layout:fragment="content" class="app-content">
 		<div class="app-content-header">
-			<h1 class="app-content-headerText">Products</h1>
+			<h1 class="app-content-headerText">클래스관리</h1>
 			<button class="mode-switch" title="Switch Theme">
 				<svg class="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
 					stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
@@ -188,11 +231,10 @@
 							<div class="title">클래스등록</div>
 							<form name="classFrm" class="form">
 								<div class="inputfield">
-									<label>클래스이름</label> <input
-										type="text" name="name" class="input">
+									<label>클래스이름</label><br> <input type="text" name="name" class="input">
 								</div>
 								<div class="inputfield">
-									<label>난이도</label>
+									<label>난이도</label><br>
 									<div class="custom_select">
 										<select name="memberClass">
 											<option value="">::난이도::</option>
@@ -203,20 +245,19 @@
 									</div>
 								</div>
 								<div class="inputfield">
-									<label>소요시간</label> <input
-										type="number" name="name" class="input">
+									<label>소요시간</label><br> <input type="number" name="name" class="input">
 								</div>
 								<div class="inputfield">
-									<label>클래스 설명</label> <input
-										type="number" name="name" class="input">
+									<label>클래스 설명</label><br> <textarea name="blogWrite" id="ir1" rows="10" cols="95"
+										maxlength="1000"></textarea>
 								</div>
 								<div class="inputfield">
-									<label>인증사진<span class="request">*</span></label>
+									<label>인증사진</label>
 									<p>*클래스 사진을 최소 4장 최대 10장내로 등록해주세요</p>
 								</div>
 								<div class="inputfiles">
-									<input name="classFile" type="file"
-										accept=".jpg, .png, .bmp" style="display: none;">
+									<input name="classFile" type="file" accept=".jpg, .png, .bmp"
+										style="display: none;">
 									<div id="aks-file-upload"></div>
 								</div>
 							</form>
@@ -226,51 +267,66 @@
 				</div>
 			</div>
 		</div>
-			<div class="modal fade" id="addClass" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<div class="modal-wrapper">
-						<div class="title">클래스 시간 등록</div>
-						<div id="calendar" style="float: left;"></div>
-						<div style="float: right;">
-							<div class="classTable">
-								<table>
-									<thead>
-										<tr>
-											<th>시간</th>
-											<th>인원</th>
-										</tr>
-									</thead>
-									<tbody>
+		<div class="modal fade" id="addClass" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="modal-wrapper">
+							<div class="title">클래스 시간 등록</div>
+							<div id="calendar" style="float: left;"></div>
+							<div style="float: right;">
+								<div class="classTable">
+									<table>
+										<thead>
+											<tr>
+												<th>시간</th>
+												<th>인원</th>
+											</tr>
+										</thead>
+										<tbody>
 
-									</tbody>
-								</table>
-							</div>
-							<div class="inputfield">
-								<label>예약인원</label> <input type="number" name="people" value="1" min="1">
-							</div>
-							<div class="inputfield">
-								<button type="button" class="btn BookingBtn">예약</button>
+										</tbody>
+									</table>
+								</div>
+								<div class="inputfield">
+									<label>예약인원</label> <input type="number" name="people" value="1" min="1">
+								</div>
+								<div class="inputfield">
+									<button type="button" class="btn BookingBtn">예약</button>
+								</div>
 							</div>
 						</div>
 					</div>
+					<div class="modal-footer"></div>
 				</div>
-				<div class="modal-footer"></div>
 			</div>
 		</div>
-	</div>
-	<script type="text/javascript">
-		let applyFileList = [];
-		let groupId = '';
 
-	$('.addClassInfo').on('click',function(){
-		$('#addClassInfo').modal("show");
-	})
-	$("#aks-file-upload").aksFileUpload({
+		<script type="text/javascript">
+			let applyFileList = [];
+			let groupId = '';
+			let DateList = [];
+			let oEditors = [];
+
+			smartEditor = function () {
+				nhn.husky.EZCreator.createInIFrame({
+					oAppRef: oEditors,
+					elPlaceHolder: "ir1",
+					sSkinURI: "/smarteditor/SmartEditor2Skin.html",
+					fCreator: "createSEditor2"
+				});
+			}
+
+			$('.addClassInfo').on('click', function () {
+				$('#addClassInfo').modal("show");
+				$('#addClassInfo').find('iframe').remove();
+				smartEditor();
+			})
+
+			$("#aks-file-upload").aksFileUpload({
 				fileUpload: "#uploadfile", // With target [input]file or [type]json you can save the data of loaded items
 				fileType: ["pdf", "docx", "rtf", "jpg", "jpeg", "png"], // allowed file formats
 				dragDrop: true, // drag & drop upload
@@ -282,12 +338,6 @@
 				fileTypeError: "Disallowed file format.", // error text
 				label: "클릭하거나 파일을 올려주세요" // label text
 			});
-	$('.products-row').each(function(){
-		$(this).on('click',function(){
-		groupId = $(this).attr('id');
-		$('#addClass').modal("show");	
-		})
-	})
 
 			//이미지목록에서 삭제하면 input file도 삭제
 			function delfileList(fileName) {
@@ -357,132 +407,142 @@
 				$('input[name=classFile]')[0].files = dataTransfer.files; //제거 처리된 FileList를 돌려줌
 			}
 
-			
-		// 강의 날짜 가져오기
-		function getDateList() {
-			$.ajax({
-				url: '/class/getDateList',
-				method: 'GET',
-				contentType: 'application/x-www-form-urlencoded',
-				data: { 'classId': groupId },
-				async: false,
-				success: function (result) {
-					DateList = result;
-				},
-				error: function (error) {
-					console.log(error);
-					alert('실패');
-				}
-			})
-		}
-		// 강의 있는 날짜 css 변경
-		function changeDate(date) {
-			let checked = false;
-			$(DateList).each(function (index, item) {
-				if (date == item.classDate) {
-					checked = true;
-					return;
-				}
-			})
-			return checked;
-		}
+			// 강의 날짜 가져오기
+			function getDateList() {
+				$.ajax({
+					url: '/class/getDateList',
+					method: 'GET',
+					contentType: 'application/x-www-form-urlencoded',
+					data: { 'classId': groupId },
+					async: false,
+					success: function (result) {
+						DateList = result;
+					},
+					error: function (error) {
+						alert('실패');
+					}
+				})
+			}
+			// 강의 있는 날짜 css 변경
+			function changeDate(date) {
+				let checked = false;
+				$(DateList).each(function (index, item) {
+					if (date == item.classDate) {
+						checked = true;
+						return;
+					}
+				})
+				return checked;
+			}
 
-		function getclassList(date) {
-			console.log(date);
-			$.ajax({
-				url: '/class/getclassList',
-				method: 'GET',
-				contentType: 'application/x-www-form-urlencoded',
-				data: {
-					'classId': groupId,
-					'classDate': date
-				},
-				async: false,
-				success: function (result) {
-					console.log(result);
-					$('.classTable').find('tbody').children().remove();
-					$(result).each(function (index, item) {
-						let trDate = $(`<tr class="dayClass" id="${item.cno}">
+			function getclassList(date) {
+				console.log(date);
+				$.ajax({
+					url: '/class/getclassList',
+					method: 'GET',
+					contentType: 'application/x-www-form-urlencoded',
+					data: {
+						'classId': groupId,
+						'classDate': date
+					},
+					async: false,
+					success: function (result) {
+						console.log(result);
+						$('.classTable').find('tbody').children().remove();
+						$(result).each(function (index, item) {
+							let trDate = $(`<tr class="dayClass" id="${item.cno}">
 								<td>${item.startTime}</td>
 								<td><span>${item.bookingPeople}</span>/<span>${item.totalPeople}</span></td>
 								</tr>`);
-						$(trDate).on('click', function () {
-							$('.classTable').find('tbody').children().removeClass('selectedClass');
-							$(this).addClass('selectedClass');
-							$('input[name=people]').attr('max', item.totalPeople - item.bookingPeople);
+							$(trDate).on('click', function () {
+								$('.classTable').find('tbody').children().removeClass('selectedClass');
+								$(this).addClass('selectedClass');
+								$('input[name=people]').attr('max', item.totalPeople - item.bookingPeople);
+							})
+							$('.classTable').find('tbody').append(trDate);
 						})
-						$('.classTable').find('tbody').append(trDate);
-					})
-				},
-				error: function (error) {
-					console.log(error);
-					alert('실패');
-				}
-			})
-		}
+					},
+					error: function (error) {
+						console.log(error);
+						alert('실패');
+					}
+				})
+			}
 
-	</script>
-			<script type="text/javascript">
-				document.querySelector(".jsFilter").addEventListener(
+		</script>
+		<script th:src="@{/js/calendar2.js}"></script>
+		<script>
+			$('.products-row').each(function () {
+				$(this).on('click', function () {
+					groupId = $(this).attr('id');
+					getDateList();
+					$('#addClass').modal("show");
+					$('#calendar').removeClass();
+					$('#calendar').children().remove();
+					makeCalendar(true);
+				})
+			})
+		</script>
+		<script type="text/javascript">
+			document.querySelector(".jsFilter").addEventListener(
+				"click",
+				function () {
+					document.querySelector(".filter-menu").classList
+						.toggle("active");
+				});
+
+			document
+				.querySelector(".grid")
+				.addEventListener(
 					"click",
 					function () {
-						document.querySelector(".filter-menu").classList
-							.toggle("active");
+						document.querySelector(".list").classList
+							.remove("active");
+						document.querySelector(".grid").classList
+							.add("active");
+						document
+							.querySelector(".products-area-wrapper").classList
+							.add("gridView");
+						document
+							.querySelector(".products-area-wrapper").classList
+							.remove("tableView");
 					});
 
-				document
-					.querySelector(".grid")
-					.addEventListener(
-						"click",
-						function () {
-							document.querySelector(".list").classList
-								.remove("active");
-							document.querySelector(".grid").classList
-								.add("active");
-							document
-								.querySelector(".products-area-wrapper").classList
-								.add("gridView");
-							document
-								.querySelector(".products-area-wrapper").classList
-								.remove("tableView");
-						});
+			document
+				.querySelector(".list")
+				.addEventListener(
+					"click",
+					function () {
+						document.querySelector(".list").classList
+							.add("active");
+						document.querySelector(".grid").classList
+							.remove("active");
+						document
+							.querySelector(".products-area-wrapper").classList
+							.remove("gridView");
+						document
+							.querySelector(".products-area-wrapper").classList
+							.add("tableView");
+					});
 
-				document
-					.querySelector(".list")
-					.addEventListener(
-						"click",
-						function () {
-							document.querySelector(".list").classList
-								.add("active");
-							document.querySelector(".grid").classList
-								.remove("active");
-							document
-								.querySelector(".products-area-wrapper").classList
-								.remove("gridView");
-							document
-								.querySelector(".products-area-wrapper").classList
-								.add("tableView");
-						});
-
-				var modeSwitch = document.querySelector('.mode-switch');
-				modeSwitch.addEventListener('click', function () {
-					document.documentElement.classList.toggle('light');
-					modeSwitch.classList.toggle('active');
-				});
-			</script>
-			<!-- JS -->
-			<th:block layout:fragment="script">
-				<script th:src="@{/js/calendar.js}"></script>
-				<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
-				<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
-				<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
-				<script th:src="@{/shoptemplate/js/jquery-ui.min.js}"></script>
-				<script th:src="@{/shoptemplate/js/jquery.slicknav.js}"></script>
-				<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
-				<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
-				<script th:src="@{/shoptemplate/js/main.js}"></script>
-			</th:block>
-		</div>
+			var modeSwitch = document.querySelector('.mode-switch');
+			modeSwitch.addEventListener('click', function () {
+				document.documentElement.classList.toggle('light');
+				modeSwitch.classList.toggle('active');
+			});
+		</script>
+		<!-- JS -->
+		<th:block layout:fragment="script">
+			<script th:src="@{/js/bootstrap.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery-ui.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/jquery.slicknav.js}"></script>
+			<script th:src="@{/shoptemplate/js/mixitup.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/owl.carousel.min.js}"></script>
+			<script th:src="@{/shoptemplate/js/main.js}"></script>
+		</th:block>
+	</div>
 
 </body>
 

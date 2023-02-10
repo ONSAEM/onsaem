@@ -1,28 +1,17 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 
 <!-- Css  -->
 <th:block layout:fragment="css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
-		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
 	<link type="text/css" rel="stylesheet"
 		th:href="@{https://cdn.jsdelivr.net/npm/aksfileupload@1.0.0/dist/aksFileUpload.min.css}">
@@ -30,126 +19,129 @@
 </th:block>
 
 <head>
-<meta charset="UTF-8">
-<style>
-.aks-file-upload-label {
-	width: 100%;
-}
+	<meta charset="UTF-8">
+	<style>
+		.aks-file-upload-label {
+			width: 100%;
+		}
 
-#aks-file-upload {
-	width: 400px;
-	display: block;
-	margin: 0 auto;
-	margin-top: 4rem;
-}
+		#aks-file-upload {
+			width: 400px;
+			display: block;
+			margin: 0 auto;
+			margin-top: 4rem;
+		}
 
-#uploadfile {
-	margin: 0 auto;
-	color: #002c7b;
-	line-height: 1.5;
-	margin-top: 2rem;
-	margin-bottom: 2rem;
-}
+		#uploadfile {
+			margin: 0 auto;
+			color: #002c7b;
+			line-height: 1.5;
+			margin-top: 2rem;
+			margin-bottom: 2rem;
+		}
 
-.main {
-	flex-grow: 1;
-	display: flex;
-	flex-direction: column;
-	min-width: 1400px;
-}
+		.main {
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+			min-width: 1400px;
+		}
 
-.main-container {
-	padding: 20px;
-	flex-grow: 1;
-	overflow: auto;
-	background-color: #FCFBFC;
-}
+		.main-container {
+			padding: 20px;
+			flex-grow: 1;
+			overflow: auto;
+			background-color: #FCFBFC;
+		}
 
-.profile-cover {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	object-position: center;
-	border-radius: 4px;
-}
+		.profile-cover {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: center;
+			border-radius: 4px;
+		}
 
-.subheader {
-	position: relative;
-	height: 300px;
-	min-height: 250px;
-	z-index: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background-size: cover;
-	background-position: center;
-	margin-bottom: 30px;
-}
+		.subheader {
+			position: relative;
+			height: 300px;
+			min-height: 250px;
+			z-index: 1;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-size: cover;
+			background-position: center;
+			margin-bottom: 30px;
+		}
 
-.subheader:before {
-	content: "";
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	z-index: -1;
-	left: 0;
-	top: 0;
-	background-image: url("/course/member.gif");
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center;
-	filter: blur(30px);
-	opacity: 0.7;
-}
+		.subheader:before {
+			content: "";
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			z-index: -1;
+			left: 0;
+			top: 0;
+			background-image: url("/course/member.gif");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center;
+			filter: blur(30px);
+			opacity: 0.7;
+		}
 
-.glass {
-	height: 100%;
-	width: 100%;
-	background-image: url("/course/member.gif");
-	background-size: cover;
-	background-position: center;
-	clip-path: inset(10em);
-	filter: blur(5px);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
+		.glass {
+			height: 100%;
+			width: 100%;
+			background-image: url("/course/member.gif");
+			background-size: cover;
+			background-position: center;
+			clip-path: inset(10em);
+			filter: blur(5px);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
 
-.drop-shadow {
-	height: 155%;
-	width: 100%;
-	filter: drop-shadow(0px 20px 10px rgba(0, 0, 0, 0.3));
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
+		.drop-shadow {
+			height: 155%;
+			width: 100%;
+			filter: drop-shadow(0px 20px 10px rgba(0, 0, 0, 0.3));
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
 
-.drop-shadow:before {
-	display: block;
-	content: "";
-	position: absolute;
-	top: 10em;
-	height: calc(100% - 20em);
-	width: calc(100% - 20em);
-	border-top: 2px solid rgba(225, 225, 225, 0.2);
-	border-left: 1px solid rgba(225, 225, 225, 0.1);
-	border-right: 1px solid rgba(225, 225, 225, 0.3);
-	z-index: 2;
-}
+		.drop-shadow:before {
+			display: block;
+			content: "";
+			position: absolute;
+			top: 10em;
+			height: calc(100% - 20em);
+			width: calc(100% - 20em);
+			border-top: 2px solid rgba(225, 225, 225, 0.2);
+			border-left: 1px solid rgba(225, 225, 225, 0.1);
+			border-right: 1px solid rgba(225, 225, 225, 0.3);
+			z-index: 2;
+		}
 
-.drop-shadow>span {
-	position: absolute;
-	z-index: 5;
-	color: white;
-	font-size: 4em;
-	letter-spacing: 0.75em;
-	padding-left: 0.375em;
-}
+		.drop-shadow>span {
+			position: absolute;
+			z-index: 5;
+			color: white;
+			font-size: 4em;
+			letter-spacing: 0.75em;
+			padding-left: 0.375em;
+		}
 
-</style>
+		textarea {
+			border: 1px solid #d5dbd9;
+		}
+	</style>
 </head>
 
 <body>
@@ -172,32 +164,28 @@
 							<img id="preview-image" th:src="@{/images/defaulltProfile.png}">
 						</div>
 						<div class="filebox">
-							<label style="width: 20%;"></label> <input class="inputfile"
-								placeholder="프로필사진" readonly> <label for="profileInput"
-								class="filelabel">사진등록</label> <input name="profileFile"
-								type="file" class="file" id="profileInput"
-								accept=".gif, .jpg, .png, .bmp">
+							<label style="width: 20%;"></label> <input class="inputfile" placeholder="프로필사진" readonly>
+							<label for="profileInput" class="filelabel">사진등록</label> <input name="profileFile"
+								type="file" class="file" id="profileInput" accept=".gif, .jpg, .png, .bmp">
 						</div>
 						<div class="inputfield">
-							<label>아이디<span class="request">*</span></label> <input
-								type="text" name="memberId" class="input"><input
-								type="button" value="중복체크" class="checkBtn checkId"> <input
+							<label>아이디<span class="request">*</span></label> <input type="text" name="memberId"
+								class="input"><input type="button" value="중복체크" class="checkBtn checkId"> <input
 								type="hidden" value="false" id="checkId">
 						</div>
 						<p style="margin-left: 20%">5~15자 영문,숫자만 사용</p>
 						<div class="inputfield">
-							<label>비밀번호<span class="request">*</span></label> <input
-								type="password" name="password" class="input">
+							<label>비밀번호<span class="request">*</span></label> <input type="password" name="password"
+								class="input">
 						</div>
 						<p style="margin-left: 20%">8~16자 영문,숫자,특수문자 사용</p>
 						<div class="inputfield">
-							<label>비밀번호 확인<span class="request">*</span></label> <input
-								type="password" name="pwCheck" class="input"> <input
-								type="hidden" value="false" id="pwCheck">
+							<label>비밀번호 확인<span class="request">*</span></label> <input type="password" name="pwCheck"
+								class="input"> <input type="hidden" value="false" id="pwCheck">
 						</div>
 						<div class="inputfield">
-							<label>이름<span class="request">*</span></label> <input
-								type="email" name="name" class="input">
+							<label>이름<span class="request">*</span></label> <input type="email" name="name"
+								class="input">
 						</div>
 						<div class="inputfield">
 							<label>신청타입<span class="request">*</span></label>
@@ -210,45 +198,38 @@
 							</div>
 						</div>
 						<div class="inputfield">
-							<label>상호명<span class="request">*</span></label> <input
-								type="text" name="nickname" class="input">
-						</div>
-						<div class="inputfield">
-							<label>이메일<span class="request">*</span></label> <input
-								type="email" name="email" class="input"><input
-								type="button" value="이메일인증" class="checkBtn checkEmail">
-						</div>
-						<div class="inputfield emailCk">
-							<label>이메일 인증<span class="request">*</span></label> <input
-								type="email" name="emailCk" class="input"><input
-								type="button" value="인증" class="checkBtn"> <input
-								type="hidden" value="false" id="emailCk">
-						</div>
-						<div class="inputfield">
-							<label>연락처<span class="request">*</span></label> <input
-								type="tel" class="input" name="phone" placeholder="'-'포함"><input
-								type="hidden" value="false" id="phone">
-						</div>
-						<div class="inputfield">
-							<label>우편번호<span class="request">*</span></label> <input
-								type="text" name="postalCode" id="sample6_postcode"
-								class="input"><input type="button"
-								onclick="sample6_execDaumPostcode()" value="주소검색"
-								class="checkBtn">
-						</div>
-						<div class="inputfield">
-							<label>주소<span class="request">*</span></label> <input
-								type="text" name="addr" id="sample6_address" class="input">
-						</div>
-						<div class="inputfield">
-							<label>상세주소<span class="request">*</span></label> <input
-								type="text" name="detailAddr" id="sample6_detailAddress"
+							<label>상호명<span class="request">*</span></label> <input type="text" name="nickname"
 								class="input">
 						</div>
 						<div class="inputfield">
-							<label>사업자번호<span class="request">*</span></label> <input
-								type="text" name="businessNumber" class="input"><input
-								type="button" value="조회" class="checkBNum checkBtn"> <input
+							<label>이메일<span class="request">*</span></label> <input type="email" name="email"
+								class="input"><input type="button" value="이메일인증" class="checkBtn checkEmail">
+						</div>
+						<div class="inputfield emailCk">
+							<label>이메일 인증<span class="request">*</span></label> <input type="email" name="emailCk"
+								class="input"><input type="button" value="인증" class="checkBtn"> <input type="hidden"
+								value="false" id="emailCk">
+						</div>
+						<div class="inputfield">
+							<label>연락처<span class="request">*</span></label> <input type="tel" class="input"
+								name="phone" placeholder="'-'포함"><input type="hidden" value="false" id="phone">
+						</div>
+						<div class="inputfield">
+							<label>우편번호<span class="request">*</span></label> <input type="text" name="postalCode"
+								id="sample6_postcode" class="input"><input type="button"
+								onclick="sample6_execDaumPostcode()" value="주소검색" class="checkBtn">
+						</div>
+						<div class="inputfield">
+							<label>주소<span class="request">*</span></label> <input type="text" name="addr"
+								id="sample6_address" class="input">
+						</div>
+						<div class="inputfield">
+							<label>상세주소<span class="request">*</span></label> <input type="text" name="detailAddr"
+								id="sample6_detailAddress" class="input">
+						</div>
+						<div class="inputfield">
+							<label>사업자번호<span class="request">*</span></label> <input type="text" name="businessNumber"
+								class="input"><input type="button" value="조회" class="checkBNum checkBtn"> <input
 								type="hidden" value="false" id="checkBNum">
 						</div>
 						<div class="inputfield">
@@ -262,25 +243,23 @@
 							</div>
 						</div>
 						<div class="inputfield">
-							<label></label> <input type="text" name="bankAccount"
-								class="input">
+							<label></label> <input type="text" name="bankAccount" class="input">
 						</div>
 						<div class="inputfield">
 							<label>사업 상세 설명<span class="request">*</span></label>
-							<textarea name="detailExplain"></textarea>
+							<textarea name="detailExplain" style="display: none"></textarea>
+							<textarea name="inputExplain" cols="44" rows="5"></textarea>
 						</div>
 						<div class="inputfield">
 							<label>인증사진<span class="request">*</span></label>
 							<p>*상품 또는 사업장 사진을 최소 5장 최대 10장내로 등록해주세요</p>
 						</div>
 						<div class="inputfiles">
-							<input name="applyFile" type="file"
-								accept=".jpg, .png, .bmp" style="display: none;">
+							<input name="applyFile" type="file" accept=".jpg, .png, .bmp" style="display: none;">
 							<div id="aks-file-upload"></div>
 						</div>
 						<div class="inputfield terms">
-							<label class="check"> <input type="checkbox"> <span
-								class="checkmark"></span>
+							<label class="check"> <input type="checkbox"> <span class="checkmark"></span>
 							</label>
 							<p>가입신청 동의</p>
 						</div>
@@ -349,7 +328,7 @@
 						if (result) {
 							$(idtag).parentsUntil('.form').after($('<p/>').text(
 								"이미 있는 아이디입니다. 다른 아이디를 입력해주세요").css("margin-left", "20%").css(
-								"color", "#f20000"));
+									"color", "#f20000"));
 							$('#checkId').val('false');
 						} else {
 							$(idtag).parentsUntil('.form').after($('<p/>').text("사용할 수 있는 아이디입니다").css(
@@ -432,12 +411,12 @@
 						if (result == 'true') {
 							$('.checkEmail').parentsUntil('.form').after($('<p/>').text(
 								"이미 있는 이메일입니다. 다른 이메일을 입력해주세요").css(
-								"margin-left", "20%").css("color", "#f20000"));
+									"margin-left", "20%").css("color", "#f20000"));
 							return;
 						} else {
 							$('.checkEmail').parentsUntil('.form').after($('<p/>').text(
 								"이메일을 확인해주세요. 인증번호 발급은 최대 5분정도 소요됩니다.").css(
-								"margin-left", "20%"));
+									"margin-left", "20%"));
 							$('.emailCk').css("display", "flex");
 							sendAuthMail(email);
 						}
@@ -555,6 +534,17 @@
 
 			// 사업자번호 인증
 			$('.checkBNum').on('click', function () {
+				if ($('input[name=businessNumber]').val() == null || $('input[name=businessNumber]').val() == "") {
+					$('#checkBNum').val('false');
+					if ($('input[name=businessNumber]').parentsUntil('.form').next().prop(
+						'tagName') == 'P') {
+						$('input[name=businessNumber]').parentsUntil('.form').next().remove();
+					}
+					$('input[name=businessNumber]').parentsUntil('.form').after($('<p/>').text(
+						"사업자 번호를 입력해주세요").css(
+							"margin-left", "20%").css("color", "#f20000"));
+					return;
+				}
 				var data = {
 					"b_no": [$('input[name=businessNumber]').val()] // 사업자번호 "xxxxxxx" 로 조회 시,"1058633455"
 				};
@@ -574,7 +564,16 @@
 							}
 							$('input[name=businessNumber]').parentsUntil('.form').after($('<p/>').text(
 								"사업자번호 인증이 완료되었습니다").css(
-								"margin-left", "20%"));
+									"margin-left", "20%"));
+						} else {
+							$('#checkBNum').val('false');
+							if ($('input[name=businessNumber]').parentsUntil('.form').next().prop(
+								'tagName') == 'P') {
+								$('input[name=businessNumber]').parentsUntil('.form').next().remove();
+							}
+							$('input[name=businessNumber]').parentsUntil('.form').after($('<p/>').text(
+								"사용할 수 없는 사업자번호 입니다").css(
+									"margin-left", "20%").css("color", "#f20000"));
 						}
 					},
 					error: function (result) {
@@ -583,9 +582,30 @@
 				});
 			})
 
+			// p태그 입히기
+			function textEditer(text) {
+				let textList = text.split("\n");
+				let result = "";
+				textList.forEach((t, index) => {
+					if (index != textList.length - 1) {
+						result += `<p>${t}</p>`;
+					} else if (index == textList.length - 1 && t != "") {
+						result += `<p>${t}</p>`;
+					}
+				});
+				console.log(result);
+				return result;
+			}
+
+			// 태그입힌 값 넣기
+			$('textarea[name=inputExplain]').on('change', function () {
+				let newtext = textEditer($(this).val());
+				$('textarea[name=detailExplain]').val(newtext);
+			})
+
 			$("#aks-file-upload").aksFileUpload({
 				fileUpload: "#uploadfile", // With target [input]file or [type]json you can save the data of loaded items
-				fileType: ["pdf", "docx", "rtf", "jpg", "jpeg", "png"], // allowed file formats
+				fileType: ["jpg", "jpeg", "png"], // allowed file formats
 				dragDrop: true, // drag & drop upload
 				maxSize: "90 GB", // maximum uploaded file size
 				multiple: true, // multiple file upload
@@ -874,8 +894,7 @@
 
 		<!-- JS -->
 		<th:block layout:fragment="script">
-			<script
-				th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
+			<script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
 			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
