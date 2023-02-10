@@ -322,19 +322,13 @@
 								</div>
 								<ul>
 									<li>배송금액 <span>[[${product.deliveryFee}]] 원</span></li>
-									<li>포인트 사용 <input  value="0" type="number"
-										style="width: 102px; margin-left: 7px; height: 36px;"><span
+									<li th:each="user:${userData}">사용할포인트 <input
+										style="width: 50px; height: 30px"
+										onchange="usePoint(this.value)" value="0" id="usePo"> <span
 										id="myPoint">보유한포인트[[${user.point}]]</span></li>
-									<li>보유 포인트 <span id="userPoint" th:text="${user.point}"></span>
-									
-									</li>
-									<li>포인트 사용 <span><input name="usePoint" value="0"
-											type="number" style="width: 120px;"></span>
-									</li>
-
 								</ul>
 								<div class="checkout__order__subtotal">
-									총결제금액 <span id="totalPrice" name="totalPrice" th:value="${product.deliveryFee+productVO.amount*product.price}">[[${product.deliveryFee+productVO.amount*product.price}]]원</span>
+									총결제금액 <span id="totalPrice">[[${product.deliveryFee+productVO.amount*product.price}]]원</span>
 								</div>
 								<br>
 								<h4>결제방법</h4>
@@ -365,7 +359,7 @@
 			var token = $("meta[name='_csrf']").attr("content");
 			var header = $("meta[name='_csrf_header']").attr("content");
 			window.onload = function() {
-				document.querySelector("#productId").value;
+				document.querySelector("#productId").value;				
 			}
 
 			//결제API
@@ -384,6 +378,7 @@
 										+ $("#sample6_detailAddress").val();
 								let recivName = $("#reciveName").val();
 
+								
 								IMP.init('imp54500213');
 								IMP
 										.request_pay(
@@ -520,43 +515,19 @@
 				event.preventDefault();
 			}
 
-		
-			// 포인트 사용
-			 $('input[name=usePoint]')
-					.change(
-							function() {
-								
-								if (!!Number($('input[name=usePoint]').val())) {
-									if (parseInt($('input[name=usePoint]')
-											.val()) <= parseInt($("#userPoint").text())) {
-										console.log($('input[name=usePoint]').val())
-									
-										console.log($("#totalPrice").val())
-										let price = $("#totalPrice").val()
-												- $('input[name=usePoint]')
-														.val();
-										$('input[name=totalPrice]').val(price);
-										$('#totalPrice').text(price + '원');
-									} else {
-										$('input[name=usePoint]').val(0);
-										$('#price').text(
-												""
-														+ '원');
-									}
-								} else {
-									$('input[name=usePoint]').val(0);
-									$('#price').text(
-											""
-													+ '원');
-								}
-							})
- 
+			//포인트 사용
+			function usePoint(data) {
+				let usePoint = $("#usePo").val();
+				let totalPrice = $("#totalPrice").text().split('원')[0];
+				$("#totalPrice").text(totalPrice - usePoint + "원");
+			}
+
 			$(function() {
 				$('#apibtn').click(function() {
 					$.ajax({
 						url : '/orderPay',
 						dataType : 'json',
-						success : function(data) {
+						success : function(data) {							
 							alert("hi");
 							var box = data.next_redirect_pc_url;
 							window.open(box);
