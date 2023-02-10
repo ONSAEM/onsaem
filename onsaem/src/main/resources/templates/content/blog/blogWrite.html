@@ -46,7 +46,7 @@
 .heartbutton {
 	height: 50px;
 	width: 170px;
-	background-color: #fcfbfc;
+	background-color: white;
 	border-radius: 5px;
 	padding: 12.5px;
 	cursor: pointer;
@@ -241,6 +241,7 @@ caption.dots {
 							[[${blogInfo.nickname}]] <span style="font-size: 20px">@[[${blogInfo.blogId}]]</span>
 							<br>
 							<p>[[${blogInfo.introduction}]]</p>
+							<input type="hidden" id="getblogId" th:value="${blogInfo.blogId}">
 						</div>
 
 					</div>
@@ -488,7 +489,7 @@ caption.dots {
 											<a id="kakaotalk-sharing-btn" href="javascript:;"
 												style="margin-left: 174px;"> <img
 												src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
-												alt="카카오톡 공유 보내기 버튼" style="width: 40px;" />
+												alt="카카오톡 공유 보내기 버튼" style="width: 50px;" />
 											</a>
 										</div>
 									</div>
@@ -703,10 +704,13 @@ caption.dots {
     
     
    
-   
+	  // 구독했는지 확인하기
+	  let subTF = $('.follow').attr('value');
       let likeTF = $('.blogLike').val(); // input hidden value값으로 likeCount(like 테이블에 값이 있는지 조회)를 주고, 그 value를 가져옴
       let contentId='';
       let writerId='';
+   	  // 블로그 아이디 가져오기
+	  let blogId = $('#getblogId').val();
       
       var timeline1 = gsap.timeline({ repeatDelay: 0.7, paused: true}); //하트 효과
       timeline1.to(".heartbutton", {duration: 0.7, width: 50, ease: Back.easeIn}) 
@@ -1031,7 +1035,72 @@ caption.dots {
                description: '바라만 봐도 즐거워지는 힐링 패키지에는 시크릿 스토리가 숨어있어요.',
                url: 'blog/myblog/blogWrite?bno=[[${blogWrite.writeId}]]&userId=[[${blogWrite.blogId}]]'
              },
-           });   
+           });
+         
+         // 구독
+			if(subTF == 'T'){ // 만약 값이 있다면
+				$(".follow").css({'background-color':'#9dc2c0','color':'white','border-color':'white'});
+			}else{
+				$(".follow").css({'background-color':'','color':'','border-color':'#9dc2c0'});
+			}
+			
+			
+			//구독 저장
+			$(".follow").on("click", function(){
+				let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
+				if(id!=""){
+					if(subTF =='F'){ // 구독하지 않았다면~
+						let th =$(this);
+						$(this).css({'background-color':'#9dc2c0','color':'white','border-color':'white'});
+						
+						$.ajax({
+							url: '/blog/addSub',
+							method: 'post',
+							contentType: 'application/x-www-form-urlencoded',
+							data: {"groupId":blogId},
+							beforeSend : function(xhr)
+				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				               xhr.setRequestHeader(header, token);
+				               },
+							success: function(result){
+								console.log(result);
+								alert("구독 완료");
+								th.text('구독 중');
+								subTF = 'T';
+							},
+							error: function(error){
+								console.log(error);
+							}
+						})
+					
+				}else{
+				//구독 취소
+		 				$(this).css({'background-color':'','color':'#9dc2c0','border-color':'#9dc2c0'});
+		 				let th =$(this);
+		 				$.ajax({
+		 					url: '/blog/delSub',
+		 					method: 'post',
+		 					contentType: 'application/x-www-form-urlencoded',
+							data: {"groupId":blogId, "memberId": id},
+							beforeSend : function(xhr)
+				               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+				               xhr.setRequestHeader(header, token);
+				               },
+							success: function(result){
+								console.log(result);
+								alert("구독 취소");
+								th.text('구독하기');
+								subTF = 'F';
+							},
+							error: function(error){
+								console.log(error);
+							}
+		 				});
+				}
+			}else{
+					alert('로그인이 필요합니다');
+				}
+			});
          
    </script>
 

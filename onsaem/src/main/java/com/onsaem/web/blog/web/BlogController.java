@@ -57,6 +57,7 @@ public class BlogController {
 	public String getBlogCate(Model model, String blogId, CategoriesVO vo) {
 		vo.setBlogId(blogId); // 세션에 있는 값이랑 비교해서 본인 여부 확인 필요
 		model.addAttribute("cateList",blogWriteService.cateList(vo));
+		System.out.println("catelist:"+model.addAttribute("cateList"));
 		model.addAttribute("blogInfos", blogService.getBlogInfo(blogId));
 		return "content/blog/blogCategory";
 	}
