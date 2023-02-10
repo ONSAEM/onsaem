@@ -18,6 +18,8 @@
 	<style>
 		#addClassInfo .modal-dialog {
 			width: 700px;
+			margin-bottom: auto;
+			margin-top: auto;
 		}
 
 		#addClassInfo .inputfield {
@@ -213,7 +215,7 @@
 					<span class="cell-label">클래스ID:</span>[[${class.classId}]]
 				</div>
 				<div class="product-cell sales">
-					<span class="cell-label">등록일자:</span>[[${#dates.format(class.classDate, 'MM월dd일 HH:mm:ss')}]]
+					<span class="cell-label">등록일자:</span>[[${#dates.format(class.classDate, 'yyyy년 MM월 dd일')}]]
 				</div>
 				<div class="product-cell status-cell">
 					<span class="cell-label">클래스상태:</span><span class="status active">[[${class.status}]]</span>
@@ -231,24 +233,26 @@
 							<div class="title">클래스등록</div>
 							<form name="classFrm" class="form">
 								<div class="inputfield">
-									<label>클래스이름</label><br> <input type="text" name="name" class="input">
+									<label>클래스이름</label><br> <input type="text" name="className" class="input">
 								</div>
 								<div class="inputfield">
-									<label>난이도</label><br>
+									<label>가격</label><br> <input type="number" value="0"  min="0" name="price" class="input">
+								</div>
+								<div class="inputfield">
+									<label>난이도</label>
+									<label>소요시간</label><br>
 									<div class="custom_select">
-										<select name="memberClass">
+										<select name="difficulty">
 											<option value="">::난이도::</option>
 											<option value="상">상</option>
 											<option value="중">중</option>
 											<option value="하">하</option>
 										</select>
 									</div>
+									<input type="number"  value="1"  min="1" name="classTime" class="input">
 								</div>
 								<div class="inputfield">
-									<label>소요시간</label><br> <input type="number" name="name" class="input">
-								</div>
-								<div class="inputfield">
-									<label>클래스 설명</label><br> <textarea name="blogWrite" id="ir1" rows="10" cols="95"
+									<label>클래스 설명</label><br> <textarea name="explanation" id="ir1" rows="10" cols="97"
 										maxlength="1000"></textarea>
 								</div>
 								<div class="inputfield">
@@ -256,9 +260,12 @@
 									<p>*클래스 사진을 최소 4장 최대 10장내로 등록해주세요</p>
 								</div>
 								<div class="inputfiles">
-									<input name="classFile" type="file" accept=".jpg, .png, .bmp"
-										style="display: none;">
+									<input name="classFile" type="file" 
+										style="display: none;" multiple>
 									<div id="aks-file-upload"></div>
+								</div>
+								<div class="inputfield">
+									<button type="button" class="btn insertClass">등록</button>
 								</div>
 							</form>
 						</div>
@@ -306,6 +313,8 @@
 		</div>
 
 		<script type="text/javascript">
+			let token = $("meta[name='_csrf']").attr("content");
+		let header = $("meta[name='_csrf_header']").attr("content");
 			let applyFileList = [];
 			let groupId = '';
 			let DateList = [];
@@ -319,6 +328,10 @@
 					fCreator: "createSEditor2"
 				});
 			}
+
+			function editer(fileUrl){
+			oEditors.getById["ir1"].exec("PASTE_HTML",[`<video src='${fileUrl}' controls></video>`]);
+		}
 
 			$('.addClassInfo').on('click', function () {
 				$('#addClassInfo').modal("show");
@@ -405,6 +418,60 @@
 					dataTransfer.items.add(file);
 				});
 				$('input[name=classFile]')[0].files = dataTransfer.files; //제거 처리된 FileList를 돌려줌
+			}
+
+			$('.insertClass').on('click',function(){
+				oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
+				insertClass();
+			})
+
+				// 강의등록
+				function insertClass() {
+				inputFile();
+				let memberId = "[[${#authentication.principal.memberId}]]";
+				let data = new FormData($('.form')[0]);
+				data.append('memberId',memberId);
+				$.ajax({
+					url: '/class/classInfoInsert',
+					enctype: 'multipart/form-data',
+					method: 'POST',
+					processData: false,
+					contentType: false,
+					data: data,
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader(header, token);
+					},
+					success: function (result) {
+						$('#addClassInfo').modal("hide");
+						$(document).find('.products-row').remove();
+						$(result).each(function (index, item) {
+							let classdate = new Date(item.classDate);
+							let year = classdate.getFullYear();
+							let month = classdate.getMonth() + 1;
+							let date = classdate.getDate();
+						let newClass = $(`<div class="products-row" th:id="${item.classId}">
+				<div class="product-cell image">
+					<img src="/fileView/${item.media.fileRoute}" alt="product"> <span
+						>${item.className}</span>
+				</div>
+				<div class="product-cell category">
+					<span class="cell-label">클래스ID:</span>${item.classId}
+				</div>
+				<div class="product-cell sales">
+					<span class="cell-label">등록일자:</span>${year}년 ${month}월 ${date}일
+				</div>
+				<div class="product-cell status-cell">
+					<span class="cell-label">클래스상태:</span><span class="status active">${item.status}</span>
+				</div>
+			</div>`);
+					$('.tableView').append(newClass);
+					})
+					},
+					error: function (error) {
+						console.log(error);
+						alert('실패');
+					}
+				})
 			}
 
 			// 강의 날짜 가져오기

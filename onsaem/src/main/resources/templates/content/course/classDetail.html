@@ -303,6 +303,8 @@
 
 		#viewReview .modal-dialog {
 			width: 600px;
+			margin-top: 7%;
+			margin-bottom: 7%;
 		}
 
 		.rList .viewReview {
@@ -384,10 +386,9 @@
 							<div class="product__details__text">
 								<h3 th:text="${class.className}"></h3>
 								<div class="product__details__rating">
-									<i class="fa-solid fa-star" th:if="${class.star != 0}"
-										th:each="num:${#numbers.sequence(1,class.star)}" style="color: #ffe949"></i><i
-										class="fa-solid fa-star-half" th:if="${class.star%1 >= 0.5}"
-										style="color: #ffe949"></i> <span>([[${class.reviewCount}]]
+									<i class="fa-solid fa-star" th:if="${class.star != 0}" th:each="num:${#numbers.sequence(1,class.star)}"
+										style="color: #ffe949"></i><i class="fa-solid fa-star-half"
+										th:if="${class.star%1 >= 0.5}" style="color: #ffe949"></i> <span>([[${class.reviewCount}]]
 										reviews)</span>
 								</div>
 								<div class="product__details__price">[[${#numbers.formatInteger(class.price,
@@ -396,19 +397,23 @@
 									<li><b>소요시간</b> <span>[[${class.classTime}]]시간</span></li>
 									<li><b>난이도</b> <span>[[${class.difficulty}]]</span></li>
 								</ul>
-								<a href="/loginPage" class="primary-btn" sec:authorize="isAnonymous()">예약하기</a> <a
-									href="/loginPage" class="primary-btn" sec:authorize="isAnonymous()">신고하기</a> <a
-									href="#" class="primary-btn bookingModal" sec:authorize="hasRole('USER')">예약하기</a>
-								<a href="#" class="primary-btn" sec:authorize="hasRole('USER')" data-bs-toggle="modal"
-									data-bs-target="#reportModal">신고하기</a>
+								<a href="/loginPage" class="primary-btn"
+									sec:authorize="isAnonymous()">예약하기</a> <a href="/loginPage"
+									class="primary-btn" sec:authorize="isAnonymous()">신고하기</a> <a
+									href="#" class="primary-btn bookingModal"
+									sec:authorize="hasRole('USER')">예약하기</a> <a href="#"
+									class="primary-btn" sec:authorize="hasRole('USER')"
+									data-bs-toggle="modal" data-bs-target="#reportModal">신고하기</a>
 								<div class="wrapper">
 									<div class="button-container">
 										<div class="heartbutton">
-											<span class="content"> <i class="icon fa fa-heart" aria-hidden="true"></i>
-												<i class="icon far fa-heart" aria-hidden="true"></i> <span
-													class="text like">Like<span class="text d">d</span></span> <span
-													class="text number" th:text="${like.cnt}"></span>
-											</span> <input type="hidden" class="ClassLike" th:value=${like.likeCk}>
+											<span class="content"> <i class="icon fa fa-heart"
+												aria-hidden="true"></i> <i class="icon far fa-heart"
+												aria-hidden="true"></i> <span class="text like">Like<span
+													class="text d">d</span></span> <span class="text number"
+												th:text="${like.cnt}"></span>
+											</span> <input type="hidden" class="ClassLike"
+												th:value=${like.likeCk}>
 										</div>
 									</div>
 								</div>
@@ -417,22 +422,22 @@
 						<div class="col-lg-12">
 							<div class="product__details__tab">
 								<ul class="nav nav-tabs" role="tablist">
-									<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tabs-1" role="tab"
-											aria-selected="false">Information</a>
+									<li class="nav-item"><a class="nav-link" data-toggle="tab"
+										href="#tabs-1" role="tab" aria-selected="false">Information</a>
 									</li>
-									<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
-											aria-selected="false">Reviews <span>([[${class.reviewCount}]])</span></a>
+									<li class="nav-item"><a class="nav-link" data-toggle="tab"
+										href="#tabs-2" role="tab" aria-selected="false">Reviews <span>([[${class.reviewCount}]])</span></a>
 									</li>
-									<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
-											aria-selected="false">Questions
+									<li class="nav-item"><a class="nav-link" data-toggle="tab"
+										href="#tabs-3" role="tab" aria-selected="false">Questions
 											<span>([[${class.queCount}]])</span>
-										</a></li>
+									</a></li>
 								</ul>
 								<div class="tab-content">
 									<div class="tab-pane active" id="tabs-1" role="tabpanel">
 										<div class="product__details__tab__desc">
 											<h6>Products Infomation</h6>
-											<p th:text="${class.explanation}"></p>
+											<p>[(${class.explanation})]</p>
 											<img th:src="@{/images/classRefund.png}" style="width: 60%;">
 											<div id="map" style="width: 60%; height: 350px;"></div>
 										</div>
@@ -458,8 +463,7 @@
 																		class="img-fluid avatar-image">
 
 																	<div class="author-comment-info ms-3">
-																		<h6 class="mb-1" th:text="${review.nickname}">
-																		</h6>
+																		<h6 class="mb-1" th:text="${review.nickname}"></h6>
 																		<i class="fa-solid fa-star"
 																			th:if="${review.reviewStar != 0}"
 																			th:each="num:${#numbers.sequence(1,review.reviewStar)}"
@@ -469,8 +473,7 @@
 																			style="color: #ffe949"></i> <img
 																			th:if="${review.reviewMedia != null}"
 																			th:src="@{'/fileView/'+${review.reviewMedia.fileRoute}}">
-																		<p class="mb-0"
-																			th:text="${review.reviewContent}"></p>
+																		<p class="mb-0" th:text="${review.reviewContent}"></p>
 																	</div>
 																</div>
 
@@ -486,8 +489,7 @@
 																	<th:block
 																		th:each="num : ${#numbers.sequence(review.rPaging.startPage,review.rPaging.endPage)}">
 																		<!-- 페이지 생성  ex) 1 2 3 4 5-->
-																		<li id="pageNum"
-																			th:if="${review.rPaging.page != num}"
+																		<li id="pageNum" th:if="${review.rPaging.page != num}"
 																			th:text=${num}></li>
 																		<!-- 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성-->
 																		<li th:if="${review.rPaging.page == num}"
@@ -518,7 +520,8 @@
 														등록</button>
 													<br>
 													<div class="news-block qList">
-														<div class="news-block-info " th:each="que : ${question.qList}">
+														<div class="news-block-info "
+															th:each="que : ${question.qList}">
 															<div class="author-comment d-flex mt-3 mb-4 viewQue"
 																th:id="${que.queId}"
 																th:if="${que.writerId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null} or ${class.memberId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}">
@@ -580,11 +583,13 @@
 	</div>
 	<!-- Product Details Section End -->
 
-	<div class="modal fade" id="viewReview" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="viewReview" data-bs-keyboard="false"
+		aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
 				</div>
 				<div class="modal-body"></div>
 
@@ -592,11 +597,13 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="inputModal" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="inputModal" data-bs-keyboard="false"
+		aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
@@ -614,11 +621,13 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="viewQue" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="viewQue" data-bs-keyboard="false"
+		aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
@@ -630,18 +639,20 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="modifyQue" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="modifyQue" data-bs-keyboard="false"
+		aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
 						<div class="title">문의 수정</div>
 						<div class="inputfield">
 							<label>문의내용</label><br>
-							<textarea name="queContent"  rows="10" cols="50"></textarea>
+							<textarea name="queContent" rows="10" cols="50"></textarea>
 						</div>
 						<div class="inputfield">
 							<button type="button" class="btn updateQue">문의수정</button>
@@ -652,11 +663,13 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="addAns" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="addAns" data-bs-keyboard="false"
+		aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
@@ -674,11 +687,13 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="modifyAns" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="modifyAns" data-bs-keyboard="false"
+		aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
@@ -696,18 +711,21 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="reportModal" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="reportModal" data-bs-keyboard="false"
+		aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
 						<div class="title">신고</div>
 						<div class="inputfield">
-							<label>신고종류</label><br> <input type="radio" name="reason" value="욕설 및 비하 발언">욕설 및 비하 발언<br>
-							<input type="radio" name="reason" value="환경보호관련 클래스가 아님">환경보호관련
+							<label>신고종류</label><br> <input type="radio" name="reason"
+								value="욕설 및 비하 발언">욕설 및 비하 발언<br> <input
+								type="radio" name="reason" value="환경보호관련 클래스가 아님">환경보호관련
 							클래스가 아님<br> <input type="radio" name="reason" value="설명과 다름">설명과
 							다름<br> <input type="radio" name="reason" value="기타">기타<br>
 							<label>신고상세내용</label><br>
@@ -722,11 +740,13 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="bookingModal" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="bookingModal" data-bs-keyboard="false"
+		aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
@@ -747,7 +767,8 @@
 								</table>
 							</div>
 							<div class="inputfield">
-								<label>예약인원</label> <input type="number" name="people" value="1" min="1">
+								<label>예약인원</label> <input type="number" name="people" value="1"
+									min="1">
 							</div>
 							<div class="inputfield">
 								<button type="button" class="btn BookingBtn">예약</button>
@@ -1248,6 +1269,8 @@
 					})
 					$('#viewReview').find('.modal-body').append(content);
 					$('#viewReview').modal("show");
+					$('body').css("overflow","hidden");
+					console.log($(document).find('.show'));
 					$('#viewReview').find(".product__details__pic__slider").owlCarousel({
 						loop: true,
 						margin: 20,

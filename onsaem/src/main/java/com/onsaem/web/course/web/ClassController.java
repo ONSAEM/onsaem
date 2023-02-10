@@ -1,5 +1,6 @@
 package com.onsaem.web.course.web;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.Paging;
@@ -159,7 +161,15 @@ public class ClassController {
 	}
 	
 	// 강의 등록
-	
+		@RequestMapping(value = "/classInfoInsert", method = RequestMethod.POST)
+		@ResponseBody
+		public List<ClassInfoVO> classInfoInsert(MultipartFile[] classFile,ClassInfoVO vo) throws IllegalStateException, IOException {
+			classService.classInfoInsert(classFile,vo);
+			ClassInfoVO cvo = new ClassInfoVO();
+			cvo.setMemberId(vo.getMemberId());
+			return classService.getMyClassInfoList(cvo);
+		}
+		
 	// 강의 수정
 	
 
