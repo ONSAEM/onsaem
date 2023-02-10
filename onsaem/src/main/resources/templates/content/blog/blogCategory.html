@@ -987,47 +987,18 @@ label input{
 		<script>
 		 var token = $("meta[name='_csrf']").attr("content");
 		 var header = $("meta[name='_csrf_header']").attr("content");
-			
-			document.addEventListener('DOMContentLoaded', function() {
-				var modeSwitch = document.querySelector('.mode-switch');
-
-				modeSwitch.addEventListener('click', function() {
-					document.documentElement.classList.toggle('dark');
-					modeSwitch.classList.toggle('active');
-				});
-
-				var listView = document.querySelector('.list-view');
-				var gridView = document.querySelector('.grid-view');
-				var projectsList = document.querySelector('.project-boxes');
-
-				listView.addEventListener('click', function() {
-					gridView.classList.remove('active');
-					listView.classList.add('active');
-					projectsList.classList.remove('jsGridView');
-					projectsList.classList.add('jsListView');
-				});
-
-				gridView.addEventListener('click', function() {
-					gridView.classList.add('active');
-					listView.classList.remove('active');
-					projectsList.classList.remove('jsListView');
-					projectsList.classList.add('jsGridView');
-				});
-
-			});
-			
+		 let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";	
 			$('#cateInsert').on("click", function(){
 				let cateName= $('#cateName').val();
 				let cateScope = $('#cateScope').val();
-				let blogId= $('#blogId').val();
-// 				console.log(blogId);
+				console.log("블로그 아이디"+id);
 				$.ajax({
 					url: '/blog/cateInsert',
 					method: 'POST',
 					contentType: 'application/x-www-form-urlencoded',
 					data : { "categoryName": cateName,
 							 "publicScope" : cateScope,
-							      "blogId" : blogId },
+							      "blogId" : id },
 					beforeSend : function(xhr)
 		               {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
 		               xhr.setRequestHeader(header, token);
@@ -1035,7 +1006,7 @@ label input{
 		            success: function(result){
 		            	console.log(result);
 // 		            	location.reload();
-		            	location.href='/blog/myblog/blogCategory?blogId='+blogId;
+		            	location.href='/blog/myblog/blogCategory?blogId='+id;
 		            },
 		            error: function(error){
 		            	console.log(error);
