@@ -36,7 +36,7 @@
 		parameterType="ClassInfoVO">
 		SELECT * FROM ( SELECT ROWNUM RN, A.* FROM (
 		SELECT C.CLASS_ID,
-		C.CLASS_NAME, C.PRICE,
+		C.CLASS_NAME, C.PRICE, C.CLASS_DATE,
 		NVL(TRUNC(AVG(R.REVIEW_STAR),1),0) AS STAR
 		FROM
 		CLASS_INFO C, REVIEWS
@@ -47,9 +47,9 @@
 		C.CLASS_ID =
 		L.CLASS_ID(+)
 		<include refid="condition" />
-		GROUP BY C.CLASS_ID, C.CLASS_NAME, C.PRICE
+		GROUP BY C.CLASS_ID, C.CLASS_NAME, C.PRICE, C.CLASS_DATE
 		<choose>
-			<when test="'OD0'.equals(orderId)"> ORDER BY C.CLASS_ID </when>
+			<when test="'OD0'.equals(orderId)"> ORDER BY C.CLASS_DATE DESC</when>
 			<when test="'OD1'.equals(orderId)"> ORDER BY STAR DESC </when>
 			<when test="'OD2'.equals(orderId)"> ORDER BY C.PRICE DESC  </when>
 			<when test="'OD3'.equals(orderId)"> ORDER BY C.PRICE  </when>
@@ -271,13 +271,18 @@
         ORDER BY BOOKING_COUNT DESC)A WHERE ROWNUM <= 6
         ]]>
 	</select>
-
-	<!-- [위는 완성 아래는 미완성] -->
-
+	
+	<!-- 클래스정보 등록 -->
 	<insert id="classInfoInsert">
-
+	<selectKey keyProperty="classId" resultType="String"
+			order="BEFORE">
+			SELECT 'CL'||LPAD(CLASS_SEQ.NEXTVAL,3,0) FROM DUAL
+		</selectKey>
+INSERT INTO CLASS_INFO(CLASS_ID,CLASS_NAME,PRICE,CLASS_TIME,EXPLANATION,MEMBER_ID,DIFFICULTY)
+VALUES(#{classId}, #{className}, #{price}, #{classTime}, #{explanation}, #{memberId}, #{difficulty})
 	</insert>
-
+	
+<!-- [위는 완성 아래는 미완성] -->
 	<update id="classInfoUpdate">
 
 	</update>

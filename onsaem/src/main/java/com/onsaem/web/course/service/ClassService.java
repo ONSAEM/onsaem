@@ -1,7 +1,10 @@
 package com.onsaem.web.course.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaVO;
@@ -58,12 +61,17 @@ public interface ClassService {
 	// 인기클래스목록조회
 	public List<ClassInfoVO> popularClassList();
 	
+	// 클래스정보 등록
+	public ClassInfoVO classInfoInsert(MultipartFile[] classFile,ClassInfoVO vo) throws IllegalStateException, IOException;
+	
 	// [위는 완성 아래는 미완성]
+
+	// 클래스정보 수정
+	public int classInfoUpdate(ClassInfoVO vo);
 
 	// 클래스 등록
 	public int classInsert(ClassInfoVO vo);
 
 	// 클래스 수정
 	public int classUpdate(ClassInfoVO vo);
-
 }

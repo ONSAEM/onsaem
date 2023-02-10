@@ -1,5 +1,6 @@
 package com.onsaem.web.course.service.impl;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.onsaem.web.common.service.LikeVO;
 import com.onsaem.web.common.service.MediaService;
@@ -191,18 +193,41 @@ public class ClassServiceImpl implements ClassService {
 		return list;
 	}
 	
-	
-	// [위는 완성 아래는 미완성]
 	@Override
-	public int classInsert(ClassInfoVO vo) {
-
-		return classMapper.classInsert(vo);
+	public ClassInfoVO classInfoInsert(MultipartFile[] classFile,ClassInfoVO vo) throws IllegalStateException, IOException  {
+		int result = classMapper.classInfoInsert(vo);
+		if(result>0) {
+			if (classFile != null) {
+				MediaVO mvo = new MediaVO();
+				mvo.setGroupId(vo.getClassId());
+				mvo.setGroups("클래스");
+				mvo.setSubGroup("가입신청이미지");
+				mediaService.uploadMedia(classFile, mvo);
+			}
+			return vo;
+		}else {
+			return null;
+		}
+		
 	}
-
+	
+// [위는 완성 아래는 미완성]
 	@Override
 	public int classUpdate(ClassInfoVO vo) {
 
 		return classMapper.classUpdate(vo);
+	}
+
+	@Override
+	public int classInfoUpdate(ClassInfoVO vo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int classInsert(ClassInfoVO vo) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
