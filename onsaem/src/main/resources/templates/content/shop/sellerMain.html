@@ -217,10 +217,10 @@ label {
 									<td>[[${sell.category}]]</td>
 									<td>[[${sell.price}]]</td>
 									<td>[[${sell.amount}]]</td>
-									<td><input type="checkbox" th:onclick="endProduct(this,[[${sell.productId}]])" id="endProduct"></td>
+									<td th:if="${sell.productStatus}=='품절'"><input type="checkbox" th:onclick="endProduct(this,[[${sell.productId}]])" id="endProduct" checked></td>
+									<td th:unless="${sell.productStatus =='품절'}"><input type="checkbox" th:onclick="endProduct(this,[[${sell.productId}]])" id="endProduct"></td>
 									<td id="status">[[${sell.productStatus}]]</td>
-									<td>[[${sell.registerDate}]]</td>
-									<td></td>
+									<td>[[${sell.registerDate}]]</td>								
 								</tr>
 							</tbody>
 						</table>
