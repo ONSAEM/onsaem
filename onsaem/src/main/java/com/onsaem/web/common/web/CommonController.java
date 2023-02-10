@@ -19,10 +19,7 @@ public class CommonController {
 	@Autowired ChalService chalService;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String empList(Model model) {
-		//인기있는 챌린지
-		model.addAttribute("popularChals", chalService.popularChals());
-		
+	public String empList(Model model) {	
 		return "content/main";
 	}
 
