@@ -88,7 +88,7 @@
 	<!-- 클래스 최대금액 -->
 	<select id="classMaxPrice" resultType="int"
 		parameterType="ClassInfoVO">
-		SELECT MAX(C.PRICE)
+		SELECT NVL(MAX(C.PRICE),0)
 		FROM CLASS_INFO C, CLASSES L
 		WHERE C.CLASS_ID =
 		L.CLASS_ID(+)
@@ -98,7 +98,7 @@
 	<!-- 클래스 최소금액 -->
 	<select id="classMinPrice" resultType="int"
 		parameterType="ClassInfoVO">
-		SELECT MIN(C.PRICE)
+		SELECT NVL(MIN(C.PRICE),0)
 		FROM CLASS_INFO C, CLASSES L
 		WHERE C.CLASS_ID =
 		L.CLASS_ID(+)
