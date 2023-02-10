@@ -532,17 +532,33 @@
 #exampleModal .modal-image {
 	width: 64%;
 	height: 600px;
+	padding-right: 20px;
 }
 
 #exampleModal .col-md-6 {
 	width: 36%;
-	margin: auto;
 	background-color: #ffffff;
     border-radius: 20px;
+    flex: 0 0 auto;
 }
 #exampleModal #uploadDate {
 	text-align: end;
 	margin-bottom: 0px;
+	position: relative;
+	bottom: -347px;
+}
+.modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    color: var(--bs-modal-color);
+    pointer-events: auto;
+    background-color: var(--bs-modal-bg);
+    background-clip: padding-box;
+    border: var(--bs-modal-border-width) solid var(--bs-modal-border-color);
+    border-radius: var(--bs-modal-border-radius);
+    outline: 0
 }
 </style>
 </head>
@@ -685,8 +701,8 @@
 		<div class="modal fade" id="exampleModal" tabindex="-1"
 			aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-xl modal-dialog-scrollable">
-				<div class="modal-content" style="padding: 15px;">
-					<div class="modal-body row">
+				<div class="modal-content" style="padding: 15px;background-color:white;height: 640px;">
+					<div class="modal-body row" style="padding: 0px 20px;">
 						<div class="modal-image sticky-top">
 							<img id="modalImg"
 								src="https://unsplash.it/800/1200.jpg?image=256"

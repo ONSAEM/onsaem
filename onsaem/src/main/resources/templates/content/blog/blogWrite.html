@@ -138,8 +138,8 @@ caption.dots {
 	background-color: white;
 	border-radius: 10px;
 	top: 0;
-	padding: 10px 25px;
-	width: 20%;
+	padding: 40px 20px 25px;
+	width: 25%;
 }
 
 .hidden {
@@ -147,6 +147,13 @@ caption.dots {
 }
 
 .row .btn {
+	background-color: #9dc2c0;
+	color: white;
+	text-align: center;
+	margin-right: 5px;
+}
+
+.inputfield .btn {
 	background-color: #9dc2c0;
 	color: white;
 	text-align: center;
@@ -201,6 +208,16 @@ caption.dots {
 	height: 70px;
 	margin-right: 20px;
 }
+.modal-wrapper label {
+	color: #5f9999;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+.blog__details__content {
+	position: relative;
+    bottom: -5%;
+}
 </style>
 
 </head>
@@ -228,9 +245,12 @@ caption.dots {
 
 					</div>
 					<!-- 헤더 -->
-					<img
-						src="/fileView/20230127/befd71a4-98a8-4042-a72a-07ff9c715e36.gif"
-						alt="" class="profile-cover">
+						<img th:if="${blogInfo.headerImg == null}" 
+							 th:src="@{/blog/img/header.gif}"
+							 alt="" class="profile-cover" id="headerFile">
+						<img th:unless="${blogInfo.headerImg == null}" 
+							 th:src="'/fileView/'+${blogInfo.headerImg}"
+							 alt="" class="profile-cover" id="headerFile">
 					<!-- 헤더 끝 -->
 
 					<div class="profile-menu">
@@ -491,7 +511,7 @@ caption.dots {
 					<main>
 						<section class="news-section section-padding">
 							<div class="container">
-								<div class="row" style="margin-left: 405px;padding:50px;background-color: #ffffff;border-radius:20px;margin-top: -70px;">
+								<div class="row" style="margin-left: 405px;padding:50px;background-color: #ffffff;border-radius:20px;width:850px;">
 									<div class="rere">
 										<div th:each=" reply : ${replyList}">
 											<div th:if="${reply.level} == 1">
@@ -644,13 +664,13 @@ caption.dots {
 				<div class="modal-body">
 					<div class="modal-wrapper">
 						<div class="title">신고</div>
-						<div class="inputfield">
-							<label>신고종류</label><br>
+						<div class="inputfield" style="text-align:left">
+<!-- 							<label>신고종류</label><br> -->
 							<input type="checkbox" name="reason" id="ban1"
-								onclick="checkOnlyone(this)" value="욕설 및 비하 발언">욕설 및 비하 발언<span
+								onclick="checkOnlyone(this)" value="욕설 및 비하 발언"> 욕설 및 비하 발언<span
 								id="1"></span><br> 
 							<input type="checkbox" value="저작권,명예훼손 등 기타 권리 침해" id="ban2" name="reason"
-								onclick="checkOnlyone(this)">저작권,명예훼손 등 기타 권리 침해<span id="2"></span><br> 
+								onclick="checkOnlyone(this)"> 저작권,명예훼손 등 기타 권리 침해<span id="2"></span><br> 
 							<input type="checkbox" value="불건전한 글 등록" name="reason" id="ban3" onclick="checkOnlyone(this)"> 불건전한
 							글 등록 <span id="3"></span><br> 
 							<input type="checkbox" value="광고,홍보성 내용" name="reason" id="ban4"
@@ -658,7 +678,7 @@ caption.dots {
 							<input type="checkbox" value="기타" name="reason" id="ban5"
 								onclick="checkOnlyone(this)"> 기타 <span id="5"></span><br>
 						</div>
-						<div class="inputfield">
+						<div class="inputfield" style="margin-top: 30px;">
 							<button onclick="banSubmit()" class="btn">신고하기</button>
 							<button class="closeBtn btn" >닫기</button>
 						</div>
@@ -910,7 +930,7 @@ caption.dots {
             })                  
             element.checked = true;
             let span=element.nextElementSibling;
-            span.innerHTML="<br><textarea name='text' placeholder='상세설명' id='detailReason'></textarea>";                              
+            span.innerHTML="<br><textarea name='text' placeholder='상세설명' id='detailReason' style='border: 1px solid #bdbdbd;border-radius: 10px;padding: 5px;'></textarea>";                              
          }
          
          //신고제출
