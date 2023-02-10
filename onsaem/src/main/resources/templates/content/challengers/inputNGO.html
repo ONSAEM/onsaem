@@ -164,8 +164,8 @@
 				<div class="inputfield">
 					<label for="ngoNo">사업자 등록번호<span class="request">*</span></label>
 					<input type="number" placeholder="-는 뺴주세요" name="ngoNo"  class="input">
-					<input type="hidden" value="false" id="checkBNum">
 					<input type="button" value="조회" class="checkBNum checkBtn">
+					<input type="hidden" value="false" id="checkBNum">
 				</div>
 				<div class="inputfield">
 					<label>고유번호증 첨부<span class="request">*</span></label> 
@@ -215,14 +215,27 @@
 			let token = $("meta[name='_csrf']").attr("content");
 			let header = $("meta[name='_csrf_header']").attr("content");
 			
-			//사업자 번호 조회
+			// 사업자번호 입력창 변화 확인
 			$('input[name=ngoNo]').on('change', function () {
 				$('#checkBNum').val('false');
 			})
 			
+			//사업자 번호 조회
+		$('.checkBNum').on('click', function () {
+			if ($('input[name=ngoNo]').val() == null || $('input[name=businessNumber]').val() == "") {
+				$('#checkBNum').val('false');
+				if ($('input[name=ngoNo]').parentsUntil('.form').next().prop(
+					'tagName') == 'P') {
+					$('input[name=ngoNo]').parentsUntil('.form').next().remove();
+				}
+				$('input[name=ngoNo]').parentsUntil('.form').after($('<p/>').text(
+					"사업자 번호를 입력해주세요").css(
+						"margin-left", "20%").css("color", "#f20000"));
+				return;
+			}
 			var data = {
                "b_no": ['$(input[name=ngoNo]).val()'] // 사업자번호 "xxxxxxx" 로 조회 시,
-              }; 
+             }; 
               
            $.ajax({
              url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=stP86vGAn8wv2bzGqed5SejJCvve7nWirKNy76rt7822yygDQMBNgikMe4EnSJIzJoN2N1VZ40K2AlVgpo0TTw%3D%3D",  // serviceKey 값을 xxxxxx에 입력
@@ -238,15 +251,25 @@
 							'tagName') == 'P') {
 							$('input[name=ngoNo]').parentsUntil('.form').next().remove();
 						}
-						$('input[name=businessNumber]').parentsUntil('.form').after($('<p/>').text(
+						$('input[name=ngoNo]').parentsUntil('.form').after($('<p/>').text(
 							"사업자번호 인증이 완료되었습니다").css(
-							"margin-left", "20%"));
+								"margin-left", "20%"));
+					} else {
+						$('#checkBNum').val('false');
+						if ($('input[name=ngoNo]').parentsUntil('.form').next().prop(
+							'tagName') == 'P') {
+							$('input[name=ngoNo]').parentsUntil('.form').next().remove();
+						}
+						$('input[name=ngoNo]').parentsUntil('.form').after($('<p/>').text(
+							"사용할 수 없는 사업자번호 입니다").css(
+								"margin-left", "20%").css("color", "#f20000"));
 					}
-             },
+				},
              error: function(result) {
                  console.log(result.responseText); //responseText의 에러메세지 확인
              }
            });
+           }) 
            
            
 			// 우편번호 찾기

@@ -403,11 +403,18 @@
 						<div class="profile-user-settings">
 							<h1 class="profile-user-name" th:text="${chal.chalName}">janedoe_</h1>
 						</div>
-						<div class="profile-stats">
-							<ul>
-								<li style="font-size:large; font-weight : bold">📆시작일 <span class="profile-stat-count" th:text="${#dates.format(chal.startDate, 'MM월 dd일')}" id="startDate" >164</span></li>
-								<li style="font-size:large; font-weight : bold">📆종료일 <span class="profile-stat-count" th:text="${#dates.format(chal.endDate, 'MM월 dd일')}" id="endDate" th:value="${chal.endDate}">188</span></li>
-							</ul>
+						<div id="makeBackGround">
+							<div class="profile-stats">
+								<ul>
+									<li style="font-size:large; font-weight : bold" class="fontSizeUp">📆시작일 <span class="profile-stat-count fontSizeUp" th:text="${#dates.format(chal.startDate, 'MM월 dd일')}" id="startDate" >164</span></li>
+									<li style="font-size:large; font-weight : bold">📆종료일 <span class="profile-stat-count" th:text="${#dates.format(chal.endDate, 'MM월 dd일')}" id="endDate" th:value="${chal.endDate}">188</span></li>
+								</ul>
+							</div>
+							<div class="profile-bio">
+								<p style="margin:1px" class="fontSizeUp">챌린지 <span class="profile-real-name fontSizeUp" th:text="${chal.chalName}"></span>이/가 종료일까지 <span class="profile-real-name fontSizeUp" th:text="${dday}">Jane Doe</span>일 남았어요.</p>
+								<br>
+								<p class="fontSizeUp">남은 도전도 화이팅!!!</p>
+							</div>
 						</div>
 						<div class="profile-bio">
 							<p style="margin:1px">챌린지 <span class="profile-real-name" th:text="${chal.chalName}">Jane Doe</span>이/가 종료일까지 <span class="profile-real-name" th:text="${dday}">Jane Doe</span>일 남았어요.</p>
@@ -451,7 +458,7 @@
 			
 						<div class="gallery-item" tabindex="0" th:each="proof : ${proofs}" th:onclick="displayModal([[${proof}]])">
 							<div class="row row-cols-3">
-							<img src="'/fileView/'+${proof.fileRoute}" class="gallery-image">
+							<img src="'/fileView/'+${proof.fileRoute}" class="gallery-image" style="aspect-ratio: 1 / 1; padding: 0px">
 								<input type="hidden" id="chalId" th:value="${proof.chalId}">
 							<div class="gallery-item-info">
 			
@@ -484,7 +491,7 @@
 					</div>
 		             	
 		             	<input type="hidden" id="theId">
-		                <img style="width: 500px;" id="image">
+		                <img style="width: 500px; aspect-ratio: 1 / 1" id="image" >
 		                <div style="width:100%; text-align:left; padding:5px; background-color : rgba(225, 214, 176, 0.3); margin : 2px">
 		          			<p id="contents"></p>
 		          		</div>
