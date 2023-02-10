@@ -1,5 +1,6 @@
 package com.onsaem.web.chal.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -197,6 +198,16 @@ public class CharServiceImpl implements ChalService {
 	public MediaVO detailPic(String groupId) {
 		// TODO Auto-generated method stub
 		return chalMapper.detailPic(groupId);
+	}
+
+	@Override
+	public List<ChalVO> popularChals() {
+		// TODO Auto-generated method stub
+		List<ChalVO> list = new ArrayList<>();
+		for(int i = 0; i<3; i++) {
+			list.add(chalMapper.popularChals().get(i));
+		}
+		return list;
 	}
 
 }

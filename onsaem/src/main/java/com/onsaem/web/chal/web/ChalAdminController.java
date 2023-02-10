@@ -230,11 +230,9 @@ public class ChalAdminController {
 	@RequestMapping(value="/approveNgo", method=RequestMethod.POST)
 	@ResponseBody
 	public String approveNgo(@RequestBody NgoVO vo){
-		Map<String,Object> map = new HashMap<String, Object>();
-		
+
 		ngoService.updateCondition(vo);
-		
-		
+
 		return "true"; //Collections.singletonMap("result", "true")  {result:true}
 	}
 	

@@ -407,7 +407,7 @@
 							<div class="profile-stats">
 								<ul>
 									<li style="font-size:large; font-weight : bold" class="fontSizeUp">📆시작일 <span class="profile-stat-count fontSizeUp" th:text="${#dates.format(chal.startDate, 'MM월 dd일')}" id="startDate" >164</span></li>
-									<li style="font-size:large">📆종료일 <span class="profile-stat-count" th:text="${#dates.format(chal.endDate, 'MM월 dd일')}" id="endDate" th:value="${chal.endDate}">188</span></li>
+									<li style="font-size:large; font-weight : bold">📆종료일 <span class="profile-stat-count" th:text="${#dates.format(chal.endDate, 'MM월 dd일')}" id="endDate" th:value="${chal.endDate}">188</span></li>
 								</ul>
 							</div>
 							<div class="profile-bio">
@@ -476,8 +476,8 @@
 			
 						</div>
 			
-						 <th:block th:if="${myPhotoes} ==null">
-						 		<h5 style="text-align:center">아직 등록된 인증 샷이 없습니다!</h5>	
+						 <th:block th:if="${#lists.isEmpty(myPhotoes)}">
+						 		<h5 style="text-align : center; padding: 300px 0">아직 등록된 인증 샷이 없습니다!</h5>	
 						 </th:block>
 			
 					</div>
@@ -521,7 +521,6 @@
                 <input type="text" id="content" name="content">
                 <button type="button" th:onclick="inputReply()">댓글쓰기</button>
                 <button type="button" class="closeBtn">닫기</button>
-             
           </div>
           <div id="reportFrm" style="display : none;" class="modal__content2">
           <!-- 신고폼 -->

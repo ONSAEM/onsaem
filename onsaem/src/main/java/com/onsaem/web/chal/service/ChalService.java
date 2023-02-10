@@ -78,4 +78,7 @@ public interface ChalService {
 	
 	//관리자용 - 종료된 팀챌린지 검색 리스트
 	List<ChalVO> adminSearchChals(ChalVO vo);
+
+	//메인용 인기있는 챌린지 ~
+	List<ChalVO> popularChals();
 }

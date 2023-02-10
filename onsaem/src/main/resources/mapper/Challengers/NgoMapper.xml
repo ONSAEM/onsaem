@@ -8,7 +8,7 @@
 		<selectKey keyProperty="ngoId" resultType="string" order="BEFORE">
 			SELECT 'NGO'||LPAD(NGO_SEQ.NEXTVAL,3,0) FROM DUAL	
 		</selectKey>
-		INSERT into NGOES(NGO_ID, NGO_NO, POSTAL_CODE, ADDR, DETAIL_ADDR, EMAIL, PHONE, BANK, BANK_ACCOUNT, CONDITION, NGO_NAME, CLASSES)
+		INSERT into NGOES(NGO_ID,WRITER_ID, NGO_NO, POSTAL_CODE, ADDR, DETAIL_ADDR, EMAIL, PHONE, BANK, BANK_ACCOUNT, CONDITION, NGO_NAME, CLASSES)
 		VALUES(#{ngoId}, #{writerId},#{ngoNo}, #{postalCode}, #{addr}, #{detailAddr}, #{email}, 
 				#{phone}, #{bank}, #{bankAccount}, #{condition},#{ngoName}, #{classes})		
 	</insert>
