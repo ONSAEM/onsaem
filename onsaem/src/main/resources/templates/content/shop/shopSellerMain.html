@@ -284,7 +284,12 @@ h1 {
 				<div class="product-cell status-cell">{{product.category}}</div>
 				<div class="product-cell status-cell">{{product.price}}</div>
 				<div class="product-cell status-cell">{{product.amount}}</div>
-				<div class="product-cell sales">
+				<div class="product-cell sales" v-if="product.productStatus =='품절'">
+					<input type="checkbox" id="check"
+						@click="endProduct(product.productId)" checked>
+				</div>
+				<div class="product-cell sales"
+					v-else="product.productStatus =='품절'">
 					<input type="checkbox" id="check"
 						@click="endProduct(product.productId)">
 				</div>
@@ -319,16 +324,18 @@ h1 {
 					</div>
 
 
+					<div style="background: linen; margin: 10px; border-radius: 11px;">
+						<ul style="list-style-type: none;">
 
-					<ul style="list-style-type: none;">
+
+							<li>상품명 {{selectProduct.productName}}</li>
+							<li>상품상세설명 {{selectProduct.productDetail}}</li>
+							<li>가격 {{selectProduct.price}}</li>
+							<li>카테고리 {{selectProduct.category}}</li>
+						</ul>
+					</div>
 
 
-						<li>상품명 {{selectProduct.productName}}</li>
-						<li>상품상세설명 {{selectProduct.productDetail}}</li>
-						<li>가격 {{selectProduct.price}}</li>
-						<li>카테고리 {{selectProduct.category}}</li>
-					</ul>
-										
 					<button class="closeBtn" @click="closeModal()">닫기</button>
 				</div>
 			</div>

@@ -246,6 +246,13 @@ h1 {
 .hidden {
 	display: none;
 }
+
+
+.cover{
+	object-fit:cover;
+	width:309px;
+	height:309px;
+}
 </style>
 <script type="text/javascript"
 	th:src="@{/smarteditor/js/HuskyEZCreator.js}"></script>
@@ -383,7 +390,7 @@ h1 {
 									(fileRoute=${img.fileRoute})}"
 											th:src="@{/fileView/{fileRoute}/
 									(fileRoute=${img.fileRoute})}"
-											alt="">
+											alt="" class="cover">
 									</div>
 									<br>
 
