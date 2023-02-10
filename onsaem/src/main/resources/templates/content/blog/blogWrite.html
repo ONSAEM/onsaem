@@ -270,16 +270,6 @@ caption.dots {
 							th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
 							th:href="@{/blog/myblog/blogTask(blogId=${blogInfo.blogId})}"
 							class="profile-menu-link info">블로그 관리 ⚙ </a>
-						<!-- 검색바 -->
-						<div>
-							<a><input type="text" placeholder="Search..." id="searchWord"
-								style="width: 150px; height: 30px; position: relative; margin-top: 17px; margin-left: 844px; overflow: auto;">
-								<button type="button" class="btn btn-light" id="searchBtn"
-									style="width: 40px; height: 30px; position: absolute; margin-top: 17px;">
-									<i class="fa-solid fa-magnifying-glass"></i>
-								</button> </a>
-						</div>
-						<!-- 검색바 끝 -->
 					</div>
 				</div>
 				<!-- 프로필 끝 -->
@@ -428,7 +418,7 @@ caption.dots {
 								</div>
 							</div>
 							<!-- 메인 글 -->
-							<div class="timeline-right" style="width: 1100px; margin: 30px auto;padding: 10px 20px;">
+							<div class="timeline-right" style="width: 1077px; margin: 20px auto;padding: 10px 20px;background-color:white;border-radius:20px;height:104%;">
 								<!--------------------------신고!!!!! -->
 								<button class="btn" style="padding: 10px;float: right;">
 									<i type="button"
@@ -511,7 +501,7 @@ caption.dots {
 					<main>
 						<section class="news-section section-padding">
 							<div class="container">
-								<div class="row" style="margin-left: 405px;padding:50px;background-color: #ffffff;border-radius:20px;width:850px;">
+								<div class="row" style="margin-left: 274px;padding:50px;background-color: #ffffff;border-radius:20px;width:1077px;">
 									<div class="rere">
 										<div th:each=" reply : ${replyList}">
 											<div th:if="${reply.level} == 1">

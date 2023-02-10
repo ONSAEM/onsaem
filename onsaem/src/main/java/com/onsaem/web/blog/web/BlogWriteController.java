@@ -70,11 +70,9 @@ public class BlogWriteController {
 			String id = userDetails.getUsername();
 			vo.setMemberId(id);
 			model.addAttribute("moments",momentService.mySubMoment(vo));
-			System.out.println("moments정보:"+model.addAttribute("moments"));
 		}
 		
 		model.addAttribute("blogList", blogWriteService.getBlogList(null));
-		System.out.println("blogList정보:"+model.addAttribute("blogList"));
 		
 		
 		List<BlogWriteVO> list = blogWriteService.hotBlogList(null);
@@ -123,8 +121,6 @@ public class BlogWriteController {
 	public String myblog(Model model, String userId, CategoriesVO vo, 
 						 MomentsVO mVo, BlogVO bVo, LikeVO lVo,Authentication authentication, 
 					 	BlogWriteVO bwVo) {
-		System.out.println("유저아이디 찾습니다"+userId);
-		
 		
 		// 내 블로그 전체조회
 		if(authentication != null) {
@@ -138,28 +134,20 @@ public class BlogWriteController {
 		vo.setBlogId(userId);
 		model.addAttribute("category", blogWriteService.cateList(vo));
 		model.addAttribute("recentWrite", blogWriteService.recentWrite(userId)); // 최신글 조회
-		System.out.println("최신글 정보: " + model.getAttribute("recentWrite"));
 		
 		mVo.setBlogId(userId);
 		model.addAttribute("moments", momentService.getMomentList(mVo));
-		System.out.println("모먼트 정보:"+model.getAttribute("moments"));
 		// getBlog를 써서 유저아이디 받아오고, getbloginfo라고 이름 지어주기
 		model.addAttribute("blogInfo", blogService.getBlogInfo(userId));
-		System.out.println("방문한 블로그 정보:"+model.getAttribute("blogInfo"));
 		
 		lVo.setGroupId(userId); // 구독 당한 사람
 		 // 구독 한 사람
 		model.addAttribute("subCount", blogService.subCount(lVo));
-		System.out.println("구독 여부:"+model.getAttribute("subCount")); // 지금 로그인 한 사람이 접속한 블로그를 구독 했나? 있으면 T 없으면 F
 		
 		lVo.setRownum(3);
 		model.addAttribute("subMeList", blogService.subMeList(lVo)); // 나를 구독한
-		System.out.println("나를 구독한 사람: " + model.getAttribute("subMeList"));
 		lVo.setMemberId(userId);
 		model.addAttribute("mySubList", blogService.mySubList(lVo)); // 내가 구독한
-		
-		
-		System.out.println("현재모먼트 수:"+model.getAttribute("mmtCnt"));
 		
 		return "content/blog/myblog";
 	}
@@ -167,7 +155,6 @@ public class BlogWriteController {
 	// 조회수 업데이트
 	@RequestMapping(value = "/updateCnt", method = RequestMethod.GET)
 	public void updateCnt(String bno,BlogWriteVO vo) {
-		System.out.println("조회수 업뎃");
 		vo.setWriteId(bno);
 		blogWriteService.updateCnt(vo);
 		
@@ -180,8 +167,6 @@ public class BlogWriteController {
 		if(authentication != null) {
 			UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 			String id = userDetails.getUsername();
-//			vo.setMemberId(id);
-			
 		}
 		
 		model.addAttribute("blogInfo", blogService.getBlogInfo(userId)); // 방문한 블로그 정보
@@ -191,13 +176,11 @@ public class BlogWriteController {
 		model.addAttribute("recentWrite", blogWriteService.recentWrite(userId)); // 최신글 조회
 		vo.setRownum(3);
 		model.addAttribute("subMeList", blogService.subMeList(vo)); // 나를 구독한
-		System.out.println("나를 구독한 사람: " + model.getAttribute("subMeList"));
 		vo.setMemberId(userId);
 		model.addAttribute("mySubList", blogService.mySubList(vo)); // 내가 구독한
 		
 		
 		model.addAttribute("blogWrite", blogWriteService.getBlog(bno)); // 블로그 단건 조회
-		System.out.println("블로그 단건 조회: "+ model.getAttribute("blogWrite"));
 		
 		vo.setGroupId(bno);
 		model.addAttribute("likeCount", blogWriteService.likeCount(vo)); // 좋아요 조회
@@ -206,11 +189,8 @@ public class BlogWriteController {
 		rVo.setGroupId(bno);
 		model.addAttribute("replyCnt", replyService.replyCnt(rVo)); // 댓글 수
 		model.addAttribute("replyList", replyService.replyList(bno)); // 댓글 조회
-		System.out.println("댓글 정보: "+ model.getAttribute("replyList"));
 		cVo.setBlogId(userId);
 		model.addAttribute("category", blogWriteService.cateList(cVo) ); // 카테고리 조회
-		System.out.println("카테고리 네임!:"+model.addAttribute("category"));
-		
 		
 		bVo.setWriteId(bno);
 		blogWriteService.updateCnt(bVo); // 조회수 업데이트
@@ -223,7 +203,6 @@ public class BlogWriteController {
 	// 블로그 글 등록 페이지로 이동
 	@RequestMapping(value = "/myblog/blogWrite/blogInsert", method = RequestMethod.GET)
 	public String blogInsertPage(Model model, Authentication authentication, CategoriesVO vo) {
-		//model.addAttribute("blogInsert", blogWriteService.blogInsert(null));
 		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 		String id = userDetails.getUsername();
 		
@@ -361,7 +340,6 @@ public class BlogWriteController {
 				// img 태그의 title 속성을 원본파일명으로 적용시켜주기 위함
 				sFileInfo += "&sFileName="+ sFilename;
 				sFileInfo += "&sFileURL="+"/fileView/"+folderPath+'/'+sRealFileNm;
-				System.out.println(sRealFileNm);
 				PrintWriter printWriter = response.getWriter();
 				printWriter.print(sFileInfo);
 				printWriter.flush();
@@ -372,19 +350,6 @@ public class BlogWriteController {
 		}
 	}
 	
-	
-	// 내 블로그 제목 검색
-//	@RequestMapping(value = "/myblog/searchWrite", method = RequestMethod.POST)
-//	public String searchWrite(Model model, @RequestParam(value = "data", required = false) String data,
-//			@RequestParam(value = "blogId", required = false) String blogId){
-//		System.out.println("============================"+blogId);
-//		System.out.println("-=--=============="+data);
-//		model.addAttribute("myblog", blogWriteService.searchWrite(blogId,data));
-//		return "content/blog/blogWrite";
-//	}
-	
-	
-	
 	// 블로그 글 수정 페이지로 이동
 	@RequestMapping(value = "/myblog/blogWrite/blogUpdate", method = RequestMethod.GET)
 	public String blogUpdatePage(Model model, String bno, Authentication authentication,CategoriesVO vo ) {
@@ -392,7 +357,6 @@ public class BlogWriteController {
 		String id = userDetails.getUsername();
 		
 		model.addAttribute("blogUpdate", blogWriteService.getBlog(bno)); // 글 불러오기
-		System.out.println("블로그업데이트: "+ blogWriteService.getBlog(bno));
 		
 		vo.setBlogId(id);
 		model.addAttribute("category", blogWriteService.cateList(vo)); // 카테고리 불러오기

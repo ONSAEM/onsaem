@@ -40,7 +40,6 @@ public class BlogController {
 	@RequestMapping(value="/myblog/blogTask", method=RequestMethod.GET)
 	public String getBlogInfo(Model model, String blogId) {
 			model.addAttribute("blogInfos", blogService.getBlogInfo(blogId));
-			System.out.println("블로그 인포: "+model.getAttribute("blogInfos"));
 		return "content/blog/blogTask";
 	}
 	// 블로그 구독 관리 페이지로 이동
@@ -76,9 +75,6 @@ public class BlogController {
 	@RequestMapping(value = "/delSub", method = RequestMethod.POST)
 	@ResponseBody
 	public LikeVO delBlogLike(LikeVO vo, Authentication authentication) {
-//		UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-//		String id = userDetails.getUsername();		
-//		vo.setMemberId(id);
 		blogService.delSub(vo);
 		return vo;
 	}
@@ -118,7 +114,6 @@ public class BlogController {
 	@RequestMapping(value="/blogReportList", method=RequestMethod.POST)
 	@ResponseBody
 	public List<ReportVO> blogReportList(ReportVO reportVO) {
-		System.out.println(reportVO);
 		return blogService.blogReportList(reportVO);
 	}
 	

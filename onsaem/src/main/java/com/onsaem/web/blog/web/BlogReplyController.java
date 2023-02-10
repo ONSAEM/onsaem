@@ -32,7 +32,6 @@ public class BlogReplyController {
 		if(vo.getPublicScope()==null) {
 			vo.setPublicScope("public");
 		}
-		System.out.println("vo!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+vo);
 		replyService.replyInsert(vo);
 		
 		return vo;
