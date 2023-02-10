@@ -171,7 +171,6 @@ public class ChalController {
 		Integer nowEnd = chalService.getChal(chalId).getNowEnd();
 		
 		if(nowStart>=0 && nowEnd<0) {
-			
 			//진행중인 챌린지
 			//인증샷 파티
 			model.addAttribute("proofs", proofService.listProofAll(chalId));
@@ -179,15 +178,12 @@ public class ChalController {
 			//완료된 챌린지
 			//영수증 이미지 파일 가져오기
 			model.addAttribute("receipt", proofService.getReceipt(chalId));
-			
 			model.addAttribute("proofs", proofService.listProofAll(chalId));
 		}
 		
 		//상세 밑에 추천 컨텐츠로 넣을 조만간 시작하는 챌린지 모음들
 		model.addAttribute("ddays", chalService.ddayStartRank());
-		
-		
-		
+
 		return "content/challengers/chalDetail";
 	}
 	

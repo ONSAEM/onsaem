@@ -104,7 +104,7 @@
 	<div layout:fragment="content">
 		
 		<div class="title">시작 전 챌린저스</div>
-		<h2 th:if="${#lists.isEmpty(chals)}" style="text-align : center; padding: 300px 0">시작하지 않은챌린지가 없습니다</h2>
+		<h2 th:if="${#lists.isEmpty(chals)}" style="text-align : center; padding: 300px 0">시작을 기다리는 챌린지가 없습니다</h2>
 		<div class="products-area-wrapper gridView">
 		<th:block th:each = "chal : ${chals}">
 			<div class="products-row" >
