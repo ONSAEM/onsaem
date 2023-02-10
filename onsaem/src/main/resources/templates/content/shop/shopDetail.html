@@ -444,9 +444,9 @@ h1 {
 																		th:each="num:${#numbers.sequence(1,review.reviewStar)}"></i>
 																	<i class="fa-solid fa-star-half"
 																		th:if="${review.reviewStar%1 >= 0.5}"></i><br> <img
-																		src="/shoptemplate/소비자.jpg"
+																		src="/shoptemplate/img/소비자.jpg"
 																		class="img-fluid avatar-image" alt=""> <br>[[${#dates.format(review.reviewDate,
-																	'YY.MM.DD HH:mm')}]]
+																	'YY.MM.dd HH:mm')}]]
 																</div>
 
 																<p style="margin-left: 200px">
@@ -459,9 +459,9 @@ h1 {
 															<div class="author-comment-info ms-3">
 																<div style="float: left; text-align: center;">
 																	 <img
-																		src="/shoptemplate/판매자.jpg"
+																		src="/shoptemplate/img/판매자.jpg"
 																		class="img-fluid avatar-image" alt=""> <br>[[${#dates.format(review.reviewDate,
-																	'YY.MM.DD HH:mm')}]]
+																	'YY.MM.dd HH:mm')}]]
 																</div>
 
 																<p style="margin-left: 200px">

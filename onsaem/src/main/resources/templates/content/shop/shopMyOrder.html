@@ -92,38 +92,38 @@ h1 {
 }
 
 /* 별점 */
-#myform fieldset {
+.myform fieldset {
 	display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
 	border: 0; /* 필드셋 테두리 제거 */
 }
 
-#myform input[type=radio] {
+.myform input[type=radio] {
 	display: none; /* 라디오박스 감춤 */
 }
 
-#myform label {
+.myform label {
 	font-size: 3em; /* 이모지 크기 */
 	color: transparent; /* 기존 이모지 컬러 제거 */
 	text-shadow: 0 0 0 #f0f0f0; /* 새 이모지 색상 부여 */
 }
 
-#myform label:hover {
-	text-shadow: 0 0 0 #a00; /* 마우스 호버 */
+/* .myform label:hover {
+	text-shadow: 0 0 0 #a00; 
 }
 
-#myform label:hover ~ label {
-	text-shadow: 0 0 0 #a00; /* 마우스 호버 뒤에오는 이모지들 */
-}
+.myform label:hover ~ label {
+	text-shadow: 0 0 0 #a00; 
+} */
 
-#myform fieldset {
+.myform fieldset {
 	display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
 	direction: rtl; /* 이모지 순서 반전 */
 	border: 0; /* 필드셋 테두리 제거 */
 }
 
-#myform input[type=radio]:checked ~ label {
-	text-shadow: 0 0 0 #a00; /* 마우스 클릭 체크 */
-}
+/* .myform input[type=radio]:checked ~ label {
+	text-shadow: 0 0 0 #a00;
+} */
 </style>
 </head>
 
@@ -159,17 +159,22 @@ h1 {
 
 		<div class="products-area-wrapper tableView">
 			<div class="products-header">
-				<div class="product-cell category" onclick="location.href='/shop/shopMyOrder'">전체</div>
-				<div class="product-cell image" onclick="location.href='/shop/shopMyOrder?orderStatus=배송중'">배송중</div>
-				<div class="product-cell" onclick="location.href='/shop/shopMyOrder?orderStatus=배송완료'">배송완료</div>
+				<div class="product-cell category"
+					onclick="location.href='/shop/shopMyOrder'">전체</div>
+				<div class="product-cell image"
+					onclick="location.href='/shop/shopMyOrder?orderStatus=배송중'">배송중</div>
+				<div class="product-cell"
+					onclick="location.href='/shop/shopMyOrder?orderStatus=배송완료'">배송완료</div>
 			</div>
-			<div class="products-row" th:each="order:${myOrderList}" style="text-align:center">
+			<div class="products-row" th:each="order:${myOrderList}"
+				style="text-align: center">
 				<div class="product-cell">
 					<div>
 						주문일자 [[${order.orderDate}]]<br> <img id="preview-image"
-							th:src="'/fileView/'+${order.fileRoute}"
+							th:src="@{/fileView/{fileRoute}/
+									(fileRoute=${order.fileRoute})}"
 							th:onclick="detailFnc([[${order.productId}]])"
-							style="width: 100px; height: 100px; ">
+							style="width: 100px; height: 100px;">
 					</div>
 
 				</div>
@@ -206,24 +211,27 @@ h1 {
 						<div class="white-bg">
 							<h4>리뷰작성</h4>
 							<br> 별점<br>
-							<form name="myform" id="myform" method="post" action="./save">
+							<form name="myform" id="myform" class="myform" method="post"
+								action="./save">
 								<fieldset>
-									<label for="rate1">⭐</label><input type="radio" name="rating"
-										value="5" id="rate1"> <label for="rate2">⭐</label><input
-										type="radio" name="rating" value="4" id="rate2"> <label
-										for="rate3">⭐</label><input type="radio" name="rating"
-										value="3" id="rate3"> <label for="rate4">⭐</label><input
-										type="radio" name="rating" value="2" id="rate4"> <label
-										for="rate5">⭐</label><input type="radio" name="rating"
-										value="1" id="rate5">
+									<label th:for="|rate1${orderStat.count}|">⭐</label> <input type="radio"
+										th:name="|rating${orderStat.count}|" value="5" th:id="|rate1${orderStat.count}|">
+									<label th:for="|rate2${orderStat.count}|">⭐</label><input type="radio"
+										th:name="|rating${orderStat.count}|" value="4" th:id="|rate2${orderStat.count}|">
+									<label th:for="|rate3${orderStat.count}|">⭐</label><input type="radio"
+										th:name="|rating${orderStat.count}|" value="3" th:id="|rate3${orderStat.count}|">
+									<label th:for="|rate4${orderStat.count}|">⭐</label><input type="radio"
+										th:name="|rating${orderStat.count}|" value="2" th:id="|rate4${orderStat.count}|">
+									<label th:for="|rate5${orderStat.count}|">⭐</label><input type="radio"
+										th:name="|rating${orderStat.count}|" value="1" th:id="|rate5${orderStat.count}|">
 
 								</fieldset>
 							</form>
 							상세리뷰<br>
-							<textarea rows="10" cols="40" id="reviewContent"></textarea>
+							<textarea rows="10" id="reviewContent" th:name="|reviewContent${orderStat.count}|" style="width: 100%;"></textarea>							
 							<div>
 								<button class="btn btn-danger"
-									th:onclick="submitReview([[${order.productId}]])"
+									th:onclick="submitReview([[${order.productId}]],[[${orderStat.count}]])"
 									style="background-color: #bed8cd; border: 0px">작성</button>
 								<button class="btn btn-danger" id="close"
 									style="background-color: #bed8cd; border: 0px">닫기</button>
@@ -258,7 +266,7 @@ h1 {
 					<br>
 					<p>
 						회수시 요청사항<br>
-						<textarea rows="4" cols="45" id="please"></textarea>
+						<textarea rows="4" style="width: 100%;" id="please"></textarea>
 						<br>
 						<button th:onclick="submitBtn()">신청하기</button>
 						<button class="closeBtn">닫기</button>
@@ -271,6 +279,15 @@ h1 {
 			 var token = $("meta[name='_csrf']").attr("content");
 			 var header = $("meta[name='_csrf_header']").attr("content");
 			
+			 //클릭이벤트
+			 $(".myform input[type=radio]").on("click",function(){
+				 console.log($(this).nextAll())
+				
+				 $(this).siblings().css("text-shadow",'');
+				$(this).prev().css("text-shadow","0 0 0 #a00")
+				 $(this).nextAll().css("text-shadow","0 0 0 #a00")
+			 })
+			 
 			 //상품상세보기페이지이동
 			 function detailFnc(data){
 				 location.href='/shopDetail?data='+data
@@ -360,11 +377,12 @@ h1 {
 			}					
 			
 			//리뷰제출
-			function submitReview(data){				
+			function submitReview(data,data2){				
 				let groupId=data;				
-				let reviewContent=$('#reviewContent').val();
-				let reviewStar=$('input[name="rating"]:checked').val();
-				$.ajax({
+				let reviewContent=$('textarea[name="reviewContent'+data2+'"]').val();
+				let reviewStar=$('input[name="rating'+data2+'"]:checked').val();
+				console.log(reviewContent)
+				 $.ajax({
 				    type : 'post',           
 				    url : '/addReview',          	   
 				    headers : {              
@@ -385,7 +403,7 @@ h1 {
 				    error : function(request, status, error) { 
 				        console.log(error)
 				    }
-				})
+				}) 
 			}
 			
 			

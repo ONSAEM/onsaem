@@ -367,7 +367,7 @@
 											th:data-setbg="@{/fileView/{fileRoute}/
 									(fileRoute=${product.fileRoute})}"
 											th:onclick="productDetail([[${product.productId}]])"
-											style="cursor: pointer">
+											style="cursor: pointer;">
 											<ul class="product__item__pic__hover"
 												sec:authorize="isAuthenticated()">
 												<li><a th:href="@{/likeAdd(data=${product.productId})}"
