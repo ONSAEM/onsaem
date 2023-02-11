@@ -11,13 +11,16 @@
          		 	 case when r.group_id like 'BW%' 
          		 	 then r.reply_id else r.group_id 
          		 	 end cate
-                 	 , F.file_route
+                 	 , F.file_route,
+                 	 m.nickname
   			  from   replies r,
                 	 (select * 
 		           		from MEDIA
                   	   where STATUS = 'true' 
-                    	 and sub_group='프로필이미지') F
+                    	 and sub_group='프로필이미지') F,
+                    members m
         	 where r.writer_id = F.group_id(+)
+        	 and   r.writer_id = m.member_id(+)
  		START WITH r.group_id = #{groupId}
 		CONNECT BY PRIOR r.reply_id = r.group_id
 		order by cate desc,level, reply_date

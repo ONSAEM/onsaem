@@ -140,6 +140,13 @@ caption.dots {
 	color:#6c757d;
 	width: 280px;
 }
+.album{
+	flex: 0 0 45%;
+	margin: 15px 24.5px;
+	background-color: white;
+	border-radius: 20px;
+	padding: 0px;
+}
 /* fieldset .modalText { */
 /* 	margin-left: 20px; */
 /* } */
@@ -211,7 +218,7 @@ caption.dots {
 					</div>
 					<!-- 프로필 끝 -->
 					<div class="timeline">
-						<div class="left-side">
+						<div class="left-side" style="border-radius:5px;">
 							<!-- 사이드 바 -->
 							<div class="side-wrapper">
 								<div class="side-title" style="margin-bottom: 0px;">
@@ -406,7 +413,7 @@ caption.dots {
 		<div class="template" style="display: none">
 			<div class="album box">
 				<div class="album-content" onclick="scopeCheck(this)" style="cursor:pointer">
-					<a style="font-weight:bold;"></a><br>
+					<a style="font-weight:bold;color:#5c5e6e;"></a><br>
 					<a style="color: #a2a4b4;font-size: 13px;font-style:italic;"></a>
 					<div class="album-photos" onclick="scopeCheck(this)" style="cursor:pointer;margin-top:-4px;">
 						<input type="hidden" class="thumbnail">
@@ -499,7 +506,7 @@ caption.dots {
 										<div class="title" style="text-align: unset;font-size: 19px;margin-bottom:3px;font-weight: 600;">첨부 주소</div>
 										<div class="modalText" style="height: 45px;">
 											<input type="text" class="form-control" style="line-height:30px;border:solid 1px #e8e8e8;"
-												placeholder="첨부할 주소를 입력하세요" id="insertUrl" maxlength="50"> <br>
+												placeholder="(http://를 제외한)첨부할 주소를 입력하세요" id="insertUrl" maxlength="450"> <br>
 										</div>
 									</div>
 							</div>	
@@ -536,7 +543,7 @@ caption.dots {
 								<textarea id="momentWrite" cols="15" rows="11" class="form-control"
 								placeholder="500자 미만으로 입력해주세요" maxlength="500"></textarea></div>
 							<input type="hidden" id="getblogId" th:value="${blogInfo.blogId}">
-							<button type="button" id="mmtInsertBtn" class="btn">등록</button>
+							<button type="button" id="mmtInsertBtn" class="btn" style="z-index: 9999;">등록</button>
 						</div>
 					</div>
 				</div>
@@ -843,7 +850,7 @@ caption.dots {
 			
 			// 블로그 리스트 만들기
 			function makeBlogList(item){
-				console.log("이야!!!!!!!!!!!!!!!!!!!!!!!!!"+item.fileRoute);
+				console.log("이야!!!!!!!!!!!!!!!!!!!!!!!!!"+item.publicScope);
 				let makeClone = $(listClone).clone();
 				$(makeClone).find(".album-content").data("writeid",item.writeId).data("scope",item.publicScope).data("userid",item.blogId);
 				if(item.publicScope != 'private'){
@@ -872,13 +879,16 @@ caption.dots {
 				let writeId = $(obj).data("writeid");
 				let blogId = $(obj).data("userid");
 				let scope = $(obj).data("scope");
+				console.log(scope);
 				let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
 			
 				console.log("공개범위"+subTF);
-				if(scope == "public" || scope =="partial" && subTF == "T" || blogId == id){  // 구독여부 체크
-					location.href="/blog/myblog/blogWrite?bno="+writeId+"&userId="+blogId
-				}else if(scope == "private" && blogId == id){
-					location.href="/blog/myblog/blogWrite?bno="+writeId+"&userId="+blogId
+				if(scope == "public"){  // 구독여부 체크
+					location.href="/blog/myblog/blogWrite?bno="+writeId+"&userId="+blogId;
+				}else if(scope =="partial" && subTF == "T"){
+					location.href="/blog/myblog/blogWrite?bno="+writeId+"&userId="+blogId;
+				}else if(blogId == id){
+					location.href="/blog/myblog/blogWrite?bno="+writeId+"&userId="+blogId;
 				}else{
 					alert("일부공개 된 글입니다.");
 				} 
