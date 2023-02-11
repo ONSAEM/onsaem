@@ -66,9 +66,6 @@ public class MailServiceImpl implements MailService{
 	        String html = templateEngine.process(mailDto.getTemplate(), context);
 	        helper.setText(html, true);
 	        
-	        //템플릿에 들어가는 이미지 cid로 삽입
-	        helper.addInline("backgroundImage", new ClassPathResource("static/test/mail.jpg"), "image/jpeg; name=onsaem");
-	        
 	        
 	        //수신자 개별 전송       
 	//        for(String s : mailDto.getAddress()) {

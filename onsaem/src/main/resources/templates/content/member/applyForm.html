@@ -1,110 +1,121 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
 
 <!-- Css  -->
 <th:block layout:fragment="css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
+		type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
+		type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}"
+		type="text/css">
+	<link rel="stylesheet"
+		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
+		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
+		type="text/css">
 	<link rel="stylesheet" th:href="@{/css/member.css}" type="text/css">
 	<link type="text/css" rel="stylesheet"
-		th:href="@{https://cdn.jsdelivr.net/npm/aksfileupload@1.0.0/dist/aksFileUpload.min.css}">
+		th:href="@{/css/aksFileUpload.min.css}">
 	<script th:src="@{/js/fileupload.js}"></script>
 </th:block>
 
 <head>
-	<meta charset="UTF-8">
-	<style>
-		.aks-file-upload-label {
-			width: 100%;
-		}
+<meta charset="UTF-8">
+<style>
+.aks-file-upload-label {
+	width: 100%;
+}
 
-		#aks-file-upload {
-			width: 400px;
-			display: block;
-			margin: 0 auto;
-			margin-top: 4rem;
-		}
+#aks-file-upload {
+	width: 400px;
+	display: block;
+	margin-left: 20%;
+	margin-top: 4rem;
+	margin-bottom: 4rem;
+}
 
-		#uploadfile {
-			margin: 0 auto;
-			color: #002c7b;
-			line-height: 1.5;
-			margin-top: 2rem;
-			margin-bottom: 2rem;
-		}
+#uploadfile {
+	margin: 0 auto;
+	color: #002c7b;
+	line-height: 1.5;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+}
 
-		.main {
-			flex-grow: 1;
-			display: flex;
-			flex-direction: column;
-		}
+.main {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
 
-		.main-container {
-			padding: 20px;
-			flex-grow: 1;
-			overflow: auto;
-			background-color: #FCFBFC;
-		}
+.main-container {
+	padding: 20px;
+	flex-grow: 1;
+	background-color: #FCFBFC;
+}
 
-		.profile-cover {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-			object-position: center;
-			border-radius: 4px;
-		}
+.profile-cover {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	border-radius: 4px;
+}
 
-		.subheader {
-			position: relative;
-			height: 300px;
-			min-height: 250px;
-			z-index: 1;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			background-size: cover;
-			background-position: center;
-			margin-bottom: 30px;
-		}
+.subheader {
+	position: relative;
+	height: 300px;
+	min-height: 250px;
+	z-index: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-size: cover;
+	background-position: center;
+	margin-bottom: 30px;
+}
 
-		.subheader:before {
-			content: "";
-			width: 100%;
-			height: 100%;
-			position: absolute;
-			z-index: -1;
-			left: 0;
-			top: 0;
-			background-image: url("/course/member.gif");
-			background-repeat: no-repeat;
-			background-size: cover;
-			background-position: center;
-			filter: blur(30px);
-			opacity: 0.7;
-		}
+.subheader:before {
+	content: "";
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	z-index: -1;
+	left: 0;
+	top: 0;
+	background-image: url("/course/member.gif");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	filter: blur(30px);
+	opacity: 0.7;
+}
 
-		.glass {
-			height: 100%;
-			width: 100%;
-			background-image: url("/course/member.gif");
-			background-size: cover;
-			background-position: center;
-			clip-path: inset(10em);
-			filter: blur(5px);
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
+.glass {
+	height: 100%;
+	width: 100%;
+	background-image: url("/course/member.gif");
+	background-size: cover;
+	background-position: center;
+	clip-path: inset(10em);
+	filter: blur(5px);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 
 .drop-shadow {
 	height: 155%;
@@ -137,62 +148,62 @@
 	padding-left: 0.375em;
 }
 
-@media (max-width: 980px) {
-  .glass {
-    clip-path: inset(7em);
-  }
-
-  .drop-shadow:before {
-    top: 7em;
-    width: calc(100% - 14em);
-    height: calc(100% - 14em);
-  }
-  .drop-shadow > span {
-    font-size: 4em;
-  }
-}
-@media (max-width: 640px) {
-.drop-shadow{
-    height: 95%;
-  }
-.glass {
-    clip-path: inset(3em);
-  }
- .drop-shadow:before {
-    top: 3em;
-    width: calc(100% - 6em);
-    height: calc(100% - 6em);
-  }
-  .drop-shadow > span {
-    font-size: 2em;
-  }
+@media ( max-width : 980px) {
+	.glass {
+		clip-path: inset(7em);
+	}
+	.drop-shadow:before {
+		top: 7em;
+		width: calc(100% - 14em);
+		height: calc(100% - 14em);
+	}
+	.drop-shadow>span {
+		font-size: 4em;
+	}
 }
 
-@media (max-width: 330px) {
-.subheader {
-height: 248px;
-}
-.drop-shadow{
-    height: 95%;
-  }
-.glass {
-    clip-path: inset(3em);
-  }
- .drop-shadow:before {
-    top: 3em;
-    width: calc(100% - 6em);
-    height: calc(100% - 6em);
-  }
-  .drop-shadow > span {
-  padding-left: 0.75em;
-    font-size: 1.5em;
-  }
+@media ( max-width : 640px) {
+	.drop-shadow {
+		height: 95%;
+	}
+	.glass {
+		clip-path: inset(3em);
+	}
+	.drop-shadow:before {
+		top: 3em;
+		width: calc(100% - 6em);
+		height: calc(100% - 6em);
+	}
+	.drop-shadow>span {
+		font-size: 2em;
+	}
 }
 
-		textarea {
-			border: 1px solid #d5dbd9;
-		}
-	</style>
+@media ( max-width : 330px) {
+	.subheader {
+		height: 248px;
+	}
+	.drop-shadow {
+		height: 95%;
+	}
+	.glass {
+		clip-path: inset(3em);
+	}
+	.drop-shadow:before {
+		top: 3em;
+		width: calc(100% - 6em);
+		height: calc(100% - 6em);
+	}
+	.drop-shadow>span {
+		padding-left: 0.75em;
+		font-size: 1.5em;
+	}
+}
+
+textarea {
+	border: 1px solid #d5dbd9;
+}
+</style>
 </head>
 
 <body>
@@ -215,28 +226,32 @@ height: 248px;
 							<img id="preview-image" th:src="@{/images/defaulltProfile.png}">
 						</div>
 						<div class="filebox">
-							<label style="width: 20%;"></label> <input class="inputfile" placeholder="프로필사진" readonly>
-							<label for="profileInput" class="filelabel">사진등록</label> <input name="profileFile"
-								type="file" class="file" id="profileInput" accept=".gif, .jpg, .png, .bmp">
+							<label style="width: 20%;"></label> <input class="inputfile"
+								placeholder="프로필사진" readonly> <label for="profileInput"
+								class="filelabel">사진등록</label> <input name="profileFile"
+								type="file" class="file" id="profileInput"
+								accept=".gif, .jpg, .png, .bmp">
 						</div>
 						<div class="inputfield">
-							<label>아이디<span class="request">*</span></label> <input type="text" name="memberId"
-								class="input"><input type="button" value="중복체크" class="checkBtn checkId"> <input
+							<label>아이디<span class="request">*</span></label> <input
+								type="text" name="memberId" class="input"><input
+								type="button" value="중복체크" class="checkBtn checkId"> <input
 								type="hidden" value="false" id="checkId">
 						</div>
 						<p style="margin-left: 20%">5~15자 영문,숫자만 사용</p>
 						<div class="inputfield">
-							<label>비밀번호<span class="request">*</span></label> <input type="password" name="password"
-								class="input">
+							<label>비밀번호<span class="request">*</span></label> <input
+								type="password" name="password" class="input">
 						</div>
 						<p style="margin-left: 20%">8~16자 영문,숫자,특수문자 사용</p>
 						<div class="inputfield">
-							<label>비밀번호 확인<span class="request">*</span></label> <input type="password" name="pwCheck"
-								class="input"> <input type="hidden" value="false" id="pwCheck">
+							<label>비밀번호 확인<span class="request">*</span></label> <input
+								type="password" name="pwCheck" class="input"> <input
+								type="hidden" value="false" id="pwCheck">
 						</div>
 						<div class="inputfield">
-							<label>이름<span class="request">*</span></label> <input type="email" name="name"
-								class="input">
+							<label>이름<span class="request">*</span></label> <input
+								type="email" name="name" class="input">
 						</div>
 						<div class="inputfield">
 							<label>신청타입<span class="request">*</span></label>
@@ -249,38 +264,45 @@ height: 248px;
 							</div>
 						</div>
 						<div class="inputfield">
-							<label>상호명<span class="request">*</span></label> <input type="text" name="nickname"
+							<label>상호명<span class="request">*</span></label> <input
+								type="text" name="nickname" class="input">
+						</div>
+						<div class="inputfield">
+							<label>이메일<span class="request">*</span></label> <input
+								type="email" name="email" class="input"><input
+								type="button" value="이메일인증" class="checkBtn checkEmail">
+						</div>
+						<div class="inputfield emailCk">
+							<label>이메일 인증<span class="request">*</span></label> <input
+								type="email" name="emailCk" class="input"><input
+								type="button" value="인증" class="checkBtn"> <input
+								type="hidden" value="false" id="emailCk">
+						</div>
+						<div class="inputfield">
+							<label>연락처<span class="request">*</span></label> <input
+								type="tel" class="input" name="phone" placeholder="'-'포함"><input
+								type="hidden" value="false" id="phone">
+						</div>
+						<div class="inputfield">
+							<label>우편번호<span class="request">*</span></label> <input
+								type="text" name="postalCode" id="sample6_postcode"
+								class="input"><input type="button"
+								onclick="sample6_execDaumPostcode()" value="주소검색"
+								class="checkBtn">
+						</div>
+						<div class="inputfield">
+							<label>주소<span class="request">*</span></label> <input
+								type="text" name="addr" id="sample6_address" class="input">
+						</div>
+						<div class="inputfield">
+							<label>상세주소<span class="request">*</span></label> <input
+								type="text" name="detailAddr" id="sample6_detailAddress"
 								class="input">
 						</div>
 						<div class="inputfield">
-							<label>이메일<span class="request">*</span></label> <input type="email" name="email"
-								class="input"><input type="button" value="이메일인증" class="checkBtn checkEmail">
-						</div>
-						<div class="inputfield emailCk">
-							<label>이메일 인증<span class="request">*</span></label> <input type="email" name="emailCk"
-								class="input"><input type="button" value="인증" class="checkBtn"> <input type="hidden"
-								value="false" id="emailCk">
-						</div>
-						<div class="inputfield">
-							<label>연락처<span class="request">*</span></label> <input type="tel" class="input"
-								name="phone" placeholder="'-'포함"><input type="hidden" value="false" id="phone">
-						</div>
-						<div class="inputfield">
-							<label>우편번호<span class="request">*</span></label> <input type="text" name="postalCode"
-								id="sample6_postcode" class="input"><input type="button"
-								onclick="sample6_execDaumPostcode()" value="주소검색" class="checkBtn">
-						</div>
-						<div class="inputfield">
-							<label>주소<span class="request">*</span></label> <input type="text" name="addr"
-								id="sample6_address" class="input">
-						</div>
-						<div class="inputfield">
-							<label>상세주소<span class="request">*</span></label> <input type="text" name="detailAddr"
-								id="sample6_detailAddress" class="input">
-						</div>
-						<div class="inputfield">
-							<label>사업자번호<span class="request">*</span></label> <input type="text" name="businessNumber"
-								class="input"><input type="button" value="조회" class="checkBNum checkBtn"> <input
+							<label>사업자번호<span class="request">*</span></label> <input
+								type="text" name="businessNumber" class="input"><input
+								type="button" value="조회" class="checkBNum checkBtn"> <input
 								type="hidden" value="false" id="checkBNum">
 						</div>
 						<div class="inputfield">
@@ -294,7 +316,8 @@ height: 248px;
 							</div>
 						</div>
 						<div class="inputfield">
-							<label></label> <input type="text" name="bankAccount" class="input">
+							<label></label> <input type="text" name="bankAccount"
+								class="input">
 						</div>
 						<div class="inputfield">
 							<label>사업 상세 설명<span class="request">*</span></label>
@@ -306,11 +329,13 @@ height: 248px;
 							<p>*상품 또는 사업장 사진을 최소 5장 최대 10장내로 등록해주세요</p>
 						</div>
 						<div class="inputfiles">
-							<input name="applyFile" type="file" accept=".jpg, .png, .bmp" style="display: none;">
+							<input name="applyFile" type="file" accept=".jpg, .png, .bmp"
+								style="display: none;">
 							<div id="aks-file-upload"></div>
 						</div>
 						<div class="inputfield terms">
-							<label class="check"> <input type="checkbox"> <span class="checkmark"></span>
+							<label class="check"> <input type="checkbox"> <span
+								class="checkmark"></span>
 							</label>
 							<p>가입신청 동의</p>
 						</div>
@@ -716,11 +741,11 @@ height: 248px;
 				let check = true;
 				if (applyFileList.length + inputCount > 10) {
 					$('input[name=applyFile]').parentsUntil('.form').before($('<p/>').text("사진은 최대 10장까지 등록가능합니다").css(
-						"text-align", "center").css("color", "#f20000"));
+						"margin-left", "20%").css("color", "#f20000"));
 					check = false;
 				} else if (applyFileList.length + inputCount < 5) {
 					$('input[name=applyFile]').parentsUntil('.form').before($('<p/>').text("사진을 최소 5장이상 등록해주세요").css(
-						"text-align", "center").css("color", "#f20000"));
+						"margin-left", "20%").css("color", "#f20000"));
 				}
 				return check;
 			}
@@ -945,7 +970,8 @@ height: 248px;
 
 		<!-- JS -->
 		<th:block layout:fragment="script">
-			<script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
+			<script
+				th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
 			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
