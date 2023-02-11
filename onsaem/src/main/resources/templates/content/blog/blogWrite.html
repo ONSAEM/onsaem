@@ -215,8 +215,8 @@ caption.dots {
 	font-weight: bold;
 }
 .blog__details__content {
-	position: relative;
-    bottom: -5%;
+/* 	position: relative; */
+/*     bottom: -5%; */
 }
 </style>
 
@@ -419,7 +419,7 @@ caption.dots {
 								</div>
 							</div>
 							<!-- 메인 글 -->
-							<div class="timeline-right" style="width: 1077px; margin: 20px auto;padding: 10px 20px;background-color:white;border-radius:20px;height:104%;">
+							<div class="timeline-right" style="width: 1077px; margin: 20px auto;padding: 10px 20px;background-color:white;border-radius:20px;height:100%;position:relative;">
 								<!--------------------------신고!!!!! -->
 								<button class="btn" style="padding: 10px;float: right;">
 									<i type="button"
@@ -501,7 +501,7 @@ caption.dots {
 					<!-------------댓글--------------------------------------------------->
 					<main>
 						<section class="news-section section-padding">
-							<div class="container">
+							<div class="container" style="position: relative;top: 100%;">
 								<div class="row" style="margin-left: 274px;padding:50px;background-color: #ffffff;border-radius:20px;width:1077px;">
 									<div class="rere">
 										<div th:each=" reply : ${replyList}">
@@ -550,9 +550,12 @@ caption.dots {
 																	<input type="checkbox" name="publicScope" style="width:18px;margin-top:135px;"
 																		id="scopeReply" value="public" /> <span
 																		style="color: blue; font-weight: bold;">비밀댓글 🔒</span>
-																	<button type="button" style="width: 70px;"
-																		class="form-control rereplyInsert"
-																		th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}">등록</button>
+																	<button type="button" style="width: 109px;margin-top: 90px; margin-left:-113px;"
+																		class="form-control rereplyInsert btn"
+																		sec:authorize="isAuthenticated()">등록</button>
+																	<button type="button" style="width: 109px;margin-top: 90px; margin-left:-113px;"
+																		class="form-control btn"
+																		sec:authorize="isAnonymous()" onclick="alert('로그인 후 이용해주세요')">등록</button>
 																</div>
 																<input type="hidden" name="groupId"
 																	th:value="${reply.replyId}">
@@ -606,7 +609,8 @@ caption.dots {
 
 															<div class="d-flex mt-2">
 																<a type="button" class="author-comment-link me-3 reDelBtn"
-																	th:value="${reply.replyId}"><span
+																	th:value="${reply.replyId}"
+																	th:if="${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogWrite.blogId}"><span
 																	style="color: red;">삭제</span></a>
 															</div>
 														</div>
@@ -631,7 +635,8 @@ caption.dots {
 											<input type="checkbox" name="publicScope" id="scopeReply"
 												value="public" /> <span
 												style="color: blue; font-weight: bold;">비밀댓글 🔒</span>
-											<button type="button" id="replyBtn" class="form-control">등록</button>
+											<button type="button" id="replyBtn" class="form-control btn" sec:authorize="isAuthenticated()">등록</button>
+											<button type="button" class="form-control btn" sec:authorize="isAnonymous()" onclick="alert('로그인 후 이용해주세요')">등록</button>
 										</div>
 										<input type="hidden" name="groupId"
 											th:value="${blogWrite.writeId}">
@@ -857,27 +862,31 @@ caption.dots {
             	  let userId = "[[${blogWrite.blogId}]]";
                   let bno = "[[${blogWrite.writeId}]]";
                   let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
-                  
+                  let text = $('form[name="rereplyFrm"]').find('textarea').val();
                   
                   if(id!=null){ // 로그인 된 상태이면
-                     $.ajax({
-                        url: '/blog/myblog/blogWrite/replyInsert',
-                        method: 'post',
-                        beforeSend : function(xhr)
-                              {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-                              xhr.setRequestHeader(header, token);
-                              },
-                        contentType: 'application/x-www-form-urlencoded',
-                        data: $(e.target).closest('form').serialize(),
-                        success: function (result) {
-                              console.log(result);
-                               location.href='/blog/myblog/blogWrite?bno='+bno+'&userId='+userId;   // 이거 빼고 어디에 뭐 넣어라~ 이런식으로
-                             
-                        },
-                           error: function (error) {
-                              console.log(error);
-                           }
-                     });
+                	  if(text!=''){
+	                     $.ajax({
+	                        url: '/blog/myblog/blogWrite/replyInsert',
+	                        method: 'post',
+	                        beforeSend : function(xhr)
+	                              {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+	                              xhr.setRequestHeader(header, token);
+	                              },
+	                        contentType: 'application/x-www-form-urlencoded',
+	                        data: $(e.target).closest('form').serialize(),
+	                        success: function (result) {
+	                              console.log(result);
+	                               location.href='/blog/myblog/blogWrite?bno='+bno+'&userId='+userId;   // 이거 빼고 어디에 뭐 넣어라~ 이런식으로
+	                             
+	                        },
+	                           error: function (error) {
+	                              console.log(error);
+	                           }
+	                     });
+                	  }else{
+                  		alert('댓글 내용을 입력해주세요.');
+                  	}
                   }else{
                      alert('로그인이 필요합니다.');
                   }

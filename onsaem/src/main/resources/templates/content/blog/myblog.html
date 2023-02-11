@@ -359,8 +359,6 @@ caption.dots {
 									disabled><i class="fa-solid fa-comment"></i></a>
 								<a type="button" th:if="${mmtCnt==4} and ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''} == ${blogInfo.blogId}"
 									onclick="alert('😥 저장 가능한 모먼트 용량이 초과되었습니다. 삭제 후 등록해주세요!')"><i class="fa-solid fa-comment-slash"></i></a>
-								
-								
 							</h3>
 							<div id="card-app" class="card-container mmtpage-content">
 								<!-- 모달창 띄우는 버튼 -->
@@ -389,6 +387,7 @@ caption.dots {
 									<p class="mmtcopy">~[[${#dates.format(moment.uploadEnd, 'YY.MM.dd')}]]</p>
 									</card>
 								</a>
+								
 							</div>
 							<!-- 모먼트 끝 -->
 
@@ -407,8 +406,9 @@ caption.dots {
 		<div class="template" style="display: none">
 			<div class="album box">
 				<div class="album-content" onclick="scopeCheck(this)" style="cursor:pointer">
-					<a></a>
-					<div class="album-photos" onclick="scopeCheck(this)" style="cursor:pointer">
+					<a style="font-weight:bold;"></a><br>
+					<a style="color: #a2a4b4;font-size: 13px;font-style:italic;"></a>
+					<div class="album-photos" onclick="scopeCheck(this)" style="cursor:pointer;margin-top:-4px;">
 						<input type="hidden" class="thumbnail">
 						<!-- 썸네일 -->
 						<img id="thumbImg" class="album-photo">
@@ -846,7 +846,13 @@ caption.dots {
 				console.log("이야!!!!!!!!!!!!!!!!!!!!!!!!!"+item.fileRoute);
 				let makeClone = $(listClone).clone();
 				$(makeClone).find(".album-content").data("writeid",item.writeId).data("scope",item.publicScope).data("userid",item.blogId);
-				$(makeClone).find(".album-content").find('a').text(item.writeTitle+" "+item.subTitle);
+				if(item.publicScope != 'private'){
+					$(makeClone).find(".album-content").find('a').eq(0).text(item.writeTitle);
+				}else{
+					$(makeClone).find(".album-content").find('a').eq(0).text("🔒"+item.writeTitle);
+				}
+				
+				$(makeClone).find(".album-content").find('a').eq(1).text(item.subTitle);
 				$(makeClone).find(".album-photos").find("input[type=hidden].thumbnail").val(item.blogWrite);
 				$(makeClone).find(".album-photos").data("writeid",item.writeId).data("scope",item.publicScope).data("userid",item.blogId);
 				if(item.fileRoute != null){
