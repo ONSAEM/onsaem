@@ -631,7 +631,7 @@ height: 248px;
     <!-- Categories Section Begin -->
     <section class="categories">
         <div class="container">
-            <div class="row" style="margin-top: 45px;">
+            <div class="row" style="margin-top: 45px;" sec:authorize="isAuthenticated()">
        			<div class="section-title">
                    	<h2>구독자들의 최근 MOMENT</h2>
                	</div>
@@ -653,6 +653,8 @@ height: 248px;
 				</section>
 				<!--모먼트리스트 끝 -->
             </div>
+            <div class="row" style="margin-top: 45px;display:none;" sec:authorize="isAnonymous()">
+        	</div>
         </div>
     </section>
     <!-- Categories Section End -->
