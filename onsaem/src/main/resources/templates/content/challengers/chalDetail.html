@@ -409,8 +409,8 @@
 									<button th:if = "${chal.nowEnd} >0 " class="primary-btn detailBtn" style="background-color : #E4C4C2 ">
 										<p class="btnTextStyle">종료된 챌린지 입니다.<p>
 									</button>
-									<button th:if = "${chal.nowStart} >0 and ${chal.nowEnd} <=0" class="primary-btn detailBtn" style="background-color : #E4C4C2 ">
-										<p class="btnTextStyle">이미 시작된 챌린지 입니다<p>
+									<button th:if = "${chal.nowStart} >=0 and ${chal.nowEnd} <=0" class="primary-btn detailBtn" style="background-color : #E4C4C2 ">
+										<p class="btnTextStyle">진행 중 인 챌린지 입니다<p>
 									</button>
 									
 									<button th:if="${cnt}== null and ${chal.nowStart}<0 and ${chal.nowEnd}<0" onclick = "goPage()" class="primary-btn detailBtn">
