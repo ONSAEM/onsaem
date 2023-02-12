@@ -1,417 +1,458 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 
 <head>
-<style type="text/css">
-.main {
-	flex-grow: 1;
-	display: flex;
-	flex-direction: column;
-}
+	<style type="text/css">
+		.main {
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+		}
 
-.main-container {
-	padding: 20px;
-	flex-grow: 1;
-	background-color: #FCFBFC;
-}
+		.main-container {
+			padding: 20px;
+			flex-grow: 1;
+			background-color: #FCFBFC;
+		}
 
-.profile-cover {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	object-position: center;
-	border-radius: 4px;
-}
+		.profile-cover {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: center;
+			border-radius: 4px;
+		}
 
-.subheader {
-	position: relative;
-	height: 300px;
-	min-height: 250px;
-	z-index: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background-size: cover;
-	background-position: center;
-}
+		.subheader {
+			position: relative;
+			height: 300px;
+			min-height: 250px;
+			z-index: 1;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-size: cover;
+			background-position: center;
+		}
 
-.subheader:before {
-	content: "";
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	z-index: -1;
-	left: 0;
-	top: 0;
-	background-image: url("/course/test.gif");
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center;
-	filter: blur(30px);
-	opacity: 0.7;
-}
+		.subheader:before {
+			content: "";
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			z-index: -1;
+			left: 0;
+			top: 0;
+			background-image: url("/course/test.gif");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center;
+			filter: blur(30px);
+			opacity: 0.7;
+		}
 
-.glass {
-	height: 100%;
-	width: 100%;
-	background-image: url("/course/test.gif");
-	background-size: cover;
-	background-position: center;
-	clip-path: inset(10em);
-	filter: blur(5px);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
+		.glass {
+			height: 100%;
+			width: 100%;
+			background-image: url("/course/test.gif");
+			background-size: cover;
+			background-position: center;
+			clip-path: inset(10em);
+			filter: blur(5px);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
 
-.drop-shadow {
-	height: 155%;
-	width: 100%;
-	filter: drop-shadow(0px 20px 10px rgba(0, 0, 0, 0.3));
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
+		.drop-shadow {
+			height: 155%;
+			width: 100%;
+			filter: drop-shadow(0px 20px 10px rgba(0, 0, 0, 0.3));
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
 
-.drop-shadow:before {
-	display: block;
-	content: "";
-	position: absolute;
-	top: 10em;
-	height: calc(100% - 20em);
-	width: calc(100% - 20em);
-	border-top: 2px solid rgba(225, 225, 225, 0.2);
-	border-left: 1px solid rgba(225, 225, 225, 0.1);
-	border-right: 1px solid rgba(225, 225, 225, 0.3);
-	z-index: 2;
-}
+		.drop-shadow:before {
+			display: block;
+			content: "";
+			position: absolute;
+			top: 10em;
+			height: calc(100% - 20em);
+			width: calc(100% - 20em);
+			border-top: 2px solid rgba(225, 225, 225, 0.2);
+			border-left: 1px solid rgba(225, 225, 225, 0.1);
+			border-right: 1px solid rgba(225, 225, 225, 0.3);
+			z-index: 2;
+		}
 
-.drop-shadow>span {
-	position: absolute;
-	z-index: 5;
-	color: white;
-	font-size: 4em;
-	letter-spacing: 0.75em;
-	padding-left: 0.375em;
-}
+		.drop-shadow>span {
+			position: absolute;
+			z-index: 5;
+			color: white;
+			font-size: 4em;
+			letter-spacing: 0.75em;
+			padding-left: 0.375em;
+		}
 
-@media ( max-width : 980px) {
-	.glass {
-		clip-path: inset(7em);
-	}
-	.drop-shadow:before {
-		top: 7em;
-		width: calc(100% - 14em);
-		height: calc(100% - 14em);
-	}
-	.drop-shadow>span {
-		font-size: 4em;
-	}
-}
+		@media (max-width : 980px) {
+			.glass {
+				clip-path: inset(7em);
+			}
 
-@media ( max-width : 640px) {
-	.drop-shadow {
-		height: 95%;
-	}
-	.glass {
-		clip-path: inset(3em);
-	}
-	.drop-shadow:before {
-		top: 3em;
-		width: calc(100% - 6em);
-		height: calc(100% - 6em);
-	}
-	.drop-shadow>span {
-		font-size: 2em;
-	}
-}
+			.drop-shadow:before {
+				top: 7em;
+				width: calc(100% - 14em);
+				height: calc(100% - 14em);
+			}
 
-@media ( max-width : 330px) {
-	.subheader {
-		height: 248px;
-	}
-	.drop-shadow {
-		height: 95%;
-	}
-	.glass {
-		clip-path: inset(3em);
-	}
-	.drop-shadow:before {
-		top: 3em;
-		width: calc(100% - 6em);
-		height: calc(100% - 6em);
-	}
-	.drop-shadow>span {
-		padding-left: 0.75em;
-		font-size: 1.5em;
-	}
-}
+			.drop-shadow>span {
+				font-size: 4em;
+			}
+		}
 
-.product-details {
-	position: relative;
-	z-index: 1;
-	background-color: #ffffff;
-	padding: 50px 20px;
-	width: 1400px;
-	border-radius: 20px;
-	margin: 30px auto;
-}
+		@media (max-width : 640px) {
+			.drop-shadow {
+				height: 95%;
+			}
 
-/* VARIABLES -  START */
-/* COLORS  */
-/* DIMENSIONS */
-/* FONTS */
-@import
-	url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap")
-	;
+			.glass {
+				clip-path: inset(3em);
+			}
 
-/* VARIABLES - END */
-/* COMMONS - START */
-.flex-center, .wrapper .button-container, .wrapper {
-	justiy-content: center;
-	align-items: center;
-}
+			.drop-shadow:before {
+				top: 3em;
+				width: calc(100% - 6em);
+				height: calc(100% - 6em);
+			}
 
-* {
-	box-sizing: border-box;
-	margin: 0;
-}
+			.drop-shadow>span {
+				font-size: 2em;
+			}
+		}
 
-/* COMMONS - END */
-/* STYLES -  START */
-.wrapper {
-	font-family: "Lato", sans-serif;
-	font-weight: 400;
-}
+		@media (max-width : 330px) {
+			.subheader {
+				height: 248px;
+			}
 
-.heartbutton {
-	height: 50px;
-	width: 170px;
-	background-color: #fefefe;
-	border-radius: 5px;
-	padding: 12.5px;
-	cursor: pointer;
-}
+			.drop-shadow {
+				height: 95%;
+			}
 
-.content .icon {
-	font-size: 25px;
-	color: #ea4a87;
-}
+			.glass {
+				clip-path: inset(3em);
+			}
 
-.content .icon.fa {
-	display: none;
-}
+			.drop-shadow:before {
+				top: 3em;
+				width: calc(100% - 6em);
+				height: calc(100% - 6em);
+			}
 
-.content .text {
-	font-size: 25px;
-	color: #2f3537;
-}
+			.drop-shadow>span {
+				padding-left: 0.75em;
+				font-size: 1.5em;
+			}
+		}
 
-.content .text.like {
-	margin-left: 10px;
-}
+		.product-details {
+			position: relative;
+			z-index: 1;
+			background-color: #ffffff;
+			padding: 50px 20px;
+			width: 1400px;
+			border-radius: 20px;
+			margin: 30px auto;
+		}
 
-.content .text.d {
-	opacity: 0;
-	display: inline-block;
-	transform: translateX(12px);
-}
+		/* VARIABLES -  START */
+		/* COLORS  */
+		/* DIMENSIONS */
+		/* FONTS */
+		@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap");
 
-.content .text.number {
-	margin-left: 10px;
-	color: #7a7c81;
-}
+		/* VARIABLES - END */
+		/* COMMONS - START */
+		.flex-center,
+		.wrapper .button-container,
+		.wrapper {
+			justiy-content: center;
+			align-items: center;
+		}
 
-/* GENERAL STYLES */
-.pagination ul {
-	margin: auto;
-	padding: 0;
-	list-style: none;
-}
+		* {
+			box-sizing: border-box;
+			margin: 0;
+		}
 
-/* ONE */
-.p1 li {
-	font-size: 14px;
-	width: 40px;
-	height: 40px;
-	line-height: 40px;
-	padding: 0;
-	text-align: center;
-	float: left;
-	cursor: pointer;
-}
+		/* COMMONS - END */
+		/* STYLES -  START */
+		.wrapper {
+			font-family: "Lato", sans-serif;
+			font-weight: 400;
+		}
 
-.dayClass {
-	cursor: pointer;
-}
+		.heartbutton {
+			height: 50px;
+			width: 170px;
+			background-color: #fefefe;
+			border-radius: 5px;
+			padding: 12.5px;
+			cursor: pointer;
+		}
 
-#reportModal .modal-dialog {
-	min-width: 350px;
-}
+		.content .icon {
+			font-size: 25px;
+			color: #ea4a87;
+		}
 
-#reportModal .inputfield {
-	margin: auto;
-	width: 70%;
-	line-height: 30px;
-}
+		.content .icon.fa {
+			display: none;
+		}
 
-.modal-wrapper label {
-	color: #5f9999;
-	margin-top: 10px;
-	margin-bottom: 5px;
-	font-weight: bold;
-}
+		.content .text {
+			font-size: 25px;
+			color: #2f3537;
+		}
 
-.modal-wrapper button {
-	background-color: #9dc2c0;
-	color: white;
-}
+		.content .text.like {
+			margin-left: 10px;
+		}
 
-#bookingModal .modal-dialog {
-	width: 570px;
-}
+		.content .text.d {
+			opacity: 0;
+			display: inline-block;
+			transform: translateX(12px);
+		}
 
-#bookingModal .classTable {
-	height: 200px;
-	width: 100%;
-	text-align: center;
-	margin-top: 45px;
-}
+		.content .text.number {
+			margin-left: 10px;
+			color: #7a7c81;
+		}
 
-#bookingModal table {
-	width: 100%;
-	text-align: center;
-}
+		/* GENERAL STYLES */
+		.pagination ul {
+			margin: auto;
+			padding: 0;
+			list-style: none;
+		}
 
-#bookingModal .classTable tr {
-	height: 35px;
-}
+		/* ONE */
+		.p1 li {
+			font-size: 14px;
+			width: 40px;
+			height: 40px;
+			line-height: 40px;
+			padding: 0;
+			text-align: center;
+			float: left;
+			cursor: pointer;
+		}
 
-#bookingModal .classTable th {
-	color: #ffffff;
-	background-color: #5f9999;
-	width: 50%;
-}
+		.dayClass {
+			cursor: pointer;
+		}
 
-.selectedClass {
-	background-color: #9dc2c0;
-}
+		#reportModal .modal-dialog {
+			min-width: 350px;
+		}
 
-#bookingModal label {
-	width: 80px;
-	text-align: center;
-}
+		#reportModal .inputfield {
+			margin: auto;
+			width: 70%;
+			line-height: 30px;
+		}
 
-#bookingModal input {
-	text-align: end;
-	width: 150px;
-}
+		.modal-wrapper label {
+			color: #5f9999;
+			margin-top: 10px;
+			margin-bottom: 5px;
+			font-weight: bold;
+		}
 
-.inputfield button {
-	width: 100px;
-	float: right;
-}
+		.modal-wrapper button {
+			background-color: #9dc2c0;
+			color: white;
+		}
 
-.tab-pane {
-	margin-top: 30px;
-}
+		#bookingModal .modal-dialog {
+			width: 570px;
+		}
 
-.tab-pane .col-lg-7 {
-	width: 100%;
-}
+		#bookingModal .classTable {
+			height: 200px;
+			width: 100%;
+			text-align: center;
+			margin-top: 45px;
+		}
 
-#tabs-3 .row {
-	margin: auto;
-	width: 80%;
-}
+		#bookingModal table {
+			width: 100%;
+			text-align: center;
+		}
 
-.tab-pane button {
-	float: right;
-	margin-bottom: 10px;
-	border-radius: 10px;
-}
+		#bookingModal .classTable tr {
+			height: 35px;
+		}
 
-.product__details__tab__desc {
-	width: 80%;
-	margin: auto;
-}
+		#bookingModal .classTable th {
+			color: #ffffff;
+			background-color: #5f9999;
+			width: 50%;
+		}
 
-.product__details__text ul {
-	margin-top: 0px;
-	height: 100px;
-	background-color: #f6f8f9;
-	border-radius: 19px;
-	padding: 10px 20px;
-	width: 300px;
-	margin-bottom: 20px;
-	border: none;
-}
+		.selectedClass {
+			background-color: #9dc2c0;
+		}
 
-#viewReview .modal-dialog {
-	width: 600px;
-	margin-top: 7%;
-	margin-bottom: 7%;
-}
+		#bookingModal label {
+			width: 80px;
+			text-align: center;
+		}
 
-.rList .viewReview {
-	background-color: #f6f8f9;
-	padding: 15px;
-	border-radius: 20px;
-	align-items: center;
-	margin-bottom: 10px !important;
-	margin-top: 0px !important;
-}
+		#bookingModal input {
+			text-align: end;
+			width: 150px;
+		}
 
-.qList .news-block-info {
-	background-color: #f6f8f9;
-	padding: 15px;
-	border-radius: 20px;
-	align-items: center;
-	margin-bottom: 10px !important;
-	margin-top: 0px !important;
-}
+		.inputfield button {
+			width: 100px;
+			float: right;
+		}
 
-.qList {
-	clear: both;
-}
+		.tab-pane {
+			margin-top: 30px;
+		}
 
-.qList .viewQue {
-	margin-bottom: 0px !important;
-	margin-top: 0px !important;
-}
+		.tab-pane .col-lg-7 {
+			width: 100%;
+		}
 
-textarea {
-	border: 1px solid #bdbdbd;
-	border-radius: 10px;
-	padding: 5px;
-}
-</style>
+		#tabs-3 .row {
+			margin: auto;
+			width: 80%;
+		}
+
+		.tab-pane button {
+			float: right;
+			margin-bottom: 10px;
+			border-radius: 10px;
+		}
+
+		.product__details__tab__desc {
+			width: 80%;
+			margin: auto;
+		}
+
+		.product__details__text ul {
+			margin-top: 0px;
+			height: 100px;
+			background-color: #f6f8f9;
+			border-radius: 19px;
+			padding: 10px 20px;
+			width: 300px;
+			margin-bottom: 20px;
+			border: none;
+		}
+
+		#viewReview .modal-dialog {
+			width: 600px;
+		}
+
+		#viewReview .modal-body {
+			padding: 0px 50px;
+		}
+
+		#viewReview .modal-body div {
+			margin-bottom: 20px;
+		}
+
+		.rList .viewReview {
+			background-color: #f6f8f9;
+			padding: 15px;
+			border-radius: 20px;
+			align-items: center;
+			margin-bottom: 10px !important;
+			margin-top: 0px !important;
+			cursor: pointer;
+			align-items: flex-start;
+		}
+
+		.qList .news-block-info {
+			background-color: #f6f8f9;
+			padding: 15px;
+			border-radius: 20px;
+			align-items: center;
+			margin-bottom: 10px !important;
+			margin-top: 0px !important;
+			cursor: pointer;
+		}
+
+		.qList {
+			clear: both;
+		}
+
+		.qList .viewQue {
+			margin-bottom: 0px !important;
+			margin-top: 0px !important;
+		}
+
+		textarea {
+			border: 1px solid #bdbdbd;
+			border-radius: 10px;
+			padding: 5px;
+		}
+
+		#viewQue .modal-dialog {
+			width: 500px;
+		}
+
+		#viewQue .modal-wrapper label {
+			color: #5f9999;
+			margin-top: 20px;
+			margin-bottom: 5px;
+			font-weight: bold;
+		}
+
+		#viewQue botton {
+			background-color: #a5c5c5;
+			color: white;
+			padding: 10px;
+			border-radius: 10px;
+			cursor: pointer;
+			float: right;
+		}
+
+		.author-comment-info img {
+			width: 200px;
+		}
+
+		.inputfield button:hover {
+			color: #ffffff;
+			background-color: #5f9999;
+		}
+
+		.primary-btn:hover {
+			color: #ffffff;
+			background-color: #5f9999;
+		}
+	</style>
 </head>
 <!-- Css  -->
 <th:block layout:fragment="css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/course/courseStyle.css}"
-		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/course/courseStyle.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/css/modal.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/css/calendar.css}" type="text/css">
 </th:block>
@@ -448,9 +489,9 @@ textarea {
 								<h3 th:text="${class.className}"></h3>
 								<div class="product__details__rating">
 									<i class="fa-solid fa-star" th:if="${class.star != 0}"
-										th:each="num:${#numbers.sequence(1,class.star)}"
-										style="color: #ffe949"></i><i class="fa-solid fa-star-half"
-										th:if="${class.star%1 >= 0.5}" style="color: #ffe949"></i> <span>([[${class.reviewCount}]]
+										th:each="num:${#numbers.sequence(1,class.star)}" style="color: #ffe949"></i><i
+										class="fa-solid fa-star-half" th:if="${class.star%1 >= 0.5}"
+										style="color: #ffe949"></i> <span>([[${class.reviewCount}]]
 										reviews)</span>
 								</div>
 								<div class="product__details__price">[[${#numbers.formatInteger(class.price,
@@ -459,23 +500,19 @@ textarea {
 									<li><b>소요시간</b> <span>[[${class.classTime}]]시간</span></li>
 									<li><b>난이도</b> <span>[[${class.difficulty}]]</span></li>
 								</ul>
-								<a href="/loginPage" class="primary-btn"
-									sec:authorize="isAnonymous()">예약하기</a> <a href="/loginPage"
-									class="primary-btn" sec:authorize="isAnonymous()">신고하기</a> <a
-									href="#" class="primary-btn bookingModal"
-									sec:authorize="hasRole('USER')">예약하기</a> <a href="#"
-									class="primary-btn" sec:authorize="hasRole('USER')"
-									data-bs-toggle="modal" data-bs-target="#reportModal">신고하기</a>
+								<a href="/loginPage" class="primary-btn" sec:authorize="isAnonymous()">예약하기</a> <a
+									href="/loginPage" class="primary-btn" sec:authorize="isAnonymous()">신고하기</a> <a
+									href="#" class="primary-btn bookingModal" sec:authorize="hasRole('USER')">예약하기</a>
+								<a href="#" class="primary-btn" sec:authorize="hasRole('USER')" data-bs-toggle="modal"
+									data-bs-target="#reportModal">신고하기</a>
 								<div class="wrapper">
 									<div class="button-container">
 										<div class="heartbutton">
-											<span class="content"> <i class="icon fa fa-heart"
-												aria-hidden="true"></i> <i class="icon far fa-heart"
-												aria-hidden="true"></i> <span class="text like">Like<span
-													class="text d">d</span></span> <span class="text number"
-												th:text="${like.cnt}"></span>
-											</span> <input type="hidden" class="ClassLike"
-												th:value=${like.likeCk}>
+											<span class="content"> <i class="icon fa fa-heart" aria-hidden="true"></i>
+												<i class="icon far fa-heart" aria-hidden="true"></i> <span
+													class="text like">Like<span class="text d">d</span></span> <span
+													class="text number" th:text="${like.cnt}"></span>
+											</span> <input type="hidden" class="ClassLike" th:value=${like.likeCk}>
 										</div>
 									</div>
 								</div>
@@ -484,23 +521,21 @@ textarea {
 						<div class="col-lg-12">
 							<div class="product__details__tab">
 								<ul class="nav nav-tabs" role="tablist">
-									<li class="nav-item"><a class="nav-link" data-toggle="tab"
-										href="#tabs-1" role="tab" aria-selected="false">Information</a>
+									<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tabs-1" role="tab"
+											aria-selected="false">Information</a>
 									</li>
-									<li class="nav-item"><a class="nav-link" data-toggle="tab"
-										href="#tabs-2" role="tab" aria-selected="false">Reviews <span>([[${class.reviewCount}]])</span></a>
+									<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
+											aria-selected="false">Reviews <span>([[${class.reviewCount}]])</span></a>
 									</li>
-									<li class="nav-item"><a class="nav-link" data-toggle="tab"
-										href="#tabs-3" role="tab" aria-selected="false">Questions
+									<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
+											aria-selected="false">Questions
 											<span>([[${class.queCount}]])</span>
-									</a></li>
+										</a></li>
 								</ul>
 								<div class="tab-content">
 									<div class="tab-pane active" id="tabs-1" role="tabpanel">
 										<div class="product__details__tab__desc">
-											<h6>Products Infomation</h6>
 											<p>[(${class.explanation})]</p>
-											<img th:src="@{/images/classRefund.png}" style="width: 60%;">
 											<div id="map" style="width: 60%; height: 350px;"></div>
 										</div>
 									</div>
@@ -525,17 +560,19 @@ textarea {
 																		class="img-fluid avatar-image">
 
 																	<div class="author-comment-info ms-3">
-																		<h6 class="mb-1" th:text="${review.nickname}"></h6>
+																		<h6 class="mb-1" th:text="${review.nickname}">
+																		</h6>
 																		<i class="fa-solid fa-star"
 																			th:if="${review.reviewStar != 0}"
 																			th:each="num:${#numbers.sequence(1,review.reviewStar)}"
 																			style="color: #ffe949"></i><i
 																			class="fa-solid fa-star-half"
 																			th:if="${review.reviewStar%1 >= 0.5}"
-																			style="color: #ffe949"></i> <img
+																			style="color: #ffe949"></i><br> <img
 																			th:if="${review.reviewMedia != null}"
 																			th:src="@{'/fileView/'+${review.reviewMedia.fileRoute}}">
-																		<p class="mb-0" th:text="${review.reviewContent}"></p>
+																		<p class="mb-0"
+																			th:text="${review.reviewContent}"></p>
 																	</div>
 																</div>
 
@@ -551,7 +588,8 @@ textarea {
 																	<th:block
 																		th:each="num : ${#numbers.sequence(review.rPaging.startPage,review.rPaging.endPage)}">
 																		<!-- 페이지 생성  ex) 1 2 3 4 5-->
-																		<li id="pageNum" th:if="${review.rPaging.page != num}"
+																		<li id="pageNum"
+																			th:if="${review.rPaging.page != num}"
 																			th:text=${num}></li>
 																		<!-- 현재페이지와 맞는 페이지는 정해진 css가 입혀서 생성-->
 																		<li th:if="${review.rPaging.page == num}"
@@ -582,8 +620,7 @@ textarea {
 														등록</button>
 													<br>
 													<div class="news-block qList">
-														<div class="news-block-info "
-															th:each="que : ${question.qList}">
+														<div class="news-block-info " th:each="que : ${question.qList}">
 															<div class="author-comment d-flex mt-3 mb-4 viewQue"
 																th:id="${que.queId}"
 																th:if="${que.writerId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null} or ${class.memberId} == ${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:null}">
@@ -645,13 +682,11 @@ textarea {
 	</div>
 	<!-- Product Details Section End -->
 
-	<div class="modal fade" id="viewReview" data-bs-keyboard="false"
-		aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="viewReview" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body"></div>
 
@@ -659,13 +694,11 @@ textarea {
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="inputModal" data-bs-keyboard="false"
-		aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="inputModal" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
@@ -683,13 +716,11 @@ textarea {
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="viewQue" data-bs-keyboard="false"
-		aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="viewQue" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
@@ -701,13 +732,11 @@ textarea {
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="modifyQue" data-bs-keyboard="false"
-		aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="modifyQue" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
@@ -725,20 +754,18 @@ textarea {
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="addAns" data-bs-keyboard="false"
-		aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="addAns" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
 						<div class="title">답변등록</div>
 						<div class="inputfield">
-							<label>답변내용</label>
-							<textarea name="ansContent" class="input"></textarea>
+							<label>답변내용</label><br>
+							<textarea name="ansContent" rows="10" cols="50"></textarea>
 						</div>
 						<div class="inputfield">
 							<button type="button" class="btn Answer">답변등록</button>
@@ -749,20 +776,18 @@ textarea {
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="modifyAns" data-bs-keyboard="false"
-		aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="modifyAns" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
 						<div class="title">답변수정</div>
 						<div class="inputfield">
 							<label>답변내용</label>
-							<textarea name="ansContent" class="input"></textarea>
+							<textarea name="ansContent" rows="10" cols="50"></textarea>
 						</div>
 						<div class="inputfield">
 							<button type="button" class="btn Answer">답변수정</button>
@@ -773,21 +798,18 @@ textarea {
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="reportModal" data-bs-keyboard="false"
-		aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="reportModal" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
 						<div class="title">신고</div>
 						<div class="inputfield">
-							<label>신고종류</label><br> <input type="radio" name="reason"
-								value="욕설 및 비하 발언">욕설 및 비하 발언<br> <input
-								type="radio" name="reason" value="환경보호관련 클래스가 아님">환경보호관련
+							<label>신고종류</label><br> <input type="radio" name="reason" value="욕설 및 비하 발언">욕설 및 비하 발언<br>
+							<input type="radio" name="reason" value="환경보호관련 클래스가 아님">환경보호관련
 							클래스가 아님<br> <input type="radio" name="reason" value="설명과 다름">설명과
 							다름<br> <input type="radio" name="reason" value="기타">기타<br>
 							<label>신고상세내용</label><br>
@@ -802,13 +824,11 @@ textarea {
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="bookingModal" data-bs-keyboard="false"
-		aria-hidden="true" tabindex="-1">
+	<div class="modal fade" id="bookingModal" data-bs-keyboard="false" aria-hidden="true" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<div class="modal-wrapper">
@@ -829,8 +849,7 @@ textarea {
 								</table>
 							</div>
 							<div class="inputfield">
-								<label>예약인원</label> <input type="number" name="people" value="1"
-									min="1">
+								<label>예약인원</label> <input type="number" name="people" value="1" min="1">
 							</div>
 							<div class="inputfield">
 								<button type="button" class="btn BookingBtn">예약</button>
@@ -887,7 +906,6 @@ textarea {
 			})
 			return checked;
 		}
-
 		function getclassList(date) {
 			console.log(date);
 			$.ajax({
@@ -1283,27 +1301,14 @@ textarea {
 					} else {
 						img = '/images/defaulltProfile.png';
 					}
-					let content = $(`<div class="modal-wrapper">
+					let content = $(`<div>
+					<div class="modal-wrapper">
 									<div class="title">리뷰 상세</div>
-								<div class="product__details__pic">
-										<div class="product__details__pic__item">
-										<img class="product__details__pic__item--large"
-											src="/shoptemplate/img/product/details/product-details-1.jpg" alt="">
-									</div>
-									<div class="product__details__pic__slider owl-carousel">
-										<img data-imgbigurl="/shoptemplate/img/product/details/product-details-2.jpg"
-											src="/shoptemplate/img/product/details/thumb-1.jpg" alt="">
-										<img data-imgbigurl="/shoptemplate/img/product/details/product-details-3.jpg"
-											src="/shoptemplate/img/product/details/thumb-2.jpg" alt="">
-										<img data-imgbigurl="/shoptemplate/img/product/details/product-details-5.jpg"
-											src="/shoptemplate/img/product/details/thumb-3.jpg" alt="">
-										<img data-imgbigurl="/shoptemplate/img/product/details/product-details-4.jpg"
-											src="/shoptemplate/img/product/details/thumb-4.jpg" alt="">
-									</div>
 								</div>
 								<img src="${img}" class="img-fluid avatar-image">
-								<p>작성자 : ${result.nickname}</p>
-								<p>내용 : ${result.reviewContent}</p>
+								${result.nickname}
+								</div>
+								${result.reviewContent}
 								<p>작성일자 : ${result.reviewDate}</p></div>`);
 					if (result.reviewStar != 0) {
 						for (let i = 1; i <= result.reviewStar; i++) {
@@ -1315,8 +1320,10 @@ textarea {
 						$(content).find('p').eq(1).before(`<i class="fa-solid fa-star-half"
 																					style="color: #ffe949"></i>`);
 					}
-					for (let media of result.reviewMediaList) {
-						$(content).find('p').eq(2).after(`<img src="/fileView/${media.fileRoute}" style="width : 300px">`);
+					console.log(result.reviewMedia);
+					console.log($(content).children('.modal-wrapper'));
+					if (result.reviewMedia != null) {
+						$(content).children('.modal-wrapper').append(`<img src="/fileView/${result.reviewMedia.fileRoute}" style="width : 500px,margin-bottom: 20px;">`);
 					}
 					$(content).find('.product__details__pic__slider img').each(function () {
 						$(this).on('click', function () {
@@ -1331,17 +1338,7 @@ textarea {
 					})
 					$('#viewReview').find('.modal-body').append(content);
 					$('#viewReview').modal("show");
-					$('body').css("overflow","hidden");
-					console.log($(document).find('.show'));
-					$('#viewReview').find(".product__details__pic__slider").owlCarousel({
-						loop: true,
-						margin: 20,
-						items: 4,
-						dots: true,
-						smartSpeed: 1200,
-						autoHeight: false,
-						autoplay: true
-					});
+					$('body').css("overflow", "hidden");
 				},
 				error: function (error) {
 					console.log(error);
@@ -1416,6 +1413,14 @@ textarea {
 				})
 		})
 
+		function dateFormat(nowdate) {
+			let classdate = new Date(nowdate);
+			let year = classdate.getFullYear();
+			let month = classdate.getMonth() + 1;
+			let date = classdate.getDate();
+			return `${year}년 ${month}월 ${date}일`;
+		}
+
 		function viewQueOpen(queId) {
 			$.ajax({
 				url: '/class/getQue',
@@ -1426,17 +1431,24 @@ textarea {
 					console.log(result);
 					$('#viewQue').find('.modal-wrapper').children().remove();
 					let img = '';
+					let ansContent = result.ansContent != null ? result.ansContent : '<p>답변이 없습니다</p>'
+					let ansDate = result.ansContent != null ? dateFormat(result.ansDate) : ''
 					if (result.profile != null) {
 						img = '/fileView/' + result.profile.fileRoute;
 					} else {
 						img = '/images/defaulltProfile.png';
 					}
-					let content = `<img src="${img}" class="img-fluid avatar-image">
-									  <p>작성자 : ${result.nickname}</p>
-									  <p>내용 : ${result.queContent}</p>
-									  <p>작성일자 : ${result.queDate}</p>
-									  <p>답변내용 : ${result.ansContent}</p>
-									  <p>답변일자 : ${result.ansDate}</p>`;
+					let content = `<div class="inputfield">
+						<img src="${img}" class="img-fluid avatar-image"> ${result.nickname}
+					</div>
+					<div class="inputfield">
+					<label>문의내용</label>${result.queContent}
+					<p>${dateFormat(result.queDate)}</p>
+				</div>
+				<div class="inputfield">
+				<label>답변내용</label>${ansContent}
+				<p>${ansDate}</p>
+			</div>`;
 					let btn = $('<botton/>');
 					if (result.writerId == memberId) {
 						$(btn).text('문의 수정').on('click', function () {
@@ -1471,14 +1483,22 @@ textarea {
 
 		// 문의수정모달창
 		function modifyQueOpen(content, queId) {
-			$('#modifyQue').find('textarea[name=queContent]').val(content);
+			let newContent = '';
+			$(content).each(function () {
+				newContent += $(this).text() + '\n';
+			})
+			$('#modifyQue').find('textarea[name=queContent]').val(newContent);
 			$('#modifyQue').find('.updateQue').attr('id', queId);
 			$('#viewQue').modal("hide");
 			$('#modifyQue').modal("show");
 		}
 		// 답변수정모달창
 		function modifyAnsOpen(content, queId) {
-			$('#modifyAns').find('textarea[name=ansContent]').val(content);
+			let newContent = '';
+			$(content).each(function () {
+				newContent += $(this).text() + '\n';
+			})
+			$('#modifyAns').find('textarea[name=ansContent]').val(newContent);
 			$('#modifyAns').find('.Answer').attr('id', queId);
 			$('#viewQue').modal("hide");
 			$('#modifyAns').modal("show");
@@ -1527,7 +1547,7 @@ textarea {
 				}
 				let data = {
 					"queId": $(this).attr('id'),
-					"ansContent": $(this).parentsUntil('.modal-body').find("textarea[name='ansContent']").val()
+					"ansContent": textEditer($(this).parentsUntil('.modal-body').find("textarea[name='ansContent']").val())
 				}
 				$.ajax({
 					url: '/class/updateAnswer',
@@ -1632,4 +1652,5 @@ textarea {
 		<script th:src="@{/shoptemplate/js/main.js}"></script>
 	</th:block>
 </div>
+
 </html>

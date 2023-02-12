@@ -21,6 +21,44 @@
 			padding: 0 4px;
 			margin: auto;
 		}
+
+		.product-cell button {
+			background-color: #9dc2c0;
+			border: none;
+			color: white;
+			padding: 2px 7px;
+			border-radius: 5px;
+		}
+
+		.product-cell button:hover {
+			background-color: #5f9999;
+		}
+
+		.tableView .product-cell {
+			flex: none;
+			padding: 8px 16px;
+			font-size: 14px;
+			display: flex;
+			align-items: center;
+			cursor: pointer;
+		}
+
+		.middle {
+			width: 87%;
+		}
+
+		.products-header .middle {
+			color: white;
+		}
+
+		.action-button {
+			color: white;
+		}
+
+		.action-button:hover {
+			background-color: #5f9999;
+			border: 1px solid #5f9999;
+		}
 	</style>
 </head>
 
@@ -38,7 +76,7 @@
 				<div class="product-cell">
 					<input type="checkbox" name="allcheck">
 				</div>
-				<div class="product-cell">
+				<div class="product-cell middle">
 					클래스
 				</div>
 				<div class="product-cell">
@@ -49,7 +87,7 @@
 				<div class="product-cell">
 					<input type="checkbox" name="delcheck">
 				</div>
-				<div class="product-cell classdetail">
+				<div class="product-cell classdetail middle">
 					<img th:src="'/fileView/'+${like.classInfo.media.fileRoute}" alt="product"> <span
 						th:text="${like.classInfo.className}">Ocean</span>
 				</div>

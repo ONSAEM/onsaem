@@ -31,16 +31,22 @@
 			margin: 0px;
 		}
 
+		#addClassInfo form {
+			width: 90%;
+			margin: auto;
+		}
+
 		#addClassInfo .inputfield label {
-			width: 20%;
+			width: 100%;
 			color: #629b9b;
 			font-size: 15px;
 			margin-bottom: 5px;
 			font-weight: bold;
+			margin-right: 4%;
 		}
 
 		#addClassInfo .inputfield .input {
-			width: 70%;
+			width: 100%;
 			outline: none;
 			border: 1px solid #d5dbd9;
 			font-size: 15px;
@@ -49,10 +55,19 @@
 			transition: all 0.3s ease;
 		}
 
+		#addClassInfo .insertClass {
+			background-color: #a5c5c5;
+			color: white;
+			padding: 5px 10px;
+			border-radius: 10px;
+			cursor: pointer;
+			float: right;
+			margin-top: 10px;
+		}
+
 		#addClass .modal-dialog {
 			width: 600px;
 		}
-
 
 		#addClass .modal-dialog {
 			width: 570px;
@@ -94,8 +109,7 @@
 			width: 150px;
 		}
 	</style>
-	<link type="text/css" rel="stylesheet"
-		th:href="@{/css/aksFileUpload.min.css}">
+	<link type="text/css" rel="stylesheet" th:href="@{/css/aksFileUpload.min.css}">
 	<script th:src="@{/js/fileupload.js}"></script>
 	<script type="text/javascript" th:src="@{/smarteditor/js/HuskyEZCreator.js}"></script>
 </head>
@@ -104,68 +118,11 @@
 	<div layout:fragment="content" class="app-content">
 		<div class="app-content-header">
 			<h1 class="app-content-headerText">클래스관리</h1>
-			<button class="mode-switch" title="Switch Theme">
-				<svg class="moon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-					stroke-width="2" width="24" height="24" viewBox="0 0 24 24">
-					<defs></defs>
-					<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
-				</svg>
-			</button>
-			<button class="app-content-headerButton addClassInfo">Add Product</button>
+			<button class="app-content-headerButton addClassInfo">Add
+				Class</button>
 		</div>
 		<div class="app-content-actions">
-			<input class="search-bar" placeholder="Search..." type="text">
-			<div class="app-content-actions-wrapper">
-				<div class="filter-button-wrapper">
-					<button class="action-button filter jsFilter">
-						<span>Filter</span>
-						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-							stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-							class="feather feather-filter">
-							<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-						</svg>
-					</button>
-					<div class="filter-menu">
-						<label>Category</label> <select>
-							<option>All Categories</option>
-							<option>Furniture</option>
-							<option>Decoration</option>
-							<option>Kitchen</option>
-							<option>Bathroom</option>
-						</select> <label>Status</label> <select>
-							<option>All Status</option>
-							<option>Active</option>
-							<option>Disabled</option>
-						</select>
-						<div class="filter-menu-buttons">
-							<button class="filter-button reset">Reset</button>
-							<button class="filter-button apply">Apply</button>
-						</div>
-					</div>
-				</div>
-				<button class="action-button list active" title="List View">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-						stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-						class="feather feather-list">
-						<line x1="8" y1="6" x2="21" y2="6" />
-						<line x1="8" y1="12" x2="21" y2="12" />
-						<line x1="8" y1="18" x2="21" y2="18" />
-						<line x1="3" y1="6" x2="3.01" y2="6" />
-						<line x1="3" y1="12" x2="3.01" y2="12" />
-						<line x1="3" y1="18" x2="3.01" y2="18" />
-					</svg>
-				</button>
-				<button class="action-button grid" title="Grid View">
-					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-						stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-						class="feather feather-grid">
-						<rect x="3" y="3" width="7" height="7" />
-						<rect x="14" y="3" width="7" height="7" />
-						<rect x="14" y="14" width="7" height="7" />
-						<rect x="3" y="14" width="7" height="7" />
-					</svg>
-				</button>
-			</div>
+
 		</div>
 		<div class="products-area-wrapper tableView">
 			<div class="products-header">
@@ -208,14 +165,15 @@
 			</div>
 			<div class="products-row" th:each="class : ${classList}" th:id="${class.classId}">
 				<div class="product-cell image">
-					<img th:src="'/fileView/'+${class.media.fileRoute}" alt="product"> <span
-						th:text="${class.className}"></span>
+					<img th:src="'/fileView/'+${class.media.fileRoute}" alt="product">
+					<span th:text="${class.className}"></span>
 				</div>
 				<div class="product-cell category">
 					<span class="cell-label">클래스ID:</span>[[${class.classId}]]
 				</div>
 				<div class="product-cell sales">
-					<span class="cell-label">등록일자:</span>[[${#dates.format(class.classDate, 'yyyy년 MM월 dd일')}]]
+					<span class="cell-label">등록일자:</span>[[${#dates.format(class.classDate,
+					'yyyy년 MM월 dd일')}]]
 				</div>
 				<div class="product-cell status-cell">
 					<span class="cell-label">클래스상태:</span><span class="status active">[[${class.status}]]</span>
@@ -236,11 +194,19 @@
 									<label>클래스이름</label><br> <input type="text" name="className" class="input">
 								</div>
 								<div class="inputfield">
-									<label>가격</label><br> <input type="number" value="0"  min="0" name="price" class="input">
+									<label>가격</label><br> <input type="number" value="0" min="0" name="price"
+										class="input">
 								</div>
 								<div class="inputfield">
-									<label>난이도</label>
-									<label>소요시간</label><br>
+									<label>인원</label><br> <input type="number" value="0" min="0" name="totalPeople"
+										class="input">
+								</div>
+								<div class="inputfield">
+									<label>소요시간</label><br> <input type="number" value="1" min="1" name="classTime"
+										class="input">
+								</div>
+								<div class="inputfield">
+									<label>난이도</label> <br>
 									<div class="custom_select">
 										<select name="difficulty">
 											<option value="">::난이도::</option>
@@ -249,10 +215,11 @@
 											<option value="하">하</option>
 										</select>
 									</div>
-									<input type="number"  value="1"  min="1" name="classTime" class="input">
+
 								</div>
 								<div class="inputfield">
-									<label>클래스 설명</label><br> <textarea name="explanation" id="ir1" rows="10" cols="97"
+									<label>클래스 설명</label><br>
+									<textarea name="explanation" id="ir1" rows="10" cols="99"
 										maxlength="1000"></textarea>
 								</div>
 								<div class="inputfield">
@@ -260,8 +227,7 @@
 									<p>*클래스 사진을 최소 4장 최대 10장내로 등록해주세요</p>
 								</div>
 								<div class="inputfiles">
-									<input name="classFile" type="file" 
-										style="display: none;" multiple>
+									<input name="classFile" type="file" style="display: none;" multiple>
 									<div id="aks-file-upload"></div>
 								</div>
 								<div class="inputfield">
@@ -314,7 +280,7 @@
 
 		<script type="text/javascript">
 			let token = $("meta[name='_csrf']").attr("content");
-		let header = $("meta[name='_csrf_header']").attr("content");
+			let header = $("meta[name='_csrf_header']").attr("content");
 			let applyFileList = [];
 			let groupId = '';
 			let DateList = [];
@@ -329,9 +295,9 @@
 				});
 			}
 
-			function editer(fileUrl){
-			oEditors.getById["ir1"].exec("PASTE_HTML",[`<video src='${fileUrl}' controls></video>`]);
-		}
+			function editer(fileUrl) {
+				oEditors.getById["ir1"].exec("PASTE_HTML", [`<video src='${fileUrl}' controls></video>`]);
+			}
 
 			$('.addClassInfo').on('click', function () {
 				$('#addClassInfo').modal("show");
@@ -420,17 +386,17 @@
 				$('input[name=classFile]')[0].files = dataTransfer.files; //제거 처리된 FileList를 돌려줌
 			}
 
-			$('.insertClass').on('click',function(){
+			$('.insertClass').on('click', function () {
 				oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
 				insertClass();
 			})
 
-				// 강의등록
-				function insertClass() {
+			// 강의등록
+			function insertClass() {
 				inputFile();
 				let memberId = "[[${#authentication.principal.memberId}]]";
 				let data = new FormData($('.form')[0]);
-				data.append('memberId',memberId);
+				data.append('memberId', memberId);
 				$.ajax({
 					url: '/class/classInfoInsert',
 					enctype: 'multipart/form-data',
@@ -449,7 +415,7 @@
 							let year = classdate.getFullYear();
 							let month = classdate.getMonth() + 1;
 							let date = classdate.getDate();
-						let newClass = $(`<div class="products-row" th:id="${item.classId}">
+							let newClass = $(`<div class="products-row" th:id="${item.classId}">
 				<div class="product-cell image">
 					<img src="/fileView/${item.media.fileRoute}" alt="product"> <span
 						>${item.className}</span>
@@ -464,8 +430,8 @@
 					<span class="cell-label">클래스상태:</span><span class="status active">${item.status}</span>
 				</div>
 			</div>`);
-					$('.tableView').append(newClass);
-					})
+							$('.tableView').append(newClass);
+						})
 					},
 					error: function (error) {
 						console.log(error);

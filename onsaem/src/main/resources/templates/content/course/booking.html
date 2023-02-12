@@ -1,183 +1,220 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/layout}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
 
 <!-- Css  -->
 <th:block layout:fragment="css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}"
-		type="text/css">
-	<link rel="stylesheet"
-		th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}"
-		type="text/css">
-	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
-		type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/bootstrap.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/font-awesome.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/elegant-icons.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/nice-select.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/shop/css/jquery-ui.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/owl.carousel.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/slicknav.min.css}" type="text/css">
+	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}" type="text/css">
 	<link rel="stylesheet" th:href="@{/css/login.css}" type="text/css">
 </th:block>
 
 <head>
-<meta charset="UTF-8">
-<style type="text/css">
+	<meta charset="UTF-8">
+	<style type="text/css">
+		.main {
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+		}
 
-.main {
-	flex-grow: 1;
-	display: flex;
-	flex-direction: column;
-}
+		.main-container {
+			padding: 20px;
+			flex-grow: 1;
+			background-color: #FCFBFC;
+		}
 
-.main-container {
-	padding: 20px;
-	flex-grow: 1;
-	background-color: #FCFBFC;
-}
+		.profile-cover {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: center;
+			border-radius: 4px;
+		}
 
-.profile-cover {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	object-position: center;
-	border-radius: 4px;
-}
+		.subheader {
+			position: relative;
+			height: 300px;
+			min-height: 250px;
+			z-index: 1;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-size: cover;
+			background-position: center;
+			margin-bottom: 30px;
+		}
 
-.subheader {
-	position: relative;
-	height: 300px;
-	min-height: 250px;
-	z-index: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background-size: cover;
-	background-position: center;
-	margin-bottom: 30px;
-}
+		.subheader:before {
+			content: "";
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			z-index: -1;
+			left: 0;
+			top: 0;
+			background-image: url("/course/test.gif");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center;
+			filter: blur(30px);
+			opacity: 0.7;
+		}
 
-.subheader:before {
-	content: "";
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	z-index: -1;
-	left: 0;
-	top: 0;
-	background-image: url("/course/test.gif");
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center;
-	filter: blur(30px);
-	opacity: 0.7;
-}
+		.glass {
+			height: 100%;
+			width: 100%;
+			background-image: url("/course/test.gif");
+			background-size: cover;
+			background-position: center;
+			clip-path: inset(10em);
+			filter: blur(5px);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
 
-.glass {
-	height: 100%;
-	width: 100%;
-	background-image: url("/course/test.gif");
-	background-size: cover;
-	background-position: center;
-	clip-path: inset(10em);
-	filter: blur(5px);
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
+		.drop-shadow {
+			height: 155%;
+			width: 100%;
+			filter: drop-shadow(0px 20px 10px rgba(0, 0, 0, 0.3));
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
 
-.drop-shadow {
-	height: 155%;
-	width: 100%;
-	filter: drop-shadow(0px 20px 10px rgba(0, 0, 0, 0.3));
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
+		.drop-shadow:before {
+			display: block;
+			content: "";
+			position: absolute;
+			top: 10em;
+			height: calc(100% - 20em);
+			width: calc(100% - 20em);
+			border-top: 2px solid rgba(225, 225, 225, 0.2);
+			border-left: 1px solid rgba(225, 225, 225, 0.1);
+			border-right: 1px solid rgba(225, 225, 225, 0.3);
+			z-index: 2;
+		}
 
-.drop-shadow:before {
-	display: block;
-	content: "";
-	position: absolute;
-	top: 10em;
-	height: calc(100% - 20em);
-	width: calc(100% - 20em);
-	border-top: 2px solid rgba(225, 225, 225, 0.2);
-	border-left: 1px solid rgba(225, 225, 225, 0.1);
-	border-right: 1px solid rgba(225, 225, 225, 0.3);
-	z-index: 2;
-}
+		.drop-shadow>span {
+			position: absolute;
+			z-index: 5;
+			color: white;
+			font-size: 4em;
+			letter-spacing: 0.75em;
+			padding-left: 0.375em;
+		}
 
-.drop-shadow>span {
-	position: absolute;
-	z-index: 5;
-	color: white;
-	font-size: 4em;
-	letter-spacing: 0.75em;
-	padding-left: 0.375em;
-}
+		@media (max-width: 980px) {
+			.glass {
+				clip-path: inset(7em);
+			}
 
-@media (max-width: 980px) {
-  .glass {
-    clip-path: inset(7em);
-  }
+			.drop-shadow:before {
+				top: 7em;
+				width: calc(100% - 14em);
+				height: calc(100% - 14em);
+			}
 
-  .drop-shadow:before {
-    top: 7em;
-    width: calc(100% - 14em);
-    height: calc(100% - 14em);
-  }
-  .drop-shadow > span {
-    font-size: 4em;
-  }
-}
-@media (max-width: 640px) {
-.drop-shadow{
-    height: 95%;
-  }
-.glass {
-    clip-path: inset(3em);
-  }
- .drop-shadow:before {
-    top: 3em;
-    width: calc(100% - 6em);
-    height: calc(100% - 6em);
-  }
-  .drop-shadow > span {
-    font-size: 2em;
-  }
-}
+			.drop-shadow>span {
+				font-size: 4em;
+			}
+		}
 
-@media (max-width: 330px) {
-.subheader {
-height: 248px;
-}
-.drop-shadow{
-    height: 95%;
-  }
-.glass {
-    clip-path: inset(3em);
-  }
- .drop-shadow:before {
-    top: 3em;
-    width: calc(100% - 6em);
-    height: calc(100% - 6em);
-  }
-  .drop-shadow > span {
-  padding-left: 0.75em;
-    font-size: 1.5em;
-  }
-}
-</style>
+		@media (max-width: 640px) {
+			.drop-shadow {
+				height: 95%;
+			}
+
+			.glass {
+				clip-path: inset(3em);
+			}
+
+			.drop-shadow:before {
+				top: 3em;
+				width: calc(100% - 6em);
+				height: calc(100% - 6em);
+			}
+
+			.drop-shadow>span {
+				font-size: 2em;
+			}
+		}
+
+		@media (max-width: 330px) {
+			.subheader {
+				height: 248px;
+			}
+
+			.drop-shadow {
+				height: 95%;
+			}
+
+			.glass {
+				clip-path: inset(3em);
+			}
+
+			.drop-shadow:before {
+				top: 3em;
+				width: calc(100% - 6em);
+				height: calc(100% - 6em);
+			}
+
+			.drop-shadow>span {
+				padding-left: 0.75em;
+				font-size: 1.5em;
+			}
+		}
+
+		.checkout {
+			padding-top: 0px;
+			padding-bottom: 60px;
+		}
+
+		.shoping-cart {
+			padding-top: 80px;
+			padding-bottom: 7px;
+		}
+
+		textarea {
+			border: 1px solid #ebebeb;
+			border-radius: 5px;
+			padding: 5px;
+		}
+
+		.getmyinfo {
+			display: flex;
+			align-items: center;
+		}
+
+		.getmyinfo #bringInfo {
+			width: 20px;
+			margin-right: 10px;
+		}
+
+		.row .checkout__input input {
+			width: 100%;
+			height: 46px;
+			border: 1px solid #ebebeb;
+			padding-left: 20px;
+			font-size: 16px;
+			color: #4a4a4a;
+			border-radius: 4px;
+		}
+
+		.shoping__cart__item img {
+			width: 100px;
+		}
+	</style>
 </head>
 
 <body>
@@ -212,12 +249,13 @@ height: 248px;
 											<tr>
 												<td></td>
 												<td class="shoping__cart__item"><img
-													src="img/cart/cart-1.jpg" alt="">
-													<h5 th:text="${class.classInfo.className}"></h5></td>
+														th:src="'/fileView/'+${class.classInfo.media.fileRoute}" alt="">
+													<h5 th:text="${class.classInfo.className}"></h5>
+												</td>
 												<td>[[${#dates.format(class.startDate, 'MM월dd일
 													HH:mm')}]]</td>
-												<td class="shoping__cart__price"
-													th:text="${class.classInfo.price}+'원'"></td>
+												<td class="shoping__cart__price" th:text="${class.classInfo.price}+'원'">
+												</td>
 												<td class="shoping__cart__quantity" th:text="${people}"></td>
 												<td class="shoping__cart__total"
 													th:text="${class.classInfo.price*people}+'원'"></td>
@@ -241,20 +279,18 @@ height: 248px;
 											<p>
 												주문자<span>*</span>
 											</p>
-											<input type="text"
-												th:value="${#authentication.principal.name}"
+											<input type="text" th:value="${#authentication.principal.name}"
 												readonly="readonly">
 										</div>
 										<div class="checkout__input">
 											<p>
 												연락처<span>*</span>
 											</p>
-											<input type="tel"
-												th:value="${#authentication.principal.phone}"
+											<input type="tel" th:value="${#authentication.principal.phone}"
 												readonly="readonly">
 										</div>
 										<hr>
-										<div class="checkout__input">
+										<div class="checkout__input getmyinfo">
 											<input type="checkbox" id="bringInfo" readonly="readonly"
 												style="width: 20px">내정보 불러오기
 										</div>
@@ -273,30 +309,30 @@ height: 248px;
 										<hr>
 										<div class="checkout__input">
 											<p>요청사항</p>
-											<textarea name="requirement" placeholder="요청사항이 있다면 입력해주세요"
-												cols="80" rows="5"></textarea>
+											<textarea name="requirement" placeholder="요청사항이 있다면 입력해주세요" cols="92"
+												rows="5"></textarea>
 										</div>
 									</div>
 									<div class="col-lg-4 col-md-6">
 										<div class="checkout__order">
 											<h4>예약</h4>
 											<div class="checkout__order__products">
-												클래스 <span>인원</span>
+												클래스
 											</div>
 											<ul>
-												<li>[[${class.classInfo.className}]] <span
-													th:text="${people}+'명'"></span></li>
+												<li><span th:text="${class.classInfo.className}"></span></li>
+												<li>인원<span th:text="${people}+'명'"></span></li>
 												<li>보유 포인트 <span th:text="${point}"></span>
 												</li>
-												<li>포인트 사용 <span><input name="usePoint"
-														value="0" type="number" style="width: 120px;"></span>
+												<li>포인트 사용 <span><input name="usePoint" value="0" type="number"
+															style="width: 120px;"></span>
 												</li>
 											</ul>
 											<div class="checkout__order__total">
 												총가격 <span th:text="${class.classInfo.price*people}+'원'"
 													id="price"></span> <input type="hidden" name="price">
 											</div>
-											<button type="button" class="site-btn paymentBtn">구매하기</button>
+											<button type="button" class="site-btn paymentBtn">예약하기</button>
 										</div>
 									</div>
 								</div>
@@ -312,167 +348,166 @@ height: 248px;
 			let header = $("meta[name='_csrf_header']").attr("content");
 
 			$('#bringInfo').change(
-					function() {
-						if ($(this).is(':checked')) {
-							$('input[name=bookerName]').val(
-									"[[${#authentication.principal.name}]]");
-							$('input[name=bookerPhone]').val(
-									"[[${#authentication.principal.phone}]]");
-						} else {
-							$('input[name=bookerName]').val("");
-							$('input[name=bookerPhone]').val("");
-						}
-					})
+				function () {
+					if ($(this).is(':checked')) {
+						$('input[name=bookerName]').val(
+							"[[${#authentication.principal.name}]]");
+						$('input[name=bookerPhone]').val(
+							"[[${#authentication.principal.phone}]]");
+					} else {
+						$('input[name=bookerName]').val("");
+						$('input[name=bookerPhone]').val("");
+					}
+				})
 
 			// 포인트 사용
 			$('input[name=usePoint]')
-					.change(
-							function() {
-								if (!!Number($('input[name=usePoint]').val())) {
-									if (parseInt($('input[name=usePoint]')
-											.val()) <= parseInt("[[${point}]]")) {
-										let price = "[[${class.classInfo.price*people}]]"
-												- $('input[name=usePoint]')
-														.val();
-										$('input[name=price]').val(price);
-										$('#price').text(price + '원');
-									} else {
-										$('input[name=usePoint]').val(0);
-										$('#price').text(
-												"[[${class.classInfo.price*people}]]"
-														+ '원');
-									}
-								} else {
-									$('input[name=usePoint]').val(0);
-									$('#price').text(
-											"[[${class.classInfo.price*people}]]"
-													+ '원');
-								}
-							})
+				.change(
+					function () {
+						if (!!Number($('input[name=usePoint]').val())) {
+							if (parseInt($('input[name=usePoint]')
+								.val()) <= parseInt("[[${point}]]")) {
+								let price = "[[${class.classInfo.price*people}]]"
+									- $('input[name=usePoint]')
+										.val();
+								$('input[name=price]').val(price);
+								$('#price').text(price + '원');
+							} else {
+								$('input[name=usePoint]').val(0);
+								$('#price').text(
+									"[[${class.classInfo.price*people}]]"
+									+ '원');
+							}
+						} else {
+							$('input[name=usePoint]').val(0);
+							$('#price').text(
+								"[[${class.classInfo.price*people}]]"
+								+ '원');
+						}
+					})
 
 			// 클릭시 결제
 			$(".paymentBtn").on(
-					"click",
-					function() {
-						if ($('input[name=bookerName]').parentsUntil(
-								'.col-lg-8').next().prop('tagName') == 'P') {
-							$('input[name=bookerName]').parentsUntil(
-									'.col-lg-8').next().remove();
-						}
-						if ($('input[name=bookerPhone]').parentsUntil(
-								'.col-lg-8').next().prop('tagName') == 'P') {
-							$('input[name=bookerPhone]').parentsUntil(
-									'.col-lg-8').next().remove();
-						}
-						if (!$('input[name=bookerName]').val()) {
-							$('input[name=bookerName]').parentsUntil(
-									'.col-lg-8').after(
-									$('<p/>').text("예약자 이름을 입력해주세요").css(
-											"color", "#f20000"));
-							$('input[name=bookerName]').focus();
-							return;
-						}
-						if (!$('input[name=bookerPhone]').val()) {
-							$('input[name=bookerPhone]').parentsUntil(
-									'.col-lg-8').after(
-									$('<p/>').text("예약자 연락처를 입력해주세요").css(
-											"color", "#f20000"));
-							$('input[name=bookerPhone]').focus();
-							return;
-						}
-						let str = /^\d{2,3}-\d{3,4}-\d{4}$/;
-						if (!str.test($('input[name=bookerPhone]').val())) {
-							$('input[name=bookerPhone]').parentsUntil(
-									'.col-lg-8').after(
-									$('<p/>').text("올바른 연락처를 입력해주세요").css(
-											"color", "#f20000"));
-							$('input[name=bookerPhone]').focus();
-							return;
-						}
-						payment();
-					});
+				"click",
+				function () {
+					if ($('input[name=bookerName]').parentsUntil(
+						'.col-lg-8').next().prop('tagName') == 'P') {
+						$('input[name=bookerName]').parentsUntil(
+							'.col-lg-8').next().remove();
+					}
+					if ($('input[name=bookerPhone]').parentsUntil(
+						'.col-lg-8').next().prop('tagName') == 'P') {
+						$('input[name=bookerPhone]').parentsUntil(
+							'.col-lg-8').next().remove();
+					}
+					if (!$('input[name=bookerName]').val()) {
+						$('input[name=bookerName]').parentsUntil(
+							'.col-lg-8').after(
+								$('<p/>').text("예약자 이름을 입력해주세요").css(
+									"color", "#f20000"));
+						$('input[name=bookerName]').focus();
+						return;
+					}
+					if (!$('input[name=bookerPhone]').val()) {
+						$('input[name=bookerPhone]').parentsUntil(
+							'.col-lg-8').after(
+								$('<p/>').text("예약자 연락처를 입력해주세요").css(
+									"color", "#f20000"));
+						$('input[name=bookerPhone]').focus();
+						return;
+					}
+					let str = /^\d{2,3}-\d{3,4}-\d{4}$/;
+					if (!str.test($('input[name=bookerPhone]').val())) {
+						$('input[name=bookerPhone]').parentsUntil(
+							'.col-lg-8').after(
+								$('<p/>').text("올바른 연락처를 입력해주세요").css(
+									"color", "#f20000"));
+						$('input[name=bookerPhone]').focus();
+						return;
+					}
+					payment();
+				});
 
 			function payment() {
 				IMP.init('imp54500213');
 				IMP
-						.request_pay(
-								{
-									pg : 'html5_inicis',
-									pay_method : 'card',
-									merchant_uid : 'OS_' + new Date().getTime(), // 상점에서 관리하는 주문 번호
-									name : '온샘클래스예약',
-									amount : "[[${class.classInfo.price*people}]]"
-											- $('input[name=usePoint]').val(), // 테스트라서 100원만 결제 ^^;
-									buyer_email : '[[${#authentication.principal.email}]]', // 구매자 이메일
-									buyer_name : '[[${#authentication.principal.name}]]', // 구매자 이름
-									buyer_tel : '[[${#authentication.principal.phone}]]', // 구매자 연락처
-									buyer_addr : '[[${#authentication.principal.addr}]]', // 구매자 주소
-									buyer_postcode : '[[${#authentication.principal.postalCode}]]' // 구매자 우편번호
-								},
-								function(rsp) {
-									if (rsp.success) {
-										//아래 아작스부터는 본인의 컨트롤이나 구현에 맞게 적절히 사용할것
-										// 결제성공하고 컨트롤에 넘어가서 DB에 정보저장를 위한 아작스
-										let data = {
-											"paymentId" : rsp.imp_uid,
-											"price" : rsp.paid_amount,
-											"payerId" : '[[${#authentication.principal.memberId}]]',
-											"paymentMethod" : rsp.pay_method,
-											"groupId" : '[[${class.cNo}]]',
-											"cNo" : '[[${class.cNo}]]',
-											"bookingId" : rsp.merchant_uid,
-											"bookerName" : $(
-													'input[name=bookerName]')
-													.val(),
-											"bookerPhone" : $(
-													'input[name=bookerPhone]')
-													.val(),
-											"requirement" : $(
-													'textarea[name=requirement]')
-													.val(),
-											"totalPeople" : '[[${people}]]',
-											"ordererId" : '[[${#authentication.principal.memberId}]]',
-											"usePoint" : $(
-													'input[name=usePoint]')
-													.val()
-										};
-										$
-												.ajax({
-													url : '/class/insertBooking',
-													method : 'POST',
-													beforeSend : function(xhr) {
-														xhr.setRequestHeader(
-																header, token);
-													},
-													contentType : 'application/x-www-form-urlencoded',
-													data : data,
-													success : function(result) {
-														if (result != null) {
-															location.href = "/class/bookingCOM?bookingId="
-																	+ result.bookingId;
-														} else {
-															alert('결제등록중 오류 발생');
-														}
-													},
-													error : function(error) {
-														console.log(error);
-														alert('실패');
-													}
-												})
-									} else {
-										var msg = '결제에 실패하였습니다.';
-										msg += '에러내용 : ' + rsp.error_msg;
+					.request_pay(
+						{
+							pg: 'html5_inicis',
+							pay_method: 'card',
+							merchant_uid: 'OS_' + new Date().getTime(), // 상점에서 관리하는 주문 번호
+							name: '온샘클래스예약',
+							amount: "[[${class.classInfo.price*people}]]"
+								- $('input[name=usePoint]').val(), // 테스트라서 100원만 결제 ^^;
+							buyer_email: '[[${#authentication.principal.email}]]', // 구매자 이메일
+							buyer_name: '[[${#authentication.principal.name}]]', // 구매자 이름
+							buyer_tel: '[[${#authentication.principal.phone}]]', // 구매자 연락처
+							buyer_addr: '[[${#authentication.principal.addr}]]', // 구매자 주소
+							buyer_postcode: '[[${#authentication.principal.postalCode}]]' // 구매자 우편번호
+						},
+						function (rsp) {
+							if (rsp.success) {
+								//아래 아작스부터는 본인의 컨트롤이나 구현에 맞게 적절히 사용할것
+								// 결제성공하고 컨트롤에 넘어가서 DB에 정보저장를 위한 아작스
+								let data = {
+									"paymentId": rsp.imp_uid,
+									"price": rsp.paid_amount,
+									"payerId": '[[${#authentication.principal.memberId}]]',
+									"paymentMethod": rsp.pay_method,
+									"groupId": '[[${class.cNo}]]',
+									"cNo": '[[${class.cNo}]]',
+									"bookingId": rsp.merchant_uid,
+									"bookerName": $(
+										'input[name=bookerName]')
+										.val(),
+									"bookerPhone": $(
+										'input[name=bookerPhone]')
+										.val(),
+									"requirement": $(
+										'textarea[name=requirement]')
+										.val(),
+									"totalPeople": '[[${people}]]',
+									"ordererId": '[[${#authentication.principal.memberId}]]',
+									"usePoint": $(
+										'input[name=usePoint]')
+										.val()
+								};
+								$
+									.ajax({
+										url: '/class/insertBooking',
+										method: 'POST',
+										beforeSend: function (xhr) {
+											xhr.setRequestHeader(
+												header, token);
+										},
+										contentType: 'application/x-www-form-urlencoded',
+										data: data,
+										success: function (result) {
+											if (result != null) {
+												location.href = "/class/bookingCOM?bookingId="
+													+ result.bookingId;
+											} else {
+												alert('결제등록중 오류 발생');
+											}
+										},
+										error: function (error) {
+											console.log(error);
+											alert('실패');
+										}
+									})
+							} else {
+								var msg = '결제에 실패하였습니다.';
+								msg += '에러내용 : ' + rsp.error_msg;
 
-										alert(msg);
-									}
-								});
+								alert(msg);
+							}
+						});
 			}
 		</script>
 		<!-- JS -->
 		<th:block layout:fragment="script">
 			<!-- 아임포트 추가 -->
-			<script type="text/javascript"
-				src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+			<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 			<script th:src="@{/shoptemplate/js/jquery-3.3.1.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/bootstrap.min.js}"></script>
 			<script th:src="@{/shoptemplate/js/jquery.nice-select.min.js}"></script>
@@ -485,4 +520,5 @@ height: 248px;
 	</div>
 
 </body>
+
 </html>

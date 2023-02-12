@@ -3,6 +3,8 @@ package com.onsaem.web.course.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,13 +40,21 @@ public class ClassReviewServiceImpl implements ClassReviewService {
 		for(ReviewVO review : reviewList) {
 			MediaVO mvo = new MediaVO();
 			mvo.setMediaOrder(0);
-			mvo.setGroups("강의");
+			mvo.setGroups("클래스");
 			mvo.setGroupId(review.getReviewId());
 			review.setReviewMedia(mediaService.getMedia(mvo));
 			mvo.setGroups("회원");
 			mvo.setGroupId(review.getWriterId());
 			review.setProfile(mediaService.getMedia(mvo));
 			review.setNickname(memberService.getMember(review.getWriterId()).getNickname());
+			Pattern pattern  =  Pattern.compile("<p>([^>\\\"']+)</p>");
+	        // 내용 중에서 이미지 태그를 찾아라!
+	        Matcher match = pattern.matcher(review.getReviewContent());
+	        String text = null;
+	        if(match.find()){ // 이미지 태그를 찾았다면,,
+	            text = match.group(1); // 글 내용 중에 첫번째 이미지 태그를 뽑아옴.
+	            review.setReviewContent(text);
+	        }
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("rList", reviewList);
@@ -57,9 +67,9 @@ public class ClassReviewServiceImpl implements ClassReviewService {
 		ReviewVO review = classReviewMapper.getReview(vo);
 		MediaVO mvo = new MediaVO();
 		mvo.setMediaOrder(0);
-		mvo.setGroups("강의");
+		mvo.setGroups("클래스");
 		mvo.setGroupId(review.getReviewId());
-		review.setReviewMediaList(mediaService.getMediaList(mvo));
+		review.setReviewMedia(mediaService.getMedia(mvo));
 		mvo.setGroups("회원");
 		mvo.setGroupId(review.getWriterId());
 		review.setProfile(mediaService.getMedia(mvo));

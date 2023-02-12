@@ -29,7 +29,7 @@ public class ClassInfoVO {
 	private int reviewCount;
 	private int queCount;
 	private String addr;
-	
+	private String totalPeople;
 	
 	// 강의 이미지
 	private MediaVO media;
