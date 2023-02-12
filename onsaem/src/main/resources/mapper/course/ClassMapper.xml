@@ -7,7 +7,7 @@
 			AND C.CLASS_NAME LIKE '%' || #{className} || '%'
 		</if>
 		<if test="classAddr != null and classAddr !=''">
-			AND C.CLASS_ADDR LIKE '%' || #{classAddr} || '%'
+			AND M.ADDR LIKE '%' || #{classAddr} || '%'
 		</if>
 		<if test="startDate != null">
 			<![CDATA[
@@ -40,9 +40,14 @@
 		NVL(TRUNC(AVG(R.REVIEW_STAR),1),0) AS STAR
 		FROM
 		CLASS_INFO C, REVIEWS
-		R, CLASSES L
+		R,
+		CLASSES L , (SELECT * FROM MEMBERS WHERE STATUS != 'false'
+		<![CDATA[
+		AND BANDATE < SYSDATE
+		]]>) M
 		WHERE
 		C.CLASS_ID = R.GROUP_ID(+)
+		AND C.MEMBER_ID = M.MEMBER_ID
 		AND
 		C.CLASS_ID =
 		L.CLASS_ID(+)
@@ -80,8 +85,12 @@
 	<select id="classCount" resultType="Paging"
 		parameterType="ClassInfoVO">
 		SELECT COUNT(C.CLASS_ID) AS TOTAL_RECORD
-		FROM CLASS_INFO C, CLASSES L
+		FROM CLASS_INFO C, CLASSES L, (SELECT * FROM MEMBERS WHERE STATUS != 'false'
+		<![CDATA[
+		AND BANDATE < SYSDATE
+		]]>) M
 		WHERE C.CLASS_ID = L.CLASS_ID(+)
+		AND C.MEMBER_ID = M.MEMBER_ID
 		<include refid="condition" />
 	</select>
 
@@ -89,9 +98,14 @@
 	<select id="classMaxPrice" resultType="int"
 		parameterType="ClassInfoVO">
 		SELECT NVL(MAX(C.PRICE),0)
-		FROM CLASS_INFO C, CLASSES L
-		WHERE C.CLASS_ID =
+		FROM CLASS_INFO C, CLASSES L, (SELECT * FROM MEMBERS WHERE STATUS != 'false'
+		<![CDATA[
+		AND BANDATE < SYSDATE
+		]]>) M
+		WHERE C.CLASS_ID
+		=
 		L.CLASS_ID(+)
+		AND C.MEMBER_ID = M.MEMBER_ID
 		<include refid="condition" />
 	</select>
 
@@ -99,9 +113,14 @@
 	<select id="classMinPrice" resultType="int"
 		parameterType="ClassInfoVO">
 		SELECT NVL(MIN(C.PRICE),0)
-		FROM CLASS_INFO C, CLASSES L
-		WHERE C.CLASS_ID =
+		FROM CLASS_INFO C, CLASSES L, (SELECT * FROM MEMBERS WHERE STATUS != 'false'
+		<![CDATA[
+		AND BANDATE < SYSDATE
+		]]>) M
+		WHERE C.CLASS_ID
+		=
 		L.CLASS_ID(+)
+		AND C.MEMBER_ID = M.MEMBER_ID
 		<include refid="condition" />
 	</select>
 
@@ -241,7 +260,7 @@
 		WHERE CLASS_DATE > (CURRENT_DATE - 30)
 		]]>
 		<if test="status">
-		AND STATUS = #{status}
+			AND STATUS = #{status}
 		</if>
 		<if test="startDate">
 		<![CDATA[
@@ -271,18 +290,20 @@
         ORDER BY BOOKING_COUNT DESC)A WHERE ROWNUM <= 6
         ]]>
 	</select>
-	
+
 	<!-- 클래스정보 등록 -->
 	<insert id="classInfoInsert">
-	<selectKey keyProperty="classId" resultType="String"
+		<selectKey keyProperty="classId" resultType="String"
 			order="BEFORE">
 			SELECT 'CL'||LPAD(CLASS_SEQ.NEXTVAL,3,0) FROM DUAL
 		</selectKey>
-INSERT INTO CLASS_INFO(CLASS_ID,CLASS_NAME,PRICE,CLASS_TIME,EXPLANATION,MEMBER_ID,DIFFICULTY)
-VALUES(#{classId}, #{className}, #{price}, #{classTime}, #{explanation}, #{memberId}, #{difficulty})
+		INSERT INTO
+		CLASS_INFO(CLASS_ID,CLASS_NAME,PRICE,CLASS_TIME,EXPLANATION,MEMBER_ID,DIFFICULTY)
+		VALUES(#{classId}, #{className}, #{price}, #{classTime},
+		#{explanation}, #{memberId}, #{difficulty})
 	</insert>
-	
-<!-- [위는 완성 아래는 미완성] -->
+
+	<!-- [위는 완성 아래는 미완성] -->
 	<update id="classInfoUpdate">
 
 	</update>
