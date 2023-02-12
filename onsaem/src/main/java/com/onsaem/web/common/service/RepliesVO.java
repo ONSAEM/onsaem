@@ -16,6 +16,7 @@ public class RepliesVO {
 	Date replyDate;
 	int replyCnt;
 	String publicScope;
+	String nickname;
 	
 	int level;
 	String fileRoute;

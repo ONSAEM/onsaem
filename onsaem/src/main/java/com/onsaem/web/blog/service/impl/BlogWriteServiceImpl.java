@@ -31,6 +31,7 @@ public class BlogWriteServiceImpl implements BlogWriteService {
 		blogWriteVO.setLast(newPaging.getLast());
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("blogList", blogWriteMapper.getBlogPageList(blogWriteVO,paging));
+		System.out.println(result.get("blogList"));
 		result.put("newPaging", newPaging);
 		return result;
 	}

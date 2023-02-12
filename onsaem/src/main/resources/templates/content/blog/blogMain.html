@@ -530,7 +530,7 @@ height: 248px;
 
 .gridgrid .card_content {
   padding: 1rem;
-  background: linear-gradient(to bottom left, gray 40%, #ccc 100%); 
+  background: linear-gradient(to bottom left, var(--site-footer-bg-color) 40%, var(--secondary-color) 100%);
 }
 
 .gridgrid .card_title {
@@ -675,7 +675,8 @@ height: 248px;
 						        <div class="card_image"><img th:if="${hot.fileRoute != null}" th:src="${hot.fileRoute}"><img th:unless="${hot.fileRoute != null}" src="/blog/img/blogDefault.png"></div>
 						        <div class="card_content">
 						          <h2 class="card_title">[[${hot.writeTitle}]]</h2>
-						          <p class="card_text">[[${hot.subTitle}]]</p>
+						          <p class="card_text" th:if="${hot.subTitle != null}" >[[${hot.subTitle}]]</p>
+						          <p class="card_text" th:if="${hot.subTitle == null}" style="height:21px;margin-bottom:1.25rem;"></p>
 						          <button class="btn card_btn" th:onclick="|location.href='@{/blog/myblog/blogWrite(bno=${hot.writeId},userId=${hot.blogId})}'|">Read More</button>
 						        </div>
 						      </div>
