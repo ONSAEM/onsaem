@@ -363,7 +363,7 @@
                                 <div class="product__details__tab__desc" style="width: 100%; display:inline-block; padding : 30px 0">
                                     <h6 class="detailMenuTitle">챌린지 소개</h6>
                                     <div class="detailContent">
-	                                    <p th:text="${chal.contents}" class = "pointRule">챌린지 소개</p>
+	                                    <p align = "center"  th:text="${chal.contents}" class = "pointRule">챌린지 소개</p>
 	                                    <div th:if="${detailPic} != null" style="text-align:center">
 	                                    	<img  th:src="'/fileView/'+${detailPic.fileRoute}"}>
                                     </div>
@@ -372,8 +372,12 @@
                                 
                                 <div class="product__details__tab__desc" style="width: 100%; display:inline-block; padding : 30px 0">
                                     <h6 class="detailMenuTitle">인증샷 예시</h6>
-                                    <img th:src="'/fileView/'+${proofEx.fileRoute}" class="rounded float-start" style="width:300px;height:300px;">
-                                    <p th:text="${chal.proofContent}">인증 샷 예시</p>
+                                    <div class="detailContent">
+                                    	<p align = "center" th:text="${chal.proofContent}" >인증 샷 예시</p>
+                                    	<div style="text-align : center;">
+	                                    	<img th:src="'/fileView/'+${proofEx.fileRoute}" style="width:300px;height:300px;">
+	                                    </div>
+                                    </div>
                                 </div>
                                 <br>
                                 <div class="product__details__tab__desc" style="width: 100%; display:inline-block; padding : 30px 0 ">
@@ -405,7 +409,7 @@
 									<button th:if = "${chal.nowEnd} >0 " class="primary-btn detailBtn" style="background-color : #E4C4C2 ">
 										<p class="btnTextStyle">종료된 챌린지 입니다.<p>
 									</button>
-									<button th:if = "${chal.nowStart} >=0 and ${chal.nowEnd} <=0" class="primary-btn detailBtn" style="background-color : #E4C4C2 ">
+									<button th:if = "${chal.nowStart} >0 and ${chal.nowEnd} <=0" class="primary-btn detailBtn" style="background-color : #E4C4C2 ">
 										<p class="btnTextStyle">이미 시작된 챌린지 입니다<p>
 									</button>
 									

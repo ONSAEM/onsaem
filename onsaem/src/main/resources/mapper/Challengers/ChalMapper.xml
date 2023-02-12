@@ -124,7 +124,6 @@
 		ON C.CHAL_ID = M.GROUP_ID
 		WHERE P.PARTICIPANT_ID = #{participantId} 
 		AND CURRENT_DATE > C.END_DATE
-		AND M.SUB_GROUP = '썸네일'
 		ORDER BY C.END_DATE DESC
 	</select>
 	
@@ -193,6 +192,7 @@
 				, START_DATE
 				, END_DATE
 				, CONTENTS
+				, FREQUENCY
 				, PROOF_CONTENT
 				, DONATION_FEE
 				, MEMBER_ID
@@ -253,6 +253,7 @@
 		FROM CHALLENGES C JOIN MEDIA M
 		ON C.CHAL_ID = M.GROUP_ID
         WHERE 3>=ROWNUM
+        AND M.SUB_GROUP = '썸네일'
         ORDER BY C.DONATION_FEE DESC
 	</select>
 

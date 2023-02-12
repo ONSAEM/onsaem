@@ -76,7 +76,7 @@ public class ChalController {
 		model.addAttribute("paging", paging);
 		//기부금 순위로
 		model.addAttribute("ranks", chalService.donateRank());
-		return "content/challengers/chalMain";
+		return "content/challengers/NewChalMain";
 	}
 	
 	//챌린지 조건 리스트 보기 - ngo별 
@@ -89,7 +89,7 @@ public class ChalController {
 		
 		//기부금 순위로
 		model.addAttribute("ranks", chalService.donateRank());
-		return "content/challengers/chalMain";
+		return "content/challengers/NewChalMain";
 	}
 	
 	//챌린지 조건 리스트 보기 - ngo별 
