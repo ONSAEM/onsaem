@@ -149,9 +149,9 @@
 					<span class="cell-label">인증요일:</span><span th:text="${chal.frequency}"></span>
 				</div>
 				<div class="product-cell status-cell">
-					 <span class="status active openBtn" th:if="${chal.day}==0 and ${chal.checkDate>0}">인증하기</span>
+					 <span class="status active openBtn" th:if="${chal.day}==0 and ${chal.checkdate} >0">인증하기</span>
 					<span class="status active" th:if="${chal.day}>0">인증완료</span>
-					<span class="status active" th:if="${chal.checkDate}==0">인증하는 날이 아닙니다</span>
+					<span class="status active" th:if="${chal.checkdate}==0 or  ${chal.checkdate}==0 ">인증하는 날이 아닙니다</span>
 				</div>
 			</div>
 				<!-- 모달창 -->
@@ -160,7 +160,7 @@
                      <div class="modal__content">
 
                         <h3 class="titleDesign">인증하기</h3>
-                     	<form name="inputFrm" class="form" enctype="multipart/form-data">
+                     	<form name="inputFrm" class="form" enctype="multipart/form-data" id="inputFrm">
                      		<input type="hidden" id="token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
 	                        <p th:text="'챌린지 명 : '+${chal.chalName}" id="proofTitle"></p>
 	                        <div class="modalText">
@@ -194,7 +194,7 @@
 		      const closeButton = modal.querySelector(".closeBtn");
 		      const modalBackground = modal.querySelector(".modal__background");
 
-		      function displayModal() {
+		      function displayModal(data) {
 		         modal.classList.toggle("hidden");
 		      }
 
@@ -228,8 +228,10 @@
 		          readImage(e.target)
 		      })
 
+		      	var formData = new FormData(document.getElementById("inputFrm"));
 		   function inputProof(){
-		         var formData = new FormData(document.inputFrm);
+			   var formData = new FormData(document.getElementById("inputFrm"));
+		        // var formData = new FormData(document.inputFrm);
 		         $.ajax({
 		             url:'/mypage/myCurrentChal',
 		             enctype: 'multipart/form-data',

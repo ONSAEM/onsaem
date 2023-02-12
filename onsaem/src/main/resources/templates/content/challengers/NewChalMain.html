@@ -402,7 +402,7 @@ a {
 								<div class="row">
 									<div class="product__discount__slider owl-carousel gridView">
 										<div class="products-row" th:each="rank : ${ranks}">
-											<img th:src="'/fileView/'+${rank.fileRoute}" alt="product">
+											<img th:src="'/fileView/'+${rank.fileRoute}" alt="product" style="width:373px; height: 274px">
 											<div class="product-cell category" >
 												<span class="chalLabel" >챌린지 명</span><span th:text=${rank.chalName}></span>
 											</div>

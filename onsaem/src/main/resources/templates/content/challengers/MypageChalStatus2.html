@@ -416,11 +416,7 @@
 								<p class="fontSizeUp">남은 도전도 화이팅!!!</p>
 							</div>
 						</div>
-						<div class="profile-bio">
-							<p style="margin:1px">챌린지 <span class="profile-real-name" th:text="${chal.chalName}">Jane Doe</span>이/가 종료일까지 <span class="profile-real-name" th:text="${dday}">Jane Doe</span>일 남았어요.</p>
-							<br>
-							<p>남은 도전도 화이팅!!!</p>
-						</div>
+			
 			
 					</div>
 					
@@ -439,7 +435,7 @@
 			
 					<!-- 도넛차트 -->
 						<div id="chart" th:if="${chal.subClass} =='팀'" style=" text-align : center; width:500px;  margin-left:200px;">
-							<h3>우리 [[${myTeam}]]의 달성률</h3>	
+							<h3>우리 팀의 달성률</h3>	
 							<canvas id="chDonut1" ></canvas>
 						</div>
 						<div id="chart" th:if="${chal.subClass} =='개인'" style=" text-align : center; width:500px;  margin-left:200px;">
@@ -458,7 +454,7 @@
 			
 						<div class="gallery-item" tabindex="0" th:each="proof : ${proofs}" th:onclick="displayModal([[${proof}]])">
 							<div class="row row-cols-3">
-							<img src="'/fileView/'+${proof.fileRoute}" class="gallery-image" style="aspect-ratio: 1 / 1; padding: 0px">
+							<img th:src="'/fileView/'+${proof.fileRoute}" class="gallery-image" style="aspect-ratio: 1 / 1; padding: 0px">
 								<input type="hidden" id="chalId" th:value="${proof.chalId}">
 							<div class="gallery-item-info">
 			
@@ -589,6 +585,7 @@
 				 let chalCnt = Number("[[${ChalCnt}]]");
 				 let total = Number("[[${chal.total}]]")*chalSize;
 				 let pt = (chalCnt/total).toFixed(1)*100;
+				 console.log(chalCnt);
 				 $('#average').text(pt+' %');
 				 var colors = ['#b4a7d6','#eae5e1','#333333','#c3e6cb','#dc3545','#6c757d'];
 					var donutOptions = {

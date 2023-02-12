@@ -304,7 +304,7 @@
 		top: 0;
 		padding: 10px 25px;
 		width: 20%;
-		height: 20%;
+		height: 25%;
 	}
 	
 	h1 {
@@ -411,7 +411,7 @@
 								</ul>
 							</div>
 							<div class="profile-bio">
-								<p style="margin:1px" class="fontSizeUp">챌린지 <span class="profile-real-name fontSizeUp" th:text="${chal.chalName}"></span>이/가 종료일까지 <span class="profile-real-name fontSizeUp" th:text="${dday}">Jane Doe</span>일 남았어요.</p>
+								<p style="margin:1px" class="fontSizeUp">챌린지 <span class="profile-real-name fontSizeUp" th:text="${chal.chalName}"></span>이/가 종료일까지 <span class="profile-real-name fontSizeUp" th:text="${chal.dday}">Jane Doe</span>일 남았어요.</p>
 								<br>
 								<p class="fontSizeUp">남은 도전도 화이팅!!!</p>
 							</div>
@@ -551,7 +551,7 @@
 	     	
 	     	let bad = total-good-dday;
 	     	$('#badCnt').text(bad+' 회');
-	     	let success = (good/total).toFixed()*100;
+	     	let success = (good/total).toFixed(1)*100;
 	     	$("#successPercent").text(success);
 	     	//예상달성률
 	     	let expectedSuccess = ((good+dday)/total).toFixed(1)*100;

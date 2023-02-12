@@ -121,7 +121,7 @@ public class ChalMypageController {
 		model.addAttribute("banks", bankService.listBank());
 
 		//개인 정보 가져오기
-		model.addAttribute("user", memService.getMember("hodu"));
+		model.addAttribute("user", memService.getMember(userDetails.getUsername()));
 		
 		return "content/challengers/MypageBeforeChal";
 	}
@@ -223,22 +223,30 @@ public class ChalMypageController {
 		model.addAttribute("chal",chalService.getChal(chalId));
 		//썸네일 가져오기
 		model.addAttribute("thumbnail", chalService.thumnail(chalId));
-		
-		if(chalService.getChal(chalId).getSubClass()=="팀") {
+		String team = chalService.getChal(chalId).getSubClass();
+		System.out.println(team);
+		if(team =="팀") {
 			//팀전
 			ParticipantVO pvo = new ParticipantVO();
 			pvo.setChalId(chalId);
 			pvo.setParticipantId(userDetails.getUsername());
 			//우리팀 구하기
 			String myTeam = partService.getParticipant(pvo).getTeam();
+			System.out.println(myTeam);
 			model.addAttribute("myTeam", myTeam);
 			pvo.setTeam(myTeam);
+			System.out.println("========"+pvo);
 			//성공인증샷수 구해야함
 			model.addAttribute("MyTeamCnt", proofService.cntTeamProof(pvo));
+			System.out.println(proofService.cntTeamProof(pvo));
 			//우리팀 인원수
 			model.addAttribute("MyteamSize", partService.listParticipantAll(pvo).size());
 			
-		}else{
+			//한 챌린지에 대한 모든 사람들의 인증글 가져오기
+			model.addAttribute("proofs", proofService.listProofAll(chalId));
+			
+		}else if(team =="개인"){
+			System.out.println("갠전갠전");
 			//개인전
 			ParticipantVO tvo = new ParticipantVO();
 			tvo.setChalId(chalId);
@@ -246,9 +254,12 @@ public class ChalMypageController {
 			model.addAttribute("ChalSize", partService.listParticipantAll(tvo).size());
 			//성공인증샷 수
 			model.addAttribute("ChalCnt", proofService.listProofAll(chalId).size());
+			
+			//한 챌린지에 대한 모든 사람들의 인증글 가져오기
+			model.addAttribute("proofs", proofService.listProofAll(chalId));
+			
+			
 		}
-		//한 챌린지에 대한 모든 사람들의 인증글 가져오기
-		model.addAttribute("proofs", proofService.listProofAll(chalId));
 		return "content/challengers/MypageChalStatus2";
 	}
 	

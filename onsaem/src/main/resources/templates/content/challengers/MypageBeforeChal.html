@@ -125,7 +125,7 @@
 					<span class="cell-label">인증요일:</span><span th:text="${chal.frequency}"></span>
 				</div>
 				<div class="product-cell status-cell">
-					<button class="openBtn" >취소하기</button>
+					<button th:onclick="displayModal([[${chal}]])" >취소하기</button>
 					<span class="status active" th:text="${chal.dday}+'일 후 시작'"></span>
 				</div>
 				
@@ -142,7 +142,7 @@
 							<p th:text="'챌린지 시작일 : '+${#dates.format(chal.startDate, 'MM월 dd일')}" id="startDate"></p>
 							<p th:text="'챌린지 종료일 : '+${#dates.format(chal.endDate, 'MM월 dd일')}" id="endDate"></p>
 							<p th:text="'나의 기부금 : '+ ${chal.privateDonate}" id="privateDonate"></p>
-							<div th:if="${user.bankAccount == null}">
+							<div th:if="${#strings.isEmpty(user.bankAccount)}">
 								<label>계좌 번호 : </label><input type="text" id="refundAccount">
 							</div>
 							<p th:if="${user.bankAccount != null}" th:text="'환불 계좌 : '+ ${user.bankAccount}" id="refundAccount"></p>

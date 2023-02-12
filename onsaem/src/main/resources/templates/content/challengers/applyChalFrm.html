@@ -30,26 +30,174 @@
 	<link rel="stylesheet" th:href="@{/shoptemplate/css/style.css}"
 		type="text/css">
 </th:block>
-
+<head>
+<style type="text/css">
+	/*헤더  */
+	/* ONE */
+		.p1 li {
+			font-size: 14px;
+			width: 40px;
+			height: 40px;
+			line-height: 40px;
+			padding: 0;
+			text-align: center;
+			float: left;
+			cursor: pointer;
+		}
+		
+		.main {
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+			min-width: 1400px;
+		}
+		
+		.main-container {
+			padding: 20px;
+			flex-grow: 1;
+			overflow: auto;
+			background-color: #FCFBFC;
+		}
+		
+		.profile-cover {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: center;
+			border-radius: 4px;
+		}
+		
+		.subheader {
+			position: relative;
+			height: 300px;
+			min-height: 250px;
+			z-index: 1;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-size: cover;
+			background-position: center;
+		}
+		
+		.subheader:before {
+			content: "";
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			z-index: -1;
+			left: 0;
+			top: 0;
+			background-image: url("/course/chal.gif");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center;
+			filter: blur(30px);
+			opacity: 0.7;
+		}
+		
+		.glass {
+			height: 100%;
+			width: 100%;
+			background-image: url("/course/chal.gif");
+			background-size: cover;
+			background-position: center;
+			clip-path: inset(10em);
+			filter: blur(5px);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		
+		.drop-shadow {
+			height: 155%;
+			width: 100%;
+			filter: drop-shadow(0px 20px 10px rgba(0, 0, 0, 0.3));
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		
+		.drop-shadow:before {
+			display: block;
+			content: "";
+			position: absolute;
+			top: 10em;
+			height: calc(100% - 20em);
+			width: calc(100% - 20em);
+			border-top: 2px solid rgba(225, 225, 225, 0.2);
+			border-left: 1px solid rgba(225, 225, 225, 0.1);
+			border-right: 1px solid rgba(225, 225, 225, 0.3);
+			z-index: 2;
+		}
+		
+		.drop-shadow>span {
+			position: absolute;
+			z-index: 5;
+			color: white;
+			font-size: 4em;
+			letter-spacing: 0.75em;
+			padding-left: 0.375em;
+		}
+		
+		.sidebar {
+			padding: 20px 30px;
+			background-color: #ffffff;
+			border-radius: 10px;
+			margin-bottom: 10px;
+		}
+		
+		.col-lg-9 {
+			background-color: #ffffff;
+			padding: 20px 30px;
+			border-radius: 20px;
+			margin-bottom: 10px;
+		}
+		
+		.product {
+			padding-top: 0px;
+			padding-bottom: 80px;
+			position: relative;
+			z-index: 1;	
+		}
+		.modalBtns{
+		border-radius : 5px;
+		width : 85px;
+		height : 40px;
+		background-color:#9dc2c0;
+		border : none;
+		color : white;
+		font-weight : bold;
+			
+	}
+	.modalBtns:hover{
+		background-color:#DBC8E8;
+		color : #717275;
+		font-weight : bold;
+	}
+	.info{
+		background-color:#f6f8f9;
+		border : none;
+		border-radius : 19px;
+		margin : 5px;
+		padding : 20px;
+		width: 90%;
+		text-align : center;
+	}
+</style>
+</head>
 <div layout:fragment="content">
 <br>
     <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" th:data-setbg="@{/shoptemplate/img/breadcrumb.jpg}">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="breadcrumb__text">
-                        <h2>Challengers</h2>
-                        <div class="breadcrumb__option">
-                            <a href="./index.html">Home</a>
-                            <a href="./index.html">Vegetables</a>
-                            <span>Vegetable’s Package</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+   <div class="subheader">
+		<img src="/course/chal.gif" alt="" class="profile-cover">
+		<div class="drop-shadow">
+			<div class="glass"></div>
+			<span>Challengers</span>
+		</div>
+	</div>
     <!-- Breadcrumb Section End -->
 
     <!-- Product Details Section Begin -->
@@ -60,7 +208,7 @@
                     <div class="product__details__pic">
                         <div class="product__details__pic__item">
                             <img class="pic"
-                                th:src="'/fileView/'+${chal.fileRoute}" style="width:400px;height:400px;">
+                                th:src="'/fileView/'+${thumbnail.fileRoute}" style="width:400px;height:400px;">
                         </div>
                     </div>
                 </div>
@@ -80,7 +228,7 @@
                         </ul>
                         
                     
-                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                       
                         
                     </div>
                 </div>
@@ -95,17 +243,22 @@
                         <div class="tab-content">
                             <div class="tab-pane active" id="tabs-1" role="tabpanel">
                                 <div class="product__details__tab__desc">
-                                    
-										<h2>기부금</h2>
-										<p>작성하신 기부</p>
-										<input id="value" value=5000 name="privateDonate" onchange="changeMoney()"></input>
-        								<p>1000</p>
-        								<input type="range" min=1000 max=50000 value=5000 id="privateDonate">
-        								<p>50000</p>                              
-                                    	<p>결제 조건 및 약관에 동의합니다.</p>
-                                   		<input type="button" id="paymentBtn" value="참가하기" class="btn">&nbsp;&nbsp;
-										<input type="reset" value="취소" class="btn" onClick="history.go(-1)">
-                           
+                                    <div style=text-align:center;>
+										<h2 style="margin : 10px 0">기부금 결제</h2>
+										<p style="margin : 5px 0">💛 챌린저스 참가 시 기부금 먼저 결제 됩니다 💛 </p>
+										<p  style="margin : 5px 0">💛 챌린지 시작 이후 챌린저스 참가를 취소할 수 없습니다 💛 </p>
+									</div>
+									<div class="info" style= "margin : 20px auto">
+										<p style="font-size : 20px">기부금</p>
+										<input id="value" value=5000 name="privateDonate" onchange="changeMoney()" style="margin : 5px 0"><span> 원</span></input>
+        								                  
+                                    	<p style="font-weight: bold">결제 조건 및 약관에 동의합니다.</p>
+                                    	
+                           			</div>
+                           				<div style="text-align : center">
+                                   		<input type="button" id="paymentBtn" value="참가하기" class="modalBtns">&nbsp;&nbsp;
+										<input type="reset" value="취소" class="modalBtns" onClick="history.go(-1)">
+										</div>
                                 </div>
                             </div>
                         </div>
@@ -134,19 +287,7 @@
 		 var token = $("meta[name='_csrf']").attr("content");
 		 var header = $("meta[name='_csrf_header']").attr("content");
 		 
-		 
-			var slider = document.getElementById("privateDonate");
 			var output = document.getElementById("value");
-			output.innerHTML = slider.value;
-			
-			slider.oninput = function() {
-			    output.value = this.value;
-			}
-			
-			output.oninput = function() {
-			    slider.value = this.value;
-			}
-			
 			var currentFee = Number(document.getElementById("currentFee").value);
 			
 			let money = currentFee+Number(output.value);

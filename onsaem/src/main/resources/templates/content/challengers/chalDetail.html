@@ -330,10 +330,10 @@
 	                            <li><b class="liStyle">종료일</b> <span th:text="${#dates.format(chal.endDate, 'yyyy년 MM월 dd일')}"> <samp>Free pickup today</samp></span></li>
 	                            <li><b class="liStyle">유형</b> <span id="subClass" th:text="${chal.subClass}"></span></li>
 	                            <li th:if="${chal.subClass} == '팀'"><b class="liStyle">고정 기부금</b> <span id="teamFee"  th:text="|${#numbers.formatInteger(chal.teamFee, 0, 'COMMA')}원|"></span></li>
-	                            <li th:if="${chal.subClass} == '팀'"><b class="liStyle">내기 포인트</b> <span id="betPoint" th:text="${chal.teamFee}+'원'"></span></li>
+	                            <li th:if="${chal.subClass} == '팀'"><b class="liStyle">내기 포인트</b> <span id="betPoint" ></span></li>
 	                            <li><b class="liStyle">참가 요일</b> <span th:text="${chal.frequency}"></span></li>
                        		</ul>
-							
+							 <input type="hidden"  th:value=${chal.teamFee} id="teamFeeHidden">
 											 	
                     </div>
                 </div>
@@ -398,7 +398,7 @@
 	                                <div th:if="${cnt}!=0 and ${cnt}!= null">
 										<button th:if="${cnt.cnt} >0 and ${chal.nowStart} >=0 and ${chal.nowEnd}<0" class="primary-btn detailBtn " >
 											<p class="btnTextStyle">이미 참가 중 입니다<p>
-										<button th:if="${cnt.cnt} >=0 and ${cnt}!= null and ${chal.nowStart}<0 and ${chal.nowEnd}<0" onclick = "goPage()" class="primary-btn detailBtn">
+										<button th:if="${cnt.cnt} ==0 and ${cnt}!= null and ${chal.nowStart}<0 and ${chal.nowEnd}<0" onclick = "goPage()" class="primary-btn detailBtn">
 											<p class="btnTextStyle">참가하기</p>
 										</button>	
 										</button>
@@ -511,7 +511,9 @@
 		var header = $("meta[name='_csrf_header']").attr("content");
 		
 		//내기 포인트 계산후 넣어주기
-		$('#betPoint').text(parseInt($('#teamFee').text())*0.01+'원');
+		console.log($('#teamFeeHidden').val());
+		$('#betPoint').text(Number($('#teamFeeHidden').val())*0.01+' 포인트');
+		
 		
     	//신고 모달창
 		 const openButton = document.querySelector(".openBtn");
@@ -544,7 +546,7 @@
 			 				alert("내기 포인트가 충분하지 않아 참가가 불가합니다😢");
 			 			}else{
 			 				 location.href = "/applyChalTeamFrm?chalId="+ data; 
-			 				alert("굿");
+			 				
 			 			}
 			 		}
 			 	}

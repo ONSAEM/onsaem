@@ -224,8 +224,8 @@ public class ChalController {
 		vo.setSubClass("개인");
 		vo.setClasses("등록");
 		vo.setTeamFee(0);
-		vo.setReceipt("미신청");
-		vo.setSharepoint("미정산");
+		vo.setReceipt("미첨부");
+		
 		vo.setUsercnt(0);
 		chalService.inputChal(vo);
 		
@@ -281,8 +281,8 @@ public class ChalController {
 		vo.setMemberId(userDetails.getUsername());
 		vo.setSubClass("팀");
 		vo.setDonationFee(vo.getTeamFee());
-		vo.setReceipt("미신청");
-		vo.setSharepoint("미정산");
+		vo.setReceipt("미첨부");
+		
 		chalService.inputChal(vo);
 		
 		//Participant에 챌린저스 개최자 등록
@@ -333,6 +333,8 @@ public class ChalController {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		
 		model.addAttribute("chal", chalService.getChal(chalId));
+		//썸네일가져오기
+		model.addAttribute("thumbnail", chalService.thumnail(chalId));
 		vo.setGroupId(chalId);
 		model.addAttribute("photoes", proofService.listMedia(vo));
 		model.addAttribute("user", memberService.getMember(userDetails.getUsername()));
@@ -377,6 +379,8 @@ public class ChalController {
 		model.addAttribute("user", memberService.getMember(userDetails.getUsername()));
 		
 		model.addAttribute("chal", chalService.getChal(chalId));
+		//썸네일가져오기
+		model.addAttribute("thumbnail", chalService.thumnail(chalId));
 		vo.setGroupId(chalId);
 		model.addAttribute("photoes", proofService.listMedia(vo));
 
