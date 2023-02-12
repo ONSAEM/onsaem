@@ -922,7 +922,7 @@ h3{
 					if($(this).is(":checked")==true){
 						let likeId = $(this).val();
 						let removeLK = $(this).parent().parent();
-						console.log($(this).parent().parent());
+// 						console.log($(this).parent().parent());
 						$.ajax({
 							url: '/blog/delSub',
 							method: 'POST',
@@ -948,10 +948,10 @@ h3{
 			$('#subMeDel').on("click", function(){
 				$('.sMDel').each(function(){
 					if($(this).is(":checked")==true){
-						console.log($(this));
+// 						console.log($(this));
 						let likeId = $(this).val();
 						let removeLK = $(this).parent().parent();
-						console.log($(this).parent().parent());
+// 						console.log($(this).parent().parent());
 						$.ajax({
 							url: '/blog/delSub',
 							method: 'POST',

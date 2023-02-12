@@ -763,7 +763,7 @@ caption.dots {
                            xhr.setRequestHeader(header, token);
                            },
                         success: function (result) {
-                           console.log(result.count);
+//                            console.log(result.count);
                            // Y를 F로
                            
                          $('.blogLike').val('Y'); // blogLike인 클래스의 값을 불러와서 'Y'로 바꿔준다
@@ -788,7 +788,7 @@ caption.dots {
                            xhr.setRequestHeader(header, token);
                            },
                         success: function (result) {
-                           console.log(result.count);
+//                            console.log(result.count);
                            
                            // F를 Y로
                            $('.blogLike').val('F'); // blogLike인 클래스의 값을 불러와서 'F'로 바꿔준다
@@ -836,7 +836,7 @@ caption.dots {
                         contentType: 'application/x-www-form-urlencoded',
                         data: $('form[name="replyFrm"]').serialize(),
                         success: function (result) {
-                              console.log(result);
+//                               console.log(result);
                               location.href='/blog/myblog/blogWrite?bno='+bno+'&userId='+userId;   // 이거 빼고 어디에 뭐 넣어라~ 이런식으로
                               
                         },
@@ -856,7 +856,7 @@ caption.dots {
          // 대댓글 등록
          $('.rereplyBtn').each(function(){
             $(this).on("click", function(){ // 댓글 달기 버튼을 누르면 댓글 쓰는 칸 보이게
-               console.log("대댓글");
+//                console.log("대댓글");
                $(this).next().toggle('active'); // 댓글 쓰는 칸 열기
                $(this).next().find('.rereplyInsert').on('click', function(e){
             	  let userId = "[[${blogWrite.blogId}]]";
@@ -876,7 +876,7 @@ caption.dots {
 	                        contentType: 'application/x-www-form-urlencoded',
 	                        data: $(e.target).closest('form').serialize(),
 	                        success: function (result) {
-	                              console.log(result);
+// 	                              console.log(result);
 	                               location.href='/blog/myblog/blogWrite?bno='+bno+'&userId='+userId;   // 이거 빼고 어디에 뭐 넣어라~ 이런식으로
 	                             
 	                        },
@@ -911,7 +911,7 @@ caption.dots {
          const modalBackground = modal.querySelector(".modal__background");
 
          function displayModal(){
-            console.log("클릭")
+//             console.log("클릭")
              modal.classList.toggle("hidden");
          }
 
@@ -940,17 +940,17 @@ caption.dots {
          function banSubmit(){
         	let userId = "[[${blogWrite.blogId}]]";
             let bno = "[[${blogWrite.writeId}]]";
-            console.log(contentId,writerId);
+//             console.log(contentId,writerId);
             let reasonLength = document.getElementsByName("reason").length;  
                for (var i=0; i<reasonLength; i++) {
                  if (document.getElementsByName("reason")[i].checked == true) {
-                     console.log(document.getElementsByName("reason")[i].value); 
+//                      console.log(document.getElementsByName("reason")[i].value); 
                      var reason=document.getElementsByName("reason")[i].value
                  }
             }
                
                
-               console.log(document.getElementById("detailReason").value);
+//                console.log(document.getElementById("detailReason").value);
                let detailReason=document.getElementById("detailReason").value; //상세 이유
                let fromId="[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]"; //신고 한 사람
             //console.log(fromId, groupId,toId, reason);
@@ -968,7 +968,7 @@ caption.dots {
                      xhr.setRequestHeader(header, token);
                      },
                   success: function (result) {
-                        console.log(result);
+//                         console.log(result);
                        alert("신고 완료");
                        location.href='/blog/myblog/blogWrite?bno='+bno+'&userId='+userId;
                   },
@@ -983,15 +983,15 @@ caption.dots {
             $('.openBtn').on("click",function(){
                contentId = $(this).attr('value1');
                writerId = $(this).attr('value2');
-               console.log(contentId);
-               console.log(writerId);
+//                console.log(contentId);
+//                console.log(writerId);
                banSubmit(contentId,writerId);
             })
             
          // 글 삭제
             $('#blogDelete').on("click", function(){
                let writeId = $(this).val();
-               console.log(writeId);
+//                console.log(writeId);
                alert("정말 삭제하시겠습니까?");
                $.ajax({
                   url: '/blog/blogDelete',
@@ -1003,7 +1003,7 @@ caption.dots {
                         xhr.setRequestHeader(header, token);
                         },
                    success: function(result){
-                      console.log(result);
+//                       console.log(result);
                       alert("삭제완료");
                       location.href="/blog/myblog?userId=[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
                    },
@@ -1016,7 +1016,7 @@ caption.dots {
          // 댓글, 대댓글 삭제   
          $('.reDelBtn').on("click", function(){
             let replyId = $(this).attr("value");
-            console.log(replyId);
+//             console.log(replyId);
             $.ajax({
                url: '/blog/replyDel',
                method: 'post',
@@ -1072,7 +1072,7 @@ caption.dots {
 				               xhr.setRequestHeader(header, token);
 				               },
 							success: function(result){
-								console.log(result);
+// 								console.log(result);
 								alert("구독 완료");
 								th.text('구독 중');
 								subTF = 'T';
@@ -1096,7 +1096,7 @@ caption.dots {
 				               xhr.setRequestHeader(header, token);
 				               },
 							success: function(result){
-								console.log(result);
+// 								console.log(result);
 								alert("구독 취소");
 								th.text('구독하기');
 								subTF = 'F';

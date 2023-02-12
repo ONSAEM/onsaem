@@ -122,7 +122,7 @@
 	 var header = $("meta[name='_csrf_header']").attr("content");
 	 
 		let path = '[[${#request.contextPath}]]'; //절대경로
-		console.log(path);
+// 		console.log(path);
 		let oEditors = [];
 		
 		smartEditor = function() {
@@ -142,8 +142,7 @@
 		$(".btn").on("click", function() {
 			oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
 			var value = document.getElementById("ir1").value;
-			console.log('[(${#authentication.principal.memberId})]');
-			// location.href 세션 아이디 값이 안 땡겨와져요...
+// 			console.log('[(${#authentication.principal.memberId})]');
 			$.ajax({
 			      url: '/blog/myblog/blogWrite/blogInsert',
 			      method: 'post',
@@ -154,7 +153,7 @@
 	               xhr.setRequestHeader(header, token);
 	               },
 			      success: function (result) {
-			         console.log(result);
+// 			         console.log(result);
 			         alert('등록 완료');
 			         location.href='/blog/myblog?userId='+'[(${#authentication.principal.memberId})]'; 
 			      },
@@ -171,7 +170,7 @@
 		
 		// 카테고리 공개범위 수정
 		$("select[name='categoryId']").on("change", function(){
-			console.log($("select[name='categoryId'] option:selected").data('scope'));
+// 			console.log($("select[name='categoryId'] option:selected").data('scope'));
 			let selectVal = $("select[name='categoryId'] option:selected").data('scope');
 			
 			$("select[name='publicScope']").val(selectVal);
