@@ -37,22 +37,19 @@ public class MailServiceImpl implements MailService{
     	try {
     		MimeMessage message = emailSender.createMimeMessage();
     		MimeMessageHelper helper = new MimeMessageHelper(message, true);
-			
 	        //메일 제목 설정
 	        helper.setSubject(mailDto.getSubject());   
-	        
 	        helper.setFrom(mailDto.getFrom());
-	        
 	        //첨부 파일 설정
 	        if(uploadfile!=null) {
 	        	for(MultipartFile file : uploadfile) {
 	        	
 			        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-			        helper.addAttachment(MimeUtility.encodeText(fileName, "UTF-8", "B"), new ByteArrayResource(IOUtils.toByteArray(file.getInputStream())));
+			        helper.addAttachment(MimeUtility.encodeText(fileName, "UTF-8", "B"),
+			        		new ByteArrayResource(IOUtils.toByteArray(file.getInputStream())));
 	        	
 	        	} 
 	        }           
-	        
 	      //템플릿에 전달할 데이터 설정
 	        HashMap<String, String> emailValues = new HashMap<>();
 	    	emailValues.put("title", mailDto.getTitle());
@@ -60,18 +57,10 @@ public class MailServiceImpl implements MailService{
 	        Context context = new Context();
 	        emailValues.forEach((key, value)->{
 	            context.setVariable(key, value);
-	        });
-	    	              
+	        });             
 	        //메일 내용 설정 : 템플릿 프로세스
 	        String html = templateEngine.process(mailDto.getTemplate(), context);
 	        helper.setText(html, true);
-	        
-	        
-	        //수신자 개별 전송       
-	//        for(String s : mailDto.getAddress()) {
-	//        	helper.setTo(s);
-	//        	emailSender.send(message);
-	//        }
 	        //수신자 한번에 전송
 	        helper.setTo(mailDto.getAddress());
 	        emailSender.send(message);
@@ -82,8 +71,5 @@ public class MailServiceImpl implements MailService{
 			e.printStackTrace();
 			return false;
 		}
-
-       
     }
-
 }
