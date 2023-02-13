@@ -961,14 +961,14 @@
 			
 			// 블로그 정보 등록
 			$('#taskBtn').on("click", function(){
-				console.log("task");
+// 				console.log("task");
 				let data = new FormData($('form[name="taskFrm"]')[0]);
  				
 				if(!$('input[name="headerFile"]').val()){
 					data.delete('headerFile');
 				}
 				
-				console.log(data.get('blogName'));
+// 				console.log(data.get('blogName'));
 				
 				$.ajax({
 					url: '/blog/updateInfo',
@@ -982,7 +982,7 @@
 		               xhr.setRequestHeader(header, token);
 		               },
 				     success:function(result){
-				    	 console.log(result);
+// 				    	 console.log(result);
 				    	 if(result == "success"){
 				    		 alert("수정완료");
 				    		 location.reload();

@@ -644,9 +644,9 @@ caption.dots {
 			// moment 모달 상세보기 모먼트번호 보내기
 			$(".mmtpage-content").children("#modalBtn").each(function(){ 
 				$(this).on("click", function(){
-					console.log(this);
+// 					console.log(this);
 					let mno = $(this).children('#mmtId').val();
-					console.log(mno);
+// 					console.log(mno);
 	 				$.ajax({
 	 					url: '/blog/getMoment',
 	 					method: 'post',
@@ -659,7 +659,7 @@ caption.dots {
 	 					success: function(result){
 	 						$('#exampleModal').modal('show');
 	 						
-	 						console.log(result);
+// 	 						console.log(result);
  	 						$(".mt-3").text(result.nickname);
  	 						if(result.fileRoute != null){
  	 							$("#modalImg").attr("src", "/fileView/"+result.fileRoute);
@@ -690,7 +690,7 @@ caption.dots {
 // 			// input file에 change 이벤트 부여
 			const inputImage = document.getElementById("input-image")
 			inputImage.addEventListener("change", function(e) {
-				console.log('확인');
+// 				console.log('확인');
 			    readImage(e.target);
 			})
 			// 이미지 미리보기
@@ -705,9 +705,9 @@ caption.dots {
 			        reader.readAsDataURL(input.files[0]);
 			        reader.onload = e => {
 			            const previewImage = document.getElementById("preview-image2");
-			            console.log('확인22');
+// 			            console.log('확인22');
 			            previewImage.src = e.target.result;
-			            console.log(previewImage.src);
+// 			            console.log(previewImage.src);
 			        }
 			        
 			    }
@@ -739,7 +739,7 @@ caption.dots {
 				               xhr.setRequestHeader(header, token);
 				               },
 							success: function(result){
-								console.log(result);
+// 								console.log(result);
 								alert("구독 완료");
 								th.text('구독 중');
 								subTF = 'T';
@@ -763,7 +763,7 @@ caption.dots {
 				               xhr.setRequestHeader(header, token);
 				               },
 							success: function(result){
-								console.log(result);
+// 								console.log(result);
 								alert("구독 취소");
 								th.text('구독하기');
 								subTF = 'F';
@@ -782,10 +782,10 @@ caption.dots {
 			
 // 			console.log($("document").find('#mmtDelBtn'));
 			$("#mmtDelBtn").each(function(){
-				console.log(this);
+// 				console.log(this);
 				$(this).on("click", function(){
 					let momentId = $('#mmtId').val();
-					console.log("momentID: "+momentId);
+// 					console.log("momentID: "+momentId);
 	 				$.ajax({
 	 					url: '/blog/momentDel',
 	 					method: 'post',
@@ -796,7 +796,7 @@ caption.dots {
 	 	               xhr.setRequestHeader(header, token);
 	 	               },
 	 					success: function(result){
-	 						console.log(result);
+// 	 						console.log(result);
 	 						alert("삭제완료");
 	 						location.reload();
 	 					},
@@ -850,7 +850,7 @@ caption.dots {
 			
 			// 블로그 리스트 만들기
 			function makeBlogList(item){
-				console.log("이야!!!!!!!!!!!!!!!!!!!!!!!!!"+item.publicScope);
+// 				console.log("이야!!!!!!!!!!!!!!!!!!!!!!!!!"+item.publicScope);
 				let makeClone = $(listClone).clone();
 				$(makeClone).find(".album-content").data("writeid",item.writeId).data("scope",item.publicScope).data("userid",item.blogId);
 				if(item.publicScope != 'private'){
@@ -879,10 +879,10 @@ caption.dots {
 				let writeId = $(obj).data("writeid");
 				let blogId = $(obj).data("userid");
 				let scope = $(obj).data("scope");
-				console.log(scope);
+// 				console.log(scope);
 				let id = "[[${#authentication.principal != 'anonymousUser' ? #authentication.principal.memberId:''}]]";
 			
-				console.log("공개범위"+subTF);
+// 				console.log("공개범위"+subTF);
 				if(scope == "public"){  // 구독여부 체크
 					location.href="/blog/myblog/blogWrite?bno="+writeId+"&userId="+blogId;
 				}else if(scope =="partial" && subTF == "T"){
@@ -900,7 +900,7 @@ caption.dots {
 				let data = nowData;
 				data['page'] = page;
 				
-		        console.log(data);
+// 		        console.log(data);
 		        $.ajax({
 		        	url: '/blog/blogSearch',
 			      method: 'GET',

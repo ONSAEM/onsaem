@@ -932,7 +932,7 @@ label input{
 			$('#cateInsert').on("click", function(){
 				let cateName= $('#cateName').val();
 				let cateScope = $('#cateScope').val();
-				console.log("블로그 아이디"+id);
+// 				console.log("블로그 아이디"+id);
 				$.ajax({
 					url: '/blog/cateInsert',
 					method: 'POST',
@@ -945,7 +945,7 @@ label input{
 		               xhr.setRequestHeader(header, token);
 		               },
 		            success: function(result){
-		            	console.log(result);
+// 		            	console.log(result);
 // 		            	location.reload();
 		            	location.href='/blog/myblog/blogCategory?blogId='+id;
 		            },
@@ -962,7 +962,7 @@ label input{
 // 						console.log($(this).parent());
 						let cateId = $(this).val();
 						let removeCate = $(this).parent();
-						console.log(removeCate.parent());
+// 						console.log(removeCate.parent());
 						$.ajax({
 							url: '/blog/cateDelete',
 							method: 'POST',
@@ -974,7 +974,7 @@ label input{
 				               },
 							success : function(result){
 								removeCate.remove();
-								console.log(cateId);
+// 								console.log(cateId);
 								
 							},
 							error : function(error){

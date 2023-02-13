@@ -167,6 +167,7 @@ public class BlogWriteController {
 		if(authentication != null) {
 			UserDetails userDetails = (UserDetails)authentication.getPrincipal();
 			String id = userDetails.getUsername();
+			vo.setMemberId(id);
 		}
 		
 		model.addAttribute("blogInfo", blogService.getBlogInfo(userId)); // 방문한 블로그 정보

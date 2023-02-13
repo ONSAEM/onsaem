@@ -470,7 +470,7 @@ height: 248px;
 
 .gridgrid img {
   height: 245px;
-  width: 375px;
+  width: 400px;
   vertical-align: middle;
   object-fit: cover;
 }
@@ -487,6 +487,9 @@ height: 248px;
   cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: transparent;
+  bottom: 12px;
+  width: 367px;
+  position: absolute;
 }
 
 .gridgrid .btn:hover {
@@ -672,10 +675,10 @@ height: 248px;
 						    <li class="cards_item" th:each="hot : ${hotList}">
 						      <div class="card">
 						        <div class="card_image"><img th:if="${hot.fileRoute != null}" th:src="${hot.fileRoute}"><img th:unless="${hot.fileRoute != null}" src="/blog/img/blogDefault.png"></div>
-						        <div class="card_content">
+						        <div class="card_content" style="height:165px;">
 						          <h2 class="card_title">[[${hot.writeTitle}]]</h2>
 						          <p class="card_text" th:if="${hot.subTitle != null}" >[[${hot.subTitle}]]</p>
-						          <p class="card_text" th:if="${hot.subTitle == null}" style="height:21px;margin-bottom:1.25rem;"></p>
+						          <p class="card_text" th:unless="${hot.subTitle != null}" style="height:21px;margin-bottom:1.25rem;"></p>
 						          <button class="btn card_btn" th:onclick="|location.href='@{/blog/myblog/blogWrite(bno=${hot.writeId},userId=${hot.blogId})}'|">Read More</button>
 						        </div>
 						      </div>
@@ -749,7 +752,7 @@ height: 248px;
 			$(this).on("click", function(){
 				console.log(this);
 				let mno = $(this).children('#mmtId').val();
-				console.log(mno);
+// 				console.log(mno);
 				$.ajax({
 					url: '/blog/getMySubMoment',
 					method: 'post',
@@ -762,7 +765,7 @@ height: 248px;
 					success: function(result){
 						$('#exampleModal').modal('show');
 						
-						console.log(result);
+// 						console.log(result);
 						$(".mt-3").text(result.nickname);
 						$("#modalImg").attr("src", "/fileView/"+result.fileRoute);
 						$("#addUrl").attr("placeholder",result.addUrl);
