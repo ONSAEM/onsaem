@@ -153,8 +153,13 @@ public class ChalAdminController {
 		//참가자테이블 result, resultPoint 업데이트
 		partService.updatePointOne(vo);
 		//member테이블 업데이트
-		
 		chalService.updateMemberPoint(vo);
+		
+		//챌린저스테이블 업데이트
+		ChalVO cvo = new ChalVO();
+		cvo.setSharepoint("정산완료");
+		cvo.setChalId(vo.getChalId());
+		chalService.updateSharePoint(cvo);
 		
 		return "true";
 	}

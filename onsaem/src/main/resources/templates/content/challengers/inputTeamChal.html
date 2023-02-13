@@ -187,8 +187,8 @@
 					<input name="frequency" type="radio" value="월화수목금">평일 매일
 					<input name="frequency" type="radio" value="토일">주말 매일
 					<input name="frequency" type="radio" value="" id="singleDay">요일 선택
-					<select id="frequency">
-						<option value="">==요일선택==</option>
+					<select id="frequency" onchange="checkOneDay(this.value)">
+						<option value="none">==요일선택==</option>
 						<option value="월" >월요일</option>
 						<option value="화">화요일</option>
 						<option value="수">수요일</option>
@@ -202,7 +202,7 @@
 		        <p style="margin : 5px 0">📢 내기 포인트는 설정하시는 기부금액의 1%으로 설정됩니다!</p>
 				<div class="inputfield">
 		        	<label for="teamFee">기부금</label>
-		        	<input id="value" value=5000 onchange="changePoint(this.value)" class="input"  name="teamFee"></input>
+		        	<input id="value" value=5000 oninput="changePoint(this.value)" class="input"  name="teamFee"></input>
 		        	<br>
 		       		
 				</div>
@@ -240,8 +240,8 @@
 				<div class="inputfield">
 					<label for="contents">챌린지 소개<span class="request">*</span></label>
 	        		<textarea rows="5" cols="20" 
-	        		placeholder="예)이렇게 인증샷을 남겨주세요:)" id="proofContent"
-	        		 value="contents" name="proofContent" class="input"></textarea>	
+	        		placeholder="예)챌린지를 소개해 보세요:)" id="proofContent"
+	        		 value="contents" name="contents" class="input"></textarea>	
 				</div>
 				
 				<div class="inputfield">
@@ -343,22 +343,17 @@
 				      }); 
 	});
 	
-		var slider = document.getElementById("teamFee");
-		var output = document.getElementById("value");
-		output.innerHTML = slider.value;	
-		slider.oninput = function() {
-		    output.value = this.value;
-		}
-		output.oninput = function() {
-		    slider.value = this.value;
-		}
 		
+		var output = document.getElementById("value");
+	
 		let betPoint = document.getElementById("betPoint");
 		betPoint.value = Number(output.value)*0.01;
-		
 		function changePoint(money){
+			betPoint.text = Number(money)*0.01;
 			betPoint.value = Number(money)*0.01;
 		}
+		
+		
 		
 		function checkStart(){
 			let today = new Date();
@@ -393,6 +388,16 @@
 				alert("최대 인원은 20명 입니다.");
 				$('input[name=usercnt]').val("")	
 			}
+			
+		}
+		
+		function checkOneDay(data){
+			if (data == 'none') {
+				$('#singleDay').val('');
+			} else {
+				$('#singleDay').val(data);
+			}
+			console.log($('#singleDay').val());
 			
 		}
 		</script>

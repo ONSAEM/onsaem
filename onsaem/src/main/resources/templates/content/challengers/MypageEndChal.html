@@ -153,10 +153,10 @@
 				<div class="product-cell status-cell">
 					 <input type="hidden" th:name="chalId" th:value="${chal.chalId}">
                        		<input type="hidden" th:name="subClass" th:value="${chal.subClass}" id="subClass">
-							<button th:if="${chal.receipt} !=null" class="modal-custom-button" th:value="${chal.chalId}" name="영수증" th:onclick="displayModal(this)">기부영수증 ⭕</button>
-							<button th:if="${chal.receipt} == null" class="modal-custom-button" th:value="${chal.chalId}" name="영수증">기부영수증 ❌</button>
+							<button th:if="${chal.receipt} !=null  or ${#string.isEmpty(chal.receipt)} " class="modal-custom-button" th:value="${chal.chalId}" name="영수증" th:onclick="displayModal(this)">기부영수증 ⭕</button>
+							<button th:if="${chal.receipt} == null or ${chal.receipt} == ' '" class="modal-custom-button" th:value="${chal.chalId}" name="영수증">기부영수증 ❌</button>
 							<button th:if="${chal.resultPoint} !=null" class="modal-custom-button" name="포인트" th:onclick="displayModal(this)" th:value="${chal.chalId}">포인트 확인</button>
-							<button th:if="${chal.resultPoint} ==null" class="modal-custom-button" name="포인트" th:onclick="displayModal(this)" th:value="${chal.chalId}">포인트 미정산</button>
+							<button th:if="${chal.resultPoint} ==null" class="modal-custom-button" name="포인트" th:value="${chal.chalId}">포인트 미정산</button>
 				</div>
 			</div>
 			

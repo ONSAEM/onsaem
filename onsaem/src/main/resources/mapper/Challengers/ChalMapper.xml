@@ -78,16 +78,14 @@
 	<!-- 마이페이지용 - 현재 진행 중인거 모두 리스트 뽑기 , 회원 권한 -일반회원 -->
 	<select id="myCurentChal" resultType="ChalVO" >
 		SELECT C.CHAL_ID , C.SUB_CLASS, C.FREQUENCY, C.MEMBER_ID, C.CHAL_NAME, C.START_DATE, C.END_DATE, (C.END_DATE - CURRENT_DATE+1) DDAY
-            ,M.FILE_ROUTE, (SELECT COUNT(*)
+            ,M.FILE_ROUTE,
+            	(SELECT COUNT(*)
                 FROM PROOFS P
                 WHERE CHAL_ID = C.CHAL_ID
                 AND PROOF_WRITER = P.PARTICIPANT_ID 
                 AND  INSTR( C.FREQUENCY,  TO_CHAR(WRITE_DATE, 'DY', 'NLS_DATE_LANGUAGE=KOREAN')) >0
                 AND  P.WRITE_DATE = CURRENT_DATE) DAY
-           ,(SELECT COUNT(*)
-             FROM CHALLENGES C
-             WHERE INSTR( C.FREQUENCY,  TO_CHAR(CURRENT_DATE, 'DY', 'NLS_DATE_LANGUAGE=KOREAN')) >0
-             ) CHECKDATE 
+           ,INSTR( C.FREQUENCY,  TO_CHAR(CURRENT_DATE, 'DY', 'NLS_DATE_LANGUAGE=KOREAN'))CHECKDATE 
 	       FROM CHALLENGES C JOIN PARTICIPANTS P
 	      ON C.CHAL_ID = P.CHAL_ID
 	      JOIN MEDIA M
@@ -124,6 +122,7 @@
 		ON C.CHAL_ID = M.GROUP_ID
 		WHERE P.PARTICIPANT_ID = #{participantId} 
 		AND CURRENT_DATE > C.END_DATE
+		AND M.SUB_GROUP = '썸네일' 
 		ORDER BY C.END_DATE DESC
 	</select>
 	
@@ -217,7 +216,7 @@
 		INSERT into CHALLENGES
 		VALUES(#{chalId}, #{classes}, #{subClass}, #{frequency}, #{ngoName}, #{startDate},
 		#{endDate}, #{contents}, #{proofContent},
-		#{donationFee}, #{memberId}, #{teamFee}, #{chalName}, #{receipt}, #{usercnt}, NULL)
+		#{donationFee}, #{memberId}, #{teamFee}, #{chalName}, #{receipt}, #{usercnt}, '미정산')
 	</insert>
 
 	<!-- 수정 -->

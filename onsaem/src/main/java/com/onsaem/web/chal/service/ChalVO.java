@@ -55,7 +55,8 @@ public class ChalVO {
 	Integer nowStart;
 	Integer nowEnd;
 	Integer dday;
-	Integer checkDate;
+	Integer checkdate;
+	
 	
 	
 	

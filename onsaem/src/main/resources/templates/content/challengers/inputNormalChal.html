@@ -187,7 +187,7 @@
 					<input name="frequency" type="radio" value="월화수목금">평일 매일
 					<input name="frequency" type="radio" value="토일">주말 매일
 					<input name="frequency" type="radio" value="" id="singleDay">요일 선택
-					<select id="frequency">
+					<select id="frequency" onchange="checkOneDay(this.value)">
 						<option value="">==요일선택==</option>
 						<option value="월" >월요일</option>
 						<option value="화">화요일</option>
@@ -401,6 +401,16 @@
 				alert("짝수로 입력 해 주세요");
 				$('input[name=usercnt]').val("")	
 			}
+			
+		}
+		
+		function checkOneDay(data){
+			if (data == 'none') {
+				$('#singleDay').val('');
+			} else {
+				$('#singleDay').val(data);
+			}
+			console.log($('#singleDay').val());
 			
 		}
 		</script>
