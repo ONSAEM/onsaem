@@ -418,7 +418,7 @@ caption.dots {
 					<div class="album-photos" onclick="scopeCheck(this)" style="cursor:pointer;margin-top:-4px;">
 						<input type="hidden" class="thumbnail">
 						<!-- 썸네일 -->
-						<img id="thumbImg" class="album-photo">
+						<img id="thumbImg" class="album-photo" style="min-height: unset;">
 					</div>
 				</div>
 				<div class="album-actions">
@@ -850,7 +850,7 @@ caption.dots {
 			
 			// 블로그 리스트 만들기
 			function makeBlogList(item){
-// 				console.log("이야!!!!!!!!!!!!!!!!!!!!!!!!!"+item.publicScope);
+// 				console.log("썸네일 경로: "+item.fileRoute);
 				let makeClone = $(listClone).clone();
 				$(makeClone).find(".album-content").data("writeid",item.writeId).data("scope",item.publicScope).data("userid",item.blogId);
 				if(item.publicScope != 'private'){

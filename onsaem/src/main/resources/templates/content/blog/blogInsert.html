@@ -122,7 +122,6 @@
 	 var header = $("meta[name='_csrf_header']").attr("content");
 	 
 		let path = '[[${#request.contextPath}]]'; //절대경로
-// 		console.log(path);
 		let oEditors = [];
 		
 		smartEditor = function() {
@@ -138,11 +137,9 @@
 		      smartEditor()
 		    })
 		
-// 		작성한 내용 콘솔에 찍기
 		$(".btn").on("click", function() {
 			oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
 			var value = document.getElementById("ir1").value;
-// 			console.log('[(${#authentication.principal.memberId})]');
 			$.ajax({
 			      url: '/blog/myblog/blogWrite/blogInsert',
 			      method: 'post',
@@ -153,7 +150,6 @@
 	               xhr.setRequestHeader(header, token);
 	               },
 			      success: function (result) {
-// 			         console.log(result);
 			         alert('등록 완료');
 			         location.href='/blog/myblog?userId='+'[(${#authentication.principal.memberId})]'; 
 			      },
