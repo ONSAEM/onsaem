@@ -621,8 +621,10 @@ textarea {
 							"margin-left", "20%").css("color", "#f20000"));
 					return;
 				}
+				let str = $('input[name=businessNumber]').val();
+				let replaced_str = str.replaceAll('-', '');
 				var data = {
-					"b_no": [$('input[name=businessNumber]').val()] // 사업자번호 "xxxxxxx" 로 조회 시,"1058633455"
+					"b_no": [replaced_str] // 사업자번호 "xxxxxxx" 로 조회 시,"1058633455"
 				};
 				$.ajax({
 					url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=stP86vGAn8wv2bzGqed5SejJCvve7nWirKNy76rt7822yygDQMBNgikMe4EnSJIzJoN2N1VZ40K2AlVgpo0TTw%3D%3D", // serviceKey 값을 xxxxxx에 입력
@@ -701,7 +703,6 @@ textarea {
 				}
 				$('#aks-file-upload').find('input#aksfileupload').val("");
 			}
-
 			//img 비교해서 이미 표시된 이미지면 표시안함
 			function matchfile(fileName) {
 				let check = true;
@@ -720,7 +721,6 @@ textarea {
 				}
 				return check;
 			}
-
 			// 중복되지 않는 파일은 저장
 			function listinput(fileName) {
 				let files = $('#aks-file-upload').find('input#aksfileupload')[0].files;
@@ -732,7 +732,6 @@ textarea {
 				}
 				return;
 			}
-
 			// 이미지 갯수 확인
 			function fileCount(inputCount) {
 				if ($('input[name=applyFile]').parentsUntil('.form').prev().prop('tagName') == 'P') {
@@ -749,7 +748,6 @@ textarea {
 				}
 				return check;
 			}
-
 
 			// 파일들 원하는 input에 담기
 			function inputFile() {

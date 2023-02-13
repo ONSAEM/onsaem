@@ -33,14 +33,14 @@
 		parameterType="String">
 		SELECT MEMBER_ID
 		FROM MEMBERS
-		WHERE MEMBER_ID =
+		WHERE  LOWER(MEMBER_ID) =
 		#{memberId}
 
 		UNION ALL
 
 		SELECT MEMBER_ID
 		FROM APPLY_MEMBERS
-		WHERE MEMBER_ID
+		WHERE LOWER(MEMBER_ID)
 		= #{memberId}
 	</select>
 

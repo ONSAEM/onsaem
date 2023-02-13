@@ -8,10 +8,10 @@
 		</div>
 	</div>
 	<ul class="sidebar-list">
-		<li class="sidebar-list-item"><a href="#"> <i
+		<li class="sidebar-list-item"><a href="javascript:void(0)" class="nocursor"> <i
 				class="fa-solid fa-brush"></i> <span>클래스</span>
 		</a></li>
-		<li class="sidebar-list-item active"><a href="/class/classMGMT">
+		<li class="sidebar-list-item"><a href="/class/classMGMT">
 				<i class="fa-solid fa-inbox"></i><span>클래스관리</span>
 		</a></li>
 		<li class="sidebar-list-item"><a href="/class/bookingMGMT"> <i
@@ -29,15 +29,6 @@
 		</div>
 		<div class="account-info-name"
 			th:text="${#authentication.principal.nickname}"></div>
-		<button class="account-info-more">
-			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-				viewBox="0 0 24 24" fill="none" stroke="currentColor"
-				stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-				class="feather feather-more-horizontal">
-				<circle cx="12" cy="12" r="1" />
-				<circle cx="19" cy="12" r="1" />
-				<circle cx="5" cy="12" r="1" /></svg>
-		</button>
 	</div>
 </div>
 </html>

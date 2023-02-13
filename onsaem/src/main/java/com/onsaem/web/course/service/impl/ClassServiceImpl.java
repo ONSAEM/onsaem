@@ -43,9 +43,8 @@ public class ClassServiceImpl implements ClassService {
 	@Override
 	public Map<String, Object> getClassInfoList(ClassInfoVO vo, Paging paging) {
 		Paging newPaging = classMapper.classCount(vo);
-		newPaging.setPageUnit(paging.getPageUnit());
 		newPaging.setPage(paging.getPage());
-		newPaging.setTotalRecord(newPaging.getTotalRecord());
+		newPaging.setPageUnit(paging.getPageUnit());
 		vo.setFirst(newPaging.getFirst());
 		vo.setLast(newPaging.getLast());
 		List<ClassInfoVO> list = classMapper.getClassInfoList(vo);
@@ -125,6 +124,9 @@ public class ClassServiceImpl implements ClassService {
 		ClassInfoVO infoVo = new ClassInfoVO();
 		infoVo.setClassId(result.getClassId());
 		result.setClassInfo(classMapper.getClassInfo(infoVo));
+		MediaVO media = new MediaVO();
+		media.setGroupId(result.getClassId());
+		result.getClassInfo().setMedia(mediaService.getMedia(media));
 		return result;
 	}
 
