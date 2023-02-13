@@ -51,6 +51,7 @@ public class MediaServiceImpl implements MediaService{
 	            
 	            if(uploadPathFolder.exists() == false){
 	            	uploadPathFolder.mkdirs();
+	            	uploadPathFolder.setWritable(true);
 	                //만약 uploadPathFolder가 존재하지않는다면 makeDirectory하라는 의미
 	                //mkdir(): 디렉토리에 상위 디렉토리가 존재하지 않을경우에는 생성이 불가능한 함수
 	    			//mkdirs(): 디렉토리의 상위 디렉토리가 존재하지 않을 경우에는 상위 디렉토리까지 모두 생성하는 함수
