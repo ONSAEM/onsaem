@@ -102,7 +102,7 @@ public class BlogWriteController {
 		
 		// 글 내용중에 첫번째 이미지 주소 받아오기
 		for(BlogWriteVO blog : list) {
-			Pattern pattern  =  Pattern.compile("<img[^>]*src=[\\\"']?([^>\\\"']+)[\\\"']?[^>]*>");
+			Pattern pattern  =  Pattern.compile("<img[^>]*src=[\\\"']?([^>\\\"']+)[\\\"']?[^>]*>");  // 정규표현식 사용
 	        // 내용 중에서 이미지 태그를 찾아라!
 	        Matcher match = pattern.matcher(blog.getBlogWrite());
 	        String imgTag = null;
