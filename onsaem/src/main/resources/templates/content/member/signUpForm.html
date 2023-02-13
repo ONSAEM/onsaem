@@ -326,8 +326,9 @@
 					if ($(idtag).parentsUntil('.form').next().prop('tagName') == 'P') {
 						$(idtag).parentsUntil('.form').next().remove();
 					}
-					$(idtag).parentsUntil('.form').after($('<p/>').text("5~15자 영문,숫자만 사용해주세요").css(
-						"margin-left", "20%").css("color", "#f20000"));
+					$(idtag).parentsUntil('.form').after($('<p/>')
+							.text("5~15자 영문,숫자만 사용해주세요")
+							.css("margin-left", "20%").css("color", "#f20000"));
 					$('#checkId').val('false');
 					return;
 				}
