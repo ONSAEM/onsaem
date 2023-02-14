@@ -454,7 +454,7 @@
 					<div class="gallery">
 			
 						<div class="gallery-item openDetail" tabindex="0" th:each="myphoto : ${myPhotoes}" th:onclick="displayModal([[${myphoto}]])">
-							<div class="row row-cols-3">
+							
 							<img th:src="'/fileView/'+${myphoto.fileRoute}" class="gallery-image col" style="aspect-ratio: 1 / 1; padding: 0px">
 							<input type="hidden" id="chalId" th:value="${myphoto.proofId}">
 							<div class="gallery-item-info">
@@ -464,7 +464,7 @@
 									<!-- <li class="gallery-item-comments"><span class="visually-hidden" >Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> 2</li> -->
 								</ul>
 							</div>
-							</div>
+							
 			
 						</div>
 			
