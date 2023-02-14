@@ -55,7 +55,7 @@
 			transition: all 0.3s ease;
 		}
 
-		#addClassInfo .insertClass {
+		#addClassInfo .insertClassInfo {
 			background-color: #a5c5c5;
 			color: white;
 			padding: 5px 10px;
@@ -81,7 +81,7 @@
 		}
 
 		#addClass table {
-			width: 100%;
+			width: 248px;
 			text-align: center;
 		}
 
@@ -108,6 +108,49 @@
 			text-align: end;
 			width: 150px;
 		}
+
+		#addClass .dayClass input {
+			text-align: end;
+			width: 110px !important
+		}
+
+		#addClass .inputfield button {
+			background-color: #a5c5c5;
+			color: white;
+			padding: 5px 10px;
+			border-radius: 10px;
+			cursor: pointer;
+			float: right;
+			margin-top: 10px;
+		}
+
+		#addClass .addTime {
+			margin-bottom: 10px;
+		}
+
+		.addClassInfo {
+			background-color: #a5c5c5;
+			color: white;
+			padding: 5px 10px;
+			border-radius: 10px;
+			cursor: pointer;
+		}
+
+		.addClassInfo:hover {
+			background-color: #5f9999;
+		}
+
+		.tableView .addClass {
+			background-color: #a5c5c5;
+			color: white;
+			padding: 5px 10px;
+			border-radius: 10px;
+			cursor: pointer;
+		}
+
+		.tableView .addClass:hover {
+			background-color: #5f9999;
+		}
 	</style>
 	<link type="text/css" rel="stylesheet" th:href="@{/css/aksFileUpload.min.css}">
 	<script th:src="@{/js/fileupload.js}"></script>
@@ -118,8 +161,7 @@
 	<div layout:fragment="content" class="app-content">
 		<div class="app-content-header">
 			<h1 class="app-content-headerText">클래스관리</h1>
-			<button class="app-content-headerButton addClassInfo">Add
-				Class</button>
+			<button class="app-content-headerButton addClassInfo">클래스 추가</button>
 		</div>
 		<div class="app-content-actions">
 
@@ -162,6 +204,9 @@
 						</svg>
 					</button>
 				</div>
+				<div class="product-cell status-cell">
+
+				</div>
 			</div>
 			<div class="products-row" th:each="class : ${classList}" th:id="${class.classId}">
 				<div class="product-cell image">
@@ -177,6 +222,9 @@
 				</div>
 				<div class="product-cell status-cell">
 					<span class="cell-label">클래스상태:</span><span class="status active">[[${class.status}]]</span>
+				</div>
+				<div class="product-cell">
+					<button type="button" class="btn addClass">시간추가</button>
 				</div>
 			</div>
 		</div>
@@ -215,7 +263,6 @@
 											<option value="하">하</option>
 										</select>
 									</div>
-
 								</div>
 								<div class="inputfield">
 									<label>클래스 설명</label><br>
@@ -231,7 +278,7 @@
 									<div id="aks-file-upload"></div>
 								</div>
 								<div class="inputfield">
-									<button type="button" class="btn insertClass">등록</button>
+									<button type="button" class="btn insertClassInfo">등록</button>
 								</div>
 							</form>
 						</div>
@@ -251,12 +298,14 @@
 							<div class="title">클래스 시간 등록</div>
 							<div id="calendar" style="float: left;"></div>
 							<div style="float: right;">
+								<div class="inputfield">
+									<button type="button" class="btn addTime">시간추가</button>
+								</div>
 								<div class="classTable">
 									<table>
 										<thead>
 											<tr>
 												<th>시간</th>
-												<th>인원</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -265,10 +314,7 @@
 									</table>
 								</div>
 								<div class="inputfield">
-									<label>예약인원</label> <input type="number" name="people" value="1" min="1">
-								</div>
-								<div class="inputfield">
-									<button type="button" class="btn BookingBtn">예약</button>
+									<button type="button" class="btn insertClass">예약</button>
 								</div>
 							</div>
 						</div>
@@ -285,6 +331,7 @@
 			let groupId = '';
 			let DateList = [];
 			let oEditors = [];
+			let selectList = [];
 
 			smartEditor = function () {
 				nhn.husky.EZCreator.createInIFrame({
@@ -386,13 +433,13 @@
 				$('input[name=classFile]')[0].files = dataTransfer.files; //제거 처리된 FileList를 돌려줌
 			}
 
-			$('.insertClass').on('click', function () {
+			$('.insertClassInfo').on('click', function () {
 				oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
-				insertClass();
+				insertClassInfo();
 			})
 
 			// 강의등록
-			function insertClass() {
+			function insertClassInfo() {
 				inputFile();
 				let memberId = "[[${#authentication.principal.memberId}]]";
 				let data = new FormData($('.form')[0]);
@@ -458,10 +505,16 @@
 			}
 			// 강의 있는 날짜 css 변경
 			function changeDate(date) {
-				let checked = false;
+				let checked = 0;
 				$(DateList).each(function (index, item) {
 					if (date == item.classDate) {
-						checked = true;
+						checked = 1;
+						return;
+					}
+				})
+				$(selectList).each(function (index, item) {
+					if (date == item.classDate) {
+						checked = 2;
 						return;
 					}
 				})
@@ -480,7 +533,6 @@
 					},
 					async: false,
 					success: function (result) {
-						console.log(result);
 						$('.classTable').find('tbody').children().remove();
 						$(result).each(function (index, item) {
 							let trDate = $(`<tr class="dayClass" id="${item.cno}">
@@ -502,10 +554,109 @@
 				})
 			}
 
+			// 날짜 선택
+			function selectDay(date) {
+				let result = true;
+				let check = true;
+				const date1 = new Date();
+				const date2 = new Date(date);
+				if (date1.getTime() >= date2.getTime()) {
+					result = false;
+					return result;
+				}
+				$(selectList).each(function (index, item) {
+					if (date == item) {
+						selectList.splice(index, 1);
+						check = false;
+						result = false;
+						return;
+					}
+				})
+				if (check) {
+					selectList.push(date);
+				}
+				return result;
+			}
+
+			$('.addTime').on('click', function () {
+				let trDate = $(`<tr class="dayClass">
+								<td><input type="number" value="00" min="1" max="24" name="classTime"
+										class="input"> : <input type="number" value="00" min="1" max="59" name="classTime"
+										class="input"></td>
+								</tr>`);
+				$(trDate).find('input').each(function () {
+					$(this).on('change', function () {
+						if (!!Number($(this).val())) {
+
+						} else {
+							$(this).val(1);
+						}
+					})
+				})
+				$('.classTable').find('tbody').append(trDate);
+			})
+
+			function sDateFormat(date) {
+				let dateList = date.split('/');
+				let selectDate = '';
+				dateList.forEach((t, index) => {
+					if (index == 0) {
+						selectDate += t;
+					} else if (t.length == 1) {
+						selectDate += `0${t}`;
+					} else {
+						selectDate += t;
+					}
+				});
+				return selectDate;
+			}
+
+			$('.insertClass').on('click', function () {
+				$(selectList).each(function () {
+					let selectDate = sDateFormat(this);
+					$('.classTable').find('.dayClass').each(function () {
+						let classDate = selectDate;
+						if ($(this).find('input').eq(0).val().length == 1) {
+							classDate += '0' + $(this).find('input').eq(0).val();
+						} else {
+							classDate += $(this).find('input').eq(0).val();
+						}
+						if ($(this).find('input').eq(1).val().length == 1) {
+							classDate += '0' + $(this).find('input').eq(1).val();
+						} else {
+							classDate += $(this).find('input').eq(1).val();
+						}
+						insertClass(classDate);
+					})
+				})
+				$('#addClass').modal("hide");
+			})
+
+			function insertClass(classDate) {
+				$.ajax({
+					url: '/class/classInsert',
+					method: 'POST',
+					contentType: 'application/x-www-form-urlencoded',
+					data: {
+						'classId': groupId,
+						'startTime': classDate
+					},
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader(header, token);
+					},
+					success: function (result) {
+					},
+					error: function (error) {
+						console.log(error);
+						alert('실패');
+					}
+				})
+			}
+
 		</script>
 		<script th:src="@{/js/calendar2.js}"></script>
 		<script>
-			$('.products-row').each(function () {
+			$(document).find('.addClass').each(function () {
 				$(this).on('click', function () {
 					groupId = $(this).attr('id');
 					getDateList();

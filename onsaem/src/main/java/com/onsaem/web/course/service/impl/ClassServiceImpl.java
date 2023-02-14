@@ -213,6 +213,12 @@ public class ClassServiceImpl implements ClassService {
 		
 	}
 	
+	@Override
+	public int classInsert(ClassVO vo) {
+		
+		return classMapper.classInsert(vo);
+	}
+	
 // [위는 완성 아래는 미완성]
 	@Override
 	public int classUpdate(ClassInfoVO vo) {
@@ -226,10 +232,5 @@ public class ClassServiceImpl implements ClassService {
 		return 0;
 	}
 
-	@Override
-	public int classInsert(ClassInfoVO vo) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 }

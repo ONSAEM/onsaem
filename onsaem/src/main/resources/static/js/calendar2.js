@@ -147,28 +147,34 @@ function makeCalendar(check) {
             value: i,
           };
         r.isSame(e, a, i) ? w : "";
-        return 1 === n ? l.class = g : 3 === n ? l.class = v : 5 === n ? l.class = 'isClass' : l.class = "", r.isSame(e, a, i) && (l.class += " " + D), l.date = h.format(this.options.format), l.action = this.getDayAction(h), s = this.getDayData(h), o = t(b.repeat(l)), s && (o.data(m, s), o.html(i + y)), o
+        return 1 === n ? l.class = g : 3 === n ? l.class = v : 5 === n ? l.class = 'isClass' : 7 === n ? l.class = 'selD' : l.class = "", r.isSame(e, a, i) && (l.class += " " + D), l.date = h.format(this.options.format), l.action = this.getDayAction(h), s = this.getDayData(h), o = t(b.repeat(l)), s && (o.data(m, s), o.html(i + y)), o
       },
       getDaysHtml: function (a, i) {
         var n, s, o, r, h, l, d = (this.date, t('<ol class="days"></ol>'));
         e(a) ? (n = a.getFullYear(), s = a.getMonth() + 1) : (n = Number(a), s = Number(i)), o = new Date(n, s - 1, 1).getDay() || 7, l = o - this.options.startWeek, r = Date.getDaysNum(n, s), h = Date.getPrevMonth(n, s), prevDaysNum = Date.getDaysNum(n, h.m), nextM = Date.getNextMonth(n, s);
         for (var c = 1, u = 2, p = 3, m = 0, f = prevDaysNum - l + 1; f <= prevDaysNum; f++, m++) {
-          if (changeDate(h.y + "/" + h.m + "/" + f)) {
+          if (changeDate(h.y + "/" + h.m + "/" + f) == 1) {
             d.append(this.getDayItem(h.y, h.m, f, 5));
+          } else if (changeDate(h.y + "/" + h.m + "/" + f) == 2) {
+            d.append(this.getDayItem(h.y, h.m, f, 7));
           } else {
             d.append(this.getDayItem(h.y, h.m, f, c));
           };
         }
         for (var g = 1; g <= r; g++, m++) {
-          if (changeDate(n + "/" + s + "/" + g)) {
+          if (changeDate(n + "/" + s + "/" + g) == 1) {
             d.append(this.getDayItem(n, s, g, 5));
+          } else if (changeDate(n + "/" + s + "/" + g) == 2) {
+            d.append(this.getDayItem(n, s, g, 7));
           } else {
             d.append(this.getDayItem(n, s, g, u));
           };
         }
         for (var v = 1, D = 42 - m; v <= D; v++) {
-          if (changeDate(nextM.y + "/" + nextM.m + "/" + v)) {
+          if (changeDate(nextM.y + "/" + nextM.m + "/" + v) == 1) {
             d.append(this.getDayItem(nextM.y, nextM.m, v, 5));
+          } else if (changeDate(nextM.y + "/" + nextM.m + "/" + v) == 2) {
+            d.append(this.getDayItem(nextM.y, nextM.m, v, 7));
           } else {
             d.append(this.getDayItem(nextM.y, nextM.m, v, p));
           };
@@ -363,14 +369,19 @@ function makeCalendar(check) {
           t = "prev" === n ? t - 1 : t + 1, e.updateMonthView(t), a("month", t)
         }), e.$element.on("click", "[" + c + "]", function () {
           let className = this.className;
-          if (className.includes('isClass')) {
-            getclassList(this.getAttribute('data-calendar-day'));
+          // if (className.includes('isClass')) {
+          //   getclassList(this.getAttribute('data-calendar-day'));
+          // }
+          if (selectDay(this.getAttribute('data-calendar-day'))) {
+            this.className += ' selected';
+          } else {
+            this.classList.remove('selected');
           }
-          var a = parseInt(this.innerHTML),
-            n = i(this), S
-          s = /new|old/.test(n) ? n.match(/new|old/)[0] : "",
-            o = e.selectedDay(a, s);
-          e.options.onSelected.call(this, "date", o, t(this).data(m)), e.$trigger && e.hide("date", o, t(this).data(m))
+          // var a = parseInt(this.innerHTML),
+          //   n = i(this), S
+          // s = /new|old/.test(n) ? n.match(/new|old/)[0] : "",
+          //   o = e.selectedDay(a, s);
+          // e.options.onSelected.call(this, "date", o, t(this).data(m)), e.$trigger && e.hide("date", o, t(this).data(m))
         }).on("click", "[" + u + "]", function () {
           var i = Number(e.$disMonth.html()),
             n = t(this).index() + 1;
