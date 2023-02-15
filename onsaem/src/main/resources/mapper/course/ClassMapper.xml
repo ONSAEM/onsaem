@@ -35,16 +35,21 @@
 	<select id="getClassInfoList" resultType="ClassInfoVO"
 		parameterType="ClassInfoVO">
 		SELECT * FROM ( SELECT ROWNUM RN, A.* FROM (
-		SELECT C.CLASS_ID, C.CLASS_NAME, C.PRICE,
-		C.CLASS_DATE, NVL(TRUNC(AVG(R.REVIEW_STAR),1),0) AS STAR
+		SELECT C.CLASS_ID,
+		C.CLASS_NAME, C.PRICE,
+		C.CLASS_DATE, NVL(TRUNC(AVG(R.REVIEW_STAR),1),0)
+		AS STAR
 		FROM CLASS_INFO C, REVIEWS R,
-		CLASSES L , (SELECT * FROM MEMBERS WHERE STATUS != 'false'
+		CLASSES L , (SELECT * FROM MEMBERS
+		WHERE STATUS != 'false'
 		<![CDATA[
 		AND BANDATE < SYSDATE
-		]]>) M
+		]]>)
+		M
 		WHERE C.CLASS_ID = R.GROUP_ID(+)
 		AND C.MEMBER_ID = M.MEMBER_ID
-		AND C.CLASS_ID = L.CLASS_ID(+)
+		AND
+		C.CLASS_ID = L.CLASS_ID(+)
 		<include refid="condition" />
 		GROUP BY C.CLASS_ID, C.CLASS_NAME, C.PRICE, C.CLASS_DATE
 		<choose>
@@ -80,7 +85,8 @@
 		parameterType="ClassInfoVO">
 		SELECT COUNT(*) AS TOTAL_RECORD
 		FROM(SELECT DISTINCT C.CLASS_ID
-		FROM CLASS_INFO C, CLASSES L,
+		FROM
+		CLASS_INFO C, CLASSES L,
 		(SELECT * FROM MEMBERS WHERE STATUS != 'false'
 		<![CDATA[
 		AND BANDATE < SYSDATE
@@ -297,7 +303,7 @@
 	</select>
 
 	<!-- 클래스정보 등록 -->
-	<insert id="classInfoInsert">
+	<insert id="classInfoInsert" parameterType="ClassInfoVO">
 		<selectKey keyProperty="classId" resultType="String"
 			order="BEFORE">
 			SELECT 'CL'||LPAD(CLASS_SEQ.NEXTVAL,3,0) FROM DUAL
@@ -308,14 +314,23 @@
 		#{explanation}, #{memberId}, #{difficulty}, #{totalPeople})
 	</insert>
 
+	<insert id="classInsert" parameterType="ClassVO">
+		<selectKey keyProperty="cNo" resultType="String"
+			order="BEFORE">
+			SELECT 'C'||LPAD(c_seq.nextval,3,0) FROM DUAL
+		</selectKey>
+		INSERT INTO CLASSES (C_NO, CLASS_ID, START_DATE, END_DATE,STATUS)
+		VALUES(#{cNo}, #{classId}, TO_DATE(#{startTime},
+		'YYYY-MM-DD HH24:MI:SS'),
+		TO_DATE(TO_CHAR(#{startTime}+(SELECT CLASS_TIME*10000 FROM CLASS_INFO WHERE CLASS_ID = #{classId})),
+		'YYYY-MM-DD HH24:MI'), '등록')
+	</insert>
+
 	<!-- [위는 완성 아래는 미완성] -->
 	<update id="classInfoUpdate">
 
 	</update>
 
-	<insert id="classInsert">
-
-	</insert>
 
 	<update id="classUpdate">
 

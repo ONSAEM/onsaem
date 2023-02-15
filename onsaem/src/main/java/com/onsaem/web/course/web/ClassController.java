@@ -128,7 +128,7 @@ public class ClassController {
 		model.addAttribute("likeList", classService.getLikeList(vo));
 		return "content/course/likeClass";
 	}
-	
+
 	// 클래스 좋아요 전체삭제
 	@RequestMapping(value = "/delAllLike", method = RequestMethod.POST)
 	@ResponseBody
@@ -145,13 +145,13 @@ public class ClassController {
 		model.addAttribute("classList", classService.getMyClassInfoList(vo));
 		return "content/course/classMGMT";
 	}
-	
+
 	// 관리자 클래스 전체조회 페이지 이동
 	@RequestMapping(value = "/adminClass", method = RequestMethod.GET)
 	public String adminClass() {
 		return "content/course/adminClass";
 	}
-	
+
 	// 관리자 클래스 전체조회
 	@RequestMapping(value = "/getAdminClassList", method = RequestMethod.GET)
 	@ResponseBody
@@ -159,18 +159,29 @@ public class ClassController {
 
 		return classService.getAdminClassList(vo);
 	}
-	
-	// 강의 등록
-		@RequestMapping(value = "/classInfoInsert", method = RequestMethod.POST)
-		@ResponseBody
-		public List<ClassInfoVO> classInfoInsert(MultipartFile[] classFile,ClassInfoVO vo) throws IllegalStateException, IOException {
-			classService.classInfoInsert(classFile,vo);
-			ClassInfoVO cvo = new ClassInfoVO();
-			cvo.setMemberId(vo.getMemberId());
-			return classService.getMyClassInfoList(cvo);
+
+	// 클래스 등록
+	@RequestMapping(value = "/classInfoInsert", method = RequestMethod.POST)
+	@ResponseBody
+	public List<ClassInfoVO> classInfoInsert(MultipartFile[] classFile, ClassInfoVO vo)
+			throws IllegalStateException, IOException {
+		classService.classInfoInsert(classFile, vo);
+		ClassInfoVO cvo = new ClassInfoVO();
+		cvo.setMemberId(vo.getMemberId());
+		return classService.getMyClassInfoList(cvo);
+	}
+
+	// 클래스 시간등록
+	@RequestMapping(value = "/classInsert", method = RequestMethod.POST)
+	@ResponseBody
+	public String classInsert(ClassVO vo){
+		if(classService.classInsert(vo)>0) {
+			return "success";
+		}else {
+			return "fail";
 		}
-		
+	}
+
 	// 강의 수정
-	
 
 }

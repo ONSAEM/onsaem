@@ -64,13 +64,14 @@ public interface ClassService {
 	// 클래스정보 등록
 	public ClassInfoVO classInfoInsert(MultipartFile[] classFile,ClassInfoVO vo) throws IllegalStateException, IOException;
 	
+	// 클래스 등록
+	public int classInsert(ClassVO vo);
+	
 	// [위는 완성 아래는 미완성]
 
 	// 클래스정보 수정
 	public int classInfoUpdate(ClassInfoVO vo);
 
-	// 클래스 등록
-	public int classInsert(ClassInfoVO vo);
 
 	// 클래스 수정
 	public int classUpdate(ClassInfoVO vo);
