@@ -147,7 +147,7 @@ function makeCalendar(check) {
             value: i,
           };
         r.isSame(e, a, i) ? w : "";
-        return 1 === n ? l.class = g : 3 === n ? l.class = v : 5 === n ? l.class = 'isClass' : 7 === n ? l.class = 'selD' : l.class = "", r.isSame(e, a, i) && (l.class += " " + D), l.date = h.format(this.options.format), l.action = this.getDayAction(h), s = this.getDayData(h), o = t(b.repeat(l)), s && (o.data(m, s), o.html(i + y)), o
+        return 1 === n ? l.class = g : 3 === n ? l.class = v : 5 === n ? l.class = 'isClass' : 7 === n ? l.class = 'selected' : l.class = "", r.isSame(e, a, i) && (l.class += " " + D), l.date = h.format(this.options.format), l.action = this.getDayAction(h), s = this.getDayData(h), o = t(b.repeat(l)), s && (o.data(m, s), o.html(i + y)), o
       },
       getDaysHtml: function (a, i) {
         var n, s, o, r, h, l, d = (this.date, t('<ol class="days"></ol>'));

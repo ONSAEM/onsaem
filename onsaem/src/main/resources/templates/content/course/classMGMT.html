@@ -513,7 +513,7 @@
 					}
 				})
 				$(selectList).each(function (index, item) {
-					if (date == item.classDate) {
+					if (date == item) {
 						checked = 2;
 						return;
 					}
@@ -630,6 +630,7 @@
 					})
 				})
 				$('#addClass').modal("hide");
+				selectList = [];
 			})
 
 			function insertClass(classDate) {
@@ -658,7 +659,7 @@
 		<script>
 			$(document).find('.addClass').each(function () {
 				$(this).on('click', function () {
-					groupId = $(this).attr('id');
+					groupId = $(this).parentsUntil('.tableView').eq(1).attr('id');
 					getDateList();
 					$('#addClass').modal("show");
 					$('#calendar').removeClass();
